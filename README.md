@@ -1,4 +1,4 @@
-giava-cms
+giavacms
 =========
 
 GiavaCMS Content Management System
