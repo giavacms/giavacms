@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Discipline" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="exhibition" />
+	</ui:define>
+	<ui:define name="content">
+		<center>
+			<h:form prependId="false">
+				<p:panel header="Lista Discipline">
+					<h:panelGrid columns="3" rendered="false">
+						<h:outputLabel for="nameS" value="Nome:" />
+						<h:inputText id="nameS"
+							value="#{disciplineController.search.obj.name}" />
+						<p:commandButton
+							actionListener="#{disciplineController.reloadAjax}" value="Cerca"
+							ajax="true" immediate="false" update="disciplineList" />
+					</h:panelGrid>
+
+					<br />
+
+					<p:dataTable id="disciplineList" rowIndexVar="rowIndex" var="t"
+						value="#{disciplineController.model}"
+						rows="#{disciplineController.pageSize}" paginator="true"
+						dynamic="true" editable="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">nome</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText required="true"
+										requiredMessage="E' obbligatorio specificare un nome per ogni disciplina"
+										value="#{t.name}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">operazioni</f:facet>
+							<p:rowEditor>
+							</p:rowEditor>
+						</p:column>
+						<p:column width="50">
+							<f:facet name="header">elimina</f:facet>
+							<p:commandButton type="submit" title="Elimina" rendered="true"
+								icon="ui-icon-trash"
+								action="#{disciplineController.deleteInline}" ajax="false"
+								immediate="true"
+								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+
+						</p:column>
+						<p:ajax event="rowEdit"
+							listener="#{disciplineController.onRowEdit}" />
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<br />
+			</h:form>
+			<h:form prependId="false">
+				<h:panelGrid columns="7">
+					<h:outputLabel value="Nome Disciplina(*):" for="name" />
+					<h:inputText required="true"
+						value="#{disciplineController.element.name}" id="name" />
+					<p:commandButton action="#{disciplineController.save}"
+						value="Aggiungi" ajax="false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>

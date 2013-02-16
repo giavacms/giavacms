@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Risorsa" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="resource" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+
+			<center>
+				<p:panel header="Caricamento Risorse">
+					<p:fileUpload label="Scegli Risorse" sizeLimit="10000000"
+						fileUploadListener="#{resourceController.handleFileUpload}"
+						description="Seleziona i file da caricare" multiple="true"
+						allowTypes="/(\.|\/)(gif|jpe?g|png|css|js|pdf|doc|docx|xls|xlsx)$/"
+						update="commands,resourceList" />
+					<br />
+					<br />
+
+					<h:panelGroup id="resourceList">
+						<p:dataTable var="filename" rowIndexVar="row"
+							value="#{resourceController.uploadedResources}">
+
+							<p:column style="width: 100%;">
+								<f:facet name="header">nome file</f:facet>
+								<h:outputText
+									value="#{resourceController.getResource(row).name}" />
+							</p:column>
+							<p:column style="width: 100%;">
+								<f:facet name="header">tipo</f:facet>
+								<h:outputText
+									value="#{resourceController.getResource(row).type}" />
+							</p:column>
+
+							<p:column style="width: 100%;">
+								<f:facet name="header">dimensione</f:facet>
+								<h:outputText
+									value="#{resourceController.getResource(row).size} byte" />
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
+				</p:panel>
+				<h:panelGroup id="commands">
+					<h:panelGrid columns="4">
+						<h:commandButton action="#{resourceController.save}"
+							value="Conferma"
+							rendered="#{empty resourceController.element.id and not empty resourceController.uploadedResources}" />
+						<h:commandButton id="reset" action="#{resourceController.reset}"
+							value="Annulla" immediate="true" />
+					</h:panelGrid>
+				</h:panelGroup>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

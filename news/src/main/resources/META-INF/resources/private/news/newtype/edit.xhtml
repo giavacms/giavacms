@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Tipo Informazione" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="tipi_informazione" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Gestione Tipo Informazione">
+
+					<h:panelGrid columns="2" style="width: 95%">
+
+						<h:outputLabel value="Nome(*):" for="nome" />
+						<h:inputText required="true" id="nome"
+							value="#{tipoInformazioniController.element.nome}"
+							style="width: 100%;" />
+
+					</h:panelGrid>
+					<br />
+
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="4">
+					<h:commandButton action="#{tipoInformazioniController.save}"
+						value="Salva"
+						rendered="#{empty tipoInformazioniController.element.id}" />
+
+					<h:commandButton action="#{tipoInformazioniController.update}"
+						value="Salva le modifiche"
+						rendered="#{not empty tipoInformazioniController.element.id}" />
+
+					<h:commandButton action="#{tipoInformazioniController.delete}"
+						value="Elimina" immediate="true"
+						rendered="#{not empty tipoInformazioniController.element.id}"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+
+					<h:commandButton id="reset"
+						action="#{tipoInformazioniController.reset}" value="Annulla"
+						immediate="true" />
+				</h:panelGrid>
+			</center>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

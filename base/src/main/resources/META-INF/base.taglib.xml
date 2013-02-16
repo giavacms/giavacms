@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+                                "facelet-taglib_1_0.dtd">
+<facelet-taglib>
+ <namespace>http://giava.by/giavacms/base</namespace>
+ <tag>
+  <tag-name>breadcrumbs</tag-name>
+  <source>base/breadcrumbs/breadcrumbs.xhtml</source>
+ </tag>
+ <tag>
+  <tag-name>dynamicBreadcrumbs</tag-name>
+  <source>base/breadcrumbs/dynamicBreadcrumbs.xhtml</source>
+ </tag>
+  <tag>
+  <tag-name>menuBox</tag-name>
+  <source>base/menu/menuBox.xhtml</source>
+ </tag>
+ <tag>
+  <tag-name>menuBoxSxBase</tag-name>
+  <source>base/menu/menuBoxSxBase.xhtml</source>
+ </tag>
+  <tag>
+  <tag-name>upDown</tag-name>
+  <source>base/util/upDown.xhtml</source>
+ </tag>
+ <function>
+  <function-name>bcrumbs</function-name>
+  <function-class>by.giava.giavacms.base.common.util.JSFLocalUtils</function-class>
+  <function-signature>java.lang.String breadcrumbs()</function-signature>
+ </function>
+ <function>
+  <function-name>urlContains</function-name>
+  <function-class>by.giava.giavacms.base.common.util.JSFLocalUtils</function-class>
+  <function-signature>java.lang.Boolean urlContains(java.lang.String)</function-signature>
+ </function>
+ <function>
+  <function-name>showMenu</function-name>
+  <function-class>by.giava.giavacms.base.controller.util.MenuUtils</function-class>
+  <function-signature>java.lang.Boolean showMenu(java.lang.String, java.lang.String)</function-signature>
+ </function>
+  <function>
+  <function-name>encode</function-name>
+  <function-class>by.giava.giavacms.base.common.util.HtmlUtils</function-class>
+  <function-signature>java.lang.String encode(java.lang.String)</function-signature>
+ </function>
+
+</facelet-taglib>

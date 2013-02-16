@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Immagine per Banner" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="banner" />
+	</ui:define>
+
+	<ui:define name="content">
+		<center>
+			<h:form enctype="multipart/form-data">
+				<p:panel header="Gestione Banner - Immagine">
+					<h:panelGrid columns="2" style="width: 95%">
+						<h:outputLabel for="name" value="Nome (*):" style="width: 100%;" />
+						<h:outputText id="name" value="#{bannerController.element.name}"
+							style="width: 100%;" />
+
+						<h:outputLabel for="typology" value="Tipologia:"
+							style="width: 100%;" />
+						<h:outputText id="typology"
+							value="#{bannerController.element.bannerTypology.name}"
+							style="width: 100%;" escape="false" />
+
+						<h:outputLabel value="Immagine:" for="image"
+							rendered="#{not empty bannerController.element.image}" />
+						<h:graphicImage id="image"
+							value="/img/#{bannerController.element.image.filename}"
+							alt="#{bannerController.element.image.filename}"
+							title="#{bannerController.element.image.filename}"
+							style="padding: 5px;"
+							rendered="#{not empty bannerController.element.image}" />
+						<h:outputLabel value="Carica il nuovo file:" for="fileUpload" />
+						<p:fileUpload mode="simple" id="fileUpload"
+							value="#{bannerController.element.newImage.uploadedData}" />
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<h:panelGrid columns="4">
+
+					<h:commandButton action="#{bannerController.save}" value="Salva"
+						immediate="false" rendered="#{not bannerController.editMode}" />
+
+					<h:commandButton action="#{bannerController.update}"
+						value="Salva le modifiche" immediate="false"
+						rendered="#{bannerController.editMode}" />
+
+					<h:commandButton action="#{bannerController.deleteImg}"
+						value="Elimina immagine" rendered="#{bannerController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Vuoi davvero eliminare l\' immagine ?')) return false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+
+
+	</ui:define>
+</ui:composition>

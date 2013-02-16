@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>giavacms-parent</artifactId>
+		<groupId>org.giavacms</groupId>
+		<version>2.0.0</version>
+	</parent>
+	<artifactId>giava-cms</artifactId>
+
+	<packaging>pom</packaging>
+
+	<name>GiavaCMS Content Management System: Parent Aggregator</name>
+	<description>GiavaCMS Content Management System: Parent Aggregator</description>
+
+	<licenses>
+		<license>
+			<name>Eclipse Public License version 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
+
+	<properties>
+	</properties>
+
+	<modules>
+		<module>banner</module>
+		<module>base</module>
+		<module>catalogue</module>
+		<module>company</module>
+		<module>contactus</module>
+		<module>exhibition</module>
+		<module>faq</module>
+		<module>gallery</module>
+		<module>instagram</module>
+		<module>insurance-claim</module>
+		<module>message</module>
+		<module>news</module>
+		<module>paypal</module>
+		<module>picasa</module>
+		<module>richnews</module>
+		<module>scenario</module>
+		<module>test</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Common modules -->
+			<dependency>
+				<groupId>org.giavacms.common</groupId>
+				<artifactId>giavacms-common-base</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Modules in this project -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>banner</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>base</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>catalogue</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>company</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>contactus</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>exhibition</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>faq</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>gallery</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>instagram</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>insurance-claim</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>message</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>news</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>paypal</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>picasa</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>richnews</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>scenario</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+
+		<!-- Giava Common -->
+		<dependency>
+			<groupId>org.giavacms.common</groupId>
+			<artifactId>giavacms-common-base</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<type>jar</type>
+			<scope>provided</scope>
+			<!-- <exclusions> <exclusion> <artifactId>activation</artifactId> <groupId>javax.activation</groupId> 
+				</exclusion> </exclusions> -->
+		</dependency>
+
+		<!-- Apache commons -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpclient</artifactId> 
+			<version>4.1</version> </dependency> -->
+
+	</dependencies>
+</project>

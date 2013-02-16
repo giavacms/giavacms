@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Scheda Testimonial" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="exhibition" />
+	</ui:define>
+
+	<ui:define name="content">
+		<center>
+			<p:panel header="Gestione Testimonial">
+				<h:panelGrid columns="2" style="width: 95%">
+					<h:outputLabel for="name" value="Nome:" style="width: 100%;" />
+					<h:outputText id="name"
+						value="#{testimonialController.element.name}" style="width: 100%;" />
+
+					<h:outputLabel for="surname" value="Cognome:" style="width: 100%;" />
+					<h:outputText id="surname"
+						value="#{testimonialController.element.surname}"
+						style="width: 100%;" />
+
+					<h:outputLabel for="artistName" value="Nome d'arte"
+						style="width: 100%;" />
+					<h:outputText id="artistName"
+						value="#{testimonialController.element.artistName}"
+						style="width: 100%;" />
+
+					<h:outputLabel value="Immagine:" for="image"
+						rendered="#{not empty testimonialController.element.image and not empty testimonialController.element.image.filename}" />
+					<h:graphicImage id="image"
+						value="/img/#{testimonialController.element.image.filename}"
+						alt="#{testimonialController.element.image.filename}"
+						title="#{testimonialController.element.image.filename}"
+						style="padding: 5px;"
+						rendered="#{not empty testimonialController.element.image and not empty testimonialController.element.image.filename}" />
+				</h:panelGrid>
+				<br />
+			</p:panel>
+			<br /> <br />
+			<h:panelGrid columns="3">
+				<h:form>
+					<h:commandButton action="#{testimonialController.modCurrent}"
+						value="Modifica Testi" />
+					<h:commandButton action="#{testimonialController.modImageCurrent}"
+						value="Modifica Immagine" />
+					<h:commandButton id="addElement"
+						action="#{testimonialController.addElement}" value="Aggiungi" />
+				</h:form>
+			</h:panelGrid>
+		</center>
+
+	</ui:define>
+</ui:composition>

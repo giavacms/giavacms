@@ -1,0 +1,317 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:gb="http://giava.by/giavacms/base"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">
+		<h:outputText value="Lista Pagine" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="i18n" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="central">
+			<center>
+
+				<p:panel header="Pagina selezionata"
+					rendered="#{not empty i18nController.element}">
+					<h:panelGrid columns="2" id="selectedGrid">
+
+						<h:outputLabel for="selectedTitle" value="Titolo: " />
+						<h:outputText id="selectedTitle"
+							value="#{i18nController.element.id}" />
+
+						<h:outputLabel for="selectedLanguage" value="Lingua: " />
+						<h:panelGroup id="selectedLanguage">
+							<h:outputText value="non impostata"
+								rendered="#{i18nController.element.lang eq 0}" />
+							<h:outputText value="#{language1.id}"
+								rendered="#{i18nController.element.id eq i18nController.element.lang1id}" />
+							<h:outputText value="#{language2.id}"
+								rendered="#{i18nController.element.id eq i18nController.element.lang2id}" />
+							<h:outputText value="#{language3.id}"
+								rendered="#{i18nController.element.id eq i18nController.element.lang3id}" />
+							<h:outputText value="#{language4.id}"
+								rendered="#{i18nController.element.id eq i18nController.element.lang4id}" />
+							<h:outputText value="#{language5.id}"
+								rendered="#{i18nController.element.id eq i18nController.element.lang5id}" />
+						</h:panelGroup>
+
+						<h:outputLabel for="modLanguage"
+							value="Modifica lingua corrente: " />
+						<h:panelGroup id="modLanguage">
+							<p:commandLink value="#{language1.id}"
+								action="#{i18nController.setLanguage(1,i18nController.element.id)}"
+								update="pagesList" style="margin-left: 10px;" ajax="false"
+								rendered="#{not empty language1 and i18nController.element.id != i18nController.element.lang1id}" />
+							<p:commandLink value="#{language2.id}"
+								action="#{i18nController.setLanguage(2,i18nController.element.id)}"
+								style="margin-left: 10px;" ajax="false"
+								rendered="#{not empty language2 and i18nController.element.id != i18nController.element.lang2id}" />
+							<p:commandLink value="#{language3.id}"
+								action="#{i18nController.setLanguage(3,i18nController.element.id)}"
+								style="margin-left: 10px;" ajax="false"
+								rendered="#{not empty language3 and i18nController.element.id != i18nController.element.lang3id}" />
+							<p:commandLink value="#{language4.id}"
+								action="#{i18nController.setLanguage(4,i18nController.element.id)}"
+								style="margin-left: 10px;" ajax="false"
+								rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id}" />
+							<p:commandLink value="#{language5.id}"
+								action="#{i18nController.setLanguage(5,i18nController.element.id)}"
+								style="margin-left: 10px;" ajax="false"
+								rendered="#{not empty language5 and i18nController.element.id != i18nController.element.lang5id}" />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+					<h:panelGrid columns="3" id="selectedVersions"
+						rendered="#{i18nController.element.lang gt 0}">
+						<h:outputLabel for="version1" value="Versione #{language1.id}:"
+							rendered="#{not empty language1 and i18nController.element.id != i18nController.element.lang1id}" />
+						<h:panelGroup id="version1"
+							rendered="#{not empty language1 and i18nController.element.id != i18nController.element.lang1id}">
+							<h:outputText value="#{i18nController.element.lang1id}"
+								rendered="#{not empty i18nController.element.lang1id}" />
+							<h:outputText value="non impostata"
+								rendered="#{empty i18nController.element.lang1id}" />
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{not empty language1 and i18nController.element.id != i18nController.element.lang1id}">
+							<h:commandLink value="elimina"
+								action="#{i18nController.resetLanguage(1)}"
+								rendered="#{not empty i18nController.element.lang1id}" />
+						</h:panelGroup>
+
+						<h:outputLabel for="version2" value="Versione #{language2.id}:"
+							rendered="#{not empty language2 and i18nController.element.id != i18nController.element.lang2id}" />
+						<h:panelGroup id="version2"
+							rendered="#{not empty language2 and i18nController.element.id != i18nController.element.lang2id}">
+							<h:outputText
+								rendered="#{not empty i18nController.element.lang2id}"
+								value="#{i18nController.element.lang2id}" />
+							<h:outputText value="non impostata"
+								rendered="#{empty i18nController.element.lang2id}" />
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{not empty language2 and i18nController.element.id != i18nController.element.lang2id}">
+							<h:commandLink value="elimina"
+								action="#{i18nController.resetLanguage(2)}"
+								rendered="#{not empty i18nController.element.lang2id}" />
+						</h:panelGroup>
+
+						<h:outputLabel for="version3" value="Versione #{language3.id}:"
+							rendered="#{not empty language3 and i18nController.element.id != i18nController.element.lang3id}" />
+						<h:panelGroup id="version3"
+							rendered="#{not empty language3 and i18nController.element.id != i18nController.element.lang3id}">
+							<h:outputText
+								rendered="#{not empty i18nController.element.lang3id}"
+								value="#{i18nController.element.lang3id}" />
+							<h:outputText value="non impostata"
+								rendered="#{empty i18nController.element.lang3id}" />
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{not empty language3 and i18nController.element.id != i18nController.element.lang3id}">
+							<h:commandLink value="elimina"
+								action="#{i18nController.resetLanguage(3)}"
+								rendered="#{not empty i18nController.element.lang3id}" />
+						</h:panelGroup>
+
+						<h:outputLabel for="version4" value="Versione #{language4.id}:"
+							rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id}" />
+						<h:panelGroup id="version4"
+							rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id}">
+							<h:outputText
+								rendered="#{not empty i18nController.element.lang4id}"
+								value="#{i18nController.element.lang4id}" />
+							<h:outputText value="non impostata"
+								rendered="#{empty i18nController.element.lang4id}" />
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id}">
+							<h:commandLink value="elimina"
+								action="#{i18nController.resetLanguage(4)}"
+								rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id and not empty i18nController.element.lang4id}" />
+						</h:panelGroup>
+
+						<h:outputLabel for="version5" value="Versione #{language5.id}:"
+							rendered="#{not empty language5 and i18nController.element.id != i18nController.element.lang5id}" />
+						<h:panelGroup id="version5"
+							rendered="#{not empty language5 and i18nController.element.id != i18nController.element.lang5id}">
+							<h:outputText
+								rendered="#{not empty i18nController.element.lang5id}"
+								value="#{i18nController.element.lang5id}" />
+							<h:outputText value="non impostata"
+								rendered="#{empty i18nController.element.lang5id}" />
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{not empty language5 and i18nController.element.id != i18nController.element.lang5id}">
+							<h:commandLink value="elimina"
+								action="#{i18nController.resetLanguage(5)}"
+								rendered="#{not empty i18nController.element.lang5id}" />
+						</h:panelGroup>
+					</h:panelGrid>
+
+					<br />
+					<p:commandButton action="#{i18nController.reset}" value="Concludi"
+						ajax="false" />
+
+				</p:panel>
+				<br /> <br />
+
+				<p:panel header="Lista Pagine">
+					<h:outputLabel value="Mostra solo pagine: " for="languages"
+						style="font-weight: bolder;" />
+					<h:panelGroup id="languages">
+						<p:commandLink value="#{language1.id}"
+							rendered="#{not empty language1 and (empty i18nController.element or i18nController.element.lang != 1)}"
+							action="#{i18nController.searchLanguage(1)}" update="pagesList" />
+						<h:outputText value=" " />
+						<p:commandLink value="#{language2.id}"
+							rendered="#{not empty language2 and (empty i18nController.element or i18nController.element.lang != 2)}"
+							action="#{i18nController.searchLanguage(2)}" update="pagesList" />
+						<h:outputText value=" " />
+						<p:commandLink value="#{language3.id}"
+							rendered="#{not empty language3 and (empty i18nController.element or i18nController.element.lang != 3)}"
+							action="#{i18nController.searchLanguage(3)}" update="pagesList" />
+						<h:outputText value=" " />
+						<p:commandLink value="#{language4.id}"
+							rendered="#{not empty language4 and (empty i18nController.element or i18nController.element.lang != 4)}"
+							action="#{i18nController.searchLanguage(4)}" update="pagesList" />
+						<h:outputText value=" " />
+						<p:commandLink value="#{language5.id}"
+							rendered="#{not empty language5 and (empty i18nController.element or i18nController.element.lang != 5)}"
+							action="#{i18nController.searchLanguage(5)}" update="pagesList" />
+						<h:outputText value=" " />
+						<p:commandLink value="TUTTE"
+							action="#{i18nController.searchLanguage(0)}" update="pagesList" />
+					</h:panelGroup>
+					<br />
+					<br />
+					<h:panelGrid columns="5" rendered="true">
+						<h:outputLabel for="nome" value="Nome:" />
+						<h:inputText id="nome" value="#{i18nController.search.obj.title}" />
+
+						<h:outputLabel for="staticita" value="Tipo di contenuto: " />
+						<h:selectOneMenu id="staticita"
+							value="#{i18nController.search.obj.template.template.searchStatico}">
+							<f:selectItems value="#{staticoDinamicoItems}" />
+						</h:selectOneMenu>
+						<p:commandButton action="#{i18nController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false" update="pagesList" />
+					</h:panelGrid>
+					<br />
+
+					<p:dataTable id="pagesList" rowIndexVar="rowIndex" var="p"
+						value="#{i18nController.model}" rows="#{i18nController.pageSize}"
+						paginator="true" dynamic="true">
+						<p:column width="50">
+							<center>
+								<h:outputText value="#{rowIndex+1} " />
+							</center>
+						</p:column>
+						<p:column width="150">
+							<f:facet name="header">
+							titolo
+						</f:facet>
+							<h:outputText value="#{p.title}" />
+						</p:column>
+						<p:column width="350">
+							<f:facet name="header">
+							descrizione
+						</f:facet>
+							<h:outputText value="#{p.description}" />
+						</p:column>
+						<p:column width="60">
+							<f:facet name="header">
+							contenuto
+						</f:facet>
+							<h:outputText value="statico"
+								rendered="#{p.template.template.statico}" />
+							<h:outputText value="dinamico"
+								rendered="#{not p.template.template.statico}" />
+						</p:column>
+						<p:column width="50" headerText="lingua">
+							<center>
+								<h:outputText value="#{language1.id}"
+									rendered="#{p.id eq p.lang1id}" />
+								<h:outputText value="#{language2.id}"
+									rendered="#{p.id eq p.lang2id}" />
+								<h:outputText value="#{language3.id}"
+									rendered="#{p.id eq p.lang3id}" />
+								<h:outputText value="#{language4.id}"
+									rendered="#{p.id eq p.lang4id}" />
+								<h:outputText value="#{language5.id}"
+									rendered="#{p.id eq p.lang5id}" />
+							</center>
+						</p:column>
+						<p:column width="200" headerText="versioni alternative"
+							rendered="#{empty i18nController.element}">
+							<center>
+								<h:panelGrid columns="2">
+									<h:outputText
+										value="#{empty language1 ? 'n.d.' : language1.id}" />
+									<h:outputText value="#{p.lang1id}" />
+									<h:outputText
+										value="#{empty language2 ? 'n.d.' : language2.id}" />
+									<h:outputText value="#{p.lang2id}" />
+									<h:outputText
+										value="#{empty language3 ? 'n.d.' : language3.id}" />
+									<h:outputText value="#{p.lang3id}" />
+									<h:outputText
+										value="#{empty language4 ? 'n.d.' : language4.id}" />
+									<h:outputText value="#{p.lang4id}" />
+									<h:outputText
+										value="#{empty language5 ? 'n.d.' : language5.id}" />
+									<h:outputText value="#{p.lang5id}" />
+								</h:panelGrid>
+							</center>
+						</p:column>
+						<p:column width="150" rendered="#{empty i18nController.element}">
+							<center>
+								<h:commandLink value="gestisci"
+									action="#{i18nController.modElement}" />
+								-
+								<h:outputLink target="_blank"
+									value="#{request.contextPath}/p/#{p.id}">
+									<h:outputText value="anteprima" />
+								</h:outputLink>
+							</center>
+						</p:column>
+						<p:column width="50" headerText="imposta"
+							rendered="#{not empty i18nController.element and i18nController.element.lang gt 0 }">
+							<center>
+								<p:commandLink value="imposta"
+									action="#{i18nController.setLanguage(1,p.id)}"
+									update="pagesList :central:selectedGrid :central:selectedVersions"
+									style="margin-left: 10px;"
+									rendered="#{not empty language1 and p.id eq p.lang1id and  i18nController.element.id != p.id}" />
+								<p:commandLink value="imposta"
+									update="pagesList :central:selectedGrid :central:selectedVersions"
+									action="#{i18nController.setLanguage(2,p.id)}"
+									style="margin-left: 10px;"
+									rendered="#{not empty language2 and p.id eq p.lang2id and  i18nController.element.id != p.id}" />
+								<p:commandLink value="imposta"
+									update="pagesList :central:selectedGrid :central:selectedVersions"
+									action="#{i18nController.setLanguage(3,p.id)}"
+									style="margin-left: 10px;"
+									rendered="#{not empty language3 and p.id eq p.lang3id and  i18nController.element.id  != p.id}" />
+								<p:commandLink value="imposta"
+									update="pagesList :central:selectedGrid :central:selectedVersions"
+									action="#{i18nController.setLanguage(4,p.id)}"
+									style="margin-left: 10px;"
+									rendered="#{not empty language4 and p.id eq p.lang4id and  i18nController.element.id  != p.id}" />
+								<p:commandLink value="imposta"
+									update="pagesList :central:selectedGrid :central:selectedVersions"
+									action="#{i18nController.setLanguage(5,p.id)}"
+									style="margin-left: 10px;"
+									rendered="#{not empty language5 and p.id eq p.lang5id and  i18nController.element.id  != p.id}" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

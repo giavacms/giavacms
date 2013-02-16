@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.giavacms</groupId>
+		<artifactId>giava-cms</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<artifactId>base</artifactId>
+	<packaging>${packaging.type}</packaging>
+
+	<name>GiavaCMS Content Management System : Base Subsystem</name>
+	<description>GiavaCMS Content Management System: Base Subsystem</description>
+
+
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<packaging.type>jar</packaging.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<packaging.type>war</packaging.type>
+			</properties>
+		</profile>
+	</profiles>
+
+
+	<properties>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>jboss.web</groupId>
+			<artifactId>jbossweb</artifactId>
+			<version>3.0.0.alpha-9</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.primefaces.extensions</groupId> <artifactId>primefaces-extensions</artifactId> 
+			<version>0.3.0</version> </dependency> <dependency> <groupId>org.primefaces.extensions</groupId> 
+			<artifactId>resources-codemirror</artifactId> <version>0.3.0</version> </dependency> -->
+		<!-- GiavaCMS Common -->
+		<dependency>
+			<groupId>org.giavacms.common</groupId>
+			<artifactId>giavacms-common-base</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/resources/META-INF/resources/</directory>
+							<includes>
+								<include>**/*.*</include>
+							</includes>
+						</resource>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/resources</directory>
+							<includes>
+								<include>META-INF/**/*.*</include>
+							</includes>
+							<excludes>
+								<exclude>META-INF/resources/**/*.*</exclude>
+							</excludes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

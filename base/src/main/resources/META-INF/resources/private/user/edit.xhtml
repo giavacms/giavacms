@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Utente" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="admin" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Gestione Utente">
+
+					<h:panelGrid columns="2" style="width: 95%">
+
+						<h:outputLabel value="Nome(*):" for="name" />
+						<h:inputText required="true" id="name"
+							value="#{userController.element.name}" style="width: 100%;" />
+
+						<h:outputLabel value="Email(*):" for="email" />
+						<h:inputText required="true" id="email"
+							disabled="#{not userController.element.newElement}"
+							value="#{userController.element.username}" style="width: 100%;" />
+
+						<h:outputLabel value="Genera Password Casuale ed invia e-mail:"
+							for="rand" />
+						<h:selectBooleanCheckbox id="rand"
+							value="#{userController.element.random}">
+							<f:ajax event="change" render="pwdLabelP pwdLabelPL" />
+						</h:selectBooleanCheckbox>
+
+						<h:panelGroup id="pwdLabelPL">
+							<h:outputLabel value="Nuova Password:" for="pwd"
+								rendered="#{not userController.element.random}" />
+						</h:panelGroup>
+						<h:panelGroup id="pwdLabelP">
+							<h:inputSecret id="pwd"
+								value="#{userController.element.newPassword}"
+								rendered="#{not userController.element.random}"
+								style="width: 100%;" />
+						</h:panelGroup>
+
+						<h:outputLabel value="Utente di tipo amministratore:" for="amm" />
+						<h:selectBooleanCheckbox id="amm"
+							value="#{userController.element.admin}">
+							<f:ajax event="change" render="ruoliLabelP ruoliP" />
+						</h:selectBooleanCheckbox>
+
+						<h:panelGroup id="ruoliLabelP">
+							<h:outputLabel value="Permessi(**):" for="ruoloMany"
+								rendered="#{not userController.element.admin}" />
+						</h:panelGroup>
+						<h:panelGroup id="ruoliP">
+							<h:selectManyListbox id="ruoloMany" style="width: 100%;"
+								rendered="#{not userController.element.admin}"
+								value="#{userController.element.roles}" required="true">
+								<f:selectItems value="#{ruoliItems}" />
+							</h:selectManyListbox>
+						</h:panelGroup>
+
+						<h:outputText value=" " />
+						<h:panelGroup>
+							<h:outputText
+								value="(**): per selezionare + di un ruolo contemporaneamente tenere premuto il tasto ctrl " />
+							<br />
+							<h:outputText
+								value=" mentre si effettua la selezione/deselezione." />
+						</h:panelGroup>
+					</h:panelGrid>
+					<br />
+
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="4">
+					<h:commandButton action="#{userController.save}" value="Salva"
+						rendered="#{userController.element.newElement}" />
+
+					<h:commandButton action="#{userController.update}"
+						value="Salva le modifiche"
+						rendered="#{not userController.element.newElement}" />
+
+					<h:commandButton action="#{userController.delete}" value="Elimina"
+						immediate="true"
+						rendered="#{loginController.admin and (not userController.element.newElement)}"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+
+					<h:commandButton id="reset" action="#{userController.reset}"
+						value="Annulla" immediate="true" />
+				</h:panelGrid>
+			</center>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

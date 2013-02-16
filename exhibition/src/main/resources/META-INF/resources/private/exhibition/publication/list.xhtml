@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Pubblicazioni" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="exhibition" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Pubblicazioni">
+					<h:panelGrid columns="7">
+						<h:outputLabel for="name" value="Titolo:" />
+						<h:inputText id="name"
+							value="#{publicationController.search.obj.title}" />
+
+						<h:outputLabel for="exhibition" value="Seleziona esibizione:" />
+						<h:selectOneMenu id="exhibition"
+							value="#{publicationController.search.obj.exhibition.id}">
+							<f:selectItems value="#{exhibitionItems}" />
+						</h:selectOneMenu>
+						<h:commandButton action="#{publicationController.reloadAjax}"
+							value="Cerca" />
+					</h:panelGrid>
+					<br />
+
+					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="publication"
+						value="#{publicationController.model}"
+						rows="#{publicationController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">titolo</f:facet>
+							<h:outputText value="#{publication.title}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">anteprima</f:facet>
+							<h:outputText value="#{publication.preview}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">esposizione</f:facet>
+							<h:outputText value="#{publication.exhibition.name}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">operazioni</f:facet>
+							<center>
+								<h:commandLink action="#{publicationController.viewElement}"
+									value="vedi" />
+								<br />
+								<h:commandLink action="#{publicationController.modElement}"
+									value="modifica testi" />
+								<br />
+								<h:commandLink action="#{publicationController.modDocuments}"
+									value="modifica documenti" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="1">
+					<h:commandButton id="add"
+						action="#{publicationController.addElement}" value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

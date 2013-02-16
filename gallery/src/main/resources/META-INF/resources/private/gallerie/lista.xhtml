@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Amministrazione del portale" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Gallerie di Foto">
+					<p:dataTable id="templatesList" rowIndexVar="rowIndex"
+						var="galleria" value="#{gallerieController.model}"
+						rows="#{gallerieController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="400">
+							<f:facet name="header">titolo</f:facet>
+							<h:outputText value="#{galleria.titolo}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">operazioni</f:facet>
+							<h:commandLink action="#{gallerieController.viewElement}"
+								value="vedi" />
+					- <h:commandLink action="#{gallerieController.modElement}"
+								value="modifica" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+				<br /> <br />
+
+				<h:panelGrid columns="1">
+					<h:commandButton id="creaGalleria"
+						action="#{gallerieController.addElement}" value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

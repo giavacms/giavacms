@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:submenu label="Catalogo" icon="ui-icon-document"
+		rendered="#{loginController.isInRole('catalogue')}">
+		<p:menuitem value="categorie"
+			url="/private/catalogue/category/list.jsf" />
+		<p:menuitem value="prodotti" url="/private/catalogue/list.jsf" />
+		<p:menuitem value="configurazione"
+			url="/private/catalogue/configuration.jsf" />
+	</p:submenu>
+
+</ui:composition>

@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Sponsor" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="exhibition" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<script type="text/javascript"
+			src="#{request.contextPath}/scripts/it_editor.js"></script>
+
+		<script language="javascript" type="text/javascript"
+			src="#{request.contextPath}/scripts/tiny_mce/tiny_mce.js"></script>
+		<center>
+			<h:form>
+				<p:panel header="Gestione Sponsor">
+
+					<h:panelGrid columns="2" style="width: 95%">
+						<h:outputLabel for="name" value="Nome (*):" style="width: 100%;" />
+						<h:inputText id="name" value="#{sponsorController.element.name}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="Immagine:" for="image"
+							rendered="#{not empty sponsorController.element.image and not empty sponsorController.element.image.filename}" />
+						<h:graphicImage id="image"
+							value="/img/#{sponsorController.element.image.filename}"
+							alt="#{sponsorController.element.image.filename}"
+							title="#{sponsorController.element.image.filename}"
+							style="padding: 5px;"
+							rendered="#{not empty sponsorController.element.image and not empty sponsorController.element.image.filename}" />
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<h:panelGrid columns="5">
+
+					<h:commandButton action="#{sponsorController.save}" value="Salva"
+						immediate="false" rendered="#{not sponsorController.editMode}" />
+
+					<h:commandButton action="#{sponsorController.saveAndModifyImage}"
+						value="Salva e Modifica Dcumenti" immediate="false"
+						rendered="#{not sponsorController.editMode}" />
+
+					<h:commandButton action="#{sponsorController.update}"
+						value="Salva le modifiche" immediate="false"
+						rendered="#{sponsorController.editMode}" />
+
+					<h:commandButton action="#{sponsorController.updateAndModifyImage}"
+						value="Salva le modifiche e Modifica Immagine" immediate="false"
+						rendered="#{sponsorController.editMode}" />
+
+					<h:commandButton action="#{sponsorController.delete}"
+						value="Elimina" rendered="#{sponsorController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+
+
+	</ui:define>
+</ui:composition>

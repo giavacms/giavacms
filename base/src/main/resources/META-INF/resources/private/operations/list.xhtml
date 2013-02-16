@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Operazioni" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="log" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="ListaOperazioni">
+					<h:panelGrid columns="5">
+						<h:outputLabel for="username" value="Username:" />
+						<h:inputText id="username"
+							value="#{logOperationsController.search.obj.username}" />
+
+						<h:outputLabel for="tipo" value="Seleziona tipo:" />
+						<h:selectOneMenu id="tipo"
+							value="#{logOperationsController.search.obj.tipo}">
+							<f:selectItems value="#{tipiOperazioniLogItems}" />
+						</h:selectOneMenu>
+						<p:commandButton action="#{logOperationsController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false"
+							update="operazioniList" />
+					</h:panelGrid>
+					<br />
+
+					<p:dataTable id="operazioniList" rowIndexVar="rowIndex"
+						var="operazione" value="#{logOperationsController.model}"
+						rows="#{logOperationsController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="50">
+							<f:facet name="header">tipo</f:facet>
+							<h:outputText value="#{operazione.tipo}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">username</f:facet>
+							<h:outputText value="#{operazione.username}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">data</f:facet>
+							<h:outputText value="#{operazione.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">descrizione</f:facet>
+							<h:outputText value="#{operazione.descrizione}" />
+						</p:column>
+
+						<p:column width="100" rendered="false">
+							<f:facet name="header">operazioni</f:facet>
+							<center>
+								<h:commandLink action="#{logOperationsController.viewElement}"
+									value="vedi" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br />
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

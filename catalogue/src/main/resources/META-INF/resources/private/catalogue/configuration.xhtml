@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">
+		<h:outputText value="Gestione Configurazione Catalogo" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="catalogue" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<center>
+			<h:form>
+				<p:panel header="Gestione Configurazione Catalogo">
+
+					<h:panelGrid columns="2" style="width: 95%">
+
+						<h:outputLabel value="resize?:" for="resize" />
+						<h:selectBooleanCheckbox title="resize" id="resize"
+							value="#{catalogueConfigurationController.element.resize}">
+						</h:selectBooleanCheckbox>
+
+						<h:outputLabel value="max width or Height Img(*):"
+							for="maxWidthOrHeight" />
+						<h:inputText required="true" id="maxWidthOrHeight"
+							value="#{catalogueConfigurationController.element.maxWidthOrHeight}"
+							style="width: 100%;" />
+
+					</h:panelGrid>
+					<br />
+
+				</p:panel>
+				<br />
+				<br />
+
+				<h:panelGrid columns="2">
+
+					<h:commandButton
+						action="#{catalogueConfigurationController.update}"
+						value="Salva le modifiche" />
+
+					<h:commandButton id="reset"
+						action="#{catalogueConfigurationController.reset}" value="Annulla"
+						immediate="true" />
+
+				</h:panelGrid>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>

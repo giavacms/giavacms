@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Partecipanti" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="exhibition" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Partecipanti">
+					<h:panelGrid columns="9">
+
+						<h:outputLabel for="name" value="Nome: " />
+						<h:inputText id="name"
+							value="#{participantController.search.obj.subject.name}" />
+
+						<h:outputLabel for="surname" value="Cognome: " />
+						<h:inputText id="surname"
+							value="#{participantController.search.obj.subject.surname}" />
+
+						<h:outputLabel for="type" value="Seleziona tipologia:" />
+						<h:selectOneMenu id="type"
+							value="#{participantController.search.obj.subject.type}">
+							<f:selectItems value="#{subjectTypeItems}" />
+						</h:selectOneMenu>
+
+						<h:outputLabel for="exhibition" value="Seleziona esibizione:" />
+						<h:selectOneMenu id="exhibition"
+							value="#{participantController.search.obj.exhibition.id}">
+							<f:selectItems value="#{exhibitionItems}" />
+						</h:selectOneMenu>
+						<h:commandButton action="#{participantController.reloadAjax}"
+							value="Cerca" />
+					</h:panelGrid>
+					<br />
+					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="participant"
+						value="#{participantController.model}"
+						rows="#{participantController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">tipo</f:facet>
+							<h:outputText value="#{participant.subject.type}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">soggetto</f:facet>
+							<h:outputText value="#{participant.subject.nameSurname}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">esposizione</f:facet>
+							<h:outputText value="#{participant.exhibition.name}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">disciplina</f:facet>
+							<h:outputText value="#{participant.discipline.name}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">operazioni</f:facet>
+							<center>
+								<h:commandLink action="#{participantController.viewElement}"
+									value="vedi" />
+								<br />
+								<h:commandLink action="#{participantController.modElement}"
+									value="modifica" />
+								<br />
+								<h:commandLink action="#{participantController.modImage}"
+									value="modifica immagine" />
+								<br />
+								<h:commandLink action="#{participantController.clone}"
+									value="clona" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="5">
+					<f:facet name="header">
+						<h:outputText value="Crea Partecipanti usando Soggetti Esistenti" />
+					</f:facet>
+					<h:commandButton id="addArtist"
+						action="#{participantController.addArtistElement}"
+						value="Aggiungi un Artista" />
+					<h:commandButton id="addInstitute"
+						action="#{participantController.addInstituteElement}"
+						value="Aggiungi Istituto" />
+					<h:commandButton id="addMuseum"
+						action="#{participantController.addMuseumElement}"
+						value="Aggiungi Museo" />
+					<h:commandButton id="addTestimonial"
+						action="#{participantController.addTestimonialElement}"
+						value="Aggiungi Testimonial" />
+					<h:commandButton id="addSponsor"
+						action="#{participantController.addSponsorElement}"
+						value="Aggiungi Sponsor" />
+				</h:panelGrid>
+				<br />
+				<h:panelGrid columns="1">
+					<f:facet name="header">
+						<h:outputText value="Crea Partecipanti, creando un nuovo Soggetto" />
+					</f:facet>
+					<h:commandButton id="addNewSubject"
+						action="#{participantController.addNewSubject}"
+						value="Aggiungi Nuovo Soggetto " />
+				</h:panelGrid>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

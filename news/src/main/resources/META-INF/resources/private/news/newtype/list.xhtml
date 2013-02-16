@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">
+		<h:outputText value="Lista Tipi Informazione" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="tipi_informazione" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="central">
+			<center>
+				<p:panel header="Lista Tipi Informazione">
+					<p:dataTable rowIndexVar="rowIndex" var="t"
+						value="#{tipoInformazioniController.model}"
+						rows="#{tipoInformazioniController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<center>
+								<h:outputText value="#{rowIndex+1} " />
+							</center>
+						</p:column>
+						<p:column width="400">
+							<f:facet name="header">
+							nome
+						</f:facet>
+							<h:outputText value="#{t.nome}" />
+						</p:column>
+						<p:column width="200">
+							<center>
+								<h:commandLink value="modifica"
+									action="#{tipoInformazioniController.modElement}" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="2">
+					<h:commandButton action="#{tipoInformazioniController.addElement}"
+						value="Aggiungi" />
+					<h:commandButton action="#{tipoInformazioniController.backPage}"
+						value="Indietro" rendered="false" />
+				</h:panelGrid>
+			</center>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

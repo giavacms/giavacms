@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<f:view contentType="text/html">
+	<h:head>
+		<title>Giava CMS - Administration</title>
+		<title>ciao</title>
+	</h:head>
+	<h:body>
+
+		<div>
+
+			<center>
+				<form method="post" action="j_security_check">
+					<table border="0" cellspacing="5">
+						<tr>
+							<th align="right">Username:</th>
+							<td align="left"><input type="text" name="j_username" /></td>
+						</tr>
+						<tr>
+							<th align="right">Password:</th>
+							<td align="left"><input type="password" name="j_password" /></td>
+						</tr>
+						<tr>
+							<td align="right"><input type="submit" value="Log In" /></td>
+							<td align="left"><input type="reset" value="Annulla" /></td>
+						</tr>
+						<tr>
+							<td align="center" colspan="2"><a
+								href="#{request.contextPath}/renew-password.jsf?faces-redirect=true">Hai
+									dimenticato la password?</a></td>
+						</tr>
+					</table>
+				</form>
+			</center>
+		</div>
+	</h:body>
+</f:view>
+</html>

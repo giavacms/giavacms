@@ -1,0 +1,277 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Pagina" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="page" />
+	</ui:define>
+	<ui:define name="content">
+
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/it_editor.js"></script>
+
+		<h:form id="mainForm">
+
+			<p:panel header="Gestione Pagina">
+
+				<h:panelGrid columns="2" style="width: 95%"
+					columnClasses="p_col1,p_col2">
+
+					<h:outputLabel value="Titolo(*):" for="titoloW"
+						rendered="#{empty pageController.element.title}" />
+					<h:inputText required="true" id="titoloW"
+						value="#{pageController.element.title}" style="width: 100%;"
+						rendered="#{empty pageController.element.title}" />
+
+					<h:outputLabel value="Titolo:" for="titoloR"
+						rendered="#{not empty pageController.element.title}" />
+					<h:inputText disabled="true" id="titoloR"
+						value="#{pageController.element.title}" style="width: 100%;"
+						rendered="#{not empty pageController.element.title}" />
+
+					<h:outputLabel value="Descrizione:" for="descrizione" />
+					<h:inputText id="descrizione"
+						value="#{pageController.element.description}" style="width: 100%;" />
+
+					<h:outputLabel value="Modello(*):" for="template" />
+					<h:panelGroup id="template">
+						<h:selectOneMenu
+							rendered="#{pageController.element.template.template.statico}"
+							value="#{pageController.element.template.template.id}" required="true"
+							style="width: 100%">
+							<f:selectItems value="#{templateStaticiItems}" />
+							<p:ajax actionListener="#{pageController.cambioTemplate}"
+								update="campi" event="change" process="@this" />
+						</h:selectOneMenu>
+						<h:selectOneMenu
+							rendered="#{not pageController.element.template.template.statico}"
+							value="#{pageController.element.template.template.id}" required="true"
+							style="width: 100%">
+							<f:selectItems value="#{templateDinamiciItems}" />
+							<p:ajax actionListener="#{pageController.cambioTemplate}"
+								update="campi" event="change" process="@this" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+
+					<h:outputText value="&lt;hr/&gt;" escape="false" />
+					<h:outputText />
+
+				</h:panelGrid>
+
+				<h:panelGroup id="campi">
+
+					<h:panelGrid columns="2" style="width: 95%"
+						columnClasses="p_col1,p_col2">
+
+						<h:outputLabel value="Intestazione:"
+							rendered="#{not empty pageController.element.template.template.header_stop}"
+							for="header" />
+						<h:panelGroup
+							rendered="#{not empty pageController.element.template.template.header_stop}"
+							id="header">
+							<h:inputTextarea
+								rendered="#{not empty pageController.element.template.template.header_stop and not pageController.element.template.template.statico}"
+								value="#{pageController.element.template.header}"
+								style="color: black; height: 500px; width: 100%;" escape="false" />
+							<h:panelGroup style="width: 100%;"
+								rendered="#{not empty pageController.element.template.template.header_stop and pageController.element.template.template.statico}">
+								<p:editor id="pEditorH"
+									value="#{pageController.element.template.header}" width="100%"
+									height="320px" widgetVar="myEditorH" language="it" />
+								<f:verbatim>
+									<span
+										onclick="ridimensiona('mainForm','pEditorH','100%','600px');"
+										style="float: left;">ingrandisci</span>
+									<span
+										onclick="ridimensiona('mainForm','pEditorH','100%','320px');"
+										style="float: right;">riduci</span>
+								</f:verbatim>
+								<script type="text/javascript">
+						         //<![CDATA[
+						         	addImageBrowser(myEditorH,'#{request.contextPath}/private/page/imagesH.jsf');
+						         //]]></script>
+							</h:panelGroup>
+						</h:panelGroup>
+
+						<h:outputText value="&lt;hr/&gt;"
+							rendered="#{not empty pageController.element.template.template.header_stop}"
+							escape="false" />
+						<h:outputText
+							rendered="#{not empty pageController.element.template.template.header_stop}" />
+
+						<h:outputLabel value="Colonna 1:"
+							rendered="#{not empty pageController.element.template.template.col1_stop}"
+							for="col1" />
+						<h:panelGroup style="width: 100%;"
+							rendered="#{not empty pageController.element.template.template.col1_stop}">
+							<h:inputTextarea
+								rendered="#{not empty pageController.element.template.template.col1_stop and not pageController.element.template.template.statico}"
+								value="#{pageController.element.template.col1}"
+								style="color: black; height: 500px; width: 100%;" escape="false" />
+							<h:panelGroup
+								rendered="#{not empty pageController.element.template.template.col1_stop and pageController.element.template.template.statico}">
+								<p:editor id="pEditorC1"
+									value="#{pageController.element.template.col1}" width="100%"
+									height="320px" widgetVar="myEditorC1" language="it" />
+								<f:verbatim>
+									<span
+										onclick="ridimensiona('mainForm','pEditorC1','100%','600px');"
+										style="float: left;">ingrandisci</span>
+									<span
+										onclick="ridimensiona('mainForm','pEditorC1','100%','320px');"
+										style="float: right;">riduci</span>
+								</f:verbatim>
+								<script type="text/javascript">
+						         //<![CDATA[
+						         	addImageBrowser(myEditorC1,'#{request.contextPath}/private/page/imagesC1.jsf');
+						         //]]></script>
+							</h:panelGroup>
+						</h:panelGroup>
+
+						<h:outputLabel value="Colonna 2:"
+							rendered="#{not empty pageController.element.template.template.col2_stop}"
+							for="col2" />
+						<h:panelGroup id="col2"
+							rendered="#{not empty pageController.element.template.template.col2_stop}">
+							<h:inputTextarea
+								rendered="#{not empty pageController.element.template.template.col2_stop and not pageController.element.template.template.statico}"
+								value="#{pageController.element.template.col2}"
+								style="color: black; height: 500px; width: 100%;" escape="false" />
+							<h:panelGroup
+								rendered="#{not empty pageController.element.template.template.col2_stop and pageController.element.template.template.statico}">
+								<p:editor id="pEditorC2"
+									value="#{pageController.element.template.col2}" width="100%"
+									height="320px" widgetVar="myEditorC2" language="it" />
+								<f:verbatim>
+									<span
+										onclick="ridimensiona('mainForm','pEditorC2','100%','600px');"
+										style="float: left;">ingrandisci</span>
+									<span
+										onclick="ridimensiona('mainForm','pEditorC2','100%','320px');"
+										style="float: right;">riduci</span>
+								</f:verbatim>
+								<script type="text/javascript">
+						         //<![CDATA[
+						         	addImageBrowser(myEditorC2,'#{request.contextPath}/private/page/imagesC2.jsf');
+						         //]]></script>
+							</h:panelGroup>
+						</h:panelGroup>
+
+						<h:outputLabel value="Colonna 3:"
+							rendered="#{not empty pageController.element.template.template.col3_stop}"
+							for="col3" />
+						<h:panelGroup id="col3"
+							rendered="#{not empty pageController.element.template.template.col3_stop}">
+							<h:inputTextarea
+								rendered="#{not empty pageController.element.template.template.col3_stop and not pageController.element.template.template.statico}"
+								value="#{pageController.element.template.col3}" width="100%"
+								style="color: black; height: 500px; width: 100%;" escape="false" />
+							<h:panelGroup
+								rendered="#{not empty pageController.element.template.template.col3_stop and pageController.element.template.template.statico}">
+								<p:editor id="pEditorC3"
+									value="#{pageController.element.template.col3}" width="100%"
+									height="320px" widgetVar="myEditorC3" language="it" />
+								<f:verbatim>
+									<span
+										onclick="ridimensiona('mainForm','pEditorC3','100%','600px');"
+										style="float: left;">ingrandisci</span>
+									<span
+										onclick="ridimensiona('mainForm','pEditorC3','100%','320px');"
+										style="float: right;">riduci</span>
+								</f:verbatim>
+								<script type="text/javascript">
+						         //<![CDATA[
+						         	addImageBrowser(myEditorC3,'#{request.contextPath}/private/page/imagesC3.jsf');
+						         //]]></script>
+							</h:panelGroup>
+						</h:panelGroup>
+
+						<h:outputText value="&lt;hr/&gt;"
+							rendered="#{(not empty pageController.element.template.template.col1_stop) or (not empty pageController.element.template.template.col2_stop) or (not empty pageController.element.template.template.col3_stop)}"
+							escape="false" />
+						<h:outputText
+							rendered="#{(not empty pageController.element.template.template.col1_stop) or (not empty pageController.element.template.template.col2_stop) or (not empty pageController.element.template.template.col3_stop)}" />
+
+						<h:outputLabel value="Pie' di pagina:"
+							rendered="#{not empty pageController.element.template.template.footer_stop}"
+							for="footer" />
+						<h:panelGroup id="footer"
+							rendered="#{not empty pageController.element.template.template.footer_stop}">
+							<h:inputTextarea
+								rendered="#{not empty pageController.element.template.template.footer_stop and not pageController.element.template.template.statico}"
+								value="#{pageController.element.template.footer}"
+								style="color: black; height: 500px; width: 100%;" escape="false" />
+							<h:panelGroup
+								rendered="#{not empty pageController.element.template.template.footer_stop and pageController.element.template.template.statico}">
+								<p:editor id="pEditorF"
+									value="#{pageController.element.template.footer}" width="100%"
+									height="320px" widgetVar="myEditorF" language="it" />
+								<f:verbatim>
+									<span
+										onclick="ridimensiona('mainForm','pEditorF','100%','600px');"
+										style="float: left;">ingrandisci</span>
+									<span
+										onclick="ridimensiona('mainForm','pEditorF','100%','320px');"
+										style="float: right;">riduci</span>
+								</f:verbatim>
+								<script type="text/javascript">
+						         //<![CDATA[
+						         	addImageBrowser(myEditorF,'#{request.contextPath}/private/page/imagesF.jsf');
+						         //]]></script>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGrid>
+
+				</h:panelGroup>
+				<br />
+				<h:outputText value="(*) sono campi obbligatori!" />
+				<br />
+				<br />
+
+			</p:panel>
+
+			<br />
+			<br />
+
+			<center>
+				<h:panelGrid columns="1">
+					<h:outputLink target="_blank"
+						value="#{request.contextPath}/page/#{pageController.element.id}">
+						<h:outputText value="anteprima del contenuto gia' salvato" />
+					</h:outputLink>
+				</h:panelGrid>
+				<br />
+
+				<h:panelGrid columns="6">
+					<h:commandButton id="ant" value="Anteprima testo completo"
+						action="#{pageController.anteprimaTestuale}" rendered="false" />
+
+					<h:commandButton id="save1" value="Salva dati correnti"
+						action="#{pageController.salvaPerAnteprimaRisultato}" />
+
+					<h:commandButton id="save2" action="#{pageController.save}"
+						value="Salva ed esci" rendered="#{empty pageController.element.id}" />
+
+					<h:commandButton id="up1" action="#{pageController.update}"
+						value="Salva le modifiche ed esci"
+						rendered="#{not empty pageController.element.id}" />
+
+					<h:commandButton id="del1" action="#{pageController.delete}"
+						value="Elimina" immediate="true"
+						rendered="#{not empty pageController.element.id}"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+
+					<h:commandButton id="reset" action="#{pageController.reset}"
+						value="Annulla" immediate="true" />
+				</h:panelGrid>
+			</center>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<f:view contentType="text/html">
+	<h:head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<ui:define name="title">
+			<h:outputText
+				value="giavacms - Amministrazione del portale" />
+		</ui:define></meta>
+		<link rel="stylesheet" type="text/css"
+			href="#{request.contextPath}/css/reset-fonts-grids.css" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/yahoo-dom-event.js"></script>
+
+		<script type="text/javascript">
+	 //<![CDATA[
+(function() {
+    var Dom = YAHOO.util.Dom,
+        Event = YAHOO.util.Event,
+        myEditor = window.opener.YAHOO.widget.EditorInfo.getEditorById('mainForm:pEditorH:input');
+        //Get a reference to the editor on the other page
+    
+    //Add a listener to the parent of the images
+    Event.on('images', 'click', function(ev) {
+        var tar = Event.getTarget(ev);
+        //Check to see if we clicked on an image
+        if (tar && tar.tagName && (tar.tagName.toLowerCase() == 'img')) {
+            //Focus the editor's window
+            myEditor._focusWindow();
+            //Fire the execCommand for insertimage
+//          myEditor.execCommand('insertimage', tar.getAttribute('src', 2));
+            var imgSrc = tar.getAttribute('src', 2);
+            var imgFilenameExt = imgSrc.match(/[^\\/]*$/)[0];
+            var imgFilename = imgFilenameExt.match( /(.*)\.[^.]+$/ )[1];
+//          myEditor.execCommand('inserthtml','<img src="'+imgSrc+'" alt="'+imgFilename+'" title="'+imgFilename+'" class="replaceMe ">');
+            myEditor.execCommand('inserthtml','<img src="'+imgSrc+'" alt="'+imgFilename+'" title="'+imgFilename+'" >');
+            //Close this window
+            window.close();
+        }
+    });
+    //Internet Explorer will throw this window to the back, this brings it to the front on load
+    Event.on(window, 'load', function() {
+        window.focus();
+    });
+})();
+//]]>
+
+</script>
+
+	</h:head>
+	<h:body class="yui-skin-sam">
+		<ui:insert name="content">
+			<ui:include src="content.xhtml" />
+		</ui:insert>
+	</h:body>
+</f:view>
+</html>

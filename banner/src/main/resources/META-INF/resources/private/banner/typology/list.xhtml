@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Tipologie" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="banner" />
+	</ui:define>
+	<ui:define name="content">
+		<center>
+			<h:form prependId="false">
+				<p:panel header="Lista Tipologie">
+					<h:panelGrid columns="3" rendered="false">
+						<h:outputLabel for="nameS" value="Nome:" />
+						<h:inputText id="nameS"
+							value="#{bannerTypologyController.search.obj.name}" />
+						<p:commandButton
+							actionListener="#{bannerTypologyController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false" update="newsList" />
+					</h:panelGrid>
+
+					<br />
+
+					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
+						value="#{bannerTypologyController.model}"
+						rows="#{bannerTypologyController.pageSize}" paginator="true"
+						dynamic="true" editable="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">nome</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText required="true"
+										requiredMessage="E' obbligatorio specificare un nome per ogni tipologia"
+										value="#{t.name}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">descrizione</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.description}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText required="false" value="#{t.description}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">tipo</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.type}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText required="false" value="#{t.type}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">operazioni</f:facet>
+							<p:rowEditor>
+							</p:rowEditor>
+						</p:column>
+						<p:column width="50">
+							<f:facet name="header">elimina</f:facet>
+							<p:commandButton type="submit" title="Elimina" rendered="true"
+								icon="ui-icon-trash"
+								action="#{bannerTypologyController.deleteInline}" ajax="false"
+								immediate="true"
+								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+
+						</p:column>
+						<p:ajax event="rowEdit"
+							listener="#{bannerTypologyController.onRowEdit}" />
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<br />
+			</h:form>
+			<h:form prependId="false">
+				<h:panelGrid columns="7">
+					<h:outputLabel value="Nome Tipologia(*):" for="name" />
+					<h:inputText required="true"
+						value="#{bannerTypologyController.element.name}" id="name" />
+					<h:outputLabel value="Descrizione:" for="description" />
+					<h:inputText
+						value="#{bannerTypologyController.element.description}"
+						id="description" />
+					<h:outputLabel value="Tipo:" for="type" />
+					<h:inputText value="#{bannerTypologyController.element.type}"
+						id="type" />
+					<p:commandButton action="#{bannerTypologyController.save}"
+						value="Aggiungi" ajax="false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>

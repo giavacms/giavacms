@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel header="Base Module" toggleable="true" closable="true"
+		toggleSpeed="500" closeSpeed="2000">
+		<p:tabView>
+			<p:tab title="Cambio Password" style="width:200px; float:left;">
+				<div style="height: 50px;">
+					<h:commandLink value="cambio password"
+						action="#{loginController.goToChangePassword}" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Utenti" style="width:200px; float:left;"
+				rendered="#{loginController.admin}">
+				<div style="height: 50px;">
+					<h:commandLink action="/private/user/list.jsf?faces-redirect=true"
+						value="lista utenti" />
+					<br />
+					<h:commandLink action="#{userController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Configurazione Email"
+				style="width: 200px; float: left;"
+				rendered="#{loginController.admin}">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/emailconfiguration/edit.jsf?faces-redirect=true"
+						value="gestione configurazione invio email" />
+					<br />
+				</div>
+			</p:tab>
+
+			<p:tab title="Log Operazioni"
+				rendered="#{logOperationsController.clear and loginController.isInRole('log')}"
+				style="width: 200px; float: left;">
+				<div style="height: 27px;">
+					<h:commandLink
+						action="/private/operations/list.jsf?faces-redirect=true"
+						value="lista delle operazioni" />
+					<br /> <br />
+				</div>
+			</p:tab>
+
+			<p:tab title="Stato Memoria" rendered="#{loginController.admin}"
+				style="width: 200px; float: left;">
+				<div style="height: 27px;">
+					<h:commandLink
+						action="/private/memory/view.jsf?faces-redirect=true"
+						value="stato della memoria" />
+					<br /> <br />
+				</div>
+			</p:tab>
+
+		</p:tabView>
+
+		<div style="width: 600px; height: 10px; clear: both;"></div>
+
+		<p:tabView
+			rendered="#{loginController.admin or loginController.isInRole('page') or loginController.isInRole('template') or loginController.isInRole('menu') or loginController.isInRole('resource')}">
+
+			<p:tab title="Gestione Pagine" style="width:200px; float:left;"
+				rendered="#{pageController.clear and loginController.isInRole('page')}">
+				<div style="height: 50px;">
+
+					<h:commandLink action="/private/page/list.jsf?faces-redirect=true"
+						value="lista delle pagine disponibili" />
+					<br />
+					<h:commandLink action="#{pageController.addPaginaStatica}"
+						value="aggiungi nuova statica" />
+					<br />
+					<h:commandLink action="#{pageController.addPaginaDinamica}"
+						value="aggiungi nuova dinamica" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Modelli" style="width:200px; float:left;"
+				rendered="#{pageController.clear and loginController.isInRole('template')}">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/template/list.jsf?faces-redirect=true"
+						value="lista modelli" />
+					<br />
+					<h:commandLink action="#{templateController.addElement}"
+						value="aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Menu" style="width: 200px; float: left;"
+				rendered="#{menuController.clear and loginController.isInRole('menu') }">
+				<div style="height: 50px;">
+					<h:commandLink action="/private/menu/list.jsf?faces-redirect=true"
+						value="lista menu" />
+					<br />
+					<h:commandLink action="#{menuController.addElement}"
+						value="aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Risorse (img, js, swf, css)"
+				rendered="#{resourceController.clear and loginController.isInRole('resource')}"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink action="#{resourceController.listPage}"
+						value="lista delle risorse" />
+					<br />
+					<h:commandLink action="#{resourceController.addElement}"
+						value="aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Lingue" style="width: 200px; float: left;"
+				rendered="#{languageController.clear and loginController.isInRole('i18n') }">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/language/list.jsf?faces-redirect=true"
+						value="definizioni lingue" />
+					<br />
+					<h:commandLink
+						action="/private/i18n/list.jsf?faces-redirect=true"
+						value="associazione pagine e lingue" />
+				</div>
+			</p:tab>
+
+		</p:tabView>
+	</p:panel>
+</ui:composition>

@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Files Statici" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="resource" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form enctype="multipart/form-data">
+			<h:selectOneMenu value="#{fileHandler.fileType}">
+				<f:selectItems value="#{fileTypeItems}" />
+			</h:selectOneMenu>
+
+			<p:commandButton action="#{fileHandler.caricaFiles}"
+				value="Visualizza Files" ajax="true" immediate="false"
+				update="filesList" />
+
+			<br />
+			<p:panel header="Lista Files" id="filesList">
+				<p:dataTable var="nomeFile" value="#{fileHandler.files}"
+					rows="#{operazioniLogController.pageSize}" paginator="true"
+					dynamic="true">
+					<p:column>
+						<f:facet name="header">nome</f:facet>
+						<h:outputText value="#{nomeFile}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">operazioni</f:facet>
+						<h:graphicImage value="/img/#{nomeFile}"
+							rendered="#{fileHandler.fileType == 1}"
+							width="#{fileHandler.proportionalWidth(nomeFile,50,50)}"
+							height="#{fileHandler.proportionalHeight(nomeFile,50,50)}" />
+						<h:outputLink value="/js/#{nomeFile}" target="_blank"
+							rendered="#{fileHandler.fileType == 3}">[v]</h:outputLink>
+						<h:outputLink value="/swf/#{nomeFile}" target="_blank"
+							rendered="#{fileHandler.fileType == 2}">[v]</h:outputLink>
+						<h:outputLink value="/css/#{nomeFile}" target="_blank"
+							rendered="#{fileHandler.fileType == 0}">[v]</h:outputLink>
+						<h:outputText value=" - " rendered="#{fileHandler.fileType == 0}" />
+						<h:commandLink action="#{fileHandler.modFile(nomeFile)}"
+							value="[m]" rendered="#{fileHandler.fileType == 0}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<br />
+			<br />
+			<h:commandLink action="#{fileHandler.caricaFile(1)}"
+				value="carica nuove immagini" /> - <h:commandLink
+				action="#{fileHandler.caricaFile(0)}" value="carica nuovi css" /> - <h:commandLink
+				action="#{fileHandler.caricaFile(2)}" value="carica nuovi js" />
+				 - <h:commandLink action="#{fileHandler.caricaFile(3)}"
+				value="carica nuovi swf" />
+		</h:form>
+	</ui:define>
+</ui:composition>

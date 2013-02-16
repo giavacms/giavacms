@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="content">
+		<h:form>
+
+			<h:panelGrid columns="2" style="width: 95%">
+				<h:outputLabel for="titolo" value="name:" />
+				<h:inputText id="titolo"
+					value="#{contatctUsRequestController.element.name}" required="true" />
+
+				<h:outputLabel for="email" value="email:" />
+				<h:inputText id="email"
+					value="#{contatctUsRequestController.element.email}"
+					required="true" />
+
+
+				<h:outputLabel for="message" value="message:" />
+				<h:inputTextarea id="message" cols="20" rows="20"
+					value="#{contatctUsRequestController.element.message}"
+					style=" height : 166px; width: 100%;" />
+
+				<br />
+				<h:commandButton action="#{contatctUsRequestController.save}"
+					value="Salva" immediate="false"
+					rendered="#{not contactUsController.editMode}" />
+
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

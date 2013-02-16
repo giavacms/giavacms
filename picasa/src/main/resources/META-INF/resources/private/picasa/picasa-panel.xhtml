@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel header="Picasa Module" toggleable="true" closable="true"
+		toggleSpeed="500" closeSpeed="2000"
+		rendered="#{loginController.isInRole('picasa')}">
+		<p:tabView>
+
+			<p:tab title="Gestione Picasa Collections"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/picasa/list.jsf?faces-redirect=true"
+						value="lista" />
+					<br />
+					<h:commandLink action="#{collectionController.addElement}"
+						value="Aggiungi nuova" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Configurazione"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink action="/private/picasa/configuration.jsf"
+						value="configurazione" />
+					<br />
+				</div>
+			</p:tab>
+
+		</p:tabView>
+	</p:panel>
+</ui:composition>

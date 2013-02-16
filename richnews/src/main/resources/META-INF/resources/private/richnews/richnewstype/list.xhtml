@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Tipi Notizie" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="richnews" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Tipi Notizie">
+					<h:panelGrid columns="3" rendered="false">
+						<h:outputLabel for="name" value="Nome:" />
+						<h:inputText id="nome"
+							value="#{richNewsTypeController.search.obj.name}" />
+						<p:commandButton
+							actionListener="#{richNewsTypeController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false" update="newsList" />
+					</h:panelGrid>
+
+					<br />
+
+					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
+						value="#{richNewsTypeController.model}"
+						rows="#{richNewsTypeController.pageSize}" paginator="true"
+						dynamic="true" editable="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">nome</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText required="true"
+										requiredMessage="E' obbligatorio specificare un nome per ogni tipologia"
+										value="#{t.name}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">operazioni</f:facet>
+							<p:rowEditor>
+							</p:rowEditor>
+							<p:commandButton type="submit" title="Elimina" rendered="true"
+								icon="ui-icon-trash"
+								action="#{richNewsTypeController.deleteInline}" ajax="false"
+								immediate="true"
+								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+						</p:column>
+						<p:ajax event="rowEdit"
+							listener="#{richNewsTypeController.onRowEdit}" />
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+
+				<h:panelGrid columns="4">
+					<h:outputLabel value="Tipo:" for="categoryId" />
+					<h:inputText value="#{richNewsTypeController.element.name}"
+						id="categoryId" />
+					<p:commandButton action="#{richNewsTypeController.save}"
+						value="Aggiungi" ajax="false" />
+				</h:panelGrid>
+
+
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

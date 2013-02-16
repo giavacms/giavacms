@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="title">
+		<h:outputText value="Lista Modelli" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="menu" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="central">
+			<center>
+				<p:panel header="Lista Menu">
+					<p:dataTable id="menusList" rowIndexVar="rowIndex" var="m"
+						value="#{menuController.model}" rows="#{menuController.pageSize}"
+						paginator="true" dynamic="true">
+						<p:column width="50">
+							<center>
+								<h:outputText value="#{rowIndex+1} " />
+							</center>
+						</p:column>
+						<p:column width="100">
+							<f:facet name="header">
+							nome
+						</f:facet>
+							<h:outputText value="#{m.name}" />
+						</p:column>
+						<p:column width="300">
+							<f:facet name="header">
+							percorso
+						</f:facet>
+							<h:outputText value="#{m.path}" />
+						</p:column>
+						<p:column width="50" rendered="true">
+							<f:facet name="header">
+							n. pagine
+						</f:facet>
+							<h:outputText value="#{m.activeListSize}" rendered="#{not m.dynamic}"/>
+							<h:outputText value="DINAMICO" rendered="#{m.dynamic}"/>
+						</p:column>
+						<p:column width="200">
+							<center>
+								<h:commandLink value="vedi"
+									action="#{menuController.viewElement}" />
+								-
+								<h:commandLink value="modifica"
+									action="#{menuController.modElement}" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="2">
+					<h:commandButton action="#{menuController.addElement}"
+						value="Aggiungi" />
+					<h:commandButton action="#{menuController.backPage}"
+						value="Indietro" rendered="false" />
+				</h:panelGrid>
+			</center>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

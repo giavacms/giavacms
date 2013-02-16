@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Scheda Instagram Collection" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="instagram" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Scheda Instagram Collection">
+
+					<h:panelGrid columns="2">
+						<h:outputLabel for="name" style="font-weight: bolder;"
+							value="Nome: " />
+						<h:outputText id="name"
+							value="#{collectionController.element.name}" />
+
+						<h:outputLabel for="preview" style="font-weight: bolder;"
+							value="Anteprima: " />
+						<h:outputText id="preview"
+							value="#{collectionController.element.preview}" />
+
+						<h:outputLabel for="description" style="font-weight: bolder;"
+							value="Descrizione: " />
+						<h:outputText id="description"
+							value="#{collectionController.element.description}"
+							escape="false" />
+					</h:panelGrid>
+					<br />
+
+					<h2>Foto</h2>
+					<ui:repeat var="photo"
+						value="#{collectionController.element.photos}">
+						<h:graphicImage value="#{photo.thumbnailUrl}"
+							width="#{photo.thumbnailWidth}" height="#{photo.thumbnailHeight}"
+							alt="#{photo.title}" title="#{photo.title}" style="padding: 5px;" />
+					</ui:repeat>
+
+				</p:panel>
+				<br /> <br />
+				<h:panelGrid columns="2">
+					<h:commandButton action="#{collectionController.modCurrent}"
+						value="Modifica" />
+					<h:commandButton id="addElement"
+						action="#{collectionController.addElement}" value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

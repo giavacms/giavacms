@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Categore Faq" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="faq" />
+	</ui:define>
+
+	<ui:define name="content">
+		<center>
+			<h:form>
+				<p:panel header="Gestione Categoria Faq">
+					<h:panelGrid columns="2" style="width: 95%">
+						<h:outputLabel for="name" value="Nome (*):" style="width: 100%;" />
+						<h:inputText id="name"
+							value="#{faqCategoryController.element.name}"
+							style="width: 100%;" />
+
+						<h:outputLabel for="orderNum" value="Indice:" style="width: 100%;" />
+						<h:panelGroup layout="block">
+							<p:inputText id="orderNum"
+								value="#{faqCategoryController.element.orderNum}" />
+							<p:slider for="orderNum" />
+						</h:panelGroup>
+
+						<h:outputLabel for="description" value="Descrizione:"
+							style="width: 100%;" />
+						<h:inputTextarea id="description" cols="20" rows="20"
+							value="#{faqCategoryController.element.description}"
+							style=" height : 166px; width: 100%;" />
+
+						<h:outputLabel value="Immagine:" for="image"
+							rendered="#{not empty faqCategoryController.element.image}" />
+						<h:graphicImage id="image"
+							value="/img/#{faqCategoryController.element.image.filename}"
+							alt="#{faqCategoryController.element.image.filename}"
+							title="#{faqCategoryController.element.image.filename}"
+							style="padding: 5px;"
+							rendered="#{not empty faqCategoryController.element.image}" />
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<h:panelGrid columns="4">
+
+					<h:commandButton action="#{faqCategoryController.save}"
+						value="Salva" immediate="false"
+						rendered="#{not faqCategoryController.editMode}" />
+
+					<h:commandButton action="#{faqCategoryController.update}"
+						value="Salva le modifiche" immediate="false"
+						rendered="#{faqCategoryController.editMode}" />
+
+					<h:commandButton action="#{faqCategoryController.delete}"
+						value="Elimina" rendered="#{faqCategoryController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+
+
+	</ui:define>
+</ui:composition>

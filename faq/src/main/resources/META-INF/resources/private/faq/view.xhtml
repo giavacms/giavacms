@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Scheda Faq" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="faq" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Scheda Prodotti">
+
+					<h:panelGrid columns="2">
+
+						<h:outputLabel for="category" style="font-weight: bolder;"
+							value="Categoria: " />
+						<h:outputText id="category"
+							value="#{faqController.element.faqCategory.name}" width="640px" />
+
+						<h:outputLabel for="data" style="font-weight: bolder;"
+							value="Data: " />
+						<h:outputText value="#{faqController.element.date}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="Europe/Rome" />
+						</h:outputText>
+
+						<h:outputLabel for="question" style="font-weight: bolder;"
+							value="Domanda: " />
+						<h:outputText id="question"
+							value="#{faqController.element.question}" />
+
+						<h:outputLabel for="answer" style="font-weight: bolder;"
+							value="Riposta: " />
+						<h:outputText id="answer" value="#{faqController.element.answer}"
+							escape="false" />
+					</h:panelGrid>
+
+				</p:panel>
+				<br /> <br />
+				<h:panelGrid columns="2">
+					<h:commandButton action="#{faqController.modCurrent}"
+						value="Modifica" />
+					<h:commandButton id="addElement"
+						action="#{faqController.addElement}" value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

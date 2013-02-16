@@ -1,0 +1,186 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+	<ui:define name="bundle">
+		<f:loadBundle basename="base" var="msg" />
+	</ui:define>
+	<ui:define name="title">
+		<h:outputText value="#{msg['template.module.view.title']}" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="template" />
+	</ui:define>
+	<ui:define name="styles">
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<center>
+				<p:panel header="#{msg['template.module.view.title']}">
+					<h:panelGrid columns="2" style="width: 50%">
+
+						<h:outputLabel value="#{msg['template.view.name']}"
+							for="nome" />
+						<h:outputText id="nome" value="#{templateController.element.name}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="#{msg['template.view.type']}" for="statico" />
+						<h:panelGroup id="statico">
+							<h:outputText value="#{msg['template.view.type.static']}"
+								rendered="#{templateController.element.statico}" />
+							<h:outputText value="#{msg['template.view.type.dynamic']}"
+								rendered="#{not templateController.element.statico}" />
+						</h:panelGroup>
+					</h:panelGrid>
+
+					<br />
+					<br />
+
+					<p:tabView>
+
+						<p:tab title="#{msg['template.view.header_title']}"
+							rendered="#{not empty templateController.element.header_start or not empty templateController.element.header_stop}">
+
+							<h:panelGroup>
+								<p:panel header="#{msg['template.view.open']}"
+									rendered="#{not empty templateController.element.header_start}"
+									toggleable="true" toggleSpeed="500" closeSpeed="500">
+									<p:inputTextarea readonly="true"
+										value="#{templateController.element.header_start}"
+										style="color: black; width: 100%; " escape="false" />
+								</p:panel>
+
+								<br />
+								<br />
+
+								<p:panel header="#{msg['template.view.close']}"
+									rendered="#{not empty templateController.element.header_start or not empty templateController.element.header_stop}"
+									toggleable="true" toggleSpeed="500" closeSpeed="500">
+									<p:inputTextarea readonly="true"
+										value="#{templateController.element.header_stop}"
+										style="color: black; width: 100%; " escape="false" />
+								</p:panel>
+							</h:panelGroup>
+						</p:tab>
+
+						<p:tab title="#{msg['template.view.col1_title']}"
+							rendered="#{not empty templateController.element.col1_start or not empty templateController.element.col1_stop}">
+
+							<h:panelGroup>
+								<p:panel header="#{msg['template.view.open']}"
+									rendered="#{not empty templateController.element.col1_start}"
+									toggleable="true" toggleSpeed="500" closeSpeed="500">
+									<p:inputTextarea readonly="true"
+										value="#{templateController.element.col1_start}"
+										style="color: black; width: 100%; " escape="false" />
+								</p:panel>
+
+								<br />
+								<br />
+
+								<p:panel header="#{msg['template.view.close']}"
+									rendered="#{not empty templateController.element.col1_start or not empty templateController.element.col1_stop}"
+									toggleable="true" toggleSpeed="500" closeSpeed="500">
+									<p:inputTextarea readonly="true"
+										value="#{templateController.element.col1_stop}"
+										style="color: black; width: 100%; " escape="false" />
+								</p:panel>
+							</h:panelGroup>
+						</p:tab>
+
+						<p:tab title="#{msg['template.view.col2_title']}"
+							rendered="#{not empty templateController.element.col2_start or not empty templateController.element.col2_stop}">
+
+							<p:panel header="#{msg['template.view.open']}"
+								rendered="#{not empty templateController.element.col2_start}"
+								toggleable="true" toggleSpeed="500" closeSpeed="500">
+								<p:inputTextarea readonly="true"
+									value="#{templateController.element.col2_start}"
+									style="color: black; width: 100%; " escape="false" />
+							</p:panel>
+
+							<br />
+							<br />
+
+							<p:panel header="#{msg['template.view.close']}"
+								rendered="#{not empty templateController.element.col2_start or not empty templateController.element.col2_stop}"
+								toggleable="true" toggleSpeed="500" closeSpeed="500">
+								<p:inputTextarea readonly="true"
+									value="#{templateController.element.col2_stop}"
+									style="color: black; width: 100%; " escape="false" />
+							</p:panel>
+						</p:tab>
+
+						<p:tab title="#{msg['template.view.col3_title']}"
+							rendered="#{not empty templateController.element.col3_start or not empty templateController.element.col3_stop}">
+
+							<p:panel header="#{msg['template.view.open']}"
+								rendered="#{not empty templateController.element.col3_start}"
+								toggleable="true" toggleSpeed="500" closeSpeed="500">
+								<p:inputTextarea readonly="true"
+									value="#{templateController.element.col3_start}"
+									style="color: black; width: 100%; " escape="false" />
+							</p:panel>
+
+							<br />
+							<br />
+
+							<p:panel header="#{msg['template.view.close']}"
+								rendered="#{not empty templateController.element.col3_start or not empty templateController.element.col3_stop}"
+								toggleable="true" toggleSpeed="500" closeSpeed="500">
+								<p:inputTextarea readonly="true"
+									value="#{templateController.element.col3_stop}"
+									style="color: black; width: 100%; " escape="false" />
+							</p:panel>
+						</p:tab>
+
+						<p:tab title="#{msg['template.view.footer_title']}"
+							rendered="#{not empty templateController.element.footer_start or not empty templateController.element.footer_stop}">
+
+							<p:panel header="#{msg['template.view.open']}"
+								rendered="#{not empty templateController.element.footer_start}"
+								toggleable="true" toggleSpeed="500" closeSpeed="500">
+								<p:inputTextarea readonly="true"
+									value="#{templateController.element.footer_start}"
+									style="color: black; width: 100%; " escape="false" />
+							</p:panel>
+
+							<br />
+							<br />
+
+							<p:panel header="#{msg['template.view.close']}"
+								rendered="#{not empty templateController.element.footer_start or not empty templateController.element.footer_stop}"
+								toggleable="true" toggleSpeed="500" closeSpeed="500">
+								<p:inputTextarea readonly="true"
+									value="#{templateController.element.footer_stop}"
+									style="color: black; width: 100%; " escape="false" />
+							</p:panel>
+						</p:tab>
+
+					</p:tabView>
+
+					<br />
+					<br />
+
+				</p:panel>
+
+				<br /> <br />
+
+				<h:panelGrid columns="2">
+
+					<h:commandButton action="#{templateController.modCurrent}"
+						value="#{msg['global.edit']}" immediate="false" />
+
+					<h:commandButton id="reset" action="#{templateController.reset}"
+						value="#{msg['global.reset']}" immediate="true" rendered="false" />
+
+				</h:panelGrid>
+			</center>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel header="ContactUs Module" toggleable="true" closable="true"
+		toggleSpeed="500" closeSpeed="2000"
+		rendered="#{loginController.isInRole('contactus')}">
+		<p:tabView>
+
+			<p:tab title="Gestione Contatti" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/contactus/list.jsf?faces-redirect=true"
+						value="lista contatti" />
+					<br />
+					<h:commandLink value="lista newsletteremail"
+						action="/private/contactus/newsletteremail/list.jsf" />
+					<br />
+				</div>
+			</p:tab>
+
+		</p:tabView>
+	</p:panel>
+</ui:composition>

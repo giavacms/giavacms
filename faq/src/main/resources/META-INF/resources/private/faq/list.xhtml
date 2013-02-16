@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Faq" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="faq" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Faq">
+					<h:panelGrid columns="7">
+						<h:outputLabel for="question" value="Domanda:" />
+						<h:inputText id="question"
+							value="#{faqController.search.obj.question}" />
+
+						<h:outputLabel for="answer" value="Risposta:" />
+						<h:inputText id="answer"
+							value="#{faqController.search.obj.answer}" />
+
+						<h:outputLabel for="tipo" value="Seleziona categoria:" />
+						<h:selectOneMenu id="tipo"
+							value="#{faqController.search.obj.faqCategory.id}">
+							<f:selectItems value="#{faqCategoryItems}" />
+						</h:selectOneMenu>
+						<h:commandButton action="#{faqController.reloadAjax}"
+							value="Cerca" />
+					</h:panelGrid>
+					<br />
+
+					<p:dataTable id="faqList" rowIndexVar="rowIndex" var="faq"
+						value="#{faqController.model}" rows="#{faqController.pageSize}"
+						paginator="true" dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">domanda</f:facet>
+							<h:outputText value="#{faq.question}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">riposta</f:facet>
+							<h:outputText value="#{faq.answer}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">categoria</f:facet>
+							<h:outputText value="#{faq.faqCategory.name}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">data</f:facet>
+							<h:outputText value="#{faq.date}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">operazioni</f:facet>
+							<gb:center>
+								<h:commandLink action="#{faqController.viewElement}"
+									value="vedi" />
+								-
+								<h:commandLink action="#{faqController.modElement}"
+									value="modifica" />
+							</gb:center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="1">
+					<h:commandButton id="add" action="#{faqController.addElement}"
+						value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

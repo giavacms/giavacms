@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Company" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="company" />
+	</ui:define>
+
+	<ui:define name="content">
+		<center>
+			<h:form enctype="multipart/form-data">
+				<p:panel header="Gestione Company">
+					<h:panelGrid columns="2" style="width: 95%">
+						<h:outputLabel for="name" value="Nome (*):" style="width: 100%;" />
+						<h:outputText id="name" value="#{companyController.element.name}"
+							style="width: 100%;" />
+
+						<h:outputLabel for="address" value="Indirizzo (*):"
+							style="width: 100%;" />
+						<h:outputText id="address"
+							value="#{companyController.element.address}" style="width: 100%;" />
+
+						<h:outputLabel for="city" value="Citta' (*):" style="width: 100%;" />
+						<h:outputText id="city" value="#{companyController.element.city}"
+							style="width: 100%;" />
+
+						<h:outputLabel for="province" value="Provincia (*):"
+							style="width: 100%;" />
+						<h:outputText id="province"
+							value="#{companyController.element.province}"
+							style="width: 100%;" />
+
+						<h:outputLabel for="cap" value="Cap (*):" style="width: 100%;" />
+						<h:outputText id="cap" value="#{companyController.element.cap}"
+							style="width: 100%;" />
+
+						<h:outputLabel for="telephone" value="Telefono:"
+							style="width: 100%;" />
+						<h:outputText id="telephone"
+							value="#{companyController.element.telephone}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="Immagine:" for="image"
+							rendered="#{not empty companyController.element.image}" />
+						<h:graphicImage id="image"
+							value="/img/#{companyController.element.image.filename}"
+							alt="#{companyController.element.image.filename}"
+							title="#{companyController.element.image.filename}"
+							style="padding: 5px;"
+							rendered="#{not empty companyController.element.image}" />
+						<h:outputLabel value="Carica la nuova immagine:" for="fileUpload1" />
+						<p:fileUpload mode="simple" id="fileUpload1"
+							value="#{companyController.element.newImage.uploadedData}" />
+
+						<h:outputLabel value="Logo:" for="logo"
+							rendered="#{not empty companyController.element.logo}" />
+						<h:graphicImage id="logo"
+							value="/img/#{companyController.element.logo.filename}"
+							alt="#{companyController.element.logo.filename}"
+							title="#{companyController.element.logo.filename}"
+							style="padding: 5px;"
+							rendered="#{not empty companyController.element.logo}" />
+						<h:outputLabel value="Carica il nuovo logo:" for="fileUpload2" />
+						<p:fileUpload mode="simple" id="fileUpload2"
+							value="#{companyController.element.newLogo.uploadedData}" />
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<h:panelGrid columns="4">
+
+					<h:commandButton action="#{companyController.save}" value="Salva"
+						immediate="false" rendered="#{not companyController.editMode}" />
+
+					<h:commandButton action="#{companyController.update}"
+						value="Salva le modifiche" immediate="false"
+						rendered="#{companyController.editMode}" />
+
+					<h:commandButton action="#{companyController.deleteImg}"
+						value="Elimina immagine" rendered="#{companyController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Vuoi davvero eliminare l\' immagine ?')) return false" />
+
+					<h:commandButton action="#{companyController.deleteLogo}"
+						value="Elimina logo" rendered="#{companyController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Vuoi davvero eliminare il logo ?')) return false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:submenu label="Exhibition" icon="ui-icon-document"
+		rendered="#{loginController.isInRole('exhibition')}">
+		<p:menuitem value="esposizioni " url="/private/exhibition/list.jsf" />
+		<p:menuitem value="partecipanti"
+			url="/private/exhibition/participant/list.jsf" />
+		<p:menuitem value="pubblicazioni"
+			url="/private/exhibition/publication/list.jsf" />
+		<p:menuitem value="discipline"
+			url="/private/exhibition/discipline/list.jsf" />
+		<p:menuitem value="artisti" url="/private/exhibition/artist/list.jsf" />
+		<p:menuitem value="istituti"
+			url="/private/exhibition/institute/list.jsf" />
+		<p:menuitem value="musei" url="/private/exhibition/museum/list.jsf" />
+		<p:menuitem value="testimonial"
+			url="/private/exhibition/testimonial/list.jsf" />
+		<p:menuitem value="sponsor" url="/private/exhibition/sponsor/list.jsf" />
+	</p:submenu>
+
+</ui:composition>

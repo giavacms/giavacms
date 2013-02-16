@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:submenu label="Instagram" icon="ui-icon-document"
+		rendered="#{loginController.isInRole('instagram')}">
+		<p:menuitem value="collections" url="/private/instagram/list.jsf" />
+		<p:menuitem value="configurazione"
+			url="/private/instagram/configuration.jsf" />
+	</p:submenu>
+
+</ui:composition>

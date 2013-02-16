@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel header="Exhibition Module" toggleable="true" closable="true"
+		toggleSpeed="500" closeSpeed="2000"
+		rendered="#{loginController.isInRole('exhibition')}">
+		<p:tabView>
+			<p:tab title="Gestione Esposizioni"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/list.jsf?faces-redirect=true"
+						value="lista esposizioni" />
+					<br />
+					<h:commandLink action="#{exhibitionController.addElement}"
+						value="Aggiungi nuova" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Pubblicazioni"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/publication/list.jsf?faces-redirect=true"
+						value="lista pubblicazioni" />
+					<br />
+					<h:commandLink action="#{publicationController.addElement}"
+						value="Aggiungi nuova" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Discipline" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/discipline/list.jsf?faces-redirect=true"
+						value="lista discipline" />
+					<br />
+					<h:commandLink action="#{disciplineController.addElement}"
+						value="Aggiungi nuova" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Partecipanti"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/participant/list.jsf?faces-redirect=true"
+						value="lista partecipanti" />
+					<br />
+					<h:commandLink action="#{participantController.addElement}"
+						value="Aggiungi nuova" />
+				</div>
+			</p:tab>
+			<p:tab title="Gestione Artisti" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/artist/list.jsf?faces-redirect=true"
+						value="lista artisti" />
+					<br />
+					<h:commandLink action="#{artistController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+			<p:tab title="Gestione Istituti" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/institute/list.jsf?faces-redirect=true"
+						value="lista istituti" />
+					<br />
+					<h:commandLink action="#{instituteController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+			<p:tab title="Gestione Musei" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/museum/list.jsf?faces-redirect=true"
+						value="lista musei" />
+					<br />
+					<h:commandLink action="#{museumController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Testimonial"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/testimonial/list.jsf?faces-redirect=true"
+						value="lista testimonial" />
+					<br />
+					<h:commandLink action="#{testimonialController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Sponsor" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/sponsor/list.jsf?faces-redirect=true"
+						value="lista sponsor" />
+					<br />
+					<h:commandLink action="#{sponsorController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+		</p:tabView>
+	</p:panel>
+</ui:composition>

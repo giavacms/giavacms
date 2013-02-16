@@ -1,0 +1,271 @@
+http://javaskeleton.blogspot.com/2010/07/paypal-instant-payment-notification-ipn.html
+
+
+
+PayPal Instant Payment Notification (IPN) Servlet with HttpClient 4
+Instant Payment Notification (IPN) is PayPal's message service that sends a notification when a transaction is affected. Basically it's a url that gets called by PayPal once a transaction has been successfully completed. This allows your code to do something (send a mail, write to a log...) once the user has made a purchase to PayPal. See https://www.paypal.com/ipn for more information.
+
+Here's how it works: once the user has completed his transaction, PayPal will call this URL for you. A number of parameters (including transaction id, amount, currency...) are passed. What you have to do is create a new HTTP POST request to PayPal with the exact same parameters that PayPal passed to you. If the request originated from the PayPal servers, PayPal will reply with "VERIFIED", else it will send "INVALID". This mechanism is put into place to prevent anyone else than PayPal itself calling your IPN URL and faking a transaction. See https://www.paypal.com/us/cgi-bin/webscr?cmd=p/acc/ipn-info-outside for more information.
+
+There are different ways this can be implemented. PayPal has some java samples available for download (https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/library_download_sdks). In these samples, they implement the IPN as a JSP page. Not only is this ugly (they put plain java code in JSP's), it's also inefficient: there is no output for the user (since this IPN isn't called by a browser), so there is no page to show. It's much better to implement this as a servlet. I used the latest HttpClient (4.0.1 at the time of this writing, http://hc.apache.org/httpcomponents-client/index.html) to implement the callback to PayPal.
+
+Here's the code:
+
+public class PaypalListenerServlet extends HttpServlet {
+ 
+protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+HttpClient client = new DefaultHttpClient();
+HttpPost post = new HttpPost(Constants.PAYPAL_URL);
+List<NameValuePair> params = new ArrayList<NameValuePair>();
+params.add(new BasicNameValuePair("cmd", "_notify-validate")); //You need to add this parameter to tell PayPal to verify
+for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+String name = e.nextElement();
+String value = request.getParameter(name);
+params.add(new BasicNameValuePair(name, value));
+}
+post.setEntity(new UrlEncodedFormEntity(params));
+String rc = getRC(client.execute(post)).trim();
+if ("VERIFIED".equals(rc)) {
+//Your business code comes here
+}
+}
+ 
+private String getRC(HttpResponse response) throws IOException, IllegalStateException {
+InputStream is = response.getEntity().getContent();
+BufferedReader br = new BufferedReader(new InputStreamReader(is));
+String result = "";
+String line = null;
+while ((line = br.readLine()) != null) {
+result += line;
+}
+return result;
+}
+ 
+}
+
+I create a new HttpClient for each request. Do NOT use a single HttpClient per servlet: although HttpClient IS thread-safe, it only uses one thread, meaning it can only process one request at a time. If you're worried about the overhead of creating a new HttpClient for each request (I wouldn't be) you can still consider binding one in the session context.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Setting the notifyURL for the PayPal IPN
+In the previous post we saw how to implement a PayPal IPN listener. This is a quick post to show you how to set this listener using PayPal Website Payments Standard.
+
+First you create your "Buy Now" (or "Add to Cart", "Subscribe"...) button. You can do this at https://www.paypal.com/cgi-bin/webscr?cmd=_wp-standard-overview-outside. This wizard creates a form with a couple of hidden parameters. It doesn't set the notify url however, which is the url PayPal IPN needs to call to notify you the user made a purchase. You can add this url to the form as follows:
+
+?
+1
+<input type="hidden" name="notify_url" value="<h:outputText value="#{paypalBean.notifyURL}"/>" />
+
+This sample uses JSF to create the URL, but you can use any tag here (or use a hardcoded URL).
+
+Here is the code that generates the URL:
+
+?
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+public String getNotifyURL() {
+HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+String nUrl = getPath("PaypalListenerServlet");
+return response.encodeURL(nUrl);
+}
+ 
+public final static String getPath(String path) {
+HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+StringBuffer url = new StringBuffer();
+String s = request.getProtocol();
+url.append(s.substring(0, s.indexOf('/')).toLowerCase());
+url.append("://");
+url.append(request.getServerName());
+url.append(":");
+url.append(request.getServerPort());
+url.append(request.getContextPath());
+if (path.charAt(0) != '/') {
+url.append("/");
+}
+url.append(path);
+return url.toString();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Switching between PayPal live and test environments
+When you want to go live with your PayPal web application, you will have to modify your PayPal code to use the live PayPal sever (paypal.com) instead of the test server you've probably been using (sandbox.paypal.com). This is an easy task and doesn't take much time, but what if you want to still continue to use the PayPal test environment on your test server, while using the live PayPal environment on your production server?
+
+I'm going to explain one approach to solving this problem here. The example I'm giving uses JSF and Facelets, but it can easily be adapted to any framework.
+
+The first thing you'll need to do is add an entry to your web.xml and add the following entry:
+?
+1
+2
+3
+4
+<context-param>
+<param-name>APPLICATION.MODE</param-name>
+<param-value>$APPLICATION.MODE.VALUE$</param-value>
+</context-param>
+What this does is define an initialization parameter on the servlet context, which determines the environment we're in. The "param-value" will be "production" on your production machine, or anything else on your test machine.
+
+The next step is to define a listener on the web application. This listener will take the initialization parameter we just defined and bind it in the application (=servlet) context, so it can be accessed in the entire web application. You'll need to edit your web.xml file again and add the following entry:
+?
+1
+2
+3
+<listener>
+<listener-class>com.myorg.MyListener</listener-class>
+</listener>
+The code for the listener is as follows:
+?
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+public class MyListener implements ServletContextListener {
+ 
+@Override
+public void contextDestroyed(ServletContextEvent arg0) {
+}
+ 
+@Override
+public void contextInitialized(ServletContextEvent event) {
+String mode = event.getServletContext().getInitParameter("APPLICATION.MODE");
+event.getServletContext().setAttribute("APPLICATION.MODE", mode);
+}
+ 
+}
+As you can see, this class just takes the initialization parameter you defined and adds it as an attribute to the servlet context.
+
+The next step is framework-specific. I'm using JSF with facelets, so I defined a facelet for a "buy now" PayPal button. The facelet is called "paypalButton.xhtml", and this is how it looks:
+?
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:c="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+<h:panelGroup
+rendered="#{applicationScope['APPLICATION.MODE'] == 'production'}">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post"><input
+type="hidden" name="cmd" value="_s-xclick" /> <input type="hidden"
+name="hosted_button_id" value="#{prodButtonId}" /> <input type="image"
+src="https://www.paypalobjects.com/WEBSCR-640-20110429-1/en_US/i/btn/btn_buynowCC_LG.gif"
+border="0" name="submit"
+alt="PayPal - The safer, easier way to pay online!" /> <img alt=""
+border="0"
+src="https://www.paypalobjects.com/WEBSCR-640-20110429-1/en_US/i/scr/pixel.gif"
+width="1" height="1" /></form>
+</h:panelGroup>
+<h:panelGroup
+rendered="#{applicationScope['APPLICATION.MODE'] != 'production'}">
+<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"
+method="post"><input type="hidden" name="cmd"
+value="_s-xclick" /> <input type="hidden" name="hosted_button_id"
+value="#{testButtonId}" /><input type="image"
+src="https://www.sandbox.paypal.com/WEBSCR-640-20110401-1/en_US/i/btn/btn_buynowCC_LG.gif"
+border="0" name="submit"
+alt="PayPal - The safer, easier way to pay online!" /> <img alt=""
+border="0"
+src="https://www.sandbox.paypal.com/WEBSCR-640-20110401-1/en_US/i/scr/pixel.gif"
+width="1" height="1" /></form>
+</h:panelGroup>
+</ui:composition>
+</html>
+As you can see, this facelet renders a live "buy now" button if the APPLICATION.MODE equals "production" or a sandbox "buy now" button otherwise. You can then call this facelet as follows (from another facelet):
+?
+1
+2
+3
+4
+<ui:include src="/paypalButton.xhtml">
+<ui:param name="prodButtonId" value="XXX" />
+<ui:param name="testButtonId" value="YYY" />
+</ui:include>
+In my case I'm using buttons that are stored with PayPal, so the only parameter I need is the button id. If you're creating your own buttons, you can easily define different parameters for the facelet.
+
+After performing these steps, you have a system renders a live or sandbox button based on the value of the APPLICATION.MODE parameter that you defined in your web.xml. To prevent having to modify this parameter by hand, you can have your build system fill it out. What I did was create 2 ant files: buildTest.xml and buildProd.xml. buildTest sets this parameter to "test", while buildProd sets it to "production". This way all I have to do is execute the correct ant file and I have the correct PayPal buttons for my environment!

@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Scheda Realizzazione" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="scenario" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Scheda Realizzazione">
+
+					<h:panelGrid columns="2">
+						<h:outputLabel for="name" style="font-weight: bolder;"
+							value="Nome: " />
+						<h:outputText id="name" value="#{scenarioController.element.name}" />
+
+						<h:outputLabel for="preview" style="font-weight: bolder;"
+							value="Anteprima: " />
+						<h:outputText id="preview"
+							value="#{scenarioController.element.preview}" />
+
+						<h:outputLabel for="description" style="font-weight: bolder;"
+							value="Descrizione: " />
+						<h:outputText id="description"
+							value="#{scenarioController.element.description}" escape="false" />
+					</h:panelGrid>
+
+					<br />
+					<h2>Prodotti</h2>
+
+					<br />
+					<p:dataTable var="product" rowIndexVar="rowIndex"
+						value="#{scenarioController.element.products}" paginator="true"
+						dynamic="true">
+						<p:column>
+							<f:facet name="header">num</f:facet>
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">nome</f:facet>
+							<h:outputText value="#{product.name}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">categoria</f:facet>
+							<h:outputText value="#{product.category.name}" />
+						</p:column>
+					</p:dataTable>
+					<br />
+
+					<f:verbatim rendered="false">
+						<br />
+						<h2>Documenti</h2>
+					</f:verbatim>
+
+					<p:dataTable var="doc" rowIndexVar="rowIndex" rendered="false"
+						value="#{scenarioController.element.documents}">
+						<p:column>
+							<f:facet name="header">num</f:facet>
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">scarica documento</f:facet>
+							<h:outputLink value="/docs/#{doc.filename}" target="_blank">
+								<h:outputText value="#{doc.filename}" />
+							</h:outputLink>
+						</p:column>
+					</p:dataTable>
+					<br />
+
+					<h2>Immagini</h2>
+
+					<p:lightBox>
+						<ui:repeat var="var" value="#{scenarioController.element.images}">
+							<h:outputLink value="#{request.contextPath}/img/#{var.filename}"
+								title="#{var.filename}">
+
+								<h:graphicImage value="/img/#{var.filename}"
+									width="#{g:imageWidthProportionalUrl('img/'.concat(r.filename),100,100)}"
+									height="#{g:imageHeightProportionalUrl('img/'.concat(r.filename), 100, 100)}"
+									alt="#{var.filename}" title="#{var.filename}"
+									style="padding: 5px;" />
+							</h:outputLink>
+						</ui:repeat>
+					</p:lightBox>
+
+				</p:panel>
+				<br /> <br />
+				<h:panelGrid columns="2">
+					<h:commandButton action="#{scenarioController.modCurrent}"
+						value="Modifica" />
+					<h:commandButton id="creaNotizia"
+						action="#{scenarioController.addElement}" value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

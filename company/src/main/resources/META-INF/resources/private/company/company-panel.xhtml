@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel header="Company Module" toggleable="true" closable="true"
+		toggleSpeed="500" closeSpeed="2000"
+		rendered="#{loginController.isInRole('company')}">
+		<p:tabView>
+
+			<p:tab title="Gestione Company" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/company/view.jsf?faces-redirect=true"
+						value="lista company" />
+				</div>
+			</p:tab>
+		</p:tabView>
+	</p:panel>
+</ui:composition>

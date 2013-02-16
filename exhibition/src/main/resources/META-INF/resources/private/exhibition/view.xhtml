@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:g="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Scheda Esposizione" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="exhibition" />
+	</ui:define>
+
+	<ui:define name="content">
+		<center>
+			<p:panel header="Scheda Esposizione">
+				<h:panelGrid columns="2" style="width: 95%">
+
+					<h:outputLabel for="id" value="Id:" style="width: 100%;" />
+					<h:outputText id="id" value="#{exhibitionController.element.id}"
+						style="width: 100%;" />
+					<h:outputLabel for="name" value="Nome:" style="width: 100%;" />
+					<h:outputText id="name"
+						value="#{exhibitionController.element.name}" style="width: 100%;" />
+					<h:outputLabel for="preview" value="Anteprima:"
+						style="width: 100%;" />
+					<h:outputText id="preview"
+						value="#{exhibitionController.element.preview}"
+						style="width: 100%;" />
+
+					<h:outputLabel for="description" value="Descrizione:"
+						style="width: 100%;" />
+					<h:outputText id="description"
+						value="#{exhibitionController.element.description}"
+						style="width: 100%;" />
+
+					<h:outputLabel for="year" value="Anno:" style="width: 100%;" />
+					<h:outputText id="year"
+						value="#{exhibitionController.element.year}" style="width: 100%;" />
+
+					<h:outputLabel value="Immagine:" for="image"
+						rendered="#{not empty exhibitionController.element.image and not empty exhibitionController.element.image.filename}" />
+					<h:graphicImage id="image"
+						value="/img/#{exhibitionController.element.image.filename}"
+						alt="#{exhibitionController.element.image.filename}"
+						title="#{exhibitionController.element.image.filename}"
+						style="padding: 5px;"
+						rendered="#{not empty exhibitionController.element.image and not empty exhibitionController.element.image.filename}" />
+
+					<h:outputLabel for="catalogue" value="Catalogo:"
+						style="width: 100%;" />
+					<h:outputText id="catalogue"
+						value="#{exhibitionController.element.catalogue}"
+						style="width: 100%;" />
+
+					<h:outputLabel value="Immagine Catalogo:" for="catalogueImage"
+						rendered="#{not empty exhibitionController.element.catalogueImage and not empty exhibitionController.element.catalogueImage.filename}" />
+					<h:graphicImage id="catalogueImage"
+						value="/img/#{exhibitionController.element.catalogueImage.filename}"
+						alt="#{exhibitionController.element.catalogueImage.filename}"
+						title="#{exhibitionController.element.catalogueImage.filename}"
+						style="padding: 5px;"
+						rendered="#{not empty exhibitionController.element.catalogueImage and not empty exhibitionController.element.catalogueImage.filename}" />
+
+
+					<h:outputLabel for="website" value="Sito Web:" style="width: 100%;" />
+					<h:outputText id="website"
+						value="#{exhibitionController.element.website}"
+						style="width: 100%;" />
+
+					<h:outputLabel for="date" value="Data:" style="width: 100%;" />
+					<h:outputText id="date"
+						value="#{exhibitionController.element.date}" style="width: 100%;" />
+
+					<h:outputLabel for="externalImage" value="Immagine esterna:"
+						style="width: 100%;" />
+					<h:outputText id="externalImage"
+						value="#{exhibitionController.element.externalImage}"
+						style="width: 100%;" />
+
+					<h:outputLabel for="externalCatalogueImage"
+						value="Immagine Catalogo esterna:" style="width: 100%;" />
+					<h:outputText id="externalCatalogueImage"
+						value="#{exhibitionController.element.externalCatalogueImage}"
+						style="width: 100%;" />
+
+				</h:panelGrid>
+				<br />
+			</p:panel>
+			<br /> <br />
+			<h:panelGrid columns="3">
+				<h:form>
+					<h:commandButton action="#{exhibitionController.modCurrent}"
+						value="Modifica Testi" />
+					<h:commandButton action="#{exhibitionController.modImageCurrent}"
+						value="Modifica Immagine" />
+					<h:commandButton id="addElement"
+						action="#{exhibitionController.addElement}" value="Aggiungi" />
+				</h:form>
+			</h:panelGrid>
+		</center>
+
+	</ui:define>
+</ui:composition>

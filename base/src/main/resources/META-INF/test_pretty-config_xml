@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0 http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
+
+	<url-mapping id="indice">
+		<pattern>
+			/index
+		</pattern>
+		<view-id>/index.jsf </view-id>
+	</url-mapping>
+	<url-mapping id="recupero">
+		<pattern>
+			/recupero
+		</pattern>
+		<view-id>/recupero.jsf </view-id>
+	</url-mapping>
+
+	<!-- <url-mapping id="dbPage"> <pattern>/dbPage</pattern> <view-id>/dbPage.jsf 
+		</view-id> </url-mapping> <url-mapping id="pagine"> <pattern>/pagine/*/#{dbPageHandler.page.id}</pattern> 
+		<query-param name="pageId">#{dbPageHandler.page.id}</query-param> <view-id>/page.jsf 
+		</view-id> </url-mapping> <url-mapping id="dynamicUrl"> <pattern> /pagine/.* 
+		</pattern> <view-id> #{urlParsingBean.parseComplexUrl} </view-id> </url-mapping> 
+		<pattern value="/pagine/#{urlParsingBean.idPage}/.*" /> -->
+
+	<url-mapping id="dynamicUrl1">
+		<!-- <pattern value="/p/#{urlParsingBean.idPage}" /> -->
+		<pattern value="/p/#{pageRequestController.element.id}" />
+		<view-id value="#{pageRequestController.go}" />
+		<!-- <action>#{urlParsingBean.parseComplexUrl}</action> -->
+	</url-mapping>
+
+	<url-mapping id="dynamicUrl2">
+		<!-- <pattern value="/p/.*/#{urlParsingBean.idPage}" /> -->
+		<pattern value="/p/.*/#{pageRequestController.element.id}" />
+		<view-id value="#{pageRequestController.go}" />
+		<!-- <action>#{urlParsingBean.parseComplexUrl}</action> -->
+	</url-mapping>
+
+	<url-mapping id="dynamicUrl3">
+		<!-- <pattern value="/p/#{urlParsingBean.idPage}" /> -->
+		<pattern value="/d/#{pageController.element.id}" />
+		<view-id value="/pageD.jsf" />
+		<!-- <action>#{urlParsingBean.parseComplexUrl}</action> -->
+	</url-mapping>
+
+	<url-mapping id="dynamicUrl4">
+		<!-- <pattern value="/p/.*/#{urlParsingBean.idPage}" /> -->
+		<pattern value="/d/.*/#{pageController.element.id}" />
+		<view-id value="/pageD.jsf" />
+		<!-- <action>#{urlParsingBean.parseComplexUrl}</action> -->
+	</url-mapping>
+
+</pretty-config>
