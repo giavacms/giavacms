@@ -1,4 +1,4 @@
-package by.giava.giavacms.errors.filter;
+package org.giavacms.errors.filter;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,13 +11,20 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import by.giava.common.util.BeanUtils;
-import by.giava.giavacms.errors.model.Errors;
-import by.giava.giavacms.errors.producer.ErrorsProducer;
+import org.giavacms.common.util.BeanUtils;
+import org.giavacms.errors.model.Errors;
+import org.giavacms.errors.producer.ErrorsProducer;
 
+import com.ocpsoft.pretty.faces.servlet.PrettyFacesWrappedResponse;
+
+/**
+ * Still does not work
+ * @author pisi79
+ *
+ */
 public class ErrorsFilter implements Filter {
 
-	List<by.giava.giavacms.errors.model.Errors> errors = null;
+	List<org.giavacms.errors.model.Errors> errors = null;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -36,33 +43,50 @@ public class ErrorsFilter implements Filter {
 		// through the chain due to a client request.
 		try {
 			chain.doFilter(request, httpResp);
+			int status = 200;
 			// use getStatus to check for 404 after the fact
-			if (httpResp.getStatus() != 200) {
+			if (httpResp instanceof PrettyFacesWrappedResponse) {
+				status = ((HttpServletResponse) ((PrettyFacesWrappedResponse) httpResp)
+						.getResponse()).getStatus();
+			} else {
+				status = httpResp.getStatus();
+			}
+			if (status != 200) {
 				for (Errors error : errors) {
 					if (error.getHttpCode() == httpResp.getStatus()) {
-						try {
-							httpResp.sendRedirect(error.getPage());
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO REDIRECT
+						// CAN BE APPLIED TO
+						httpResp.sendRedirect(error.getPage());
+						// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO FORWARD
+						// CAN BE APPLIED TO
+						request.getRequestDispatcher("/" + error.getPage())
+								.forward(request, response);
 						break;
 					}
 				}
 			}
+
 		} catch (Throwable t) {
+			// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO REDIRECT CAN BE
+			// APPLIED TO
 			for (Errors error : errors) {
 				try {
 					@SuppressWarnings("rawtypes")
 					Class throwable = Class.forName(error.getExceptionClass());
 					if (t.getClass().isAssignableFrom(throwable)) {
+						// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO REDIRECT
+						// CAN BE APPLIED TO
 						httpResp.sendRedirect(error.getPage());
+						// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO FORWARD
+						// CAN BE APPLIED TO
+						request.getRequestDispatcher("/" + error.getPage())
+								.forward(request, response);
 					}
-				} catch (IOException e) {
+					break;
+				} catch (Exception e) {
 					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
+					break;
 				}
-				break;
 			}
 		}
 	}

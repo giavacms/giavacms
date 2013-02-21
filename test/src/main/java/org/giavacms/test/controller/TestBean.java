@@ -1,4 +1,4 @@
-package by.giava.giavacms.test.controller;
+package org.giavacms.test.controller;
 
 import java.io.Serializable;
 

@@ -1,18 +1,18 @@
-package by.giava.giavacms.errors.controller;
+package org.giavacms.errors.controller;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import by.giava.common.annotation.BackPage;
-import by.giava.common.annotation.EditPage;
-import by.giava.common.annotation.ListPage;
-import by.giava.common.annotation.OwnRepository;
-import by.giava.common.annotation.ViewPage;
-import by.giava.common.controller.AbstractController;
-import by.giava.giavacms.errors.model.type.KnownErrors;
-import by.giava.giavacms.errors.repository.ErrorsRepository;
+import org.giavacms.common.annotation.BackPage;
+import org.giavacms.common.annotation.EditPage;
+import org.giavacms.common.annotation.ListPage;
+import org.giavacms.common.annotation.OwnRepository;
+import org.giavacms.common.annotation.ViewPage;
+import org.giavacms.common.controller.AbstractController;
+import org.giavacms.errors.model.type.KnownErrors;
+import org.giavacms.errors.repository.ErrorsRepository;
 
 @Named
 @SessionScoped

@@ -1,4 +1,4 @@
-package by.giava.giavacms.errors.module;
+package org.giavacms.errors.module;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +8,8 @@ import java.util.Properties;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.giavacms.common.module.ModuleProvider;
 import org.jboss.logging.Logger;
-
-import by.giava.common.module.ModuleProvider;
 
 @ApplicationScoped
 public class ErrorsModule implements ModuleProvider {

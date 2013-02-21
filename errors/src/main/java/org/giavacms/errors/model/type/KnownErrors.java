@@ -1,4 +1,4 @@
-package by.giava.giavacms.errors.model.type;
+package org.giavacms.errors.model.type;
 
 public enum KnownErrors {
 

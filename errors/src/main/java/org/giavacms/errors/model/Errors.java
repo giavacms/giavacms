@@ -1,4 +1,4 @@
-package by.giava.giavacms.errors.model;
+package org.giavacms.errors.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 @Entity
 public class Errors {
 
-	String id;
+	Long id;
 	int httpCode;
 	String exceptionClass;
 	String meaning;
@@ -19,11 +19,11 @@ public class Errors {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

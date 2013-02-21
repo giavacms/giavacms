@@ -1,4 +1,4 @@
-package by.giava.giavacms.errors.repository;
+package org.giavacms.errors.repository;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,9 +11,9 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import by.giava.common.repository.AbstractRepository;
-import by.giava.giavacms.base.common.util.FileUtils;
-import by.giava.giavacms.errors.model.type.KnownErrors;
+import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.common.repository.AbstractRepository;
+import org.giavacms.errors.model.type.KnownErrors;
 
 @Named
 @Stateless

@@ -1,4 +1,4 @@
-package by.giava.giavacms.errors.producer;
+package org.giavacms.errors.producer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.errors.model.Errors;
+import org.giavacms.errors.repository.ErrorsRepository;
 import org.jboss.logging.Logger;
 
-import by.giava.giavacms.errors.model.Errors;
-import by.giava.giavacms.errors.repository.ErrorsRepository;
 
 @Singleton
 public class ErrorsProducer implements Serializable {
