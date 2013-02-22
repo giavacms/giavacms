@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.giavacms.common.util.BeanUtils;
+import org.giavacms.common.util.FileUtils;
 import org.giavacms.errors.model.Errors;
 import org.giavacms.errors.producer.ErrorsProducer;
 
@@ -19,8 +20,9 @@ import com.ocpsoft.pretty.faces.servlet.PrettyFacesWrappedResponse;
 
 /**
  * Still does not work
+ * 
  * @author pisi79
- *
+ * 
  */
 public class ErrorsFilter implements Filter {
 
@@ -56,11 +58,15 @@ public class ErrorsFilter implements Filter {
 					if (error.getHttpCode() == httpResp.getStatus()) {
 						// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO REDIRECT
 						// CAN BE APPLIED TO
-						httpResp.sendRedirect(error.getPage());
+						// httpResp.sendRedirect(error.getPage());
 						// ILLEGAL STATE. RESPONSE IS COMMITTED AND NO FORWARD
 						// CAN BE APPLIED TO
-						request.getRequestDispatcher("/" + error.getPage())
-								.forward(request, response);
+						// request.getRequestDispatcher("/" +
+						// error.getPage()).forward(request, response);
+						FileUtils.writeBytesToOutputStream(
+								response.getOutputStream(),
+								"<html><body>Non trovato!!!</body></html>"
+										.getBytes());
 						break;
 					}
 				}

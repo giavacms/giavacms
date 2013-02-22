@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Dettagli File di Regole" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:panelGrid columns="2">
+
+			<h:outputLabel value="Identificativo:" for="id" />
+			<h:outputText id="id" value="#{ruleController.element.id}" />
+			
+			<h:outputLabel value="Nome:" for="name" />
+			<h:outputText id="name" value="#{ruleController.element.name}" />
+
+			<h:outputLabel value="Tipologia:" for="type" />
+			<h:outputText id="type"
+				value="#{ruleController.element.type.name}" />
+
+			<h:outputLabel value="File:" for="file" />
+			<h:outputText value="#{ruleController.element.path}"
+				id="file" />
+
+			<h:outputLabel value="Attiva:" for="attivo" />
+			<h:panelGroup id="attivo">
+				<h:outputText value="SI"
+					rendered="#{ruleController.element.attivo}" />
+				<h:outputText value="NO"
+					rendered="#{not ruleController.element.attivo}" />
+			</h:panelGroup>
+
+			<h:outputLabel value="Contenuto:"
+				for="body" />
+			<p:panel id="body" style="width: 100%;">
+				<pre>
+				<h:outputText style="font-family: Arial;"
+						value="#{ruleController.element.body}" />
+					</pre>
+			</p:panel>
+
+			<h:outputLabel value="Creata il:" for="dateCreated" />
+			<h:outputText value="#{ruleController.element.dateCreated}"
+				id="dateCreated">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss.SSS" />
+			</h:outputText>
+			<h:outputLabel value="Ultima modifica il:" for="dateModified" />
+			<h:outputText value="#{ruleController.element.dateModified}"
+				id="dateModified">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss.SSS" />
+			</h:outputText>
+
+		</h:panelGrid>
+
+		<coop:spacer></coop:spacer>
+		<coop:spacer></coop:spacer>
+		<coop:spacer></coop:spacer>
+
+		<h:form>
+			<h:commandButton action="#{ruleController.modCurrent}"
+				value="Modifica" />
+		</h:form>
+
+	</ui:define>
+</ui:composition>
