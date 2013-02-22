@@ -25,22 +25,22 @@
  </tag>
  <function>
   <function-name>bcrumbs</function-name>
-  <function-class>by.giava.giavacms.base.common.util.JSFLocalUtils</function-class>
+  <function-class>org.giavacms.base.common.util.JSFLocalUtils</function-class>
   <function-signature>java.lang.String breadcrumbs()</function-signature>
  </function>
  <function>
   <function-name>urlContains</function-name>
-  <function-class>by.giava.giavacms.base.common.util.JSFLocalUtils</function-class>
+  <function-class>org.giavacms.base.common.util.JSFLocalUtils</function-class>
   <function-signature>java.lang.Boolean urlContains(java.lang.String)</function-signature>
  </function>
  <function>
   <function-name>showMenu</function-name>
-  <function-class>by.giava.giavacms.base.controller.util.MenuUtils</function-class>
+  <function-class>org.giavacms.base.controller.util.MenuUtils</function-class>
   <function-signature>java.lang.Boolean showMenu(java.lang.String, java.lang.String)</function-signature>
  </function>
   <function>
   <function-name>encode</function-name>
-  <function-class>by.giava.giavacms.base.common.util.HtmlUtils</function-class>
+  <function-class>org.giavacms.base.common.util.HtmlUtils</function-class>
   <function-signature>java.lang.String encode(java.lang.String)</function-signature>
  </function>
 

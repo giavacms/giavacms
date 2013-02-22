@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-fragment_3_0.xsd"
+	version="3.0">
+
+	<error-page>
+		<error-code>304</error-code>
+		<location>/errors/HttpCode304.html</location>
+	</error-page>
+	<error-page>
+		<error-code>400</error-code>
+		<location>/errors/HttpCode400.html</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/errors/HttpCode401.html</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/errors/HttpCode403.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/errors/HttpCode404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/errors/HttpCode500.html</location>
+	</error-page>
+	<error-page>
+		<error-code>501</error-code>
+		<location>/errors/HttpCode501.html</location>
+	</error-page>
+	<error-page>
+		<error-code>502</error-code>
+		<location>/errors/HttpCode502.html</location>
+	</error-page>
+
+</web-fragment>
