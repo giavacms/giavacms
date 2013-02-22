@@ -43,7 +43,7 @@
 		<module>richnews</module>
 		<module>scenario</module>
 		<module>test</module>
-		<module>errors</module>
+		<module>errorpages</module>
 	</modules>
 
 	<dependencyManagement>
