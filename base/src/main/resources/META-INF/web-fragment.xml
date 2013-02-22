@@ -49,7 +49,7 @@
 
 	<filter>
 		<filter-name>UTFEncodingFilter</filter-name>
-		<filter-class>by.giava.giavacms.base.filter.UTFEncodingFilter</filter-class>
+		<filter-class>org.giavacms.base.filter.UTFEncodingFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -64,7 +64,7 @@
 
 	<context-param>
 		<param-name>javax.faces.FACELETS_RESOURCE_RESOLVER</param-name>
-		<param-value>by.giava.giavacms.base.resolver.CustomResourceResolver</param-value>
+		<param-value>org.giavacms.base.resolver.CustomResourceResolver</param-value>
 	</context-param>
 
 	<context-param>
@@ -109,27 +109,5 @@
 	<security-role>
 		<role-name>user</role-name>
 	</security-role>
-
-	<error-page>
-		<exception-type>java.lang.NullPointerException</exception-type>
-		<location>/exception.html</location>
-	</error-page>
-	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
-		<location>/exception.html</location>
-	</error-page>
-
-	<error-page>
-		<error-code>304</error-code>
-		<location>/304.html</location>
-	</error-page>
-	<error-page>
-		<error-code>404</error-code>
-		<location>/404.html</location>
-	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/500.html</location>
-	</error-page>
 
 </web-fragment>
