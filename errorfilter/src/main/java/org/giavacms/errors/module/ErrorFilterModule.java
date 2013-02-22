@@ -19,23 +19,23 @@ public class ErrorFilterModule implements ModuleProvider {
 
 	@Override
 	public String getName() {
-		return "errors";
+		return "errorfilter";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Pagine di errore";
+		return "Filtro errori";
 	}
 
 	@Override
 	public String getMenuFragment() {
-		return "/private/knownerrors/errors-menu.xhtml";
+		return "/private/errors/errorfilter-menu.xhtml";
 //		return "/private/errors/errors-menu.xhtml";
 	}
 
 	@Override
 	public String getPanelFragment() {
-		return "/private/knownerrors/errors-panel.xhtml";
+		return "/private/errors/errorfilter-panel.xhtml";
 //		return "/private/errors/errors-panel.xhtml";
 	}
 

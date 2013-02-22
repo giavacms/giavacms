@@ -1,5 +1,5 @@
 
 <%
 	response.sendRedirect(request.getContextPath()
-			+ "/private/richnews/list.jsf");
+			+ "/private/errorpages/list.jsf");
 %>

@@ -9,8 +9,8 @@
 	<artifactId>errorfilter</artifactId>
 	<packaging>jar</packaging>
 
-	<name>GiavaCMS Content Management System : Errors Module</name>
-	<description>GiavaCMS Content Management System: Errors Module</description>
+	<name>GiavaCMS Content Management System : Error Filter Module</name>
+	<description>GiavaCMS Content Management System: Error Filter Module</description>
 
 	<properties>
 	</properties>

@@ -9,14 +9,13 @@ import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
-import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractController;
-import org.giavacms.errors.model.type.ErrorPages;
-import org.giavacms.errors.repository.ErrorPagesRepository;
+import org.giavacms.errors.model.ErrorPage;
+import org.giavacms.errors.repository.ErrorPageRepository;
 
 @Named
 @SessionScoped
-public class ErrorPagesController extends AbstractController<ErrorPages> {
+public class ErrorPageController extends AbstractController<ErrorPage> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,27 +23,33 @@ public class ErrorPagesController extends AbstractController<ErrorPages> {
 
 	@BackPage
 	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	public static String VIEW = "/private/errorpages/view.xhtml";
-	@ListPage
-	public static String LIST = "/private/errorpages/list.xhtml";
+
 	@EditPage
 	public static String NEW_OR_EDIT = "/private/errorpages/edit.xhtml";
+	@ListPage
+	public static String LIST = "/private/errorpages/list.xhtml";
 
 	// --------------------------------------------------------
 
 	@Inject
-	@OwnRepository(ErrorPagesRepository.class)
-	ErrorPagesRepository errorPagesRepository;
+	@OwnRepository(ErrorPageRepository.class)
+	ErrorPageRepository errorPageRepository;
 
 	// --------------------------------------------------------
 
-	public ErrorPagesController() {
+	public ErrorPageController() {
 	}
 
 	@Override
-	public Object getId(ErrorPages t) {
-		return t.name();
+	public void initController() {
+		for (ErrorPage e : getRepository().getAllList()) {
+			getRepository().fetch(getId(e));
+		}
+	}
+
+	@Override
+	public Object getId(ErrorPage t) {
+		return t.getHttpError().name();
 	}
 
 	@Override
@@ -59,6 +64,6 @@ public class ErrorPagesController extends AbstractController<ErrorPages> {
 
 	@Override
 	public void refreshModel() {
-		setModel(new ListDataModel<ErrorPages>(getRepository().getAllList()));
+		setModel(new ListDataModel<ErrorPage>(getRepository().getAllList()));
 	}
 }

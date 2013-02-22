@@ -19,7 +19,7 @@ public class ErrorPagesModule implements ModuleProvider {
 
 	@Override
 	public String getName() {
-		return "errors";
+		return "errorpages";
 	}
 
 	@Override
@@ -29,13 +29,13 @@ public class ErrorPagesModule implements ModuleProvider {
 
 	@Override
 	public String getMenuFragment() {
-		return "/private/errorpages/errors-menu.xhtml";
+		return "/private/errorpages/errorpages-menu.xhtml";
 //		return "/private/errors/errors-menu.xhtml";
 	}
 
 	@Override
 	public String getPanelFragment() {
-		return "/private/errorpages/errors-panel.xhtml";
+		return "/private/errorpages/errorpages-panel.xhtml";
 //		return "/private/errors/errors-panel.xhtml";
 	}
 

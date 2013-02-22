@@ -1,6 +1,6 @@
 package org.giavacms.errors.model.type;
 
-public enum ErrorPages {
+public enum HttpError {
 
 	/**
 	 * This should not happen since pages are always retrieved from db
@@ -32,22 +32,21 @@ public enum ErrorPages {
 			"service temporarily overloaded",
 			"the server cannot process the request due to a high load, but this is a temporary condition which maybe alleviated at other times"),
 
-	javaLangException("internal error",
-			"use this to better specify http code 500"),
-
-	javaLangThrowable("internal error",
-			"use this to better specify http code 500"),
-
-	javaLangNullPointerException("internal error",
-			"use this to better specify http code 500"),
+	// javaLangException("internal error",
+	// "use this to better specify http code 500"),
+	//
+	// javaLangThrowable("internal error",
+	// "use this to better specify http code 500"),
+	//
+	// javaLangNullPointerException("internal error",
+	// "use this to better specify http code 500"),
 
 	;
 
 	String meaning;
 	String description;
-	String pageContent;
 
-	private ErrorPages(String meaning, String description) {
+	private HttpError(String meaning, String description) {
 		this.meaning = meaning;
 		this.description = description;
 	}
@@ -60,12 +59,23 @@ public enum ErrorPages {
 		return description;
 	}
 
-	public String getPageContent() {
-		return pageContent;
+	public String getDefaultContent() {
+		return new StringBuffer("<html><head><title>").append(this.name())
+				.append("</title></head><body><h1>").append(meaning)
+				.append("</h1><hr/><p>").append(description)
+				.append("</p></body></html>").toString();
 	}
 
-	public void setPageContent(String pageContent) {
-		this.pageContent = pageContent;
-	}
+	public static void main(String[] args) {
+		for (HttpError httpError : HttpError.values()) {
+			System.out.println("<error-page>");
+			System.out.println("<error-code>"
+					+ httpError.name().replace("HttpCode", "")
+					+ "</error-code>");
+			System.out.println("<location>/errors/" + httpError.name()
+					+ ".html</location>");
+			System.out.println("</error-page>");
+		}
 
+	}
 }
