@@ -1,0 +1,209 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Contenuto" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="richcontent" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<script type="text/javascript"
+			src="#{request.contextPath}/scripts/it_editor.js"></script>
+
+		<script language="javascript" type="text/javascript"
+			src="#{request.contextPath}/scripts/tiny_mce/tiny_mce.js"></script>
+
+		<h:form>
+
+			<p:messages id="messages" />
+			<center>
+				<p:panel header="Gestione Contenuto">
+
+					<script language="javascript" type="text/javascript">
+						tinyMCE
+								.init({
+									// General options
+									mode : "specific_textareas",
+									language : "it",
+									entity_encoding : "named",
+									theme : "advanced",
+									editor_selector : "tinyMceTa",
+									convert_urls : false,
+									plugins : "fullscreen,advlink,print,contextmenu,paste,directionality,noneditable,visualchars,nonbreaking,xhtmlxtras,template,table",
+									// Theme options ... ho tolto il pulsante imgBrows.. in notizie si mettono tramite il form di upload sotto, no?
+									theme_advanced_buttons1 : "fullscreen,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,fontsizeselect,fontselect,|,hr,|,cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,cleanup,|,code",
+									theme_advanced_buttons2 : "tablecontrols,|,link,unlink",
+									theme_advanced_buttons3 : "",
+									theme_advanced_toolbar_location : "top",
+									theme_advanced_toolbar_align : "left",
+									theme_advanced_fonts : "Arial=Arial;Courier New=Courier New;Times New Roman=Times New Roman;",
+									theme_advanced_resizing : true,
+									setup : function(ed) {
+										<f:verbatim rendered="#{not copertina}">
+										// Add a custom button
+										ed
+												.addButton(
+														'imgBrows',
+														{
+															title : 'Browser immagini',
+															image : '#{facesContext.externalContext.request.contextPath}/images/img.gif',
+															onclick : function() {
+																// Add you own code to execute something on click
+																ed.focus();
+																//										ed.selection.setContent('<div id="imgHere" style="text-align:center;"></div>');
+																var popupWindow = window
+																		.open(
+																				'#{request.contextPath}/private/page/imagesTiny.jsf',
+																				"Browser immagini",
+																				"height=600,width=800,modal=yes,alwaysRaised=yes")
+																popupWindow.tinyEditor = ed;
+															}
+														});
+										</f:verbatim>
+									}
+								});
+					</script>
+
+					<h:panelGrid columns="2" style="width: 95%">
+
+						<h:outputLabel value="Pagina di base(*):" for="extension" />
+						<h:panelGroup id="extension">
+							<h:outputText
+								value="Nota: inizialmente, verrano mostrate tutte le pagine disponibili"
+								style="font-style: italic; font-size: smaller;" />
+							<h:selectOneMenu style="width: 100%;"
+								value="#{richContentController.element.template.id}"
+								required="true"
+								requiredMessage="E' obbligatorio specificare la pagina base">
+								<f:selectItems
+									value="#{baseProducer.getExtensionItems(richContentController.element.extension)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:outputLabel for="titolo" value="Titolo" />
+						<h:inputText id="titolo"
+							value="#{richContentController.element.title}"
+							style="width: 100%;" required="true" />
+						<h:outputLabel for="dataInsert" value="Data inserimento:" />
+						<p:calendar id="dataInsert"
+							value="#{richContentController.element.date}"
+							pattern="dd/MM/yyyy" timeZone="Europe/Rome" />
+
+						<h:outputLabel value="in evidenza?:" for="evidenza" />
+						<h:selectBooleanCheckbox title="evidenza" id="evidenza"
+							value="#{richContentController.element.highlight}">
+						</h:selectBooleanCheckbox>
+
+						<h:outputLabel value="Tipo informazione(*):" for="tipo" />
+						<h:selectOneMenu id="tipo" style="width: 100%;"
+							value="#{richContentController.element.richContentType.id}"
+							required="true">
+							<f:selectItems value="#{richContentTypeItems}" />
+						</h:selectOneMenu>
+
+						<h:outputLabel for="autore" value="Autore:" style="width: 100%;" />
+						<h:inputText id="autore"
+							value="#{richContentController.element.author}"
+							style="width: 100%;" required="true" />
+
+
+						<h:outputLabel for="anteprima" value="Anteprima:" />
+						<h:inputTextarea id="anteprima" cols="20" rows="20"
+							value="#{richContentController.element.preview}"
+							style=" height : 166px; width: 100%;" />
+
+
+						<h:outputLabel for="descrizione" value="Contenuto:" />
+						<h:inputTextarea value="#{richContentController.element.content}"
+							id="descrizione" styleClass="tinyMceTa" style="width: 100%;" />
+					</h:panelGrid>
+					<br />
+				</p:panel>
+				<br />
+				<p:dataTable id="imgList" var="img"
+					value="#{richContentController.element.images}"
+					rowIndexVar="index2">
+					<f:facet name="header">Immagini</f:facet>
+					<p:column>
+						<f:facet name="header">ind</f:facet>
+						<h:outputText value="#{index2+1}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">foto</f:facet>
+						<h:graphicImage value="/img/#{img.filename}"
+							width="#{g:imageWidthProportionalUrl('img/'.concat(img.filename),100,100)}"
+							height="#{g:imageHeightProportionalUrl('img/'.concat(img.filename), 100, 100)}"
+							alt="#{img.filename}" title="#{img.filename}"
+							style="padding: 5px;" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">nome</f:facet>
+						<h:outputText value="#{img.filename}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">elimina</f:facet>
+						<gb:center>
+							<h:commandLink
+								action="#{richContentController.removeImage(img.id)}"
+								value="elimina" immediate="true"
+								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
+								rendered="#{not empty img.id}" />
+						</gb:center>
+					</p:column>
+				</p:dataTable>
+
+				<br />
+				<p:dataTable id="docList" var="doc"
+					value="#{richContentController.element.documents}"
+					rowIndexVar="index">
+					<f:facet name="header">Documenti</f:facet>
+					<p:column>
+						<f:facet name="header">ind</f:facet>
+						<h:outputText value="#{index}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">nome</f:facet>
+						<h:outputText value="#{doc.filename}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">elimina</f:facet>
+						<gb:center>
+							<h:commandLink
+								action="#{richContentController.removeDocument(img.id)}"
+								value="elimina" immediate="true"
+								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
+								rendered="#{not empty doc.filename or not empty doc.id}" />
+						</gb:center>
+					</p:column>
+				</p:dataTable>
+				<h:panelGrid columns="4">
+
+					<h:commandButton action="#{richContentController.save}"
+						value="Salva" immediate="false"
+						rendered="#{not richContentController.editMode}" />
+
+					<h:commandButton action="#{richContentController.update}"
+						value="Salva le modifiche" immediate="false"
+						rendered="#{richContentController.editMode}" />
+
+					<h:commandButton action="#{richContentController.delete}"
+						value="Elimina" rendered="#{richContentController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

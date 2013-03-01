@@ -29,13 +29,13 @@
 					columnClasses="p_col1,p_col2">
 
 					<h:outputLabel value="Titolo(*):" for="titoloW"
-						rendered="#{empty pageController.element.title}" />
+						rendered="#{empty pageController.element.id}" />
 					<h:inputText required="true" id="titoloW"
 						value="#{pageController.element.title}" style="width: 100%;"
 						rendered="#{empty pageController.element.id}" />
 
 					<h:outputLabel value="Titolo:" for="titoloR"
-						rendered="#{not empty pageController.element.title}" />
+						rendered="#{not empty pageController.element.id}" />
 					<h:inputText disabled="true" id="titoloR"
 						value="#{pageController.element.title}" style="width: 100%;"
 						rendered="#{not empty pageController.element.id}" />
