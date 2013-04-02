@@ -7,9 +7,7 @@ import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Temporal;
 
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.controller.util.TimeUtils;
@@ -17,7 +15,6 @@ import org.giavacms.base.model.Page;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.model.Search;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.type.RichContentType;
@@ -38,10 +35,12 @@ public class RichContentRepository extends AbstractPageRepository<RichContent> {
 	protected void applyRestrictions(Search<RichContent> search, String alias,
 			String separator, StringBuffer sb, Map<String, Object> params) {
 
-		sb.append(separator).append(alias).append(".active = :active");
-		params.put("active", true);
-		separator = " and ";
-
+		if (true) {
+			sb.append(separator).append(alias).append(".active = :active");
+			params.put("active", true);
+			separator = " and ";
+		}
+		
 		if (search.getObj().getRichContentType() != null
 				&& search.getObj().getRichContentType().getName() != null
 				&& search.getObj().getRichContentType().getName().length() > 0) {

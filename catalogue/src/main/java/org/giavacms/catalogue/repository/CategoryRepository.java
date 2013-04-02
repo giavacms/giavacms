@@ -9,15 +9,15 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.giavacms.base.common.util.HtmlUtils;
+import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.catalogue.model.Category;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.repository.AbstractRepository;
-
 
 @Named
 @Stateless
 @LocalBean
-public class CategoryRepository extends AbstractRepository<Category> {
+public class CategoryRepository extends AbstractPageRepository<Category> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,18 +25,7 @@ public class CategoryRepository extends AbstractRepository<Category> {
 	EntityManager em;
 
 	@Override
-	protected EntityManager getEm() {
-		return em;
-	}
-
-	@Override
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
-
-	@Override
 	protected String getDefaultOrderBy() {
-		// TODO Auto-generated method stub
 		return "orderNum asc";
 	}
 
@@ -58,16 +47,39 @@ public class CategoryRepository extends AbstractRepository<Category> {
 	@Override
 	protected void applyRestrictions(Search<Category> search, String alias,
 			String separator, StringBuffer sb, Map<String, Object> params) {
-		sb.append(separator).append(alias).append(".active = :active");
-		params.put("active", true);
-		separator = " and ";
-		if (search.getObj().getName() != null
-				&& !search.getObj().getName().isEmpty()) {
+
+		if (true) {
+			sb.append(separator).append(alias).append(".active = :active");
+			params.put("active", true);
+			separator = " and ";
+		}
+
+		if (search.getObj().getTitle() != null
+				&& !search.getObj().getTitle().isEmpty()) {
 			sb.append(separator).append(" upper(").append(alias)
-					.append(".name ) like :NAME ");
-			params.put("NAME", likeParam(search.getObj().getName()
+					.append(".title ) like :TITLE ");
+			params.put("TITLE", likeParam(search.getObj().getTitle()
 					.toUpperCase()));
 		}
+	}
+
+	@Override
+	protected Category prePersist(Category n) {
+		// String idTitle = PageUtils.createPageId(n.getTitle());
+		// String idFinal = testKey(idTitle);
+		// n.setId(idFinal);
+		n.setClone(true);
+		n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+		n = super.prePersist(n);
+		return n;
+	}
+
+	@Override
+	protected Category preUpdate(Category n) {
+		n.setClone(true);
+		n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+		n = super.preUpdate(n);
+		return n;
 	}
 
 }

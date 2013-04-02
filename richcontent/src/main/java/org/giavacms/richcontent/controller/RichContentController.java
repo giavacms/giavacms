@@ -147,13 +147,9 @@ public class RichContentController extends AbstractLazyController<RichContent> {
 
 	@Override
 	public String save() {
-		getElement()
-				.setTemplate(
-						templateImplRepository.find(getElement().getTemplate()
-								.getId()));
-		pageRepository.markExtensionByTemplateId(getElement().getTemplate()
-				.getId(), RichContent.EXTENSION);
-		super.save();
+		if (super.save() == null) {
+			return null;
+		}
 		if (getElement().isHighlight()) {
 			richContentRepository.refreshEvidenza(getElement().getId());
 		}
@@ -168,13 +164,9 @@ public class RichContentController extends AbstractLazyController<RichContent> {
 
 	@Override
 	public String update() {
-		getElement()
-				.setTemplate(
-						templateImplRepository.find(getElement().getTemplate()
-								.getId()));
-		pageRepository.markExtensionByTemplateId(getElement().getTemplate()
-				.getId(), RichContent.EXTENSION);
-		super.update();
+		if (super.update() == null) {
+			return null;
+		}
 		if (getElement().isHighlight()) {
 			richContentRepository.refreshEvidenza(getElement().getId());
 		}

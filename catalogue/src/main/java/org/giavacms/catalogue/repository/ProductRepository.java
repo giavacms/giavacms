@@ -13,15 +13,14 @@ import javax.persistence.PersistenceContext;
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.repository.AbstractRepository;
-
 
 @Named
 @Stateless
 @LocalBean
-public class ProductRepository extends AbstractRepository<Product> {
+public class ProductRepository extends AbstractPageRepository<Product> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,18 +28,7 @@ public class ProductRepository extends AbstractRepository<Product> {
 	EntityManager em;
 
 	@Override
-	protected EntityManager getEm() {
-		return em;
-	}
-
-	@Override
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
-
-	@Override
 	protected String getDefaultOrderBy() {
-		// TODO Auto-generated method stub
 		return "code asc";
 	}
 
@@ -74,46 +62,54 @@ public class ProductRepository extends AbstractRepository<Product> {
 	@Override
 	protected void applyRestrictions(Search<Product> search, String alias,
 			String separator, StringBuffer sb, Map<String, Object> params) {
-		sb.append(separator).append(alias).append(".active = :active");
-		params.put("active", true);
-		separator = " and ";
 
-		sb.append(separator).append(alias)
-				.append(".category.active = :activeCategory");
-		params.put("activeCategory", true);
-		separator = " and ";
+		if (true) {
+			sb.append(separator).append(alias).append(".active = :active");
+			params.put("active", true);
+			separator = " and ";
+		}
+
+		if (true) {
+			sb.append(separator).append(alias)
+					.append(".category.active = :activeCategory");
+			params.put("activeCategory", true);
+			separator = " and ";
+		}
 
 		// CATEGORY NAME
 		if (search.getObj().getCategory() != null
-				&& search.getObj().getCategory().getName() != null
-				&& search.getObj().getCategory().getName().trim().length() > 0) {
+				&& search.getObj().getCategory().getTitle() != null
+				&& search.getObj().getCategory().getTitle().trim().length() > 0) {
 			sb.append(separator).append(alias)
-					.append(".category.name = :NAMECAT ");
-			params.put("NAMECAT", search.getObj().getCategory().getName());
+					.append(".category.title = :NAMECAT ");
+			params.put("NAMECAT", search.getObj().getCategory().getTitle());
 		}
+
 		// CATEGORY ID
 		if (search.getObj().getCategory() != null
 				&& search.getObj().getCategory().getId() != null
-				&& search.getObj().getCategory().getId() > 0) {
+				&& search.getObj().getCategory().getId().trim().length() > 0) {
 			sb.append(separator).append(alias).append(".category.id = :IDCAT ");
 			params.put("IDCAT", search.getObj().getCategory().getId());
 		}
+
 		// CODE
 		if (search.getObj().getCode() != null
 				&& !search.getObj().getCode().isEmpty()) {
 			sb.append(separator).append(alias).append(".code = :CODE ");
 			params.put("CODE", search.getObj().getCode());
 		}
+
 		// NAME OR DESCRIPTION
-		if (search.getObj().getName() != null
-				&& !search.getObj().getName().isEmpty()) {
+		if (search.getObj().getTitle() != null
+				&& !search.getObj().getTitle().isEmpty()) {
 			sb.append(separator + " ( upper(").append(alias)
-					.append(".name) LIKE :NAMEPROD ");
-			params.put("NAMEPROD", likeParam(search.getObj().getName()
+					.append(".title) LIKE :NAMEPROD ");
+			params.put("NAMEPROD", likeParam(search.getObj().getTitle()
 					.toUpperCase()));
 			sb.append(" or ").append(" upper(").append(alias)
 					.append(".description ) LIKE :DESC").append(") ");
-			params.put("DESC", likeParam(search.getObj().getName()
+			params.put("DESC", likeParam(search.getObj().getTitle()
 					.toUpperCase()));
 		}
 	}
@@ -135,14 +131,16 @@ public class ProductRepository extends AbstractRepository<Product> {
 	}
 
 	@Override
-	protected Product prePersist(Product product) {
-		product.setDescription(HtmlUtils.normalizeHtml(product.getDescription()));
-		return product;
+	protected Product prePersist(Product n) {
+		n.setClone(true);
+		n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+		return n;
 	}
 
 	@Override
-	protected Product preUpdate(Product product) {
-		product.setDescription(HtmlUtils.normalizeHtml(product.getDescription()));
-		return product;
+	protected Product preUpdate(Product n) {
+		n.setClone(true);
+		n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+		return n;
 	}
 }

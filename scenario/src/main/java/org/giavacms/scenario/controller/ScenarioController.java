@@ -170,7 +170,7 @@ public class ScenarioController extends AbstractLazyController<Scenario> {
 	public void updateSelectedProducts() {
 		// evito doppioni, almeno... beccare le deselezioni ancora non ho capito
 		// come..
-		Map<Long, Product> uSelectedProducts = new HashMap<Long, Product>();
+		Map<String, Product> uSelectedProducts = new HashMap<String, Product>();
 		if (this.selectedProducts != null) {
 			for (Product p : selectedProducts) {
 				uSelectedProducts.put(p.getId(), p);

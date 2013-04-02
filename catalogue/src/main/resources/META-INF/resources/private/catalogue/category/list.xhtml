@@ -64,7 +64,7 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="100">
 							<f:facet name="header">ordine</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
@@ -72,6 +72,28 @@
 								</f:facet>
 								<f:facet name="input">
 									<h:inputText required="false" value="#{t.orderNum}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">pagina di base</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.template.id}" rendered="false" />
+									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
+										disabled="true">
+										<f:selectItems
+											value="#{baseProducer.getExtensionItems(t.extension)}" />
+									</h:selectOneMenu>
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
+										required="true"
+										requiredMessage="E' obbligatorio specificare la pagina base">
+										<f:selectItems
+											value="#{baseProducer.getExtensionItems(t.extension)}" />
+									</h:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -96,16 +118,29 @@
 				<br />
 			</h:form>
 			<h:form prependId="false">
-				<h:panelGrid columns="7">
+				<h:panelGrid columns="5">
+
 					<h:outputLabel value="Categoria(*):" for="categoryId" />
+					<h:outputLabel value="Descrizione:" for="descriptionId" />
+					<h:outputLabel value="Ordine(*):" for="orderNum" />
+					<h:outputLabel value="Pagina di base(*):" for="extension" />
+					<h:outputText />
+
 					<h:inputText value="#{categoryController.element.name}"
 						id="categoryId" />
-					<h:outputLabel value="Descrizione:" for="descriptionId" />
 					<h:inputText value="#{categoryController.element.description}"
 						id="descriptionId" />
-					<h:outputLabel value="Ordine(*):" for="orderNum" />
 					<h:inputText value="#{categoryController.element.orderNum}"
 						id="orderNum" />
+					<h:panelGroup id="extension">
+						<h:selectOneMenu style="width: 100%;"
+							value="#{categoryController.element.template.id}" required="true"
+							requiredMessage="E' obbligatorio specificare la pagina base">
+							<f:selectItems
+								value="#{baseProducer.getExtensionItems(categoryController.element.extension)}" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+
 					<p:commandButton action="#{categoryController.save}"
 						value="Aggiungi" ajax="false" />
 				</h:panelGrid>

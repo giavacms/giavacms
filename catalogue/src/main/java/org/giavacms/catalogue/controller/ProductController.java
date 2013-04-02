@@ -12,6 +12,8 @@ import org.giavacms.base.common.util.FileUtils;
 import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.repository.PageRepository;
+import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.catalogue.model.CatalogueConfiguration;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.CatalogueConfigurationRepository;
@@ -23,7 +25,6 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.primefaces.event.FileUploadEvent;
-
 
 @Named
 @SessionScoped
@@ -49,6 +50,12 @@ public class ProductController extends AbstractLazyController<Product> {
 
 	@Inject
 	CatalogueConfigurationRepository catalogueConfigurationRepository;
+
+	@Inject
+	TemplateImplRepository templateImplRepository;
+
+	@Inject
+	PageRepository pageRepository;
 
 	// --------------------------------------------------------
 
@@ -136,18 +143,17 @@ public class ProductController extends AbstractLazyController<Product> {
 
 	@Override
 	public String save() {
-		super.save();
+		if (super.save() == null) {
+			return null;
+		}
 		return super.viewPage();
 	}
 
 	@Override
-	public String delete() {
-		return super.delete();
-	}
-
-	@Override
 	public String update() {
-		super.update();
+		if (super.update() == null) {
+			return null;
+		}
 		return super.viewPage();
 	}
 

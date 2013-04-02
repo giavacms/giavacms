@@ -1,6 +1,7 @@
 package org.giavacms.catalogue.module;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +9,14 @@ import java.util.Properties;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.giavacms.catalogue.model.Category;
+import org.giavacms.catalogue.model.Product;
+import org.giavacms.common.module.ExtensionProvider;
 import org.giavacms.common.module.ModuleProvider;
 import org.jboss.logging.Logger;
 
-
 @ApplicationScoped
-public class CatalogueModule implements ModuleProvider {
+public class CatalogueModule implements ModuleProvider, ExtensionProvider {
 
 	Logger logger = Logger.getLogger(getClass());
 	Properties permissions = null;
@@ -56,4 +59,10 @@ public class CatalogueModule implements ModuleProvider {
 		permissions.put("catalogue", "gestione catalogo");
 		return permissions;
 	}
+
+	@Override
+	public List<String> getExtensions() {
+		return Arrays.asList(Category.EXTENSION, Product.EXTENSION);
+	}
+
 }
