@@ -8,7 +8,6 @@ package org.giavacms.base.producer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +18,6 @@ import javax.enterprise.inject.Produces;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.metamodel.EntityType;
 
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
@@ -45,9 +41,6 @@ public class BaseProducer implements Serializable {
 
 	@Inject
 	TemplateRepository templateRepository;
-
-	@PersistenceContext
-	EntityManager em;
 
 	private Map<Class, SelectItem[]> items = null;
 
@@ -105,33 +98,6 @@ public class BaseProducer implements Serializable {
 			for (Page p : lista) {
 				valori.add(new SelectItem(p.getTemplate().getId(), p.getTitle()));
 			}
-		}
-		return valori.toArray(new SelectItem[] {});
-	}
-
-	@Produces
-	@Named
-	public SelectItem[] getExtensionTypeItems() {
-		List<SelectItem> valori = new ArrayList<SelectItem>();
-		valori.add(new SelectItem(null, "estensione..."));
-		List<String> extensions = new ArrayList<String>();
-		for (EntityType<?> entity : em.getMetamodel().getEntities()) {
-			Class clazz = entity.getJavaType();
-			if (Page.class.isAssignableFrom(clazz)) {
-				try {
-					String extension = ((Page) Class.forName(
-							clazz.getCanonicalName()).newInstance())
-							.getExtension();
-					if (extension != null && !extensions.contains(extension)) {
-						extensions.add(extension);
-					}
-				} catch (Exception e) {
-				}
-			}
-		}
-		Collections.sort(extensions);
-		for (String extension : extensions) {
-			valori.add(new SelectItem(extension));
 		}
 		return valori.toArray(new SelectItem[] {});
 	}

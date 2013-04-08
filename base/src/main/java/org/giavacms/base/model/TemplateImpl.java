@@ -36,6 +36,7 @@ public class TemplateImpl implements Serializable {
 	private String col3;
 	// private Page page;
 	private List<Page> pages;
+	private String mainPageId;
 	private Template template;
 
 	// ------------------------------------------------------------------------
@@ -144,9 +145,19 @@ public class TemplateImpl implements Serializable {
 		this.active = active;
 	}
 
-	// ------------------------------------------------------------------------
+	public String getMainPageId()
+   {
+      return mainPageId;
+   }
 
-	@Override
+   public void setMainPageId(String mainPageId)
+   {
+      this.mainPageId = mainPageId;
+   }
+
+   // ------------------------------------------------------------------------
+
+   @Override
 	public String toString() {
 		return (this.id != null) ? this.id.toString() : super.toString();
 	}

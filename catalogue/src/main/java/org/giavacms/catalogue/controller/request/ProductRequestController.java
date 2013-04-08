@@ -49,8 +49,8 @@ public class ProductRequestController extends
 	@Override
 	public List<Product> loadPage(int startRow, int pageSize) {
 		Search<Product> r = new Search<Product>(Product.class);
-		r.getObj().setName(getParams().get(SEARCH));
-		r.getObj().getCategory().setName(getParams().get(CATEGORIA));
+		r.getObj().setTitle(getParams().get(SEARCH));
+		r.getObj().getCategory().setTitle(getParams().get(CATEGORIA));
 		return productRepository.getList(r, startRow, pageSize);
 	}
 
@@ -59,8 +59,8 @@ public class ProductRequestController extends
 		// siamo all'interno della stessa richiesta per servire la quale è
 		// avvenuta la postconstruct
 		Search<Product> r = new Search<Product>(Product.class);
-		r.getObj().getCategory().setName(getParams().get(CATEGORIA));
-		r.getObj().setName(getParams().get(SEARCH));
+		r.getObj().getCategory().setTitle(getParams().get(CATEGORIA));
+		r.getObj().setTitle(getParams().get(SEARCH));
 		return productRepository.getListSize(r);
 	}
 
@@ -93,7 +93,7 @@ public class ProductRequestController extends
 		List<Category> list = categoryRepository.getList(r, 0, 0);
 		List<String> l = new ArrayList<String>();
 		for (Category rnt : list) {
-			l.add(rnt.getName());
+			l.add(rnt.getTitle());
 		}
 		return l;
 	}
@@ -110,10 +110,10 @@ public class ProductRequestController extends
 		List<Category> list = categoryRepository.getList(r, 0, 0);
 		for (Category pc : list) {
 			sb.append("<option value=\"")
-					.append(pc.getName())
+					.append(pc.getTitle())
 					.append("\"")
-					.append(pc.getName().equals(getParams().get(CATEGORIA)) ? " selected=\"selected\""
-							: "").append(">").append(pc.getName())
+					.append(pc.getTitle().equals(getParams().get(CATEGORIA)) ? " selected=\"selected\""
+							: "").append(">").append(pc.getTitle())
 					.append("</option>");
 		}
 		return sb.toString();

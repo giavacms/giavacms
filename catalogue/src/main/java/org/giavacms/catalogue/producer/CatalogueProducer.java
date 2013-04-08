@@ -17,46 +17,54 @@ import org.giavacms.common.model.Search;
 import org.giavacms.common.util.JSFUtils;
 import org.jboss.logging.Logger;
 
-
 @SessionScoped
 @Named
-public class CatalogueProducer implements Serializable {
+public class CatalogueProducer implements Serializable
+{
 
-	Logger logger = Logger.getLogger(getClass());
-	private static final long serialVersionUID = 1L;
+   Logger logger = Logger.getLogger(getClass());
+   private static final long serialVersionUID = 1L;
 
-	@Inject
-	private CategoryRepository categoryRepository;
+   @Inject
+   private CategoryRepository categoryRepository;
 
-	@SuppressWarnings("rawtypes")
-	private Map<Class, SelectItem[]> items = null;
+   @SuppressWarnings("rawtypes")
+   private Map<Class, SelectItem[]> items = null;
 
-	public CatalogueProducer() {
-		// TODO Auto-generated constructor stub
-	}
+   public CatalogueProducer()
+   {
+      // TODO Auto-generated constructor stub
+   }
 
-	@Produces
-	@Named
-	public SelectItem[] getCategoryItems() {
-		if (items.get(Category.class) == null) {
-			items.put(Category.class, JSFUtils.setupItems(new Search<Category>(
-					Category.class), categoryRepository, "id", "name",
-					"nessuna categoria", "seleziona categoria..."));
-		}
-		return items.get(Category.class);
-	}
+   @Produces
+   @Named
+   public SelectItem[] getCategoryItems()
+   {
+      if (items.get(Category.class) == null)
+      {
+         items.put(Category.class, JSFUtils.setupItems(new Search<Category>(
+                  Category.class), categoryRepository, "id", "title",
+                  "nessuna categoria", "seleziona categoria..."));
+      }
+      return items.get(Category.class);
+   }
 
-	public void resetItemsForClass(Class clazz) {
-		if (items.containsKey(clazz)) {
-			items.remove(clazz);
-		}
-	}
+   @SuppressWarnings("rawtypes")
+   public void resetItemsForClass(Class clazz)
+   {
+      if (items.containsKey(clazz))
+      {
+         items.remove(clazz);
+      }
+   }
 
-	// ==============================================================================
+   // ==============================================================================
 
-	@PostConstruct
-	public void reset() {
-		items = new HashMap<Class, SelectItem[]>();
-	}
+   @SuppressWarnings("rawtypes")
+   @PostConstruct
+   public void reset()
+   {
+      items = new HashMap<Class, SelectItem[]>();
+   }
 
 }

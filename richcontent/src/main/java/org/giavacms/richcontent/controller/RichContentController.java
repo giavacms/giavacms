@@ -89,12 +89,6 @@ public class RichContentController extends AbstractLazyController<RichContent> {
 
 	public void handleImgUpload(FileUploadEvent event) {
 		try {
-			String type = event
-					.getFile()
-					.getFileName()
-					.substring(
-							event.getFile().getFileName().lastIndexOf(".") + 1);
-
 			byte[] imgRes = event.getFile().getContents();
 			Image img = new Image();
 			img.setUploadedData(event.getFile());

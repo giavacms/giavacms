@@ -15,7 +15,6 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
-import org.primefaces.event.RowEditEvent;
 
 @Named
 @SessionScoped

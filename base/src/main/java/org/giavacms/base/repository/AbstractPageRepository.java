@@ -51,6 +51,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
 				.getTemplate().getId());
 		page.getTemplate().setTemplate(template);
 		if (page.getTemplate().getId() == null) {
+		   page.getTemplate().setMainPageId(idTitle);
 			templateImplRepository.persist(page.getTemplate());
 		}
 		page.setId(idFinal);
@@ -62,6 +63,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
 		Template template = templateRepository.find(page.getTemplate()
 				.getTemplate().getId());
 		if (page.getTemplate().getId() == null) {
+         page.getTemplate().setMainPageId(page.getId());
 			templateImplRepository.persist(page.getTemplate());
 		}
 		page.getTemplate().setTemplate(template);

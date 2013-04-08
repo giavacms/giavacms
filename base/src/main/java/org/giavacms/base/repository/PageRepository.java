@@ -23,46 +23,9 @@ import org.giavacms.common.model.Search;
 @Stateless
 @LocalBean
 public class PageRepository
-// extends AbstractRepository<Page>
 		extends AbstractPageRepository<Page> {
 
 	private static final long serialVersionUID = 1L;
-
-	// @PersistenceContext
-	// EntityManager em;
-	//
-	// @Inject
-	// TemplateRepository templateRepository;
-	//
-	// @Override
-	// public EntityManager getEm() {
-	// return em;
-	// }
-	//
-	// @Override
-	// public void setEm(EntityManager em) {
-	// this.em = em;
-	// }
-
-	// @Override
-	// protected Page prePersist(Page page) {
-	// // closeHtmlTags(page);
-	// String idTitle = PageUtils.createPageId(page.getTitle());
-	// String idFinal = super.testKey(idTitle);
-	// Template template = templateRepository.find(page.getTemplate()
-	// .getTemplate().getId());
-	// page.getTemplate().setTemplate(template);
-	// page.setId(idFinal);
-	// return page;
-	// }
-	//
-	// @TransactionAttribute(TransactionAttributeType.REQUIRED)
-	// protected Page preUpdate(Page page) {
-	// Template template = templateRepository.find(page.getTemplate()
-	// .getTemplate().getId());
-	// page.getTemplate().setTemplate(template);
-	// return page;
-	// }
 
 	@Override
 	protected void applyRestrictions(Search<Page> search, String alias,
@@ -187,18 +150,4 @@ public class PageRepository
 		}
 	}
 
-	public void markExtensionByTemplateId(Long id, String extension) {
-		try {
-			int updatedPages = getEm()
-					.createQuery(
-							"update "
-									+ Page.class.getSimpleName()
-									+ " p set p.extension = :EXTENSION where p.template.id = :TEMPLATEIMPLID ")
-					.setParameter("EXTENSION", extension)
-					.setParameter("TEMPLATEIMPLID", id).executeUpdate();
-			logger.info(updatedPages + " where updated to " + extension);
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
-		}
-	}
 }

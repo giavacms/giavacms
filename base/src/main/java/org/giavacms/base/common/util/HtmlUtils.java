@@ -8,15 +8,12 @@ package org.giavacms.base.common.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.UnhandledException;
 import org.jboss.logging.Logger;
 import org.w3c.tidy.Tidy;
 

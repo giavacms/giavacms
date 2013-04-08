@@ -80,12 +80,7 @@
 							<f:facet name="header">pagina di base</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{t.template.id}" rendered="false" />
-									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
-										disabled="true">
-										<f:selectItems
-											value="#{baseProducer.getExtensionItems(t.extension)}" />
-									</h:selectOneMenu>
+									<h:outputText value="#{t.template.mainPageId}"  />
 								</f:facet>
 								<f:facet name="input">
 									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
