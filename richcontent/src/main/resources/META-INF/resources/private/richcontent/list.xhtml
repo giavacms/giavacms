@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Contenuti" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="richcontent" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Contenuti">
+					<h:panelGrid columns="5">
+						<h:outputLabel for="titolo" value="Titolo:" />
+						<h:inputText id="titolo"
+							value="#{richContentController.search.obj.title}" />
+
+						<h:outputLabel for="tipo" value="Seleziona tipo:" />
+						<h:selectOneMenu id="tipo"
+							value="#{richContentController.search.obj.richContentType.id}">
+							<f:selectItems value="#{richContentTypeItems}" />
+						</h:selectOneMenu>
+						<p:commandButton action="#{richContentController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false" update="contentList" />
+
+					</h:panelGrid>
+					<br />
+
+					<p:dataTable id="contentList" rowIndexVar="rowIndex"
+						var="contenuto" value="#{richContentController.model}"
+						rows="#{richContentController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">titolo</f:facet>
+							<h:outputText value="#{contenuto.title}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">data</f:facet>
+							<h:outputText value="#{contenuto.date}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">tipo</f:facet>
+							<h:outputText value="#{contenuto.richContentType.name}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">pagina di base</f:facet>
+							<h:outputText value="#{contenuto.template.mainPageId}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">operazioni</f:facet>
+							<gb:center>
+								<h:commandLink action="#{richContentController.viewElement}"
+									value="vedi" />
+								<br />
+								<h:commandLink action="#{richContentController.modElement}"
+									value="modifica testi" />
+								<br />
+								<h:commandLink action="#{richContentController.modDocuments}"
+									value="modifica documenti" />
+							</gb:center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br /> <br />
+
+				<h:panelGrid columns="1">
+					<h:commandButton id="creaContenuto"
+						action="#{richContentController.addElement}" value="Aggiungi" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -44,6 +44,7 @@
 		<module>scenario</module>
 		<module>test</module>
 		<module>errorpages</module>
+		<module>richcontent</module>
 	</modules>
 
 	<dependencyManagement>
@@ -139,6 +140,16 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>scenario</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>errorpages</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>richcontent</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

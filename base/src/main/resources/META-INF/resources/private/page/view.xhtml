@@ -36,7 +36,14 @@
 							style="width: 100%;" />
 						<h:outputLabel value="Descrizione:" for="descrizione" />
 						<h:outputText id="descrizione"
-							value="#{pageController.element.description}" style="width: 100%;" />
+							value="#{pageController.element.description}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="Base per:" for="extension"
+							rendered="#{not empty pageController.element.extension}" />
+						<h:outputText id="extension"
+							rendered="#{not empty pageController.element.extension}"
+							value="#{pageController.element.extension}" />
 
 						<h:outputLabel value="Modello:" for="template" />
 						<h:outputText id="template"
@@ -98,7 +105,7 @@
 
 				<h:panelGrid columns="1">
 					<h:outputLink target="_blank"
-						value="#{request.contextPath}/page/#{pageController.element.id}">
+						value="#{request.contextPath}/p/#{pageController.element.id}">
 						<h:outputText value="anteprima" />
 					</h:outputLink>
 				</h:panelGrid>

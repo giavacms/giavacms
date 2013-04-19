@@ -12,7 +12,6 @@ import javax.faces.model.ListDataModel;
 import org.giavacms.base.model.Page;
 import org.primefaces.model.SelectableDataModel;
 
-
 public class PageDataModel extends ListDataModel<Page> implements
          SelectableDataModel<Page>
 {
@@ -26,6 +25,7 @@ public class PageDataModel extends ListDataModel<Page> implements
       super(pageslist);
    }
 
+   @SuppressWarnings("unchecked")
    public Page getRowData(String rowKey)
    {
       List<Page> pages = (List<Page>) getWrappedData();

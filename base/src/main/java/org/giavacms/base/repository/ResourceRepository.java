@@ -23,7 +23,6 @@ import org.giavacms.base.pojo.Resource;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
 
-
 @Named
 @Stateless
 @LocalBean
@@ -100,6 +99,7 @@ public class ResourceRepository extends AbstractRepository<Resource>
 
    public Resource fetch(String tipo, String id)
    {
+      FileInputStream fis = null;
       try
       {
          File f = new File(FileUtils.getRealPath() + tipo + File.separator
@@ -110,7 +110,7 @@ public class ResourceRepository extends AbstractRepository<Resource>
             r.setId(id);
             r.setName(id);
             r.setType(tipo);
-            FileInputStream fis = new FileInputStream(f);
+            fis = new FileInputStream(f);
             byte[] bytes = new byte[(int) f.length()];
             for (int i = 0; i < bytes.length; i++)
             {
@@ -128,6 +128,19 @@ public class ResourceRepository extends AbstractRepository<Resource>
       {
          logger.info(e.getMessage());
          return null;
+      }
+      finally
+      {
+         if (fis != null)
+         {
+            try
+            {
+               fis.close();
+            }
+            catch (Exception e)
+            {
+            }
+         }
       }
    }
 

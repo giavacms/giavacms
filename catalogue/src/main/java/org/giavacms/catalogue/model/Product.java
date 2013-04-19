@@ -6,11 +6,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -18,41 +16,43 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.giavacms.base.model.Page;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 
-
 @Entity
-public class Product implements Serializable {
+@DiscriminatorValue(value = Product.EXTENSION)
+public class Product extends Page implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Long id;
-	private String name;
+	public static final String EXTENSION = "Product";
+
+	public Product() {
+		super();
+		super.setExtension(EXTENSION);
+	}
+
+	// private Long id --> super.id;
+	// private String name --> super.title;
 	private String preview;
-	private String description;
+	// private String description --> super.description;
 	private Category category;
 	private String dimensions;
 	private String code;
 	List<Document> documents;
 	List<Image> images;
-	private boolean active = true;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
+	// private boolean active = true; --> super.active
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	@Transient
+	@Deprecated
 	public String getName() {
-		return name;
+		return super.getTitle();
 	}
 
+	@Deprecated
 	public void setName(String name) {
-		this.name = name;
+		super.setTitle(name);
 	}
 
 	@Lob
@@ -63,16 +63,6 @@ public class Product implements Serializable {
 
 	public void setPreview(String preview) {
 		this.preview = preview;
-	}
-
-	@Lob
-	@Column(length = 1024)
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	@ManyToOne
@@ -151,20 +141,13 @@ public class Product implements Serializable {
 		this.dimensions = dimensions;
 	}
 
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", preview=" + preview
-				+ ", description=" + description + ", category="
-				+ category.getName() + ", dimensions=" + dimensions + ", code="
-				+ code + ", active=" + active + "]";
+		return "Product [id=" + super.getId() + ", title=" + super.getTitle()
+				+ ", preview=" + preview + ", description="
+				+ super.getDescription() + ", category=" + category.getTitle()
+				+ ", dimensions=" + dimensions + ", code=" + code + ", active="
+				+ super.isActive() + "]";
 	}
 
 }
