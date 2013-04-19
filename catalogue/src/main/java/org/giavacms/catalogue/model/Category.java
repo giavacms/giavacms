@@ -4,58 +4,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
+
+import org.giavacms.base.model.Page;
 
 @Entity
-public class Category implements Serializable {
+@DiscriminatorValue(value = Category.EXTENSION)
+public class Category extends Page implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static final String EXTENSION = "Category";
 
-	private Long id;
-	private String name;
-	private String description;
+	public Category() {
+		super();
+		super.setExtension(EXTENSION);
+	}
+
 	private List<Product> products;
-	private boolean active = true;
+	// name --> super.title
+	// description --> super.description
+	// active --> active;
 	private int orderNum;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	@Transient
+	@Deprecated
 	public String getName() {
-		return name;
+		return super.getTitle();
 	}
 
+	@Deprecated
 	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Lob
-	@Column(length = 1024)
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+		super.setTitle(name);
 	}
 
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-	@OrderBy("name")
+	@OrderBy("title")
 	public List<Product> getProducts() {
 		if (products == null)
 			this.products = new ArrayList<Product>();
@@ -72,16 +60,9 @@ public class Category implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", description="
-				+ description + ", active=" + active + "]";
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
+		return "Category [id=" + super.getId() + ", title=" + super.getTitle()
+				+ ", description=" + super.getDescription() + ", active="
+				+ super.isActive() + "]";
 	}
 
 	public int getOrderNum() {

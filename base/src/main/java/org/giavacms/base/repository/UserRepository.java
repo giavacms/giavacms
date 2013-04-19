@@ -23,7 +23,6 @@ import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
 import org.jboss.logging.Logger;
 
-
 @Named
 @Stateless
 @LocalBean
@@ -85,6 +84,7 @@ public class UserRepository extends AbstractRepository<UserAuth> implements
 
    }
 
+   @SuppressWarnings("unchecked")
    public void verifyConfiguration()
    {
       List<UserAuth> list = em
@@ -107,6 +107,7 @@ public class UserRepository extends AbstractRepository<UserAuth> implements
       }
    }
 
+   @SuppressWarnings("unchecked")
    public UserAuth findByUsername(String username)
    {
       try
