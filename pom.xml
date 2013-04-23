@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>giavacms-parent</artifactId>
 		<groupId>org.giavacms</groupId>
-		<version>2.0.0</version>
+		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>giavacms</artifactId>
 
@@ -39,7 +39,7 @@
 		<module>message</module>
 		<module>news</module>
 		<module>paypal</module>
-		<module>picasa</module>
+		<!--  module>picasa</module -->
 		<module>richnews</module>
 		<module>scenario</module>
 		<module>test</module>
@@ -166,10 +166,11 @@
 
 
 		<dependency>
-			<groupId>jtidy</groupId>
+			<groupId>net.sf.jtidy</groupId>
 			<artifactId>jtidy</artifactId>
-			<version>1.0</version>
+			<version>r938</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.ocpsoft</groupId>
@@ -177,15 +178,15 @@
 			<version>3.3.2</version>
 		</dependency>
 
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<type>jar</type>
 			<scope>provided</scope>
-			<!-- <exclusions> <exclusion> <artifactId>activation</artifactId> <groupId>javax.activation</groupId> 
-				</exclusion> </exclusions> -->
+			<exclusions> <exclusion> <artifactId>activation</artifactId> <groupId>javax.activation</groupId> 
+				</exclusion> </exclusions>
 		</dependency>
-
+ -->
 		<!-- Apache commons -->
 		<dependency>
 			<groupId>commons-lang</groupId>

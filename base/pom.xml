@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.giavacms</groupId>
 		<artifactId>giavacms</artifactId>
-		<version>2.0.0</version>
+		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>base</artifactId>
@@ -41,11 +41,15 @@
 	</properties>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>jboss.web</groupId>
+			<groupId>org.jboss.web</groupId>
 			<artifactId>jbossweb</artifactId>
-			<version>3.0.0.alpha-9</version>
+			<version>7.2.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -58,11 +62,8 @@
 			<artifactId>giavacms-common-base</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
+		<!-- <dependency> <groupId>org.jboss.spec.javax.servlet</groupId> <artifactId>jboss-servlet-api_3.0_spec</artifactId> 
+			<scope>provided</scope> </dependency> -->
 	</dependencies>
 
 	<build>
