@@ -39,7 +39,7 @@ public class LanguageRepository extends AbstractRepository<Language> implements
    @Override
    protected String getDefaultOrderBy()
    {
-      return "enabled desc, order asc";
+      return "enabled desc, position asc";
    }
 
    @Override

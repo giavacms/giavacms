@@ -75,17 +75,6 @@
 
 					<h:panelGrid columns="2" style="width: 95%">
 
-						<h:outputLabel value="Pagina di base(*):" for="extension" />
-						<h:panelGroup id="extension">
-							<h:selectOneMenu style="width: 100%;"
-								value="#{richContentController.element.template.id}"
-								required="true"
-								requiredMessage="E' obbligatorio specificare la pagina base">
-								<f:selectItems
-									value="#{baseProducer.getExtensionItems(richContentController.element.extension)}" />
-							</h:selectOneMenu>
-						</h:panelGroup>
-
 						<h:outputLabel for="titolo" value="Titolo" />
 						<h:inputText id="titolo"
 							value="#{richContentController.element.title}"

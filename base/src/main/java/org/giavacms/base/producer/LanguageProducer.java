@@ -17,10 +17,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.annotation.Languages;
+import org.giavacms.base.model.I18nSupport;
 import org.giavacms.base.model.Language;
 import org.giavacms.base.repository.LanguageRepository;
 import org.jboss.logging.Logger;
-
 
 @Singleton
 public class LanguageProducer implements Serializable
@@ -124,6 +124,27 @@ public class LanguageProducer implements Serializable
    public List<Language> getLanguages()
    {
       return languages;
+   }
+
+   public String getLanguage(I18nSupport i18nSupport)
+   {
+      if (languages == null || languages.size() == 0)
+      {
+         return null;
+      }
+      if (i18nSupport.getLang() > 0 && i18nSupport.getLang() <= languages.size())
+      {
+         try
+         {
+            return languages.get(i18nSupport.getLang() - 1).getDescription();
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
+            return null;
+         }
+      }
+      return null;
    }
 
 }

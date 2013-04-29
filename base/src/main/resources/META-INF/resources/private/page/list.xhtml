@@ -32,28 +32,28 @@
 					<p:dataTable id="pagesList" rowIndexVar="rowIndex" var="p"
 						value="#{pageController.model}" rows="#{pageController.pageSize}"
 						paginator="true" dynamic="true">
-						<p:column width="50">
+						<p:column width="10">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />
 							</center>
 						</p:column>
-						<p:column width="150">
+						<p:column width="100">
 							<f:facet name="header">
 							titolo
 						</f:facet>
 							<h:outputText value="#{p.title}" />
 						</p:column>
-						<p:column width="250">
+						<p:column width="200">
 							<f:facet name="header">
 							descrizione
 						</f:facet>
 							<h:outputText value="#{p.description}" />
 						</p:column>
-						<p:column width="100">
+						<p:column width="80">
 							<f:facet name="header">
-							pagina base per...
+							modello
 						</f:facet>
-							<h:outputText value="#{p.extension}" />
+							<h:outputText value="#{p.template.template.name}" />
 						</p:column>
 						<p:column width="60">
 							<f:facet name="header">
@@ -63,6 +63,29 @@
 								rendered="#{p.template.template.statico}" />
 							<h:outputText value="dinamico"
 								rendered="#{not p.template.template.statico}" />
+						</p:column>
+						<p:column width="60">
+							<f:facet name="header">
+							lingua
+						</f:facet>
+								<center>
+								<h:outputText value="#{language1.id}"
+									rendered="#{p.id eq p.lang1id}" />
+								<h:outputText value="#{language2.id}"
+									rendered="#{p.id eq p.lang2id}" />
+								<h:outputText value="#{language3.id}"
+									rendered="#{p.id eq p.lang3id}" />
+								<h:outputText value="#{language4.id}"
+									rendered="#{p.id eq p.lang4id}" />
+								<h:outputText value="#{language5.id}"
+									rendered="#{p.id eq p.lang5id}" />
+							</center>
+						</p:column>
+						<p:column width="100">
+							<f:facet name="header">
+							pagina base per...
+						</f:facet>
+							<h:outputText value="#{p.extension}" />
 						</p:column>
 						<p:column width="150">
 							<center>
