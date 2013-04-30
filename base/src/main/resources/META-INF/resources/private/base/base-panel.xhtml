@@ -120,10 +120,11 @@
 					<h:commandLink
 						action="/private/language/list.jsf?faces-redirect=true"
 						value="definizioni lingue" />
-					<br />
-					<h:commandLink
-						action="/private/i18n/list.jsf?faces-redirect=true"
-						value="associazione pagine e lingue" />
+					<h:panelGroup rendered="false">
+						<br />
+						<h:commandLink action="/private/i18n/list.jsf?faces-redirect=true"
+							value="associazione pagine e lingue" />
+					</h:panelGroup>
 				</div>
 			</p:tab>
 

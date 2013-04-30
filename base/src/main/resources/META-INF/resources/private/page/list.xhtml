@@ -15,16 +15,32 @@
 		<h:form id="central">
 			<center>
 				<p:panel header="Lista Pagine">
-					<h:panelGrid columns="5" rendered="true">
-						<h:outputLabel for="nome" value="Nome:" />
-						<h:inputText id="nome" value="#{pageController.search.obj.title}" />
+					<h:panelGrid columns="6" rendered="true">
 
-						<h:outputLabel for="staticita" value="Tipo di contenuto: " />
+						<h:outputLabel for="nome" value="Nome:" />
+						<h:outputLabel for="staticita" value="Contenuto: " />
+						<h:outputLabel for="lingua" value="Lingua: " />
+						<h:outputLabel for="extension" value="Tipologia:" />
+						<h:outputLabel for="cloni" value="Mostra cloni: " />
+						<h:outputLabel for="cerca" value="" />
+
+						<h:inputText id="nome" value="#{pageController.search.obj.title}" />
 						<h:selectOneMenu id="staticita"
 							value="#{pageController.search.obj.template.template.searchStatico}">
 							<f:selectItems value="#{staticoDinamicoItems}" />
 						</h:selectOneMenu>
-						<p:commandButton action="#{pageController.reloadAjax}"
+						<h:selectOneMenu id="lingua"
+							value="#{pageController.search.obj.lang}">
+							<f:selectItems value="#{languageItems}" />
+						</h:selectOneMenu>
+						<h:selectOneMenu id="extension"
+							value="#{pageController.search.obj.extension}">
+							<f:selectItems value="#{extensionTypeItems}" />
+						</h:selectOneMenu>
+						<h:selectBooleanCheckbox id="cloni"
+							value="#{pageController.search.obj.clone}" />
+
+						<p:commandButton action="#{pageController.reloadAjax}" id="cerca"
 							value="Cerca" ajax="true" immediate="false" update="pagesList" />
 					</h:panelGrid>
 					<br />
@@ -68,38 +84,53 @@
 							<f:facet name="header">
 							lingua
 						</f:facet>
-								<center>
-								<h:outputText value="#{language1.id}"
+							<center>
+								<h:outputText value="#{language1.id} "
 									rendered="#{p.id eq p.lang1id}" />
-								<h:outputText value="#{language2.id}"
+								<h:outputText value="#{language2.id} "
 									rendered="#{p.id eq p.lang2id}" />
-								<h:outputText value="#{language3.id}"
+								<h:outputText value="#{language3.id} "
 									rendered="#{p.id eq p.lang3id}" />
-								<h:outputText value="#{language4.id}"
+								<h:outputText value="#{language4.id} "
 									rendered="#{p.id eq p.lang4id}" />
-								<h:outputText value="#{language5.id}"
+								<h:outputText value="#{language5.id} "
 									rendered="#{p.id eq p.lang5id}" />
 							</center>
 						</p:column>
 						<p:column width="100">
 							<f:facet name="header">
-							pagina base per...
+							tipologia
 						</f:facet>
 							<h:outputText value="#{p.extension}" />
 						</p:column>
+						<p:column width="100">
+							<f:facet name="header">
+							clone
+						</f:facet>
+							<h:outputText value="CLONE" rendered="#{p.clone}" />
+							<h:outputText value="BASE" rendered="#{not p.clone}" />
+						</p:column>
 						<p:column width="150">
+							<f:facet name="header">
+							operazioni
+						</f:facet>
 							<center>
 								<h:commandLink value="modifica"
 									action="#{pageController.modElement}" />
-								-
+								<h:outputText value=" - " />
 								<h:outputLink target="_blank"
 									value="#{request.contextPath}/p/#{p.id}">
 									<h:outputText value="anteprima" />
 								</h:outputLink>
-								-
+								<h:outputText value=" - " />
 								<h:commandLink value="copia"
 									action="#{pageController.cloneElement}" />
-
+								<h:panelGroup rendered="#{loginController.isInRole('i18n')}">
+									<h:outputText value=" - " />
+									<p:commandLink value="associa lingue"
+										action="#{i18nController.modElement(p.id)}" update=":dialog_central"
+										oncomplete="i18nDialog.show();" />
+								</h:panelGroup>
 							</center>
 						</p:column>
 					</p:dataTable>
@@ -116,5 +147,7 @@
 			</center>
 		</h:form>
 
+		<ui:include src="i18nDialog.xhtml" />
+		
 	</ui:define>
 </ui:composition>

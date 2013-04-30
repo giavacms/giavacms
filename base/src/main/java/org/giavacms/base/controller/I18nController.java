@@ -19,7 +19,6 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractController;
 
-
 @Named
 @SessionScoped
 public class I18nController extends AbstractController<Page>
@@ -41,6 +40,12 @@ public class I18nController extends AbstractController<Page>
    @Inject
    @OwnRepository(PageRepository.class)
    PageRepository pageRepository;
+
+   @Override
+   public Object getId(Page t)
+   {
+      return t.getId();
+   }
 
    @Override
    public String update()
@@ -170,4 +175,21 @@ public class I18nController extends AbstractController<Page>
       setLoaded(true);
    }
 
+   public void modElement(String id)
+   {
+      this.reset();
+      Page t = getRepository().fetch(id);
+      setElement(t);
+      setEditMode(true);
+      setReadOnlyMode(false);
+      if (t.getExtension() == null)
+      {
+         getSearch().getObj().setExtension(Page.class.getSimpleName());
+         getSearch().getObj().setClone(false);
+      }
+      else {
+         getSearch().getObj().setExtension(t.getExtension());
+         getSearch().getObj().setClone(true);
+      }
+   }
 }

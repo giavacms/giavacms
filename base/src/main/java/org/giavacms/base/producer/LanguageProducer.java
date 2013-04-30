@@ -7,12 +7,14 @@
 package org.giavacms.base.producer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.enterprise.inject.Produces;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -124,6 +126,22 @@ public class LanguageProducer implements Serializable
    public List<Language> getLanguages()
    {
       return languages;
+   }
+
+   @Produces
+   @Named
+   public SelectItem[] getLanguageItems()
+   {
+      List<SelectItem> languageItemsList = new ArrayList<SelectItem>();
+      languageItemsList.add(new SelectItem(0,"lingua..."));
+      for (Language l : languages)
+      {
+         if (l != null)
+         {
+            languageItemsList.add(new SelectItem(l.getPosition(), l.getId()));
+         }
+      }
+      return languageItemsList.toArray(new SelectItem[] {});
    }
 
    public String getLanguage(I18nSupport i18nSupport)

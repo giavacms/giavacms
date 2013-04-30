@@ -138,7 +138,7 @@ public class BaseProducer implements Serializable
       if (staticoDinamicoItems == null || staticoDinamicoItems.length == 0)
       {
          staticoDinamicoItems = new SelectItem[3];
-         staticoDinamicoItems[0] = new SelectItem(null, "qualsiasi");
+         staticoDinamicoItems[0] = new SelectItem(null, "contenuto...");
          staticoDinamicoItems[1] = new SelectItem(true, "statico");
          staticoDinamicoItems[2] = new SelectItem(false, "dinamico");
       }

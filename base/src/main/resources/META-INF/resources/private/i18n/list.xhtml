@@ -160,44 +160,62 @@
 				<br /> <br />
 
 				<p:panel header="Lista Pagine">
-					<h:outputLabel value="Mostra solo pagine: " for="languages"
-						style="font-weight: bolder;" />
-					<h:panelGroup id="languages">
-						<p:commandLink value="#{language1.id}"
-							rendered="#{not empty language1 and (empty i18nController.element or i18nController.element.lang != 1)}"
-							action="#{i18nController.searchLanguage(1)}" update="pagesList" />
-						<h:outputText value=" " />
-						<p:commandLink value="#{language2.id}"
-							rendered="#{not empty language2 and (empty i18nController.element or i18nController.element.lang != 2)}"
-							action="#{i18nController.searchLanguage(2)}" update="pagesList" />
-						<h:outputText value=" " />
-						<p:commandLink value="#{language3.id}"
-							rendered="#{not empty language3 and (empty i18nController.element or i18nController.element.lang != 3)}"
-							action="#{i18nController.searchLanguage(3)}" update="pagesList" />
-						<h:outputText value=" " />
-						<p:commandLink value="#{language4.id}"
-							rendered="#{not empty language4 and (empty i18nController.element or i18nController.element.lang != 4)}"
-							action="#{i18nController.searchLanguage(4)}" update="pagesList" />
-						<h:outputText value=" " />
-						<p:commandLink value="#{language5.id}"
-							rendered="#{not empty language5 and (empty i18nController.element or i18nController.element.lang != 5)}"
-							action="#{i18nController.searchLanguage(5)}" update="pagesList" />
-						<h:outputText value=" " />
-						<p:commandLink value="TUTTE"
-							action="#{i18nController.searchLanguage(0)}" update="pagesList" />
+					<h:panelGroup rendered="false">
+						<h:outputLabel value="Mostra solo pagine: " for="languages"
+							style="font-weight: bolder;" />
+						<h:panelGroup id="languages">
+							<p:commandLink value="#{language1.id}"
+								rendered="#{not empty language1 and (empty i18nController.element or i18nController.element.lang != 1)}"
+								action="#{i18nController.searchLanguage(1)}" update="pagesList" />
+							<h:outputText value=" " />
+							<p:commandLink value="#{language2.id}"
+								rendered="#{not empty language2 and (empty i18nController.element or i18nController.element.lang != 2)}"
+								action="#{i18nController.searchLanguage(2)}" update="pagesList" />
+							<h:outputText value=" " />
+							<p:commandLink value="#{language3.id}"
+								rendered="#{not empty language3 and (empty i18nController.element or i18nController.element.lang != 3)}"
+								action="#{i18nController.searchLanguage(3)}" update="pagesList" />
+							<h:outputText value=" " />
+							<p:commandLink value="#{language4.id}"
+								rendered="#{not empty language4 and (empty i18nController.element or i18nController.element.lang != 4)}"
+								action="#{i18nController.searchLanguage(4)}" update="pagesList" />
+							<h:outputText value=" " />
+							<p:commandLink value="#{language5.id}"
+								rendered="#{not empty language5 and (empty i18nController.element or i18nController.element.lang != 5)}"
+								action="#{i18nController.searchLanguage(5)}" update="pagesList" />
+							<h:outputText value=" " />
+							<p:commandLink value="TUTTE"
+								action="#{i18nController.searchLanguage(0)}" update="pagesList" />
+						</h:panelGroup>
+						<br />
 					</h:panelGroup>
 					<br />
-					<br />
-					<h:panelGrid columns="5" rendered="true">
-						<h:outputLabel for="nome" value="Nome:" />
-						<h:inputText id="nome" value="#{i18nController.search.obj.title}" />
+					<h:panelGrid columns="6" rendered="true">
 
-						<h:outputLabel for="staticita" value="Tipo di contenuto: " />
+						<h:outputLabel for="nome" value="Nome:" />
+						<h:outputLabel for="staticita" value="Contenuto: " />
+						<h:outputLabel for="lingua" value="Lingua: " />
+						<h:outputLabel for="extension" value="Tipologia:" />
+						<h:outputLabel for="cloni" value="Mostra cloni: " />
+						<h:outputLabel for="cerca" value="" />
+
+						<h:inputText id="nome" value="#{i18nController.search.obj.title}" />
 						<h:selectOneMenu id="staticita"
 							value="#{i18nController.search.obj.template.template.searchStatico}">
 							<f:selectItems value="#{staticoDinamicoItems}" />
 						</h:selectOneMenu>
-						<p:commandButton action="#{i18nController.reloadAjax}"
+						<h:selectOneMenu id="lingua"
+							value="#{i18nController.search.obj.lang}">
+							<f:selectItems value="#{languageItems}" />
+						</h:selectOneMenu>
+						<h:selectOneMenu id="extension"
+							value="#{i18nController.search.obj.extension}">
+							<f:selectItems value="#{extensionTypeItems}" />
+						</h:selectOneMenu>
+						<h:selectBooleanCheckbox id="cloni"
+							value="#{i18nController.search.obj.clone}" />
+
+						<p:commandButton action="#{i18nController.reloadAjax}" id="cerca"
 							value="Cerca" ajax="true" immediate="false" update="pagesList" />
 					</h:panelGrid>
 					<br />
