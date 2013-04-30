@@ -65,9 +65,6 @@ public class CategoryRepository extends AbstractPageRepository<Category> {
 
 	@Override
 	protected Category prePersist(Category n) {
-		// String idTitle = PageUtils.createPageId(n.getTitle());
-		// String idFinal = testKey(idTitle);
-		// n.setId(idFinal);
 		n.setClone(true);
 		n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
 		n = super.prePersist(n);

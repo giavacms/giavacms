@@ -77,9 +77,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent> {
 
 	@Override
 	protected RichContent prePersist(RichContent n) {
-		// String idTitle = PageUtils.createPageId(n.getTitle());
-		// String idFinal = testKey(idTitle);
-		// n.setId(idFinal);
 		n.setClone(true);
 		if (n.getDate() == null)
 			n.setDate(new Date());

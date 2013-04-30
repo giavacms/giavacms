@@ -7,20 +7,22 @@
 package org.giavacms.base.producer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.enterprise.inject.Produces;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.annotation.Languages;
+import org.giavacms.base.model.I18nSupport;
 import org.giavacms.base.model.Language;
 import org.giavacms.base.repository.LanguageRepository;
 import org.jboss.logging.Logger;
-
 
 @Singleton
 public class LanguageProducer implements Serializable
@@ -124,6 +126,43 @@ public class LanguageProducer implements Serializable
    public List<Language> getLanguages()
    {
       return languages;
+   }
+
+   @Produces
+   @Named
+   public SelectItem[] getLanguageItems()
+   {
+      List<SelectItem> languageItemsList = new ArrayList<SelectItem>();
+      languageItemsList.add(new SelectItem(0,"lingua..."));
+      for (Language l : languages)
+      {
+         if (l != null)
+         {
+            languageItemsList.add(new SelectItem(l.getPosition(), l.getId()));
+         }
+      }
+      return languageItemsList.toArray(new SelectItem[] {});
+   }
+
+   public String getLanguage(I18nSupport i18nSupport)
+   {
+      if (languages == null || languages.size() == 0)
+      {
+         return null;
+      }
+      if (i18nSupport.getLang() > 0 && i18nSupport.getLang() <= languages.size())
+      {
+         try
+         {
+            return languages.get(i18nSupport.getLang() - 1).getDescription();
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
+            return null;
+         }
+      }
+      return null;
    }
 
 }
