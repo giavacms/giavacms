@@ -16,73 +16,81 @@ import javax.persistence.PersistenceContext;
 
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
-import org.giavacms.base.model.Template;
 import org.giavacms.common.repository.AbstractRepository;
 
 public abstract class AbstractPageRepository<T extends Page> extends
-		AbstractRepository<T> {
+         AbstractRepository<T>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	EntityManager em;
+   @PersistenceContext
+   EntityManager em;
 
-	@Inject
-	TemplateRepository templateRepository;
-	@Inject
-	TemplateImplRepository templateImplRepository;
+   @Inject
+   TemplateRepository templateRepository;
+   @Inject
+   TemplateImplRepository templateImplRepository;
 
-	@Override
-	public EntityManager getEm() {
-		return em;
-	}
+   @Override
+   public EntityManager getEm()
+   {
+      return em;
+   }
 
-	@Override
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+   @Override
+   public void setEm(EntityManager em)
+   {
+      this.em = em;
+   }
 
-	@Override
-	protected T prePersist(T page) {
-		// closeHtmlTags(page);
-		String idTitle = PageUtils.createPageId(page.getTitle());
-		String idFinal = super.testKey(idTitle);
-		Template template = templateRepository.find(page.getTemplate()
-				.getTemplate().getId());
-		page.getTemplate().setTemplate(template);
-		if (page.getTemplate().getId() == null) {
-		   page.getTemplate().setMainPageId(idTitle);
-			templateImplRepository.persist(page.getTemplate());
-		}
-		page.setId(idFinal);
-		return page;
-	}
+   @Override
+   protected T prePersist(T page)
+   {
+      // create a unique title to be used as the page identifier
+      String idTitle = PageUtils.createPageId(page.getTitle());
+      String idFinal = super.testKey(idTitle);
+      page.setId(idFinal);
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	protected T preUpdate(T page) {
-		Template template = templateRepository.find(page.getTemplate()
-				.getTemplate().getId());
-		if (page.getTemplate().getId() == null) {
-         page.getTemplate().setMainPageId(page.getId());
-			templateImplRepository.persist(page.getTemplate());
-		}
-		page.getTemplate().setTemplate(template);
-		return page;
-	}
+      if (!page.isClone())
+      {
+         // page id of a brand new page will become the templateImpl's backward reference to its original main page
+         page.getTemplate().setMainPageId(idTitle);
+         templateImplRepository.persist(page.getTemplate());
+      }
 
-	@Override
-	public boolean delete(Object key) {
-		try {
-			T obj = getEm().find(getEntityType(), key);
-			if (obj != null) {
-				obj.setActive(false);
-				getEm().remove(obj);
-			}
-			return true;
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
-			return false;
-		}
-	}
+      return page;
+   }
+
+   @TransactionAttribute(TransactionAttributeType.REQUIRED)
+   protected T preUpdate(T page)
+   {
+      if (!page.isClone())
+      {
+         // when updating a non-clone page the user can change page.template.template.id
+         templateImplRepository.update(page.getTemplate());
+      }
+      return page;
+   }
+
+   @Override
+   public boolean delete(Object key)
+   {
+      try
+      {
+         T obj = getEm().find(getEntityType(), key);
+         if (obj != null)
+         {
+            obj.setActive(false);
+            getEm().remove(obj);
+         }
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.log(Level.SEVERE, null, e);
+         return false;
+      }
+   }
 
 }

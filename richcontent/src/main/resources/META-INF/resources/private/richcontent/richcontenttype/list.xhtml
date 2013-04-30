@@ -35,16 +35,39 @@
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="150">
 							<f:facet name="header">nome</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
 									<h:outputText value="#{t.name}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText required="true"
-										requiredMessage="E' obbligatorio specificare un nome per ogni tipologia"
-										value="#{t.name}" />
+									<h:panelGroup>
+										<p:inputText required="true"
+											requiredMessage="E' obbligatorio specificare un nome per ogni tipologia"
+											value="#{t.name}" />
+										<h:outputText value=" (*)" />
+									</h:panelGroup>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">pagina base</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.page.title}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:panelGroup>
+										<h:selectOneMenu style="width: 100%;" value="#{t.page.id}"
+											required="true"
+											requiredMessage="E' obbligatorio specificare la pagina base">
+											<f:selectItems
+												value="#{baseProducer.getBasePageItems(richContentTypeController.extension)}" />
+										</h:selectOneMenu>
+										<h:outputText value=" (*)" />
+									</h:panelGroup>
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -64,12 +87,25 @@
 					</p:dataTable>
 				</p:panel>
 				<br /> <br />
+			</center>
+		</h:form>
 
+		<h:form>
+			<center>
 
-				<h:panelGrid columns="4">
-					<h:outputLabel value="Tipo:" for="categoryId" />
+				<h:panelGrid columns="3">
+					<h:outputLabel value="Nome (*):" for="categoryId" />
+					<h:outputLabel value="Pagina base (*):" for="pageId" />
+					<h:outputText />
 					<h:inputText value="#{richContentTypeController.element.name}"
 						id="categoryId" />
+					<h:selectOneMenu style="width: 100%;"
+						value="#{richContentTypeController.element.page.id}" id="pageId"
+						required="true"
+						requiredMessage="E' obbligatorio specificare la pagina base">
+						<f:selectItems
+							value="#{baseProducer.getBasePageItems(richContentTypeController.extension)}" />
+					</h:selectOneMenu>
 					<p:commandButton action="#{richContentTypeController.save}"
 						value="Aggiungi" ajax="false" />
 				</h:panelGrid>
