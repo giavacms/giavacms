@@ -23,131 +23,178 @@ import org.giavacms.common.model.Search;
 @Stateless
 @LocalBean
 public class PageRepository
-		extends AbstractPageRepository<Page> {
+         extends AbstractPageRepository<Page>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void applyRestrictions(Search<Page> search, String alias,
-			String separator, StringBuffer sb, Map<String, Object> params) {
-		sb.append(separator).append(alias).append(".active = :active ");
-		params.put("active", true);
-		separator = " and ";
+   @Override
+   protected void applyRestrictions(Search<Page> search, String alias,
+            String separator, StringBuffer sb, Map<String, Object> params)
+   {
+      sb.append(separator).append(alias).append(".active = :active ");
+      params.put("active", true);
+      separator = " and ";
 
-		if (!search.getObj().isClone()) {
-			sb.append(separator).append(alias).append(".clone = :clone ");
-			params.put("clone", false);
-			separator = " and ";
-		}
+      if (!search.getObj().isClone())
+      {
+         sb.append(separator).append(alias).append(".clone = :clone ");
+         params.put("clone", false);
+         separator = " and ";
+      }
 
-		if (search.getObj().getTemplate() != null
-				&& search.getObj().getTemplate().getTemplate() != null
-				&& search.getObj().getTemplate().getTemplate()
-						.getSearchStatico() != null) {
-			sb.append(separator).append(alias)
-					.append(".template.template.statico = :statico ");
-			params.put("statico", search.getObj().getTemplate().getTemplate()
-					.getSearchStatico());
-		}
+      if (search.getObj().getTemplate() != null
+               && search.getObj().getTemplate().getTemplate() != null
+               && search.getObj().getTemplate().getTemplate()
+                        .getSearchStatico() != null)
+      {
+         sb.append(separator).append(alias)
+                  .append(".template.template.statico = :statico ");
+         params.put("statico", search.getObj().getTemplate().getTemplate()
+                  .getSearchStatico());
+      }
 
-		if (search.getObj().getTitle() != null
-				&& !search.getObj().getTitle().isEmpty()) {
-			sb.append(separator).append(alias).append(".title like :title ");
-			params.put("title", likeParam(search.getObj().getTitle()));
-		}
-		if (search.getObj().getLang() > 0) {
-			if (search.getObj().getLang() == 1) {
-				sb.append(separator).append(alias).append(".id = ")
-						.append(alias).append(".lang1id ");
-			} else if (search.getObj().getLang() == 2) {
-				sb.append(separator).append(alias).append(".id = ")
-						.append(alias).append(".lang2id ");
-			} else if (search.getObj().getLang() == 3) {
-				sb.append(separator).append(alias).append(".id = ")
-						.append(alias).append(".lang3id ");
-			} else if (search.getObj().getLang() == 4) {
-				sb.append(separator).append(alias).append(".id = ")
-						.append(alias).append(".lang4id ");
-			} else if (search.getObj().getLang() == 5) {
-				sb.append(separator).append(alias).append(".id = ")
-						.append(alias).append(".lang5id ");
-			}
-		}
+      if (search.getObj().getTitle() != null
+               && !search.getObj().getTitle().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
+         params.put("title", likeParam(search.getObj().getTitle().trim().toUpperCase()));
+      }
 
-	}
+      if (search.getObj().getExtension() != null
+               && !search.getObj().getExtension().trim().isEmpty())
+      {
+         if (search.getObj().getExtension().equals(Page.class.getSimpleName()))
+         {
+            sb.append(separator).append(alias).append(".extension is null ");
+         }
+         else
+         {
+            sb.append(separator).append(alias).append(".extension = :extension ");
+            params.put("extension", search.getObj().getExtension());
+         }
+      }
 
-	@Override
-	public Page fetch(Object id) {
-		logger.info("fetchPage: " + id);
-		Page ret = null;
-		try {
-			ret = (Page) em
-					.createQuery(
-							"select p from Page p left join fetch p.template ti left join fetch ti.template t where p.id = :ID ")
-					.setParameter("ID", id).setMaxResults(1).getSingleResult();
-			em.refresh(ret);
-			// i18n support
-			ret.setLang(ret.getId().equals(ret.getLang1id()) ? 1 : ret.getId()
-					.equals(ret.getLang2id()) ? 2 : ret.getId().equals(
-					ret.getLang3id()) ? 3 : ret.getId()
-					.equals(ret.getLang4id()) ? 4 : ret.getId().equals(
-					ret.getLang5id()) ? 5 : 0);
-		} catch (Exception e) {
-			logger.info(e.getMessage());
-		}
-		return ret;
-	}
+      if (search.getObj().getLang() > 0)
+      {
+         if (search.getObj().getLang() == 1)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang1id ");
+         }
+         else if (search.getObj().getLang() == 2)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang2id ");
+         }
+         else if (search.getObj().getLang() == 3)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang3id ");
+         }
+         else if (search.getObj().getLang() == 4)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang4id ");
+         }
+         else if (search.getObj().getLang() == 5)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang5id ");
+         }
+      }
 
-	public boolean reallyDelete(Object key) {
-		try {
-			Page obj = getEm().find(getEntityType(), key);
-			getEm().remove(obj);
-			return true;
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
-			return false;
-		}
-	}
+   }
 
-	// @Override
-	// public boolean delete(Object key) {
-	// try {
-	// Page obj = getEm().find(getEntityType(), key);
-	// if (obj != null) {
-	// obj.setActive(false);
-	// getEm().remove(obj);
-	// }
-	// return true;
-	// } catch (Exception e) {
-	// logger.log(Level.SEVERE, null, e);
-	// return false;
-	// }
-	// }
+   @Override
+   public Page fetch(Object id)
+   {
+      logger.info("fetchPage: " + id);
+      Page ret = null;
+      try
+      {
+         ret = (Page) em
+                  .createQuery(
+                           "select p from Page p left join fetch p.template ti left join fetch ti.template t where p.id = :ID ")
+                  .setParameter("ID", id).setMaxResults(1).getSingleResult();
+         em.refresh(ret);
+         // i18n support
+         ret.setLang(ret.getId().equals(ret.getLang1id()) ? 1 : ret.getId()
+                  .equals(ret.getLang2id()) ? 2 : ret.getId().equals(
+                  ret.getLang3id()) ? 3 : ret.getId()
+                  .equals(ret.getLang4id()) ? 4 : ret.getId().equals(
+                  ret.getLang5id()) ? 5 : 0);
+      }
+      catch (Exception e)
+      {
+         logger.info(e.getMessage());
+      }
+      return ret;
+   }
 
-	@Override
-	protected String getDefaultOrderBy() {
-		return "title asc";
-	}
+   public boolean reallyDelete(Object key)
+   {
+      try
+      {
+         Page obj = getEm().find(getEntityType(), key);
+         getEm().remove(obj);
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.log(Level.SEVERE, null, e);
+         return false;
+      }
+   }
 
-	@SuppressWarnings("unchecked")
-	public List<Page> getExtensions(String extension) {
-		try {
-			StringBuffer sbq = new StringBuffer("select p from "
-					+ Page.class.getSimpleName() + " p where p.clone = :CLONE and p.extension ");
-			if (extension != null && extension.trim().length() > 0) {
-				sbq.append(" = :EXTENSION ");
-			} else {
-				sbq.append(" is null ");
-			}
-			Query q = getEm().createQuery(sbq.toString()).setParameter("CLONE", false);
-			if (extension != null && extension.trim().length() > 0) {
-				q.setParameter("EXTENSION", extension);
-			}
-			return q.getResultList();
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
-			return new ArrayList<Page>();
-		}
-	}
+   // @Override
+   // public boolean delete(Object key) {
+   // try {
+   // Page obj = getEm().find(getEntityType(), key);
+   // if (obj != null) {
+   // obj.setActive(false);
+   // getEm().remove(obj);
+   // }
+   // return true;
+   // } catch (Exception e) {
+   // logger.log(Level.SEVERE, null, e);
+   // return false;
+   // }
+   // }
+
+   @Override
+   protected String getDefaultOrderBy()
+   {
+      return "title asc";
+   }
+
+   @SuppressWarnings("unchecked")
+   public List<Page> getExtensions(String extension)
+   {
+      try
+      {
+         StringBuffer sbq = new StringBuffer("select p from "
+                  + Page.class.getSimpleName() + " p where p.clone = :CLONE and p.extension ");
+         if (extension != null && extension.trim().length() > 0)
+         {
+            sbq.append(" = :EXTENSION ");
+         }
+         else
+         {
+            sbq.append(" is null ");
+         }
+         Query q = getEm().createQuery(sbq.toString()).setParameter("CLONE", false);
+         if (extension != null && extension.trim().length() > 0)
+         {
+            q.setParameter("EXTENSION", extension);
+         }
+         return q.getResultList();
+      }
+      catch (Exception e)
+      {
+         logger.log(Level.SEVERE, null, e);
+         return new ArrayList<Page>();
+      }
+   }
 
 }

@@ -30,6 +30,7 @@
 					<br />
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
+						editable="true"
 						value="#{categoryController.model}"
 						rows="#{categoryController.pageSize}" paginator="true"
 						dynamic="true">
