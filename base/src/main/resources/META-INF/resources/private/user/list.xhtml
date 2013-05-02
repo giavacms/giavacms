@@ -42,7 +42,7 @@
 				<p:panel header="Lista Utenti">
 					<p:dataTable id="userList" rowIndexVar="rowIndex" var="user"
 						value="#{userController.model}" rows="#{userController.pageSize}"
-						paginator="true" dynamic="true">
+						paginator="true" lazy="true">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />

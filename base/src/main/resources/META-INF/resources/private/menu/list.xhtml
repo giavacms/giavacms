@@ -17,7 +17,7 @@
 				<p:panel header="Lista Menu">
 					<p:dataTable id="menusList" rowIndexVar="rowIndex" var="m"
 						value="#{menuController.model}" rows="#{menuController.pageSize}"
-						paginator="true" dynamic="true">
+						paginator="true" lazy="true">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />

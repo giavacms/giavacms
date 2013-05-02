@@ -47,7 +47,7 @@
 
 					<p:dataTable id="pagesList" rowIndexVar="rowIndex" var="p"
 						value="#{pageController.model}" rows="#{pageController.pageSize}"
-						paginator="true" dynamic="true">
+						paginator="true" lazy="true">
 						<p:column width="10">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />
@@ -105,10 +105,10 @@
 						</p:column>
 						<p:column width="100">
 							<f:facet name="header">
-							clone
+							e' pagina di base
 						</f:facet>
-							<h:outputText value="CLONE" rendered="#{p.clone}" />
-							<h:outputText value="BASE" rendered="#{not p.clone}" />
+							<h:outputText value="NO" rendered="#{p.clone}" />
+							<h:outputText value="SI" rendered="#{not p.clone}" />
 						</p:column>
 						<p:column width="150">
 							<f:facet name="header">
@@ -122,14 +122,16 @@
 									value="#{request.contextPath}/p/#{p.id}">
 									<h:outputText value="anteprima" />
 								</h:outputLink>
-								<h:outputText value=" - " />
-								<h:commandLink value="copia"
-									action="#{pageController.cloneElement}" />
+								<h:panelGroup rendered="#{not p.clone}">
+									<h:outputText value=" - " />
+									<h:commandLink value="copia"
+										action="#{pageController.cloneElement}" />
+								</h:panelGroup>
 								<h:panelGroup rendered="#{loginController.isInRole('i18n')}">
 									<h:outputText value=" - " />
 									<p:commandLink value="associa lingue"
-										action="#{i18nController.modElement(p.id)}" update=":dialog_central"
-										oncomplete="i18nDialog.show();" />
+										action="#{i18nController.modElement(p.id)}"
+										update=":dialog_central" oncomplete="i18nDialog.show();" />
 								</h:panelGroup>
 							</center>
 						</p:column>
@@ -148,6 +150,6 @@
 		</h:form>
 
 		<ui:include src="i18nDialog.xhtml" />
-		
+
 	</ui:define>
 </ui:composition>

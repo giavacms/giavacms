@@ -6,6 +6,7 @@
  */
 package org.giavacms.base.repository;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 import javax.ejb.TransactionAttribute;
@@ -16,6 +17,7 @@ import javax.persistence.PersistenceContext;
 
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
+import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
 
 public abstract class AbstractPageRepository<T extends Page> extends
@@ -91,6 +93,68 @@ public abstract class AbstractPageRepository<T extends Page> extends
          logger.log(Level.SEVERE, null, e);
          return false;
       }
+   }
+
+   @Override
+   protected void applyRestrictions(Search<T> search, String alias,
+            String separator, StringBuffer sb, Map<String, Object> params)
+   {
+
+      // ACTIVE
+      if (true)
+      {
+         sb.append(separator).append(alias).append(".active = :active");
+         params.put("active", true);
+         separator = " and ";
+      }
+
+      // BASE PAGE
+      if (search.getObj().getTemplate() != null && search.getObj().getTemplate().getId() != null)
+      {
+         sb.append(separator).append(alias).append(".template.id = :BASEPAGE_TEMPLATE_ID ");
+         params.put("BASEPAGE_TEMPLATE_ID", search.getObj().getTemplate().getId());
+         separator = " and ";
+      }
+
+      // TITLE
+      if (search.getObj().getTitle() != null
+               && !search.getObj().getTitle().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
+         params.put("title", likeParam(search.getObj().getTitle().trim().toUpperCase()));
+         separator = " and ";
+      }
+
+      // LINGUA
+      if (search.getObj().getLang() > 0)
+      {
+         if (search.getObj().getLang() == 1)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang1id ");
+         }
+         else if (search.getObj().getLang() == 2)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang2id ");
+         }
+         else if (search.getObj().getLang() == 3)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang3id ");
+         }
+         else if (search.getObj().getLang() == 4)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang4id ");
+         }
+         else if (search.getObj().getLang() == 5)
+         {
+            sb.append(separator).append(alias).append(".id = ")
+                     .append(alias).append(".lang5id ");
+         }
+      }
+
    }
 
 }

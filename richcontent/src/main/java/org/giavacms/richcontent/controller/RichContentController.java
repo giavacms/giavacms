@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.PageRepository;
@@ -69,6 +70,11 @@ public class RichContentController extends AbstractLazyController<RichContent>
       return t.getId();
    }
 
+   @Override
+   public void defaultCriteria()
+   {
+      getSearch().getObj().setTemplate(new TemplateImpl());
+   }
    // --------------------------------------------------------
 
    public void handleUpload(FileUploadEvent event)
@@ -213,6 +219,11 @@ public class RichContentController extends AbstractLazyController<RichContent>
    {
       super.modElement();
       return EDIT_DOCS + REDIRECT_PARAM;
+   }
+
+   public String getExtension()
+   {
+      return RichContent.EXTENSION;
    }
 
 }

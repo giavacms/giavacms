@@ -40,7 +40,7 @@
 					<p:dataTable id="templatesList" rowIndexVar="rowIndex" var="t"
 						value="#{templateController.model}"
 						rows="#{templateController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />

@@ -245,7 +245,7 @@
 
 					<p:dataTable id="dialog_pagesList" rowIndexVar="rowIndex" var="p"
 						value="#{i18nController.model}" rows="5" paginator="true"
-						paginatorPosition="bottom" dynamic="true" style="width: 98%;">
+						paginatorPosition="bottom" lazy="true" style="width: 98%;">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />

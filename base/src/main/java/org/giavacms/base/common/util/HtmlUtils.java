@@ -39,6 +39,10 @@ public class HtmlUtils
 
    public static String normalizeHtml(String code)
    {
+      if (code == null)
+      {
+         code = "";
+      }
       Tidy tidy = new Tidy();
       tidy.setXHTML(true);
       tidy.setTidyMark(false);
