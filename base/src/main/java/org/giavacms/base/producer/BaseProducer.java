@@ -99,7 +99,7 @@ public class BaseProducer implements Serializable
 
    @Produces
    @Named
-   public SelectItem[] getExtensionItems(String extensionType)
+   public SelectItem[] getBasePageTemplateItems(String extensionType)
    {
       List<SelectItem> valori = new ArrayList<SelectItem>();
       valori.add(new SelectItem(null, "pagina base..."));

@@ -32,9 +32,6 @@ public class PageRepository
    protected void applyRestrictions(Search<Page> search, String alias,
             String separator, StringBuffer sb, Map<String, Object> params)
    {
-      sb.append(separator).append(alias).append(".active = :active ");
-      params.put("active", true);
-      separator = " and ";
 
       if (!search.getObj().isClone())
       {
@@ -52,57 +49,27 @@ public class PageRepository
                   .append(".template.template.statico = :statico ");
          params.put("statico", search.getObj().getTemplate().getTemplate()
                   .getSearchStatico());
+         separator = " and ";
       }
 
-      if (search.getObj().getTitle() != null
-               && !search.getObj().getTitle().trim().isEmpty())
-      {
-         sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
-         params.put("title", likeParam(search.getObj().getTitle().trim().toUpperCase()));
-      }
-
+      // ESTENSIONE O BASE
       if (search.getObj().getExtension() != null
                && !search.getObj().getExtension().trim().isEmpty())
       {
          if (search.getObj().getExtension().equals(Page.class.getSimpleName()))
          {
             sb.append(separator).append(alias).append(".extension is null ");
+            separator = " and ";
          }
          else
          {
             sb.append(separator).append(alias).append(".extension = :extension ");
             params.put("extension", search.getObj().getExtension());
+            separator = " and ";
          }
       }
 
-      if (search.getObj().getLang() > 0)
-      {
-         if (search.getObj().getLang() == 1)
-         {
-            sb.append(separator).append(alias).append(".id = ")
-                     .append(alias).append(".lang1id ");
-         }
-         else if (search.getObj().getLang() == 2)
-         {
-            sb.append(separator).append(alias).append(".id = ")
-                     .append(alias).append(".lang2id ");
-         }
-         else if (search.getObj().getLang() == 3)
-         {
-            sb.append(separator).append(alias).append(".id = ")
-                     .append(alias).append(".lang3id ");
-         }
-         else if (search.getObj().getLang() == 4)
-         {
-            sb.append(separator).append(alias).append(".id = ")
-                     .append(alias).append(".lang4id ");
-         }
-         else if (search.getObj().getLang() == 5)
-         {
-            sb.append(separator).append(alias).append(".id = ")
-                     .append(alias).append(".lang5id ");
-         }
-      }
+      super.applyRestrictions(search, alias, separator, sb, params);
 
    }
 

@@ -222,7 +222,7 @@
 
 					<p:dataTable id="pagesList" rowIndexVar="rowIndex" var="p"
 						value="#{i18nController.model}" rows="#{i18nController.pageSize}"
-						paginator="true" dynamic="true">
+						paginator="true" lazy="true">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />

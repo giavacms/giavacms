@@ -35,7 +35,7 @@
 					<p:dataTable id="operazioniList" rowIndexVar="rowIndex"
 						var="operazione" value="#{logOperationsController.model}"
 						rows="#{logOperationsController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

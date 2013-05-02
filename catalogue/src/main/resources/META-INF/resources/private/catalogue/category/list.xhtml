@@ -19,21 +19,30 @@
 		<center>
 			<h:form prependId="false">
 				<p:panel header="#{msg['category.list.title']}">
-					<h:panelGrid columns="3" rendered="false">
-						<h:outputLabel for="name" value="Nome:" />
-						<h:inputText id="name"
-							value="#{categoryController.search.obj.name}" />
-						<p:commandButton actionListener="#{categoryController.reloadAjax}"
-							value="Cerca" ajax="true" immediate="false" update="newsList" />
-					</h:panelGrid>
 
+					<h:panelGrid columns="7">
+
+						<h:outputLabel for="titolo" value="Titolo:" />
+						<h:inputText id="titolo"
+							value="#{categoryController.search.obj.title}" />
+
+						<h:outputLabel for="basepage" value="Pagina base:" />
+						<h:selectOneMenu id="basepage"
+							value="#{categoryController.search.obj.template.id}">
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
+						</h:selectOneMenu>
+
+						<p:commandButton action="#{richContentController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false" update="newsList" />
+
+					</h:panelGrid>
 					<br />
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
-						editable="true"
-						value="#{categoryController.model}"
+						editable="true" value="#{categoryController.model}"
 						rows="#{categoryController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="false">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -79,16 +88,24 @@
 
 						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
+							#{t.extension}
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{t.template.mainPageId}"  />
+									<h:outputText
+										value="#{t.template.mainPageId} - NEL SELECT SI VEDE IL TITLE - PUO' NON COINCIDERE"
+										rendered="false" />
+									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
+										disabled="true">
+										<f:selectItems
+											value="#{baseProducer.getBasePageTemplateItems(t.extension)}" />
+									</h:selectOneMenu>
 								</f:facet>
 								<f:facet name="input">
 									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
 										required="true"
 										requiredMessage="E' obbligatorio specificare la pagina base">
 										<f:selectItems
-											value="#{baseProducer.getExtensionItems(t.extension)}" />
+											value="#{baseProducer.getBasePageTemplateItems(t.extension)}" />
 									</h:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
@@ -133,7 +150,7 @@
 							value="#{categoryController.element.template.id}" required="true"
 							requiredMessage="E' obbligatorio specificare la pagina base">
 							<f:selectItems
-								value="#{baseProducer.getExtensionItems(categoryController.element.extension)}" />
+								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
 						</h:selectOneMenu>
 					</h:panelGroup>
 

@@ -35,12 +35,16 @@ public class RichContentRepository extends AbstractPageRepository<RichContent> {
 	protected void applyRestrictions(Search<RichContent> search, String alias,
 			String separator, StringBuffer sb, Map<String, Object> params) {
 
-		if (true) {
-			sb.append(separator).append(alias).append(".active = :active");
-			params.put("active", true);
-			separator = " and ";
-		}
-		
+	   // ACTIVE TYPE
+      if (true)
+      {
+         sb.append(separator).append(alias)
+                  .append(".richContentType.active = :activeContentType ");
+         params.put("activeContentType", true);
+         separator = " and ";
+      }
+      
+		// TYPE BY NAME
 		if (search.getObj().getRichContentType() != null
 				&& search.getObj().getRichContentType().getName() != null
 				&& search.getObj().getRichContentType().getName().length() > 0) {
@@ -48,14 +52,19 @@ public class RichContentRepository extends AbstractPageRepository<RichContent> {
 					.append(".richContentType.name = :NAMETYPE ");
 			params.put("NAMETYPE", search.getObj().getRichContentType()
 					.getName());
+         separator = " and ";
 		}
+		
+		// TYPE BY ID
 		if (search.getObj().getRichContentType() != null
 				&& search.getObj().getRichContentType().getId() != null) {
 			sb.append(separator).append(alias)
 					.append(".richContentType.id = :IDTYPE ");
 			params.put("IDTYPE", search.getObj().getRichContentType().getId());
+         separator = " and ";
 		}
 
+		// TITLE
 		if (search.getObj().getTitle() != null
 				&& !search.getObj().getTitle().isEmpty()) {
 			sb.append(separator + " (");
@@ -71,8 +80,13 @@ public class RichContentRepository extends AbstractPageRepository<RichContent> {
 					.append(".content LIKE :CONTENTNEWS");
 			params.put("CONTENTNEWS", likeParam(search.getObj().getTitle()
 					.toUpperCase()));
+			
 			sb.append(" ) ");
+         separator = " and ";
 		}
+
+		super.applyRestrictions(search, alias, separator, sb, params);
+		
 	}
 
 	@Override

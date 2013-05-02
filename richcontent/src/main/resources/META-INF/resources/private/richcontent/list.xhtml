@@ -17,16 +17,24 @@
 		<h:form>
 			<center>
 				<p:panel header="Lista Contenuti">
-					<h:panelGrid columns="5">
+					<h:panelGrid columns="7">
 						<h:outputLabel for="titolo" value="Titolo:" />
 						<h:inputText id="titolo"
 							value="#{richContentController.search.obj.title}" />
 
-						<h:outputLabel for="tipo" value="Seleziona tipo:" />
+						<h:outputLabel for="tipo" value="Tipo:" />
 						<h:selectOneMenu id="tipo"
 							value="#{richContentController.search.obj.richContentType.id}">
 							<f:selectItems value="#{richContentTypeItems}" />
 						</h:selectOneMenu>
+
+						<h:outputLabel for="basepage" value="Pagina base:" />
+						<h:selectOneMenu id="basepage"
+							value="#{richContentController.search.obj.template.id}">
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(richContentController.extension)}" />
+						</h:selectOneMenu>
+
 						<p:commandButton action="#{richContentController.reloadAjax}"
 							value="Cerca" ajax="true" immediate="false" update="contentList" />
 
@@ -36,7 +44,7 @@
 					<p:dataTable id="contentList" rowIndexVar="rowIndex"
 						var="contenuto" value="#{richContentController.model}"
 						rows="#{richContentController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -61,7 +69,13 @@
 
 						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
-							<h:outputText value="#{contenuto.template.mainPageId}" />
+							<h:outputText
+								value="#{contenuto.template.mainPageId} - MA NEL SELECT CI STA IL PAGE.TITLE - PUO' NON COINCIDERE"
+								rendered="fasle" />
+							<h:selectOneMenu disabled="true" value="#{contenuto.template.id}">
+								<f:selectItems
+									value="#{baseProducer.getBasePageTemplateItems(richContentController.extension)}" />
+							</h:selectOneMenu>
 						</p:column>
 
 						<p:column width="200">

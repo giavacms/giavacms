@@ -4,6 +4,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.catalogue.model.Category;
@@ -18,61 +19,79 @@ import org.giavacms.common.controller.AbstractLazyController;
 
 @Named
 @SessionScoped
-public class CategoryController extends AbstractLazyController<Category> {
+public class CategoryController extends AbstractLazyController<Category>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	@ListPage
-	@EditPage
-	public static String LIST = "/private/catalogue/category/list.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   @ListPage
+   @EditPage
+   public static String LIST = "/private/catalogue/category/list.xhtml";
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	@Inject
-	@OwnRepository(CategoryRepository.class)
-	CategoryRepository categoryRepository;
+   @Inject
+   @OwnRepository(CategoryRepository.class)
+   CategoryRepository categoryRepository;
 
-	@Inject
-	CatalogueProducer catalogueProducer;
+   @Inject
+   CatalogueProducer catalogueProducer;
 
-	@Inject
-	TemplateImplRepository templateImplRepository;
+   @Inject
+   TemplateImplRepository templateImplRepository;
 
-	@Inject
-	PageRepository pageRepository;
+   @Inject
+   PageRepository pageRepository;
 
-	@Override
-	public void initController() {
-		if (getElement() == null) {
-			setElement(new Category());
-		}
-	}
+   @Override
+   public void initController()
+   {
+      if (getElement() == null)
+      {
+         setElement(new Category());
+      }
+   }
 
-	@Override
-	public Object getId(Category t) {
-		return t.getId();
-	}
+   @Override
+   public void defaultCriteria()
+   {
+      getSearch().getObj().setTemplate(new TemplateImpl());
+   }
+   
+   @Override
+   public Object getId(Category t)
+   {
+      return t.getId();
+   }
 
-	@Override
-	public String reset() {
-		catalogueProducer.reset();
-		return super.reset();
-	}
+   @Override
+   public String reset()
+   {
+      catalogueProducer.reset();
+      return super.reset();
+   }
 
-	// ---------------------------------------------------------------------
+   // ---------------------------------------------------------------------
 
-	@Override
-	public String save() {
-		catalogueProducer.reset();
-		if (super.save() == null) {
-			return null;
-		}
-		setElement(new Category());
-		return listPage();
-	}
+   @Override
+   public String save()
+   {
+      catalogueProducer.reset();
+      if (super.save() == null)
+      {
+         return null;
+      }
+      setElement(new Category());
+      return listPage();
+   }
+
+   public String getExtension()
+   {
+      return Category.EXTENSION;
+   }
 
 }
