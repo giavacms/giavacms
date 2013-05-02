@@ -16,13 +16,23 @@
 		<h:form>
 			<center>
 				<p:panel header="Lista Realizzazioni">
-					<h:panelGrid columns="5">
-						<h:outputLabel for="titolo" value="Nome" />
-						<h:inputText id="titolo"
-							value="#{scenarioController.search.obj.name}" />
+				
+					<h:panelGrid columns="7">
 
-						<p:commandButton actionListener="#{scenarioController.reloadAjax}"
+						<h:outputLabel for="titolo" value="Titolo:" />
+						<h:inputText id="titolo"
+							value="#{scenarioController.search.obj.title}" />
+
+						<h:outputLabel for="basepage" value="Pagina base:" />
+						<h:selectOneMenu id="basepage"
+							value="#{scenarioController.search.obj.template.id}">
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(scenarioController.extension)}" />
+						</h:selectOneMenu>
+
+						<p:commandButton action="#{richContentController.reloadAjax}"
 							value="Cerca" ajax="true" immediate="false" update="scenarioList" />
+
 					</h:panelGrid>
 					<br />
 

@@ -1,15 +1,12 @@
 package org.giavacms.scenario.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -17,146 +14,147 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.giavacms.base.model.Page;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.catalogue.model.Product;
 
-
 @Entity
-public class Scenario implements Serializable {
+@DiscriminatorValue(value = Scenario.EXTENSION)
+public class Scenario extends Page
+{
 
-	private static final long serialVersionUID = 1L;
-	private Long id;
-	private String name;
-	private String preview;
-	private String description;
-	private List<Product> products;
-	private List<Document> documents;
-	private List<Image> images;
-	private boolean active = true;
+   private static final long serialVersionUID = 1L;
+   public static final String EXTENSION = "Scenario";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
+   private String preview;
+   private List<Product> products;
+   private List<Document> documents;
+   private List<Image> images;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   public Scenario()
+   {
+      super();
+      super.setExtension(EXTENSION);
+   }
 
-	public String getName() {
-		return name;
-	}
+   @Transient
+   @Deprecated
+   public String getName()
+   {
+      return super.getTitle();
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   @Deprecated
+   public void setName(String name)
+   {
+      super.setTitle(name);
+   }
 
-	@Lob
-	public String getPreview() {
-		return preview;
-	}
+   @Lob
+   public String getPreview()
+   {
+      return preview;
+   }
 
-	public void setPreview(String preview) {
-		this.preview = preview;
-	}
+   public void setPreview(String preview)
+   {
+      this.preview = preview;
+   }
 
-	@Lob
-	public String getDescription() {
-		return description;
-	}
+   @ManyToMany(fetch = FetchType.EAGER)
+   public List<Product> getProducts()
+   {
+      if (products == null)
+         this.products = new ArrayList<Product>();
+      return products;
+   }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+   @Transient
+   public String getProductNames()
+   {
+      StringBuffer productNames = new StringBuffer();
+      for (Product product : getProducts())
+      {
+         productNames.append("," + product.getTitle());
+      }
+      return productNames.length() > 0 ? productNames.toString().substring(1)
+               : "";
+   }
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	public List<Product> getProducts() {
-		if (products == null)
-			this.products = new ArrayList<Product>();
-		return products;
-	}
+   public void setProducts(List<Product> products)
+   {
+      this.products = products;
+   }
 
-	@Transient
-	public String getProductNames() {
-		StringBuffer productNames = new StringBuffer();
-		for (Product product : getProducts()) {
-			productNames.append("," + product.getName());
-		}
-		return productNames.length() > 0 ? productNames.toString().substring(1)
-				: "";
-	}
+   public void addProduct(Product product)
+   {
+      getProducts().add(product);
+   }
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(name = "Scenario_Document", joinColumns = @JoinColumn(name = "Scenario_id"), inverseJoinColumns = @JoinColumn(name = "documents_id"))
+   public List<Document> getDocuments()
+   {
+      if (this.documents == null)
+         this.documents = new ArrayList<Document>();
+      return documents;
+   }
 
-	public void addProduct(Product product) {
-		getProducts().add(product);
-	}
+   public void setDocuments(List<Document> documents)
+   {
+      this.documents = documents;
+   }
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "Scenario_Document", joinColumns = @JoinColumn(name = "Scenario_id"), inverseJoinColumns = @JoinColumn(name = "documents_id"))
-	public List<Document> getDocuments() {
-		if (this.documents == null)
-			this.documents = new ArrayList<Document>();
-		return documents;
-	}
+   public void addDocument(Document document)
+   {
+      getDocuments().add(document);
+   }
 
-	public void setDocuments(List<Document> documents) {
-		this.documents = documents;
-	}
+   @Transient
+   public int getDocSize()
+   {
+      return getDocuments().size();
+   }
 
-	public void addDocument(Document document) {
-		getDocuments().add(document);
-	}
+   @Transient
+   public Image getImage()
+   {
+      if (getImages() != null && getImages().size() > 0)
+         return getImages().get(0);
+      return null;
+   }
 
-	@Transient
-	public int getDocSize() {
-		return getDocuments().size();
-	}
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(name = "Scenario_Image", joinColumns = @JoinColumn(name = "Scenario_id"), inverseJoinColumns = @JoinColumn(name = "images_id"))
+   public List<Image> getImages()
+   {
+      if (this.images == null)
+         this.images = new ArrayList<Image>();
+      return images;
+   }
 
-	@Transient
-	public Image getImage() {
-		if (getImages() != null && getImages().size() > 0)
-			return getImages().get(0);
-		return null;
-	}
+   public void setImages(List<Image> images)
+   {
+      this.images = images;
+   }
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "Scenario_Image", joinColumns = @JoinColumn(name = "Scenario_id"), inverseJoinColumns = @JoinColumn(name = "images_id"))
-	public List<Image> getImages() {
-		if (this.images == null)
-			this.images = new ArrayList<Image>();
-		return images;
-	}
+   public void addImage(Image image)
+   {
+      getImages().add(image);
+   }
 
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
+   @Transient
+   public int getImgSize()
+   {
+      return getImages().size();
+   }
 
-	public void addImage(Image image) {
-		getImages().add(image);
-	}
-
-	@Transient
-	public int getImgSize() {
-		return getImages().size();
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	@Override
-	public String toString() {
-		return "Scenario [id=" + id + ", name=" + name + ", preview=" + preview
-				+ ", description=" + description + ", active=" + active + "]";
-	}
+   @Override
+   public String toString()
+   {
+      return "Scenario [preview=" + preview + ", products=" + products + ", documents=" + documents + ", images="
+               + images + "]";
+   }
 
 }

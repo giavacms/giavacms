@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Categorie Clienti" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="customer" />
+	</ui:define>
+	<ui:define name="bundle">
+		<f:loadBundle basename="customer" var="msg" />
+	</ui:define>
+	<ui:define name="content">
+		<center>
+			<h:form prependId="false">
+				<p:panel header="#{msg['category.list.title']}">
+					<h:panelGrid columns="3" rendered="false">
+						<h:outputLabel for="name" value="Nome:" />
+						<h:inputText id="name"
+							value="#{customerCategoryController.search.obj.name}" />
+						<p:commandButton actionListener="#{customerCategoryController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false" update="newsList" />
+					</h:panelGrid>
+
+					<br />
+
+					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
+						value="#{customerCategoryController.model}"
+						rows="#{customerCategoryController.pageSize}" paginator="true"
+						dynamic="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">nome</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:inputText required="true"
+										requiredMessage="E' obbligatorio specificare un nome per ogni categoria"
+										value="#{t.name}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">descrizione</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.description}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:inputTextarea rows="3" cols="15" required="false"
+										value="#{t.description}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="300">
+							<f:facet name="header">ordine</f:facet>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.orderNum}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:inputText required="false" value="#{t.orderNum}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">operazioni</f:facet>
+							<p:rowEditor>
+							</p:rowEditor>
+						</p:column>
+						<p:column width="50">
+							<f:facet name="header">elimina</f:facet>
+							<p:commandButton type="submit" title="Elimina" rendered="true"
+								icon="ui-icon-trash" action="#{customerCategoryController.deleteInline}"
+								ajax="false" immediate="true"
+								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+
+						</p:column>
+						<p:ajax event="rowEdit" listener="#{customerCategoryController.onRowEdit}" />
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<br />
+			</h:form>
+			<h:form prependId="false">
+				<h:panelGrid columns="7">
+					<h:outputLabel value="Categoria(*):" for="categoryId" />
+					<h:inputText value="#{customerCategoryController.element.name}"
+						id="categoryId" />
+					<h:outputLabel value="Descrizione:" for="descriptionId" />
+					<h:inputText value="#{customerCategoryController.element.description}"
+						id="descriptionId" />
+					<h:outputLabel value="Ordine(*):" for="orderNum" />
+					<h:inputText value="#{customerCategoryController.element.orderNum}"
+						id="orderNum" />
+					<p:commandButton action="#{customerCategoryController.save}"
+						value="Aggiungi" ajax="false" />
+				</h:panelGrid>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
