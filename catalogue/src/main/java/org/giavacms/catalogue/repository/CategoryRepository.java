@@ -48,19 +48,8 @@ public class CategoryRepository extends AbstractPageRepository<Category> {
 	protected void applyRestrictions(Search<Category> search, String alias,
 			String separator, StringBuffer sb, Map<String, Object> params) {
 
-		if (true) {
-			sb.append(separator).append(alias).append(".active = :active");
-			params.put("active", true);
-			separator = " and ";
-		}
-
-		if (search.getObj().getTitle() != null
-				&& !search.getObj().getTitle().isEmpty()) {
-			sb.append(separator).append(" upper(").append(alias)
-					.append(".title ) like :TITLE ");
-			params.put("TITLE", likeParam(search.getObj().getTitle()
-					.toUpperCase()));
-		}
+		super.applyRestrictions(search, alias, separator, sb, params);
+		
 	}
 
 	@Override

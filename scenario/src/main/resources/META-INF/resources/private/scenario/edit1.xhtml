@@ -74,6 +74,13 @@
 							value="#{scenarioController.element.name}" style="width: 100%;"
 							required="true" />
 
+						<h:outputLabel for="basepage" value="Pagina base:" />
+							<h:selectOneMenu id="basepage"
+								value="#{scenarioController.element.template.id}">
+								<f:selectItems
+									value="#{baseProducer.getBasePageTemplateItems(scenarioController.extension)}" />
+							</h:selectOneMenu>
+
 						<h:outputLabel for="anteprima" value="Anteprima:" />
 						<h:inputTextarea id="anteprima" cols="20" rows="20"
 							value="#{scenarioController.element.preview}"

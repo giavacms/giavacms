@@ -57,6 +57,12 @@ public class ProductController extends AbstractLazyController<Product> {
 	@Inject
 	PageRepository pageRepository;
 
+	@Override
+	public Object getId(Product t)
+	{
+	   return t.getId();
+	}
+	
 	// --------------------------------------------------------
 
 	public void handleFileUpload(FileUploadEvent event) {
@@ -146,6 +152,7 @@ public class ProductController extends AbstractLazyController<Product> {
 		if (super.save() == null) {
 			return null;
 		}
+		setElement(getRepository().fetch(getElement().getId()));
 		return super.viewPage();
 	}
 
@@ -154,6 +161,7 @@ public class ProductController extends AbstractLazyController<Product> {
 		if (super.update() == null) {
 			return null;
 		}
+		setElement(getRepository().fetch(getElement().getId()));
 		return super.viewPage();
 	}
 

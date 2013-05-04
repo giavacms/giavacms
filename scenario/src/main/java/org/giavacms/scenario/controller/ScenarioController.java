@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.common.util.FileUtils;
 import org.giavacms.base.common.util.ImageUtils;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.catalogue.model.Product;
@@ -51,6 +52,18 @@ public class ScenarioController extends AbstractLazyController<Scenario> {
 
 	// ------------------------------------------------
 
+	@Override
+	public void defaultCriteria()
+	{
+	   getSearch().getObj().setTemplate(new TemplateImpl());
+	}
+
+	@Override
+	public Object getId(Scenario t)
+	{
+	   return t.getId();
+	}
+	
 	@Inject
 	@OwnRepository(ScenarioRepository.class)
 	ScenarioRepository scenarioRepository;
@@ -164,7 +177,7 @@ public class ScenarioController extends AbstractLazyController<Scenario> {
 			}
 		}
 		this.selectedProducts = selectedProductsArray.toArray(new Product[] {});
-		return EDIT2 + super.REDIRECT_PARAM;
+		return EDIT2 + REDIRECT_PARAM;
 	}
 
 	public void updateSelectedProducts() {
@@ -227,5 +240,11 @@ public class ScenarioController extends AbstractLazyController<Scenario> {
 	public void setSelectedProducts(Product[] selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
+
+   public String getExtension()
+   {
+      return Scenario.EXTENSION;
+   }
+
 
 }

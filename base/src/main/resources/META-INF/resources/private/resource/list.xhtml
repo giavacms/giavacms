@@ -41,7 +41,7 @@
 					<p:dataTable id="resourcesList" rowIndexVar="rowIndex" var="r"
 						value="#{resourceController.model}"
 						rows="#{resourceController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />

@@ -38,7 +38,7 @@ public class ScenarioRequestController extends
 		// siamo all'interno della stessa richiesta per servire la quale è
 		// avvenuta la postconstruct
 		Search<Scenario> r = new Search<Scenario>(Scenario.class);
-		r.getObj().setName(getParams().get(SCENARIO));
+		r.getObj().setTitle(getParams().get(SCENARIO));
 		return scenarioRepository.getListSize(r);
 	}
 
@@ -60,14 +60,14 @@ public class ScenarioRequestController extends
 	@Override
 	protected List<Scenario> loadPage(int startRow, int pageSize) {
 		Search<Scenario> r = new Search<Scenario>(Scenario.class);
-		r.getObj().setName(getParams().get(SCENARIO));
+		r.getObj().setTitle(getParams().get(SCENARIO));
 		return scenarioRepository.getList(r, startRow, pageSize);
 	}
 
 	protected List<Scenario> loadRandomList(int pageSize) {
 		if (randomList == null) {
 			Search<Scenario> r = new Search<Scenario>(Scenario.class);
-			r.getObj().setName(getParams().get(SCENARIO));
+			r.getObj().setTitle(getParams().get(SCENARIO));
 			randomList = scenarioRepository.loadRandomList(pageSize);
 		}
 
