@@ -164,4 +164,20 @@ public class PageRepository
       }
    }
 
+   public String getBasePageTitleByTemplateImplId(Long templateImplId)
+   {
+      try
+      {
+         return (String) getEm()
+                  .createQuery(
+                           "select p.title from " + Page.class.getSimpleName()
+                                    + " p where p.template.id = :TID and p.clone = :CLONE ")
+                  .setParameter("TID", templateImplId).setParameter("CLONE", false).getSingleResult();
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
+   }
+
 }

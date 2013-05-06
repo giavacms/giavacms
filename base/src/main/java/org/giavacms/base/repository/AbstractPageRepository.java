@@ -120,9 +120,12 @@ public abstract class AbstractPageRepository<T extends Page> extends
       if (search.getObj().getTitle() != null
                && !search.getObj().getTitle().trim().isEmpty())
       {
-         sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
-         params.put("title", likeParam(search.getObj().getTitle().trim().toUpperCase()));
-         separator = " and ";
+         boolean likeSearch = likeSearch(likeParam(search.getObj().getTitle().trim().toUpperCase()), alias, separator,
+                  sb, params);
+         if (likeSearch)
+         {
+            separator = " and ";
+         }
       }
 
       // LINGUA
@@ -155,6 +158,23 @@ public abstract class AbstractPageRepository<T extends Page> extends
          }
       }
 
+   }
+
+   /**
+    * Override this to perform like search both in title and other fields...
+    * 
+    * @param trim
+    * @param alias
+    * @param separator
+    * @param sb
+    * @param params
+    */
+   protected boolean likeSearch(String likeText, String alias, String separator, StringBuffer sb,
+            Map<String, Object> params)
+   {
+      sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
+      params.put("title", likeText);
+      return true;
    }
 
 }

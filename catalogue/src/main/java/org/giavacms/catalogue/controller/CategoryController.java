@@ -4,7 +4,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.model.TemplateImpl;
+import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.catalogue.model.Category;
@@ -15,18 +15,19 @@ import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
-import org.giavacms.common.controller.AbstractLazyController;
 
 @Named
 @SessionScoped
-public class CategoryController extends AbstractLazyController<Category>
+public class CategoryController extends AbstractPageController<Category>
 {
 
    private static final long serialVersionUID = 1L;
 
    // --------------------------------------------------------
+
    @BackPage
    public static String BACK = "/private/administration.xhtml";
+   
    @ViewPage
    @ListPage
    @EditPage
@@ -48,24 +49,18 @@ public class CategoryController extends AbstractLazyController<Category>
    PageRepository pageRepository;
 
    @Override
+   public String getExtension()
+   {
+      return Category.EXTENSION;
+   }
+
+   @Override
    public void initController()
    {
       if (getElement() == null)
       {
          setElement(new Category());
       }
-   }
-
-   @Override
-   public void defaultCriteria()
-   {
-      getSearch().getObj().setTemplate(new TemplateImpl());
-   }
-   
-   @Override
-   public Object getId(Category t)
-   {
-      return t.getId();
    }
 
    @Override
@@ -87,11 +82,6 @@ public class CategoryController extends AbstractLazyController<Category>
       }
       setElement(new Category());
       return listPage();
-   }
-
-   public String getExtension()
-   {
-      return Category.EXTENSION;
    }
 
 }

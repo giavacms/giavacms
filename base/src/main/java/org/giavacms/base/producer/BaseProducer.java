@@ -97,8 +97,6 @@ public class BaseProducer implements Serializable
                "seleziona template per pagine dinamiche...");
    }
 
-   @Produces
-   @Named
    public SelectItem[] getBasePageTemplateItems(String extensionType)
    {
       List<SelectItem> valori = new ArrayList<SelectItem>();
@@ -114,8 +112,6 @@ public class BaseProducer implements Serializable
       return valori.toArray(new SelectItem[] {});
    }
 
-   @Produces
-   @Named
    public SelectItem[] getBasePageItems(String extensionType)
    {
       List<SelectItem> valori = new ArrayList<SelectItem>();
@@ -129,6 +125,30 @@ public class BaseProducer implements Serializable
          }
       }
       return valori.toArray(new SelectItem[] {});
+   }
+
+   public String getBasePageTitle(Long templateImplId)
+   {
+      try
+      {
+         return pageRepository.getBasePageTitleByTemplateImplId(templateImplId).toString();
+      }
+      catch (Exception e)
+      {
+         return "n.d.";
+      }
+   }
+
+   public String getBasePageTitle(String pageId)
+   {
+      try
+      {
+         return pageRepository.find(pageId).getTitle();
+      }
+      catch (Exception e)
+      {
+         return "n.d.";
+      }
    }
 
    @Produces
