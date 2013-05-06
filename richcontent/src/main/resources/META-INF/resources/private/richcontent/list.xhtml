@@ -72,10 +72,8 @@
 							<h:outputText
 								value="#{contenuto.template.mainPageId} - MA NEL SELECT CI STA IL PAGE.TITLE - PUO' NON COINCIDERE"
 								rendered="fasle" />
-							<h:selectOneMenu disabled="true" value="#{contenuto.template.id}">
-								<f:selectItems
-									value="#{baseProducer.getBasePageTemplateItems(richContentController.extension)}" />
-							</h:selectOneMenu>
+							<h:outputText
+								value="#{baseProducer.getBasePageTitle(contenuto.template.id)}" />
 						</p:column>
 
 						<p:column width="200">

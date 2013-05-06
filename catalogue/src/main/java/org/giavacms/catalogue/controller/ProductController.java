@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.common.util.FileUtils;
 import org.giavacms.base.common.util.ImageUtils;
+import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.PageRepository;
@@ -23,12 +24,11 @@ import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
-import org.giavacms.common.controller.AbstractLazyController;
 import org.primefaces.event.FileUploadEvent;
 
 @Named
 @SessionScoped
-public class ProductController extends AbstractLazyController<Product> {
+public class ProductController extends AbstractPageController<Product> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,9 +58,9 @@ public class ProductController extends AbstractLazyController<Product> {
 	PageRepository pageRepository;
 
 	@Override
-	public Object getId(Product t)
+	public String getExtension()
 	{
-	   return t.getId();
+	   return Product.EXTENSION;
 	}
 	
 	// --------------------------------------------------------
