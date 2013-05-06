@@ -88,17 +88,13 @@
 
 						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
-							#{t.extension}
 							<p:cellEditor>
 								<f:facet name="output">
 									<h:outputText
 										value="#{t.template.mainPageId} - NEL SELECT SI VEDE IL TITLE - PUO' NON COINCIDERE"
 										rendered="false" />
-									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
-										disabled="true">
-										<f:selectItems
-											value="#{baseProducer.getBasePageTemplateItems(t.extension)}" />
-									</h:selectOneMenu>
+									<h:outputText
+										value="#{baseProducer.getBasePageTitle(t.template.id)}" />
 								</f:facet>
 								<f:facet name="input">
 									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"

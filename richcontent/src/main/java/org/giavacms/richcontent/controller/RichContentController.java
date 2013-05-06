@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.common.util.FileUtils;
-import org.giavacms.base.model.TemplateImpl;
+import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.PageRepository;
@@ -18,7 +18,6 @@ import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
-import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
@@ -26,7 +25,7 @@ import org.primefaces.event.FileUploadEvent;
 
 @Named
 @SessionScoped
-public class RichContentController extends AbstractLazyController<RichContent>
+public class RichContentController extends AbstractPageController<RichContent>
 {
 
    private static final long serialVersionUID = 1L;
@@ -65,16 +64,11 @@ public class RichContentController extends AbstractLazyController<RichContent>
    }
 
    @Override
-   public Object getId(RichContent t)
+   public String getExtension()
    {
-      return t.getId();
+      return RichContent.EXTENSION;
    }
 
-   @Override
-   public void defaultCriteria()
-   {
-      getSearch().getObj().setTemplate(new TemplateImpl());
-   }
    // --------------------------------------------------------
 
    public void handleUpload(FileUploadEvent event)
@@ -174,7 +168,8 @@ public class RichContentController extends AbstractLazyController<RichContent>
    @Override
    public String save()
    {
-      getElement().setTemplate(richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
+      getElement().setTemplate(
+               richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
       if (super.save() == null)
       {
          return null;
@@ -196,7 +191,8 @@ public class RichContentController extends AbstractLazyController<RichContent>
    @Override
    public String update()
    {
-      getElement().setTemplate(richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
+      getElement().setTemplate(
+               richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
       if (super.update() == null)
       {
          return null;
@@ -219,11 +215,6 @@ public class RichContentController extends AbstractLazyController<RichContent>
    {
       super.modElement();
       return EDIT_DOCS + REDIRECT_PARAM;
-   }
-
-   public String getExtension()
-   {
-      return RichContent.EXTENSION;
    }
 
 }
