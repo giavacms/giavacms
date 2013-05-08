@@ -14,10 +14,10 @@
 		<f:attribute name="roles" value="richcontent" />
 	</ui:define>
 	<ui:define name="content">
-		<h:form>
+		<h:form id="mainForm">
 			<center>
 				<p:panel header="Lista Contenuti">
-					<h:panelGrid columns="7">
+					<h:panelGrid columns="9" id="searchGrid">
 						<h:outputLabel for="titolo" value="Titolo:" />
 						<h:inputText id="titolo"
 							value="#{richContentController.search.obj.title}" />
@@ -27,6 +27,10 @@
 							value="#{richContentController.search.obj.richContentType.id}">
 							<f:selectItems value="#{richContentTypeItems}" />
 						</h:selectOneMenu>
+
+						<h:outputLabel for="tag" value="Tag:" />
+						<h:inputText id="tag"
+							value="#{richContentController.search.obj.tag}" />
 
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
@@ -40,6 +44,16 @@
 
 					</h:panelGrid>
 					<br />
+					<ui:repeat value="#{tags}" var="t" varStatus="varStatus">
+						<h:outputText value="Tags:" style="font-weight: bolder;"
+							rendered="#{varStatus.first}" />
+						<p:commandLink value="#{t.obj.tagName}"
+							action="#{richContentController.filterTag(t.obj.tagName)}"
+							update=":mainForm:contentList :mainForm:searchGrid"
+							style="padding: 5px; font-size: #{3*t.ratio}em" />
+						<h:outputText value="&lt;br/&gt;&lt;br/&gt;" escape="false"
+							rendered="#{varStatus.last}" />
+					</ui:repeat>
 
 					<p:dataTable id="contentList" rowIndexVar="rowIndex"
 						var="contenuto" value="#{richContentController.model}"
@@ -49,7 +63,7 @@
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="200">
 							<f:facet name="header">titolo</f:facet>
 							<h:outputText value="#{contenuto.title}" />
 						</p:column>
@@ -67,11 +81,13 @@
 							<h:outputText value="#{contenuto.richContentType.name}" />
 						</p:column>
 
+						<p:column width="100">
+							<f:facet name="header">tags</f:facet>
+							<h:outputText value="#{contenuto.tags}" />
+						</p:column>
+
 						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
-							<h:outputText
-								value="#{contenuto.template.mainPageId} - MA NEL SELECT CI STA IL PAGE.TITLE - PUO' NON COINCIDERE"
-								rendered="fasle" />
 							<h:outputText
 								value="#{baseProducer.getBasePageTitle(contenuto.template.id)}" />
 						</p:column>
