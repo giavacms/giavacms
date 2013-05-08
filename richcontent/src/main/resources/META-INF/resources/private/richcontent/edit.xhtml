@@ -79,6 +79,7 @@
 						<h:inputText id="titolo"
 							value="#{richContentController.element.title}"
 							style="width: 100%;" required="true" />
+
 						<h:outputLabel for="dataInsert" value="Data inserimento:" />
 						<p:calendar id="dataInsert"
 							value="#{richContentController.element.date}"
@@ -95,6 +96,12 @@
 							required="true">
 							<f:selectItems value="#{richContentTypeItems}" />
 						</h:selectOneMenu>
+
+						<h:outputLabel for="tags" style="font-weight: bolder;"
+							value="Tags (separati da ','): " />
+						<h:inputTextarea id="tags"
+							value="#{richContentController.element.tags}" rows="2"
+							style="width: 100%;" />
 
 						<h:outputLabel for="autore" value="Autore:" style="width: 100%;" />
 						<h:inputText id="autore"

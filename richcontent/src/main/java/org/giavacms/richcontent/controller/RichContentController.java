@@ -19,8 +19,10 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.richcontent.model.RichContent;
+import org.giavacms.richcontent.producer.RichContentProducer;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
+import org.giavacms.richcontent.repository.TagRepository;
 import org.primefaces.event.FileUploadEvent;
 
 @Named
@@ -56,6 +58,10 @@ public class RichContentController extends AbstractPageController<RichContent>
 
    @Inject
    RichContentTypeRepository richContentTypeRepository;
+   @Inject
+   TagRepository tagRepository;
+   @Inject
+   RichContentProducer richContentProducer;
 
    // --------------------------------------------------------
 
@@ -174,6 +180,8 @@ public class RichContentController extends AbstractPageController<RichContent>
       {
          return null;
       }
+      tagRepository.set(getElement().getId(),getElement().getTagList(),getElement().getDate());
+      richContentProducer.reset();
       if (getElement().isHighlight())
       {
          richContentRepository.refreshEvidenza(getElement().getId());
@@ -197,6 +205,8 @@ public class RichContentController extends AbstractPageController<RichContent>
       {
          return null;
       }
+      tagRepository.set(getElement().getId(),getElement().getTagList(),getElement().getDate());
+      richContentProducer.reset();
       if (getElement().isHighlight())
       {
          richContentRepository.refreshEvidenza(getElement().getId());
@@ -215,6 +225,11 @@ public class RichContentController extends AbstractPageController<RichContent>
    {
       super.modElement();
       return EDIT_DOCS + REDIRECT_PARAM;
+   }
+
+   public void filterTag(String tagName) {
+      getSearch().getObj().setTag(tagName);
+      refreshModel();
    }
 
 }
