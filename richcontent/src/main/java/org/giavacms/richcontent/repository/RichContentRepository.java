@@ -16,6 +16,7 @@ import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.common.model.Search;
 import org.giavacms.richcontent.model.RichContent;
+import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
 
 @Named
@@ -63,6 +64,44 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(separator).append(alias)
                   .append(".richContentType.id = :IDTYPE ");
          params.put("IDTYPE", search.getObj().getRichContentType().getId());
+         separator = " and ";
+      }
+
+      // TAG
+      if (search.getObj().getTag() != null && search.getObj().getTag().trim().length() > 0)
+      {
+         sb.append(separator).append(alias).append(".id in ( ");
+         sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
+                  .append(" rt where rt.tagName = :TAGNAME ");
+         sb.append(" ) ");
+         params.put("TAGNAME", search.getObj().getTag().trim());
+         separator = " and ";
+      }
+
+      // TAG LIKE
+      if (search.getObj().getTagList().size() > 0)
+      {
+         sb.append(separator).append(" ( ");
+         for (int i = 0; i < search.getObj().getTagList().size(); i++)
+         {
+            sb.append(i > 0 ? " or " : "");
+
+            // da provare quale versione piu' efficiente
+            boolean usaJoin = false;
+            if (usaJoin)
+            {
+               sb.append(alias).append(".id in ( ");
+               sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
+                        .append(" rt where upper ( rt.tagName ) like :TAGNAME").append(i).append(" ");
+               sb.append(" ) ");
+            }
+            else
+            {
+               sb.append(" upper ( ").append(alias).append(".tags ) like :TAGNAME").append(i).append(" ");
+            }
+
+            params.put("TAGNAME" + i, likeParam(search.getObj().getTag().trim().toUpperCase()));
+         }
          separator = " and ";
       }
 

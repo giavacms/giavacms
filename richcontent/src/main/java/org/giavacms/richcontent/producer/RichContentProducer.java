@@ -2,6 +2,7 @@ package org.giavacms.richcontent.producer;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -11,10 +12,13 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.util.JSFUtils;
+import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
+import org.giavacms.richcontent.repository.TagRepository;
 import org.jboss.logging.Logger;
 
 @Named
@@ -31,6 +35,9 @@ public class RichContentProducer implements Serializable
 
    @Inject
    RichContentTypeRepository richContentTypeRepository;
+   @Inject
+   TagRepository tagRepository;
+   private List<Group<Tag>> tags;
 
    // ==============================================================================
    public RichContentProducer()
@@ -44,6 +51,7 @@ public class RichContentProducer implements Serializable
    {
       logger.info("reset");
       items = new HashMap<Class, SelectItem[]>();
+      tags = null;
    }
 
    @SuppressWarnings("rawtypes")
@@ -68,4 +76,18 @@ public class RichContentProducer implements Serializable
       }
       return items.get(RichContentType.class);
    }
+
+   @Produces
+   @Named
+   public List<Group<Tag>> getTags()
+   {
+      if (tags == null)
+      {
+         Search<Tag> st = new Search<Tag>(Tag.class);
+         st.setGrouping("tagName");
+         tags = tagRepository.getGroups(st, 0, 50);
+      }
+      return tags;
+   }
+
 }

@@ -19,6 +19,7 @@
 				<p:panel header="Scheda Contenuto">
 
 					<h:panelGrid columns="2">
+
 						<h:outputLabel for="titolo" style="font-weight: bolder;"
 							value="Titolo: " />
 						<h:outputText id="titolo"
@@ -32,7 +33,8 @@
 
 						<h:outputLabel style="font-weight: bolder;" value="In Evidenza: " />
 						<h:outputText id="evidenza1" value="SI" width="640px"
-							height="320px" rendered="#{richContentController.element.highlight}" />
+							height="320px"
+							rendered="#{richContentController.element.highlight}" />
 						<h:outputText id="evidenza2" value="NO" width="640px"
 							height="320px"
 							rendered="#{not richContentController.element.highlight}" />
@@ -42,6 +44,17 @@
 						<h:outputText id="tipo"
 							value="#{richContentController.element.richContentType.name}"
 							width="640px" height="320px"></h:outputText>
+
+						<h:outputLabel for="tagList" style="font-weight: bolder;"
+							value="Tags: " />
+						<h:panelGroup id="tagList">
+							<ui:repeat value="#{richContentController.element.tagList}"
+								var="t" varStatus="varStatus">
+								<h:outputText value="&lt;br/&gt;" escape="false"
+									rendered="#{varStatus.index gt 0}" />
+								<h:outputText value="#{t}" />
+							</ui:repeat>
+						</h:panelGroup>
 
 						<h:outputLabel for="anteprima" style="font-weight: bolder;"
 							value="Anteprima: " />
@@ -77,7 +90,8 @@
 					<h2>Immagini</h2>
 
 					<p:lightBox>
-						<ui:repeat var="var" value="#{richContentController.element.images}">
+						<ui:repeat var="var"
+							value="#{richContentController.element.images}">
 							<h:outputLink value="#{request.contextPath}/img/#{var.filename}"
 								title="#{var.filename}">
 								<h:graphicImage value="/img/#{var.filename}"
@@ -95,7 +109,8 @@
 				<h:panelGrid columns="3">
 					<h:commandButton action="#{richContentController.modCurrent}"
 						value="Modifica" />
-					<h:commandButton action="#{richContentController.modDocumentsCurrent}"
+					<h:commandButton
+						action="#{richContentController.modDocumentsCurrent}"
 						value="Modifica Documenti" />
 					<h:commandButton id="creaContenuto"
 						action="#{richContentController.addElement}" value="Aggiungi" />
