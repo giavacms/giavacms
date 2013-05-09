@@ -95,9 +95,6 @@
 							<f:selectItems value="#{disciplineItems}" />
 						</h:selectOneMenu>
 
-
-
-
 						<h:outputLabel for="institute" value="Istituto: (*)"
 							style="width: 100%;"
 							rendered="#{participantController.element.subject.type eq 'INS'}" />
@@ -106,6 +103,26 @@
 							required="true"
 							rendered="#{participantController.element.subject.type eq 'INS'}">
 							<f:selectItems value="#{instituteItems}" />
+						</h:selectOneMenu>
+
+						<h:outputLabel for="association" value="Associazione: (*)"
+							style="width: 100%;"
+							rendered="#{participantController.element.subject.type eq 'ASS'}" />
+						<h:selectOneMenu id="association" style="width: 100%;"
+							value="#{participantController.element.subject.id}"
+							required="true"
+							rendered="#{participantController.element.subject.type eq 'ASS'}">
+							<f:selectItems value="#{associationItems}" />
+						</h:selectOneMenu>
+
+						<h:outputLabel for="center" value="Centro: (*)"
+							style="width: 100%;"
+							rendered="#{participantController.element.subject.type eq 'CEN'}" />
+						<h:selectOneMenu id="institute" style="width: 100%;"
+							value="#{participantController.element.subject.id}"
+							required="true"
+							rendered="#{participantController.element.subject.type eq 'CEN'}">
+							<f:selectItems value="#{centerItems}" />
 						</h:selectOneMenu>
 
 						<h:outputLabel for="museum" value="Museo: (*)"
@@ -148,26 +165,26 @@
 
 						<h:outputLabel for="address" value="indirizzo: "
 							style="width: 100%;"
-							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS')}" />
+							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS') or (participantController.element.subject.type eq 'ASS') or (participantController.element.subject.type eq 'CEN')}" />
 						<h:inputText id="address"
 							value="#{participantController.element.address}"
 							style="width: 100%;"
-							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS')}" />
+							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS') or (participantController.element.subject.type eq 'ASS') or (participantController.element.subject.type eq 'CEN')}" />
 
 						<h:outputLabel for="city" value="Citta': " style="width: 100%;"
-							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS')}" />
+							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS') or (participantController.element.subject.type eq 'ASS') or (participantController.element.subject.type eq 'CEN')}" />
 						<h:inputText id="city"
 							value="#{participantController.element.city}"
 							style="width: 100%;"
-							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS')}" />
+							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS') or (participantController.element.subject.type eq 'ASS') or (participantController.element.subject.type eq 'CEN')}" />
 
 						<h:outputLabel for="province" value="Provincia: "
 							style="width: 100%;"
-							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS')}" />
+							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS') or (participantController.element.subject.type eq 'ASS') or (participantController.element.subject.type eq 'CEN')}" />
 						<h:inputText id="province"
 							value="#{participantController.element.province}"
 							style="width: 100%;"
-							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS')}" />
+							rendered="#{(participantController.element.subject.type eq 'INS') or (participantController.element.subject.type eq 'MUS') or (participantController.element.subject.type eq 'ASS') or (participantController.element.subject.type eq 'CEN')}" />
 
 
 						<h:outputLabel for="phone" value="Telefono: " style="width: 100%;" />

@@ -10,32 +10,32 @@ import javax.inject.Named;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
-import org.giavacms.exhibition.model.Institute;
+import org.giavacms.exhibition.model.Association;
 import org.giavacms.exhibition.model.Participant;
-import org.giavacms.exhibition.repository.InstituteRepository;
+import org.giavacms.exhibition.repository.AssociationRepository;
 import org.giavacms.exhibition.service.ParticipantService;
 
 @Named
 @RequestScoped
-public class InstituteRequestController extends
-		AbstractRequestController<Institute> implements Serializable {
+public class AssociationRequestController extends
+		AbstractRequestController<Association> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String SEARCH = "q";
 	public static final String[] PARAM_NAMES = new String[] { SEARCH };
-	public static final String ID_PARAM = "institute";
+	public static final String ID_PARAM = "association";
 	public static final String EXHIBITION = "exhibition";
 	public static final String CURRENT_PAGE_PARAM = "start";
 
 	@Inject
-	@OwnRepository(InstituteRepository.class)
-	InstituteRepository instituteRepository;
+	@OwnRepository(AssociationRepository.class)
+	AssociationRepository associationRepository;
 
 	@Inject
 	ParticipantService participantService;
 
-	public InstituteRequestController() {
+	public AssociationRequestController() {
 		super();
 	}
 
@@ -45,12 +45,12 @@ public class InstituteRequestController extends
 	}
 
 	@Override
-	public List<Institute> loadPage(int startRow, int pageSize) {
+	public List<Association> loadPage(int startRow, int pageSize) {
 		Search<Participant> r = new Search<Participant>(Participant.class);
-		r.getObj().getSubject().setType(Institute.TYPE);
+		r.getObj().getSubject().setType(Association.TYPE);
 		r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
 		r.getObj().getSubject().setSurname(getParams().get(SEARCH));
-		return (List<Institute>) participantService.getList(r, startRow,
+		return (List<Association>) participantService.getList(r, startRow,
 				pageSize);
 	}
 
@@ -59,7 +59,7 @@ public class InstituteRequestController extends
 		// siamo all'interno della stessa richiesta per servire la quale è
 		// avvenuta la postconstruct
 		Search<Participant> r = new Search<Participant>(Participant.class);
-		r.getObj().getSubject().setType(Institute.TYPE);
+		r.getObj().getSubject().setType(Association.TYPE);
 		r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
 		r.getObj().getSubject().setSurname(getParams().get(SEARCH));
 		return participantService.getListSize(r);
@@ -85,7 +85,7 @@ public class InstituteRequestController extends
 	}
 
 	public String viewElement(String id) {
-		setElement(instituteRepository.fetch(id));
+		setElement(associationRepository.fetch(id));
 		return viewPage();
 	}
 
