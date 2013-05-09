@@ -4,36 +4,34 @@
 	<parent>
 		<groupId>org.giavacms</groupId>
 		<artifactId>giavacms</artifactId>
-		<version>2.0.1-SNAPSHOT</version>
+		<version>2.0.2-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>paypal</artifactId>
-	<packaging>${packaging.type}</packaging>
 
 	<name>GiavaCMS Content Management System : PayPal Module</name>
 	<description>GiavaCMS Content Management System: PayPal Module</description>
+	<url>http://giavacms.org</url>
 
-	<profiles>
-		<profile>
-			<id>prod</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<packaging.type>jar</packaging.type>
-			</properties>
-		</profile>
-		<profile>
-			<id>test</id>
-			<properties>
-				<packaging.type>war</packaging.type>
-			</properties>
-		</profile>
-	</profiles>
+	<licenses>
+		<license>
+			<name>Eclipse Public License version 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
 
-
-
-	<properties>
-	</properties>
+	<developers>
+		<developer>
+			<id>fiorenzino</id>
+			<name>Fiorenzo Pizza</name>
+			<email>fiorenzino@gmail.com</email>
+		</developer>
+		<developer>
+			<id>pisi79</id>
+			<name>Samuele Pasini</name>
+			<email>samuele.pasini@gmail.com</email>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
@@ -49,22 +47,4 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<webResources>
-						<resource>
-							<!-- this is relative to the pom.xml directory -->
-							<directory>src/main/resources/META-INF/resources/</directory>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
