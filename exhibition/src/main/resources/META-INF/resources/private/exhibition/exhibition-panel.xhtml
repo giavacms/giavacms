@@ -74,6 +74,30 @@
 						value="Aggiungi nuovo" />
 				</div>
 			</p:tab>
+
+			<p:tab title="Gestione Associazioni"
+				style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/association/list.jsf?faces-redirect=true"
+						value="lista associazioni" />
+					<br />
+					<h:commandLink action="#{associationController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+			<p:tab title="Gestione Centro" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/exhibition/center/list.jsf?faces-redirect=true"
+						value="lista centri" />
+					<br />
+					<h:commandLink action="#{centerController.addElement}"
+						value="Aggiungi nuovo" />
+				</div>
+			</p:tab>
+
+
 			<p:tab title="Gestione Musei" style="width: 200px; float: left;">
 				<div style="height: 50px;">
 					<h:commandLink
