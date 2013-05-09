@@ -12,7 +12,6 @@
 	</parent>
 
 	<artifactId>base</artifactId>
-	<packaging>${packaging.type}</packaging>
 
 	<name>GiavaCMS Content Management System : Base Subsystem</name>
 	<description>GiavaCMS Content Management System: Base Subsystem</description>
