@@ -234,6 +234,8 @@ public class ExhibitionProducer implements Serializable {
 			List<SelectItem> valori = new ArrayList<SelectItem>();
 			valori.add(new SelectItem(null, "seleziona tipo soggetto..."));
 			valori.add(new SelectItem(Artist.TYPE, "artista"));
+			valori.add(new SelectItem(Association.TYPE, "associazione"));
+			valori.add(new SelectItem(Center.TYPE, "centro"));
 			valori.add(new SelectItem(Institute.TYPE, "istituto"));
 			valori.add(new SelectItem(Museum.TYPE, "museo"));
 			valori.add(new SelectItem(Testimonial.TYPE, "testimonial"));

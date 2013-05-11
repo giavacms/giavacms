@@ -57,7 +57,7 @@ public class AssociationController extends AbstractLazyController<Association> {
 	@Override
 	public String update() {
 		saveImage();
-		exhibitionProducer.resetItemsForClass(Institute.class);
+		exhibitionProducer.resetItemsForClass(Association.class);
 		return super.update();
 	}
 
@@ -71,7 +71,7 @@ public class AssociationController extends AbstractLazyController<Association> {
 	@Override
 	public String save() {
 		saveImage();
-		exhibitionProducer.resetItemsForClass(Institute.class);
+		exhibitionProducer.resetItemsForClass(Association.class);
 		return super.save();
 	}
 
@@ -85,7 +85,7 @@ public class AssociationController extends AbstractLazyController<Association> {
 	@Override
 	public String delete() {
 		super.delete();
-		exhibitionProducer.resetItemsForClass(Institute.class);
+		exhibitionProducer.resetItemsForClass(Association.class);
 		return listPage();
 	}
 

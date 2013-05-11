@@ -208,7 +208,7 @@ public class ParticipantController extends AbstractLazyController<Participant> {
 
 	public String addNewSubject() {
 		addElement();
-		return EDIT_NEW_SUBJECT;
+		return EDIT_NEW_SUBJECT + super.REDIRECT_PARAM;
 	}
 
 	public String clone() {
@@ -244,7 +244,7 @@ public class ParticipantController extends AbstractLazyController<Participant> {
 		getElement().setSummary(t.getSummary());
 		getElement().setTwitterAccount(t.getTwitterAccount());
 		getElement().setWebSite(t.getWebSite());
-		return EDIT;
+		return EDIT + super.REDIRECT_PARAM;
 
 	}
 
@@ -300,6 +300,6 @@ public class ParticipantController extends AbstractLazyController<Participant> {
 			addElement();
 			getElement().setSubject(testimonial);
 		}
-		return EDIT;
+		return EDIT + super.REDIRECT_PARAM;
 	}
 }

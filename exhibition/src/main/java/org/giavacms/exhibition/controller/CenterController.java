@@ -57,7 +57,7 @@ public class CenterController extends AbstractLazyController<Center> {
 	@Override
 	public String update() {
 		saveImage();
-		exhibitionProducer.resetItemsForClass(Institute.class);
+		exhibitionProducer.resetItemsForClass(Center.class);
 		return super.update();
 	}
 
@@ -71,7 +71,7 @@ public class CenterController extends AbstractLazyController<Center> {
 	@Override
 	public String save() {
 		saveImage();
-		exhibitionProducer.resetItemsForClass(Institute.class);
+		exhibitionProducer.resetItemsForClass(Center.class);
 		return super.save();
 	}
 
@@ -85,7 +85,7 @@ public class CenterController extends AbstractLazyController<Center> {
 	@Override
 	public String delete() {
 		super.delete();
-		exhibitionProducer.resetItemsForClass(Institute.class);
+		exhibitionProducer.resetItemsForClass(Center.class);
 		return listPage();
 	}
 
