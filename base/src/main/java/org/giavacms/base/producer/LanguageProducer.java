@@ -87,7 +87,7 @@ public class LanguageProducer implements Serializable
       this.language5 = null;
       List<Language> allLanguages = languageRepository.getAllList();
       // maximum size as possible
-      languages = Arrays.asList(new Language[allLanguages.size()]);
+      languages = Arrays.asList(new Language[allLanguages.size()+1]);
       if (allLanguages != null)
       {
          for (Language language : allLanguages)
