@@ -33,13 +33,6 @@ public class PageRepository
             String separator, StringBuffer sb, Map<String, Object> params)
    {
 
-      if (!search.getObj().isClone())
-      {
-         sb.append(separator).append(alias).append(".clone = :clone ");
-         params.put("clone", false);
-         separator = " and ";
-      }
-
       if (search.getObj().getTemplate() != null
                && search.getObj().getTemplate().getTemplate() != null
                && search.getObj().getTemplate().getTemplate()
@@ -52,23 +45,40 @@ public class PageRepository
          separator = " and ";
       }
 
-      // ESTENSIONE O BASE
-      if (search.getObj().getExtension() != null
-               && !search.getObj().getExtension().trim().isEmpty())
+      // SOLO PAGINE VERE E PROPRIE
+      if (!search.getObj().isExtended())
       {
-         if (search.getObj().getExtension().equals(Page.class.getSimpleName()))
-         {
-            sb.append(separator).append(alias).append(".extension is null ");
-            separator = " and ";
-         }
-         else
+
+         // NO ESTENSIONI
+         sb.append(separator).append(alias).append(".extension is null ");
+         separator = " and ";
+
+         // NO CLONI DI PAGINE BASE (DOVREBBE ESSERE SUPERFLUO)
+         sb.append(separator).append(alias).append(".clone = :clone ");
+         params.put("clone", false);
+         separator = " and ";
+      }
+      // RICERCA ESTENSIONI
+      else
+      {
+         // DI CHE TIPO
+         if (search.getObj().getExtension() != null
+                  && !search.getObj().getExtension().trim().isEmpty())
          {
             sb.append(separator).append(alias).append(".extension = :extension ");
             params.put("extension", search.getObj().getExtension());
             separator = " and ";
          }
-      }
 
+         // SOLO PAGINE BASE O ANCHE CLONI DI PAGINE BASE
+         if (!search.getObj().isClone())
+         {
+            sb.append(separator).append(alias).append(".clone = :clone ");
+            params.put("clone", false);
+            separator = " and ";
+         }
+      }
+      
       super.applyRestrictions(search, alias, separator, sb, params);
 
    }

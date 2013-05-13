@@ -28,7 +28,6 @@ public class ExtensionService
    {
       List<SelectItem> valori = new ArrayList<SelectItem>();
       valori.add(new SelectItem(null, "tipologia..."));
-      valori.add(new SelectItem(Page.class.getSimpleName()));
       List<String> extensions = new ArrayList<String>();
       for (EntityType<?> entity : em.getMetamodel().getEntities())
       {

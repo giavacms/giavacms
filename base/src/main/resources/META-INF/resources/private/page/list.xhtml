@@ -15,11 +15,13 @@
 		<h:form id="central">
 			<center>
 				<p:panel header="Lista Pagine">
-					<h:panelGrid columns="6" rendered="true">
+					<h:panelGrid columns="7" rendered="true">
 
 						<h:outputLabel for="nome" value="Nome:" />
 						<h:outputLabel for="staticita" value="Contenuto: " />
 						<h:outputLabel for="lingua" value="Lingua: " />
+						<h:outputLabel for="extended"
+							value="Estensioni:" />
 						<h:outputLabel for="extension" value="Tipologia:" />
 						<h:outputLabel for="cloni" value="Mostra cloni: " />
 						<h:outputLabel for="cerca" value="" />
@@ -33,12 +35,18 @@
 							value="#{pageController.search.obj.lang}">
 							<f:selectItems value="#{languageItems}" />
 						</h:selectOneMenu>
+						<h:selectBooleanCheckbox id="extended"
+							value="#{pageController.search.obj.extended}">
+							<p:ajax event="change" update="extension cloni" />
+						</h:selectBooleanCheckbox>
 						<h:selectOneMenu id="extension"
-							value="#{pageController.search.obj.extension}">
+							value="#{pageController.search.obj.extension}"
+							disabled="#{not pageController.search.obj.extended}">
 							<f:selectItems value="#{extensionTypeItems}" />
 						</h:selectOneMenu>
 						<h:selectBooleanCheckbox id="cloni"
-							value="#{pageController.search.obj.clone}" />
+							value="#{pageController.search.obj.clone}"
+							disabled="#{not pageController.search.obj.extended}" />
 
 						<p:commandButton action="#{pageController.reloadAjax}" id="cerca"
 							value="Cerca" ajax="true" immediate="false" update="pagesList" />

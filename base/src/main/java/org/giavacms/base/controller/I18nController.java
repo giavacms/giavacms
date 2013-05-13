@@ -184,10 +184,12 @@ public class I18nController extends AbstractController<Page>
       setReadOnlyMode(false);
       if (t.getExtension() == null)
       {
-         getSearch().getObj().setExtension(Page.class.getSimpleName());
+         getSearch().getObj().setExtended(false);
+         getSearch().getObj().setExtension(null);
          getSearch().getObj().setClone(false);
       }
       else {
+         getSearch().getObj().setExtended(true);
          getSearch().getObj().setExtension(t.getExtension());
          getSearch().getObj().setClone(true);
       }
