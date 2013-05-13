@@ -33,7 +33,8 @@ public class Page extends I18nSupport
 	// ------------------------------------------------------------------------
 
 	boolean active = true;
-	boolean clone = false;
+   boolean clone = false;
+   boolean extended = false;
 	private String title;
 	private String description;
 	private TemplateImpl template;
@@ -140,4 +141,16 @@ public class Page extends I18nSupport
 				.hashCode();
 	}
 
+	@Transient
+   public boolean isExtended()
+   {
+      return extended;
+   }
+
+   public void setExtended(boolean extended)
+   {
+      this.extended = extended;
+   }
+
+	
 }

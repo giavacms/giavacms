@@ -176,7 +176,7 @@
 								action="#{i18nController.resetLanguage(4)}"
 								rendered="#{not empty i18nController.element.lang4id and not empty language4 and i18nController.element.id != i18nController.element.lang4id}" />
 						</h:panelGroup>
-						
+
 						<h:panelGroup>
 							<h:outputLabel for="dialog_version5"
 								value="Versione #{language5.id}:"
@@ -211,11 +211,12 @@
 
 				<p:panel header="Ricerca Pagine per Lingue Alternative">
 
-					<h:panelGrid columns="6" rendered="true">
+					<h:panelGrid columns="7" rendered="true">
 
 						<h:outputLabel for="dialog_nome" value="Nome:" />
 						<h:outputLabel for="dialog_staticita" value="Contenuto: " />
 						<h:outputLabel for="dialog_lingua" value="Lingua: " />
+						<h:outputLabel for="dialog_extended" value="Estensioni:" />
 						<h:outputLabel for="dialog_extension" value="Tipologia:" />
 						<h:outputLabel for="dialog_cloni" value="Mostra cloni: " />
 						<h:outputLabel for="dialog_cerca" value="" />
@@ -230,6 +231,10 @@
 							value="#{i18nController.search.obj.lang}">
 							<f:selectItems value="#{languageItems}" />
 						</h:selectOneMenu>
+						<h:selectBooleanCheckbox id="dialog_extended"
+							value="#{i18nController.search.obj.extended}">
+							<p:ajax event="change" update="dialog_extension dialog_cloni" />
+						</h:selectBooleanCheckbox>
 						<h:selectOneMenu id="dialog_extension"
 							value="#{i18nController.search.obj.extension}">
 							<f:selectItems value="#{extensionTypeItems}" />
