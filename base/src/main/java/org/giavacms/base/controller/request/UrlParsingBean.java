@@ -18,7 +18,6 @@ import javax.inject.Named;
 import org.giavacms.base.controller.session.PageSessionController;
 import org.jboss.logging.Logger;
 
-
 import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.pretty.faces.url.QueryString;
 
@@ -117,10 +116,6 @@ public class UrlParsingBean implements Serializable
             {
                paramsHandler.addParam(key, value[0]);
                logger.info(key + ": " + value[0]);
-               if (key.equals("lang"))
-               {
-                  logger.info("attenzione potrebbe essere un cambio lingua");
-               }
             }
          }
          logger.info("stop queryParams****************");
@@ -143,13 +138,12 @@ public class UrlParsingBean implements Serializable
       {
          pageRequestController.setWithSession(true);
          pageSessionController.getElement().setId(pageId);
-         return "/pageS.xhtml";
       }
       else
       {
          pageRequestController.getElement().setId(pageId);
-         return "/page.xhtml";
       }
+      return "/db:" + pageId;
 
    }
 
