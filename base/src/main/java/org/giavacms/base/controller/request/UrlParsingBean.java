@@ -18,7 +18,6 @@ import javax.inject.Named;
 import org.giavacms.base.controller.session.PageSessionController;
 import org.jboss.logging.Logger;
 
-
 import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.pretty.faces.url.QueryString;
 
@@ -148,7 +147,8 @@ public class UrlParsingBean implements Serializable
       else
       {
          pageRequestController.getElement().setId(pageId);
-         return "/page.xhtml";
+         // return "/page.xhtml";
+         return "/db:" + pageId;
       }
 
    }

@@ -8,8 +8,11 @@
 		<navigation-case>
 			<from-outcome>administration</from-outcome>
 			<to-view-id>/private/administration.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
+	<application>
+		<navigation-handler>org.giavacms.base.navigation.DbProtocolNavigationHandler</navigation-handler>
+	</application>
 
 </faces-config>
