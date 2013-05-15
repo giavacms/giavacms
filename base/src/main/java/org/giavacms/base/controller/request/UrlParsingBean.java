@@ -138,15 +138,12 @@ public class UrlParsingBean implements Serializable
       {
          pageRequestController.setWithSession(true);
          pageSessionController.getElement().setId(pageId);
-         // return "/pageS.xhtml";
-         return "/db:" + pageId;
       }
       else
       {
          pageRequestController.getElement().setId(pageId);
-         // return "/page.xhtml";
-         return "/db:" + pageId;
       }
+      return "/db:" + pageId;
 
    }
 
