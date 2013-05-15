@@ -116,10 +116,6 @@ public class UrlParsingBean implements Serializable
             {
                paramsHandler.addParam(key, value[0]);
                logger.info(key + ": " + value[0]);
-               if (key.equals("lang"))
-               {
-                  logger.info("attenzione potrebbe essere un cambio lingua");
-               }
             }
          }
          logger.info("stop queryParams****************");
@@ -142,7 +138,7 @@ public class UrlParsingBean implements Serializable
       {
          pageRequestController.setWithSession(true);
          pageSessionController.getElement().setId(pageId);
-//         return "/pageS.xhtml";
+         // return "/pageS.xhtml";
          return "/db:" + pageId;
       }
       else
