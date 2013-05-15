@@ -8,7 +8,7 @@
 		<navigation-case>
 			<from-outcome>administration</from-outcome>
 			<to-view-id>/private/administration.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 

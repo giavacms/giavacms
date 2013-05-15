@@ -20,7 +20,6 @@ import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.util.BeanUtils;
 import org.jboss.logging.Logger;
 
-
 public class DBURLConnection extends URLConnection
 {
 
@@ -37,8 +36,8 @@ public class DBURLConnection extends URLConnection
    @Override
    public synchronized InputStream getInputStream() throws IOException
    {
-      if (!connected)
-         connect();
+      // if (!connected)
+      connect();
       if (this.content != null)
       {
          return IOUtils.toInputStream(this.content);
@@ -57,7 +56,7 @@ public class DBURLConnection extends URLConnection
 
    public synchronized void connect() throws IOException
    {
-      if (!connected)
+      if (true || !connected)
       {
          logger.debug("url: " + url);
          logger.debug("url file: " + url.getFile());
@@ -70,6 +69,12 @@ public class DBURLConnection extends URLConnection
          {
             this.form = url.getFile();
          }
+
+         if (this.form.endsWith(".xhtml"))
+         {
+            this.form = this.form.substring(0, this.form.length() - 6);
+         }
+
          logger.debug("form: " + this.form);
          try
          {
