@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import org.giavacms.base.controller.request.PageRequestController;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.pojo.I18nRequestParams;
+import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.request.I18nRequestParamsProducer;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.util.BeanUtils;
@@ -23,6 +24,11 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
 
    @Inject
    PageRequestController pageRequestController;
+
+   @Inject
+   PageRepository pageRepository;
+
+   Page basePage = null;
 
    public I18nRequestParams getI18nRequestParams()
    {
@@ -52,6 +58,15 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
    protected Object getIdValue()
    {
       return pageRequestController.getElement().getId();
+   }
+
+   protected Page getBasePage()
+   {
+      if (basePage == null)
+      {
+         basePage = pageRepository.find(pageRequestController.getElement().getId());
+      }
+      return basePage;
    }
 
 }
