@@ -14,70 +14,72 @@ import org.giavacms.picasa.model.Collection;
 import org.giavacms.picasa.repository.CollectionRepository;
 import org.giavacms.picasa.repository.PhotoRepository;
 
-
 @Named
 @RequestScoped
 public class CollectionRequestController extends
-		AbstractRequestController<Collection> implements Serializable {
+         AbstractRequestController<Collection> implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	public static final String SEARCH = "q";
-	public static final String[] PARAM_NAMES = new String[] { SEARCH };
-	public static final String ID_PARAM = "id";
-	public static final String CURRENT_PAGE_PARAM = "start";
+   public static final String SEARCH = "q";
+   public static final String[] PARAM_NAMES = new String[] { SEARCH };
+   public static final String ID_PARAM = "id";
+   public static final String CURRENT_PAGE_PARAM = "start";
 
-	@Inject
-	@OwnRepository(CollectionRepository.class)
-	CollectionRepository collectionRepository;
+   @Inject
+   @OwnRepository(CollectionRepository.class)
+   CollectionRepository collectionRepository;
 
-	@Inject
-	PhotoRepository photoRepository;
+   @Inject
+   PhotoRepository photoRepository;
 
-	public CollectionRequestController() {
-		super();
-	}
+   public CollectionRequestController()
+   {
+      super();
+   }
 
-	@Override
-	protected void init() {
-		super.init();
-	}
+   @Override
+   public List<Collection> loadPage(int startRow, int pageSize)
+   {
+      Search<Collection> r = new Search<Collection>(Collection.class);
+      r.getObj().setName(getParams().get(SEARCH));
+      return collectionRepository.getList(r, startRow, pageSize);
+   }
 
-	@Override
-	public List<Collection> loadPage(int startRow, int pageSize) {
-		Search<Collection> r = new Search<Collection>(Collection.class);
-		r.getObj().setName(getParams().get(SEARCH));
-		return collectionRepository.getList(r, startRow, pageSize);
-	}
+   @Override
+   public int totalSize()
+   {
+      // siamo all'interno della stessa richiesta per servire la quale è
+      // avvenuta la postconstruct
+      Search<Collection> r = new Search<Collection>(Collection.class);
+      r.getObj().setName(getParams().get(SEARCH));
+      return collectionRepository.getListSize(r);
+   }
 
-	@Override
-	public int totalSize() {
-		// siamo all'interno della stessa richiesta per servire la quale è
-		// avvenuta la postconstruct
-		Search<Collection> r = new Search<Collection>(Collection.class);
-		r.getObj().setName(getParams().get(SEARCH));
-		return collectionRepository.getListSize(r);
-	}
+   public List<Collection> getAllCollections()
+   {
+      Search<Collection> r = new Search<Collection>(Collection.class);
+      List<Collection> list = collectionRepository.getList(r, 0, 0);
+      return list;
+   }
 
-	public List<Collection> getAllCollections() {
-		Search<Collection> r = new Search<Collection>(Collection.class);
-		List<Collection> list = collectionRepository.getList(r, 0, 0);
-		return list;
-	}
+   @Override
+   public String[] getParamNames()
+   {
+      return PARAM_NAMES;
+   }
 
-	@Override
-	public String[] getParamNames() {
-		return PARAM_NAMES;
-	}
+   @Override
+   public String getIdParam()
+   {
+      return ID_PARAM;
+   }
 
-	@Override
-	public String getIdParam() {
-		return ID_PARAM;
-	}
-
-	@Override
-	public String getCurrentPageParam() {
-		return CURRENT_PAGE_PARAM;
-	}
+   @Override
+   public String getCurrentPageParam()
+   {
+      return CURRENT_PAGE_PARAM;
+   }
 
 }

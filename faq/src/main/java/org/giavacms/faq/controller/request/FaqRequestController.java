@@ -37,12 +37,6 @@ public class FaqRequestController extends AbstractRequestController<Faq>
    }
 
    @Override
-   protected void init()
-   {
-      super.init();
-   }
-
-   @Override
    public List<Faq> loadPage(int startRow, int pageSize)
    {
       System.out.println("load page");
@@ -87,9 +81,4 @@ public class FaqRequestController extends AbstractRequestController<Faq>
       return getElement() != null && getElement().getId() != null;
    }
 
-   public String viewElement(Long id)
-   {
-      setElement(faqRepository.fetch(id));
-      return viewPage();
-   }
 }

@@ -38,12 +38,6 @@ public class BannerRequestController extends AbstractRequestController<Banner>
    }
 
    @Override
-   protected void init()
-   {
-      super.init();
-   }
-
-   @Override
    public List<Banner> loadPage(int startRow, int pageSize)
    {
       Search<Banner> r = new Search<Banner>(Banner.class);

@@ -29,10 +29,12 @@ public class RichContentRequestController extends
 
    public static final String PARAM_CONTENT = "q";
    public static final String PARAM_TYPE = "type";
-   public static final String ID_PARAM = "id";
+   // public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "currentpage";
    public static final String[] PARAM_NAMES = new String[] { PARAM_CONTENT,
-            PARAM_TYPE, ID_PARAM, CURRENT_PAGE_PARAM };
+            PARAM_TYPE,
+            // ID_PARAM,
+            CURRENT_PAGE_PARAM };
 
    @Inject
    @OwnRepository(RichContentRepository.class)
@@ -54,9 +56,9 @@ public class RichContentRequestController extends
    }
 
    @Override
-   protected void init()
+   public void initParameters()
    {
-      super.init();
+      super.initParameters();
       this.testI18N();
    }
 
@@ -109,7 +111,7 @@ public class RichContentRequestController extends
    @Override
    public String getIdParam()
    {
-      return ID_PARAM;
+      throw new RuntimeException("Should not be called. getIdValue override implement");
    }
 
    public List<String> getTipiRichContent()
@@ -151,12 +153,6 @@ public class RichContentRequestController extends
    public boolean isScheda()
    {
       return getElement() != null && getElement().getId() != null;
-   }
-
-   public String viewElement(Long id)
-   {
-      setElement(richContentRepository.fetch(id));
-      return viewPage();
    }
 
    public String getFilter()
