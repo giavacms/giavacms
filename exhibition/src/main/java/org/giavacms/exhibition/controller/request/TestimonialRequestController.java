@@ -42,12 +42,6 @@ public class TestimonialRequestController extends AbstractRequestController<Test
    }
 
    @Override
-   protected void init()
-   {
-      super.init();
-   }
-
-   @Override
    public List<Testimonial> loadPage(int startRow, int pageSize)
    {
       Search<Participant> r = new Search<Participant>(Participant.class);
@@ -91,11 +85,4 @@ public class TestimonialRequestController extends AbstractRequestController<Test
    {
       return getElement() != null && getElement().getId() != null;
    }
-
-   public String viewElement(String id)
-   {
-      setElement(testimonialRepository.fetch(id));
-      return viewPage();
-   }
-
 }

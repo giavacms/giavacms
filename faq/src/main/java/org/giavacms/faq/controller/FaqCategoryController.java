@@ -5,120 +5,144 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.controller.AbstractPageController;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
-import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.faq.model.FaqCategory;
 import org.giavacms.faq.producer.FaqProducer;
 import org.giavacms.faq.repository.FaqCategoryRepository;
 
 @Named
 @SessionScoped
-public class FaqCategoryController extends AbstractLazyController<FaqCategory> {
+public class FaqCategoryController extends AbstractPageController<FaqCategory>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	public static String VIEW = "/private/faq/faqcategory/view.xhtml";
-	@ListPage
-	public static String LIST = "/private/faq/faqcategory/list.xhtml";
-	@EditPage
-	public static String EDIT = "/private/faq/faqcategory/edit.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   public static String VIEW = "/private/faq/faqcategory/view.xhtml";
+   @ListPage
+   public static String LIST = "/private/faq/faqcategory/list.xhtml";
+   @EditPage
+   public static String EDIT = "/private/faq/faqcategory/edit.xhtml";
 
-	public static String EDIT_IMAGE = "/private/faq/faqcategory/edit-image.xhtml";
+   public static String EDIT_IMAGE = "/private/faq/faqcategory/edit-image.xhtml";
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	@Inject
-	@OwnRepository(FaqCategoryRepository.class)
-	FaqCategoryRepository faqCategoryRepository;
+   @Override
+   public void defaultCriteria()
+   {
+      getSearch().getObj().setTemplate(new TemplateImpl());
+   }
 
-	@Inject
-	FaqProducer faqProducer;
+   @Override
+   public String getExtension()
+   {
+      return FaqCategory.EXTENSION;
+   }
 
-	@Override
-	public void initController() {
-	}
+   @Inject
+   @OwnRepository(FaqCategoryRepository.class)
+   FaqCategoryRepository faqCategoryRepository;
 
-	@Override
-	public String update() {
-		saveImage();
-		return super.update();
-	}
+   @Inject
+   FaqProducer faqProducer;
 
-	@Override
-	public String save() {
-		saveImage();
-		faqProducer.reset();
-		return super.save();
-	}
+   @Override
+   public void initController()
+   {
+   }
 
-	@Override
-	public String delete() {
-		super.delete();
-		faqProducer.reset();
-		return listPage();
-	}
+   @Override
+   public String update()
+   {
+      saveImage();
+      return super.update();
+   }
 
-	public String deleteImg() {
-		getElement().setImage(null);
-		faqCategoryRepository.update(getElement());
-		return listPage();
-	}
+   @Override
+   public String save()
+   {
+      saveImage();
+      faqProducer.reset();
+      return super.save();
+   }
 
-	public String modImage() {
-		// TODO Auto-generated method stub
-		super.modElement();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
-	}
+   @Override
+   public String delete()
+   {
+      super.delete();
+      faqProducer.reset();
+      return listPage();
+   }
 
-	public String modImageCurrent() {
-		// TODO Auto-generated method stub
-		super.modCurrent();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
-	}
+   public String deleteImg()
+   {
+      getElement().setImage(null);
+      faqCategoryRepository.update(getElement());
+      return listPage();
+   }
 
-	private void saveImage() {
-		if (getElement().getNewImage().getUploadedData() != null
-				&& getElement().getNewImage().getUploadedData().getContents() != null
-				&& getElement().getNewImage().getUploadedData().getFileName() != null
-				&& !getElement().getNewImage().getUploadedData().getFileName()
-						.isEmpty()) {
-			logger.info("carico nuova immagine: "
-					+ getElement().getNewImage().getUploadedData()
-							.getFileName());
-			Image img = new Image();
-			img.setData(getElement().getNewImage().getUploadedData()
-					.getContents());
-			img.setType(getElement().getNewImage().getUploadedData()
-					.getContentType());
+   public String modImage()
+   {
+      super.modElement();
+      return EDIT_IMAGE + REDIRECT_PARAM;
+   }
+
+   public String modImageCurrent()
+   {
+      super.modCurrent();
+      return EDIT_IMAGE + REDIRECT_PARAM;
+   }
+
+   private void saveImage()
+   {
+      if (getElement().getNewImage().getUploadedData() != null
+               && getElement().getNewImage().getUploadedData().getContents() != null
+               && getElement().getNewImage().getUploadedData().getFileName() != null
+               && !getElement().getNewImage().getUploadedData().getFileName()
+                        .isEmpty())
+      {
+         logger.info("carico nuova immagine: "
+                  + getElement().getNewImage().getUploadedData()
+                           .getFileName());
+         Image img = new Image();
+         img.setData(getElement().getNewImage().getUploadedData()
+                  .getContents());
+         img.setType(getElement().getNewImage().getUploadedData()
+                  .getContentType());
          String filename = FileUtils.createImage_("img", getElement()
-					.getNewImage().getUploadedData().getFileName(),
-					getElement().getNewImage().getUploadedData().getContents());
-			img.setFilename(filename);
-			getElement().setImage(img);
-			getElement().setNewImage(null);
-		} else {
-			logger.info("non c'e' nuova immagine");
-		}
-	}
+                  .getNewImage().getUploadedData().getFileName(),
+                  getElement().getNewImage().getUploadedData().getContents());
+         img.setFilename(filename);
+         getElement().setImage(img);
+         getElement().setNewImage(null);
+      }
+      else
+      {
+         logger.info("non c'e' nuova immagine");
+      }
+   }
 
-	@Override
-	public Object getId(FaqCategory t) {
-		// TODO Auto-generated method stub
-		return t.getId();
-	}
+   @Override
+   public Object getId(FaqCategory t)
+   {
+      return t.getId();
+   }
 
-	@Override
-	public String reset() {
-		faqProducer.reset();
-		return super.reset();
-	}
+   @Override
+   public String reset()
+   {
+      faqProducer.reset();
+      return super.reset();
+   }
 }

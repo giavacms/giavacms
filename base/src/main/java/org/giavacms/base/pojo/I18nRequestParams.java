@@ -12,8 +12,7 @@ import java.util.Map;
 
 import org.giavacms.base.model.Language;
 
-
-public class I18nParams implements Serializable
+public class I18nRequestParams implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
@@ -22,7 +21,7 @@ public class I18nParams implements Serializable
    private Language[] languages;
 
    @SuppressWarnings("unchecked")
-   public I18nParams(Language... languages)
+   public I18nRequestParams(Language... languages)
    {
       maps = new Map[languages.length];
       this.languages = languages;

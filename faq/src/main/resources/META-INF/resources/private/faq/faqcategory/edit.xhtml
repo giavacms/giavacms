@@ -24,6 +24,13 @@
 							value="#{faqCategoryController.element.name}"
 							style="width: 100%;" />
 
+						<h:outputLabel for="basepage" value="Pagina base:" />
+						<h:selectOneMenu id="basepage"
+							value="#{faqCategoryController.element.template.id}">
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(faqCategoryController.extension)}" />
+						</h:selectOneMenu>
+
 						<h:outputLabel for="orderNum" value="Indice:" style="width: 100%;" />
 						<h:panelGroup layout="block">
 							<p:inputText id="orderNum"

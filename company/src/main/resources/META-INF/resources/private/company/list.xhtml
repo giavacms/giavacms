@@ -29,7 +29,7 @@
 					<p:dataTable id="companyList" rowIndexVar="rowIndex" var="company"
 						value="#{companyController.model}"
 						rows="#{companyController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

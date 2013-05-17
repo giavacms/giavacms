@@ -51,7 +51,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
    {
       // create a unique title to be used as the page identifier
       String idTitle = PageUtils.createPageId(page.getTitle());
-      String idFinal = super.testKey(idTitle);
+      String idFinal = testKey(idTitle);
       page.setId(idFinal);
 
       if (!page.isClone())
@@ -84,7 +84,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
          if (obj != null)
          {
             obj.setActive(false);
-            getEm().remove(obj);
+            getEm().merge(obj);
          }
          return true;
       }
@@ -175,6 +175,36 @@ public abstract class AbstractPageRepository<T extends Page> extends
       sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
       params.put("title", likeText);
       return true;
+   }
+
+   /**
+    * key uniqueness must be tested agains all pages type, not only agains actual <T> pages
+    */
+   @Override
+   public String testKey(String key)
+   {
+      String keyNotUsed = key;
+      boolean found = false;
+      int i = 0;
+      while (!found)
+      {
+         logger.info("key to search: " + keyNotUsed);
+         Long pageCount = (Long) getEm()
+                  .createQuery("select count(p.id) from " + Page.class.getSimpleName() + " p where p.id = :KEY")
+                  .setParameter("KEY", keyNotUsed).getSingleResult();
+         logger.info("found " + pageCount + " pages with id: " + keyNotUsed);
+         if (pageCount != null && pageCount > 0)
+         {
+            i++;
+            keyNotUsed = key + "-" + i;
+         }
+         else
+         {
+            found = true;
+            return keyNotUsed;
+         }
+      }
+      return "";
    }
 
 }

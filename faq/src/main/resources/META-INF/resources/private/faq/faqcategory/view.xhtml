@@ -18,9 +18,15 @@
 		<center>
 			<p:panel header="Gestione Categoria Faq">
 				<h:panelGrid columns="2" style="width: 95%">
-					<h:outputLabel for="name" value="Nome (*):" style="width: 100%;" />
+					<h:outputLabel for="name" value="Nome:" style="width: 100%;" />
 					<h:outputText id="name"
 						value="#{faqCategoryController.element.name}" style="width: 100%;" />
+
+					<h:outputLabel for="basepage" value="Pagina di base:"
+						style="width: 100%;" />
+					<h:outputText
+						value="#{baseProducer.getBasePageTitle(faqCategoryController.element.template.id)}"
+						style="width: 100%;" />
 
 					<h:outputLabel for="description" value="Descrizione:"
 						style="width: 100%;" />

@@ -51,12 +51,6 @@ public class ParticipantRequestController extends
    }
 
    @Override
-   protected void init()
-   {
-      super.init();
-   }
-
-   @Override
    public List<Participant> loadPage(int startRow, int pageSize)
    {
       Search<Participant> r = new Search<Participant>(Participant.class);
@@ -149,11 +143,6 @@ public class ParticipantRequestController extends
       return getElement() != null && getElement().getId() != null;
    }
 
-   public String viewElement(Long id)
-   {
-      setElement(participantRepository.fetch(id));
-      return viewPage();
-   }
 
    public List<Discipline> getDiscipline()
    {

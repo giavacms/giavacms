@@ -158,7 +158,7 @@
 					<p:dataTable id="picasaList" rowIndexVar="picasaIndex"
 						var="photoAlbum" value="#{collectionController.albumPhotos}"
 						rows="#{collectionController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{picasaIndex+1}" />
 						</p:column>

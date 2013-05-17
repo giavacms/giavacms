@@ -15,82 +15,86 @@ import org.giavacms.picasa.model.Photo;
 import org.giavacms.picasa.repository.CollectionRepository;
 import org.giavacms.picasa.repository.PhotoRepository;
 
-
 @Named
 @RequestScoped
 public class PhotoRequestController extends AbstractRequestController<Photo>
-		implements Serializable {
+         implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	public static final String COLLECTION = "collection";
-	public static final String TAG = "tag";
-	public static final String[] PARAM_NAMES = new String[] { COLLECTION, TAG };
-	public static final String ID_PARAM = "id";
+   public static final String COLLECTION = "collection";
+   public static final String TAG = "tag";
+   public static final String[] PARAM_NAMES = new String[] { COLLECTION, TAG };
+   public static final String ID_PARAM = "id";
 
-	public static final String CURRENT_PAGE_PARAM = "start";
-	private Collection collection;
+   public static final String CURRENT_PAGE_PARAM = "start";
+   private Collection collection;
 
-	@Inject
-	CollectionRepository collectionRepository;
+   @Inject
+   CollectionRepository collectionRepository;
 
-	@Inject
-	@OwnRepository(PhotoRepository.class)
-	PhotoRepository photoRepository;
+   @Inject
+   @OwnRepository(PhotoRepository.class)
+   PhotoRepository photoRepository;
 
-	public PhotoRequestController() {
-		super();
-	}
+   public PhotoRequestController()
+   {
+      super();
+      setPageSize(20);
+   }
 
-	@Override
-	protected void init() {
-		super.init();
-		setPageSize(20);
-	}
+   @Override
+   public List<Photo> loadPage(int startRow, int pageSize)
+   {
+      Search<Photo> r = new Search<Photo>(Photo.class);
+      r.getObj().getCollection().setId(getParams().get(COLLECTION));
+      r.getObj().getCollection().setTags(getParams().get(TAG));
+      return photoRepository.getList(r, startRow, pageSize);
+   }
 
-	@Override
-	public List<Photo> loadPage(int startRow, int pageSize) {
-		Search<Photo> r = new Search<Photo>(Photo.class);
-		r.getObj().getCollection().setId(getParams().get(COLLECTION));
-		r.getObj().getCollection().setTags(getParams().get(TAG));
-		return photoRepository.getList(r, startRow, pageSize);
-	}
+   @Override
+   public int totalSize()
+   {
+      // siamo all'interno della stessa richiesta per servire la quale è
+      // avvenuta la postconstruct
+      Search<Photo> r = new Search<Photo>(Photo.class);
+      r.getObj().getCollection().setId(getParams().get(COLLECTION));
+      r.getObj().getCollection().setTags(getParams().get(TAG));
+      return photoRepository.getListSize(r);
+   }
 
-	@Override
-	public int totalSize() {
-		// siamo all'interno della stessa richiesta per servire la quale è
-		// avvenuta la postconstruct
-		Search<Photo> r = new Search<Photo>(Photo.class);
-		r.getObj().getCollection().setId(getParams().get(COLLECTION));
-		r.getObj().getCollection().setTags(getParams().get(TAG));
-		return photoRepository.getListSize(r);
-	}
+   @Override
+   public String[] getParamNames()
+   {
+      return PARAM_NAMES;
+   }
 
-	@Override
-	public String[] getParamNames() {
-		return PARAM_NAMES;
-	}
+   @Override
+   public String getIdParam()
+   {
+      return ID_PARAM;
+   }
 
-	@Override
-	public String getIdParam() {
-		return ID_PARAM;
-	}
+   @Override
+   public String getCurrentPageParam()
+   {
+      return CURRENT_PAGE_PARAM;
+   }
 
-	@Override
-	public String getCurrentPageParam() {
-		return CURRENT_PAGE_PARAM;
-	}
+   public Collection getCollection()
+   {
+      if (getParams().get(COLLECTION) != null)
+      {
+         this.collection = collectionRepository.fetch(getParams().get(
+                  COLLECTION));
+      }
+      return collection;
+   }
 
-	public Collection getCollection() {
-		if (getParams().get(COLLECTION) != null) {
-			this.collection = collectionRepository.fetch(getParams().get(
-					COLLECTION));
-		}
-		return collection;
-	}
-
-	public void setCollection(Collection collection) {
-		this.collection = collection;
-	}
+   public void setCollection(Collection collection)
+   {
+      this.collection = collection;
+   }
 
 }

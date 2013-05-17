@@ -25,6 +25,12 @@
 						<h:outputText id="category"
 							value="#{faqController.element.faqCategory.name}" width="640px" />
 
+						<h:outputLabel for="basepage" value="Pagina di base:"
+							style="width: 100%;" />
+						<h:outputText
+							value="#{baseProducer.getBasePageTitle(faqController.element.template.id)}"
+							style="width: 100%;" />
+
 						<h:outputLabel for="data" style="font-weight: bolder;"
 							value="Data: " />
 						<h:outputText value="#{faqController.element.date}">

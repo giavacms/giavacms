@@ -30,7 +30,7 @@
 					<p:dataTable id="disciplineList" rowIndexVar="rowIndex" var="t"
 						value="#{disciplineController.model}"
 						rows="#{disciplineController.pageSize}" paginator="true"
-						dynamic="true" editable="true">
+						lazy="true" editable="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

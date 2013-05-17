@@ -14,85 +14,83 @@ import org.giavacms.insuranceclaim.model.InsuranceClaimProduct;
 import org.giavacms.insuranceclaim.repository.InsuranceClaimCategoryRepository;
 import org.giavacms.insuranceclaim.repository.InsuranceClaimProductRepository;
 
-
 @Named
 @RequestScoped
 public class InsuranceClaimProductRequestController extends
-		AbstractRequestController<InsuranceClaimProduct> implements
-		Serializable {
+         AbstractRequestController<InsuranceClaimProduct> implements
+         Serializable
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	public static final String CATEGORIA = "categoria";
-	public static final String SEARCH = "q";
-	public static final String[] PARAM_NAMES = new String[] { CATEGORIA, SEARCH };
-	public static final String ID_PARAM = "id";
-	public static final String CURRENT_PAGE_PARAM = "start";
+   public static final String CATEGORIA = "categoria";
+   public static final String SEARCH = "q";
+   public static final String[] PARAM_NAMES = new String[] { CATEGORIA, SEARCH };
+   public static final String ID_PARAM = "id";
+   public static final String CURRENT_PAGE_PARAM = "start";
 
-	@Inject
-	@OwnRepository(InsuranceClaimProductRepository.class)
-	InsuranceClaimProductRepository insuranceClaimProductRepository;
+   @Inject
+   @OwnRepository(InsuranceClaimProductRepository.class)
+   InsuranceClaimProductRepository insuranceClaimProductRepository;
 
-	@Inject
-	InsuranceClaimCategoryRepository insuranceClaimCategoryRepository;
+   @Inject
+   InsuranceClaimCategoryRepository insuranceClaimCategoryRepository;
 
-	public InsuranceClaimProductRequestController() {
-		super();
-	}
+   public InsuranceClaimProductRequestController()
+   {
+      super();
+   }
 
-	@Override
-	protected void init() {
-		super.init();
-	}
+   @Override
+   public List<InsuranceClaimProduct> loadPage(int startRow, int pageSize)
+   {
+      Search<InsuranceClaimProduct> r = new Search<InsuranceClaimProduct>(
+               InsuranceClaimProduct.class);
+      r.getObj().setName(getParams().get(SEARCH));
+      r.getObj().getInsuranceClaimCategory()
+               .setName(getParams().get(CATEGORIA));
+      return insuranceClaimProductRepository.getList(r, startRow, pageSize);
+   }
 
-	@Override
-	public List<InsuranceClaimProduct> loadPage(int startRow, int pageSize) {
-		Search<InsuranceClaimProduct> r = new Search<InsuranceClaimProduct>(
-				InsuranceClaimProduct.class);
-		r.getObj().setName(getParams().get(SEARCH));
-		r.getObj().getInsuranceClaimCategory()
-				.setName(getParams().get(CATEGORIA));
-		return insuranceClaimProductRepository.getList(r, startRow, pageSize);
-	}
+   @Override
+   public int totalSize()
+   {
+      // siamo all'interno della stessa richiesta per servire la quale è
+      // avvenuta la postconstruct
+      Search<InsuranceClaimProduct> r = new Search<InsuranceClaimProduct>(
+               InsuranceClaimProduct.class);
+      r.getObj().getInsuranceClaimCategory()
+               .setName(getParams().get(CATEGORIA));
+      r.getObj().setName(getParams().get(SEARCH));
+      return insuranceClaimProductRepository.getListSize(r);
+   }
 
-	@Override
-	public int totalSize() {
-		// siamo all'interno della stessa richiesta per servire la quale è
-		// avvenuta la postconstruct
-		Search<InsuranceClaimProduct> r = new Search<InsuranceClaimProduct>(
-				InsuranceClaimProduct.class);
-		r.getObj().getInsuranceClaimCategory()
-				.setName(getParams().get(CATEGORIA));
-		r.getObj().setName(getParams().get(SEARCH));
-		return insuranceClaimProductRepository.getListSize(r);
-	}
+   @Override
+   public String[] getParamNames()
+   {
+      return PARAM_NAMES;
+   }
 
-	@Override
-	public String[] getParamNames() {
-		return PARAM_NAMES;
-	}
+   @Override
+   public String getIdParam()
+   {
+      return ID_PARAM;
+   }
 
-	@Override
-	public String getIdParam() {
-		return ID_PARAM;
-	}
+   @Override
+   public String getCurrentPageParam()
+   {
+      return CURRENT_PAGE_PARAM;
+   }
 
-	@Override
-	public String getCurrentPageParam() {
-		return CURRENT_PAGE_PARAM;
-	}
+   public boolean isScheda()
+   {
+      return getElement() != null && getElement().getId() != null;
+   }
 
-	public boolean isScheda() {
-		return getElement() != null && getElement().getId() != null;
-	}
-
-	public String viewElement(Long id) {
-		setElement(insuranceClaimProductRepository.fetch(id));
-		return viewPage();
-	}
-
-	public InsuranceClaimProduct getFirst() {
-		return insuranceClaimProductRepository.getFirst();
-	}
+   public InsuranceClaimProduct getFirst()
+   {
+      return insuranceClaimProductRepository.getFirst();
+   }
 
 }

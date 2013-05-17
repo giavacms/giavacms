@@ -40,11 +40,6 @@ public class InstituteRequestController extends
 	}
 
 	@Override
-	protected void init() {
-		super.init();
-	}
-
-	@Override
 	public List<Institute> loadPage(int startRow, int pageSize) {
 		Search<Participant> r = new Search<Participant>(Participant.class);
 		r.getObj().getSubject().setType(Institute.TYPE);
@@ -83,10 +78,4 @@ public class InstituteRequestController extends
 	public boolean isScheda() {
 		return getElement() != null && getElement().getId() != null;
 	}
-
-	public String viewElement(String id) {
-		setElement(instituteRepository.fetch(id));
-		return viewPage();
-	}
-
 }

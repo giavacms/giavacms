@@ -43,11 +43,6 @@ public class CenterRequestController extends AbstractRequestController<Center>
 	}
 
 	@Override
-	protected void init() {
-		super.init();
-	}
-
-	@Override
 	public List<Center> loadPage(int startRow, int pageSize) {
 		Search<Participant> r = new Search<Participant>(Participant.class);
 		r.getObj().getSubject().setType(Center.TYPE);
@@ -84,11 +79,6 @@ public class CenterRequestController extends AbstractRequestController<Center>
 
 	public boolean isScheda() {
 		return getElement() != null && getElement().getId() != null;
-	}
-
-	public String viewElement(String id) {
-		setElement(centerRepository.fetch(id));
-		return viewPage();
 	}
 
 }

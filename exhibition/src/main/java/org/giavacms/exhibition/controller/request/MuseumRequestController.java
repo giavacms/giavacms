@@ -42,12 +42,6 @@ public class MuseumRequestController extends AbstractRequestController<Museum>
    }
 
    @Override
-   protected void init()
-   {
-      super.init();
-   }
-
-   @Override
    public List<Museum> loadPage(int startRow, int pageSize)
    {
       Search<Participant> r = new Search<Participant>(Participant.class);
@@ -90,12 +84,6 @@ public class MuseumRequestController extends AbstractRequestController<Museum>
    public boolean isScheda()
    {
       return getElement() != null && getElement().getId() != null;
-   }
-
-   public String viewElement(String id)
-   {
-      setElement(museumRepository.fetch(id));
-      return viewPage();
    }
 
 }

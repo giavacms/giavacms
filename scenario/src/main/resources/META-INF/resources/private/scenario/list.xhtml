@@ -39,7 +39,7 @@
 					<p:dataTable id="scenarioList" rowIndexVar="rowIndex"
 						var="scenario" value="#{scenarioController.model}"
 						rows="#{scenarioController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
