@@ -4,7 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:gb="http://giava.by/common/base"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -82,13 +81,13 @@
 
 						<p:column width="100">
 							<f:facet name="header">operazioni</f:facet>
-							<gb:center>
+							<center>
 								<h:commandLink action="#{faqController.viewElement}"
 									value="vedi" />
 								-
 								<h:commandLink action="#{faqController.modElement}"
 									value="modifica" />
-							</gb:center>
+							</center>
 						</p:column>
 					</p:dataTable>
 				</p:panel>

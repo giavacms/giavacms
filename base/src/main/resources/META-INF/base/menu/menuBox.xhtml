@@ -4,7 +4,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:g="http://giavacms.org/base" >
+	xmlns:gb="http://giavacms.org/base">
 
 	<!-- 
 	parametro richiesto: 
@@ -15,73 +15,83 @@
 	-->
 	<div class="contcbox2 top6">
 
-	<div class="cbox2"><!-- 8 div open -->
-	<div class="cbox2LeftRow">
-	<div class="cbox2RightRow">
-	<div class="cboxTopLeft">
-	<div class="cboxTopRight">
-	<div class="cboxBotLeft">
-	<div class="cboxBotRight">
-	<div class="ContBoxCurva">
-	<div class="ContBoxRedTitle"><!-- 3 div open -->
-	<div class="BoxRedTitleTop">
-	<div class="rbtopl">
-	<div class="rbtopr">
+		<div class="cbox2">
+			<!-- 8 div open -->
+			<div class="cbox2LeftRow">
+				<div class="cbox2RightRow">
+					<div class="cboxTopLeft">
+						<div class="cboxTopRight">
+							<div class="cboxBotLeft">
+								<div class="cboxBotRight">
+									<div class="ContBoxCurva">
+										<div class="ContBoxRedTitle">
+											<!-- 3 div open -->
+											<div class="BoxRedTitleTop">
+												<div class="rbtopl">
+													<div class="rbtopr">
 
-	<div class="titolo"><f:verbatim rendered="#{not g:showMenu(open,menuGroup.nome)}">
-		<h3>
-		<a href="#{request.contextPath}/page/#{menuGroup.nome}">
-		#{menuGroup.nome}
-		</a>
-		</h3>
-	</f:verbatim> <f:verbatim rendered="#{g:showMenu(open,menuGroup.nome)}">
-		<h3>#{menuGroup.nome}</h3>
-	</f:verbatim>
-	</div>
+														<div class="titolo">
+															<f:verbatim
+																rendered="#{not gb:showMenu(open,menuGroup.nome)}">
+																<h3>
+																	<a href="#{request.contextPath}/page/#{menuGroup.nome}">
+																		#{menuGroup.nome} </a>
+																</h3>
+															</f:verbatim>
+															<f:verbatim
+																rendered="#{gb:showMenu(open,menuGroup.nome)}">
+																<h3>#{menuGroup.nome}</h3>
+															</f:verbatim>
+														</div>
 
-	<!-- 3 div close --></div>
-	</div>
-	</div>
+														<!-- 3 div close -->
+													</div>
+												</div>
+											</div>
 
-	<div class="BoxRedTitleBot">
+											<div class="BoxRedTitleBot">
 
-	<ui:repeat
-		value="#{menuGroup.listaAttivi}" var="menuItem"
-		varStatus="iterationStatus">
-		<div class="txt" style="display: #{g:showMenu(open,menuGroup.nome) ? 'block' : 'none'};">
-		<h4>
-		<c:set var="path" value="#{request.contextPath}#{menuItem.percorso}" />
-		<f:verbatim rendered="false">
-		<a
-			href="#{request.contextPath}#{menuGroup.percorso}/#{menuItem.pagina.id}"
-			title="#{menuItem.nome}" class="arrowLinkM"> #{menuItem.nome} </a>
-		</f:verbatim>
-		<a
-			href="#{menuItem.assoluto ? menuItem.percorso : path}"
-			title="#{menuItem.nome}" class="arrowLinkM"> #{menuItem.nome} </a>
-			</h4>
-		#{menuItem.descrizione}</div>
-		<div class="RowBot" style="#{iterationStatus.last ? 'display: none;' : 'display: none;' }">
-		</div>
-	</ui:repeat>
-		<div class="txt" style="#{g:showMenu(open,menuGroup.nome) ? 'display: none;' : 'font-weight: bold;' }">
-				<h:outputLink
-		value="#{request.contextPath}/page/#{menuGroup.nome}">#{closedMessage}
+												<ui:repeat value="#{menuGroup.listaAttivi}" var="menuItem"
+													varStatus="iterationStatus">
+													<div class="txt"
+														style="display: #{gb:showMenu(open, menuGroup.nome)?   'block':   'none'">
+														<h4>
+															<c:set var="path"
+																value="#{request.contextPath}#{menuItem.percorso}" />
+															<f:verbatim rendered="false">
+																<a
+																	href="#{request.contextPath}#{menuGroup.percorso}/#{menuItem.pagina.id}"
+																	title="#{menuItem.nome}" class="arrowLinkM">
+																	#{menuItem.nome} </a>
+															</f:verbatim>
+															<a href="#{menuItem.assoluto ? menuItem.percorso : path}"
+																title="#{menuItem.nome}" class="arrowLinkM">
+																#{menuItem.nome} </a>
+														</h4>
+														#{menuItem.descrizione}
+													</div>
+													<div class="RowBot" style="display: none;"></div>
+												</ui:repeat>
+												<div class="txt"
+													style="gb: showMenu(open, menuGroup.nome)?   'display: none;':   'font-weight: bold;'">
+													<h:outputLink
+														value="#{request.contextPath}/page/#{menuGroup.nome}">#{closedMessage}
 	</h:outputLink>
-	</div>
+												</div>
 
-	</div>
+											</div>
 
-	<!-- 8 div close --></div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
+											<!-- 8 div close -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-	</div>
+		</div>
 
 	</div>
 

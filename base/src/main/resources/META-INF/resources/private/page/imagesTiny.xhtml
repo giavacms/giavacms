@@ -2,8 +2,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:g="http://giava.by/common/base"
+	xmlns:p="http://primefaces.org/ui" xmlns:gb="http://giavacms.org/base"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/layout/popupTiny.xhtml">
 
@@ -42,8 +41,7 @@
 						<br />
 						<p:dataTable id="imagesList" rowIndexVar="rowIndex" var="r"
 							value="#{imageController.model}"
-							rows="#{imageController.pageSize}" paginator="true"
-							lazy="true">
+							rows="#{imageController.pageSize}" paginator="true" lazy="true">
 							<p:column width="50">
 								<center>
 									<h:outputText value="#{rowIndex+1} " />
@@ -62,8 +60,8 @@
 								<center>
 									<h:graphicImage value="/img/#{r.name}"
 										rendered="#{r.type == 'img'}"
-										width="#{g:imageWidthProportionalUrl('img/'.concat(r.name),100,100)}"
-										height="#{g:imageHeightProportionalUrl('img/'.concat(r.name), 100, 100)}" />
+										width="#{gb:imageWidthProportionalUrl('img/'.concat(r.name),100,100)}"
+										height="#{gb:imageHeightProportionalUrl('img/'.concat(r.name), 100, 100)}" />
 								</center>
 							</p:column>
 						</p:dataTable>

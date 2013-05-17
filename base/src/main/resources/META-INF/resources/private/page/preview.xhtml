@@ -5,8 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:flw="http://jflower/taglib">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <f:view contentType="text/html">
 	<h:head>
@@ -15,9 +14,10 @@
 	</h:head>
 	<h:body>
 		<h:form>
-			<center><h:commandButton
-				value="Torna alla pagina di gestione"
-				action="#{pageController.editPage}" /></center>
+			<center>
+				<h:commandButton value="Torna alla pagina di gestione"
+					action="#{pageController.editPage}" />
+			</center>
 		</h:form>
 		<h:inputTextarea value="#{pageController.element.content}"
 			style="width: 100%; height: 800px; color: black; background-color: white;"

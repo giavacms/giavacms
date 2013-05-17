@@ -4,8 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:g="http://giava.by/common/base"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
 		<h:outputText value="Gestione Prodotti" />
@@ -76,8 +75,7 @@
 						<h:outputLabel value="Pagina di base(*):" for="extension" />
 						<h:panelGroup id="extension">
 							<h:selectOneMenu style="width: 100%;"
-								value="#{productController.element.template.id}"
-								required="true"
+								value="#{productController.element.template.id}" required="true"
 								requiredMessage="E' obbligatorio specificare la pagina base">
 								<f:selectItems
 									value="#{baseProducer.getBasePageTemplateItems(productController.element.extension)}" />
@@ -139,8 +137,8 @@
 					<p:column>
 						<f:facet name="header">foto</f:facet>
 						<h:graphicImage value="/img/#{img.filename}"
-							width="#{g:imageWidthProportionalUrl('img/'.concat(img.filename),100,100)}"
-							height="#{g:imageHeightProportionalUrl('img/'.concat(img.filename), 100, 100)}"
+							width="#{gb:imageWidthProportionalUrl('img/'.concat(img.filename),100,100)}"
+							height="#{gb:imageHeightProportionalUrl('img/'.concat(img.filename), 100, 100)}"
 							alt="#{img.filename}" title="#{img.filename}"
 							style="padding: 5px;" />
 					</p:column>
@@ -151,12 +149,12 @@
 
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
-						<g:center>
+						<center>
 							<h:commandLink action="#{productController.removeImage(img.id)}"
 								value="elimina" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty img.id}" />
-						</g:center>
+						</center>
 					</p:column>
 				</p:dataTable>
 
@@ -181,13 +179,13 @@
 
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
-						<g:center>
+						<center>
 							<h:commandLink
 								action="#{productController.removeDocument(img.id)}"
 								value="elimina" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty doc.filename or not empty doc.id}" />
-						</g:center>
+						</center>
 					</p:column>
 				</p:dataTable>
 				<h:panelGrid columns="4">
