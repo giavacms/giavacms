@@ -1,89 +1,87 @@
 package org.giavacms.faq.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import org.giavacms.base.model.Page;
 
 @Entity
-public class Faq implements Serializable {
+@DiscriminatorValue(value = Faq.EXTENSION)
+public class Faq extends Page
+{
 
-	private static final long serialVersionUID = 1L;
-	private Long id;
-	private String question;
-	private String answer;
-	private FaqCategory faqCategory;
-	private Date date;
-	private boolean active = true;
+   private static final long serialVersionUID = 1L;
+   public static final String EXTENSION = "Faq";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
+   public Faq()
+   {
+      super();
+      super.setExtension(EXTENSION);
+   }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   private FaqCategory faqCategory;
+   private Date date;
 
-	@ManyToOne
-	public FaqCategory getFaqCategory() {
-		if (this.faqCategory == null)
-			this.faqCategory = new FaqCategory();
-		return faqCategory;
-	}
+   private String answer;
 
-	public void setFaqCategory(FaqCategory faqCategory) {
-		this.faqCategory = faqCategory;
-	}
+   @ManyToOne
+   public FaqCategory getFaqCategory()
+   {
+      if (this.faqCategory == null)
+         this.faqCategory = new FaqCategory();
+      return faqCategory;
+   }
 
-	public boolean isActive() {
-		return active;
-	}
+   public void setFaqCategory(FaqCategory faqCategory)
+   {
+      this.faqCategory = faqCategory;
+   }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+   @Transient
+   public String getQuestion()
+   {
+      return super.getTitle();
+   }
 
-	@Lob
-	@Column(length = 1024)
-	public String getQuestion() {
-		return question;
-	}
+   public void setQuestion(String question)
+   {
+      super.setTitle(question);
+   }
 
-	public void setQuestion(String question) {
-		this.question = question;
-	}
+   @Lob
+   @Column(length = 1024)
+   public String getAnswer()
+   {
+      return answer;
+   }
 
-	@Lob
-	@Column(length = 1024)
-	public String getAnswer() {
-		return answer;
-	}
+   public void setAnswer(String answer)
+   {
+      this.answer = answer;
+   }
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
+   public Date getDate()
+   {
+      return date;
+   }
 
-	public Date getDate() {
-		return date;
-	}
+   public void setDate(Date date)
+   {
+      this.date = date;
+   }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	@Override
-	public String toString() {
-		return "Faq [id=" + id + ", question=" + question + ", answer="
-				+ answer + ", faqCategory=" + faqCategory.getName()
-				+ ", active=" + active + "]";
-	}
+   @Override
+   public String toString()
+   {
+      return "Faq [id=" + super.getId() + ", question=" + super.getTitle() + ", answer="
+               + answer + ", faqCategory=" + faqCategory
+               + ", active=" + super.isActive() + "]";
+   }
 
 }

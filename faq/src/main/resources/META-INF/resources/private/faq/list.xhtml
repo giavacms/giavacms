@@ -17,7 +17,7 @@
 		<h:form>
 			<center>
 				<p:panel header="Lista Faq">
-					<h:panelGrid columns="7">
+					<h:panelGrid columns="9">
 						<h:outputLabel for="question" value="Domanda:" />
 						<h:inputText id="question"
 							value="#{faqController.search.obj.question}" />
@@ -31,6 +31,14 @@
 							value="#{faqController.search.obj.faqCategory.id}">
 							<f:selectItems value="#{faqCategoryItems}" />
 						</h:selectOneMenu>
+
+						<h:outputLabel for="basepage" value="Pagina base:" />
+						<h:selectOneMenu id="basepage"
+							value="#{faqController.search.obj.template.id}">
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(faqController.extension)}" />
+						</h:selectOneMenu>
+
 						<h:commandButton action="#{faqController.reloadAjax}"
 							value="Cerca" />
 					</h:panelGrid>
@@ -38,17 +46,17 @@
 
 					<p:dataTable id="faqList" rowIndexVar="rowIndex" var="faq"
 						value="#{faqController.model}" rows="#{faqController.pageSize}"
-						paginator="true" dynamic="true">
+						paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="200">
 							<f:facet name="header">domanda</f:facet>
 							<h:outputText value="#{faq.question}" />
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="200">
 							<f:facet name="header">riposta</f:facet>
 							<h:outputText value="#{faq.answer}" />
 						</p:column>
@@ -56,6 +64,12 @@
 						<p:column width="100">
 							<f:facet name="header">categoria</f:facet>
 							<h:outputText value="#{faq.faqCategory.name}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">pagina di base</f:facet>
+							<h:outputText
+								value="#{baseProducer.getBasePageTitle(faq.template.id)}" />
 						</p:column>
 
 						<p:column width="100">

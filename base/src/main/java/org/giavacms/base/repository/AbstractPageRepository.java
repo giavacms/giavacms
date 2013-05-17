@@ -84,7 +84,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
          if (obj != null)
          {
             obj.setActive(false);
-            getEm().remove(obj);
+            getEm().merge(obj);
          }
          return true;
       }

@@ -34,7 +34,7 @@
 					<p:dataTable id="contactusList" rowIndexVar="rowIndex" var="t"
 						value="#{newsLetterEmailController.model}"
 						rows="#{newsLetterEmailController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy ="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

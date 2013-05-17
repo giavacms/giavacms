@@ -40,7 +40,7 @@
 					<br />
 					<p:dataTable var="product" rowIndexVar="rowIndex"
 						value="#{scenarioController.element.products}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column>
 							<f:facet name="header">num</f:facet>
 							<h:outputText value="#{rowIndex+1}" />

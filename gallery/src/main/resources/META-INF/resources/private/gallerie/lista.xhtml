@@ -16,7 +16,7 @@
 					<p:dataTable id="templatesList" rowIndexVar="rowIndex"
 						var="galleria" value="#{gallerieController.model}"
 						rows="#{gallerieController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

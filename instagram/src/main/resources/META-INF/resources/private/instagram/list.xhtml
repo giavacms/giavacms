@@ -29,7 +29,7 @@
 					<p:dataTable id="picasaList" rowIndexVar="rowIndex"
 						var="collection" value="#{instagramCollectionController.model}"
 						rows="#{instagramCollectionController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
