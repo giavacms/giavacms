@@ -37,8 +37,8 @@ public class Richnews10ImporterService
    RichContentTypeRepository richContentTypeRepository;
 
    @SuppressWarnings("unchecked")
-   // @TransactionTimeout(unit = TimeUnit.MINUTES, value = 120L)
-   // @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+   @TransactionTimeout(unit = TimeUnit.MINUTES, value = 120L)
+   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
    public void doImport()
    {
       EntityManager em = richContentRepository.getEm();

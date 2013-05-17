@@ -51,7 +51,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
    {
       // create a unique title to be used as the page identifier
       String idTitle = PageUtils.createPageId(page.getTitle());
-      String idFinal = super.testKey(idTitle);
+      String idFinal = testKey(idTitle);
       page.setId(idFinal);
 
       if (!page.isClone())
