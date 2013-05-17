@@ -29,7 +29,7 @@ Some examples:
 <li><a href="http://www.arteinsie.me/" target="_blank">www.arteinsie.me</a></li>
 <li><a href="http://son.flower.io/" target="_blank">son.flower.io</a></li>
 </ul><b>GiavaCms loves:</b><br/>
-<img src="http://giavacms.googlecode.com/svn/web-sites/loghi/prettyfaces.png" height="70px"/> 
+<img src="https://code.google.com/p/giavacms/source/browse/web-sites/loghi/OpenShift.jpg" height="70px"/> 
 <img src="http://giavacms.googlecode.com/svn/web-sites/loghi/primefaces.gif" height="70px" /> 
 <img src="http://giavacms.googlecode.com/svn/web-sites/loghi/OpenShift.jpg" height="70px"/> 
 <img src="http://giavacms.googlecode.com/svn/web-sites/loghi/JBoss_AS_7.png" height="70px" />
