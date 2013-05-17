@@ -53,12 +53,17 @@ public class FaqRequestController
    public List<Faq> loadPage(int startRow, int pageSize)
    {
       System.out.println("load page");
+      return faqRepository.getList(buildSearch(), startRow, pageSize);
+   }
+
+   private Search<Faq> buildSearch()
+   {
       Search<Faq> r = new Search<Faq>(Faq.class);
       r.getObj().setQuestion(getParams().get(SEARCH));
       r.getObj().getFaqCategory().setName(getParams().get(CATEGORIA));
       // elementi della stessa lingua della pagina base
-      r.getObj().setLang(getElement().getLang());
-      return faqRepository.getList(r, startRow, pageSize);
+      r.getObj().setLang(super.getBasePage().getLang());
+      return r;
    }
 
    @Override
@@ -67,11 +72,7 @@ public class FaqRequestController
       System.out.println("load page size");
       // siamo all'interno della stessa richiesta per servire la quale è
       // avvenuta la postconstruct
-      Search<Faq> r = new Search<Faq>(Faq.class);
-      r.getObj().setQuestion(getParams().get(SEARCH));
-      r.getObj().getFaqCategory().setName(getParams().get(CATEGORIA));
-      r.getObj().setLang(getElement().getLang());
-      return faqRepository.getListSize(r);
+      return faqRepository.getListSize(buildSearch());
    }
 
    @Override
@@ -101,8 +102,8 @@ public class FaqRequestController
 
       I18nRequestParams i18nRequestParams = super.getI18nRequestParams();
 
-      int currentLang = ((PageRequestController) BeanUtils
-               .getBean(PageRequestController.class)).getElement().getLang();
+      int currentLang = getBasePage().getLang();
+
       String currentLangValue = i18nRequestParams.get(currentLang, CATEGORIA);
       if (currentLangValue != null && currentLangValue.trim().length() > 0)
       {
