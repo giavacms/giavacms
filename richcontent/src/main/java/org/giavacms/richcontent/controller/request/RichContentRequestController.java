@@ -56,7 +56,7 @@ public class RichContentRequestController extends
    public void initParameters()
    {
       super.initParameters();
-      this.testI18N();
+      this.handleI18N();
    }
 
    @Override
@@ -166,7 +166,7 @@ public class RichContentRequestController extends
       return last;
    }
 
-   protected void testI18N()
+   protected void handleI18N()
    {
 
       String testName = "test";
