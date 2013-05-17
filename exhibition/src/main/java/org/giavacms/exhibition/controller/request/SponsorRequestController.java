@@ -42,12 +42,6 @@ public class SponsorRequestController extends AbstractRequestController<Sponsor>
    }
 
    @Override
-   protected void init()
-   {
-      super.init();
-   }
-
-   @Override
    public List<Sponsor> loadPage(int startRow, int pageSize)
    {
       Search<Participant> r = new Search<Participant>(Participant.class);
@@ -92,10 +86,5 @@ public class SponsorRequestController extends AbstractRequestController<Sponsor>
       return getElement() != null && getElement().getId() != null;
    }
 
-   public String viewElement(String id)
-   {
-      setElement(sponsorRepository.fetch(id));
-      return viewPage();
-   }
 
 }

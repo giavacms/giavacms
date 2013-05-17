@@ -20,17 +20,17 @@
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="category"
 						value="#{faqCategoryController.model}"
 						rows="#{faqCategoryController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="100">
 							<f:facet name="header">nome</f:facet>
 							<h:outputText value="#{category.name}" />
 						</p:column>
 
-						<p:column width="300">
+						<p:column width="200">
 							<f:facet name="header">descrizione</f:facet>
 							<h:outputText value="#{category.description}" />
 						</p:column>
@@ -38,6 +38,12 @@
 						<p:column width="300">
 							<f:facet name="header">indice</f:facet>
 							<h:outputText value="#{category.orderNum}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">pagina di base</f:facet>
+							<h:outputText
+								value="#{baseProducer.getBasePageTitle(category.template.id)}" />
 						</p:column>
 
 						<p:column width="100">

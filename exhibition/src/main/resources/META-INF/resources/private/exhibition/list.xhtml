@@ -32,7 +32,7 @@
 					<p:dataTable id="exhibitionList" rowIndexVar="rowIndex"
 						var="exhibition" value="#{exhibitionController.model}"
 						rows="#{exhibitionController.pageSize}" paginator="true"
-						dynamic="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

@@ -37,11 +37,6 @@ public class ExhibitionRequestController extends
       super();
    }
 
-   @Override
-   protected void init()
-   {
-      super.init();
-   }
 
    @Override
    public List<Exhibition> loadPage(int startRow, int pageSize)
@@ -89,10 +84,6 @@ public class ExhibitionRequestController extends
       return getElement() != null && getElement().getId() != null;
    }
 
-   public String viewElement(String id)
-   {
-      setElement(exhibitionRepository.fetch(id));
-      return viewPage();
-   }
+
 
 }

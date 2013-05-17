@@ -39,7 +39,7 @@
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="product"
 						value="#{insuranceClaimProductController.model}"
 						rows="#{insuranceClaimProductController.pageSize}"
-						paginator="true" dynamic="true">
+						paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>

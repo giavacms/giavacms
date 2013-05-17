@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giava.by/common/base"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Importazione News versione 1.0" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="richcontent" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="mainForm">
+			<p:growl id="messages"></p:growl>
+			<center>
+				<p:commandButton action="#{richnews10ImporterController.doImport}"
+					value="Importa!" update=":mainForm:messages" />
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -37,11 +37,6 @@ public class InsuranceClaimCategoryRequestController extends
 		super();
 	}
 
-	@Override
-	protected void init() {
-		super.init();
-	}
-
 	public List<InsuranceClaimCategory> getCategorie(String tipologia) {
 		Search<InsuranceClaimCategory> r = new Search<InsuranceClaimCategory>(
 				InsuranceClaimCategory.class);
@@ -88,11 +83,6 @@ public class InsuranceClaimCategoryRequestController extends
 
 	public boolean isScheda() {
 		return getElement() != null && getElement().getId() != null;
-	}
-
-	public String viewElement(Long id) {
-		setElement(insuranceClaimCategoryRepository.fetch(id));
-		return viewPage();
 	}
 
 	public InsuranceClaimCategory getElementByName() {

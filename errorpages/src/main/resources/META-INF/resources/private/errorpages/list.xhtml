@@ -16,7 +16,7 @@
 
 			<p:dataTable id="errorTable" var="e" rowIndexVar="index"
 				value="#{errorPageController.model}" paginator="false" rows="0"
-				dynamic="true" style="width: 95%;">
+				lazy="true" style="width: 95%;">
 				<p:column headerText="num">
 					<center>
 						<h:outputText value="#{index+1}" />
