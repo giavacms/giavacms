@@ -22,7 +22,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
    @Override
    protected String getDefaultOrderBy()
    {
-      return "date asc";
+      return "category.orderNum asc,date desc";
    }
 
    @Override
