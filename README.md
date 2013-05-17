@@ -9,7 +9,6 @@ GiavaCMS Content Management System
 <b>GiavaCms is a new java content management system</b>.<br/>
 You can create static or dynamic web pages using jee6 technologies <b>cdi/ejb31 and jsf2</b>.
 <br/>
-<g:plusone size="medium"></g:plusone>
 <br/>
 All web pages (static or jsf dynamic) are written to database and with private administration panel we can controll all things, without use ftp/ssh to publish new content).
 We use Prettyfaces (<a href="http://ocpsoft.org/prettyfaces/">go to web site</a>) to serve dynamically paths.
