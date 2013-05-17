@@ -36,7 +36,6 @@ public class RichNews implements Serializable {
    private RichNewsType richNewsType;
    private List<Document> documents;
    private List<Image> images;
-   private boolean highlight;
 
    @Id
    public String getId() {
@@ -120,14 +119,6 @@ public class RichNews implements Serializable {
       this.active = active;
    }
 
-   public boolean isHighlight() {
-      return highlight;
-   }
-
-   public void setHighlight(boolean highlight) {
-      this.highlight = highlight;
-   }
-
    @Lob
    public String getTitle() {
       return title;
@@ -176,7 +167,7 @@ public class RichNews implements Serializable {
       return "RichNews [id=" + id + ", active=" + active + ", title=" + title
             + ", preview=" + preview + ", content=" + content + ", author="
             + author + ", date=" + date + ", richNewsType="
-            + richNewsType.getName() + ", highlight=" + highlight + "]";
+            + richNewsType.getName() + "]";
    }
 
 }

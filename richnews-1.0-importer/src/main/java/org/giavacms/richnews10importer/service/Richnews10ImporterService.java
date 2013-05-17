@@ -12,7 +12,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import org.giavacms.base.model.Page;
-import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.richcontent.model.RichContent;
@@ -44,7 +43,8 @@ public class Richnews10ImporterService
          defaultBasePage = (Page) em
                   .createQuery(
                            "select p from " + Page.class.getSimpleName()
-                                    + " p where p.extension = :EXTENSION and p.clone = :CLONE ").setMaxResults(1)
+                                    + " p where p.extension = :EXTENSION and p.clone = :CLONE ")
+                  .setParameter("EXTENSION", RichContent.EXTENSION).setParameter("CLONE", false).setMaxResults(1)
                   .getSingleResult();
       }
       catch (Exception e)
@@ -59,10 +59,10 @@ public class Richnews10ImporterService
 
       Map<String, RichContentType> richContentTypes = doImport(em, richNewsTypes, defaultBasePage);
 
-      List<Long> richNewsIds = em.createQuery("select rn.id from " + RichNews.class.getSimpleName() + " rn ")
+      List<String> richNewsIds = em.createQuery("select rn.id from " + RichNews.class.getSimpleName() + " rn ")
                .getResultList();
 
-      for (Long richNewsId : richNewsIds)
+      for (String richNewsId : richNewsIds)
       {
          RichNews richNews = fetch(em, richNewsId);
          doImport(em, richNews, richContentTypes, defaultBasePage);
@@ -96,12 +96,16 @@ public class Richnews10ImporterService
             {
                throw new RuntimeException("Errore nel salvataggio del tipo di contenuto: " + richNewsType);
             }
+            else
+            {
+               map.put(rct.getName(), rct);
+            }
          }
       }
       return map;
    }
 
-   private void doImport(EntityManager em, RichNews rn, Map<String, RichContentType> rctMap, Page basePage)
+   private void doImport(EntityManager em, RichNews rn, Map<String, RichContentType> rctMap, Page defaultBasePage)
    {
       RichContent rc = new RichContent();
       rc.setActive(rn.isActive());
@@ -111,6 +115,24 @@ public class Richnews10ImporterService
       rc.setDate(rn.getDate());
       rc.setDescription(rn.getPreview());
       rc.setDescription(rn.getTitle());
+      rc.setExtension(RichContent.EXTENSION);
+      rc.setHighlight(false);
+      // non posso settare in fase di persist dei documenti o delle immagini gia esistenti. le associo in fase di update
+      rc.setDocuments(null);
+      rc.setImages(null);
+      // da aggiornare una volta generato l'id
+      rc.setLang1id(null);
+      rc.setPreview(rn.getPreview());
+      rc.setRichContentType(rctMap.get(rn.getRichNewsType().getName()));
+      rc.setTemplate(defaultBasePage.getTemplate());
+      rc.setTitle(rn.getTitle());
+      rc = richContentRepository.persist(rc);
+      if (rc == null)
+      {
+         throw new RuntimeException("Errore nel salvataggio della news #" + rn.getId() + ": " + rn.getTitle());
+      }
+      // em.createQuery("update " + RichContent.class.getSimpleName() + " c set c.lang1id = c.id where c.id = :ID ")
+      // .setParameter("ID", rc.getId()).executeUpdate();
       if (rn.getDocuments() != null)
       {
          rc.setDocuments(new ArrayList<Document>());
@@ -121,8 +143,6 @@ public class Richnews10ImporterService
             rc.getDocuments().add(nd);
          }
       }
-      rc.setExtension(RichContent.EXTENSION);
-      rc.setHighlight(rn.isHighlight());
       if (rn.getImages() != null)
       {
          rc.setImages(new ArrayList<Image>());
@@ -133,22 +153,12 @@ public class Richnews10ImporterService
             rc.getImages().add(ni);
          }
       }
-      rc.setLang1id(null/* da aggiornare una volta generato l'id */);
-      rc.setPreview(rn.getPreview());
-      rc.setRichContentType(rctMap.get(rn.getRichNewsType().getName()));
-      rc.setTemplate(new TemplateImpl());
-      rc.getTemplate().setId(basePage.getTemplate().getId());
-      rc.setTitle(rn.getTitle());
-      rc = richContentRepository.persist(rc);
-      if (rc == null)
-      {
-         throw new RuntimeException("Errore nel salvataggio della news #" + rn.getId() + ": " + rn.getTitle());
-      }
-      em.createQuery("update " + RichContent.class.getSimpleName() + " c set c.lang1id = c.id where c.id = :ID ")
-               .setParameter("ID", rc.getId()).executeUpdate();
+      rc.setLang1id(rc.getId());
+      richContentRepository.update(rc);
+
    }
 
-   private RichNews fetch(EntityManager em, Long richNewsId)
+   private RichNews fetch(EntityManager em, String richNewsId)
    {
       RichNews rn = em.find(RichNews.class, richNewsId);
       if (rn.getImages() != null)

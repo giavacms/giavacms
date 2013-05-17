@@ -15,9 +15,10 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="mainForm">
+			<p:growl id="messages"></p:growl>
 			<center>
-				<p:commandButton action="#{richnews10ImportController.doImport}"
-					value="Importa!" />
+				<p:commandButton action="#{richnews10ImporterController.doImport}"
+					value="Importa!" update=":mainForm:messages" />
 			</center>
 		</h:form>
 	</ui:define>
