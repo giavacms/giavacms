@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -20,10 +21,12 @@ import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
 import org.giavacms.richnews10importer.model.RichNews;
 import org.giavacms.richnews10importer.model.RichNewsType;
+import org.jboss.ejb3.annotation.TransactionTimeout;
 
 @Named
 @Stateless
 @LocalBean
+@TransactionTimeout(unit = TimeUnit.MINUTES, value = 120L)
 public class Richnews10ImporterService
 {
 
