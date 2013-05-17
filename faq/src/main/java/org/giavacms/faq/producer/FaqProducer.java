@@ -42,7 +42,7 @@ public class FaqProducer implements Serializable {
 					FaqCategory.class);
 			items.put(FaqCategory.class, JSFUtils.setupItems(
 					new Search<FaqCategory>(FaqCategory.class),
-					faqCategoryRepository, "id", "name", "nessuna categoria",
+					faqCategoryRepository, "id", "title", "nessuna categoria",
 					"seleziona categoria..."));
 		}
 		return items.get(FaqCategory.class);

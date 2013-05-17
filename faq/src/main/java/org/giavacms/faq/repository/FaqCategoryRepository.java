@@ -64,4 +64,45 @@ public class FaqCategoryRepository extends AbstractPageRepository<FaqCategory>
       return super.preUpdate(n);
    }
 
+   public String translate(String currentLangValue, int currentLang, int alternativeLang, String noValueOption)
+   {
+      String alternativeLangValue = null;
+      try
+      {
+         FaqCategory fq = find(currentLangValue);
+         if (fq != null)
+         {
+            switch (alternativeLang)
+            {
+            case 1:
+               alternativeLangValue = fq.getLang1id();
+               break;
+            case 2:
+               alternativeLangValue = fq.getLang2id();
+               break;
+            case 3:
+               alternativeLangValue = fq.getLang3id();
+               break;
+            case 4:
+               alternativeLangValue = fq.getLang4id();
+               break;
+            case 5:
+               alternativeLangValue = fq.getLang5id();
+               break;
+            default:
+               break;
+            }
+         }
+      }
+      catch (Exception e)
+      {
+         logger.severe(e.getClass().getCanonicalName() + " - " + e.getMessage());
+      }
+      if (alternativeLangValue == null || alternativeLangValue.trim().isEmpty())
+      {
+         alternativeLangValue = noValueOption;
+      }
+      return alternativeLangValue;
+   }
+
 }
