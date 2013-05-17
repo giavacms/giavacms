@@ -140,6 +140,12 @@ public class Richnews10ImporterService
          {
             Document nd = new Document();
             nd.setId(d.getId());
+            nd.setActive(d.isActive());
+            nd.setData(d.getData());
+            nd.setDescription(d.getDescription());
+            nd.setFilename(d.getFilename());
+            nd.setName(d.getName());
+            nd.setType(d.getType());
             rc.getDocuments().add(nd);
          }
       }
@@ -150,6 +156,12 @@ public class Richnews10ImporterService
          {
             Image ni = new Image();
             ni.setId(i.getId());
+            ni.setActive(i.isActive());
+            ni.setData(i.getData());
+            ni.setDescription(i.getDescription());
+            ni.setFilename(i.getFilename());
+            ni.setName(i.getName());
+            ni.setType(i.getType());
             rc.getImages().add(ni);
          }
       }
