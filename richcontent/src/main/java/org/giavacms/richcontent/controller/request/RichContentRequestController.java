@@ -43,9 +43,6 @@ public class RichContentRequestController extends
    @Inject
    RichContentTypeRepository richContentTypeRepository;
 
-   @Inject
-   PageRequestController pageRequestController;
-
    private String filter;
 
    private RichContent last;
@@ -108,12 +105,6 @@ public class RichContentRequestController extends
       return PARAM_NAMES;
    }
 
-   @Override
-   public String getIdParam()
-   {
-      throw new RuntimeException("Should not be called. getIdValue override implement");
-   }
-
    public List<String> getTipiRichContent()
    {
       Search<RichContentType> r = new Search<RichContentType>(RichContentType.class);
@@ -173,12 +164,6 @@ public class RichContentRequestController extends
          this.last = last;
       }
       return last;
-   }
-
-   @Override
-   protected Object getIdValue()
-   {
-      return pageRequestController.getElement().getId();
    }
 
    protected void testI18N()

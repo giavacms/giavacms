@@ -3,6 +3,7 @@ package org.giavacms.base.controller;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.giavacms.base.controller.request.PageRequestController;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.base.request.I18nRequestParamsProducer;
@@ -19,6 +20,9 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
 
    @Inject
    I18nRequestParamsProducer i18nRequestParamsProducer;
+
+   @Inject
+   PageRequestController pageRequestController;
 
    public I18nRequestParams getI18nRequestParams()
    {
@@ -37,4 +41,17 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
          return i18nRequestParams.get();
       }
    }
+
+   @Override
+   public String getIdParam()
+   {
+      throw new RuntimeException("Should not be called. getIdValue override implement");
+   }
+
+   @Override
+   protected Object getIdValue()
+   {
+      return pageRequestController.getElement().getId();
+   }
+   
 }
