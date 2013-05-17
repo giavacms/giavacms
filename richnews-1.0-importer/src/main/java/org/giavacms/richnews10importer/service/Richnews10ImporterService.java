@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -26,7 +28,6 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 @Named
 @Stateless
 @LocalBean
-@TransactionTimeout(unit = TimeUnit.MINUTES, value = 120L)
 public class Richnews10ImporterService
 {
 
@@ -36,6 +37,8 @@ public class Richnews10ImporterService
    RichContentTypeRepository richContentTypeRepository;
 
    @SuppressWarnings("unchecked")
+   // @TransactionTimeout(unit = TimeUnit.MINUTES, value = 120L)
+   // @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
    public void doImport()
    {
       EntityManager em = richContentRepository.getEm();

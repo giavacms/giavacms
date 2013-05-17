@@ -177,4 +177,34 @@ public abstract class AbstractPageRepository<T extends Page> extends
       return true;
    }
 
+   /**
+    * key uniqueness must be tested agains all pages type, not only agains actual <T> pages
+    */
+   @Override
+   public String testKey(String key)
+   {
+      String keyNotUsed = key;
+      boolean found = false;
+      int i = 0;
+      while (!found)
+      {
+         logger.info("key to search: " + keyNotUsed);
+         Long pageCount = (Long) getEm()
+                  .createQuery("select count(p.id) from " + Page.class.getSimpleName() + " p where p.id = :KEY")
+                  .setParameter("KEY", keyNotUsed).getSingleResult();
+         logger.info("found " + pageCount + " pages with id: " + keyNotUsed);
+         if (pageCount != null && pageCount > 0)
+         {
+            i++;
+            keyNotUsed = key + "-" + i;
+         }
+         else
+         {
+            found = true;
+            return keyNotUsed;
+         }
+      }
+      return "";
+   }
+
 }
