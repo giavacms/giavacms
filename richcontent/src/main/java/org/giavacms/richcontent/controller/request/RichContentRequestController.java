@@ -172,8 +172,8 @@ public class RichContentRequestController extends
       String testName = "test";
       I18nRequestParams i18nRequestParams = super.getI18nRequestParams();
 
-      int currentLang = ((PageRequestController) BeanUtils
-               .getBean(PageRequestController.class)).getElement().getLang();
+      int currentLang = getBasePage().getLang();
+
       String testValue = i18nRequestParams.get(currentLang, testName);
       if (testValue != null && testValue.trim().length() > 0)
       {
