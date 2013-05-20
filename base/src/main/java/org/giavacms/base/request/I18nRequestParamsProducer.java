@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import org.giavacms.base.model.Language;
 import org.giavacms.base.pojo.I18nRequestParams;
 import org.jboss.logging.Logger;
 
+@RequestScoped
 public class I18nRequestParamsProducer implements Serializable
 {
 

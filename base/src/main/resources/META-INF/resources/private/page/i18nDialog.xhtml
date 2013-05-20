@@ -6,6 +6,8 @@
 
 	<p:dialog id="dialog_i18nDialog" widgetVar="i18nDialog"
 		header="Associazione lingue" modal="true">
+		<p:ajax event="close" update=":central"
+			listener="#{pageController.reload}" />
 		<h:form id="dialog_central">
 			<center>
 
@@ -204,7 +206,7 @@
 
 				<br />
 				<p:commandButton action="#{pageController.reload}" value="Concludi"
-					onclick="i18nDialog.hide();" />
+					ajax="true" update=":central" onclick="i18nDialog.hide();" />
 
 				<br /> <br />
 
@@ -321,50 +323,63 @@
 						</p:column>
 						<p:column headerText="associa come">
 							<center>
+
 								<h:outputText value="lingua principale non impostata"
 									rendered="#{i18nController.element.lang eq 0}" />
+
 								<h:panelGroup rendered="#{i18nController.element.lang gt 0}">
+
 									<h:outputText value="pagina selezionata"
 										rendered="#{p.id eq i18nController.element.id}" />
+
 									<h:panelGroup rendered="#{p.id != i18nController.element.id}">
+
 										<h:outputText value="non impostabile"
-											rendered="#{empty p.lang1id and empty p.lang2id and empty p.lang3id and empty p.lang4id and empty p.lang5id}" />
-										<p:commandLink value="#{language1.id}"
-											action="#{i18nController.setLanguage(1,p.id)}"
-											update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
-											style="margin-left: 10px;"
-											rendered="#{not empty language1 and p.id eq p.lang1id }">
-											<br />
-										</p:commandLink>
-										<p:commandLink value="#{language2.id}"
-											update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
-											action="#{i18nController.setLanguage(2,p.id)}"
-											style="margin-left: 10px;"
-											rendered="#{not empty language2 and p.id eq p.lang2id }">
-											<br />
-										</p:commandLink>
-										<p:commandLink value="#{language3.id}"
-											update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
-											action="#{i18nController.setLanguage(3,p.id)}"
-											style="margin-left: 10px;"
-											rendered="#{not empty language3 and p.id eq p.lang3id }">
-											<br />
-										</p:commandLink>
-										<p:commandLink value="#{language4.id}"
-											update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
-											action="#{i18nController.setLanguage(4,p.id)}"
-											style="margin-left: 10px;"
-											rendered="#{not empty language4 and p.id eq p.lang4id }">
-											<br />
-										</p:commandLink>
-										<p:commandLink value="#{language5.id}"
-											update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
-											action="#{i18nController.setLanguage(5,p.id)}"
-											style="margin-left: 10px;"
-											rendered="#{not empty language5 and p.id eq p.lang5id }">
-											<br />
-										</p:commandLink>
+											rendered="#{p.lang eq i18nController.element.lang}" />
+
+										<h:panelGroup
+											rendered="#{p.lang ne i18nController.element.lang}">
+
+											<p:commandLink value="#{language1.id}"
+												action="#{i18nController.setLanguage(1,p.id)}"
+												update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
+												style="margin-left: 10px;"
+												rendered="#{not empty language1 and i18nController.element.lang ne 1}">
+												<br />
+											</p:commandLink>
+											<p:commandLink value="#{language2.id}"
+												update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
+												action="#{i18nController.setLanguage(2,p.id)}"
+												style="margin-left: 10px;"
+												rendered="#{not empty language2 and i18nController.element.lang ne 2}">
+												<br />
+											</p:commandLink>
+											<p:commandLink value="#{language3.id}"
+												update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
+												action="#{i18nController.setLanguage(3,p.id)}"
+												style="margin-left: 10px;"
+												rendered="#{not empty language3 and i18nController.element.lang ne 3}">
+												<br />
+											</p:commandLink>
+											<p:commandLink value="#{language4.id}"
+												update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
+												action="#{i18nController.setLanguage(4,p.id)}"
+												style="margin-left: 10px;"
+												rendered="#{not empty language4 and i18nController.element.lang ne 4}">
+												<br />
+											</p:commandLink>
+											<p:commandLink value="#{language5.id}"
+												update="dialog_pagesList :dialog_central:dialog_selectedGrid :dialog_central:dialog_selectedVersions"
+												action="#{i18nController.setLanguage(5,p.id)}"
+												style="margin-left: 10px;"
+												rendered="#{not empty language5 and i18nController.element.lang ne 2}">
+												<br />
+											</p:commandLink>
+
+										</h:panelGroup>
+
 									</h:panelGroup>
+
 								</h:panelGroup>
 							</center>
 						</p:column>
