@@ -36,11 +36,13 @@ public class FaqCategory extends Page
    private int orderNum;
 
    @Transient
+   @Deprecated
    public String getName()
    {
       return super.getTitle();
    }
 
+   @Deprecated
    public void setName(String name)
    {
       super.setTitle(name);

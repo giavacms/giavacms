@@ -44,11 +44,13 @@ public class Faq extends Page
    }
 
    @Transient
+   @Deprecated
    public String getQuestion()
    {
       return super.getTitle();
    }
 
+   @Deprecated
    public void setQuestion(String question)
    {
       super.setTitle(question);
