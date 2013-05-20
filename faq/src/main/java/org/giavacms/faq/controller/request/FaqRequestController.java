@@ -1,6 +1,7 @@
 package org.giavacms.faq.controller.request;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -8,11 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.controller.AbstractPageRequestController;
-import org.giavacms.base.controller.request.PageRequestController;
 import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.util.BeanUtils;
 import org.giavacms.faq.model.Faq;
 import org.giavacms.faq.repository.FaqCategoryRepository;
 import org.giavacms.faq.repository.FaqRepository;
@@ -59,8 +58,8 @@ public class FaqRequestController
    private Search<Faq> buildSearch()
    {
       Search<Faq> r = new Search<Faq>(Faq.class);
-      r.getObj().setQuestion(getParams().get(SEARCH));
-      r.getObj().getFaqCategory().setName(getParams().get(CATEGORIA));
+      r.getObj().setTitle(getParams().get(SEARCH));
+      r.getObj().getFaqCategory().setId(getParams().get(CATEGORIA));
       // elementi della stessa lingua della pagina base
       r.getObj().setLang(super.getBasePage().getLang());
       return r;
@@ -118,7 +117,7 @@ public class FaqRequestController
                               CATEGORIA,
                               (i18nRequestParams.getLanguages()[i] == null || !i18nRequestParams
                                        .getLanguages()[i].isEnabled()) ? "n.a."
-                                       : faqCategoryRepository.translate(currentLangValue, currentLang, i, "n.a."));
+                                       : faqCategoryRepository.translate(currentLangValue, currentLang, i, currentLangValue));
          }
       }
    }

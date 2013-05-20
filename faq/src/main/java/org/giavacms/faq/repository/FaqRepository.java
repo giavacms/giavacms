@@ -35,14 +35,14 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       params.put("activeCategory", true);
       separator = " and ";
 
-      // CATEGORY NAME
+      // CATEGORY TITLE
       if (search.getObj().getFaqCategory() != null
-               && search.getObj().getFaqCategory().getName() != null
-               && search.getObj().getFaqCategory().getName().trim().length() > 0)
+               && search.getObj().getFaqCategory().getTitle() != null
+               && search.getObj().getFaqCategory().getTitle().trim().length() > 0)
       {
          sb.append(separator).append(alias)
-                  .append(".faqCategory.name = :NAMECAT ");
-         params.put("NAMECAT", search.getObj().getFaqCategory().getName());
+                  .append(".faqCategory.title = :NAMECAT ");
+         params.put("NAMECAT", search.getObj().getFaqCategory().getTitle());
       }
 
       // CATEGORY ID
@@ -73,7 +73,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
    {
       faq.setClone(true);
       faq.setAnswer(HtmlUtils.normalizeHtml(faq.getAnswer()));
-      faq.setQuestion(HtmlUtils.normalizeHtml(faq.getQuestion()));
+      faq.setTitle(HtmlUtils.normalizeHtml(faq.getTitle()));
       return super.prePersist(faq);
    }
 
@@ -82,7 +82,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
    {
       faq.setClone(true);
       faq.setAnswer(HtmlUtils.normalizeHtml(faq.getAnswer()));
-      faq.setQuestion(HtmlUtils.normalizeHtml(faq.getQuestion()));
+      faq.setTitle(HtmlUtils.normalizeHtml(faq.getTitle()));
       return super.preUpdate(faq);
    }
 }
