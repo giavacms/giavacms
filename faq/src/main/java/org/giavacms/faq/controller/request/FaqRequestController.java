@@ -1,7 +1,6 @@
 package org.giavacms.faq.controller.request;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -13,6 +12,7 @@ import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
 import org.giavacms.faq.model.Faq;
+import org.giavacms.faq.model.FaqCategory;
 import org.giavacms.faq.repository.FaqCategoryRepository;
 import org.giavacms.faq.repository.FaqRepository;
 
@@ -46,6 +46,14 @@ public class FaqRequestController
    {
       super.initParameters();
       this.handleI18N();
+   }
+
+   public List<FaqCategory> getFaqCategories()
+   {
+      Search<FaqCategory> r = new Search<FaqCategory>(FaqCategory.class);
+      // elementi della stessa lingua della pagina base
+      r.getObj().setLang(super.getBasePage().getLang());
+      return faqCategoryRepository.getList(r, 0, 0);
    }
 
    @Override
@@ -117,7 +125,8 @@ public class FaqRequestController
                               CATEGORIA,
                               (i18nRequestParams.getLanguages()[i] == null || !i18nRequestParams
                                        .getLanguages()[i].isEnabled()) ? "n.a."
-                                       : faqCategoryRepository.translate(currentLangValue, currentLang, i, currentLangValue));
+                                       : faqCategoryRepository.translate(currentLangValue, currentLang, i,
+                                                currentLangValue));
          }
       }
    }
