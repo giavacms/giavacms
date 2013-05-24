@@ -37,12 +37,6 @@
 		<function-signature>java.lang.String replaceIfEmpty(java.lang.String,java.lang.String)</function-signature>
 	</function>
 	<function>
-		<function-name>concat</function-name>
-		<function-class>org.giavacms.common.util.StringUtils</function-class>
-		<function-signature>java.lang.String
-			concat(java.lang.String,java.lang.String)</function-signature>
-	</function>
-	<function>
 		<function-name>hasErrors</function-name>
 		<function-class>org.giavacms.common.util.JSFUtils</function-class>
 		<function-signature>java.lang.Boolean hasErrors(java.lang.String)</function-signature>
