@@ -93,9 +93,7 @@
 							</p:rowEditor>
 							<p:commandLink action="#{languageController.delete(id)}"
 								ajax="false" immediate=""
-								onclick="if(!confirm('Vuoi veramente eliminare il linguaggio \'#{l.id}\''?')) return false">
-								<h:graphicImage alt="Elimina" title="Elimina"
-									library="images/form" name="failed.png" style="border: none;" />
+								onclick="if(!confirm('Vuoi veramente eliminare il linguaggio \'#{l.id}\''?')) return false" value="elimina">
 							</p:commandLink>
 						</p:column>
 						<p:ajax event="rowEdit" listener="#{languageController.onRowEdit}"
