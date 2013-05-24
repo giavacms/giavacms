@@ -33,7 +33,7 @@
 	</tag>
 	<function>
 		<function-name>substring</function-name>
-		<function-class>org.giavacms.common.utils.StringUtils</function-class>
+		<function-class>org.giavacms.common.util.StringUtils</function-class>
 		<function-signature>java.lang.String substring(java.lang.String, int, boolean)</function-signature>
 	</function>
 	<function>
