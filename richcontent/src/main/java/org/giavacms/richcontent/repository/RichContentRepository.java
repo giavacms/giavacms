@@ -368,4 +368,17 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return list;
    }
 
+   public void loadFirstPicture(RichContent richContent)
+   {
+      try
+      {
+         //         getEm().createQ
+      }
+      catch (Exception e)
+      {
+         logger.severe(e.getClass().getCanonicalName());
+      }
+
+   }
+
 }
