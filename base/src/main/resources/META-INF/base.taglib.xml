@@ -29,8 +29,13 @@
 	</tag>
 	<tag>
 		<tag-name>pager</tag-name>
-		<source>form/pager.xhtml</source>
+		<source>base/pager.xhtml</source>
 	</tag>
+	<function>
+		<function-name>substring</function-name>
+		<function-class>org.giavacms.common.util.StringUtils</function-class>
+		<function-signature>java.lang.String substring(java.lang.String, int, boolean)</function-signature>
+	</function>
 	<function>
 		<function-name>replaceIfEmpty</function-name>
 		<function-class>org.giavacms.common.util.StringUtils</function-class>
@@ -114,7 +119,7 @@
 	<function>
 		<function-name>imageHeightProportionalUrl</function-name>
 		<function-class>org.giavacms.common.util.ImageUtils</function-class>
-		<function-signature>java.lang.Integer getImageHeightProportionalByUrl(java.lang.String, java.lang.Integer, java.lang.Integer)</function-signature>
+		<function-signature>java.lang.Integer getImageHeightProportionalByUrl(java.lang.String, java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<function-name>random</function-name>
