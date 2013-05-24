@@ -9,11 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.controller.AbstractPageRequestController;
-import org.giavacms.base.controller.request.PageRequestController;
 import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.util.BeanUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.type.RichContentType;
 import org.giavacms.richcontent.repository.RichContentRepository;
@@ -59,19 +57,6 @@ public class RichContentRequestController extends
       this.handleI18N();
    }
 
-   @Override
-   public List<RichContent> loadPage(int startRow, int pageSize)
-   {
-      Search<RichContent> r = new Search<RichContent>(RichContent.class);
-      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
-      r.getObj().getRichContentType().setName(getParams().get(PARAM_TYPE));
-      if (getFilter() != null && !getFilter().isEmpty())
-      {
-         r.getObj().getRichContentType().setName(getFilter());
-      }
-      return richContentRepository.getList(r, startRow, pageSize);
-   }
-
    public List<RichContent> getLatest(int pageSize)
    {
       logger.info("getLatest:" + pageSize);
@@ -84,19 +69,6 @@ public class RichContentRequestController extends
       setFilter(category);
       setPageSize(size);
       return getPage();
-   }
-
-   @Override
-   public int totalSize()
-   {
-      Search<RichContent> r = new Search<RichContent>(RichContent.class);
-      r.getObj().getRichContentType().setName(getParams().get(PARAM_TYPE));
-      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
-      if (getFilter() != null && !getFilter().isEmpty())
-      {
-         r.getObj().getRichContentType().setName(getFilter());
-      }
-      return richContentRepository.getListSize(r);
    }
 
    @Override
