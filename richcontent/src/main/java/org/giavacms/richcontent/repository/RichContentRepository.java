@@ -372,7 +372,15 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    {
       try
       {
-         //         getEm().createQ
+         // return getEm().createNativeQuery("SELECT * FROM RichContent_Image ri " +
+         // " left join Image i on (ri.images_id=i.id) " +
+         // " where ri.RichContent_id in( 'fiorenzo-pizza', 'samuele-pasini')"+
+         // " limit 0,1").getResultList();
+         List<Image> images = getEm().merge(richContent).getImages();
+         if (images != null && images.size() > 0)
+         {
+            images.get(0).toString();
+         }
       }
       catch (Exception e)
       {
@@ -380,5 +388,4 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       }
 
    }
-
 }
