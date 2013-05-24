@@ -55,59 +55,6 @@ public class JSFLocalUtils
       return collection == null ? 0 : collection.size();
    }
 
-   // /**
-   // * @param ricerca
-   // * @param ejb
-   // * @param idField
-   // * il nome del campo del par il cui valore è da usare come
-   // * selectItem.value
-   // * @param valueField
-   // * il nome del campo del par il cui valore è da usare
-   // * selectItem.label
-   // * @param emptyMessage
-   // * messaggio da mettere in caso di no risultati:
-   // * selectItem(null,"nessun entity trovato...")
-   // * @param labelMessage
-   // * messaggio da mettere nel primo selectitem in caso di
-   // * no-selezione: select(null,"scegli l'entity....")
-   // * @return
-   // */
-   // @SuppressWarnings("rawtypes")
-   // public static SelectItem[] setupItems(Search<T> ricerca, SuperSession
-   // ejb,
-   // String idField, String valueField, String emptyMessage,
-   // String labelMessage) {
-   // Class clazz = ricerca.getOggetto().getClass();
-   // SelectItem[] selectItems = new SelectItem[1];
-   // selectItems[0] = new SelectItem(null, emptyMessage);
-   // List entities = ejb.getList(ricerca, 0, 0);
-   // if (entities != null && entities.size() > 0) {
-   // selectItems = new SelectItem[entities.size() + 1];
-   // selectItems[0] = new SelectItem(null, labelMessage);
-   // int i = 1;
-   // for (Object o : entities) {
-   // try {
-   // Field ID_Field = clazz.getDeclaredField(idField);
-   // ID_Field.setAccessible(true);
-   // Field VALUE_Field = clazz.getDeclaredField(valueField);
-   // VALUE_Field.setAccessible(true);
-   // selectItems[i] = new SelectItem(ID_Field.get(o), ""
-   // + VALUE_Field.get(o));
-   // i++;
-   // } catch (IllegalArgumentException e) {
-   // logger.error(e.getMessage(), e);
-   // } catch (IllegalAccessException e) {
-   // logger.error(e.getMessage(), e);
-   // } catch (SecurityException e) {
-   // logger.error(e.getMessage(), e);
-   // } catch (NoSuchFieldException e) {
-   // logger.error(e.getMessage(), e);
-   // }
-   // }
-   // }
-   // return selectItems;
-   // }
-
    public static String breadcrumbs()
    {
       HttpServletRequest hsr = (HttpServletRequest) FacesContext
