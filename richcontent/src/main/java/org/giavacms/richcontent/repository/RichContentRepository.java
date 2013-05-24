@@ -379,7 +379,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          List<Image> images = getEm().merge(richContent).getImages();
          if (images != null && images.size() > 0)
          {
-            images.get(0).toString();
+            richContent.setFirstImage(images.get(0));
+            richContent.getFirstImage().toString();
          }
       }
       catch (Exception e)

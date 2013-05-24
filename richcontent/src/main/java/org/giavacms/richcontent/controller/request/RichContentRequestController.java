@@ -179,4 +179,21 @@ public class RichContentRequestController extends
       return page;
    }
 
+   // @Override
+   // public Search<RichContent> getSearch()
+   // {
+   // Search<RichContent> search = super.getSearch();
+   // String content = getParams().get(PARAM_CONTENT);
+   // if (content != null && content.trim().length() > 0)
+   // {
+   // search.getObj().setTitle(content);
+   // }
+   // String tag = getParams().get(PARAM_TAG);
+   // if (tag != null && tag.trim().length() > 0)
+   // {
+   // search.getObj().setTag(tag);
+   // }
+   // return search;
+   // }
+
 }
