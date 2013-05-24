@@ -26,12 +26,12 @@ public class RichContentRequestController extends
    private static final long serialVersionUID = 1L;
 
    public static final String PARAM_CONTENT = "q";
-   public static final String PARAM_TYPE = "type";
-   // public static final String ID_PARAM = "id";
-   public static final String CURRENT_PAGE_PARAM = "currentpage";
+   public static final String PARAM_TYPE = "t";
+   public static final String PARAM_TAG = "tag";
+   public static final String CURRENT_PAGE_PARAM = "p";
    public static final String[] PARAM_NAMES = new String[] { PARAM_CONTENT,
             PARAM_TYPE,
-            // ID_PARAM,
+            PARAM_TAG,
             CURRENT_PAGE_PARAM };
 
    @Inject
