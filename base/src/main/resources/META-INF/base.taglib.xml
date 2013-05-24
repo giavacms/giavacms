@@ -7,18 +7,6 @@
   <tag-name>breadcrumbs</tag-name>
   <source>base/breadcrumbs/breadcrumbs.xhtml</source>
  </tag>
- <tag>
-  <tag-name>dynamicBreadcrumbs</tag-name>
-  <source>base/breadcrumbs/dynamicBreadcrumbs.xhtml</source>
- </tag>
-  <tag>
-  <tag-name>menuBox</tag-name>
-  <source>base/menu/menuBox.xhtml</source>
- </tag>
- <tag>
-  <tag-name>menuBoxSxBase</tag-name>
-  <source>base/menu/menuBoxSxBase.xhtml</source>
- </tag>
   <tag>
   <tag-name>upDown</tag-name>
   <source>base/util/upDown.xhtml</source>
