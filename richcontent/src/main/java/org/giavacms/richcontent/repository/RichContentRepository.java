@@ -368,4 +368,25 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return list;
    }
 
+   public void loadFirstPicture(RichContent richContent)
+   {
+      try
+      {
+         // return getEm().createNativeQuery("SELECT * FROM RichContent_Image ri " +
+         // " left join Image i on (ri.images_id=i.id) " +
+         // " where ri.RichContent_id in( 'fiorenzo-pizza', 'samuele-pasini')"+
+         // " limit 0,1").getResultList();
+         List<Image> images = getEm().merge(richContent).getImages();
+         if (images != null && images.size() > 0)
+         {
+            richContent.setFirstImage(images.get(0));
+            richContent.getFirstImage().toString();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.severe(e.getClass().getCanonicalName());
+      }
+
+   }
 }
