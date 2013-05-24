@@ -5,15 +5,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:g="http://giava.by/common/base">
+	xmlns:gb="http://giavacms.org/base">
 <f:view contentType="text/html" encoding="UTF-8">
 	<f:event type="preRenderView" listener="#{loginController.checkRoles}" />
 	<ui:insert name="roles">
 		<f:attribute name="roles" value="ANY" />
 	</ui:insert>
 	<style>
-<ui:insert name="styles">
-</ui:insert>
+<ui:insert name="styles"></ui:insert>
 </style>
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -57,18 +56,18 @@
 		<ui:insert name="menu-alto">
 			<ui:include src="menu-alto.xhtml" />
 		</ui:insert>
-		<g:spacer></g:spacer>
+		<p:spacer></p:spacer>
 
 		<p:panel>
-			<g:primeBreadcrumbs></g:primeBreadcrumbs>
-			<g:spacer></g:spacer>
+			<gb:primeBreadcrumbs></gb:primeBreadcrumbs>
+			<p:spacer></p:spacer>
 			<ui:insert name="content">
 				<ui:include src="content.xhtml" />
 			</ui:insert>
 		</p:panel>
-		<g:spacer></g:spacer>
+		<p:spacer></p:spacer>
 		<p:panel>
-			<g:center>
+			<center>
 				<h:outputText value="Utente: " />
 				<h:outputText value="#{loginController.userAuth.username}"
 					style="font-weight: bolder;" />
@@ -77,7 +76,7 @@
 					rendered="#{loginController.admin}" style="font-weight: bolder;" />
 				<h:outputText value="utente ordinario"
 					rendered="#{loginController.user}" style="font-weight: bolder;" />
-			</g:center>
+			</center>
 		</p:panel>
 		<div id="footPage"></div>
 	</h:body>

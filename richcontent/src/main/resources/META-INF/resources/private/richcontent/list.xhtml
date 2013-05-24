@@ -4,7 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:gb="http://giava.by/common/base"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -94,7 +93,7 @@
 
 						<p:column width="200">
 							<f:facet name="header">operazioni</f:facet>
-							<gb:center>
+							<center>
 								<h:commandLink action="#{richContentController.viewElement}"
 									value="vedi" />
 								<br />
@@ -103,7 +102,7 @@
 								<br />
 								<h:commandLink action="#{richContentController.modDocuments}"
 									value="modifica documenti" />
-							</gb:center>
+							</center>
 						</p:column>
 					</p:dataTable>
 				</p:panel>

@@ -4,7 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:gb="http://giava.by/common/base"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -145,13 +144,13 @@
 
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
-						<gb:center>
+						<center>
 							<h:commandLink
 								action="#{richContentController.removeImage(img.id)}"
 								value="elimina" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty img.id}" />
-						</gb:center>
+						</center>
 					</p:column>
 				</p:dataTable>
 
@@ -171,13 +170,13 @@
 
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
-						<gb:center>
+						<center>
 							<h:commandLink
 								action="#{richContentController.removeDocument(img.id)}"
 								value="elimina" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty doc.filename or not empty doc.id}" />
-						</gb:center>
+						</center>
 					</p:column>
 				</p:dataTable>
 				<h:panelGrid columns="4">

@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:g="http://giava.by/common/base"
+	xmlns:gb="http://giavacms.org/base"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -87,8 +87,8 @@
 								title="#{var.filename}">
 
 								<h:graphicImage value="/img/#{var.filename}"
-									width="#{g:imageWidthProportionalUrl('img/'.concat(r.filename),100,100)}"
-									height="#{g:imageHeightProportionalUrl('img/'.concat(r.filename), 100, 100)}"
+									width="#{gb:imageWidthProportionalUrl('img/'.concat(r.filename),100,100)}"
+									height="#{gb:imageHeightProportionalUrl('img/'.concat(r.filename), 100, 100)}"
 									alt="#{var.filename}" title="#{var.filename}"
 									style="padding: 5px;" />
 							</h:outputLink>

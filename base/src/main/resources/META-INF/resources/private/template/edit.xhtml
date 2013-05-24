@@ -2,9 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:gb="http://giava.by/giavacms/base"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+	xmlns:gb="http://giavacms.org/base" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layout/t.xhtml">
 	<ui:define name="bundle">
 		<f:loadBundle basename="base" var="msg" />
 	</ui:define>
@@ -44,9 +43,6 @@
 						<p:inputTextarea
 							value="#{templateController.element.header_start}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.header_start}"
-							readOnly="false" lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -59,9 +55,6 @@
 						<br />
 						<p:inputTextarea value="#{templateController.element.header_stop}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.header_stop}"
-							readOnly="false" lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -71,10 +64,6 @@
 						toggleable="true" toggleSpeed="500" closeSpeed="500">
 						<p:inputTextarea value="#{templateController.element.col1_start}"
 							style="color: black; width: 100%; " escape="false" />
-
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.col1_start}" readOnly="false"
-							lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -87,9 +76,6 @@
 						<br />
 						<p:inputTextarea value="#{templateController.element.col1_stop}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.col1_stop}" readOnly="false"
-							lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -99,9 +85,6 @@
 						toggleable="true" toggleSpeed="500" closeSpeed="500">
 						<p:inputTextarea value="#{templateController.element.col2_start}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse"
-							value="#{templateController.element.col2_start}" readOnly="false"
-							lineNumbers="true" mode="xml" rendered="false" />
 					</p:panel>
 
 					<br />
@@ -114,9 +97,6 @@
 						<br />
 						<p:inputTextarea value="#{templateController.element.col2_stop}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.col2_stop}" readOnly="false"
-							lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -126,9 +106,6 @@
 						toggleable="true" toggleSpeed="500" closeSpeed="500">
 						<p:inputTextarea value="#{templateController.element.col3_start}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.col3_start}" readOnly="false"
-							lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -141,9 +118,6 @@
 						<br />
 						<p:inputTextarea value="#{templateController.element.col3_stop}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.col3_stop}" readOnly="false"
-							lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -154,9 +128,6 @@
 						<p:inputTextarea
 							value="#{templateController.element.footer_start}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.footer_start}"
-							readOnly="false" lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
@@ -169,9 +140,6 @@
 						<br />
 						<p:inputTextarea value="#{templateController.element.footer_stop}"
 							style="color: black; width: 100%; " escape="false" />
-						<pe:codeMirror theme="eclipse" rendered="false"
-							value="#{templateController.element.footer_stop}"
-							readOnly="false" lineNumbers="true" mode="xml" />
 					</p:panel>
 
 					<br />
