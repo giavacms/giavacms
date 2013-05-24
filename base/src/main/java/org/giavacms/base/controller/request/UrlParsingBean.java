@@ -8,7 +8,6 @@ package org.giavacms.base.controller.request;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -19,7 +18,6 @@ import org.giavacms.base.controller.session.PageSessionController;
 import org.jboss.logging.Logger;
 
 import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.pretty.faces.url.QueryString;
 
 @Named
 @RequestScoped
@@ -36,9 +34,6 @@ public class UrlParsingBean implements Serializable
 
    @Inject
    BreadCrumpsHandler breadCrumpsHandler;
-
-   @Inject
-   ParamsController paramsHandler;
 
    protected Logger logger = Logger.getLogger(getClass().getName());
 
@@ -82,58 +77,39 @@ public class UrlParsingBean implements Serializable
          return uri;
       }
 
-      // if (uri.startsWith("/css") || uri.startsWith("/img")
-      // || uri.startsWith("/styles")) {
-      // return uri;
-      // }
       String contextPath = PrettyContext.getCurrentInstance()
                .getContextPath();
       logger.info("contextPath: " + contextPath);
-      // parte del sito senza parametri
-      // String uri =
-      // PrettyContext.getCurrentInstance().getRequestURL().toURL();
+
       logger.info("uri: " + uri);
-      // String uri = PrettyContext.getCurrentInstance().getOriginalUri();
-      // requestQuery = ?
-      // String uri =
-      // PrettyContext.getCurrentInstance().getRequestURL().toURL();
-      QueryString queryParams = PrettyContext.getCurrentInstance()
-               .getRequestQueryString();
-      // queryParams.getParameterMap()
-      // if (uri.contains("?")) {
-      // uri = uri.substring(0, uri.lastIndexOf("?"));
+
+      // QueryString queryParams = PrettyContext.getCurrentInstance()
+      // .getRequestQueryString();
+      //
+      //
+      // if (!queryParams.isEmpty())
+      // {
+      // logger.info("start queryParams****************");
+      // Map<String, String[]> mappa = queryParams.getParameterMap();
+      // for (String key : mappa.keySet())
+      // {
+      // String[] value = mappa.get(key);
+      // if (value != null && value.length > 0)
+      // {
+      // paramsHandler.addParam(key, value[0]);
+      // logger.info(key + ": " + value[0]);
       // }
-      // logger.info("uri: " + uri);
-
-      if (!queryParams.isEmpty())
-      {
-         logger.info("start queryParams****************");
-         Map<String, String[]> mappa = queryParams.getParameterMap();
-         for (String key : mappa.keySet())
-         {
-            String[] value = mappa.get(key);
-            if (value != null && value.length > 0)
-            {
-               paramsHandler.addParam(key, value[0]);
-               logger.info(key + ": " + value[0]);
-            }
-         }
-         logger.info("stop queryParams****************");
-
-      }
-      else
-      {
-         logger.info("NO queryParams****************");
-      }
+      // }
+      // logger.info("stop queryParams****************");
+      //
+      // }
+      // else
+      // {
+      // logger.info("NO queryParams****************");
+      // }
 
       breadCrumpsHandler.setBreadCrump(contextPath + uri);
-      // #{pagesHandler.pageId}
-      // logger.info("pageId:" + pageId);
 
-      // prima di impostare la pagina
-      // verifico che la lang tra i parametri sia la stessa della pagina
-      // corrente, altrimenti cerco la pagina nella lingua specificata
-      // altrimenti cerco la index nella lingua specificata
       if (uri.startsWith("/s/"))
       {
          pageRequestController.setWithSession(true);
