@@ -41,8 +41,6 @@ public class RichContentRequestController extends
    @Inject
    RichContentTypeRepository richContentTypeRepository;
 
-   private String filter;
-
    private RichContent last;
 
    public RichContentRequestController()
@@ -62,13 +60,6 @@ public class RichContentRequestController extends
       logger.info("getLatest:" + pageSize);
       Search<RichContent> r = new Search<RichContent>(RichContent.class);
       return richContentRepository.getList(r, 0, pageSize);
-   }
-
-   public List<RichContent> getPageOfSizeWithCategory(int size, String category)
-   {
-      setFilter(category);
-      setPageSize(size);
-      return getPage();
    }
 
    @Override
@@ -116,16 +107,6 @@ public class RichContentRequestController extends
    public boolean isScheda()
    {
       return getElement() != null && getElement().getId() != null;
-   }
-
-   public String getFilter()
-   {
-      return filter;
-   }
-
-   public void setFilter(String filter)
-   {
-      this.filter = filter;
    }
 
    public RichContent getLast(String category)
