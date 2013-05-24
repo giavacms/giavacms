@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.giavacms.base.request;
+package org.giavacms.base.producer;
 
 import java.io.Serializable;
 import java.util.List;

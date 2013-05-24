@@ -6,8 +6,8 @@ import javax.inject.Inject;
 import org.giavacms.base.controller.request.PageRequestController;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.pojo.I18nRequestParams;
+import org.giavacms.base.producer.I18nRequestParamsProducer;
 import org.giavacms.base.repository.PageRepository;
-import org.giavacms.base.request.I18nRequestParamsProducer;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.util.BeanUtils;
 

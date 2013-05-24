@@ -51,7 +51,7 @@ public class BreadCrumpsHandler implements Serializable
          {
             String label = "home";
             sb.append("<a href=\"" + base
-                     + "/\" title=\"Home Page del Comune di Colonnella\">"
+                     + "/\" title=\"Home Page\">"
                      + label + "</a> ");
             sb.append("<span class=\"freccia\">&gt;</span> ");
          }
