@@ -85,6 +85,27 @@ public class TagRepository extends AbstractRepository<Tag>
          separator = " and ";
       }
 
+      // CONTENT TYPE
+      if (search.getObj().getRichContent() != null && search.getObj().getRichContent().getRichContentType() != null
+               && search.getObj().getRichContent().getRichContentType().getName() != null
+               && search.getObj().getRichContent().getRichContentType().getName().trim().length() > 0)
+      {
+         sb.append(separator).append(alias)
+                  .append(".richContent.richContentType.name = :TYPENAME ");
+         params.put("TYPENAME", search.getObj().getRichContent().getRichContentType().getName().trim());
+         separator = " and ";
+      }
+
+      // CONTENT ID
+      if (search.getObj().getRichContent() != null && search.getObj().getRichContent().getRichContentType() != null
+               && search.getObj().getRichContent().getRichContentType().getId() != null)
+      {
+         sb.append(separator).append(alias)
+                  .append(".richContent.richContentType.id = :TYPEID ");
+         params.put("TYPEID", search.getObj().getRichContent().getRichContentType().getId());
+         separator = " and ";
+      }
+
       super.applyRestrictions(search, alias, separator, sb, params);
 
    }

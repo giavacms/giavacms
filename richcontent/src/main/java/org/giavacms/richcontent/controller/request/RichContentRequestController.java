@@ -5,17 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.controller.AbstractPageRequestController;
 import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.common.annotation.OwnRepository;
+import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
 import org.giavacms.richcontent.model.RichContent;
+import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
+import org.giavacms.richcontent.repository.TagRepository;
 
 @Named
 @RequestScoped
@@ -42,6 +46,9 @@ public class RichContentRequestController extends
    RichContentTypeRepository richContentTypeRepository;
 
    private RichContent last;
+
+   @Inject
+   TagRepository tagRepository;
 
    public RichContentRequestController()
    {
@@ -146,4 +153,47 @@ public class RichContentRequestController extends
          }
       }
    }
+
+   @Produces
+   @Named
+   public List<Group<Tag>> getRequestTags()
+   {
+      Search<Tag> st = new Search<Tag>(Tag.class);
+      st.setGrouping("tagName");
+      st.getObj().setRichContent(getSearch().getObj());
+      return tagRepository.getGroups(st, 0, 10);
+
+   }
+
+   @Override
+   public List<RichContent> loadPage(int startRow, int pageSize)
+   {
+      List<RichContent> page = super.loadPage(startRow, pageSize);
+      if (page != null)
+      {
+         for (RichContent richContent : page)
+         {
+            richContentRepository.loadFirstPicture(richContent);
+         }
+      }
+      return page;
+   }
+
+   // @Override
+   // public Search<RichContent> getSearch()
+   // {
+   // Search<RichContent> search = super.getSearch();
+   // String content = getParams().get(PARAM_CONTENT);
+   // if (content != null && content.trim().length() > 0)
+   // {
+   // search.getObj().setTitle(content);
+   // }
+   // String tag = getParams().get(PARAM_TAG);
+   // if (tag != null && tag.trim().length() > 0)
+   // {
+   // search.getObj().setTag(tag);
+   // }
+   // return search;
+   // }
+
 }

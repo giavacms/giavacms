@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:gb="http://giavacms.org/base">
+
+	<!-- 
+	
+	attributi obbligatori:
+	
+	width, height, id, showpages, model (di tipo localdatamodel)
+	selectedStyleClass, styleClass, label	
+	
+	NB: si cicla obbligatoriamente su 'var'
+	
+	-->
+
+	<c:if test="#{empty pagerStyle}">
+		<c:set var="pagerStyle" value="float: right;" />
+	</c:if>
+
+	<div style="width: #{width}; clear: both;">
+
+			<ui:insert name="before"></ui:insert>
+		<div>
+			<h:outputText value="#{label}" style="float:left;" />
+			<div style="#{pagerStyle}" class="#{pagerClass}"> <gb:pagerWithParams
+					showpages="#{showpages}" selectedStyleClass="#{selectedStyleClass}"
+					styleClass="#{styleClass}" handler="#{handler}" />
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+			<ui:insert name="after"></ui:insert>
+
+	</div>
+
+</ui:composition>
