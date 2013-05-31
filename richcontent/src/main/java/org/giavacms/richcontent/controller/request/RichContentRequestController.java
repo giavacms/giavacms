@@ -160,7 +160,8 @@ public class RichContentRequestController extends
    {
       Search<Tag> st = new Search<Tag>(Tag.class);
       st.setGrouping("tagName");
-      st.getObj().setRichContent(getSearch().getObj());
+      st.getObj().setRichContent(new RichContent());
+      st.getObj().getRichContent().setRichContentType(getSearch().getObj().getRichContentType());
       return tagRepository.getGroups(st, 0, 10);
 
    }

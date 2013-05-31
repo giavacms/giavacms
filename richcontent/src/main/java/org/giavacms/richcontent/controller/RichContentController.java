@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -18,7 +19,10 @@ import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
+import org.giavacms.common.model.Group;
+import org.giavacms.common.model.Search;
 import org.giavacms.richcontent.model.RichContent;
+import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.producer.RichContentProducer;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
@@ -62,6 +66,8 @@ public class RichContentController extends AbstractPageController<RichContent>
    TagRepository tagRepository;
    @Inject
    RichContentProducer richContentProducer;
+
+   private List<Group<Tag>> tags;
 
    // --------------------------------------------------------
 
@@ -180,8 +186,9 @@ public class RichContentController extends AbstractPageController<RichContent>
       {
          return null;
       }
-      tagRepository.set(getElement().getId(),getElement().getTagList(),getElement().getDate());
+      tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
       richContentProducer.reset();
+      tags = null;
       if (getElement().isHighlight())
       {
          richContentRepository.refreshEvidenza(getElement().getId());
@@ -205,7 +212,8 @@ public class RichContentController extends AbstractPageController<RichContent>
       {
          return null;
       }
-      tagRepository.set(getElement().getId(),getElement().getTagList(),getElement().getDate());
+      tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
+      tags = null;
       richContentProducer.reset();
       if (getElement().isHighlight())
       {
@@ -227,9 +235,37 @@ public class RichContentController extends AbstractPageController<RichContent>
       return EDIT_DOCS + REDIRECT_PARAM;
    }
 
-   public void filterTag(String tagName) {
+   public void filterTag(String tagName)
+   {
       getSearch().getObj().setTag(tagName);
       refreshModel();
    }
 
+   @Produces
+   @Named
+   public List<Group<Tag>> getTags()
+   {
+      if (tags == null)
+      {
+         Search<Tag> st = new Search<Tag>(Tag.class);
+         st.setGrouping("tagName");
+         st.getObj().setRichContent(getSearch().getObj());
+         tags = tagRepository.getGroups(st, 0, 50);
+      }
+      return tags;
+   }
+
+   @Override
+   public String reload()
+   {
+      tags = null;
+      return super.reload();
+   }
+   
+   @Override
+   public String reset()
+   {
+      tags = null;
+      return super.reset();
+   }
 }

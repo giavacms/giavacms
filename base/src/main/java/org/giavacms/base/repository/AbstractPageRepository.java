@@ -19,6 +19,7 @@ import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
+import org.giavacms.common.util.StringUtils;
 
 public abstract class AbstractPageRepository<T extends Page> extends
          AbstractRepository<T>
@@ -173,7 +174,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
             Map<String, Object> params)
    {
       sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
-      params.put("title", likeText);
+      params.put("title", StringUtils.clean(likeText));
       return true;
    }
 

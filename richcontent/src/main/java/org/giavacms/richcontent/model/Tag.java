@@ -1,6 +1,7 @@
 package org.giavacms.richcontent.model;
 
 import java.io.Serializable;
+import java.net.URLEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import com.ocpsoft.pretty.faces.url.URL;
 
 @Entity
 public class Tag implements Serializable
@@ -59,7 +63,7 @@ public class Tag implements Serializable
       this.richContent = richContent;
    }
 
-   @Column(insertable = false, updatable = false)
+   @Column(name = "richContent_id", insertable = false, updatable = false)
    public String getRichContentId()
    {
       return richContentId;
@@ -110,4 +114,25 @@ public class Tag implements Serializable
       this.year = year;
    }
 
+   @Transient
+   public String getTagNameEscaped()
+   {
+      try
+      {
+         return URLEncoder.encode(tagName, "UTF-8");
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return tagName;
+      }
+   }
+
+   public static void main(String[] args) throws Exception
+   {
+      Tag t = new Tag();
+      t.setTagName("forlì");
+      System.out.println(t.getTagName());
+      System.out.println(URLEncoder.encode(t.getTagName(), "UTF-8"));
+   }
 }

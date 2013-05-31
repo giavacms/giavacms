@@ -14,9 +14,10 @@
 		<h:form id="central">
 			<center>
 				<p:panel header="Lista Pagine">
-					<h:panelGrid columns="7" rendered="true">
+					<h:panelGrid columns="8" rendered="true">
 
 						<h:outputLabel for="nome" value="Nome:" />
+						<h:outputLabel for="modello" value="Modello:" />
 						<h:outputLabel for="staticita" value="Contenuto: " />
 						<h:outputLabel for="lingua" value="Lingua: " />
 						<h:outputLabel for="extended" value="Estensioni:" />
@@ -25,6 +26,10 @@
 						<h:outputLabel for="cerca" value="" />
 
 						<h:inputText id="nome" value="#{pageController.search.obj.title}" />
+						<h:selectOneMenu id="modello"
+							value="#{pageController.search.obj.template.template.id}">
+							<f:selectItems value="#{templateItems}" />
+						</h:selectOneMenu>
 						<h:selectOneMenu id="staticita"
 							value="#{pageController.search.obj.template.template.searchStatico}">
 							<f:selectItems value="#{staticoDinamicoItems}" />

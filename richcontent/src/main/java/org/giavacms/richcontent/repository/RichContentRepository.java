@@ -1,5 +1,8 @@
 package org.giavacms.richcontent.repository;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,7 @@ import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.common.model.Search;
+import org.giavacms.common.util.StringUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
@@ -70,12 +74,31 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // TAG
       if (search.getObj().getTag() != null && search.getObj().getTag().trim().length() > 0)
       {
-         sb.append(separator).append(alias).append(".id in ( ");
-         sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
-                  .append(" rt where rt.tagName = :TAGNAME ");
-         sb.append(" ) ");
-         params.put("TAGNAME", search.getObj().getTag().trim());
-         separator = " and ";
+//         try
+//         {
+//            params.put("TAGNAME", URLEncoder.encode(search.getObj().getTag().trim(), "UTF-8"));
+//            sb.append(separator).append(alias).append(".id in ( ");
+//            sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
+//                     .append(" rt where rt.tagName = :TAGNAME ");
+//            sb.append(" ) ");
+//            separator = " and ";
+//         }
+//         catch (UnsupportedEncodingException e)
+         {
+            String tagName = search.getObj().getTag().trim();
+            String tagNameCleaned = StringUtils.clean(search.getObj().getTag().trim()).replace('-', ' ');
+            boolean likeMatch = false;
+            if (!tagName.equals(tagNameCleaned))
+            {
+               likeMatch = true;
+            }
+            sb.append(separator).append(alias).append(".id in ( ");
+            sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
+                     .append(" rt where rt.tagName ").append(likeMatch ? "like" : "=").append(" :TAGNAME ");
+            sb.append(" ) ");
+            params.put("TAGNAME", likeMatch ? likeParam(tagNameCleaned) : tagName);
+            separator = " and ";
+         }
       }
 
       // TAG LIKE
@@ -121,7 +144,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
       sb.append(" ) ");
 
-      params.put("LIKETEXT", likeText);
+      params.put("LIKETEXT", StringUtils.clean(likeText));
 
       return true;
    }
