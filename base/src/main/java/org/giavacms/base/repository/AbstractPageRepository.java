@@ -174,7 +174,8 @@ public abstract class AbstractPageRepository<T extends Page> extends
             Map<String, Object> params)
    {
       sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
-      params.put("title", StringUtils.clean(likeText));
+      // params.put("title", StringUtils.clean(likeText)); ...% would be removed!!
+      params.put("title", likeText);
       return true;
    }
 
