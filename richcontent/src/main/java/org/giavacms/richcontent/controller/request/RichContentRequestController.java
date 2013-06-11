@@ -62,13 +62,6 @@ public class RichContentRequestController extends
       this.handleI18N();
    }
 
-   public List<RichContent> getLatest(int pageSize)
-   {
-      logger.info("getLatest:" + pageSize);
-      Search<RichContent> r = new Search<RichContent>(RichContent.class);
-      return richContentRepository.getList(r, 0, pageSize);
-   }
-
    @Override
    public String[] getParamNames()
    {
@@ -85,24 +78,6 @@ public class RichContentRequestController extends
          l.add(rnt.getName());
       }
       return l;
-   }
-
-   public String getRichContentTypeOptionsHTML()
-   {
-      StringBuffer sb = new StringBuffer();
-      Search<RichContentType> r = new Search<RichContentType>(RichContentType.class);
-      List<RichContentType> rntl = richContentTypeRepository.getList(r, 0, 0);
-      for (RichContentType richContentType : rntl)
-      {
-         sb.append("<option value=\"")
-                  .append(richContentType.getName())
-                  .append("\"")
-                  .append(richContentType.getName().equals(
-                           getParams().get(PARAM_TYPE)) ? " selected=\"selected\""
-                           : "").append(">").append(richContentType.getName())
-                  .append("</option>");
-      }
-      return sb.toString();
    }
 
    @Override
@@ -160,7 +135,8 @@ public class RichContentRequestController extends
    {
       Search<Tag> st = new Search<Tag>(Tag.class);
       st.setGrouping("tagName");
-      st.getObj().setRichContent(getSearch().getObj());
+      st.getObj().setRichContent(new RichContent());
+      st.getObj().getRichContent().setRichContentType(getSearch().getObj().getRichContentType());
       return tagRepository.getGroups(st, 0, 10);
 
    }
@@ -178,22 +154,5 @@ public class RichContentRequestController extends
       }
       return page;
    }
-
-   // @Override
-   // public Search<RichContent> getSearch()
-   // {
-   // Search<RichContent> search = super.getSearch();
-   // String content = getParams().get(PARAM_CONTENT);
-   // if (content != null && content.trim().length() > 0)
-   // {
-   // search.getObj().setTitle(content);
-   // }
-   // String tag = getParams().get(PARAM_TAG);
-   // if (tag != null && tag.trim().length() > 0)
-   // {
-   // search.getObj().setTag(tag);
-   // }
-   // return search;
-   // }
 
 }

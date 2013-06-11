@@ -161,7 +161,7 @@ public class InstagramRequestController extends
    }
 
    @Override
-   protected List<InstagramCollection> loadPage(int startRow, int pageSize)
+   public List<InstagramCollection> loadPage(int startRow, int pageSize)
    {
       // TODO Auto-generated method stub
       return null;
