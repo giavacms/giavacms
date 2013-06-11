@@ -58,7 +58,7 @@ public class ScenarioRequestController extends
 	}
 
 	@Override
-	protected List<Scenario> loadPage(int startRow, int pageSize) {
+	public List<Scenario> loadPage(int startRow, int pageSize) {
 		Search<Scenario> r = new Search<Scenario>(Scenario.class);
 		r.getObj().setTitle(getParams().get(SCENARIO));
 		return scenarioRepository.getList(r, startRow, pageSize);

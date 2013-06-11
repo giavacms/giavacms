@@ -37,7 +37,6 @@ public class RichContentProducer implements Serializable
    RichContentTypeRepository richContentTypeRepository;
    @Inject
    TagRepository tagRepository;
-   private List<Group<Tag>> tags;
 
    // ==============================================================================
    public RichContentProducer()
@@ -51,7 +50,6 @@ public class RichContentProducer implements Serializable
    {
       logger.info("reset");
       items = new HashMap<Class, SelectItem[]>();
-      tags = null;
    }
 
    @SuppressWarnings("rawtypes")
@@ -75,19 +73,6 @@ public class RichContentProducer implements Serializable
                   "seleziona categoria contenuto..."));
       }
       return items.get(RichContentType.class);
-   }
-
-   @Produces
-   @Named
-   public List<Group<Tag>> getTags()
-   {
-      if (tags == null)
-      {
-         Search<Tag> st = new Search<Tag>(Tag.class);
-         st.setGrouping("tagName");
-         tags = tagRepository.getGroups(st, 0, 50);
-      }
-      return tags;
    }
 
 }

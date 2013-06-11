@@ -45,6 +45,18 @@ public class PageRepository
          separator = " and ";
       }
 
+      if (search.getObj().getTemplate() != null
+               && search.getObj().getTemplate().getTemplate() != null
+               && search.getObj().getTemplate().getTemplate()
+                        .getId() != null)
+      {
+         sb.append(separator).append(alias)
+                  .append(".template.template.id = :idTemplate ");
+         params.put("idTemplate", search.getObj().getTemplate().getTemplate()
+                  .getId());
+         separator = " and ";
+      }
+
       // SOLO PAGINE VERE E PROPRIE
       if (!search.getObj().isExtended())
       {

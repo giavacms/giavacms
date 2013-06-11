@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -56,7 +55,6 @@ public class Faq extends Page
       super.setTitle(question);
    }
 
-   @Lob
    @Column(length = 1024)
    public String getAnswer()
    {
