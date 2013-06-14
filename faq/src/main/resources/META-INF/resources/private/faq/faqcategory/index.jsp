@@ -1,5 +1,3 @@
-
 <%
-	response.sendRedirect(request.getContextPath()
-			+ "/private/faq/faqcategory/list.jsf");
+	response.sendRedirect("list.jsf");
 %>

@@ -1,5 +1,3 @@
-
 <%
-	response.sendRedirect(request.getContextPath()
-			+ "/private/company/view.jsf");
+	response.sendRedirect("view.jsf");
 %>
