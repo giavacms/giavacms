@@ -1,8 +1,5 @@
 package org.giavacms.richcontent.repository;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -74,16 +71,16 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // TAG
       if (search.getObj().getTag() != null && search.getObj().getTag().trim().length() > 0)
       {
-//         try
-//         {
-//            params.put("TAGNAME", URLEncoder.encode(search.getObj().getTag().trim(), "UTF-8"));
-//            sb.append(separator).append(alias).append(".id in ( ");
-//            sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
-//                     .append(" rt where rt.tagName = :TAGNAME ");
-//            sb.append(" ) ");
-//            separator = " and ";
-//         }
-//         catch (UnsupportedEncodingException e)
+         // try
+         // {
+         // params.put("TAGNAME", URLEncoder.encode(search.getObj().getTag().trim(), "UTF-8"));
+         // sb.append(separator).append(alias).append(".id in ( ");
+         // sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())
+         // .append(" rt where rt.tagName = :TAGNAME ");
+         // sb.append(" ) ");
+         // separator = " and ";
+         // }
+         // catch (UnsupportedEncodingException e)
          {
             String tagName = search.getObj().getTag().trim();
             String tagNameCleaned = StringUtils.clean(search.getObj().getTag().trim()).replace('-', ' ');

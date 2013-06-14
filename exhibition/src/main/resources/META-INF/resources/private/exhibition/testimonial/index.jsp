@@ -1,5 +1,3 @@
-
 <%
-   response.sendRedirect(request.getContextPath()
-            + "/private/exhibition/testimonial/list.jsf");
+	response.sendRedirect("list.jsf");
 %>

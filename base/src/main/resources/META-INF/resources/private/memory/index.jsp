@@ -1,5 +1,3 @@
-
 <%
-	response.sendRedirect(request.getContextPath()
-			+ "/private/memory/view.jsf");
+	response.sendRedirect("view.jsf");
 %>

@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import com.ocpsoft.pretty.faces.url.URL;
-
 @Entity
 public class Tag implements Serializable
 {
