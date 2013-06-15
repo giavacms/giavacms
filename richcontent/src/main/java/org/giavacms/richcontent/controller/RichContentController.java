@@ -261,7 +261,7 @@ public class RichContentController extends AbstractPageController<RichContent>
       tags = null;
       return super.reload();
    }
-   
+
    @Override
    public String reset()
    {

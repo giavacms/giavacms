@@ -1,5 +1,3 @@
-
 <%
-	response.sendRedirect(request.getContextPath()
-			+ "/private/emailconfiguration/edit.jsf");
+	response.sendRedirect("edit.jsf");
 %>

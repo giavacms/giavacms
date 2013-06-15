@@ -1,4 +1,3 @@
 <%
-	response.sendRedirect(request.getContextPath()
-			+ "/private/administration.jsf");
+	response.sendRedirect("administration.jsf");
 %>

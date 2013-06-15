@@ -1,5 +1,3 @@
-
 <%
-	response.sendRedirect(request.getContextPath()
-			+ "/private/insuranceclaim/typology/list.jsf");
+	response.sendRedirect("list.jsf");
 %>

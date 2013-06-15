@@ -62,6 +62,7 @@
 		<module>errorpages</module>
 		<module>richcontent</module>
 		<module>customer</module>
+		<module>people</module>
 	</modules>
 
 	<properties>
@@ -176,6 +177,11 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>customer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>people</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
