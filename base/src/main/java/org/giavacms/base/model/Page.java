@@ -38,6 +38,7 @@ public class Page extends I18nSupport
    private String title;
    private String description;
    private TemplateImpl template;
+   private Long templateId;
    private String extension;
 
    // ------------------------------------------------------------------------
@@ -53,7 +54,7 @@ public class Page extends I18nSupport
 
    // ------------------------------------------------------------------------
 
-   @ManyToOne(fetch = FetchType.EAGER, cascade = { /* CascadeType.PERSIST, */
+   @ManyToOne(fetch = FetchType.LAZY, cascade = { /* CascadeType.PERSIST, */
             CascadeType.MERGE, CascadeType.DETACH })
    public TemplateImpl getTemplate()
    {
@@ -176,6 +177,17 @@ public class Page extends I18nSupport
    public void setExtended(boolean extended)
    {
       this.extended = extended;
+   }
+
+   @Column(name = "template_id", insertable = false, updatable = false)
+   public Long getTemplateId()
+   {
+      return templateId;
+   }
+
+   public void setTemplateId(Long templateId)
+   {
+      this.templateId = templateId;
    }
 
 }

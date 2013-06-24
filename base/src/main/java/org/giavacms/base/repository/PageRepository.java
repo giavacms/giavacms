@@ -90,7 +90,7 @@ public class PageRepository
             separator = " and ";
          }
       }
-      
+
       super.applyRestrictions(search, alias, separator, sb, params);
 
    }
@@ -199,6 +199,21 @@ public class PageRepository
       catch (Exception e)
       {
          return null;
+      }
+   }
+
+   @Override
+   protected String getBaseList(Class<? extends Object> clazz, String alias, boolean count)
+   {
+      if (count)
+      {
+         return "select count(" + alias + ") from " + clazz.getSimpleName()
+                  + " " + alias + " ";
+      }
+      else
+      {
+         return "select " + alias + " from " + clazz.getSimpleName() + " "
+                  + alias + " left join fetch " + alias + ".template ti ";
       }
    }
 

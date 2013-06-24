@@ -106,7 +106,7 @@ public class BaseProducer implements Serializable
       {
          for (Page p : lista)
          {
-            valori.add(new SelectItem(p.getTemplate().getId(), p.getTitle()));
+            valori.add(new SelectItem(p.getTemplateId(), p.getTitle()));
          }
       }
       return valori.toArray(new SelectItem[] {});
