@@ -25,7 +25,7 @@ public class ContactUsController extends AbstractLazyController<ContactUs> {
 	@ViewPage
 	@ListPage
 	@EditPage
-	public static String LIST = "/private/contactus/lista.xhtml";
+	public static String LIST = "/private/contactus/list.xhtml";
 
 	// --------------------------------------------------------
 
