@@ -7,7 +7,6 @@
 package org.giavacms.base.repository;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -19,7 +18,6 @@ import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
-import org.giavacms.common.util.StringUtils;
 
 public abstract class AbstractPageRepository<T extends Page> extends
          AbstractRepository<T>
@@ -91,7 +89,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
          return false;
       }
    }

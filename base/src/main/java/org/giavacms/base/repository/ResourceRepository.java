@@ -18,7 +18,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
+import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.pojo.Resource;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
@@ -54,12 +55,16 @@ public class ResourceRepository extends AbstractRepository<Resource>
       try
       {
          String filename = null;
-         if ("img".equals(object.getType()))
-            filename = FileUtils.createImage_(object.getType(),
+         if (ResourceType.IMAGE.equals(object.getResourceType()))
+         {
+            filename = ResourceUtils.createImage_(object.getType(),
                      object.getName(), object.getBytes());
+         }
          else
-            filename = FileUtils.createFile_(object.getType(),
+         {
+            filename = ResourceUtils.createFile_(object.getType(),
                      object.getName(), object.getBytes());
+         }
          object.setName(filename);
          object.setId(object.getType() + File.separator + object.getName());
          return object;
@@ -75,7 +80,7 @@ public class ResourceRepository extends AbstractRepository<Resource>
    {
       try
       {
-         File f = new File(FileUtils.getRealPath() + tipo + File.separator
+         File f = new File(ResourceUtils.getRealPath() + tipo + File.separator
                   + id);
          if (f.exists() && !f.isDirectory())
          {
@@ -102,7 +107,7 @@ public class ResourceRepository extends AbstractRepository<Resource>
       FileInputStream fis = null;
       try
       {
-         File f = new File(FileUtils.getRealPath() + tipo + File.separator
+         File f = new File(ResourceUtils.getRealPath() + tipo + File.separator
                   + id);
          if (f.exists() && !f.isDirectory())
          {
@@ -148,13 +153,13 @@ public class ResourceRepository extends AbstractRepository<Resource>
    {
       try
       {
-         File f = new File(FileUtils.getRealPath() + object.getType()
+         File f = new File(ResourceUtils.getRealPath() + object.getType()
                   + File.separator + object.getId());
          if (f.exists() && f.isDirectory())
             throw new Exception("file could not be written!");
          if (f.exists())
             f.delete();
-         f = new File(FileUtils.getRealPath() + object.getType()
+         f = new File(ResourceUtils.getRealPath() + object.getType()
                   + File.separator + object.getId());
          FileOutputStream fos = new FileOutputStream(f);
          fos.write(object.getBytes());
@@ -172,7 +177,7 @@ public class ResourceRepository extends AbstractRepository<Resource>
    {
       try
       {
-         File f = new File(FileUtils.getRealPath() + object.getType()
+         File f = new File(ResourceUtils.getRealPath() + object.getType()
                   + File.separator + object.getId());
          if (f.exists() && f.isDirectory())
             throw new Exception("file could not be deleted: "
@@ -246,23 +251,26 @@ public class ResourceRepository extends AbstractRepository<Resource>
    private List<String> getFiles(String tipo, String nameLike)
    {
       List<String> resources = new ArrayList<String>();
-      if (tipo == null || tipo.isEmpty())
+      ResourceType resourceType = null;
+      try
+      {
+         resourceType = ResourceType.valueOf(tipo);
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+      }
+      if (resourceType == null)
+      {
          return resources;
-      if (tipo.equals("img"))
-      {
-         resources = FileUtils.getImgFiles();
       }
-      else if (tipo.equals("js"))
-         resources = FileUtils.getJsFiles();
-      else if (tipo.equals("swf"))
-         resources = FileUtils.getFlashFiles();
-      else if (tipo.equals("css"))
+      switch (resourceType)
       {
-         resources = FileUtils.getCssFiles();
-      }
-      else if (tipo.equals("docs"))
-      {
-         resources = FileUtils.getPdfFiles();
+      case ALL:
+         return resources;
+      default:
+         resources = ResourceUtils.getFilesName(resourceType.getFolder(), resourceType.getExtensions());
+         break;
       }
       if (resources == null || resources.size() == 0 || nameLike == null
                || nameLike.equals(""))

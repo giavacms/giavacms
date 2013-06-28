@@ -16,14 +16,14 @@
 		<h:form>
 			<p:growl />
 
-			<p:fileUpload fileUploadListener="#{fileHandler.handleFileUpload}"
-				multiple="true" label="Scegli #{fileHandler.fileName}"
-				allowTypes="*" description="Scegli #{fileHandler.fileName}"
+			<p:fileUpload fileUploadListener="#{fileController.handleFileUpload}"
+				multiple="true" label="Scegli #{fileController.fileName}"
+				allowTypes="*" description="Scegli #{fileController.fileName}"
 				update="filesList" />
 			<br />
 			<br />
 			<p:dataTable id="filesList" var="file"
-				value="#{fileHandler.daCaricare}">
+				value="#{fileController.daCaricare}">
 
 				<p:column>
 					<f:facet name="header">nome</f:facet>
@@ -33,15 +33,15 @@
 				<p:column>
 					<f:facet name="header">operazione</f:facet>
 					<h:graphicImage value="/img/#{file.filename}"
-						rendered="#{fileHandler.fileType == 1}"
-						width="#{fileHandler.proportionalWidth(file.filename,50,50)}"
-						height="#{fileHandler.proportionalHeight(file.filename,50,50)}" />
+						rendered="#{fileController.fileType == 1}"
+						width="#{fileController.proportionalWidth(file.filename,50,50)}"
+						height="#{fileController.proportionalHeight(file.filename,50,50)}" />
 					<h:outputLink value="/js/#{file.filename}" target="_blank"
-						rendered="#{fileHandler.fileType == 3}">[v]</h:outputLink>
+						rendered="#{fileController.fileType == 3}">[v]</h:outputLink>
 					<h:outputLink value="/swf/#{file.filename}" target="_blank"
-						rendered="#{fileHandler.fileType == 2}">[v]</h:outputLink>
+						rendered="#{fileController.fileType == 2}">[v]</h:outputLink>
 					<h:outputLink value="/css/#{file.filename}" target="_blank"
-						rendered="#{fileHandler.fileType == 0}">[v]</h:outputLink>
+						rendered="#{fileController.fileType == 0}">[v]</h:outputLink>
 				</p:column>
 			</p:dataTable>
 

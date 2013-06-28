@@ -8,7 +8,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
@@ -88,8 +88,8 @@ public class RichContentController extends AbstractPageController<RichContent>
       logger.info("Uploaded: " + event.getFile().getFileName() + " - "
                + event.getFile().getContentType() + "- "
                + event.getFile().getSize());
-      String type = FileUtils.getType(event.getFile().getFileName());
-      if (type.equals(FileUtils.IMG))
+      String type = ResourceUtils.getType(event.getFile().getFileName());
+      if (type.equals(ResourceUtils.IMG))
       {
          handleImgUpload(event);
       }
@@ -105,7 +105,7 @@ public class RichContentController extends AbstractPageController<RichContent>
       doc.setUploadedData(event.getFile());
       doc.setData(event.getFile().getContents());
       doc.setType(event.getFile().getContentType());
-      String filename = FileUtils.createFile_("docs", event.getFile()
+      String filename = ResourceUtils.createFile_("docs", event.getFile()
                .getFileName(), event.getFile().getContents());
       doc.setFilename(filename);
       getElement().getDocuments().add(doc);
@@ -120,7 +120,7 @@ public class RichContentController extends AbstractPageController<RichContent>
          img.setUploadedData(event.getFile());
          img.setData(imgRes);
          img.setType(event.getFile().getContentType());
-         String filename = FileUtils.createImage_("img", event.getFile()
+         String filename = ResourceUtils.createImage_("img", event.getFile()
                   .getFileName(), imgRes);
          img.setFilename(filename);
          getElement().getImages().add(img);

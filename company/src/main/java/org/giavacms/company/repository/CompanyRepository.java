@@ -2,7 +2,6 @@ package org.giavacms.company.repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -50,7 +49,7 @@ public class CompanyRepository extends AbstractRepository<Company> {
 			}
 			return true;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(),e);
 			return false;
 		}
 	}
@@ -138,7 +137,7 @@ public class CompanyRepository extends AbstractRepository<Company> {
 			}
 			return super.fetch(id);
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(),e);
 			return null;
 		}
 	}
@@ -156,7 +155,7 @@ public class CompanyRepository extends AbstractRepository<Company> {
 			}
 			return super.find(id);
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
