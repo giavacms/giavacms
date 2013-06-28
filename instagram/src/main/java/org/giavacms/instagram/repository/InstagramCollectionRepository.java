@@ -59,7 +59,7 @@ public class InstagramCollectionRepository extends AbstractRepository<InstagramC
 			}
 			return collection;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -72,7 +72,7 @@ public class InstagramCollectionRepository extends AbstractRepository<InstagramC
 			update(collection);
 			return true;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(), e);
 		}
 		return false;
 	}

@@ -182,12 +182,15 @@ public class RichContentController extends AbstractPageController<RichContent>
    public String save()
    {
       getElement().setTemplate(
-               richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId())
+                        .getPage().getTemplate());
       if (super.save() == null)
       {
          return null;
       }
-      tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
+      tagRepository.set(getElement().getId(), getElement().getTagList(),
+               getElement().getDate());
       richContentProducer.reset();
       tags = null;
       if (getElement().isHighlight())
@@ -208,12 +211,15 @@ public class RichContentController extends AbstractPageController<RichContent>
    public String update()
    {
       getElement().setTemplate(
-               richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId())
+                        .getPage().getTemplate());
       if (super.update() == null)
       {
          return null;
       }
-      tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
+      tagRepository.set(getElement().getId(), getElement().getTagList(),
+               getElement().getDate());
       tags = null;
       richContentProducer.reset();
       if (getElement().isHighlight())

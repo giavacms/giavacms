@@ -1,7 +1,6 @@
 package org.giavacms.exhibition.repository;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -76,7 +75,7 @@ public class AssociationRepository extends AbstractRepository<Association> {
 			}
 			return true;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(), e);
 			return false;
 		}
 	}

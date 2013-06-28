@@ -145,7 +145,7 @@ logger.error(e.getMessage(),e);
    // }
    // return true;
    // } catch (Exception e) {
-   // logger.log(Level.SEVERE, null, e);
+   // logger.error(e.getMessage(), e);
    // return false;
    // }
    // }

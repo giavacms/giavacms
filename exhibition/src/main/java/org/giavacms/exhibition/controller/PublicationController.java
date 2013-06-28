@@ -77,7 +77,7 @@ public class PublicationController extends AbstractLazyController<Publication>
                + event.getFile().getContentType() + "- "
                + event.getFile().getSize());
       String type = ResourceUtils.getType(event.getFile().getFileName());
-      if ( ResourceType.IMAGE.name().equals(type) )
+      if (ResourceType.IMAGE.name().equals(type))
       {
          handleImgUpload(event);
       }

@@ -81,7 +81,7 @@ public class CustomerToProductRepository extends
             }
             return customerToProduct;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, null, e);
+            logger.error(e.getMessage(), e);
             return null;
         }
     }

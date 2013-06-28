@@ -76,7 +76,7 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
          return null;
       }
    }
