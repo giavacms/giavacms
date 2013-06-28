@@ -12,14 +12,14 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.common.event.ResetEvent;
-import org.giavacms.githubcontent.model.GithubType;
-import org.giavacms.githubcontent.repository.GithubTypeRepository;
+import org.giavacms.githubcontent.model.GithubContentType;
+import org.giavacms.githubcontent.repository.GithubContentTypeRepository;
 import org.giavacms.richcontent.model.type.RichContentType;
 
 @Named
 @SessionScoped
-public class GithubTypeController extends
-         AbstractLazyController<GithubType>
+public class GithubContentTypeController extends
+         AbstractLazyController<GithubContentType>
 {
    private static final long serialVersionUID = 1L;
 
@@ -31,20 +31,20 @@ public class GithubTypeController extends
    @ViewPage
    @ListPage
    @EditPage
-   public static String LIST = "/private/githubtype/list.xhtml";
+   public static String LIST = "/private/githubcontent/githubcontenttype/list.xhtml";
 
    // --------------------------------------------------------
 
    @Inject
-   @OwnRepository(GithubTypeRepository.class)
-   GithubTypeRepository githubTypeRepository;
+   @OwnRepository(GithubContentTypeRepository.class)
+   GithubContentTypeRepository githubContentTypeRepository;
 
    @Inject
    Event<ResetEvent> reseEvent;
 
    // --------------------------------------------------------
 
-   public GithubTypeController()
+   public GithubContentTypeController()
    {
    }
 
@@ -67,23 +67,23 @@ public class GithubTypeController extends
    {
       super.save();
       addElement();
-      reseEvent.fire(new ResetEvent(GithubType.class));
+      reseEvent.fire(new ResetEvent(GithubContentType.class));
       return listPage();
    }
 
    @Override
-   public GithubType getElement()
+   public GithubContentType getElement()
    {
       if (super.getElement() == null)
       {
-         setElement(new GithubType());
+         setElement(new GithubContentType());
          getElement().setRichContentType(new RichContentType());
       }
       return super.getElement();
    }
 
    @Override
-   public Object getId(GithubType t)
+   public Object getId(GithubContentType t)
    {
       return t.getId();
    }
@@ -92,7 +92,7 @@ public class GithubTypeController extends
    public void deleteInline()
    {
       super.deleteInline();
-      reseEvent.fire(new ResetEvent(GithubType.class));
+      reseEvent.fire(new ResetEvent(GithubContentType.class));
    }
 
 }

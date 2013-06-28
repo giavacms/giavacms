@@ -1,7 +1,5 @@
 package org.giavacms.githubcontent.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,9 +24,10 @@ import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.event.ResetEvent;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
-import org.giavacms.githubcontent.model.GithubType;
+import org.giavacms.githubcontent.model.GithubContentType;
 import org.giavacms.githubcontent.module.producer.GithubProducer;
-import org.giavacms.githubcontent.repository.GithubTypeRepository;
+import org.giavacms.githubcontent.repository.GithubContentTypeRepository;
+import org.giavacms.githubcontent.util.GithubImporter;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
@@ -36,13 +35,10 @@ import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
 import org.giavacms.richcontent.repository.TagRepository;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.CroppedImage;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 @Named
 @SessionScoped
-public class GitHubController extends AbstractPageController<RichContent>
+public class GitHubContentController extends AbstractPageController<RichContent>
 {
 
    private static final long serialVersionUID = 1L;
@@ -74,7 +70,7 @@ public class GitHubController extends AbstractPageController<RichContent>
    @Inject
    RichContentTypeRepository richContentTypeRepository;
    @Inject
-   GithubTypeRepository githubTypeRepository;
+   GithubContentTypeRepository githubContentTypeRepository;
    @Inject
    TagRepository tagRepository;
    @Inject
@@ -84,15 +80,11 @@ public class GitHubController extends AbstractPageController<RichContent>
    Event<ResetEvent> resetEvent;
 
    private List<Group<Tag>> githubTags;
-   private CroppedImage croppedImage;
-   private StreamedContent streamedContent;
-   private byte[] croppedBytes;
-   private double imageWidth;
-   private double imageHeight;
+   private String githubContent = null;
 
    // --------------------------------------------------------
 
-   public GitHubController()
+   public GitHubContentController()
    {
    }
 
@@ -105,7 +97,7 @@ public class GitHubController extends AbstractPageController<RichContent>
    @Override
    public void defaultCriteria()
    {
-      List<GithubType> githubTypes = githubTypeRepository.getAllList();
+      List<GithubContentType> githubTypes = githubContentTypeRepository.getAllList();
       if (githubTypes != null && githubTypes.size() > 0)
       {
          getSearch().getObj().setRichContentType(new RichContentType());
@@ -156,9 +148,7 @@ public class GitHubController extends AbstractPageController<RichContent>
    public String reload()
    {
       githubTags = null;
-      croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
+      githubContent = null;
       return super.reload();
    }
 
@@ -166,9 +156,7 @@ public class GitHubController extends AbstractPageController<RichContent>
    public String reset()
    {
       githubTags = null;
-      croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
+      githubContent = null;
       return super.reset();
    }
 
@@ -178,9 +166,7 @@ public class GitHubController extends AbstractPageController<RichContent>
    public String addElement()
    {
       githubTags = null;
-      croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
+      githubContent = null;
       String outcome = super.addElement();
       getElement().setDate(new Date());
       return outcome;
@@ -206,20 +192,12 @@ public class GitHubController extends AbstractPageController<RichContent>
    public String modImageCurrent()
    {
       modCurrent();
-      setDimensions();
-      streamedContent = null;
-      croppedImage = null;
-      croppedBytes = null;
       return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    public String modImage()
    {
       modElement();
-      setDimensions();
-      streamedContent = null;
-      croppedImage = null;
-      croppedBytes = null;
       return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
@@ -237,12 +215,14 @@ public class GitHubController extends AbstractPageController<RichContent>
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
       resetEvent.fire(new ResetEvent(RichContent.class));
-      return super.viewCurrent();
+      return viewCurrent();
    }
 
    @Override
    public String delete()
    {
+      githubContent = null;
+      resetEvent.fire(new ResetEvent(RichContent.class));
       return super.delete();
    }
 
@@ -304,144 +284,39 @@ public class GitHubController extends AbstractPageController<RichContent>
       return viewCurrent();
    }
 
-   // --------------------------------------------------------
+   // -----------------------------------------------------------------------
 
-   public CroppedImage getCroppedImage()
+   public String getGithubContent()
    {
-      return croppedImage;
+      return githubContent;
    }
 
-   public void setCroppedImage(CroppedImage croppedImage)
+   public void setGithubContent(String githubContent)
    {
-      this.croppedImage = croppedImage;
+      this.githubContent = githubContent;
    }
 
-   public String crop()
+   @Override
+   public String viewElement()
    {
-      if (croppedImage == null)
-         return null;
-
-      @SuppressWarnings("unused")
-      String extension = org.giavacms.common.util.FileUtils.getExtension(getElement().getImages().get(0).getFilename());
-
-      ByteArrayOutputStream baos = null;
-      ByteArrayInputStream bais = null;
-      try
-      {
-         baos = new ByteArrayOutputStream();
-         baos.write(croppedImage.getBytes(), 0, croppedImage.getBytes().length);
-
-         croppedBytes = baos.toByteArray();
-         bais = new ByteArrayInputStream(croppedBytes);
-         streamedContent = new DefaultStreamedContent(bais);
-
-      }
-      catch (Exception e)
-      {
-         super.addFacesMessage("Errori nell'elaborazione dell'immagine");
-         logger.error(e.getMessage(), e);
-      }
-      finally
-      {
-         if (baos != null)
-         {
-            try
-            {
-               baos.close();
-            }
-            catch (Exception e)
-            {
-            }
-         }
-         if (bais != null)
-         {
-            try
-            {
-               bais.close();
-            }
-            catch (Exception e)
-            {
-            }
-         }
-      }
-      return null;
+      String outcome = super.viewElement();
+      this.githubContent = GithubImporter.getContent(getElement().getContent());
+      return outcome;
    }
 
-   public String undoCrop()
+   @Override
+   public String viewCurrent()
    {
-      this.streamedContent = null;
-      this.croppedBytes = null;
-      this.croppedImage = null;
-      return null;
+      String outcome = super.viewCurrent();
+      this.githubContent = GithubImporter.getContent(getElement().getContent());
+      return outcome;
    }
 
-   public String confirmCrop()
+   @Override
+   public String modCurrent()
    {
-      try
-      {
-         String type = getElement().getImages().get(0).getType();
-         String original = getElement().getImages().get(0)
-                  .getFilename();
-         if (getElement().getImages() != null && getElement().getImages().size() > 0)
-         {
-            removeImage(getElement().getImages().get(0).getId());
-         }
-         Image img = new Image();
-         img.setData(croppedBytes);
-         img.setType(type);
-         String filename = ResourceUtils.createImage_("img", "resized_" + original, croppedBytes);
-         img.setFilename(filename);
-         getElement().getImages().add(img);
-      }
-      catch (Exception e)
-      {
-         super.addFacesMessage("Errori nel salvataggio dell'immagine ritagliata");
-         e.printStackTrace();
-      }
-      this.update();
-      return viewCurrent();
+      String outcome = super.modCurrent();
+      this.githubContent = GithubImporter.getContent(getElement().getContent());
+      return outcome;
    }
-
-   public StreamedContent getStreamedContent()
-   {
-      return streamedContent;
-   }
-
-   public void setStreamedContent(StreamedContent streamedContent)
-   {
-      this.streamedContent = streamedContent;
-   }
-
-   public double getImageWidth()
-   {
-      return imageWidth;
-   }
-
-   public void setImageWidth(double imageWidth)
-   {
-      this.imageWidth = imageWidth;
-   }
-
-   public double getImageHeight()
-   {
-      return imageHeight;
-   }
-
-   public void setImageHeight(double imageHeight)
-   {
-      this.imageHeight = imageHeight;
-   }
-
-   private void setDimensions()
-   {
-      for (GithubType pt : githubTypeRepository.getAllList())
-      {
-         if (pt.getRichContentType().getId() == getElement().getRichContentType().getId())
-         {
-            this.imageHeight = pt.getImageHeight();
-            this.imageWidth = pt.getImageWidth();
-         }
-      }
-   }
-
 }

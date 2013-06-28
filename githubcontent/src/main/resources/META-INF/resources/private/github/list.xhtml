@@ -10,7 +10,7 @@
 		<h:outputText value="Lista Contenuti" />
 	</ui:define>
 	<ui:define name="roles">
-		<f:attribute name="roles" value="people" />
+		<f:attribute name="roles" value="githubcontent" />
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="mainForm">
@@ -20,39 +20,39 @@
 
 						<h:outputLabel for="titolo" value="Titolo:" />
 						<h:inputText id="titolo"
-							value="#{peopleController.search.obj.title}" />
+							value="#{githubContentController.search.obj.title}" />
 
 						<h:outputLabel for="tipo" value="Tipo:" />
 						<h:selectOneMenu id="tipo" required="true"
-							requiredMessage="E' obbligatorio specificare la categoria di persone in cui cercare"
-							value="#{peopleController.search.obj.richContentType.id}">
-							<f:selectItems value="#{peopleTypeItems}" />
+							requiredMessage="E' obbligatorio specificare la categoria di contenuti Github in cui cercare"
+							value="#{githubContentController.search.obj.richContentType.id}">
+							<f:selectItems value="#{githubTypeItems}" />
 						</h:selectOneMenu>
 
 						<h:outputLabel for="tag" value="Tag:" />
-						<h:inputText id="tag" value="#{peopleController.search.obj.tag}" />
+						<h:inputText id="tag" value="#{githubContentController.search.obj.tag}" />
 
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
-							value="#{peopleController.search.obj.template.id}">
+							value="#{githubContentController.search.obj.template.id}">
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(richContentController.extension)}" />
 						</h:selectOneMenu>
 
 					</h:panelGrid>
-					<p:commandButton action="#{peopleController.reloadAjax}"
+					<p:commandButton action="#{githubContentController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false"
 						update="tagPanel contentList" />
-					<p:commandButton action="#{peopleController.reset}"
+					<p:commandButton action="#{githubContentController.reset}"
 						value="Azzera filtri" ajax="false" immediate="true" />
 					<br />
 					<br />
 					<h:panelGroup id="tagPanel" style="font-size:small;">
-						<ui:repeat value="#{peopleTags}" var="t" varStatus="varStatus">
+						<ui:repeat value="#{githubTags}" var="t" varStatus="varStatus">
 							<h:outputText value="Tags:" style="font-weight: bolder;"
 								rendered="#{varStatus.first}" />
 							<p:commandLink value="#{t.obj.tagName} (#{t.count})"
-								action="#{peopleController.filterTag(t.obj.tagName)}"
+								action="#{githubContentController.filterTag(t.obj.tagName)}"
 								update=":mainForm:contentList :mainForm:searchGrid"
 								style="padding: 5px; font-size: #{3*t.ratio}em" />
 							<h:outputText value="&lt;br/&gt;&lt;br/&gt;" escape="false"
@@ -64,11 +64,11 @@
 
 					<h:panelGroup id="contentList">
 						<h:outputText value="nessuna ricerca effettuata"
-							rendered="#{empty peopleController.search.obj.richContentType.id}" />
+							rendered="#{empty githubContentController.search.obj.richContentType.id}" />
 						<p:dataTable rowIndexVar="rowIndex"
-							rendered="#{not empty peopleController.search.obj.richContentType.id}"
-							var="contenuto" value="#{peopleController.model}"
-							rows="#{peopleController.pageSize}" paginator="true" lazy="true">
+							rendered="#{not empty githubContentController.search.obj.richContentType.id}"
+							var="contenuto" value="#{githubContentController.model}"
+							rows="#{githubContentController.pageSize}" paginator="true" lazy="true">
 							<p:column width="50">
 								<h:outputText value="#{rowIndex+1}" />
 							</p:column>
@@ -105,13 +105,13 @@
 							<p:column width="200">
 								<f:facet name="header">operazioni</f:facet>
 								<center>
-									<h:commandLink action="#{peopleController.viewElement}"
+									<h:commandLink action="#{githubContentController.viewElement}"
 										value="vedi" />
 									<br />
-									<h:commandLink action="#{peopleController.modElement}"
+									<h:commandLink action="#{githubContentController.modElement}"
 										value="modifica testo" />
 									<br />
-									<h:commandLink action="#{peopleController.modImage}"
+									<h:commandLink action="#{githubContentController.modImage}"
 										value="gestisci immagine" />
 								</center>
 							</p:column>
@@ -122,7 +122,7 @@
 
 				<h:panelGrid columns="1">
 					<p:commandButton id="creaContenuto"
-						action="#{peopleController.addElement}" value="Aggiungi" />
+						action="#{githubContentController.addElement}" value="Aggiungi" />
 				</h:panelGrid>
 			</center>
 		</h:form>

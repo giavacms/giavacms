@@ -12,7 +12,7 @@ import org.giavacms.common.module.ModuleProvider;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
-public class GithubModule implements ModuleProvider
+public class GithubContentModule implements ModuleProvider
 {
 
    Logger logger = Logger.getLogger(getClass());
@@ -21,7 +21,7 @@ public class GithubModule implements ModuleProvider
    @Override
    public String getName()
    {
-      return "github";
+      return "githubcontent";
    }
 
    @Override
@@ -33,13 +33,13 @@ public class GithubModule implements ModuleProvider
    @Override
    public String getMenuFragment()
    {
-      return "/private/github/github-menu.xhtml";
+      return "/private/githubcontent/githubcontent-menu.xhtml";
    }
 
    @Override
    public String getPanelFragment()
    {
-      return "/private/github/github-panel.xhtml";
+      return "/private/githubcontent/githubcontent-panel.xhtml";
    }
 
    @Override
@@ -60,7 +60,7 @@ public class GithubModule implements ModuleProvider
    public Map<String, String> getPermissions()
    {
       Map<String, String> permissions = new HashMap<String, String>();
-      permissions.put("github", "gestione contenuti associati a github");
+      permissions.put("githubcontent", "gestione contenuti associati a github");
       return permissions;
    }
 

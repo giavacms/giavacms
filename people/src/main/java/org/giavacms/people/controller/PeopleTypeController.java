@@ -31,7 +31,7 @@ public class PeopleTypeController extends
    @ViewPage
    @ListPage
    @EditPage
-   public static String LIST = "/private/peopletype/list.xhtml";
+   public static String LIST = "/private/people/peopletype/list.xhtml";
 
    // --------------------------------------------------------
 

@@ -7,12 +7,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.giavacms.common.repository.AbstractRepository;
-import org.giavacms.githubcontent.model.GithubType;
+import org.giavacms.githubcontent.model.GithubContentType;
 
 @Named
 @Stateless
 @LocalBean
-public class GithubTypeRepository extends AbstractRepository<GithubType>
+public class GithubContentTypeRepository extends AbstractRepository<GithubContentType>
 {
 
    private static final long serialVersionUID = 1L;

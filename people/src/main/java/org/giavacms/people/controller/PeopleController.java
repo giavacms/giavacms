@@ -243,6 +243,7 @@ public class PeopleController extends AbstractPageController<RichContent>
    @Override
    public String delete()
    {
+      resetEvent.fire(new ResetEvent(RichContent.class));
       return super.delete();
    }
 

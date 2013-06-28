@@ -18,9 +18,6 @@
 		<script type="text/javascript"
 			src="#{request.contextPath}/scripts/it_editor.js"></script>
 
-		<script language="javascript" type="text/javascript"
-			src="#{request.contextPath}/scripts/tiny_mce/tiny_mce.js"></script>
-
 		<h:form enctype="multipart/form-data">
 
 			<p:messages id="messages" />
@@ -29,49 +26,25 @@
 
 					<p:fileUpload id="imgUp" mode="advanced" multiple="false"
 						sizeLimit="20000000"
-						fileUploadListener="#{peopleController.handleUpload}"
+						fileUploadListener="#{githubContentController.handleUpload}"
 						label="Carica immagine" description="Carica immagine"
 						update="image" />
 
 					<h:panelGroup id="image">
 						<h:panelGrid columns="1"
-							rendered="#{not empty peopleController.element.images and peopleController.element.images.size() gt 0}">
+							rendered="#{not empty githubContentController.element.images and githubContentController.element.images.size() gt 0}">
 
-							<p:imageCropper value="#{peopleController.croppedImage}"
-								image="/img/#{peopleController.element.images[0].filename}"
-								initialCoords="0,0,#{peopleController.imageWidth},#{peopleController.imageHeight}" aspectRatio="#{peopleController.imageWidth / peopleController.imageHeight}" minSize="#{peopleController.imageWidth},#{peopleController.imageHeight}" />
-
-							<h:panelGroup id="localCroppedImage">
-								<h:panelGroup
-									rendered="#{not empty peopleController.streamedContent}">
-									<br />
-									<hr style="width: 90%;" />
-									<br />
-									<p:graphicImage value="#{peopleController.streamedContent}" />
-									<br />
-									<hr style="width: 90%;" />
-									<br />
-								</h:panelGroup>
-							</h:panelGroup>
+							<h:graphicImage src="#{githubContentController.croppedImage}"
+								image="/img/#{githubContentController.element.images[0].filename}" />
 
 							<h:panelGroup>
 								<center>
 									<h:panelGrid columns="4" id="buttons">
-										<p:commandButton value="Ritaglia"
-											action="#{peopleController.crop}"
-											update="localCroppedImage buttons" />
-										<p:commandButton value="Annulla ritaglio"
-											rendered="#{not empty peopleController.streamedContent}"
-											action="#{peopleController.undoCrop}" ajax="false"
-											update="localCroppedImage" />
-										<p:commandButton value="Conferma ritaglio"
-											rendered="#{not empty peopleController.streamedContent}"
-											action="#{peopleController.confirmCrop}" ajax="false" />
 										<p:commandButton ajax="false"
-											action="#{peopleController.removeImage(peopleController.element.images[0].id)}"
+											action="#{githubContentController.removeImage(githubContentController.element.images[0].id)}"
 											value="Elimina l'immagine corrente" immediate="true"
 											onclick="if (!confirm('Vuoi davvero eliminare l\'immagine?')) return false"
-											rendered="#{not empty peopleController.element.images and peopleController.element.images.size() gt 0 and not empty peopleController.element.images[0].id}" />
+											rendered="#{not empty githubContentController.element.images and githubContentController.element.images.size() gt 0 and not empty githubContentController.element.images[0].id}" />
 									</h:panelGrid>
 								</center>
 

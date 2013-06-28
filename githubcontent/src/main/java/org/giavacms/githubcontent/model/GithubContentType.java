@@ -13,14 +13,12 @@ import javax.persistence.Transient;
 import org.giavacms.richcontent.model.type.RichContentType;
 
 @Entity
-public class GithubType implements Serializable
+public class GithubContentType implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    private Long id;
-   int imageWidth = 220;
-   int imageHeight = 160;
 
    private RichContentType richContentType;
 
@@ -52,26 +50,6 @@ public class GithubType implements Serializable
    public String getName()
    {
       return richContentType == null ? null : richContentType.getName();
-   }
-
-   public int getImageWidth()
-   {
-      return imageWidth;
-   }
-
-   public void setImageWidth(int imageWidth)
-   {
-      this.imageWidth = imageWidth;
-   }
-
-   public int getImageHeight()
-   {
-      return imageHeight;
-   }
-
-   public void setImageHeight(int imageHeight)
-   {
-      this.imageHeight = imageHeight;
    }
 
 }
