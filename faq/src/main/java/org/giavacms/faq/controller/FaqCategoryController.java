@@ -4,7 +4,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Image;
@@ -120,7 +120,7 @@ public class FaqCategoryController extends AbstractPageController<FaqCategory>
                   .getContents());
          img.setType(getElement().getNewImage().getUploadedData()
                   .getContentType());
-         String filename = FileUtils.createImage_("img", getElement()
+         String filename = ResourceUtils.createImage_("img", getElement()
                   .getNewImage().getUploadedData().getFileName(),
                   getElement().getNewImage().getUploadedData().getContents());
          img.setFilename(filename);

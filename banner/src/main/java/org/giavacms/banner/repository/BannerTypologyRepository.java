@@ -1,7 +1,6 @@
 package org.giavacms.banner.repository;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -17,58 +16,69 @@ import org.giavacms.common.repository.AbstractRepository;
 @Stateless
 @LocalBean
 public class BannerTypologyRepository extends
-		AbstractRepository<BannerTypology> {
+         AbstractRepository<BannerTypology>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	EntityManager em;
+   @PersistenceContext
+   EntityManager em;
 
-	@Override
-	protected EntityManager getEm() {
-		return em;
-	}
+   @Override
+   protected EntityManager getEm()
+   {
+      return em;
+   }
 
-	@Override
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+   @Override
+   public void setEm(EntityManager em)
+   {
+      this.em = em;
+   }
 
-	@Override
-	protected String getDefaultOrderBy() {
-		// TODO Auto-generated method stub
-		return "name asc";
-	}
+   @Override
+   protected String getDefaultOrderBy()
+   {
+      // TODO Auto-generated method stub
+      return "name asc";
+   }
 
-	@Override
-	public boolean delete(Object key) {
-		try {
-			BannerTypology bannerTypology = getEm().find(getEntityType(), key);
-			if (bannerTypology != null) {
-				bannerTypology.setActive(false);
-				getEm().merge(bannerTypology);
-			}
-			return true;
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
-			return false;
-		}
-	}
+   @Override
+   public boolean delete(Object key)
+   {
+      try
+      {
+         BannerTypology bannerTypology = getEm().find(getEntityType(), key);
+         if (bannerTypology != null)
+         {
+            bannerTypology.setActive(false);
+            getEm().merge(bannerTypology);
+         }
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
+   }
 
-	@Override
-	protected void applyRestrictions(Search<BannerTypology> search,
-			String alias, String separator, StringBuffer sb,
-			Map<String, Object> params) {
-		sb.append(separator).append(alias).append(".active = :active");
-		params.put("active", true);
-		separator = " and ";
-		if (search.getObj().getName() != null
-				&& !search.getObj().getName().isEmpty()) {
-			sb.append(separator).append(" upper(").append(alias)
-					.append(".name ) like :NAME ");
-			params.put("NAME", likeParam(search.getObj().getName()
-					.toUpperCase()));
-		}
-	}
+   @Override
+   protected void applyRestrictions(Search<BannerTypology> search,
+            String alias, String separator, StringBuffer sb,
+            Map<String, Object> params)
+   {
+      sb.append(separator).append(alias).append(".active = :active");
+      params.put("active", true);
+      separator = " and ";
+      if (search.getObj().getName() != null
+               && !search.getObj().getName().isEmpty())
+      {
+         sb.append(separator).append(" upper(").append(alias)
+                  .append(".name ) like :NAME ");
+         params.put("NAME", likeParam(search.getObj().getName()
+                  .toUpperCase()));
+      }
+   }
 
 }

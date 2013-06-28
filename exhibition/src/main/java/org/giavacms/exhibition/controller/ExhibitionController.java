@@ -6,7 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
@@ -144,7 +144,7 @@ public class ExhibitionController extends AbstractLazyController<Exhibition>
                   .getContents());
          img.setType(getElement().getNewImage().getUploadedData()
                   .getContentType());
-         String filename = FileUtils.createImage_("img", getElement()
+         String filename = ResourceUtils.createImage_("img", getElement()
                   .getNewImage().getUploadedData().getFileName(),
                   getElement().getNewImage().getUploadedData().getContents());
          img.setFilename(filename);
@@ -171,7 +171,7 @@ public class ExhibitionController extends AbstractLazyController<Exhibition>
                   .getContents());
          img.setType(getElement().getNewCatalogueImage().getUploadedData()
                   .getContentType());
-         String filename = FileUtils.createImage_("img", getElement()
+         String filename = ResourceUtils.createImage_("img", getElement()
                   .getNewCatalogueImage().getUploadedData().getFileName(),
                   getElement().getNewCatalogueImage().getUploadedData()
                            .getContents());

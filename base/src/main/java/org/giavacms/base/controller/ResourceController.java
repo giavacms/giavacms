@@ -15,7 +15,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
+import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.pojo.Resource;
 import org.giavacms.base.producer.BaseProducer;
 import org.giavacms.base.repository.ResourceRepository;
@@ -29,7 +30,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
-
 
 @Named
 @SessionScoped
@@ -140,8 +140,8 @@ public class ResourceController extends AbstractLazyController<Resource>
    @Override
    public String update()
    {
-      if (getElement().getType().equals("js")
-               || getElement().getType().equals("css"))
+      if (ResourceType.JAVASCRIPT.equals(getElement().getResourceType())
+               || ResourceType.STYLESHEET.equals(getElement().getResourceType()))
       {
          logger.debug("don't exist new resource uploaded; let's persist modifications on text");
          resourceRepository.updateResource(getElement());
@@ -168,7 +168,7 @@ public class ResourceController extends AbstractLazyController<Resource>
                resource.setBytes(getReplacementFile().getContents());
                resource.setName(filename);
                resource.setId(getElement().getId());
-               resource.setType(FileUtils.getType(filename));
+               resource.setType(ResourceUtils.getType(filename));
                resourceRepository.updateResource(resource);
                setElement(resource);
                // refresh locale
@@ -210,7 +210,7 @@ public class ResourceController extends AbstractLazyController<Resource>
          Resource resource = new Resource();
          resource.setInputStream(is);
          resource.setName(filename);
-         resource.setType(FileUtils.getType(filename));
+         resource.setType(ResourceUtils.getType(filename));
 
          resource.setBytes(file.getContents());
          uploadedResources.add(resource);
@@ -236,7 +236,7 @@ public class ResourceController extends AbstractLazyController<Resource>
    public StreamedContent getResourceStream(int index)
    {
       Resource rs = uploadedResources.get(index);
-      if (!"img".equals(rs.getType()))
+      if (!ResourceType.IMAGE.equals(rs.getResourceType()))
          return null;
       StreamedContent image = new DefaultStreamedContent(rs.getInputStream(),
                rs.getType());
@@ -258,7 +258,7 @@ public class ResourceController extends AbstractLazyController<Resource>
 
    public String getExtensionsByType(String type)
    {
-      return FileUtils.getRegExpByTypes(new String[] { type });
+      return ResourceUtils.getRegExpByTypes(new String[] { type });
    }
 
    public UploadedFile getReplacementFile()

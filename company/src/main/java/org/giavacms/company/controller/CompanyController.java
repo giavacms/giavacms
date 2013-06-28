@@ -12,7 +12,7 @@ import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.company.model.Company;
 import org.giavacms.company.repository.CompanyRepository;
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.attachment.Image;
 
 @Named
@@ -128,7 +128,7 @@ public class CompanyController extends AbstractLazyController<Company>
                   .getContents());
          img.setType(getElement().getNewImage().getUploadedData()
                   .getContentType());
-         String filename = FileUtils.createImage_("img", getElement()
+         String filename = ResourceUtils.createImage_("img", getElement()
                   .getNewImage().getUploadedData().getFileName(),
                   getElement().getNewImage().getUploadedData().getContents());
          img.setFilename(filename);
@@ -152,7 +152,7 @@ public class CompanyController extends AbstractLazyController<Company>
                   .getContents());
          img.setType(getElement().getNewLogo().getUploadedData()
                   .getContentType());
-         String filename = FileUtils.createImage_("img", getElement()
+         String filename = ResourceUtils.createImage_("img", getElement()
                   .getNewLogo().getUploadedData().getFileName(), getElement()
                   .getNewLogo().getUploadedData().getContents());
          img.setFilename(filename);

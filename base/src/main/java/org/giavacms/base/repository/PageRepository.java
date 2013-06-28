@@ -9,7 +9,6 @@ package org.giavacms.base.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -131,7 +130,7 @@ public class PageRepository
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return false;
       }
    }
@@ -181,7 +180,7 @@ public class PageRepository
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
          return new ArrayList<Page>();
       }
    }

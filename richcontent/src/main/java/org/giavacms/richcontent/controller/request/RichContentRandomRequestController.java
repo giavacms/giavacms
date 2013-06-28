@@ -31,6 +31,12 @@ public class RichContentRandomRequestController extends
    {
       int size = richContentRepository.getListSize(getSearch());
       startRow = random.nextInt(size);
+      int maxIterations = 10;
+      while ((maxIterations > 0) && ((size - startRow) < pageSize))
+      {
+         startRow = random.nextInt(size);
+         maxIterations--;
+      }
       return super.loadPage(startRow, pageSize);
    }
 }
