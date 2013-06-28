@@ -7,22 +7,22 @@
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="Scheda Persona" />
+		<h:outputText value="Scheda Contenuto Github" />
 	</ui:define>
 	<ui:define name="roles">
-		<f:attribute name="roles" value="people" />
+		<f:attribute name="roles" value="githubcontent" />
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
 			<center>
-				<p:panel header="Scheda Persona">
+				<p:panel header="Scheda Contenuto Github">
 
 					<h:panelGrid columns="2">
 
 						<h:outputLabel for="titolo" style="font-weight: bolder; "
-							value="Nominativo: " />
+							value="Titolo: " />
 						<h:outputText id="titolo"
-							value="#{peopleController.element.title}" />
+							value="#{githubContentController.element.title}" />
 
 						<p:spacer height="10px" />
 						<p:spacer height="10px" />
@@ -30,7 +30,7 @@
 						<h:outputLabel for="tipo" style="font-weight: bolder;"
 							value="Categoria: " />
 						<h:outputText id="tipo"
-							value="#{peopleController.element.richContentType.name}"
+							value="#{githubContentController.element.richContentType.name}"
 							width="640px" height="320px"></h:outputText>
 
 						<p:spacer height="10px" />
@@ -39,8 +39,8 @@
 						<h:outputLabel for="tagList" style="font-weight: bolder;"
 							value="Tags: " />
 						<h:panelGroup id="tagList">
-							<ui:repeat value="#{peopleController.element.tagList}" var="t"
-								varStatus="varStatus">
+							<ui:repeat value="#{githubContentController.element.tagList}"
+								var="t" varStatus="varStatus">
 								<h:outputText value="&lt;br/&gt;" escape="false"
 									rendered="#{varStatus.index gt 0}" />
 								<h:outputText value="#{t}" />
@@ -53,35 +53,42 @@
 						<h:outputLabel for="anteprima" style="font-weight: bolder;"
 							value="Descrizione breve: " />
 						<h:outputText id="anteprima"
-							value="#{peopleController.element.preview}" />
+							value="#{githubContentController.element.preview}" />
 
 						<p:spacer height="10px" />
 						<p:spacer height="10px" />
 
 						<h:outputLabel for="contenuto" style="font-weight: bolder;"
-							value="Descrizione estesa: " />
+							value="Url: " />
 						<h:outputText id="contenuto"
-							value="#{peopleController.element.content}" escape="false" />
+							value="#{githubContentController.element.content}" escape="false" />
+
+						<h:outputLabel value="Contenuto recuperato:" for="githubContent" />
+						<h:panelGroup id="githubContent" layout="block" style="border: 1px solid black;">
+							<pre>${githubContentController.githubContent}</pre>
+						</h:panelGroup>
+
 					</h:panelGrid>
 					<br />
 
 
 					<h:graphicImage
-						rendered="#{not empty peopleController.element.images and peopleController.element.images.size() gt 0}"
-						value="/img/#{peopleController.element.images[0].filename}"
-						alt="#{peopleController.element.images[0].filename}"
-						title="#{peopleController.element.images[0].filename}"
+						rendered="#{not empty githubContentController.element.images and githubContentController.element.images.size() gt 0}"
+						value="/img/#{githubContentController.element.images[0].filename}"
+						alt="#{githubContentController.element.images[0].filename}"
+						title="#{githubContentController.element.images[0].filename}"
 						style="padding: 5px;" />
 
 				</p:panel>
 				<br /> <br />
 				<h:panelGrid columns="3">
-					<p:commandButton action="#{peopleController.modCurrent}"
+					<p:commandButton action="#{githubContentController.modCurrent}"
 						value="Modifica testi e immagine" />
-					<p:commandButton action="#{peopleController.modImageCurrent}"
+					<p:commandButton
+						action="#{githubContentController.modImageCurrent}"
 						value="Gestisci Immagine" />
 					<p:commandButton id="creaContenuto"
-						action="#{peopleController.addElement}" value="Aggiungi" />
+						action="#{githubContentController.addElement}" value="Aggiungi" />
 				</h:panelGrid>
 			</center>
 		</h:form>
