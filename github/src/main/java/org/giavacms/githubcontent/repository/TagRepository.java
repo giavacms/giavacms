@@ -1,4 +1,4 @@
-package org.giavacms.github.repository;
+package org.giavacms.githubcontent.repository;
 
 
 import java.util.Calendar;

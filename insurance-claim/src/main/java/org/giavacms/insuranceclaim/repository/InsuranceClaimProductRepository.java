@@ -69,7 +69,7 @@ public class InsuranceClaimProductRepository extends
 			}
 			return insuranceClamsProduct;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}

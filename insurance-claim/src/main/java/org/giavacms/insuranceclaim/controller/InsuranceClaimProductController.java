@@ -8,10 +8,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.common.util.ImageUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
@@ -70,7 +71,7 @@ public class InsuranceClaimProductController extends
 				+ event.getFile().getContentType() + "- "
 				+ event.getFile().getSize());
 		String type = ResourceUtils.getType(event.getFile().getFileName());
-		if (type.equals(ResourceUtils.IMG)) {
+		if (ResourceType.IMAGE.name().equals(type)) {
 			handleImgUpload(event);
 		} else {
 			handleFileUpload(event);

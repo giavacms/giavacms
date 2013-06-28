@@ -1,4 +1,4 @@
-package org.giavacms.richcontent.controller;
+package org.giavacms.githubcontent.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,10 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.ResourceUtils;
+import org.giavacms.base.common.util.FileUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
-import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.annotation.BackPage;
@@ -22,17 +21,12 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
-import org.giavacms.richcontent.model.RichContent;
-import org.giavacms.richcontent.model.Tag;
-import org.giavacms.richcontent.producer.RichContentProducer;
-import org.giavacms.richcontent.repository.RichContentRepository;
-import org.giavacms.richcontent.repository.RichContentTypeRepository;
-import org.giavacms.richcontent.repository.TagRepository;
 import org.primefaces.event.FileUploadEvent;
 
 @Named
 @SessionScoped
-public class RichContentController extends AbstractPageController<RichContent> {
+public class GithubContentController extends
+		AbstractPageController<GithubContent> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +65,7 @@ public class RichContentController extends AbstractPageController<RichContent> {
 
 	// --------------------------------------------------------
 
-	public RichContentController() {
+	public GithubContentController() {
 	}
 
 	@Override
@@ -85,8 +79,8 @@ public class RichContentController extends AbstractPageController<RichContent> {
 		logger.info("Uploaded: " + event.getFile().getFileName() + " - "
 				+ event.getFile().getContentType() + "- "
 				+ event.getFile().getSize());
-		String type = ResourceUtils.getType(event.getFile().getFileName());
-		if (ResourceType.IMAGE.name().equals(type)) {
+		String type = FileUtils.getType(event.getFile().getFileName());
+		if (type.equals(FileUtils.IMG)) {
 			handleImgUpload(event);
 		} else {
 			handleFileUpload(event);
@@ -98,7 +92,7 @@ public class RichContentController extends AbstractPageController<RichContent> {
 		doc.setUploadedData(event.getFile());
 		doc.setData(event.getFile().getContents());
 		doc.setType(event.getFile().getContentType());
-		String filename = ResourceUtils.createFile_("docs", event.getFile()
+		String filename = FileUtils.createFile_("docs", event.getFile()
 				.getFileName(), event.getFile().getContents());
 		doc.setFilename(filename);
 		getElement().getDocuments().add(doc);
@@ -111,7 +105,7 @@ public class RichContentController extends AbstractPageController<RichContent> {
 			img.setUploadedData(event.getFile());
 			img.setData(imgRes);
 			img.setType(event.getFile().getContentType());
-			String filename = ResourceUtils.createImage_("img", event.getFile()
+			String filename = FileUtils.createImage_("img", event.getFile()
 					.getFileName(), imgRes);
 			img.setFilename(filename);
 			getElement().getImages().add(img);

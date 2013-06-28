@@ -1,4 +1,4 @@
-package org.giavacms.github.model;
+package org.giavacms.githubcontent.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,24 +17,19 @@ import javax.persistence.Transient;
 
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.Page;
-import org.giavacms.base.model.attachment.Document;
-import org.giavacms.base.model.attachment.Image;
-import org.giavacms.github.model.type.GithubContentType;
-import org.giavacms.richcontent.model.type.RichContentType;
 
 @Entity
 @DiscriminatorValue(value = GithubContent.EXTENSION)
 public class GithubContent extends Page {
 
 	private static final long serialVersionUID = 1L;
-	public static final String EXTENSION = "RichContent";
+	public static final String EXTENSION = "GithubContent";
 	private static final String TAG_SEPARATOR = ",";
 
 	private String preview;
 	private String content;
 	private String author;
 	private Date date;
-	private GithubContentType richContentType;
 	private boolean highlight;
 	private String tag;
 	private List<String> tagList;
@@ -48,70 +43,6 @@ public class GithubContent extends Page {
 	@Transient
 	public String getContentN() {
 		return HtmlUtils.normalizeHtml(this.content);
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "RichContent_Document", joinColumns = @JoinColumn(name = "RichContent_id"), inverseJoinColumns = @JoinColumn(name = "documents_id"))
-	public List<Document> getDocuments() {
-		if (this.documents == null)
-			this.documents = new ArrayList<Document>();
-		return documents;
-	}
-
-	public void setDocuments(List<Document> documents) {
-		this.documents = documents;
-	}
-
-	public void addDocument(Document document) {
-		getDocuments().add(document);
-	}
-
-	@Transient
-	public int getDocSize() {
-		return getDocuments().size();
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "RichContent_Image", joinColumns = @JoinColumn(name = "RichContent_id"), inverseJoinColumns = @JoinColumn(name = "images_id"))
-	public List<Image> getImages() {
-		if (this.images == null)
-			this.images = new ArrayList<Image>();
-		return images;
-	}
-
-	@Transient
-	public Image getImage() {
-		if (getImages() != null && getImages().size() > 0)
-			return getImages().get(0);
-		return null;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
-
-	public void addImage(Image image) {
-		getImages().add(image);
-	}
-
-	@Transient
-	public int getImgSize() {
-		return getImages().size();
-	}
-
-	@ManyToOne
-	public GithubContentType getRichContentType() {
-		if (richContentType == null)
-			richContentType = new GithubContentType();
-		return richContentType;
-	}
-
-	public void setRichContentType(GithubContentType richContentType) {
-		this.richContentType = richContentType;
-	}
-
-	public boolean isHighlight() {
-		return highlight;
 	}
 
 	public void setHighlight(boolean highlight) {
@@ -157,9 +88,8 @@ public class GithubContent extends Page {
 		return "RichContent [id=" + super.getId() + ", active="
 				+ super.isActive() + ", title=" + super.getTitle()
 				+ ", preview=" + preview + ", content=" + content + ", author="
-				+ author + ", date=" + date + ", tags=" + tags
-				+ ", richContentType=" + richContentType.getName()
-				+ ", highlight=" + highlight + "]";
+				+ author + ", date=" + date + ", tags=" + tags + ", highlight="
+				+ highlight + "]";
 	}
 
 	public String getTags() {

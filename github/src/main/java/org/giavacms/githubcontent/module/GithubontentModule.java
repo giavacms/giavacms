@@ -1,4 +1,4 @@
-package org.giavacms.github.module;
+package org.giavacms.githubcontent.module;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,22 +19,22 @@ public class GithubontentModule implements ModuleProvider {
 
 	@Override
 	public String getName() {
-		return "content";
+		return "githubcontent";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Contenuti con possibilita' di caricare documenti e immagini";
+		return "Contenuti da github";
 	}
 
 	@Override
 	public String getMenuFragment() {
-		return "/private/richcontent/richcontent-menu.xhtml";
+		return "/private/githubcontent/githubcontent-menu.xhtml";
 	}
 
 	@Override
 	public String getPanelFragment() {
-		return "/private/richcontent/richcontent-panel.xhtml";
+		return "/private/githubcontent/githubcontent-panel.xhtml";
 	}
 
 	@Override
@@ -45,14 +45,14 @@ public class GithubontentModule implements ModuleProvider {
 	@Override
 	public List<String> getAllowableOperations() {
 		List<String> list = new ArrayList<String>();
-		list.add("gestione contenuti");
+		list.add("gestione githubcontent");
 		return list;
 	}
 
 	@Override
 	public Map<String, String> getPermissions() {
 		Map<String, String> permissions = new HashMap<String, String>();
-		permissions.put("richcontent", "gestione contenuti");
+		permissions.put("githubcontent", "gestione githubcontent");
 		return permissions;
 	}
 

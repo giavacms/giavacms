@@ -54,7 +54,7 @@ public class InsuranceClaimCategoryRepository extends
 			}
 			return true;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(), e);
 			return false;
 		}
 	}
@@ -129,7 +129,7 @@ public class InsuranceClaimCategoryRepository extends
 			InsuranceClaimCategory insuranceClaimCategory = super.fetch(id);
 			return insuranceClaimCategory;
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
