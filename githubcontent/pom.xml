@@ -6,11 +6,10 @@
 		<artifactId>giavacms</artifactId>
 		<version>2.0.3-SNAPSHOT</version>
 	</parent>
-	<groupId>org.giavacms.githubcontent</groupId>
 	<artifactId>githubcontent</artifactId>
 
-	<name>GiavaCMS Content Management System : Rich Content Module</name>
-	<description>GiavaCMS Content Management System: Rich Content Module</description>
+	<name>GiavaCMS Content Management System : GitHub Content Module</name>
+	<description>GiavaCMS Content Management System: GitHub Content Module</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>
@@ -37,6 +36,11 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>richcontent</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

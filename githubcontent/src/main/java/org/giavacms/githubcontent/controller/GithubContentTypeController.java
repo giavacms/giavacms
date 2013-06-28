@@ -1,4 +1,4 @@
-package org.giavacms.people.controller;
+package org.giavacms.githubcontent.controller;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
@@ -12,14 +12,14 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.common.event.ResetEvent;
-import org.giavacms.people.model.PeopleType;
-import org.giavacms.people.repository.PeopleTypeRepository;
+import org.giavacms.githubcontent.model.GithubContentType;
+import org.giavacms.githubcontent.repository.GithubContentTypeRepository;
 import org.giavacms.richcontent.model.type.RichContentType;
 
 @Named
 @SessionScoped
-public class PeopleTypeController extends
-         AbstractLazyController<PeopleType>
+public class GithubContentTypeController extends
+         AbstractLazyController<GithubContentType>
 {
    private static final long serialVersionUID = 1L;
 
@@ -31,20 +31,20 @@ public class PeopleTypeController extends
    @ViewPage
    @ListPage
    @EditPage
-   public static String LIST = "/private/people/peopletype/list.xhtml";
+   public static String LIST = "/private/githubcontent/githubcontenttype/list.xhtml";
 
    // --------------------------------------------------------
 
    @Inject
-   @OwnRepository(PeopleTypeRepository.class)
-   PeopleTypeRepository peopleTypeRepository;
+   @OwnRepository(GithubContentTypeRepository.class)
+   GithubContentTypeRepository githubContentTypeRepository;
 
    @Inject
    Event<ResetEvent> reseEvent;
 
    // --------------------------------------------------------
 
-   public PeopleTypeController()
+   public GithubContentTypeController()
    {
    }
 
@@ -67,23 +67,23 @@ public class PeopleTypeController extends
    {
       super.save();
       addElement();
-      reseEvent.fire(new ResetEvent(PeopleType.class));
+      reseEvent.fire(new ResetEvent(GithubContentType.class));
       return listPage();
    }
 
    @Override
-   public PeopleType getElement()
+   public GithubContentType getElement()
    {
       if (super.getElement() == null)
       {
-         setElement(new PeopleType());
+         setElement(new GithubContentType());
          getElement().setRichContentType(new RichContentType());
       }
       return super.getElement();
    }
 
    @Override
-   public Object getId(PeopleType t)
+   public Object getId(GithubContentType t)
    {
       return t.getId();
    }
@@ -92,7 +92,7 @@ public class PeopleTypeController extends
    public void deleteInline()
    {
       super.deleteInline();
-      reseEvent.fire(new ResetEvent(PeopleType.class));
+      reseEvent.fire(new ResetEvent(GithubContentType.class));
    }
 
 }
