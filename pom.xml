@@ -63,6 +63,7 @@
 		<module>richcontent</module>
 		<module>customer</module>
 		<module>people</module>
+		<module>github</module>
 	</modules>
 
 	<properties>
