@@ -12,6 +12,7 @@ import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.annotation.BackPage;
@@ -89,7 +90,7 @@ public class RichContentController extends AbstractPageController<RichContent>
                + event.getFile().getContentType() + "- "
                + event.getFile().getSize());
       String type = ResourceUtils.getType(event.getFile().getFileName());
-      if (type.equals(ResourceUtils.IMG))
+      if (ResourceType.IMAGE.name().equals(type))
       {
          handleImgUpload(event);
       }
