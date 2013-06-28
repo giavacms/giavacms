@@ -62,7 +62,7 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
 
    protected Page getBasePage()
    {
-      if (basePage == null)
+      if (basePage == null && pageRequestController.getElement() != null && pageRequestController.getElement().getId() != null)
       {
          basePage = pageRepository.find(pageRequestController.getElement().getId());
       }
