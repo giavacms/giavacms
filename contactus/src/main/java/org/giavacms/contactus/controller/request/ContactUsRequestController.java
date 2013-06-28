@@ -8,8 +8,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.service.EmailSession;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
+import org.giavacms.company.controller.request.CompanyRequestController;
 import org.giavacms.contactus.model.ContactUs;
 import org.giavacms.contactus.repository.ContactUsRepository;
 
@@ -41,8 +43,14 @@ public class ContactUsRequestController extends
 	public static final String CURRENT_PAGE_PARAM = "unused_currentpage";
 
 	@Inject
+	CompanyRequestController companyRequestController;
+
+	@Inject
 	@OwnRepository(ContactUsRepository.class)
 	ContactUsRepository contactUsRepository;
+
+	@Inject
+	EmailSession emailSession;
 
 	public ContactUsRequestController() {
 		super();
@@ -81,6 +89,19 @@ public class ContactUsRequestController extends
 			contactUs.setName(params.get(PARAM_NAME));
 			contactUs.setMessage(params.get(PARAM_MESSAGE));
 			contactUsRepository.persist(contactUs);
+			String result = emailSession.sendEmail("noreply@giavacms.org",
+					"nuovo contatto dal web: " + params.get(PARAM_NAME).trim()
+							+ " " + params.get(PARAM_EMAIL).trim() + " - msg: "
+							+ params.get(PARAM_MESSAGE),
+					"nuovo contatto dal web",
+					new String[] { companyRequestController.getPrincipal()
+							.getEmailNewsletter() }, null,
+					new String[] { "fiorenzino@gmail.com" }, null);
+			if (result != null && !result.isEmpty()) {
+				System.out.println("ok invio email effettuato");
+			} else {
+				System.out.println(" invio email NON effettuato");
+			}
 			return "Grazie per averci contattato";
 		} else {
 			return null;
