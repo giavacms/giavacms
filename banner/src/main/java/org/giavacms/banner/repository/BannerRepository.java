@@ -125,9 +125,9 @@ public class BannerRepository extends AbstractRepository<Banner>
    public List<Banner> getRandomByTypology(String typology, int limit)
    {
       return getEm()
-               .createNativeQuery(
-                        " SELECT * FROM Banner B left join BannerTypology T on (B.bannerTypology_id = T.id  ) where T.name = :TIP ORDER BY RAND() LIMIT :LIMIT")
-               .setParameter("TIP", typology).setParameter("LIMIT", limit)
+               .createQuery(
+                        "SELECT b FROM Banner b where b.bannerTypology.name = :TIP ORDER BY RAND()")
+               .setParameter("TIP", typology).setMaxResults(limit)
                .getResultList();
    }
 
