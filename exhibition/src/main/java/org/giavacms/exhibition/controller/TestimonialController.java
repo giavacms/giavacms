@@ -4,7 +4,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
@@ -133,7 +133,7 @@ public class TestimonialController extends AbstractLazyController<Testimonial>
                   .getContents());
          img.setType(getElement().getNewImage().getUploadedData()
                   .getContentType());
-         String filename = FileUtils.createImage_("img", getElement()
+         String filename = ResourceUtils.createImage_("img", getElement()
                   .getNewImage().getUploadedData().getFileName(),
                   getElement().getNewImage().getUploadedData().getContents());
          img.setFilename(filename);

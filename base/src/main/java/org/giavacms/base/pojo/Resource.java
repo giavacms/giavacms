@@ -11,6 +11,8 @@ import java.io.Serializable;
 
 import javax.persistence.Transient;
 
+import org.giavacms.base.model.enums.ResourceType;
+
 //@Entity
 public class Resource implements Serializable
 {
@@ -20,11 +22,11 @@ public class Resource implements Serializable
    // ------------------------------------------------------------------------
 
    private String id;
-   private String type;
    private byte[] bytes;
 
    private String name;
    private InputStream inputStream;
+   private ResourceType resourceType;
 
    // ------------------------------------------------------------------------
 
@@ -55,14 +57,31 @@ public class Resource implements Serializable
       this.name = name;
    }
 
+   public ResourceType getResourceType()
+   {
+      return resourceType;
+   }
+
+   public void setResourceType(ResourceType resourceType)
+   {
+      this.resourceType = resourceType;
+   }
+
    public String getType()
    {
-      return type;
+      return resourceType == null ? null : resourceType.getFolder();
    }
 
    public void setType(String type)
    {
-      this.type = type;
+      for (ResourceType resourceType : ResourceType.values())
+      {
+         if (resourceType.getFolder().equals(type))
+         {
+            this.resourceType = resourceType;
+            break;
+         }
+      }
    }
 
    @Transient

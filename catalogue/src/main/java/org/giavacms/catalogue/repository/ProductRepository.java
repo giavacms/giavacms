@@ -2,7 +2,6 @@ package org.giavacms.catalogue.repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -54,7 +53,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
          return null;
       }
    }

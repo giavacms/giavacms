@@ -6,7 +6,7 @@ import javax.inject.Named;
 
 import org.giavacms.banner.model.Banner;
 import org.giavacms.banner.repository.BannerRepository;
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
@@ -106,7 +106,7 @@ public class BannerController extends AbstractLazyController<Banner> {
 					.getContents());
 			img.setType(getElement().getNewImage().getUploadedData()
 					.getContentType());
-			String filename = FileUtils.createImage_("img", getElement()
+			String filename = ResourceUtils.createImage_("img", getElement()
 					.getNewImage().getUploadedData().getFileName(),
 					getElement().getNewImage().getUploadedData().getContents());
 			img.setFilename(filename);

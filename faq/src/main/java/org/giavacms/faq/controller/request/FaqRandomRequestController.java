@@ -31,6 +31,12 @@ public class FaqRandomRequestController
    {
       int size = faqRepository.getListSize(getSearch());
       startRow = random.nextInt(size);
+      int maxIterations = 10;
+      while ((maxIterations > 0) && ((size - startRow) < pageSize))
+      {
+         startRow = random.nextInt(size);
+         maxIterations--;
+      }
       return super.loadPage(startRow, pageSize);
    }
 }

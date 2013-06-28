@@ -8,7 +8,6 @@ package org.giavacms.base.repository;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -103,7 +102,7 @@ public class TemplateRepository extends AbstractRepository<Template> implements
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return false;
       }
    }
@@ -118,7 +117,7 @@ public class TemplateRepository extends AbstractRepository<Template> implements
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
          return false;
       }
    }

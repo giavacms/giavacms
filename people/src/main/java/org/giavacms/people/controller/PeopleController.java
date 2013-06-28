@@ -13,7 +13,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.PageRepository;
@@ -265,7 +265,7 @@ public class PeopleController extends AbstractPageController<RichContent>
          img.setUploadedData(event.getFile());
          img.setData(imgRes);
          img.setType(event.getFile().getContentType());
-         String filename = FileUtils.createImage_("img", event.getFile()
+         String filename = ResourceUtils.createImage_("img", event.getFile()
                   .getFileName(), imgRes);
          img.setFilename(filename);
          getElement().getImages().add(img);
@@ -389,7 +389,7 @@ public class PeopleController extends AbstractPageController<RichContent>
          Image img = new Image();
          img.setData(croppedBytes);
          img.setType(type);
-         String filename = FileUtils.createImage_("img", "resized_" + original, croppedBytes);
+         String filename = ResourceUtils.createImage_("img", "resized_" + original, croppedBytes);
          img.setFilename(filename);
          getElement().getImages().add(img);
       }

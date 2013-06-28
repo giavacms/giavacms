@@ -16,17 +16,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.model.attachment.UploadObject;
 import org.giavacms.common.controller.AbstractController;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 
-
 @Named
 @SessionScoped
-public class FileHandler implements Serializable
+public class FileController implements Serializable
 {
 
    public static String GESTIONE = "/private/file/edit.xhtml"
@@ -40,9 +39,7 @@ public class FileHandler implements Serializable
 
    private String fileName;
 
-   private String fileContent;
-
-   private Logger logger = Logger.getLogger(FileHandler.class);
+   private Logger logger = Logger.getLogger(getClass());
 
    // 0 css
    // 1 img
@@ -68,19 +65,19 @@ public class FileHandler implements Serializable
       switch (fileType)
       {
       case 0:
-         FileUtils.createFile_("css", event.getFile().getFileName(), event
+         ResourceUtils.createFile_("css", event.getFile().getFileName(), event
                   .getFile().getContents());
       case 1:
-         FileUtils.createImage_("img", event.getFile().getFileName(), event
+         ResourceUtils.createImage_("img", event.getFile().getFileName(), event
                   .getFile().getContents());
       case 2:
-         FileUtils.createFile_("swf", event.getFile().getFileName(), event
+         ResourceUtils.createFile_("swf", event.getFile().getFileName(), event
                   .getFile().getContents());
       case 3:
-         FileUtils.createFile_("js", event.getFile().getFileName(), event
+         ResourceUtils.createFile_("js", event.getFile().getFileName(), event
                   .getFile().getContents());
       case 4:
-         FileUtils.createFile_("docs", event.getFile().getFileName(), event
+         ResourceUtils.createFile_("docs", event.getFile().getFileName(), event
                   .getFile().getContents());
       }
       FacesMessage msg = new FacesMessage("Succesful", event.getFile()
@@ -171,19 +168,19 @@ public class FileHandler implements Serializable
       switch (fileType)
       {
       case 0:
-         this.files = FileUtils.getCssFiles();
+         this.files = ResourceUtils.getCssFiles();
          break;
       case 1:
-         this.files = FileUtils.getImgFiles();
+         this.files = ResourceUtils.getImgFiles();
          break;
       case 2:
-         this.files = FileUtils.getFlashFiles();
+         this.files = ResourceUtils.getFlashFiles();
          break;
       case 3:
-         this.files = FileUtils.getJsFiles();
+         this.files = ResourceUtils.getJsFiles();
          break;
       case 4:
-         this.files = FileUtils.getPdfFiles();
+         this.files = ResourceUtils.getPdfFiles();
          break;
       default:
          this.files = new ArrayList<String>();
@@ -202,19 +199,8 @@ public class FileHandler implements Serializable
       this.fileName = fileName;
    }
 
-   public String getFileContent()
-   {
-      return fileContent;
-   }
-
-   public void setFileContent(String fileContent)
-   {
-      this.fileContent = fileContent;
-   }
-
    public String modFile(String fileName)
    {
-      this.fileContent = FileUtils.getFileContent(fileName);
       return "";
    }
 

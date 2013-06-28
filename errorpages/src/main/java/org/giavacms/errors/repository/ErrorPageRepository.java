@@ -11,7 +11,7 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import org.giavacms.base.common.util.FileUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.repository.AbstractRepository;
 import org.giavacms.errors.model.ErrorPage;
@@ -55,7 +55,7 @@ public class ErrorPageRepository extends AbstractRepository<ErrorPage> {
 		try {
 			ErrorPage p = new ErrorPage();
 			HttpError httpError = HttpError.valueOf((String) key);
-			File f = new File(FileUtils.getRealPath() + p.getPath()
+			File f = new File(ResourceUtils.getRealPath() + p.getPath()
 					+ File.separator + httpError.name() + ".html");
 			if (f.exists() && f.isDirectory())
 				throw new Exception("file could not be accessed!");
@@ -104,7 +104,7 @@ public class ErrorPageRepository extends AbstractRepository<ErrorPage> {
 	@Override
 	public boolean update(ErrorPage errorPage) {
 		try {
-			File d = new File(FileUtils.getRealPath() + errorPage.getPath());
+			File d = new File(ResourceUtils.getRealPath() + errorPage.getPath());
 			if (!d.exists()) {
 				if (!d.mkdir()) {
 					throw new Exception("errors creating path!");
@@ -112,7 +112,7 @@ public class ErrorPageRepository extends AbstractRepository<ErrorPage> {
 			} else if (d.exists() && !d.isDirectory()) {
 				throw new Exception("path could not be created!");
 			}
-			File f = new File(FileUtils.getRealPath() + errorPage.getPath()
+			File f = new File(ResourceUtils.getRealPath() + errorPage.getPath()
 					+ File.separator + errorPage.getHttpError().name()
 					+ ".html");
 			if (f.exists() && f.isDirectory()) {
@@ -120,7 +120,7 @@ public class ErrorPageRepository extends AbstractRepository<ErrorPage> {
 			} else if (f.exists()) {
 				f.delete();
 			}
-			f = new File(FileUtils.getRealPath() + errorPage.getPath()
+			f = new File(ResourceUtils.getRealPath() + errorPage.getPath()
 					+ File.separator + errorPage.getHttpError().name()
 					+ ".html");
 			FileOutputStream fos = new FileOutputStream(f);
