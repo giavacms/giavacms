@@ -107,24 +107,27 @@ public class RichContentRequestController extends
       String testName = "test";
       I18nRequestParams i18nRequestParams = super.getI18nRequestParams();
 
-      int currentLang = getBasePage().getLang();
-
-      String testValue = i18nRequestParams.get(currentLang, testName);
-      if (testValue != null && testValue.trim().length() > 0)
+      if (getBasePage() != null)
       {
-         for (int i = 0; i < i18nRequestParams.getLanguages().length; i++)
+         int currentLang = getBasePage().getLang();
+
+         String testValue = i18nRequestParams.get(currentLang, testName);
+         if (testValue != null && testValue.trim().length() > 0)
          {
-            if (i == currentLang)
+            for (int i = 0; i < i18nRequestParams.getLanguages().length; i++)
             {
-               continue;
+               if (i == currentLang)
+               {
+                  continue;
+               }
+               i18nRequestParams
+                        .put(i,
+                                 testName,
+                                 (i18nRequestParams.getLanguages()[i] == null || !i18nRequestParams
+                                          .getLanguages()[i].isEnabled()) ? "UNSUPPORTED"
+                                          : (testValue + "_" + i18nRequestParams
+                                                   .getLanguages()[i].getId()));
             }
-            i18nRequestParams
-                     .put(i,
-                              testName,
-                              (i18nRequestParams.getLanguages()[i] == null || !i18nRequestParams
-                                       .getLanguages()[i].isEnabled()) ? "UNSUPPORTED"
-                                       : (testValue + "_" + i18nRequestParams
-                                                .getLanguages()[i].getId()));
          }
       }
    }

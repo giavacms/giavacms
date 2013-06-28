@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Gestione Contenuto Github - Anteprima e URL" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="githubcontent" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+
+			<p:messages id="messages" />
+			<center>
+				<p:panel header="Gestione Contenuto Github - Anteprima e URL">
+
+					<h:panelGrid columns="2" style="width: 95%">
+
+						<h:outputLabel for="titolo" value="Titolo: " />
+						<h:inputText id="titolo" value="#{githubContentController.element.title}"
+							style="width: 100%;" required="true" />
+
+						<p:spacer height="10px" />
+						<p:spacer height="10px"/>
+
+						<h:outputLabel for="dataInsert" value="Data: " />
+						<p:calendar id="dataInsert"
+							value="#{githubContentController.element.date}" pattern="dd/MM/yyyy"
+							timeZone="Europe/Rome" />
+
+						<p:spacer height="10px" />
+						<p:spacer height="10px" />
+
+						<h:outputLabel value="Categoria: " for="tipo" />
+						<h:selectOneMenu id="tipo" style="width: 100%;"
+							value="#{githubContentController.element.richContentType.id}"
+							required="true">
+							<f:selectItems value="#{githubTypeItems}" />
+						</h:selectOneMenu>
+
+						<p:spacer height="10px" />
+						<p:spacer height="10px" />
+
+						<h:outputLabel for="tags" style="font-weight: bolder;"
+							value="Tags: " />
+						<h:panelGroup id="tags">
+							<h:inputText value="#{githubContentController.element.tags}" rows="2"
+								style="width: 100%;" />
+							<br />
+							<h:outputText
+								value="(usare la virgola ',' come separatore nel caso di tag multipli)" />
+						</h:panelGroup>
+
+						<p:spacer height="10px" />
+						<p:spacer height="10px" />
+
+						<h:outputLabel for="anteprima" value="Descrizione breve: " />
+						<h:inputTextarea id="anteprima" cols="20" rows="5"
+							value="#{githubContentController.element.preview}"
+							style=" height : 166px; width: 100%;" />
+
+						<p:spacer height="10px" />
+						<p:spacer height="10px" />
+
+						<h:outputLabel for="url" value="Url: " />
+						<h:inputText value="#{githubContentController.element.content}"
+							id="url" style="width: 100%;" />
+					
+					</h:panelGrid>
+					<br />
+				</p:panel>
+
+				<h:panelGrid columns="4">
+
+					<p:commandButton action="#{githubContentController.save}" value="Salva"
+						immediate="false" rendered="#{not githubContentController.editMode}" />
+
+					<p:commandButton action="#{githubContentController.update}"
+						value="Salva le modifiche" immediate="false"
+						rendered="#{githubContentController.editMode}" />
+
+					<p:commandButton action="#{githubContentController.delete}"
+						value="Elimina" rendered="#{githubContentController.editMode}"
+						immediate="true"
+						onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+				</h:panelGrid>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
