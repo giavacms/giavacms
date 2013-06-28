@@ -13,6 +13,7 @@
 		<f:attribute name="roles" value="githubcontent" />
 	</ui:define>
 	<ui:define name="content">
+
 		<h:form id="mainForm">
 			<center>
 				<p:panel header="Lista Contenuti">
@@ -30,7 +31,8 @@
 						</h:selectOneMenu>
 
 						<h:outputLabel for="tag" value="Tag:" />
-						<h:inputText id="tag" value="#{githubContentController.search.obj.tag}" />
+						<h:inputText id="tag"
+							value="#{githubContentController.search.obj.tag}" />
 
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
@@ -47,6 +49,7 @@
 						value="Azzera filtri" ajax="false" immediate="true" />
 					<br />
 					<br />
+
 					<h:panelGroup id="tagPanel" style="font-size:small;">
 						<ui:repeat value="#{githubTags}" var="t" varStatus="varStatus">
 							<h:outputText value="Tags:" style="font-weight: bolder;"
@@ -59,6 +62,14 @@
 								rendered="#{varStatus.last}" />
 						</ui:repeat>
 					</h:panelGroup>
+
+					<h:panelGroup id="samplePanel" style="font-size:small;">
+						<h:outputLabel for="sampleList" value="Request Scoped List:"
+							style="font-weight: bolder;" />
+						<h:outputLink target="_blank" value="sample">
+							<h:outputText value="clicca qui" />
+						</h:outputLink>
+					</h:panelGroup>
 					<br />
 					<br />
 
@@ -68,7 +79,8 @@
 						<p:dataTable rowIndexVar="rowIndex"
 							rendered="#{not empty githubContentController.search.obj.richContentType.id}"
 							var="contenuto" value="#{githubContentController.model}"
-							rows="#{githubContentController.pageSize}" paginator="true" lazy="true">
+							rows="#{githubContentController.pageSize}" paginator="true"
+							lazy="true">
 							<p:column width="50">
 								<h:outputText value="#{rowIndex+1}" />
 							</p:column>

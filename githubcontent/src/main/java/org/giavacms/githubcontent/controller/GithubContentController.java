@@ -38,7 +38,7 @@ import org.primefaces.event.FileUploadEvent;
 
 @Named
 @SessionScoped
-public class GitHubContentController extends AbstractPageController<RichContent>
+public class GithubContentController extends AbstractPageController<RichContent>
 {
 
    private static final long serialVersionUID = 1L;
@@ -48,13 +48,13 @@ public class GitHubContentController extends AbstractPageController<RichContent>
    @BackPage
    public static String BACK = "/private/administration.xhtml";
    @ViewPage
-   public static String VIEW = "/private/github/view.xhtml";
+   public static String VIEW = "/private/githubcontent/view.xhtml";
    @ListPage
-   public static String LIST = "/private/github/list.xhtml";
+   public static String LIST = "/private/githubcontent/list.xhtml";
    @EditPage
-   public static String NEW_OR_EDIT = "/private/github/edit-bio.xhtml";
+   public static String NEW_OR_EDIT = "/private/githubcontent/edit-url.xhtml";
 
-   public static String EDIT_IMAGE = "/private/github/edit-image.xhtml";
+   public static String EDIT_IMAGE = "/private/githubcontent/edit-image.xhtml";
 
    // --------------------------------------------------------
 
@@ -84,7 +84,7 @@ public class GitHubContentController extends AbstractPageController<RichContent>
 
    // --------------------------------------------------------
 
-   public GitHubContentController()
+   public GithubContentController()
    {
    }
 

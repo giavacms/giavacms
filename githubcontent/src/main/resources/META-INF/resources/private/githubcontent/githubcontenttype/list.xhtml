@@ -18,8 +18,8 @@
 				<p:panel header="Lista Tipologie di Contenuti associati a Github">
 
 					<p:dataTable id="contentList" rowIndexVar="rowIndex"
-						var="contenuto" value="#{githubTypeController.model}"
-						rows="#{githubTypeController.pageSize}" paginator="false"
+						var="contenuto" value="#{githubContentTypeController.model}"
+						rows="#{githubContentTypeController.pageSize}" paginator="false"
 						lazy="false">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
@@ -33,7 +33,7 @@
 						<p:column width="200">
 							<f:facet name="header">operazioni</f:facet>
 							<center>
-								<h:commandLink action="#{githubTypeController.deleteInline}"
+								<h:commandLink action="#{githubContentTypeController.deleteInline}"
 									value="elimina" />
 							</center>
 						</p:column>
@@ -47,11 +47,11 @@
 					<h:outputLabel for="categoria" value="Categoria" />
 					<h:outputText />
 					<h:selectOneMenu id="categoria"
-						value="#{githubTypeController.element.richContentType.id}">
+						value="#{githubContentTypeController.element.richContentType.id}">
 						<f:selectItems value="#{richContentTypeItems}" />
 					</h:selectOneMenu>
 					<h:commandButton id="aggiungi"
-						action="#{githubTypeController.save}" value="Aggiungi" />
+						action="#{githubContentTypeController.save}" value="Aggiungi" />
 				</h:panelGrid>
 			</h:form>
 		</center>

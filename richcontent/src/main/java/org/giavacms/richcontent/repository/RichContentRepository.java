@@ -151,7 +151,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
       sb.append(" ) ");
 
-      params.put("LIKETEXT", StringUtils.clean(likeText));
+//      params.put("LIKETEXT", StringUtils.clean(likeText));
+      params.put("LIKETEXT", likeText );
 
       return true;
    }

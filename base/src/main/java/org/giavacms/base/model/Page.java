@@ -155,9 +155,8 @@ public class Page extends I18nSupport
                + title
                + ", description="
                + description
-               + ", template.template.name="
-               + (template == null ? "null" : template.getTemplate() == null ? "template.null" : template.getTemplate()
-                        .getName()) + ", content=" + content
+               + ", templateImplId="
+               + (templateId) + ", content=" + content
                + "]";
    }
 
