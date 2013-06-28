@@ -90,17 +90,20 @@ public class BaseProducer implements Serializable {
 				"seleziona template per pagine dinamiche...");
 	}
 
-	public SelectItem[] getBasePageTemplateItems(String extensionType) {
-		List<SelectItem> valori = new ArrayList<SelectItem>();
-		valori.add(new SelectItem(null, "pagina base..."));
-		List<Page> lista = pageRepository.getExtensions(extensionType);
-		if (lista != null && lista.size() > 0) {
-			for (Page p : lista) {
-				valori.add(new SelectItem(p.getTemplate().getId(), p.getTitle()));
-			}
-		}
-		return valori.toArray(new SelectItem[] {});
-	}
+   public SelectItem[] getBasePageTemplateItems(String extensionType)
+   {
+      List<SelectItem> valori = new ArrayList<SelectItem>();
+      valori.add(new SelectItem(null, "pagina base..."));
+      List<Page> lista = pageRepository.getExtensions(extensionType);
+      if (lista != null && lista.size() > 0)
+      {
+         for (Page p : lista)
+         {
+            valori.add(new SelectItem(p.getTemplateId(), p.getTitle()));
+         }
+      }
+      return valori.toArray(new SelectItem[] {});
+   }
 
 	public SelectItem[] getBasePageItems(String extensionType) {
 		List<SelectItem> valori = new ArrayList<SelectItem>();
