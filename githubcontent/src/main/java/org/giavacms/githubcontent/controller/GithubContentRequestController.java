@@ -20,7 +20,6 @@ public class GithubContentRequestController extends
 
    private Object idValue;
 
-
    @Inject
    @OwnRepository(RichContentRepository.class)
    RichContentRepository richContentRepository;
@@ -46,5 +45,10 @@ public class GithubContentRequestController extends
       RichContent githubContent = super.getElement();
       githubContent.setContent(GithubImporter.getContent(githubContent.getContent()));
       return githubContent;
+   }
+
+   public String getDirectGithub(String url)
+   {
+      return GithubImporter.getContent(url);
    }
 }
