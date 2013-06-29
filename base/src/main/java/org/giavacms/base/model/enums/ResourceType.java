@@ -37,4 +37,14 @@ public enum ResourceType
       return extensions;
    }
 
+   public static ResourceType getValueByFolder(String folder)
+   {
+      for (ResourceType res : ResourceType.values())
+      {
+         if (res.getFolder().equals(folder))
+            return res;
+      }
+      return null;
+   }
+
 }

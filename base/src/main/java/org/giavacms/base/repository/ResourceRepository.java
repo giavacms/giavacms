@@ -57,12 +57,12 @@ public class ResourceRepository extends AbstractRepository<Resource>
          String filename = null;
          if (ResourceType.IMAGE.equals(object.getResourceType()))
          {
-            filename = ResourceUtils.createImage_(object.getType(),
+            filename = ResourceUtils.createImage_(ResourceUtils.getFolder(object.getName()),
                      object.getName(), object.getBytes());
          }
          else
          {
-            filename = ResourceUtils.createFile_(object.getType(),
+            filename = ResourceUtils.createFile_(ResourceUtils.getFolder(object.getName()),
                      object.getName(), object.getBytes());
          }
          object.setName(filename);
@@ -254,7 +254,7 @@ public class ResourceRepository extends AbstractRepository<Resource>
       ResourceType resourceType = null;
       try
       {
-         resourceType = ResourceType.valueOf(tipo);
+         resourceType = ResourceType.getValueByFolder(tipo);
       }
       catch (Exception e)
       {

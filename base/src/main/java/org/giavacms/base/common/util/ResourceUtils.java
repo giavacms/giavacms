@@ -114,6 +114,19 @@ public class ResourceUtils
       return null;
    }
 
+   public static String getFolder(String fileName)
+   {
+      String type = fileName.substring(fileName.lastIndexOf(".") + 1);
+      for (ResourceType resourceType : ResourceType.values())
+      {
+         if (resourceType.getExtensions().contains(type.toLowerCase()))
+         {
+            return resourceType.getFolder();
+         }
+      }
+      return null;
+   }
+
    // pdf, p7m, doc, docx, xls, xlsx
    public static List<String> getPdfFiles()
    {
@@ -230,5 +243,11 @@ public class ResourceUtils
    {
       // TODO Auto-generated method stub
       return null;
+   }
+
+   public static void main(String[] args)
+   {
+      String type = getType("flower.png");
+      System.out.println(type);
    }
 }
