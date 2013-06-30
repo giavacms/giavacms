@@ -8,8 +8,6 @@ package org.giavacms.base.controller.request;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -82,43 +80,17 @@ public class UrlParsingBean implements Serializable
       String contextPath = PrettyContext.getCurrentInstance()
                .getContextPath();
       logger.info("contextPath: " + contextPath);
-
-      logger.info("uri: " + uri);
-
-      // QueryString queryParams = PrettyContext.getCurrentInstance()
-      // .getRequestQueryString();
-      //
-      //
-      // if (!queryParams.isEmpty())
-      // {
-      // logger.info("start queryParams****************");
-      // Map<String, String[]> mappa = queryParams.getParameterMap();
-      // for (String key : mappa.keySet())
-      // {
-      // String[] value = mappa.get(key);
-      // if (value != null && value.length > 0)
-      // {
-      // paramsHandler.addParam(key, value[0]);
-      // logger.info(key + ": " + value[0]);
-      // }
-      // }
-      // logger.info("stop queryParams****************");
-      //
-      // }
-      // else
-      // {
-      // logger.info("NO queryParams****************");
-      // }
-
       breadCrumpsHandler.setBreadCrump(contextPath + uri);
 
       if (uri.startsWith("/s/"))
       {
          pageRequestController.setWithSession(true);
          pageSessionController.getElement().setId(pageId);
+         pageSessionController.setUri(uri);
       }
       else
       {
+         pageRequestController.setUri(uri);
          pageRequestController.getElement().setId(pageId);
       }
       return "/db:" + pageId;

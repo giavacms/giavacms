@@ -15,7 +15,6 @@ import javax.inject.Named;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageRepository;
 
-
 @SuppressWarnings("serial")
 @Named
 @RequestScoped
@@ -26,6 +25,7 @@ public class PageRequestController implements Serializable
    PageRepository pageRepository;
    private Page element;
    private boolean withSession = false;
+   private String uri;
 
    public PageRequestController()
    {
@@ -72,5 +72,15 @@ public class PageRequestController implements Serializable
    public void setWithSession(boolean withSession)
    {
       this.withSession = withSession;
+   }
+
+   public String getUri()
+   {
+      return uri;
+   }
+
+   public void setUri(String uri)
+   {
+      this.uri = uri;
    }
 }
