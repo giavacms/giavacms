@@ -8,27 +8,30 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.controller.AbstractPageRequestController;
 import org.giavacms.catalogue.model.Category;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.CategoryRepository;
 import org.giavacms.catalogue.repository.ProductRepository;
 import org.giavacms.common.annotation.OwnRepository;
-import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
 
 @Named
 @RequestScoped
 public class ProductRequestController extends
-         AbstractRequestController<Product> implements Serializable
+         AbstractPageRequestController<Product> implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
-   public static final String CATEGORIA = "categoria";
-   public static final String SEARCH = "q";
-   public static final String[] PARAM_NAMES = new String[] { CATEGORIA, SEARCH };
-   public static final String ID_PARAM = "id";
-   public static final String CURRENT_PAGE_PARAM = "start";
+   public static final String PARAM_CATEGORY = "categoria";
+   public static final String PARAM_CONTENT = "q";
+   public static final String PARAM_TYPE = "t";
+   public static final String CURRENT_PAGE_PARAM = "p";
+   public static final String[] PARAM_NAMES = new String[] { PARAM_CONTENT,
+            PARAM_TYPE,
+            PARAM_CATEGORY,
+            CURRENT_PAGE_PARAM };
 
    @Inject
    @OwnRepository(ProductRepository.class)
@@ -43,23 +46,9 @@ public class ProductRequestController extends
    }
 
    @Override
-   public List<Product> loadPage(int startRow, int pageSize)
+   public void initParameters()
    {
-      Search<Product> r = new Search<Product>(Product.class);
-      r.getObj().setTitle(getParams().get(SEARCH));
-      r.getObj().getCategory().setTitle(getParams().get(CATEGORIA));
-      return productRepository.getList(r, startRow, pageSize);
-   }
-
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Product> r = new Search<Product>(Product.class);
-      r.getObj().getCategory().setTitle(getParams().get(CATEGORIA));
-      r.getObj().setTitle(getParams().get(SEARCH));
-      return productRepository.getListSize(r);
+      super.initParameters();
    }
 
    @Override
@@ -69,15 +58,23 @@ public class ProductRequestController extends
    }
 
    @Override
-   public String getIdParam()
+   public List<Product> loadPage(int startRow, int pageSize)
    {
-      return ID_PARAM;
+      Search<Product> r = new Search<Product>(Product.class);
+      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
+      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
+      return productRepository.getList(r, startRow, pageSize);
    }
 
    @Override
-   public String getCurrentPageParam()
+   public int totalSize()
    {
-      return CURRENT_PAGE_PARAM;
+      // siamo all'interno della stessa richiesta per servire la quale è
+      // avvenuta la postconstruct
+      Search<Product> r = new Search<Product>(Product.class);
+      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
+      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
+      return productRepository.getListSize(r);
    }
 
    public boolean isScheda()
@@ -114,10 +111,17 @@ public class ProductRequestController extends
          sb.append("<option value=\"")
                   .append(pc.getTitle())
                   .append("\"")
-                  .append(pc.getTitle().equals(getParams().get(CATEGORIA)) ? " selected=\"selected\""
+                  .append(pc.getTitle().equals(getParams().get(PARAM_CATEGORY)) ? " selected=\"selected\""
                            : "").append(">").append(pc.getTitle())
                   .append("</option>");
       }
       return sb.toString();
    }
+
+   @Override
+   public String getCurrentPageParam()
+   {
+      return CURRENT_PAGE_PARAM;
+   }
+
 }
