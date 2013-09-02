@@ -39,6 +39,21 @@
 							value="#{pageController.element.description}"
 							style="width: 100%;" />
 
+						<h:outputLabel for="language" 
+							value="Lingnua: " />
+						<h:panelGroup id="language">
+							<h:outputText value="#{language1.id} "
+								rendered="#{pageController.element.lang eq 1}" />
+							<h:outputText value="#{language2.id} "
+								rendered="#{pageController.element.lang eq 2}" />
+							<h:outputText value="#{language3.id} "
+								rendered="#{pageController.element.lang eq 3}" />
+							<h:outputText value="#{language4.id} "
+								rendered="#{pageController.element.lang eq 4}" />
+							<h:outputText value="#{language5.id} "
+								rendered="#{pageController.element.lang eq 5}" />
+						</h:panelGroup>
+
 						<h:outputLabel value="Base per:" for="extension"
 							rendered="#{not empty pageController.element.extension}" />
 						<h:outputText id="extension"

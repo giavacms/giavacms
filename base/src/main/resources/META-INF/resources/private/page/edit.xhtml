@@ -43,6 +43,12 @@
 					<h:inputText id="descrizione"
 						value="#{pageController.element.description}" style="width: 100%;" />
 
+					<h:outputLabel value="Lingua:" for="language" />
+					<h:selectOneMenu id="language" style="width: 100%;" 
+						value="#{pageController.element.lang}">
+						<f:selectItems value="#{languageItems}" />
+					</h:selectOneMenu>
+
 					<h:outputLabel value="Base per:" for="extension" />
 					<h:selectOneMenu id="extension"
 						value="#{pageController.element.extension}" style="width: 100%;">
