@@ -25,134 +25,203 @@ import org.giavacms.common.controller.AbstractLazyController;
 
 @Named
 @SessionScoped
-public class PageController extends AbstractLazyController<Page> {
+public class PageController extends AbstractLazyController<Page>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	public static String VIEW = "/private/page/view.xhtml";
-	@ListPage
-	public static String LIST = "/private/page/list.xhtml";
-	@EditPage
-	public static String NEW_OR_EDIT = "/private/page/edit.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   public static String VIEW = "/private/page/view.xhtml";
+   @ListPage
+   public static String LIST = "/private/page/list.xhtml";
+   @EditPage
+   public static String NEW_OR_EDIT = "/private/page/edit.xhtml";
 
-	public static String PREVIEW = "/private/pagine/preview.xhtml";
+   public static String PREVIEW = "/private/pagine/preview.xhtml";
 
-	// --------------------------------------------------------
+   // --------------------------------------------------------
 
-	@Inject
-	@OwnRepository(PageRepository.class)
-	PageRepository pageRepository;
+   @Inject
+   @OwnRepository(PageRepository.class)
+   PageRepository pageRepository;
 
-	@Inject
-	BaseProducer baseProducer;
+   @Inject
+   BaseProducer baseProducer;
 
-	@Inject
-	TemplateRepository templateRepository;
+   @Inject
+   TemplateRepository templateRepository;
 
-	// --------------------------------------------------------
+   // --------------------------------------------------------
 
-	/**
-	 * Obbligatoria l'invocazione 'appropriata' di questo super construttore
-	 * protetto da parte delle sottoclassi
-	 */
-	public PageController() {
-	}
+   /**
+    * Obbligatoria l'invocazione 'appropriata' di questo super construttore protetto da parte delle sottoclassi
+    */
+   public PageController()
+   {
+   }
 
-	@Override
-	public String reset() {
-		baseProducer.setPageItems(null);
-		return super.reset();
-	}
+   @Override
+   public String reset()
+   {
+      baseProducer.setPageItems(null);
+      return super.reset();
+   }
 
-	@Override
-	public Page getElement() {
-		if (super.getElement() == null)
-			super.setElement(new Page());
-		return super.getElement();
-	}
+   @Override
+   public Page getElement()
+   {
+      if (super.getElement() == null)
+         super.setElement(new Page());
+      return super.getElement();
+   }
 
-	// -----------------------------------------------------
+   // -----------------------------------------------------
 
-	@Override
-	public Object getId(Page t) {
-		return t.getId();
-	}
+   @Override
+   public Object getId(Page t)
+   {
+      return t.getId();
+   }
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	public String addPaginaStatica() {
-		setElement(new Page());
-		getElement().getTemplate().getTemplate().setStatico(true);
-		return editPage();
-	}
+   public String addPaginaStatica()
+   {
+      setElement(new Page());
+      getElement().getTemplate().getTemplate().setStatico(true);
+      return editPage();
+   }
 
-	public String addPaginaDinamica() {
-		setElement(new Page());
-		getElement().getTemplate().getTemplate().setStatico(false);
-		return editPage();
-	}
+   public String addPaginaDinamica()
+   {
+      setElement(new Page());
+      getElement().getTemplate().getTemplate().setStatico(false);
+      return editPage();
+   }
 
-	// -----------------------------------------------------
-	@Override
-	public String save() {
-		return super.save();
-	}
+   // -----------------------------------------------------
 
-	@Override
-	public String update() {
-		return super.update();
-	}
+   @Override
+   public String save()
+   {
+      int lang = getElement().getLang();
+      String outcome = super.save();
+      if (outcome != null)
+      {
+         switch (lang)
+         {
+         case 1:
+            getElement().setLang1id(getElement().getId());
+            super.update();
+            break;
+         case 2:
+            getElement().setLang2id(getElement().getId());
+            super.update();
+            break;
+         case 3:
+            getElement().setLang3id(getElement().getId());
+            super.update();
+            break;
+         case 4:
+            getElement().setLang5id(getElement().getId());
+            super.update();
+            break;
+         case 5:
+            getElement().setLang5id(getElement().getId());
+            super.update();
+            break;
+         default:
+            break;
+         }
+      }
+      return outcome;
+   }
 
-	@Override
-	public String delete() {
-		return super.delete();
-	}
+   @Override
+   public String update()
+   {
+      switch (getElement().getLang())
+      {
+      case 1:
+         getElement().setLang1id(getElement().getId());
+         break;
+      case 2:
+         getElement().setLang2id(getElement().getId());
+         break;
+      case 3:
+         getElement().setLang3id(getElement().getId());
+         break;
+      case 4:
+         getElement().setLang5id(getElement().getId());
+         break;
+      case 5:
+         getElement().setLang5id(getElement().getId());
+         break;
+      default:
+         getElement().setLang1id(null);
+         getElement().setLang2id(null);
+         getElement().setLang3id(null);
+         getElement().setLang4id(null);
+         getElement().setLang5id(null);
+         break;
+      }
+      return super.update();
+   }
 
-	public String reallyDelete() {
-		pageRepository.reallyDelete(getElement().getId());
-		return listPage();
-	}
+   @Override
+   public String delete()
+   {
+      return super.delete();
+   }
 
-	public String cloneElement() {
-		Page original = (Page) getModel().getRowData();
-		original = getRepository().fetch(original.getId());
-		setEditMode(true);
-		setReadOnlyMode(false);
-		setElement(PageUtils.clone(original));
-		return editPage();
-	}
+   public String reallyDelete()
+   {
+      pageRepository.reallyDelete(getElement().getId());
+      return listPage();
+   }
 
-	// -----------------------------------------------------
+   public String cloneElement()
+   {
+      Page original = (Page) getModel().getRowData();
+      original = getRepository().fetch(original.getId());
+      setEditMode(true);
+      setReadOnlyMode(false);
+      setElement(PageUtils.clone(original));
+      return editPage();
+   }
 
-	public void cambioTemplate() {
-		// Long id = getElement().getTemplate().getTemplate().getId();
-		Template template = templateRepository.find(getElement().getTemplate()
-				.getTemplate().getId());
-		getElement().getTemplate().setTemplate(template);
-	}
+   // -----------------------------------------------------
 
-	public String anteprimaTestuale() {
-		PageUtils.generateContent(getElement());
-		return PREVIEW;
-	}
+   public void cambioTemplate()
+   {
+      // Long id = getElement().getTemplate().getTemplate().getId();
+      Template template = templateRepository.find(getElement().getTemplate()
+               .getTemplate().getId());
+      getElement().getTemplate().setTemplate(template);
+   }
 
-	/**
-	 * Necessario salvare per l'anteprima, ma se ridirigessi all'uscita di
-	 * questo metodo e non in outputLink causerei la morte di hibernate in caso
-	 * di errori nel parser facelet
-	 * 
-	 * @return
-	 */
-	public String salvaPerAnteprimaRisultato() {
-		if (this.getElement().getId() == null)
-			save();
-		else
-			update();
-		return editPage();
-	}
+   public String anteprimaTestuale()
+   {
+      PageUtils.generateContent(getElement());
+      return PREVIEW;
+   }
+
+   /**
+    * Necessario salvare per l'anteprima, ma se ridirigessi all'uscita di questo metodo e non in outputLink causerei la
+    * morte di hibernate in caso di errori nel parser facelet
+    * 
+    * @return
+    */
+   public String salvaPerAnteprimaRisultato()
+   {
+      if (this.getElement().getId() == null)
+         save();
+      else
+         update();
+      return editPage();
+   }
 
 }

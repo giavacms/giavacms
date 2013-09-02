@@ -74,35 +74,35 @@ public class I18nController extends AbstractController<Page>
       case 1:
          if (getElement().getLang1id() != null)
          {
-            alternate = getRepository().find(getElement().getLang1id());
+            alternate = getRepository().fetch(getElement().getLang1id());
          }
          getElement().setLang1id(pageId);
          break;
       case 2:
          if (getElement().getLang2id() != null)
          {
-            alternate = getRepository().find(getElement().getLang2id());
+            alternate = getRepository().fetch(getElement().getLang2id());
          }
          getElement().setLang2id(pageId);
          break;
       case 3:
          if (getElement().getLang3id() != null)
          {
-            alternate = getRepository().find(getElement().getLang3id());
+            alternate = getRepository().fetch(getElement().getLang3id());
          }
          getElement().setLang3id(pageId);
          break;
       case 4:
          if (getElement().getLang4id() != null)
          {
-            alternate = getRepository().find(getElement().getLang4id());
+            alternate = getRepository().fetch(getElement().getLang4id());
          }
          getElement().setLang4id(pageId);
          break;
       case 5:
          if (getElement().getLang5id() != null)
          {
-            alternate = getRepository().find(getElement().getLang5id());
+            alternate = getRepository().fetch(getElement().getLang5id());
          }
          getElement().setLang5id(pageId);
          break;
@@ -113,7 +113,7 @@ public class I18nController extends AbstractController<Page>
       if (alternate == null && pageId != null
                && !getElement().getId().equals(pageId))
       {
-         alternate = getRepository().find(pageId);
+         alternate = getRepository().fetch(pageId);
       }
       if (alternate != null)
       {

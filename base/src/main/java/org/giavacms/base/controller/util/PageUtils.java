@@ -36,6 +36,7 @@ public class PageUtils
       Page clone = new Page();
       clone.setActive(true);
       clone.setContent(original.getContent());
+      clone.setExtension(original.getExtension());
       clone.setTitle(original.getTitle() + " - COPIA");
       clone.getTemplate().setTemplate(original.getTemplate().getTemplate());
       clone.getTemplate().setActive(true);
