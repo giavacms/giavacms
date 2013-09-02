@@ -75,7 +75,7 @@
 						<h:outputLabel value="Pagina di base(*):" for="extension" />
 						<h:panelGroup id="extension">
 							<h:selectOneMenu style="width: 100%;"
-								value="#{productController.element.template.id}" required="true"
+								value="#{productController.element.templateId}" required="true"
 								requiredMessage="E' obbligatorio specificare la pagina base">
 								<f:selectItems
 									value="#{baseProducer.getBasePageTemplateItems(productController.element.extension)}" />

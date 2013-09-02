@@ -158,6 +158,7 @@ public class ProductController extends AbstractPageController<Product> {
 
 	@Override
 	public String update() {
+      getElement().setTemplate(templateImplRepository.find(getElement().getTemplateId()));
 		if (super.update() == null) {
 			return null;
 		}
