@@ -149,6 +149,7 @@ public class ProductController extends AbstractPageController<Product> {
 
 	@Override
 	public String save() {
+      getElement().setTemplate(templateImplRepository.find(getElement().getTemplateId()));
 		if (super.save() == null) {
 			return null;
 		}
