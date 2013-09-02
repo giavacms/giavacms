@@ -22,132 +22,154 @@ import org.giavacms.base.model.attachment.Image;
 
 @Entity
 @DiscriminatorValue(value = Product.EXTENSION)
-public class Product extends Page implements Serializable {
+public class Product extends Page implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
-	public static final String EXTENSION = "Product";
+   private static final long serialVersionUID = 1L;
+   public static final String EXTENSION = "Product";
 
-	public Product() {
-		super();
-		super.setExtension(EXTENSION);
-	}
+   public Product()
+   {
+      super();
+      super.setExtension(EXTENSION);
+   }
 
-	// private Long id --> super.id;
-	// private String name --> super.title;
-	private String preview;
-	// private String description --> super.description;
-	private Category category;
-	private String dimensions;
-	private String code;
-	List<Document> documents;
-	List<Image> images;
+   // private Long id --> super.id;
+   // private String name --> super.title;
+   private String preview;
+   // private String description --> super.description;
+   private Category category;
+   private String dimensions;
+   private String code;
+   List<Document> documents;
+   List<Image> images;
 
-	// private boolean active = true; --> super.active
+   // private boolean active = true; --> super.active
 
-	@Transient
-	@Deprecated
-	public String getName() {
-		return super.getTitle();
-	}
+   @Transient
+   @Deprecated
+   public String getName()
+   {
+      return super.getTitle();
+   }
 
-	@Deprecated
-	public void setName(String name) {
-		super.setTitle(name);
-	}
+   @Deprecated
+   public void setName(String name)
+   {
+      super.setTitle(name);
+   }
 
-	@Lob
-	@Column(length = 1024)
-	public String getPreview() {
-		return preview;
-	}
+   @Lob
+   @Column(length = 1024)
+   public String getPreview()
+   {
+      return preview;
+   }
 
-	public void setPreview(String preview) {
-		this.preview = preview;
-	}
+   public void setPreview(String preview)
+   {
+      this.preview = preview;
+   }
 
-	@ManyToOne
-	public Category getCategory() {
-		if (this.category == null)
-			this.category = new Category();
-		return category;
-	}
+   @ManyToOne
+   public Category getCategory()
+   {
+      if (this.category == null)
+         this.category = new Category();
+      return category;
+   }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+   public void setCategory(Category category)
+   {
+      this.category = category;
+   }
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "Product_Document", joinColumns = @JoinColumn(name = "Product_id"), inverseJoinColumns = @JoinColumn(name = "documents_id"))
-	public List<Document> getDocuments() {
-		if (this.documents == null)
-			this.documents = new ArrayList<Document>();
-		return documents;
-	}
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(name = "Product_Document", joinColumns = @JoinColumn(name = "Product_id"), inverseJoinColumns = @JoinColumn(name = "documents_id"))
+   public List<Document> getDocuments()
+   {
+      if (this.documents == null)
+         this.documents = new ArrayList<Document>();
+      return documents;
+   }
 
-	public void setDocuments(List<Document> documents) {
-		this.documents = documents;
-	}
+   public void setDocuments(List<Document> documents)
+   {
+      this.documents = documents;
+   }
 
-	public void addDocument(Document document) {
-		getDocuments().add(document);
-	}
+   public void addDocument(Document document)
+   {
+      getDocuments().add(document);
+   }
 
-	@Transient
-	public int getDocSize() {
-		return getDocuments().size();
-	}
+   @Transient
+   public int getDocSize()
+   {
+      return getDocuments().size();
+   }
 
-	@Transient
-	public Image getImage() {
-		if (getImages() != null && getImages().size() > 0)
-			return getImages().get(0);
-		return null;
-	}
+   @Transient
+   public Image getImage()
+   {
+      if (getImages() != null && getImages().size() > 0)
+         return getImages().get(0);
+      return null;
+   }
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "Product_Image", joinColumns = @JoinColumn(name = "Product_id"), inverseJoinColumns = @JoinColumn(name = "images_id"))
-	public List<Image> getImages() {
-		if (this.images == null)
-			this.images = new ArrayList<Image>();
-		return images;
-	}
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(name = "Product_Image", joinColumns = @JoinColumn(name = "Product_id"), inverseJoinColumns = @JoinColumn(name = "images_id"))
+   public List<Image> getImages()
+   {
+      if (this.images == null)
+         this.images = new ArrayList<Image>();
+      return images;
+   }
 
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
+   public void setImages(List<Image> images)
+   {
+      this.images = images;
+   }
 
-	public void addImage(Image image) {
-		getImages().add(image);
-	}
+   public void addImage(Image image)
+   {
+      getImages().add(image);
+   }
 
-	@Transient
-	public int getImgSize() {
-		return getImages().size();
-	}
+   @Transient
+   public int getImgSize()
+   {
+      return getImages().size();
+   }
 
-	public String getCode() {
-		return code;
-	}
+   public String getCode()
+   {
+      return code;
+   }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+   public void setCode(String code)
+   {
+      this.code = code;
+   }
 
-	public String getDimensions() {
-		return dimensions;
-	}
+   public String getDimensions()
+   {
+      return dimensions;
+   }
 
-	public void setDimensions(String dimensions) {
-		this.dimensions = dimensions;
-	}
+   public void setDimensions(String dimensions)
+   {
+      this.dimensions = dimensions;
+   }
 
-	@Override
-	public String toString() {
-		return "Product [id=" + super.getId() + ", title=" + super.getTitle()
-				+ ", preview=" + preview + ", description="
-				+ super.getDescription() + ", category=" + category.getTitle()
-				+ ", dimensions=" + dimensions + ", code=" + code + ", active="
-				+ super.isActive() + "]";
-	}
+   @Override
+   public String toString()
+   {
+      return "Product [id=" + super.getId() + ", title=" + super.getTitle()
+               + ", preview=" + preview + ", description="
+               + super.getDescription() + ", category=" + category.getTitle()
+               + ", dimensions=" + dimensions + ", code=" + code + ", active="
+               + super.isActive() + "]";
+   }
 
 }
