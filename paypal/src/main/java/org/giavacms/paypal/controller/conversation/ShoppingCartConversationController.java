@@ -10,9 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.common.util.JSFUtils;
-import org.giavacms.paypal.model.PaypalConfiguration;
 import org.giavacms.paypal.model.ShoppingArticle;
 import org.giavacms.paypal.model.ShoppingCart;
+import org.giavacms.paypal.producer.PaypallProducer;
 import org.giavacms.paypal.repository.ShoppingCartRepository;
 import org.giavacms.paypal.service.ShippingAmountService;
 import org.giavacms.paypal.util.PaypalUtils;
@@ -29,7 +29,7 @@ public class ShoppingCartConversationController implements Serializable
    private ShoppingCart element;
 
    @Inject
-   PaypalConfiguration paypalConfiguration;
+   PaypallProducer paypallProducer;
 
    @Inject
    ShoppingCartRepository shoppingCartRepository;
@@ -49,7 +49,7 @@ public class ShoppingCartConversationController implements Serializable
       beginConversation();
       getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat));
       setLastPage(FacesContext.getCurrentInstance().getViewRoot().getId());
-      return paypalConfiguration.getShoppingCartUrl();
+      return paypallProducer.getPaypalConfiguration().getShoppingCartUrl();
    }
 
    public void gotoPaypal()
@@ -59,7 +59,7 @@ public class ShoppingCartConversationController implements Serializable
       shoppingCartRepository.persist(getElement());
       try
       {
-         PaypalUtils.init(paypalConfiguration, getElement());
+         PaypalUtils.init(paypallProducer.getPaypalConfiguration(), getElement());
          shoppingCartRepository.update(getElement());
          if (getElement().isCreated())
             JSFUtils.redirect(getElement().getApprovalUrl());
@@ -91,7 +91,7 @@ public class ShoppingCartConversationController implements Serializable
 
    public void reset()
    {
-      this.element = new ShoppingCart(paypalConfiguration.getCurrency());
+      this.element = new ShoppingCart(paypallProducer.getPaypalConfiguration().getCurrency());
    }
 
    private void beginConversation()
@@ -100,7 +100,7 @@ public class ShoppingCartConversationController implements Serializable
       {
          conversation.begin();
          conversation.setTimeout(30 * 60);
-         this.element = new ShoppingCart(paypalConfiguration.getCurrency());
+         this.element = new ShoppingCart(paypallProducer.getPaypalConfiguration().getCurrency());
          return;
       }
 

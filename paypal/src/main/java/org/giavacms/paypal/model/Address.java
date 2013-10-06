@@ -63,7 +63,7 @@ public class Address implements Serializable
       this.city = city;
    }
 
-   public String getCountry_code()
+   public String getCountryCode()
    {
       return countryCode;
    }

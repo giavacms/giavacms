@@ -1,11 +1,13 @@
 package org.giavacms.paypal.model;
 
+import java.beans.Transient;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ShoppingArticle implements Serializable
@@ -17,6 +19,7 @@ public class ShoppingArticle implements Serializable
    private String price;
    private String quantity;
    private String vat;
+   private ShoppingCart shoppingCart;
 
    public ShoppingArticle()
    {
@@ -39,11 +42,6 @@ public class ShoppingArticle implements Serializable
       this.price = price;
       this.quantity = quantity;
       this.vat = vat;
-   }
-
-   public String getTotal()
-   {
-      return "";
    }
 
    @Id
@@ -106,6 +104,17 @@ public class ShoppingArticle implements Serializable
    public void setVat(String vat)
    {
       this.vat = vat;
+   }
+
+   @ManyToOne
+   public ShoppingCart getShoppingCart()
+   {
+      return shoppingCart;
+   }
+
+   public void setShoppingCart(ShoppingCart shoppingCart)
+   {
+      this.shoppingCart = shoppingCart;
    }
 
 }

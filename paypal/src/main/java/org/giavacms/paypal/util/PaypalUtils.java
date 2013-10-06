@@ -78,11 +78,12 @@ public class PaypalUtils
       double totalTax = 0;
       ItemList itemList = new ItemList();
       itemList.setItems(new ArrayList<Item>());
-      for (ShoppingArticle article : shoppingCart.getArticles())
+      for (ShoppingArticle article : shoppingCart.getShoppingArticles())
       {
          itemList.getItems().add(new Item(article.getQuantity(), article.getDescription(), article.getPrice(),
                   shoppingCart.getCurrency()));
-         totalAmount += Double.valueOf(article.getTotal());
+         totalAmount += Double.valueOf(article.getPrice());
+         totalTax += Double.valueOf(article.getVat());
       }
       double total = totalAmount + totalTax + Double.valueOf(shoppingCart.getShipping());
       // ###Details

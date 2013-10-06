@@ -99,7 +99,7 @@ public class ShippingAddress implements Serializable
       return postalCode;
    }
 
-   public void setPostal_code(String postalCode)
+   public void setPostalCode(String postalCode)
    {
       this.postalCode = postalCode;
    }

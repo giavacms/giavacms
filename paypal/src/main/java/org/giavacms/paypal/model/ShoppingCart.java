@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -19,7 +20,7 @@ public class ShoppingCart implements Serializable
    private static final long serialVersionUID = 1L;
    private Long id;
    private String shipping;
-   private List<ShoppingArticle> articles;
+   private List<ShoppingArticle> shoppingArticles;
    private PayerInfo payerInfo;
    private String paymentId;
    private String currency;
@@ -63,22 +64,22 @@ public class ShoppingCart implements Serializable
       this.shipping = shipping;
    }
 
-   @ManyToOne(cascade = CascadeType.ALL)
-   public List<ShoppingArticle> getArticles()
+   @OneToMany(cascade = CascadeType.ALL)
+   public List<ShoppingArticle> getShoppingArticles()
    {
-      if (articles == null)
-         this.articles = new ArrayList<ShoppingArticle>();
-      return articles;
+      if (shoppingArticles == null)
+         this.shoppingArticles = new ArrayList<ShoppingArticle>();
+      return shoppingArticles;
    }
 
-   public void setArticles(List<ShoppingArticle> articles)
+   public void setShoppingArticles(List<ShoppingArticle> shoppingArticles)
    {
-      this.articles = articles;
+      this.shoppingArticles = shoppingArticles;
    }
 
    public void addArticle(ShoppingArticle article)
    {
-      getArticles().add(article);
+      getShoppingArticles().add(article);
    }
 
    @OneToOne
