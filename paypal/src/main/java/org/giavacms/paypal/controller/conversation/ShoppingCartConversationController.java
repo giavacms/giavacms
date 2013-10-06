@@ -19,7 +19,7 @@ import org.giavacms.paypal.util.PaypalUtils;
 
 @Named
 @ConversationScoped
-public class ShoppingCartController implements Serializable
+public class ShoppingCartConversationController implements Serializable
 {
    private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class ShoppingCartController implements Serializable
    @Inject
    ShippingAmountService shippingAmountService;
 
-   public ShoppingCartController()
+   public ShoppingCartConversationController()
    {
    }
 
