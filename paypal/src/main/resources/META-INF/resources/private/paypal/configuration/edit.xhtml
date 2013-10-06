@@ -28,6 +28,7 @@
 						<h:inputText id="http_Retry"
 							value="#{paypalConfigurationController.element.http_Retry}"
 							style="width: 100%;" />
+
 						<h:outputLabel value="http ReadTimeOut:" for="http_ReadTimeOut" />
 						<h:inputText id="http_ReadTimeOut"
 							value="#{paypalConfigurationController.element.http_ReadTimeOut}"
@@ -35,7 +36,7 @@
 
 						<h:outputLabel value="http MaxConnection:"
 							for="http_MaxConnection" />
-						<h:inputText id="http_ReadTimeOut"
+						<h:inputText id="http_MaxConnection"
 							value="#{paypalConfigurationController.element.http_MaxConnection}"
 							style="width: 100%;" />
 
@@ -43,14 +44,17 @@
 						<h:inputText id="http_ProxyPort"
 							value="#{paypalConfigurationController.element.http_ProxyPort}"
 							style="width: 100%;" />
+							
 						<h:outputLabel value="http ProxyHost:" for="http_ProxyHost" />
 						<h:inputText id="http_ProxyHost"
 							value="#{paypalConfigurationController.element.http_ProxyHost}"
 							style="width: 100%;" />
+							
 						<h:outputLabel value="http UseProxy:" for="http_UseProxy" />
 						<h:inputText id="http_UseProxy"
 							value="#{paypalConfigurationController.element.http_UseProxy}"
 							style="width: 100%;" />
+							
 						<h:outputLabel value="http ProxyUserName" for="http_ProxyUserName" />
 						<h:inputText id="http_ProxyUserName"
 							value="#{paypalConfigurationController.element.http_ProxyUserName}"
