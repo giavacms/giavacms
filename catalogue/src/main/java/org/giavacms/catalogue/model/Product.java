@@ -167,9 +167,14 @@ public class Product extends Page implements Serializable
    {
       return "Product [id=" + super.getId() + ", title=" + super.getTitle()
                + ", preview=" + preview + ", description="
-               + super.getDescription() + ", category=" + category.getTitle()
+               + super.getDescription() + ", category=" + (category == null ? null : category.getTitle())
                + ", dimensions=" + dimensions + ", code=" + code + ", active="
                + super.isActive() + "]";
+   }
+
+   public void setLangAsString(String lang)
+   {
+      super.setLang(Integer.parseInt(lang));
    }
 
 }

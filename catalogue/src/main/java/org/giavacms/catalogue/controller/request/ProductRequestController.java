@@ -57,25 +57,25 @@ public class ProductRequestController extends
       return PARAM_NAMES;
    }
 
-   @Override
-   public List<Product> loadPage(int startRow, int pageSize)
-   {
-      Search<Product> r = new Search<Product>(Product.class);
-      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
-      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
-      return productRepository.getList(r, startRow, pageSize);
-   }
+//   @Override
+//   public List<Product> loadPage(int startRow, int pageSize)
+//   {
+//      Search<Product> r = new Search<Product>(Product.class);
+//      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
+//      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
+//      return productRepository.getList(r, startRow, pageSize);
+//   }
 
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Product> r = new Search<Product>(Product.class);
-      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
-      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
-      return productRepository.getListSize(r);
-   }
+//   @Override
+//   public int totalSize()
+//   {
+//      // siamo all'interno della stessa richiesta per servire la quale è
+//      // avvenuta la postconstruct
+//      Search<Product> r = new Search<Product>(Product.class);
+//      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
+//      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
+//      return productRepository.getListSize(r);
+//   }
 
    public boolean isScheda()
    {
