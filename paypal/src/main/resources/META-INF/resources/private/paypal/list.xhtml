@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Vendite Paypal" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="richcontent" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="mainForm">
+			<center>
+				<p:panel header="Lista Vendite Paypal">
+					<h:panelGrid columns="8" id="searchGrid">
+
+
+					</h:panelGrid>
+					<p:commandButton action="#{shoppingCartController.reloadAjax}"
+						value="Cerca" ajax="true" immediate="false"
+						update="contentList" />
+					<p:commandButton action="#{shoppingCartController.reset}"
+						value="Azzera filtri" ajax="false" immediate="true" />
+					<br />
+					<br />
+
+					<p:dataTable id="contentList" rowIndexVar="rowIndex" var="shc"
+						value="#{shoppingCartController.model}"
+						rows="#{shoppingCartController.pageSize}" paginator="true"
+						lazy="true">
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">id</f:facet>
+							<h:outputText value="#{shc.id}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">data</f:facet>
+							<h:outputText value="#{shc.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">currency</f:facet>
+							<h:outputText value="#{shc.currency}" />
+						</p:column>
+
+						<p:column width="200">
+							<f:facet name="header">operazioni</f:facet>
+							<center>
+								<h:commandLink action="#{shoppingCartController.viewElement}"
+									value="vedi" />
+								<br />
+								<h:commandLink action="#{shoppingCartController.modElement}"
+									value="modifica" />
+							</center>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br />
+
+
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

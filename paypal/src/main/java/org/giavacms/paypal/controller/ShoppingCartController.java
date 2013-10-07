@@ -10,13 +10,13 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
-import org.giavacms.paypal.model.PaypalConfiguration;
-import org.giavacms.paypal.repository.PaypalConfigurationRepository;
+import org.giavacms.paypal.model.ShoppingCart;
+import org.giavacms.paypal.repository.ShoppingCartRepository;
 
 @Named
 @SessionScoped
-public class PaypalConfigurationController extends
-         AbstractLazyController<PaypalConfiguration>
+public class ShoppingCartController extends
+         AbstractLazyController<ShoppingCart>
 {
 
    private static final long serialVersionUID = 1L;
@@ -25,21 +25,15 @@ public class PaypalConfigurationController extends
    @BackPage
    public static String BACK = "/private/administration.xhtml";
    @ViewPage
+   public static String VIEW_PAGE = "/private/paypal/detail.xhtml";
    @ListPage
+   public static String LIST_PAGE = "/private/paypal/list.xhtml";
    @EditPage
-   public static String LIST = "/private/paypal/configuration/edit.xhtml";
+   public static String EDIT_PAGE = "/private/paypal/edit.xhtml";
 
    // ------------------------------------------------
 
    @Inject
-   @OwnRepository(PaypalConfigurationRepository.class)
-   PaypalConfigurationRepository paypalConfigurationRepository;
-
-   @Override
-   public PaypalConfiguration getElement()
-   {
-      if (super.getElement() == null)
-         setElement(paypalConfigurationRepository.load());
-      return super.getElement();
-   }
+   @OwnRepository(ShoppingCartRepository.class)
+   ShoppingCartRepository shoppingCartRepository;
 }
