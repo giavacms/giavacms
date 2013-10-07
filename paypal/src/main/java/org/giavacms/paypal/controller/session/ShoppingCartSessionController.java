@@ -1,10 +1,9 @@
-package org.giavacms.paypal.controller.conversation;
+package org.giavacms.paypal.controller.session;
 
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,13 +17,10 @@ import org.giavacms.paypal.service.ShippingAmountService;
 import org.giavacms.paypal.util.PaypalUtils;
 
 @Named
-@ConversationScoped
-public class ShoppingCartConversationController implements Serializable
+@SessionScoped
+public class ShoppingCartSessionController implements Serializable
 {
    private static final long serialVersionUID = 1L;
-
-   @Inject
-   Conversation conversation;
    private String lastPage;
    private ShoppingCart element;
 
@@ -37,19 +33,30 @@ public class ShoppingCartConversationController implements Serializable
    @Inject
    ShippingAmountService shippingAmountService;
 
-   public ShoppingCartConversationController()
+   public ShoppingCartSessionController()
    {
    }
 
    public String addProduct(String vat,
             String price,
             String idProduct,
-            String description, String quantity)
+            String description, int quantity)
    {
-      beginConversation();
       getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat));
-      setLastPage(FacesContext.getCurrentInstance().getViewRoot().getId());
-      return paypallProducer.getPaypalConfiguration().getShoppingCartUrl();
+
+      System.out.println(" - idProduct, description, price, quantity, vat: "
+               + idProduct + " " + description + " " + price + " " + quantity + " " + vat);
+      try
+      {
+         FacesContext.getCurrentInstance().getExternalContext()
+                  .redirect(paypallProducer.getPaypalConfiguration().getShoppingCartUrl());
+      }
+      catch (IOException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      return null;
    }
 
    public void gotoPaypal()
@@ -92,35 +99,15 @@ public class ShoppingCartConversationController implements Serializable
    public void reset()
    {
       this.element = new ShoppingCart(paypallProducer.getPaypalConfiguration().getCurrency());
-   }
-
-   private void beginConversation()
-   {
-      if (conversation.isTransient())
+      try
       {
-         conversation.begin();
-         conversation.setTimeout(30 * 60);
-         this.element = new ShoppingCart(paypallProducer.getPaypalConfiguration().getCurrency());
-         return;
+         JSFUtils.redirect(paypallProducer.getPaypalConfiguration().getShoppingCartUrl());
       }
-
-      throw new IllegalStateException();
-   }
-
-   private void endConversation()
-   {
-      if (!conversation.isTransient())
+      catch (IOException e)
       {
-         conversation.end();
-         return;
+         // TODO Auto-generated catch block
+         e.printStackTrace();
       }
-
-      throw new IllegalStateException();
-   }
-
-   public void finish()
-   {
-      endConversation();
    }
 
    public ShoppingCart getElement()
@@ -132,7 +119,11 @@ public class ShoppingCartConversationController implements Serializable
 
    public String getLastPage()
    {
-      return lastPage;
+      if (this.lastPage != null && !this.lastPage.isEmpty())
+      {
+         return lastPage;
+      }
+      return "";
    }
 
    public void setLastPage(String lastPage)

@@ -17,7 +17,7 @@ public class ShoppingArticle implements Serializable
    private String idProduct;
    private String description;
    private String price;
-   private String quantity;
+   private int quantity;
    private String vat;
    private ShoppingCart shoppingCart;
 
@@ -25,7 +25,7 @@ public class ShoppingArticle implements Serializable
    {
    }
 
-   public ShoppingArticle(String idProduct, String description, String price, String quantity, String vat)
+   public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat)
    {
       this.idProduct = idProduct;
       this.description = description;
@@ -34,7 +34,7 @@ public class ShoppingArticle implements Serializable
       this.vat = vat;
    }
 
-   public ShoppingArticle(String idProduct, String description, String price, String quantity, String vat,
+   public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat,
             String currency)
    {
       this.idProduct = idProduct;
@@ -76,14 +76,19 @@ public class ShoppingArticle implements Serializable
       this.price = price;
    }
 
-   public String getQuantity()
+   public int getQuantity()
    {
       return quantity;
    }
 
-   public void setQuantity(String quantity)
+   public void setQuantity(int quantity)
    {
       this.quantity = quantity;
+   }
+
+   public void inc(int quantity)
+   {
+      this.quantity += quantity;
    }
 
    public String getDescription()

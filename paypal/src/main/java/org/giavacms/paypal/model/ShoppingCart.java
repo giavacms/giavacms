@@ -79,6 +79,14 @@ public class ShoppingCart implements Serializable
 
    public void addArticle(ShoppingArticle article)
    {
+      for (ShoppingArticle shoppingArticle : getShoppingArticles())
+      {
+         if (shoppingArticle.getIdProduct().equals(article.getIdProduct()))
+         {
+            shoppingArticle.inc(article.getQuantity());
+            return;
+         }
+      }
       getShoppingArticles().add(article);
    }
 

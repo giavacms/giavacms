@@ -1,4 +1,4 @@
-package org.giavacms.paypal.controller.conversation;
+package org.giavacms.paypal.controller.request;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -12,7 +12,7 @@ import com.paypal.core.rest.PayPalRESTException;
 
 @Named
 @RequestScoped
-public class PaymentController
+public class PaymentRequestController
 {
    private String payerId;
    private String guid;
@@ -20,7 +20,7 @@ public class PaymentController
    @Inject
    ShoppingCartRepository shoppingCartRepository;
 
-   public PaymentController()
+   public PaymentRequestController()
    {
    }
 

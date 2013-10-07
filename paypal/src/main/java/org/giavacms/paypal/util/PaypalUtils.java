@@ -15,6 +15,7 @@ import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Item;
 import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payee;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
@@ -80,7 +81,7 @@ public class PaypalUtils
       itemList.setItems(new ArrayList<Item>());
       for (ShoppingArticle article : shoppingCart.getShoppingArticles())
       {
-         itemList.getItems().add(new Item(article.getQuantity(), article.getDescription(), article.getPrice(),
+         itemList.getItems().add(new Item("" + article.getQuantity(), article.getDescription(), article.getPrice(),
                   shoppingCart.getCurrency()));
          totalAmount += Double.valueOf(article.getPrice());
          totalTax += Double.valueOf(article.getVat());
@@ -120,7 +121,7 @@ public class PaypalUtils
       // A Payment Resource; create one using
       // the above types and intent as 'sale'
       Payment payment = new Payment("sale", payer, transactions);
-
+     
       // ###Redirect URLs
       RedirectUrls redirectUrls = new RedirectUrls();
       // String guid = UUID.randomUUID().toString().replaceAll("-", "");
