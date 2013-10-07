@@ -172,4 +172,10 @@ public class Product extends Page implements Serializable
                + super.isActive() + "]";
    }
 
+   public void setLangAsString(String lang)
+   {
+      super.setLang(Integer.parseInt(lang));
+   }
+
 }
+
