@@ -178,3 +178,4 @@ public class Product extends Page implements Serializable
    }
 
 }
+
