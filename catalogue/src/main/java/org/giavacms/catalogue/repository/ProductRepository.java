@@ -66,6 +66,9 @@ public class ProductRepository extends AbstractPageRepository<Product>
       if (true)
       {
          sb.append(separator).append(alias)
+                  .append(".category is not null ");
+         separator = " and ";
+         sb.append(separator).append(alias)
                   .append(".category.active = :activeCategory");
          params.put("activeCategory", true);
          separator = " and ";
