@@ -3,6 +3,7 @@ package org.giavacms.base.service;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
@@ -29,6 +31,8 @@ public class FileSystemWriterService implements Serializable
 
    private static final long serialVersionUID = 1L;
 
+   private static final boolean SINGLE_FILE_FOR_ALL_PAGES = true;
+
    public static final String XHTML_EXTENSION = ".xhtml";
    public static final String TEMPLATE_PREFIX = "_template_";
    public static final String TEMPLATE_IMPL_PREFIX = "_templateImpl_";
@@ -38,17 +42,11 @@ public class FileSystemWriterService implements Serializable
    public static final String TEMPLATE_IMPL_COLUMN3_SUFFIX = "_column3";
    public static final String TEMPLATE_IMPL_FOOTER_SUFFIX = "_footer";
    public static final String PAGE_PREFIX = "";// "_page_";
-   public static final String PROLOGUE_START = "<!DOCTYPE";
-   public static final String PROLOGUE_LIGHT = "<!DOCTYPE html>";
+   public static final String DOCTYPE_PROLOGUE_START = "<!DOCTYPE";
    public static final String NEWLINE = "\n";
 
    public static final String FACELETS_XMLNS = "xmlns:ui=\"http://java.sun.com/jsf/facelets\"";
    public static final String XML_PROLOGUE = "<?xml version=\"1.0\"?>";
-   public static final String TEMPLATE_HTML_OPENING =
-            "<f:view contentType=\"text/html\" encoding=\"UTF-8\" xmlns=\"http://www.w3.org/1999/xhtml\" "
-                     + FACELETS_XMLNS
-                     + " xmlns:f=\"http://java.sun.com/jsf/core\">";
-   public static final String TEMPLATE_HTML_CLOSURE = "</f:view>";
 
    public static final String TEMPLATE_HEADER_INSERT = "<ui:insert name=\"header\"></ui:insert>";
    public static final String TEMPLATE_COLUMN1_INSERT = "<ui:insert name=\"column1\"></ui:insert>";
@@ -86,19 +84,11 @@ public class FileSystemWriterService implements Serializable
 
       StringBuffer sb = new StringBuffer();
 
-      boolean addFacelets = false;
       // FACELETS SUPPORT
-      if (template.getHeader_start() == null || !template.getHeader_start().startsWith(PROLOGUE_START)
-               || !template.getHeader_start().contains(FACELETS_XMLNS))
+      if (!isFaceletsCompliant(template))
       {
-         // throw new Exception("Template must start with " + PROLOGUE_LIGHT
-         // + " and contain facelets namespace declaration: " + FACELETS_XMLNS);
-         addFacelets = true;
-      }
-
-      if (addFacelets)
-      {
-         sb.append(TEMPLATE_HTML_OPENING).append(NEWLINE);
+         throw new Exception("Template must start with " + DOCTYPE_PROLOGUE_START
+                  + " and contain facelets namespace declaration: " + FACELETS_XMLNS);
       }
 
       // HEADER
@@ -154,11 +144,6 @@ public class FileSystemWriterService implements Serializable
             sb.append(TEMPLATE_FOOTER_INSERT).append(NEWLINE);
             sb.append(template.getFooter_stop()).append(NEWLINE);
          }
-      }
-
-      if (addFacelets)
-      {
-         sb.append(TEMPLATE_HTML_CLOSURE).append(NEWLINE);
       }
 
       write(templateFile, sb.toString());
@@ -297,16 +282,28 @@ public class FileSystemWriterService implements Serializable
       {
          page = pageRepository.fetch(page.getId());
       }
-      Set<String> xmlnsSet = getXmlns(page.getTemplate().getTemplate().getHeader_start());
-      List<String> files = write(absolutePath, page.getTemplate(), xmlnsSet, overwrite);
-      boolean overwriteTemplate = false;
-      String templateFile = write(absolutePath, page.getTemplate().getTemplate(), overwriteTemplate);
-      if (templateFile != null)
+      if (isFaceletsCompliant(page.getTemplate().getTemplate()))
       {
-         files.add(templateFile);
+         Set<String> xmlnsSet = getXmlns(page.getTemplate().getTemplate().getHeader_start());
+         List<String> files = write(absolutePath, page.getTemplate(), xmlnsSet, overwrite);
+         boolean overwriteTemplate = false;
+         String templateFile = write(absolutePath, page.getTemplate().getTemplate(), overwriteTemplate);
+         if (templateFile != null)
+         {
+            files.add(templateFile);
+         }
+         files.add(write(absolutePath, page));
+         return files;
       }
-      files.add(write(absolutePath, page));
-      return files;
+      else
+      {
+         logger.warn("Page '" + page.getId() + "' is not facelets-compliant");
+         PageUtils.generateContent(page);
+         File pageFile = new File(absolutePath, PAGE_PREFIX + page.getId()
+                  + XHTML_EXTENSION);
+         write(pageFile, page.getContent());
+         return Arrays.asList("(" + pageFile.getAbsolutePath() + ")");
+      }
    }
 
    public String clear(String path, String filename) throws Exception
@@ -381,6 +378,7 @@ public class FileSystemWriterService implements Serializable
    private Set<String> getXmlns(String header)
    {
       Set<String> set = new HashSet<String>();
+      set.add(FACELETS_XMLNS);
       String xmlns = "xmlns:";
       String quote = "\"";
       int xmlnsIndex = header.indexOf(xmlns);
@@ -395,4 +393,22 @@ public class FileSystemWriterService implements Serializable
       }
       return set;
    }
+
+   private boolean isFaceletsCompliant(Template template)
+   {
+      if (SINGLE_FILE_FOR_ALL_PAGES)
+      {
+         return false;
+      }
+      else if (template.getHeader_start() == null || !template.getHeader_start().startsWith(DOCTYPE_PROLOGUE_START)
+               || !template.getHeader_start().contains(FACELETS_XMLNS))
+      {
+         return false;
+      }
+      else
+      {
+         return true;
+      }
+   }
+
 }
