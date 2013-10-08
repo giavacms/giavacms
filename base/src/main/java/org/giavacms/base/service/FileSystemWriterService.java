@@ -43,12 +43,12 @@ public class FileSystemWriterService implements Serializable
    public static final String NEWLINE = "\n";
 
    public static final String FACELETS_XMLNS = "xmlns:ui=\"http://java.sun.com/jsf/facelets\"";
-   // public static final String TEMPLATE_HTML_OPENING =
-   // "<html xmlns=\"http://www.w3.org/1999/xhtml\" "+FACELETS_XMLNS+" xmlns:f=\"http://java.sun.com/jsf/core\">";
-   // public static final String TEMPLATE_HTML_CLOSURE = "</html>";
-
-   // public static final String TEMPLATE_FVIEW_OPENING = "<f:view contentType=\"text/html\" encoding=\"UTF-8\">";
-   // public static final String TEMPLATE_FVIEW_CLOSURE = "</f:view>";
+   public static final String XML_PROLOGUE = "<?xml version=\"1.0\"?>";
+   public static final String TEMPLATE_HTML_OPENING =
+            "<f:view contentType=\"text/html\" encoding=\"UTF-8\" xmlns=\"http://www.w3.org/1999/xhtml\" "
+                     + FACELETS_XMLNS
+                     + " xmlns:f=\"http://java.sun.com/jsf/core\">";
+   public static final String TEMPLATE_HTML_CLOSURE = "</f:view>";
 
    public static final String TEMPLATE_HEADER_INSERT = "<ui:insert name=\"header\"></ui:insert>";
    public static final String TEMPLATE_COLUMN1_INSERT = "<ui:insert name=\"column1\"></ui:insert>";
@@ -86,12 +86,19 @@ public class FileSystemWriterService implements Serializable
 
       StringBuffer sb = new StringBuffer();
 
+      boolean addFacelets = false;
       // FACELETS SUPPORT
       if (template.getHeader_start() == null || !template.getHeader_start().startsWith(PROLOGUE_START)
                || !template.getHeader_start().contains(FACELETS_XMLNS))
       {
-         throw new Exception("Template must start with " + PROLOGUE_LIGHT
-                  + " and contain facelets namespace declaration: " + FACELETS_XMLNS);
+         // throw new Exception("Template must start with " + PROLOGUE_LIGHT
+         // + " and contain facelets namespace declaration: " + FACELETS_XMLNS);
+         addFacelets = true;
+      }
+
+      if (addFacelets)
+      {
+         sb.append(TEMPLATE_HTML_OPENING).append(NEWLINE);
       }
 
       // HEADER
@@ -148,6 +155,12 @@ public class FileSystemWriterService implements Serializable
             sb.append(template.getFooter_stop()).append(NEWLINE);
          }
       }
+
+      if (addFacelets)
+      {
+         sb.append(TEMPLATE_HTML_CLOSURE).append(NEWLINE);
+      }
+
       write(templateFile, sb.toString());
       return templateFile.getAbsolutePath();
    }
