@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import org.giavacms.paypal.test.util.GenerateAccessToken;
+import org.giavacms.paypal.model.PaypalConfiguration;
+import org.giavacms.paypal.util.PaypalAccountUtils;
 
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Details;
@@ -32,12 +34,24 @@ public class TestPaypallRestApi
 
    public static void main(String[] args) throws PayPalRESTException
    {
-      Payment.initConfig(new File("src/main/test/resources/sdk_config.properties"));
+      // Payment.initConfig(new File("src/main/test/resources/sdk_config.properties"));
+
+      PaypalConfiguration paypalConfiguration = new PaypalConfiguration();
+      // # service.EndPoint=https://api.paypal.com
+      paypalConfiguration.setService_EndPoint("https://api.sandbox.paypal.com");
+      //
+      // # Credentials
+      // # Credentials
+      // clientID=AZxEyxAdj25PxMiCZYu4-xnBuzejS7qcKRo-7Ffdm0BgBxkob3F6_Iz-b3F2
+      paypalConfiguration.setClientID("AZxEyxAdj25PxMiCZYu4-xnBuzejS7qcKRo-7Ffdm0BgBxkob3F6_Iz-b3F2");
+      // clientSecret=EM3yExCdMmacgKHWDNUHMyK1fsn0pSAPuEUm1kRfZ5JX17JvMbnqzkdIWBHr
+      paypalConfiguration.setClientSecret("EM3yExCdMmacgKHWDNUHMyK1fsn0pSAPuEUm1kRfZ5JX17JvMbnqzkdIWBHr");
+      Payment.initConfig(getPropertiesFromPaypalConfiguration(paypalConfiguration));
       APIContext apiContext = null;
       String accessToken = null;
       try
       {
-         accessToken = GenerateAccessToken.getAccessToken();
+         accessToken = PaypalAccountUtils.getAccessToken();
 
          // ### Api Context
          // Pass in a `ApiContext` object to authenticate
@@ -140,5 +154,77 @@ public class TestPaypallRestApi
       {
          e.printStackTrace();
       }
+   }
+
+   public static Properties getPropertiesFromPaypalConfiguration(PaypalConfiguration paypalConfiguration)
+   {
+      Properties properties = new Properties();
+
+      // # Connection Information
+      // http.ConnectionTimeOut=5000
+      if (paypalConfiguration.getHttp_ConnectionTimeOut() != null
+               && !paypalConfiguration.getHttp_ConnectionTimeOut().isEmpty())
+         properties.setProperty("http.ConnectionTimeOut", paypalConfiguration.getHttp_ConnectionTimeOut());
+      // http.Retry=1
+      if (paypalConfiguration.getHttp_Retry() != null
+               && !paypalConfiguration.getHttp_Retry().isEmpty())
+         properties.setProperty("http.Retry", paypalConfiguration.getHttp_Retry());
+      // http.ReadTimeOut=30000
+      if (paypalConfiguration.getHttp_ReadTimeOut() != null
+               && !paypalConfiguration.getHttp_ReadTimeOut().isEmpty())
+         properties.setProperty("http.ReadTimeOut", paypalConfiguration.getHttp_ReadTimeOut());
+      // http.MaxConnection=100
+      if (paypalConfiguration.getHttp_MaxConnection() != null
+               && !paypalConfiguration.getHttp_MaxConnection().isEmpty())
+         properties.setProperty("http.MaxConnection", paypalConfiguration.getHttp_MaxConnection());
+
+      // # HTTP Proxy configuration
+      // # If you are using proxy set http.UseProxy to true and replace the following values with your proxy parameters
+      // http.ProxyPort=8080
+      if (paypalConfiguration.getHttp_ProxyPort() != null
+               && !paypalConfiguration.getHttp_ProxyPort().isEmpty())
+         properties.setProperty("http.ProxyPort", paypalConfiguration.getHttp_ProxyPort());
+      // http.ProxyHost=127.0.0.1
+      if (paypalConfiguration.getHttp_ProxyHost() != null
+               && !paypalConfiguration.getHttp_ProxyHost().isEmpty())
+         properties.setProperty("http.ProxyHost", paypalConfiguration.getHttp_ProxyHost());
+      // http.UseProxy=false
+      if (paypalConfiguration.getHttp_UseProxy() != null
+               && !paypalConfiguration.getHttp_UseProxy().isEmpty())
+         properties.setProperty("http.UseProxy", paypalConfiguration.getHttp_UseProxy());
+      // http.ProxyUserName=null
+      if (paypalConfiguration.getHttp_ProxyUserName() != null
+               && !paypalConfiguration.getHttp_ProxyUserName().isEmpty())
+         properties.setProperty("http.ProxyUserName", paypalConfiguration.getHttp_ProxyUserName());
+      // http.ProxyPassword=null
+      if (paypalConfiguration.getHttp_ProxyPassword() != null
+               && !paypalConfiguration.getHttp_ProxyPassword().isEmpty())
+         properties.setProperty("http.ProxyPassword", paypalConfiguration.getHttp_ProxyPassword());
+
+      // #Set this property to true if you are using the PayPal SDK within a Google App Engine java app
+      // http.GoogleAppEngine = false
+      if (paypalConfiguration.getHttp_GoogleAppEngine() != null
+               && !paypalConfiguration.getHttp_GoogleAppEngine().isEmpty())
+         properties.setProperty("http.GoogleAppEngine", paypalConfiguration.getHttp_GoogleAppEngine());
+      //
+      // # Service Configuration
+      // service.EndPoint=https://api.sandbox.paypal.com
+      // # Live EndPoint
+      // # service.EndPoint=https://api.paypal.com
+      if (paypalConfiguration.getService_EndPoint() != null
+               && !paypalConfiguration.getService_EndPoint().isEmpty())
+         properties.setProperty("service.EndPoint", paypalConfiguration.getService_EndPoint());
+      //
+      // # Credentials
+      // # Credentials
+      // clientID=AZxEyxAdj25PxMiCZYu4-xnBuzejS7qcKRo-7Ffdm0BgBxkob3F6_Iz-b3F2
+      if (paypalConfiguration.getClientID() != null
+               && !paypalConfiguration.getClientID().isEmpty())
+         properties.setProperty("clientID", paypalConfiguration.getClientID());
+      // clientSecret=EM3yExCdMmacgKHWDNUHMyK1fsn0pSAPuEUm1kRfZ5JX17JvMbnqzkdIWBHr
+      if (paypalConfiguration.getClientSecret() != null
+               && !paypalConfiguration.getClientSecret().isEmpty())
+         properties.setProperty("clientSecret", paypalConfiguration.getClientSecret());
+      return properties;
    }
 }
