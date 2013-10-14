@@ -1,10 +1,10 @@
 package org.giavacms.paypal.util;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.giavacms.common.util.JSFUtils;
 import org.giavacms.paypal.model.PaypalConfiguration;
 import org.giavacms.paypal.model.ShoppingArticle;
 import org.giavacms.paypal.model.ShoppingCart;
@@ -15,7 +15,6 @@ import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Item;
 import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Links;
-import com.paypal.api.payments.Payee;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
@@ -29,6 +28,7 @@ public class PaypalUtils
 {
 
    static Logger logger = Logger.getLogger(PaypalUtils.class);
+   static DecimalFormat decimalFormat = new DecimalFormat("##.00");
 
    public static APIContext getAPIContext(String requestId, PaypalConfiguration paypalConfiguration)
             throws PayPalRESTException
@@ -79,27 +79,36 @@ public class PaypalUtils
       List<Transaction> transactions = new ArrayList<Transaction>();
       double totalAmount = 0;
       double totalTax = 0;
+      double shipping = Double.valueOf(shoppingCart.getShipping());
       ItemList itemList = new ItemList();
       itemList.setItems(new ArrayList<Item>());
+      int i = 0;
       for (ShoppingArticle article : shoppingCart.getShoppingArticles())
       {
+         i++;
+         logger.info("article" + i + ") " + article.toString());
          itemList.getItems().add(new Item("" + article.getQuantity(), article.getDescription(), article.getPrice(),
                   shoppingCart.getCurrency()));
          totalAmount += Double.valueOf(article.getPrice());
          totalTax += Double.valueOf(article.getVat());
       }
-      double total = totalAmount + totalTax + Double.valueOf(shoppingCart.getShipping());
+
+      double total = totalAmount + totalTax + shipping;
+      logger.info("total: " + decimalFormat.format(total) + " - totalAmount: " + decimalFormat.format(totalAmount)
+               + " - totalTax: "
+               + decimalFormat.format(totalTax) + " - shipping:"
+               + decimalFormat.format(shipping));
       // ###Details
       // Let's you specify details of a payment amount.
       Details details = new Details();
-      details.setShipping(shoppingCart.getShipping());
-      details.setSubtotal("" + totalAmount);
-      details.setTax("" + totalTax);
+      details.setShipping(decimalFormat.format(shipping));
+      details.setSubtotal(decimalFormat.format(totalAmount));
+      details.setTax(decimalFormat.format(totalTax));
 
       // ###Amount
       // Let's you specify a payment amount.
       // Total must be equal to sum of shipping, tax and subtotal.
-      Amount amount = new Amount("EUR", "" + total);
+      Amount amount = new Amount("EUR", decimalFormat.format(total));
       amount.setDetails(details);
 
       // ###Transaction
@@ -127,11 +136,15 @@ public class PaypalUtils
       // ###Redirect URLs
       RedirectUrls redirectUrls = new RedirectUrls();
       // String guid = UUID.randomUUID().toString().replaceAll("-", "");
-      redirectUrls.setCancelUrl(JSFUtils.getAbsolutePath() + paypalConfiguration.getCancelUrl() + "?guid="
+      redirectUrls.setCancelUrl(paypalConfiguration.getCancelUrl() + "?guid="
                + shoppingCart.getId());
-      redirectUrls.setReturnUrl(JSFUtils.getAbsolutePath() + paypalConfiguration.getReturnUrl() + "?guid="
+      redirectUrls.setReturnUrl(paypalConfiguration.getReturnUrl() + "?guid="
                + shoppingCart.getId());
       payment.setRedirectUrls(redirectUrls);
+
+      logger.info("CancelUrl: " + redirectUrls.getCancelUrl());
+
+      logger.info("ReturnUrl: " + redirectUrls.getReturnUrl());
 
       // Create a payment by posting to the APIService
       // using a valid AccessToken
@@ -166,5 +179,11 @@ public class PaypalUtils
          }
       }
 
+   }
+
+   public static void main(String[] args)
+   {
+      double totalAmount = new Double("1123456734.67");
+      System.out.println(decimalFormat.format(totalAmount));
    }
 }

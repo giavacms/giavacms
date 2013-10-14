@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -19,7 +18,7 @@ public class ShoppingCart implements Serializable
 {
    private static final long serialVersionUID = 1L;
    private Long id;
-   private String shipping;
+   private double shipping;
    private List<ShoppingArticle> shoppingArticles;
    private PayerInfo payerInfo;
    private String paymentId;
@@ -54,12 +53,12 @@ public class ShoppingCart implements Serializable
       this.id = id;
    }
 
-   public String getShipping()
+   public double getShipping()
    {
       return shipping;
    }
 
-   public void setShipping(String shipping)
+   public void setShipping(double shipping)
    {
       this.shipping = shipping;
    }
@@ -169,6 +168,14 @@ public class ShoppingCart implements Serializable
    public void setCreated(boolean created)
    {
       this.created = created;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "ShoppingCart [id=" + id + ", shipping=" + shipping + ", payerInfo=" + payerInfo + ", paymentId="
+               + paymentId + ", currency=" + currency + ", data=" + data + ", approvalUrl=" + approvalUrl
+               + ", selfUrl=" + selfUrl + ", executeUrl=" + executeUrl + ", created=" + created + "]";
    }
 
 }

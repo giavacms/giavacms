@@ -8,6 +8,7 @@ import org.giavacms.paypal.model.ShoppingCart;
 import org.giavacms.paypal.producer.PaypallProducer;
 import org.giavacms.paypal.repository.ShoppingCartRepository;
 import org.giavacms.paypal.util.PaypalUtils;
+import org.jboss.logging.Logger;
 
 import com.paypal.core.rest.PayPalRESTException;
 
@@ -23,6 +24,8 @@ public class PaymentRequestController
 
    @Inject
    PaypallProducer paypallProducer;
+   
+   Logger logger = Logger.getLogger(getClass().getName());
 
    public PaymentRequestController()
    {
@@ -45,7 +48,7 @@ public class PaymentRequestController
                e.printStackTrace();
             }
          else
-            System.out.println("NON ESISTE SHOPPING CART!!!");
+            logger.info("NON ESISTE SHOPPING CART!!!");
       }
       return "";
    }

@@ -102,4 +102,12 @@ public class Address implements Serializable
    {
       this.phone = phone;
    }
+
+   @Override
+   public String toString()
+   {
+      return "Address [id=" + id + ", line1=" + line1 + ", line2=" + line2 + ", city=" + city + ", countryCode="
+               + countryCode + ", postalCode=" + postalCode + ", state=" + state + ", phone=" + phone + "]";
+   }
+
 }

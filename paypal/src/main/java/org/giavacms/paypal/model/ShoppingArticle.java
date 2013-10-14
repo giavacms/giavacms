@@ -121,4 +121,11 @@ public class ShoppingArticle implements Serializable
       this.shoppingCart = shoppingCart;
    }
 
+   @Override
+   public String toString()
+   {
+      return "ShoppingArticle [id=" + id + ", idProduct=" + idProduct + ", description=" + description + ", price="
+               + price + ", quantity=" + quantity + ", vat=" + vat + "]";
+   }
+
 }

@@ -15,6 +15,7 @@ import org.giavacms.paypal.producer.PaypallProducer;
 import org.giavacms.paypal.repository.ShoppingCartRepository;
 import org.giavacms.paypal.service.ShippingAmountService;
 import org.giavacms.paypal.util.PaypalUtils;
+import org.jboss.logging.Logger;
 
 @Named
 @SessionScoped
@@ -23,6 +24,8 @@ public class ShoppingCartSessionController implements Serializable
    private static final long serialVersionUID = 1L;
    private String lastPage;
    private ShoppingCart element;
+
+   Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
    PaypallProducer paypallProducer;
@@ -44,8 +47,9 @@ public class ShoppingCartSessionController implements Serializable
    {
       getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat));
 
-      System.out.println(" - idProduct, description, price, quantity, vat: "
-               + idProduct + " " + description + " " + price + " " + quantity + " " + vat);
+      logger.info("idProduct:" + idProduct + " description:" + description + " price: " + price + " quantity: "
+               + quantity + " vat: "
+               + vat);
       try
       {
          FacesContext.getCurrentInstance().getExternalContext()
@@ -61,7 +65,7 @@ public class ShoppingCartSessionController implements Serializable
 
    public void gotoPaypal()
    {
-      String shippingAmount = shippingAmountService.calculate(getElement());
+      double shippingAmount = shippingAmountService.calculate(getElement());
       getElement().setShipping(shippingAmount);
       shoppingCartRepository.persist(getElement());
       try
@@ -72,7 +76,7 @@ public class ShoppingCartSessionController implements Serializable
             JSFUtils.redirect(getElement().getApprovalUrl());
          else
          {
-            System.out.println("ERROR!!!");
+            logger.info("ERROR!!!");
             return;
          }
       }

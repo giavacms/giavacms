@@ -9,9 +9,9 @@ import org.giavacms.paypal.model.ShoppingCart;
 @LocalBean
 public class ShippingAmountService
 {
-   public String calculate(ShoppingCart shoppingCart)
+   public double calculate(ShoppingCart shoppingCart)
    {
 
-      return "0";
+      return Double.valueOf("0.00");
    }
 }
