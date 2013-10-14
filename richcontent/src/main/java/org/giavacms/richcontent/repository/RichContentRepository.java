@@ -412,7 +412,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(" D.filename AS document ");
       }
       sb.append(" FROM ").append(RichContent.TABLE_NAME).append(" AS R ");
-      sb.append(" LEFT JOIN ").append(RichContentType.TABLE_NAME).append(" AS RT ON ( RT.id = R.id ) ");
+      sb.append(" LEFT JOIN ").append(RichContentType.TABLE_NAME).append(" AS RT ON ( RT.id = R.richContentType_id ) ");
       sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(pageAlias).append(" on (R.id = ")
                .append(pageAlias).append(".id ) ");
       if (!count)
@@ -609,7 +609,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                + "I.fileName as image, "
                + "D.filename as document "
                + "FROM `RichContent` as R "
-               + "left join RichContentType as RT on (RT.id=R.id) "
+               + "left join RichContentType as RT on (RT.id=R.richContentType_id) "
                + "left join Page as P on (R.id=P.id) "
                + "left join RichContent_Document as RD on (RD.RichContent_id=R.id) "
                + "left join Document as D on (RD.documents_id=D.id) "
