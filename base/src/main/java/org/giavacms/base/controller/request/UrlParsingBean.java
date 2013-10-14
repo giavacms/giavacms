@@ -6,6 +6,7 @@
  */
 package org.giavacms.base.controller.request;
 
+import java.io.File;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
@@ -13,6 +14,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 
 import org.giavacms.base.controller.session.PageSessionController;
 import org.jboss.logging.Logger;
@@ -66,7 +68,7 @@ public class UrlParsingBean implements Serializable
       logger.info("start pageId****************");
       logger.info("pageId: " + pageId);
       logger.info("stop pageId****************");
-      if (!(uri.startsWith("/s/") || uri.startsWith("/p/") || isInAdditionalParams(uri))
+      if (!(uri.startsWith("/s/") || uri.startsWith("/p/") || uri.startsWith("/c/") || isInAdditionalParams(uri))
                || uri.endsWith("js")
                || uri.endsWith("css")
                || uri.endsWith("png")
@@ -82,18 +84,33 @@ public class UrlParsingBean implements Serializable
       logger.info("contextPath: " + contextPath);
       breadCrumpsHandler.setBreadCrump(contextPath + uri);
 
+      if (uri.startsWith("/c/"))
+      {
+         pageRequestController.setUri(uri);
+         pageRequestController.getElement().setId(pageId);
+         return "/cache/" + pageId + ".xhtml";
+      }
       if (uri.startsWith("/s/"))
       {
          pageRequestController.setWithSession(true);
          pageSessionController.getElement().setId(pageId);
          pageSessionController.setUri(uri);
+         return "/db:" + pageId;
+      }
+      else if (new File(((ServletContext) FacesContext
+               .getCurrentInstance().getExternalContext().getContext()).getRealPath("cache"), pageId + ".xhtml")
+               .exists())
+      {
+         pageRequestController.setUri(uri);
+         pageRequestController.getElement().setId(pageId);
+         return "/cache/" + pageId + ".xhtml";
       }
       else
       {
          pageRequestController.setUri(uri);
          pageRequestController.getElement().setId(pageId);
+         return "/db:" + pageId;
       }
-      return "/db:" + pageId;
 
    }
 

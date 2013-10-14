@@ -64,13 +64,13 @@
 								<h:outputText value="#{msg['global.operations']}" />
 							</f:facet>
 							<center>
-								<h:commandLink value="#{msg['global.view']}"
+								<h:commandLink title="#{msg['global.view']}" style="font-size: 24px;" styleClass="icon-file-text-alt"
 									action="#{templateController.viewElement}" />
-								-
-								<h:commandLink value="#{msg['global.edit']}"
+								<h:outputText value=" "/>
+								<h:commandLink title="#{msg['global.edit']}" style="font-size: 24px;" styleClass="icon-edit"
 									action="#{templateController.modElement}" />
-								-
-								<h:commandLink value="#{msg['global.clone']}"
+								<h:outputText value=" "/>
+								<h:commandLink title="#{msg['global.clone']}" style="font-size: 24px;" styleClass="icon-copy"
 									action="#{templateController.cloneElement}" />
 							</center>
 						</p:column>

@@ -103,13 +103,16 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{richContentController.viewElement}"
-									value="vedi" />
-								<br />
+									styleClass="icon-file-text-alt" style="font-size: 24px;"
+									tytle="vedi" />
+								<h:outputText value=" "/>
 								<h:commandLink action="#{richContentController.modElement}"
-									value="modifica testi" />
-								<br />
+									styleClass="icon-reorder" style="font-size: 24px;"
+									title="modifica testi" />
+								<h:outputText value=" "/>
 								<h:commandLink action="#{richContentController.modDocuments}"
-									value="modifica documenti" />
+									styleClass="icon-link" style="font-size: 24px;"
+									title="modifica documenti" />
 							</center>
 						</p:column>
 					</p:dataTable>

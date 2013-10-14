@@ -76,8 +76,8 @@
 							<f:facet name="header">operazioni</f:facet>
 							<p:rowEditor>
 							</p:rowEditor>
-							<p:commandButton type="submit" title="Elimina" rendered="true"
-								icon="ui-icon-trash"
+							<p:commandLink type="submit" title="elimina" rendered="true"
+								styleClass="icon-trash" style="font-size: 24px;"
 								action="#{richContentTypeController.deleteInline}" ajax="false"
 								immediate="true"
 								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />

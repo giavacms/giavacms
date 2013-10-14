@@ -83,10 +83,12 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{faqController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" style="font-size: 24px;"
+									styleClass="icon-file-text-alt" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{faqController.modElement}"
-									value="modifica" />
+									title="modifica" style="font-size: 24px;"
+									styleClass="icon-edit" />
 							</center>
 						</p:column>
 					</p:dataTable>

@@ -106,13 +106,13 @@
 								<f:facet name="header">operazioni</f:facet>
 								<center>
 									<h:commandLink action="#{peopleController.viewElement}"
-										value="vedi" />
-									<br />
+										title="vedi" styleClass="icon-file-text-alt" style="font-size: 24px;"/>
+									<h:outputText value=" "/>
 									<h:commandLink action="#{peopleController.modElement}"
-										value="modifica testo" />
-									<br />
+										title="modifica testo" styleClass="icon-reorder" style="font-size: 24px;"/>
+									<h:outputText value=" "/>
 									<h:commandLink action="#{peopleController.modImage}"
-										value="gestisci immagine" />
+										title="gestisci immagine" styleClass="icon-user" style="font-size: 24px;"/>
 								</center>
 							</p:column>
 						</p:dataTable>

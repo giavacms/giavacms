@@ -65,4 +65,18 @@
 		<action>#{urlParsingBean.parseComplexUrl}</action>
 	</url-mapping>
 
+	<url-mapping id="dynamicUrl7">
+		<pattern value="/c/#{urlParsingBean.idPage}" />
+
+		<view-id value="/index.jsf" />
+		<action>#{urlParsingBean.parseComplexUrl}</action>
+	</url-mapping>
+
+	<url-mapping id="dynamicUrl8">
+		<pattern value="/c/.*/#{urlParsingBean.idPage}" />
+
+		<view-id value="/index.jsf" />
+		<action>#{urlParsingBean.parseComplexUrl}</action>
+	</url-mapping>
+
 </pretty-config>

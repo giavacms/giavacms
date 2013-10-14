@@ -85,8 +85,9 @@
 							<f:facet name="header">operazioni</f:facet>
 							<p:rowEditor>
 							</p:rowEditor>
-							<h:commandButton action="#{contactUsController.deleteInline}"
-								value="Elimina" immediate="true"
+							<h:commandLink action="#{contactUsController.deleteInline}"
+								title="elimina" 
+								styleClass="icon-trash" style="font-size: 24px;" immediate="true"
 								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
 						</p:column>
 						<p:ajax event="rowEdit"

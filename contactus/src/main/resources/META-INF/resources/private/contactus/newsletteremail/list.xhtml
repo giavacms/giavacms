@@ -34,7 +34,7 @@
 					<p:dataTable id="contactusList" rowIndexVar="rowIndex" var="t"
 						value="#{newsLetterEmailController.model}"
 						rows="#{newsLetterEmailController.pageSize}" paginator="true"
-						lazy ="true">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -77,9 +77,9 @@
 							<f:facet name="header">operazioni</f:facet>
 							<p:rowEditor>
 							</p:rowEditor>
-							<h:commandButton
-								action="#{newsLetterEmailController.deleteInline}"
-								value="Elimina" immediate="true"
+							<h:commandLink action="#{newsLetterEmailController.deleteInline}"
+								title="elimina" styleClass="icon-trash" style="font-size: 24px;"
+								immediate="true"
 								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
 						</p:column>
 						<p:ajax event="rowEdit"

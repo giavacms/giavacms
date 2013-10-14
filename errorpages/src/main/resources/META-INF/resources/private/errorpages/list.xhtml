@@ -35,11 +35,10 @@
 				<p:column headerText="operazioni">
 					<center>
 						<h:commandLink action="#{errorPageController.modElement}"
-							immediate="true" value="modifica" />
-						<h:outputText value=" - " />
-						<h:outputLink target="_blank"
+							immediate="true" styleClass="icon-edit" style="font-size: 24px;" title="modifica"  />
+						<h:outputText value=" " />
+						<h:outputLink target="_blank" title="anteprima" styleClass="icon-eye-open" style="font-size: 24px;" 
 							value="/#{e.path}/#{e.httpError.name()}.html">
-							<h:outputText value="anteprima" />
 						</h:outputLink>
 					</center>
 				</p:column>

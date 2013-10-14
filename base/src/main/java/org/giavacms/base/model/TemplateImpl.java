@@ -18,12 +18,16 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = TemplateImpl.TABLE_NAME)
 public class TemplateImpl implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+
+   public static final String TABLE_NAME = "TemplateImpl";
 
    // ------------------------------------------------------------------------
 
