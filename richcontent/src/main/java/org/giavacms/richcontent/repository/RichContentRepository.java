@@ -1,6 +1,8 @@
 package org.giavacms.richcontent.repository;
 
+import java.math.BigInteger;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -151,8 +153,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
       sb.append(" ) ");
 
-//      params.put("LIKETEXT", StringUtils.clean(likeText));
-      params.put("LIKETEXT", likeText );
+      // params.put("LIKETEXT", StringUtils.clean(likeText));
+      params.put("LIKETEXT", likeText);
 
       return true;
    }
@@ -325,6 +327,96 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
    @Override
    public RichContent fetch(Object key)
+   {
+      RichContent richContent = null;
+      String nativeQuery = "SELECT  P.id, P.title, R.author, R.content, R.date, R.highlight, R.preview, R.tags, R.richContentType_id, RT.name as richContentType,"
+               + "I.fileName as image, "
+               + "D.filename as document "
+               + "FROM `RichContent` as R "
+               + "left join RichContentType as RT on (RT.id=R.id) "
+               + "left join Page as P on (R.id=P.id) "
+               + "left join RichContent_Document as RD on (RD.RichContent_id=R.id) "
+               + "left join Document as D on (RD.documents_id=D.id) "
+               + "left join RichContent_Image as RI on (RI.RichContent_id=R.id) "
+               + "left join Image as I on (I.id=RI.images_id) "
+               + "where R.id= :ID";
+      Iterator<Object[]> results = getEm()
+               .createNativeQuery(nativeQuery).setParameter("ID", key).getResultList().iterator();
+      while (results.hasNext())
+      {
+         if (richContent == null)
+            richContent = new RichContent();
+         Object[] row = results.next();
+         int i = 0;
+         String id = (String) row[i];
+         if (id != null && !id.isEmpty())
+            richContent.setId(id);
+         i++;
+         String title = (String) row[i];
+         if (title != null && !title.isEmpty())
+            richContent.setTitle(title);
+         i++;
+         String author = (String) row[i];
+         if (author != null && !author.isEmpty())
+            richContent.setAuthor(author);
+         i++;
+         String content = (String) row[i];
+         if (content != null && !content.isEmpty())
+            richContent.setContent(content);
+         i++;
+         String date = (String) row[i];
+         i++;
+         boolean highlight = false;
+         if (row[i] != null && row[i] instanceof Short)
+         {
+            highlight = ((Short) row[i]) > 0 ? true : false;
+         }
+         else if (row[i] != null && row[i] instanceof Boolean)
+         {
+            highlight = ((Boolean) row[i]).booleanValue();
+         }
+         i++;
+         String preview = (String) row[i];
+         if (preview != null && !preview.isEmpty())
+            richContent.setPreview(preview);
+         i++;
+         String tags = (String) row[i];
+         if (tags != null && !tags.isEmpty())
+            richContent.setTags(tags);
+         i++;
+         BigInteger richContentType_id = null;
+         if (row[i] instanceof BigInteger)
+         {
+            richContentType_id = (BigInteger) row[i];
+            richContent.getRichContentType().setId(richContentType_id.longValue());
+         }
+         i++;
+         String richContentType = (String) row[i];
+         if (richContentType != null && !richContentType.isEmpty())
+            richContent.getRichContentType().setName(richContentType);
+         i++;
+         String imagefileName = (String) row[i];
+         if (imagefileName != null && !imagefileName.isEmpty())
+         {
+            Image image = new Image();
+            image.setFilename(imagefileName);
+            richContent.addImage(image);
+         }
+         i++;
+         String documentfileName = (String) row[i];
+         if (documentfileName != null && !documentfileName.isEmpty())
+         {
+            Document document = new Document();
+            document.setFilename(documentfileName);
+            richContent.addDocument(document);
+         }
+
+      }
+      return null;
+   }
+
+   @Deprecated
+   public RichContent oldFetch(Object key)
    {
       try
       {
