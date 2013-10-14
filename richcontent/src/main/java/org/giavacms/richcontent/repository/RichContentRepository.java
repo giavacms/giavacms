@@ -2,9 +2,11 @@ package org.giavacms.richcontent.repository;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -329,6 +331,9 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    public RichContent fetch(Object key)
    {
       RichContent richContent = null;
+      Set<String> imageNames = new HashSet<String>();
+      Set<String> documentNames = new HashSet<String>();
+
       String nativeQuery = "SELECT  P.id, P.title, R.author, R.content, R.date, R.highlight, R.preview, R.tags, R.richContentType_id, RT.name as richContentType,"
                + "I.fileName as image, "
                + "D.filename as document "
@@ -398,21 +403,29 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          String imagefileName = (String) row[i];
          if (imagefileName != null && !imagefileName.isEmpty())
          {
-            Image image = new Image();
-            image.setFilename(imagefileName);
-            richContent.addImage(image);
+            imageNames.add(imagefileName);
          }
          i++;
          String documentfileName = (String) row[i];
          if (documentfileName != null && !documentfileName.isEmpty())
          {
-            Document document = new Document();
-            document.setFilename(documentfileName);
-            richContent.addDocument(document);
+            documentNames.add(documentfileName);
          }
 
       }
-      return null;
+      for (String doc : documentNames)
+      {
+         Document document = new Document();
+         document.setFilename(doc);
+         richContent.addDocument(document);
+      }
+      for (String img : imageNames)
+      {
+         Image image = new Image();
+         image.setFilename(img);
+         richContent.addImage(image);
+      }
+      return richContent;
    }
 
    @Deprecated
