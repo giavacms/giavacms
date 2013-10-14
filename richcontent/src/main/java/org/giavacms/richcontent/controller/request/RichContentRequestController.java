@@ -144,18 +144,4 @@ public class RichContentRequestController extends
 
    }
 
-   @Override
-   public List<RichContent> loadPage(int startRow, int pageSize)
-   {
-      List<RichContent> page = super.loadPage(startRow, pageSize);
-      if (page != null)
-      {
-         for (RichContent richContent : page)
-         {
-            richContentRepository.loadFirstPicture(richContent);
-         }
-      }
-      return page;
-   }
-
 }

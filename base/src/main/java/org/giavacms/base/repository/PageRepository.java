@@ -99,6 +99,12 @@ public class PageRepository
    }
 
    @Override
+   public Page find(Object key)
+   {
+      return super.find(key);
+   }
+   
+   @Override
    public Page fetch(Object id)
    {
       logger.info("fetchPage: " + id);
