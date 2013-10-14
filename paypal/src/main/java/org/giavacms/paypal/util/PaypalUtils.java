@@ -10,12 +10,14 @@ import org.giavacms.paypal.model.ShoppingArticle;
 import org.giavacms.paypal.model.ShoppingCart;
 import org.jboss.logging.Logger;
 
+import com.paypal.api.payments.Address;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Item;
 import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payer;
+import com.paypal.api.payments.PayerInfo;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
 import com.paypal.api.payments.RedirectUrls;
@@ -129,6 +131,8 @@ public class PaypalUtils
       // as 'paypal'
       Payer payer = new Payer("paypal");
 
+      payer.setPayerInfo(getPayerInfo(shoppingCart));
+
       // ###Payment
       // A Payment Resource; create one using
       // the above types and intent as 'sale'
@@ -185,6 +189,25 @@ public class PaypalUtils
       }
       logger.info(shoppingCart.toString());
 
+   }
+
+   private static PayerInfo getPayerInfo(ShoppingCart shoppingCart)
+   {
+      PayerInfo payerInfo = new PayerInfo();
+      payerInfo.setEmail(shoppingCart.getPayerInfo().getEmail());
+      payerInfo.setFirstName(shoppingCart.getPayerInfo().getFirstName());
+      payerInfo.setLastName(shoppingCart.getPayerInfo().getLastName());
+      payerInfo.setPhone(shoppingCart.getPayerInfo().getPhone());
+      Address shippingAddress = new Address();
+      shippingAddress.setCity(shoppingCart.getPayerInfo().getAddress().getCity());
+      shippingAddress.setCountryCode(shoppingCart.getPayerInfo().getAddress().getCountryCode());
+      shippingAddress.setLine1(shoppingCart.getPayerInfo().getAddress().getLine1());
+      shippingAddress.setLine2(shoppingCart.getPayerInfo().getAddress().getLine2());
+      shippingAddress.setPhone(shoppingCart.getPayerInfo().getAddress().getPhone());
+      shippingAddress.setPostalCode(shoppingCart.getPayerInfo().getAddress().getPostalCode());
+      shippingAddress.setState(shoppingCart.getPayerInfo().getAddress().getState());
+      payerInfo.setShippingAddress(shippingAddress);
+      return payerInfo;
    }
 
 }
