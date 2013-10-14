@@ -1,6 +1,5 @@
 package org.giavacms.paypal.model;
 
-import java.beans.Transient;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
