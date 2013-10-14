@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.giavacms.base.common.util.HtmlUtils;
@@ -23,11 +24,13 @@ import org.giavacms.richcontent.model.type.RichContentType;
 
 @Entity
 @DiscriminatorValue(value = RichContent.EXTENSION)
+@Table(name = RichContent.TABLE_NAME)
 public class RichContent extends Page
 {
 
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "RichContent";
+   public static final String TABLE_NAME = "RichContent";
    private static final String TAG_SEPARATOR = ",";
 
    private String preview;

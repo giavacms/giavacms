@@ -7,14 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.giavacms.base.model.Page;
 
 @Entity
+@Table(name = RichContentType.TABLE_NAME)
 public class RichContentType implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "RichContentType";
 
    private Long id;
    private boolean active = true;
