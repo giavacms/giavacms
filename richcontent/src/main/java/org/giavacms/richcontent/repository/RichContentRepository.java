@@ -414,7 +414,9 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          innerPageAlias = "P1";
          innerRichContentAlias = "R1";
          innerRichContentTypeAlias = "RT1";
-         sb.append(" where ").append(pageAlias).append(".id in ( select distinct ").append(innerPageAlias)
+         sb.
+                  // append(" where ").append(pageAlias).
+                  append(" INNER JOIN ( select distinct ").append(innerPageAlias)
                   .append(".id from ");
          sb.append(RichContent.TABLE_NAME).append(" AS ").append(innerRichContentAlias);
          sb.append(" LEFT JOIN ").append(RichContentType.TABLE_NAME).append(" AS ").append(innerRichContentTypeAlias)
@@ -587,8 +589,9 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          {
             sb.append(" limit ").append(startRow).append(", ").append(pageSize).toString();
          }
-         sb.append(" ) order by ").append("R.date desc ");
+         sb.append(" ) as IN2 ON P.ID=  IN2.ID order by ").append("R.date desc ");
       }
+      logger.info(sb.toString());
       return sb;
    }
 
