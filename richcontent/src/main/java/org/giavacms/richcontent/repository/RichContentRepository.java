@@ -207,7 +207,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    {
       Map<String, Object> params = new HashMap<String, Object>();
       boolean count = true;
-      StringBuffer string_query = getListNative(search, params, count);
+      StringBuffer string_query = getListNative(search, params, count, 0, 0);
       Query query = getEm().createNativeQuery(string_query.toString());
       for (String param : params.keySet())
       {
@@ -223,17 +223,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    {
       Map<String, Object> params = new HashMap<String, Object>();
       boolean count = false;
-      StringBuffer stringbuffer_query = getListNative(search, params, count);
-      String string_query = null;
-      if (pageSize > 0)
-      {
-         string_query = _paginate(stringbuffer_query, startRow, pageSize);
-      }
-      else
-      {
-         string_query = stringbuffer_query.toString();
-      }
-      Query query = getEm().createNativeQuery(string_query);
+      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize);
+      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
       for (String param : params.keySet())
       {
          query.setParameter(param, params.get(param));
@@ -381,19 +372,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return new ArrayList<RichContent>(richContents.values());
    }
 
-   private String _paginate(StringBuffer sb, int startRow, int pageSize)
-   {
-      if (pageSize > 0)
-      {
-         return sb.append(" limit ").append(startRow).append(", ").append(pageSize).toString();
-      }
-      else
-      {
-         return sb.toString();
-      }
-   }
-
-   protected StringBuffer getListNative(Search<RichContent> search, Map<String, Object> params, boolean count)
+   protected StringBuffer getListNative(Search<RichContent> search, Map<String, Object> params, boolean count,
+            int startRow, int pageSize)
    {
       String pageAlias = "P";
 
@@ -422,12 +402,33 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(" LEFT JOIN RichContent_Image AS RI ON ( RI.RichContent_id = R.id ) ");
          sb.append(" LEFT JOIN Image as I on ( I.id = RI.images_id ) ");
       }
+
+      String innerPageAlias = pageAlias;
+      String innerRichContentAlias = "R";
+      String innerRichContentTypeAlias = "RT";
+
       String separator = " where ";
+
+      if (!count)
+      {
+         innerPageAlias = "P1";
+         innerRichContentAlias = "R1";
+         innerRichContentTypeAlias = "RT1";
+         sb.append(" where ").append(pageAlias).append(".id in ( select distinct ").append(innerPageAlias)
+                  .append(".id from ");
+         sb.append(RichContent.TABLE_NAME).append(" AS ").append(innerRichContentAlias);
+         sb.append(" LEFT JOIN ").append(RichContentType.TABLE_NAME).append(" AS ").append(innerRichContentTypeAlias)
+                  .append(" ON ( ").append(innerRichContentTypeAlias).append(".id = ").append(innerRichContentAlias)
+                  .append(".richContentType_id ) ");
+         sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(innerPageAlias).append(" on ( ")
+                  .append(innerRichContentAlias).append(".id = ")
+                  .append(innerPageAlias).append(".id ) ");
+      }
 
       // ACTIVE TYPE
       if (true)
       {
-         sb.append(separator).append(" RT.active = :activeContentType ");
+         sb.append(separator).append(innerRichContentTypeAlias).append(".active = :activeContentType ");
          params.put("activeContentType", true);
          separator = " and ";
       }
@@ -437,7 +438,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                && search.getObj().getRichContentType().getName() != null
                && search.getObj().getRichContentType().getName().length() > 0)
       {
-         sb.append(separator).append("RT.name = :NAMETYPE ");
+         sb.append(separator).append(innerRichContentTypeAlias).append(".name = :NAMETYPE ");
          params.put("NAMETYPE", search.getObj().getRichContentType()
                   .getName());
          separator = " and ";
@@ -447,7 +448,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       if (search.getObj().getRichContentType() != null
                && search.getObj().getRichContentType().getId() != null)
       {
-         sb.append(separator).append("RT.id = :IDTYPE ");
+         sb.append(separator).append(innerRichContentTypeAlias).append(".id = :IDTYPE ");
          params.put("IDTYPE", search.getObj().getRichContentType().getId());
          separator = " and ";
       }
@@ -476,7 +477,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             {
                likeMatch = true;
             }
-            sb.append(separator).append("R.id in ( ");
+            sb.append(separator).append(innerRichContentAlias).append(".id in ( ");
             sb.append(" select distinct T1.richContent_id from ")
                      .append(Tag.TABLE_NAME)
                      .append(" T1 where T1.tagName ")
@@ -500,7 +501,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             boolean usaJoin = false;
             if (usaJoin)
             {
-               sb.append("R.id in ( ");
+               sb.append(innerRichContentAlias).append(".id in ( ");
                sb.append(" select distinct T2.richContent_id from ")
                         .append(Tag.TABLE_NAME)
                         .append(" T2 where upper ( T2.tagName ) like :TAGNAME")
@@ -509,7 +510,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             }
             else
             {
-               sb.append(" upper ( ").append("R.tags ) like :TAGNAME").append(i)
+               sb.append(" upper ( ").append(innerRichContentAlias).append(".tags ) like :TAGNAME").append(i)
                         .append(" ");
             }
 
@@ -522,7 +523,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // ACTIVE
       if (true)
       {
-         sb.append(separator).append(pageAlias).append(".active = :active ");
+         sb.append(separator).append(innerPageAlias).append(".active = :active ");
          params.put("active", true);
          separator = " and ";
       }
@@ -530,7 +531,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // BASE PAGE
       if (search.getObj().getTemplate() != null && search.getObj().getTemplate().getId() != null)
       {
-         sb.append(separator).append(pageAlias).append(".template_id = :BASEPAGE_TEMPLATE_ID ");
+         sb.append(separator).append(innerPageAlias).append(".template_id = :BASEPAGE_TEMPLATE_ID ");
          params.put("BASEPAGE_TEMPLATE_ID", search.getObj().getTemplate().getId());
          separator = " and ";
       }
@@ -539,7 +540,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       if (search.getObj().getTitle() != null
                && !search.getObj().getTitle().trim().isEmpty())
       {
-         boolean likeSearch = likeSearch(likeParam(search.getObj().getTitle().trim().toUpperCase()), pageAlias,
+         boolean likeSearch = likeSearchNative(likeParam(search.getObj().getTitle().trim().toUpperCase()),
+                  innerPageAlias, innerRichContentAlias,
                   separator,
                   sb, params);
          if (likeSearch)
@@ -553,31 +555,40 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       {
          if (search.getObj().getLang() == 1)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang1id ");
          }
          else if (search.getObj().getLang() == 2)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang2id ");
          }
          else if (search.getObj().getLang() == 3)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang3id ");
          }
          else if (search.getObj().getLang() == 4)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang4id ");
          }
          else if (search.getObj().getLang() == 5)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang5id ");
          }
       }
 
+      if (!count)
+      {
+         sb.append(" order by ").append(innerRichContentAlias).append(".date desc ");
+         if (pageSize > 0)
+         {
+            sb.append(" limit ").append(startRow).append(", ").append(pageSize).toString();
+         }
+         sb.append(" ) order by ").append("R.date desc ");
+      }
       return sb;
    }
 
@@ -598,163 +609,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return true;
    }
 
-   public void fetchList(Object key)
-   {
-      RichContent richContent = null;
-      Map<String, Set<String>> imageNames = new HashMap<String, Set<String>>();
-      Map<String, Set<String>> documentNames = new HashMap<String, Set<String>>();
-      Map<String, RichContent> richcontents = new HashMap<String, RichContent>();
-
-      String nativeQuery = "SELECT  P.id, P.title, R.author, R.content, R.date, R.highlight, R.preview, R.tags, R.richContentType_id, RT.name as richContentType,"
-               + "I.fileName as image, "
-               + "D.filename as document "
-               + "FROM `RichContent` as R "
-               + "left join RichContentType as RT on (RT.id=R.richContentType_id) "
-               + "left join Page as P on (R.id=P.id) "
-               + "left join RichContent_Document as RD on (RD.RichContent_id=R.id) "
-               + "left join Document as D on (RD.documents_id=D.id) "
-               + "left join RichContent_Image as RI on (RI.RichContent_id=R.id) "
-               + "left join Image as I on (I.id=RI.images_id) "
-               + "where R.id= :ID";
-      @SuppressWarnings("unchecked")
-      Iterator<Object[]> results = getEm()
-               .createNativeQuery(nativeQuery).setParameter("ID", key).getResultList().iterator();
-      while (results.hasNext())
-      {
-         if (richContent == null)
-            richContent = new RichContent();
-         Object[] row = results.next();
-         int i = 0;
-         String id = (String) row[i];
-         if (id != null && !id.isEmpty())
-            richContent.setId(id);
-         i++;
-         String title = (String) row[i];
-         if (title != null && !title.isEmpty())
-            richContent.setTitle(title);
-         i++;
-         String author = (String) row[i];
-         if (author != null && !author.isEmpty())
-            richContent.setAuthor(author);
-         i++;
-         String content = (String) row[i];
-         if (content != null && !content.isEmpty())
-            richContent.setContent(content);
-         i++;
-         Timestamp date = (Timestamp) row[i];
-         if (date != null)
-         {
-            richContent.setDate(new Date(date.getTime()));
-         }
-         i++;
-         if (row[i] != null && row[i] instanceof Short)
-         {
-            richContent.setHighlight(((Short) row[i]) > 0 ? true : false);
-         }
-         else if (row[i] != null && row[i] instanceof Boolean)
-         {
-            richContent.setHighlight(((Boolean) row[i]).booleanValue());
-         }
-         i++;
-         String preview = (String) row[i];
-         if (preview != null && !preview.isEmpty())
-            richContent.setPreview(preview);
-         i++;
-         String tags = (String) row[i];
-         if (tags != null && !tags.isEmpty())
-            richContent.setTags(tags);
-         i++;
-         BigInteger richContentType_id = null;
-         if (row[i] instanceof BigInteger)
-         {
-            richContentType_id = (BigInteger) row[i];
-            richContent.getRichContentType().setId(richContentType_id.longValue());
-         }
-         i++;
-         String richContentType = (String) row[i];
-         if (richContentType != null && !richContentType.isEmpty())
-            richContent.getRichContentType().setName(richContentType);
-         i++;
-         String imagefileName = (String) row[i];
-         if (imagefileName != null && !imagefileName.isEmpty())
-         {
-            if (imageNames.containsKey(id))
-            {
-               HashSet<String> set = (HashSet<String>) documentNames.get(id);
-               set.add(imagefileName);
-            }
-            else
-            {
-               HashSet<String> set = new HashSet<String>();
-               set.add(imagefileName);
-               imageNames.put(id, set);
-            }
-         }
-         i++;
-         String documentfileName = (String) row[i];
-         if (documentfileName != null && !documentfileName.isEmpty())
-         {
-            if (documentNames.containsKey(id))
-            {
-               HashSet<String> set = (HashSet<String>) documentNames.get(id);
-               set.add(documentfileName);
-            }
-            else
-            {
-               HashSet<String> set = new HashSet<String>();
-               set.add(documentfileName);
-               documentNames.put(id, set);
-            }
-         }
-         if (!richcontents.containsKey(id))
-         {
-            richcontents.put(id, richContent);
-         }
-
-      }
-      for (String id : documentNames.keySet())
-      {
-         RichContent rich = null;
-         if (richcontents.containsKey(id))
-         {
-            rich = richcontents.get(id);
-            Set<String> docs = documentNames.get(id);
-            for (String docFileName : docs)
-            {
-               Document document = new Document();
-               document.setFilename(docFileName);
-               rich.addDocument(document);
-            }
-         }
-         else
-         {
-            System.out.println("ERRORE - DOCS CYCLE non trovo id:" + id);
-         }
-
-      }
-      for (String id : imageNames.keySet())
-      {
-         RichContent rich = null;
-         if (richcontents.containsKey(id))
-         {
-            rich = richcontents.get(id);
-            Set<String> docs = imageNames.get(id);
-            for (String imgFileName : docs)
-            {
-               Image image = new Image();
-               image.setFilename(imgFileName);
-               rich.addImage(image);
-            }
-         }
-         else
-         {
-            System.out.println("ERRORE IMGS CYCLE non trovo id:" + id);
-         }
-
-      }
-      return;
-   }
-
    @Override
    public RichContent fetch(Object key)
    {
@@ -766,7 +620,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                + "I.fileName as image, "
                + "D.filename as document "
                + "FROM `RichContent` as R "
-               + "left join RichContentType as RT on (RT.id=R.id) "
+               + "left join RichContentType as RT on (RT.id=R.richContentType_id) "
                + "left join Page as P on (R.id=P.id) "
                + "left join RichContent_Document as RD on (RD.RichContent_id=R.id) "
                + "left join Document as D on (RD.documents_id=D.id) "
