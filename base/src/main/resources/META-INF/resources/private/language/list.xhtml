@@ -93,7 +93,7 @@
 							</p:rowEditor>
 							<p:commandLink action="#{languageController.delete(id)}"
 								ajax="false" immediate=""
-								onclick="if(!confirm('Vuoi veramente eliminare il linguaggio \'#{l.id}\''?')) return false" value="elimina">
+								onclick="if(!confirm('Vuoi veramente eliminare il linguaggio \'#{l.id}\''?')) return false" title="elimina" style="font-size: 24px;" styleClass="icon-trash" >
 							</p:commandLink>
 						</p:column>
 						<p:ajax event="rowEdit" listener="#{languageController.onRowEdit}"

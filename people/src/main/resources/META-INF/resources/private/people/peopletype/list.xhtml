@@ -25,26 +25,26 @@
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column width="100">
+						<p:column >
 							<f:facet name="header">titolo</f:facet>
 							<h:outputText value="#{contenuto.richContentType.name}" />
 						</p:column>
 
-						<p:column width="50">
+						<p:column >
 							<f:facet name="header">larghezza immagine</f:facet>
 							<h:outputText value="#{contenuto.imageWidth}" />
 						</p:column>
 
-						<p:column width="50">
+						<p:column >
 							<f:facet name="header">altezza immagine</f:facet>
 							<h:outputText value="#{contenuto.imageHeight}" />
 						</p:column>
 
-						<p:column width="200">
+						<p:column >
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{peopleTypeController.deleteInline}"
-									value="elimina" />
+									title="elimina" style="font-size: 24px;" styleClass="icon-trash" />
 							</center>
 						</p:column>
 					</p:dataTable>

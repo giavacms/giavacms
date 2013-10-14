@@ -1,28 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html>
+<f:view contentType="text/html" encoding="UTF-8"
+ xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:gb="http://giavacms.org/base">
-<f:view contentType="text/html" encoding="UTF-8">
+
+	<h:outputText escape="false"
+		value="&lt;!--[if lt IE 7 ]&gt; &lt;html class='ie ie6' lang='it'&gt; &lt;![endif]--&gt;" />
+	<h:outputText escape="false"
+		value="&lt;!--[if IE 7 ]&gt; &lt;html class='ie ie7' lang='it'&gt; &lt;![endif]--&gt;" />
+	<h:outputText escape="false"
+		value="&lt;!--[if IE 8 ]&gt; &lt;html class='ie ie8' lang='it'&gt; &lt;![endif]--&gt;" />
+
+	<h:outputText escape="false"
+		value="&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;" />
+	<html lang="it">
+	<h:outputText escape="false" value="&lt;!--&lt;![endif]--&gt;" />
+
 	<f:event type="preRenderView" listener="#{loginController.checkRoles}" />
+
 	<ui:insert name="roles">
 		<f:attribute name="roles" value="ANY" />
 	</ui:insert>
-	<style>
-<ui:insert name="styles"></ui:insert>
-</style>
+
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title><ui:define name="title">
 				<h:outputText value="GiavaCms - Administration" />
 			</ui:define></title>
 		<h:outputStylesheet library="styles" name="administration.css" />
+		<h:outputStylesheet library="scripts/font-awesome/css" name="font-awesome.css" target="head" />
+		<h:outputText escape="false"
+			value="&lt;!--[if IE 7 ]&gt; &lt;link rel='stylesheet' href='scripts/font-awesome/css/font-awesome-ie7.min.css' &gt; &lt;![endif]--&gt;" />
+		<style>
+			<ui:insert name="styles"></ui:insert>
+		</style>
 		<ui:insert name="bundle">
 		</ui:insert>
-	<script type="text/javascript"> PrimeFaces.locales ['it'] = {
+		<script type="text/javascript"> PrimeFaces.locales ['it'] = {
 			closeText: 'Chiudi', 
 			prevText: 'Precedente', 
 			nextText: 'Successivo', 
@@ -47,9 +64,43 @@
 			week: 'Settimana', 
 			day: 'Giorno', 
 			allDayText: 'Tutto il giorno'}; 
-	</script>
+		</script>
 	</h:head>
 	<h:body>
+	
+		<p:idleMonitor timeout="3600000" onidle="idleDialog.show();"
+		onactive="idleDialog.hide();" />
+
+		<p:dialog header="Cosa Succede?" resizable="false"
+			widgetVar="idleDialog" modal="true" width="400">
+			<h:outputText
+				value="Sei ancora al monitor? Salva per evitare di perdere il tuo lavoro!" />
+		</p:dialog>
+	
+		<ui:insert name="modalWait">
+			<p:ajaxStatus onstart="statusDialog.show();"
+				onsuccess="statusDialog.hide();" id="ajaxStatusPanel2">
+				<f:facet name="start">
+
+
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+		</ui:insert>
+				
+		<p:dialog modal="true" widgetVar="statusDialog"
+			header="Operazione in corso" draggable="false" closable="false"
+			width="400" resizable="false">
+			<center>
+				<h:outputText value="Attendere prego..." />
+				<br />
+				<h:graphicImage library="images" name="ajaxloading.gif"
+					alt="loading" title="loading" />
+			</center>
+		</p:dialog>
+		
 		<div id="headPage"></div>
 		<p:messages></p:messages>
 
@@ -80,5 +131,7 @@
 		</p:panel>
 		<div id="footPage"></div>
 	</h:body>
+
+	</html>
+
 </f:view>
-</html>
