@@ -28,7 +28,6 @@ public class PaypalUtils
 {
 
    static Logger logger = Logger.getLogger(PaypalUtils.class);
-   static DecimalFormat decimalFormat = new DecimalFormat("##.00");
 
    public static APIContext getAPIContext(String requestId, PaypalConfiguration paypalConfiguration)
             throws PayPalRESTException
@@ -57,7 +56,9 @@ public class PaypalUtils
 
    public static void init(PaypalConfiguration paypalConfiguration, ShoppingCart shoppingCart) throws Exception
    {
-
+      DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(java.util.Locale.ENGLISH);
+      decimalFormat.applyLocalizedPattern("#.##");
+      decimalFormat.setGroupingUsed(false);
       PayPalResource.initConfig(PaypalAccountUtils.getPropertiesFromPaypalConfiguration(paypalConfiguration));
 
       // ### Api Context
@@ -89,8 +90,8 @@ public class PaypalUtils
          logger.info("article" + i + ") " + article.toString());
          itemList.getItems().add(new Item("" + article.getQuantity(), article.getDescription(), article.getPrice(),
                   shoppingCart.getCurrency()));
-         totalAmount += Double.valueOf(article.getPrice());
-         totalTax += Double.valueOf(article.getVat());
+         totalAmount += Double.valueOf(article.getQuantity()) * Double.valueOf(article.getPrice());
+         totalTax += Double.valueOf(article.getQuantity()) * Double.valueOf(article.getVat());
       }
 
       double total = totalAmount + totalTax + shipping;
@@ -155,6 +156,7 @@ public class PaypalUtils
                + createdPayment.getState());
       if (createdPayment.getState().equalsIgnoreCase("created"))
       {
+         logger.info("payment created!!");
          shoppingCart.setCreated(true);
          // ###Payment Approval Url
          Payment.getLastResponse();
@@ -167,23 +169,22 @@ public class PaypalUtils
             if (link.getRel().equalsIgnoreCase("approval_url"))
             {
                shoppingCart.setApprovalUrl(link.getHref());
+               logger.info("approval_url: " + shoppingCart.getApprovalUrl());
             }
             if (link.getRel().equalsIgnoreCase("self"))
             {
                shoppingCart.setSelfUrl(link.getHref());
+               logger.info("self: " + shoppingCart.getSelfUrl());
             }
             if (link.getRel().equalsIgnoreCase("execute"))
             {
                shoppingCart.setExecuteUrl(link.getHref());
+               logger.info("execute: " + shoppingCart.getExecuteUrl());
             }
          }
       }
+      logger.info(shoppingCart.toString());
 
    }
 
-   public static void main(String[] args)
-   {
-      double totalAmount = new Double("1123456734.67");
-      System.out.println(decimalFormat.format(totalAmount));
-   }
 }

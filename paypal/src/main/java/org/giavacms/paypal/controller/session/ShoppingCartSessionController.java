@@ -73,12 +73,20 @@ public class ShoppingCartSessionController implements Serializable
          PaypalUtils.init(paypallProducer.getPaypalConfiguration(), getElement());
          shoppingCartRepository.update(getElement());
          if (getElement().isCreated())
-            JSFUtils.redirect(getElement().getApprovalUrl());
+         {
+            logger.info("redirect: " + getElement().getApprovalUrl());
+            FacesContext.getCurrentInstance().getExternalContext().redirect(getElement().getApprovalUrl());
+         }
          else
          {
             logger.info("ERROR!!!");
             return;
          }
+      }
+      catch (RuntimeException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
       }
       catch (Exception e)
       {
@@ -100,9 +108,14 @@ public class ShoppingCartSessionController implements Serializable
       }
    }
 
-   public void reset()
+   public void resetShoppingCart()
    {
       this.element = new ShoppingCart(paypallProducer.getPaypalConfiguration().getCurrency());
+   }
+
+   public void reset()
+   {
+      resetShoppingCart();
       try
       {
          JSFUtils.redirect(paypallProducer.getPaypalConfiguration().getShoppingCartUrl());

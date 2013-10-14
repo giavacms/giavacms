@@ -12,6 +12,6 @@ public class ShippingAmountService
    public double calculate(ShoppingCart shoppingCart)
    {
 
-      return Double.valueOf("0.00");
+      return Double.valueOf("0");
    }
 }

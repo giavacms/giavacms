@@ -37,7 +37,7 @@ public class ShoppingCartRepository extends
    protected String getDefaultOrderBy()
    {
       // TODO Auto-generated method stub
-      return "id asc";
+      return "id desc";
    }
 
 }
