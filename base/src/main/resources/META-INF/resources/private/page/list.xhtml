@@ -118,29 +118,32 @@
 							<f:facet name="header">
 							e' pagina di base
 						</f:facet>
-							<h:outputText value="NO" rendered="#{p.clone}" />
-							<h:outputText value="SI" rendered="#{not p.clone}" />
+							<center>
+								<h:outputText value="NO" rendered="#{p.clone}" />
+								<h:outputText value="SI" rendered="#{not p.clone}" />
+							</center>
 						</p:column>
 						<p:column width="150">
 							<f:facet name="header">
 							operazioni
 						</f:facet>
 							<center>
-								<h:commandLink value="modifica"
+								<h:commandLink style="font-size: 24px; " styleClass="icon-edit" title="modifica"
 									action="#{pageController.modElement}" />
-								<h:outputText value=" - " />
-								<h:outputLink target="_blank"
+								<h:outputText value=" " />
+								<h:outputLink target="_blank" style="font-size: 24px;"
+									styleClass="icon-eye-open" title="anteprima"
 									value="#{request.contextPath}/p/#{p.id}">
-									<h:outputText value="anteprima" />
 								</h:outputLink>
 								<h:panelGroup rendered="#{not p.clone}">
-									<h:outputText value=" - " />
-									<h:commandLink value="copia"
+									<h:outputText value=" " />
+									<h:commandLink style="font-size: 24px;" styleClass="icon-copy" title="crea copia"
 										action="#{pageController.cloneElement}" />
 								</h:panelGroup>
 								<h:panelGroup rendered="#{loginController.isInRole('i18n')}">
-									<h:outputText value=" - " />
-									<p:commandLink value="associa lingue"
+									<h:outputText value=" " />
+									<p:commandLink style="font-size: 24px;"
+										styleClass="icon-flag alt" title="imposta lingua e lingue alternative"
 										action="#{i18nController.modElement(p.id)}"
 										update=":dialog_central" oncomplete="i18nDialog.show();" />
 								</h:panelGroup>

@@ -342,7 +342,8 @@ public class FileSystemWriterService implements Serializable
       File absolutePath = null;
       if (path == null || path.trim().length() == 0)
       {
-         absolutePath = new File("/opt/jboss7/standalone/deployment/vandel/ROOT.war/cache");
+         String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
+         absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), "cache");
       }
       else
       {

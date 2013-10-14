@@ -26,31 +26,31 @@
 								rendered="#{i18nController.element.lang eq 0}" />
 							<h:outputText value="#{language1.id} "
 								rendered="#{i18nController.element.id eq i18nController.element.lang1id}" />
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(1)}"
 								rendered="#{i18nController.element.id eq i18nController.element.lang1id}" />
 							<h:outputText value="#{language2.id} "
 								rendered="#{i18nController.element.id eq i18nController.element.lang2id}" />
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(2)}"
 								rendered="#{i18nController.element.id eq i18nController.element.lang2id}" />
 							<h:outputText value="#{language3.id} "
 								rendered="#{i18nController.element.id eq i18nController.element.lang3id}" />
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(3)}"
 								rendered="#{i18nController.element.id eq i18nController.element.lang3id}" />
 							<h:outputText value="#{language4.id} "
 								rendered="#{i18nController.element.id eq i18nController.element.lang4id}" />
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(4)}"
 								rendered="#{i18nController.element.id eq i18nController.element.lang4id}" />
 							<h:outputText value="#{language5.id} "
 								rendered="#{i18nController.element.id eq i18nController.element.lang5id}" />
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(5)}"
 								rendered="#{i18nController.element.id eq i18nController.element.lang5id}" />
@@ -106,7 +106,7 @@
 							</h:panelGroup>
 						</h:panelGroup>
 						<h:panelGroup>
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(1)}"
 								rendered="#{not empty i18nController.element.lang1id and not empty language1 and i18nController.element.id != i18nController.element.lang1id}" />
@@ -128,7 +128,7 @@
 							</h:panelGroup>
 						</h:panelGroup>
 						<h:panelGroup>
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(2)}"
 								rendered="#{not empty i18nController.element.lang2id and not empty language2 and i18nController.element.id != i18nController.element.lang2id}" />
@@ -150,7 +150,7 @@
 							</h:panelGroup>
 						</h:panelGroup>
 						<h:panelGroup>
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(3)}"
 								rendered="#{not empty i18nController.element.lang3id and not empty language3 and i18nController.element.id != i18nController.element.lang3id}" />
@@ -172,7 +172,7 @@
 							</h:panelGroup>
 						</h:panelGroup>
 						<h:panelGroup>
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(4)}"
 								rendered="#{not empty i18nController.element.lang4id and not empty language4 and i18nController.element.id != i18nController.element.lang4id}" />
@@ -194,7 +194,7 @@
 							</h:panelGroup>
 						</h:panelGroup>
 						<h:panelGroup>
-							<p:commandLink value="elimina" ajax="true"
+							<p:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash"  ajax="true"
 								update="dialog_central"
 								action="#{i18nController.resetLanguage(5)}"
 								rendered="#{not empty i18nController.element.lang5id and not empty language5 and i18nController.element.id != i18nController.element.lang5id}" />
@@ -315,9 +315,9 @@
 						</p:column>
 						<p:column width="150" headerText="anteprima">
 							<center>
-								<h:outputLink target="_blank"
+								<h:outputLink target="_blank" style="font-size: 24px;"
+									styleClass="icon-eye-open" title="anteprima"
 									value="#{request.contextPath}/p/#{p.id}">
-									<h:outputText value="anteprima" />
 								</h:outputLink>
 							</center>
 						</p:column>

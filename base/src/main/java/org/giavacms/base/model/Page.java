@@ -16,6 +16,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
@@ -23,12 +24,15 @@ import javax.persistence.Transient;
 // @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // non ci risparmia una
 // seconda query per calcolare il resto dei dati secondo me, e per contro rende
 // "huge" la tabella PAGE
+@Table(name = Page.TABLE_NAME)
 @DiscriminatorColumn(name = "EXTENSION", discriminatorType = DiscriminatorType.STRING)
 public class Page extends I18nSupport
 // implements I18Nable, Serializable
 {
 
    private static final long serialVersionUID = 1L;
+
+   public static final String TABLE_NAME = "Page";
 
    // ------------------------------------------------------------------------
 

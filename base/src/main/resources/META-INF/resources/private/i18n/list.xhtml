@@ -77,7 +77,7 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language1 and i18nController.element.id != i18nController.element.lang1id}">
-							<h:commandLink value="elimina"
+							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
 								action="#{i18nController.resetLanguage(1)}"
 								rendered="#{not empty i18nController.element.lang1id}" />
 						</h:panelGroup>
@@ -94,7 +94,7 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language2 and i18nController.element.id != i18nController.element.lang2id}">
-							<h:commandLink value="elimina"
+							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
 								action="#{i18nController.resetLanguage(2)}"
 								rendered="#{not empty i18nController.element.lang2id}" />
 						</h:panelGroup>
@@ -111,7 +111,7 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language3 and i18nController.element.id != i18nController.element.lang3id}">
-							<h:commandLink value="elimina"
+							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
 								action="#{i18nController.resetLanguage(3)}"
 								rendered="#{not empty i18nController.element.lang3id}" />
 						</h:panelGroup>
@@ -128,7 +128,7 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id}">
-							<h:commandLink value="elimina"
+							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
 								action="#{i18nController.resetLanguage(4)}"
 								rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id and not empty i18nController.element.lang4id}" />
 						</h:panelGroup>
@@ -145,7 +145,7 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language5 and i18nController.element.id != i18nController.element.lang5id}">
-							<h:commandLink value="elimina"
+							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
 								action="#{i18nController.resetLanguage(5)}"
 								rendered="#{not empty i18nController.element.lang5id}" />
 						</h:panelGroup>
@@ -298,30 +298,30 @@
 						<p:column width="50" headerText="imposta"
 							rendered="#{not empty i18nController.element and i18nController.element.lang gt 0 }">
 							<center>
-								<p:commandLink value="imposta"
+								<p:commandLink title="imposta" styleClass="icon-flag"
 									action="#{i18nController.setLanguage(1,p.id)}"
 									update="pagesList :central:selectedGrid :central:selectedVersions"
-									style="margin-left: 10px;"
+									style="margin-left: 10px; font-size: 24px;"
 									rendered="#{not empty language1 and p.id eq p.lang1id and  i18nController.element.id != p.id}" />
-								<p:commandLink value="imposta"
+								<p:commandLink title="imposta" styleClass="icon-flag"
 									update="pagesList :central:selectedGrid :central:selectedVersions"
 									action="#{i18nController.setLanguage(2,p.id)}"
-									style="margin-left: 10px;"
+									style="margin-left: 10px; font-size: 24px;"
 									rendered="#{not empty language2 and p.id eq p.lang2id and  i18nController.element.id != p.id}" />
-								<p:commandLink value="imposta"
+								<p:commandLink title="imposta" styleClass="icon-flag"
 									update="pagesList :central:selectedGrid :central:selectedVersions"
 									action="#{i18nController.setLanguage(3,p.id)}"
-									style="margin-left: 10px;"
+									style="margin-left: 10px; font-size: 24px;"
 									rendered="#{not empty language3 and p.id eq p.lang3id and  i18nController.element.id  != p.id}" />
-								<p:commandLink value="imposta"
+								<p:commandLink title="imposta" styleClass="icon-flag"
 									update="pagesList :central:selectedGrid :central:selectedVersions"
 									action="#{i18nController.setLanguage(4,p.id)}"
-									style="margin-left: 10px;"
+									style="margin-left: 10px; font-size: 24px;"
 									rendered="#{not empty language4 and p.id eq p.lang4id and  i18nController.element.id  != p.id}" />
-								<p:commandLink value="imposta"
+								<p:commandLink title="imposta" styleClass="icon-flag"
 									update="pagesList :central:selectedGrid :central:selectedVersions"
 									action="#{i18nController.setLanguage(5,p.id)}"
-									style="margin-left: 10px;"
+									style="margin-left: 10px; font-size: 24px;"
 									rendered="#{not empty language5 and p.id eq p.lang5id and  i18nController.element.id  != p.id}" />
 							</center>
 						</p:column>

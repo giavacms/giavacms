@@ -14,13 +14,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = Template.TABLE_NAME)
 public class Template implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+
+   public static final String TABLE_NAME = "Template";
 
    // ------------------------------------------------------------------------
 
