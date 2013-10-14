@@ -9,13 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = Tag.TABLE_NAME)
 public class Tag implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "Tag";
+
    private Long id;
    private RichContent richContent;
    private String richContentId;
