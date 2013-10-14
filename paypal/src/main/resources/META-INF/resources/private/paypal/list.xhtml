@@ -21,8 +21,7 @@
 
 					</h:panelGrid>
 					<p:commandButton action="#{shoppingCartController.reloadAjax}"
-						value="Cerca" ajax="true" immediate="false"
-						update="contentList" />
+						value="Cerca" ajax="true" immediate="false" update="contentList" />
 					<p:commandButton action="#{shoppingCartController.reset}"
 						value="Azzera filtri" ajax="false" immediate="true" />
 					<br />
@@ -42,8 +41,16 @@
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">data</f:facet>
-							<h:outputText value="#{shc.data}">
+							<f:facet name="header">data start</f:facet>
+							<h:outputText value="#{shc.dataStart}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">data end</f:facet>
+							<h:outputText value="#{shc.dataEnd}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
@@ -52,6 +59,18 @@
 						<p:column width="100">
 							<f:facet name="header">currency</f:facet>
 							<h:outputText value="#{shc.currency}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">paymentId</f:facet>
+							<h:outputText value="#{shc.paymentId}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">created/payed</f:facet>
+							<h:outputText value="#{shc.created}" />
+							<br />
+							<h:outputText value="#{shc.payed}" />
 						</p:column>
 
 						<p:column width="200">

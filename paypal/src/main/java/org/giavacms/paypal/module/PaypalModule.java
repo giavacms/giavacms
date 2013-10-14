@@ -21,7 +21,7 @@ public class PaypalModule implements ModuleProvider
    @Override
    public String getName()
    {
-      return "people";
+      return "paypal";
    }
 
    @Override

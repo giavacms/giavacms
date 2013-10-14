@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -19,27 +18,29 @@ public class ShoppingCart implements Serializable
 {
    private static final long serialVersionUID = 1L;
    private Long id;
-   private String shipping;
+   private double shipping;
    private List<ShoppingArticle> shoppingArticles;
    private PayerInfo payerInfo;
    private String paymentId;
    private String currency;
-   private Date data;
+   private Date dataStart;
    private String approvalUrl;
    private String selfUrl;
    private String executeUrl;
    private boolean created;
+   private Date dataEnd;
+   private boolean payed;
 
    public ShoppingCart()
    {
       this.currency = "EUR";
-      this.data = new Date();
+      this.dataStart = new Date();
    }
 
    public ShoppingCart(String currency)
    {
       this.currency = currency;
-      this.data = new Date();
+      this.dataStart = new Date();
    }
 
    @Id
@@ -54,12 +55,12 @@ public class ShoppingCart implements Serializable
       this.id = id;
    }
 
-   public String getShipping()
+   public double getShipping()
    {
       return shipping;
    }
 
-   public void setShipping(String shipping)
+   public void setShipping(double shipping)
    {
       this.shipping = shipping;
    }
@@ -121,14 +122,14 @@ public class ShoppingCart implements Serializable
       this.currency = currency;
    }
 
-   public Date getData()
+   public Date getDataStart()
    {
-      return data;
+      return dataStart;
    }
 
-   public void setData(Date data)
+   public void setDataStart(Date data)
    {
-      this.data = data;
+      this.dataStart = data;
    }
 
    public String getApprovalUrl()
@@ -169,6 +170,34 @@ public class ShoppingCart implements Serializable
    public void setCreated(boolean created)
    {
       this.created = created;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "ShoppingCart [id=" + id + ", shipping=" + shipping + ", payerInfo=" + payerInfo + ", paymentId="
+               + paymentId + ", currency=" + currency + ", data=" + dataStart + ", approvalUrl=" + approvalUrl
+               + ", selfUrl=" + selfUrl + ", executeUrl=" + executeUrl + ", created=" + created + "]";
+   }
+
+   public Date getDataEnd()
+   {
+      return dataEnd;
+   }
+
+   public void setDataEnd(Date dataEnd)
+   {
+      this.dataEnd = dataEnd;
+   }
+
+   public boolean isPayed()
+   {
+      return payed;
+   }
+
+   public void setPayed(boolean payed)
+   {
+      this.payed = payed;
    }
 
 }

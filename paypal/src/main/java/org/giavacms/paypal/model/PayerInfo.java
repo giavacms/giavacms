@@ -108,4 +108,12 @@ public class PayerInfo implements Serializable
    {
       this.address = address;
    }
+
+   @Override
+   public String toString()
+   {
+      return "PayerInfo [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+               + ", payerId=" + payerId + ", phone=" + phone + ", address=" + address + "]";
+   }
+
 }
