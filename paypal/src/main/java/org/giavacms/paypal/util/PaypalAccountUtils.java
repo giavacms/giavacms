@@ -4,24 +4,23 @@ import java.util.Properties;
 
 import org.giavacms.paypal.model.PaypalConfiguration;
 
-import com.paypal.core.ConfigManager;
 import com.paypal.core.rest.OAuthTokenCredential;
 import com.paypal.core.rest.PayPalRESTException;
 
 public class PaypalAccountUtils
 {
 
-   public static String getAccessToken() throws PayPalRESTException
+   public static String getAccessToken(PaypalConfiguration paypalConfiguration) throws PayPalRESTException
    {
 
       // ###AccessToken
       // Retrieve the access token from
       // OAuthTokenCredential by passing in
       // ClientID and ClientSecret
-      String clientID = ConfigManager.getInstance().getConfigurationMap().get("clientID");
-      String clientSecret = ConfigManager.getInstance().getConfigurationMap().get(
-               "clientSecret");
-      return new OAuthTokenCredential(clientID, clientSecret)
+      // String clientID = ConfigManager.getInstance().getConfigurationMap().get("clientID");
+      // String clientSecret = ConfigManager.getInstance().getConfigurationMap().get(
+      // "clientSecret");
+      return new OAuthTokenCredential(paypalConfiguration.getClientID(), paypalConfiguration.getClientSecret())
                .getAccessToken();
    }
 

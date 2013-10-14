@@ -30,26 +30,28 @@ public class PaypalUtils
 
    static Logger logger = Logger.getLogger(PaypalUtils.class);
 
-   public static APIContext getAPIContext(String requestId) throws PayPalRESTException
+   public static APIContext getAPIContext(String requestId, PaypalConfiguration paypalConfiguration)
+            throws PayPalRESTException
    {
       APIContext apiContext;
       if (requestId != null && !requestId.isEmpty())
       {
-         apiContext = new APIContext(PaypalAccountUtils.getAccessToken(), requestId);
+         apiContext = new APIContext(PaypalAccountUtils.getAccessToken(paypalConfiguration), requestId);
       }
       else
       {
-         apiContext = new APIContext(PaypalAccountUtils.getAccessToken());
+         apiContext = new APIContext(PaypalAccountUtils.getAccessToken(paypalConfiguration));
       }
       return apiContext;
    }
 
-   public static void end(String payerId, String guid) throws PayPalRESTException
+   public static void end(String payerId, String guid, PaypalConfiguration paypalConfiguration)
+            throws PayPalRESTException
    {
       Payment payment = new Payment();
       PaymentExecution paymentExecution = new PaymentExecution();
       paymentExecution.setPayerId(payerId);
-      payment.execute(getAPIContext(guid), paymentExecution);
+      payment.execute(getAPIContext(guid, paypalConfiguration), paymentExecution);
       System.out.println(Payment.getLastResponse());
    }
 
@@ -121,7 +123,7 @@ public class PaypalUtils
       // A Payment Resource; create one using
       // the above types and intent as 'sale'
       Payment payment = new Payment("sale", payer, transactions);
-     
+
       // ###Redirect URLs
       RedirectUrls redirectUrls = new RedirectUrls();
       // String guid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -134,7 +136,7 @@ public class PaypalUtils
       // Create a payment by posting to the APIService
       // using a valid AccessToken
       // The return object contains the status;
-      Payment createdPayment = payment.create(getAPIContext("" + shoppingCart.getId()));
+      Payment createdPayment = payment.create(getAPIContext("" + shoppingCart.getId(), paypalConfiguration));
       logger.info("Created payment with id = "
                + createdPayment.getId() + " and status = "
                + createdPayment.getState());

@@ -1,6 +1,5 @@
 package org.giavacms.paypal.test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,8 +25,6 @@ import com.paypal.core.rest.PayPalRESTException;
 public class TestPaypallRestApi
 {
 
-   private static final long serialVersionUID = 1L;
-
    private static final Logger LOGGER = Logger
             .getLogger(TestPaypallRestApi.class.getCanonicalName());
    private static Map<String, String> map = new HashMap<String, String>();
@@ -51,7 +48,7 @@ public class TestPaypallRestApi
       String accessToken = null;
       try
       {
-         accessToken = PaypalAccountUtils.getAccessToken();
+         accessToken = PaypalAccountUtils.getAccessToken(paypalConfiguration);
 
          // ### Api Context
          // Pass in a `ApiContext` object to authenticate

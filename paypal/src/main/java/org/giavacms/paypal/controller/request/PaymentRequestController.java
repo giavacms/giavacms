@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.paypal.model.ShoppingCart;
+import org.giavacms.paypal.producer.PaypallProducer;
 import org.giavacms.paypal.repository.ShoppingCartRepository;
 import org.giavacms.paypal.util.PaypalUtils;
 
@@ -20,6 +21,9 @@ public class PaymentRequestController
    @Inject
    ShoppingCartRepository shoppingCartRepository;
 
+   @Inject
+   PaypallProducer paypallProducer;
+
    public PaymentRequestController()
    {
    }
@@ -33,7 +37,7 @@ public class PaymentRequestController
          if (shoppingCart != null)
             try
             {
-               PaypalUtils.end(getPayerId(), getGuid());
+               PaypalUtils.end(getPayerId(), getGuid(), paypallProducer.getPaypalConfiguration());
             }
             catch (PayPalRESTException e)
             {
