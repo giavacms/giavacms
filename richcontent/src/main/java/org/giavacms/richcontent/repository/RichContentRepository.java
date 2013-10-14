@@ -238,8 +238,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       Iterator<Object[]> results = query.getResultList().iterator();
       while (results.hasNext())
       {
-         if (richContent == null)
-            richContent = new RichContent();
+         richContent = new RichContent();
          Object[] row = results.next();
          int i = 0;
          String id = (String) row[i];
