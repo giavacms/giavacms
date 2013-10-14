@@ -1,6 +1,7 @@
 package org.giavacms.richcontent.controller.request;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class RichContentRandomRequestController extends
    private static final long serialVersionUID = 1L;
 
    Random random = new Random();
-   
+
    @Inject
    @OwnRepository(RichContentRepository.class)
    RichContentRepository richContentRepository;
@@ -30,6 +31,10 @@ public class RichContentRandomRequestController extends
    public List<RichContent> loadPage(int startRow, int pageSize)
    {
       int size = richContentRepository.getListSize(getSearch());
+      if (size == 0)
+      {
+         return new ArrayList<RichContent>();
+      }
       startRow = random.nextInt(size);
       int maxIterations = 10;
       while ((maxIterations > 0) && ((size - startRow) < pageSize))
