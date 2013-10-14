@@ -1,6 +1,7 @@
 package org.giavacms.richcontent.repository;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -369,16 +370,19 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          if (content != null && !content.isEmpty())
             richContent.setContent(content);
          i++;
-         String date = (String) row[i];
+         Timestamp date = (Timestamp) row[i];
+         if (date != null)
+         {
+            richContent.setDate(new Date(date.getTime()));
+         }
          i++;
-         boolean highlight = false;
          if (row[i] != null && row[i] instanceof Short)
          {
-            highlight = ((Short) row[i]) > 0 ? true : false;
+            richContent.setHighlight(((Short) row[i]) > 0 ? true : false);
          }
          else if (row[i] != null && row[i] instanceof Boolean)
          {
-            highlight = ((Boolean) row[i]).booleanValue();
+            richContent.setHighlight(((Boolean) row[i]).booleanValue());
          }
          i++;
          String preview = (String) row[i];
