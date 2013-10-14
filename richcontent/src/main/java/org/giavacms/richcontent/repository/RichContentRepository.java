@@ -205,16 +205,15 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    @Override
    public int getListSize(Search<RichContent> search)
    {
-      String pageAlias = "P";
       Map<String, Object> params = new HashMap<String, Object>();
-      StringBuffer string_query = getListNative(pageAlias, search, params);
-      String string_query_pagination = _count(pageAlias, string_query);
-      Query query = getEm().createNativeQuery(string_query_pagination);
+      boolean count = true;
+      StringBuffer string_query = getListNative(search, params, count);
+      Query query = getEm().createNativeQuery(string_query.toString());
       for (String param : params.keySet())
       {
          query.setParameter(param, params.get(param));
       }
-      return (Integer) query.getSingleResult();
+      return ((BigInteger) query.getSingleResult()).intValue();
    }
 
    @Override
@@ -222,9 +221,9 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    public List<RichContent> getList(Search<RichContent> search, int startRow,
             int pageSize)
    {
-      String pageAlias = "P";
       Map<String, Object> params = new HashMap<String, Object>();
-      StringBuffer stringbuffer_query = getListNative(pageAlias, search, params);
+      boolean count = false;
+      StringBuffer stringbuffer_query = getListNative(search, params, count);
       String string_query = null;
       if (pageSize > 0)
       {
@@ -382,20 +381,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return new ArrayList<RichContent>(richContents.values());
    }
 
-   private String _count(String pageAlias, StringBuffer sb)
-   {
-      StringBuffer w = new StringBuffer();
-      w.append(" select ");
-      w.append(" count( distinct " + pageAlias + ".id ) ");
-      w.append(" from ");
-      w.append(" ( ");
-      // the original query
-      w.append(sb);
-      // the original query
-      w.append(" ) ");
-      return w.toString();
-   }
-
    private String _paginate(StringBuffer sb, int startRow, int pageSize)
    {
       if (pageSize > 0)
@@ -408,23 +393,35 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       }
    }
 
-   protected StringBuffer getListNative(String pageAlias, Search<RichContent> search, Map<String, Object> params)
+   protected StringBuffer getListNative(Search<RichContent> search, Map<String, Object> params, boolean count)
    {
+      String pageAlias = "P";
+
       StringBuffer sb = new StringBuffer(
-               "SELECT ").append(pageAlias).append(".id, ").append(pageAlias).append(".title, ");
-      sb.append(" R.author, R.content, R.date, R.highlight, R.preview, R.tags, R.richContentType_id, ");
-      sb.append(" RT.name AS richContentType, ");
-      sb.append(" I.fileName AS image, ");
-      sb.append(" D.filename AS document ");
+               "SELECT ");
+      if (count)
+      {
+         sb.append(" count( distinct ").append(pageAlias).append(".id ) ");
+      }
+      else
+      {
+         sb.append(pageAlias).append(".id, ").append(pageAlias).append(".title, ");
+         sb.append(" R.author, R.content, R.date, R.highlight, R.preview, R.tags, R.richContentType_id, ");
+         sb.append(" RT.name AS richContentType, ");
+         sb.append(" I.fileName AS image, ");
+         sb.append(" D.filename AS document ");
+      }
       sb.append(" FROM ").append(RichContent.TABLE_NAME).append(" AS R ");
       sb.append(" LEFT JOIN ").append(RichContentType.TABLE_NAME).append(" AS RT ON ( RT.id = R.id ) ");
       sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(pageAlias).append(" on (R.id = ")
                .append(pageAlias).append(".id ) ");
-      sb.append(" LEFT JOIN RichContent_Document AS RD ON ( RD.RichContent_id = R.id ) ");
-      sb.append(" LEFT JOIN Document AS D ON ( RD.documents_id = D.id ) ");
-      sb.append(" LEFT JOIN RichContent_Image AS RI ON ( RI.RichContent_id = R.id ) ");
-      sb.append(" LEFT JOIN Image as I on ( I.id = RI.images_id ) ");
-
+      if (!count)
+      {
+         sb.append(" LEFT JOIN RichContent_Document AS RD ON ( RD.RichContent_id = R.id ) ");
+         sb.append(" LEFT JOIN Document AS D ON ( RD.documents_id = D.id ) ");
+         sb.append(" LEFT JOIN RichContent_Image AS RI ON ( RI.RichContent_id = R.id ) ");
+         sb.append(" LEFT JOIN Image as I on ( I.id = RI.images_id ) ");
+      }
       String separator = " where ";
 
       // ACTIVE TYPE
@@ -938,24 +935,4 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return list;
    }
 
-   public void loadFirstPicture(RichContent richContent)
-   {
-      try
-      {
-         // return getEm().createNativeQuery("SELECT * FROM RichContent_Image ri " +
-         // " left join Image i on (ri.images_id=i.id) " +
-         // " where ri.RichContent_id in( 'fiorenzo-pizza', 'samuele-pasini')"+
-         // " limit 0,1").getResultList();
-         List<Image> images = getEm().merge(richContent).getImages();
-         if (images != null && images.size() > 0)
-         {
-            richContent.setFirstImage(images.get(0));
-            richContent.getFirstImage().toString();
-         }
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage());
-      }
-   }
 }

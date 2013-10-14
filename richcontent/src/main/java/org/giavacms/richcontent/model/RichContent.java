@@ -40,7 +40,6 @@ public class RichContent extends Page
    private RichContentType richContentType;
    private List<Document> documents;
    private List<Image> images;
-   private Image firstImage;
    private boolean highlight;
    private String tag;
    private List<String> tagList;
@@ -239,12 +238,7 @@ public class RichContent extends Page
    @Transient
    public Image getFirstImage()
    {
-      return firstImage;
-   }
-
-   public void setFirstImage(Image firstImage)
-   {
-      this.firstImage = firstImage;
+      return images == null ? null : images.size() == 0 ? null : images.get(0);
    }
 
 }
