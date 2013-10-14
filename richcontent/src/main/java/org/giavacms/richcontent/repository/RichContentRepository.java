@@ -207,7 +207,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    {
       Map<String, Object> params = new HashMap<String, Object>();
       boolean count = true;
-      StringBuffer string_query = getListNative(search, params, count);
+      StringBuffer string_query = getListNative(search, params, count, 0, 0);
       Query query = getEm().createNativeQuery(string_query.toString());
       for (String param : params.keySet())
       {
@@ -223,17 +223,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    {
       Map<String, Object> params = new HashMap<String, Object>();
       boolean count = false;
-      StringBuffer stringbuffer_query = getListNative(search, params, count);
-      String string_query = null;
-      if (pageSize > 0)
-      {
-         string_query = _paginate(stringbuffer_query, startRow, pageSize);
-      }
-      else
-      {
-         string_query = stringbuffer_query.toString();
-      }
-      Query query = getEm().createNativeQuery(string_query);
+      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize);
+      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
       for (String param : params.keySet())
       {
          query.setParameter(param, params.get(param));
@@ -381,19 +372,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return new ArrayList<RichContent>(richContents.values());
    }
 
-   private String _paginate(StringBuffer sb, int startRow, int pageSize)
-   {
-      if (pageSize > 0)
-      {
-         return sb.append(" limit ").append(startRow).append(", ").append(pageSize).toString();
-      }
-      else
-      {
-         return sb.toString();
-      }
-   }
-
-   protected StringBuffer getListNative(Search<RichContent> search, Map<String, Object> params, boolean count)
+   protected StringBuffer getListNative(Search<RichContent> search, Map<String, Object> params, boolean count,
+            int startRow, int pageSize)
    {
       String pageAlias = "P";
 
@@ -422,12 +402,33 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(" LEFT JOIN RichContent_Image AS RI ON ( RI.RichContent_id = R.id ) ");
          sb.append(" LEFT JOIN Image as I on ( I.id = RI.images_id ) ");
       }
+
+      String innerPageAlias = pageAlias;
+      String innerRichContentAlias = "R";
+      String innerRichContentTypeAlias = "RT";
+
       String separator = " where ";
+
+      if (!count)
+      {
+         innerPageAlias = "P1";
+         innerRichContentAlias = "R1";
+         innerRichContentTypeAlias = "RT1";
+         sb.append(" where ").append(pageAlias).append(".id in ( select distinct ").append(innerPageAlias)
+                  .append(".id from ");
+         sb.append(RichContent.TABLE_NAME).append(" AS ").append(innerRichContentAlias);
+         sb.append(" LEFT JOIN ").append(RichContentType.TABLE_NAME).append(" AS ").append(innerRichContentTypeAlias)
+                  .append(" ON ( ").append(innerRichContentTypeAlias).append(".id = ").append(innerRichContentAlias)
+                  .append(".richContentType_id ) ");
+         sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(innerPageAlias).append(" on ( ")
+                  .append(innerRichContentAlias).append(".id = ")
+                  .append(innerPageAlias).append(".id ) ");
+      }
 
       // ACTIVE TYPE
       if (true)
       {
-         sb.append(separator).append(" RT.active = :activeContentType ");
+         sb.append(separator).append(innerRichContentTypeAlias).append(".active = :activeContentType ");
          params.put("activeContentType", true);
          separator = " and ";
       }
@@ -437,7 +438,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                && search.getObj().getRichContentType().getName() != null
                && search.getObj().getRichContentType().getName().length() > 0)
       {
-         sb.append(separator).append("RT.name = :NAMETYPE ");
+         sb.append(separator).append(innerRichContentTypeAlias).append(".name = :NAMETYPE ");
          params.put("NAMETYPE", search.getObj().getRichContentType()
                   .getName());
          separator = " and ";
@@ -447,7 +448,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       if (search.getObj().getRichContentType() != null
                && search.getObj().getRichContentType().getId() != null)
       {
-         sb.append(separator).append("RT.id = :IDTYPE ");
+         sb.append(separator).append(innerRichContentTypeAlias).append(".id = :IDTYPE ");
          params.put("IDTYPE", search.getObj().getRichContentType().getId());
          separator = " and ";
       }
@@ -476,7 +477,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             {
                likeMatch = true;
             }
-            sb.append(separator).append("R.id in ( ");
+            sb.append(separator).append(innerRichContentAlias).append(".id in ( ");
             sb.append(" select distinct T1.richContent_id from ")
                      .append(Tag.TABLE_NAME)
                      .append(" T1 where T1.tagName ")
@@ -500,7 +501,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             boolean usaJoin = false;
             if (usaJoin)
             {
-               sb.append("R.id in ( ");
+               sb.append(innerRichContentAlias).append(".id in ( ");
                sb.append(" select distinct T2.richContent_id from ")
                         .append(Tag.TABLE_NAME)
                         .append(" T2 where upper ( T2.tagName ) like :TAGNAME")
@@ -509,7 +510,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             }
             else
             {
-               sb.append(" upper ( ").append("R.tags ) like :TAGNAME").append(i)
+               sb.append(" upper ( ").append(innerRichContentAlias).append(".tags ) like :TAGNAME").append(i)
                         .append(" ");
             }
 
@@ -522,7 +523,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // ACTIVE
       if (true)
       {
-         sb.append(separator).append(pageAlias).append(".active = :active ");
+         sb.append(separator).append(innerPageAlias).append(".active = :active ");
          params.put("active", true);
          separator = " and ";
       }
@@ -530,7 +531,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // BASE PAGE
       if (search.getObj().getTemplate() != null && search.getObj().getTemplate().getId() != null)
       {
-         sb.append(separator).append(pageAlias).append(".template_id = :BASEPAGE_TEMPLATE_ID ");
+         sb.append(separator).append(innerPageAlias).append(".template_id = :BASEPAGE_TEMPLATE_ID ");
          params.put("BASEPAGE_TEMPLATE_ID", search.getObj().getTemplate().getId());
          separator = " and ";
       }
@@ -539,7 +540,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       if (search.getObj().getTitle() != null
                && !search.getObj().getTitle().trim().isEmpty())
       {
-         boolean likeSearch = likeSearch(likeParam(search.getObj().getTitle().trim().toUpperCase()), pageAlias,
+         boolean likeSearch = likeSearchNative(likeParam(search.getObj().getTitle().trim().toUpperCase()),
+                  innerPageAlias, innerRichContentAlias,
                   separator,
                   sb, params);
          if (likeSearch)
@@ -553,31 +555,40 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       {
          if (search.getObj().getLang() == 1)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang1id ");
          }
          else if (search.getObj().getLang() == 2)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang2id ");
          }
          else if (search.getObj().getLang() == 3)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang3id ");
          }
          else if (search.getObj().getLang() == 4)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang4id ");
          }
          else if (search.getObj().getLang() == 5)
          {
-            sb.append(separator).append(pageAlias).append(".id = ")
+            sb.append(separator).append(innerPageAlias).append(".id = ")
                      .append(pageAlias).append(".lang5id ");
          }
       }
 
+      if (!count)
+      {
+         sb.append(" order by ").append(innerRichContentAlias).append(".date desc ");
+         if (pageSize > 0)
+         {
+            sb.append(" limit ").append(startRow).append(", ").append(pageSize).toString();
+         }
+         sb.append(" ) order by ").append("R.date desc ");
+      }
       return sb;
    }
 
