@@ -590,7 +590,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          }
          sb.append(" ) as IN2 ON P.ID=  IN2.ID order by ").append("R.date desc ");
       }
-      logger.info(sb.toString());
       return sb;
    }
 
