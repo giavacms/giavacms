@@ -47,6 +47,8 @@ public class RichContentRequestController extends
 
    private RichContent last;
 
+   List<Group<Tag>> requestTags;
+
    @Inject
    TagRepository tagRepository;
 
@@ -136,12 +138,15 @@ public class RichContentRequestController extends
    @Named
    public List<Group<Tag>> getRequestTags()
    {
-      Search<Tag> st = new Search<Tag>(Tag.class);
-      st.setGrouping("tagName");
-      st.getObj().setRichContent(new RichContent());
-      st.getObj().getRichContent().setRichContentType(getSearch().getObj().getRichContentType());
-      return tagRepository.getGroups(st, 0, 10);
-
+      if (requestTags == null)
+      {
+         Search<Tag> st = new Search<Tag>(Tag.class);
+         st.setGrouping("tagName");
+         st.getObj().setRichContent(new RichContent());
+         st.getObj().getRichContent().setRichContentType(getSearch().getObj().getRichContentType());
+         requestTags = tagRepository.getGroups(st, 0, 10);
+      }
+      return requestTags == null ? new ArrayList<Group<Tag>>() : requestTags;
    }
 
 }
