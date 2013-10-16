@@ -6,17 +6,21 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.giavacms.base.model.Page;
 
 @Entity
 @DiscriminatorValue(value = Faq.EXTENSION)
+@Table(name = Faq.TABLE_NAME)
 public class Faq extends Page
 {
 
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "Faq";
+   public static final String TABLE_NAME = "Faq";
+   public static final boolean HAS_DETAILS = false;
 
    public Faq()
    {
