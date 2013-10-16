@@ -32,6 +32,7 @@ public class RichContent extends Page
    public static final String EXTENSION = "RichContent";
    public static final String TABLE_NAME = "RichContent";
    private static final String TAG_SEPARATOR = ",";
+   public static final boolean HAS_DETAILS = true;
 
    private String preview;
    private String content;

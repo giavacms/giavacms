@@ -159,6 +159,71 @@ public abstract class AbstractPageRepository<T extends Page> extends
 
    }
 
+   protected void applyRestrictionsNative(Search<T> search, String pageAlias,
+            String separator, StringBuffer sb, Map<String, Object> params, String customLike)
+   {
+
+      // ACTIVE
+      if (true)
+      {
+         sb.append(separator).append(pageAlias).append(".active = :active");
+         params.put("active", true);
+         separator = " and ";
+      }
+
+      // BASE PAGE
+      if (search.getObj().getTemplate() != null && search.getObj().getTemplate().getId() != null)
+      {
+         sb.append(separator).append(pageAlias).append(".template_id = :BASEPAGE_TEMPLATE_ID ");
+         params.put("BASEPAGE_TEMPLATE_ID", search.getObj().getTemplate().getId());
+         separator = " and ";
+      }
+
+      // TITLE
+      if (search.getObj().getTitle() != null
+               && !search.getObj().getTitle().trim().isEmpty())
+      {
+         boolean likeSearch = likeSearchNative(likeParam(search.getObj().getTitle().trim().toUpperCase()), pageAlias,
+                  separator,
+                  sb, params, customLike);
+         if (likeSearch)
+         {
+            separator = " and ";
+         }
+      }
+
+      // LINGUA
+      if (search.getObj().getLang() > 0)
+      {
+         if (search.getObj().getLang() == 1)
+         {
+            sb.append(separator).append(pageAlias).append(".id = ")
+                     .append(pageAlias).append(".lang1id ");
+         }
+         else if (search.getObj().getLang() == 2)
+         {
+            sb.append(separator).append(pageAlias).append(".id = ")
+                     .append(pageAlias).append(".lang2id ");
+         }
+         else if (search.getObj().getLang() == 3)
+         {
+            sb.append(separator).append(pageAlias).append(".id = ")
+                     .append(pageAlias).append(".lang3id ");
+         }
+         else if (search.getObj().getLang() == 4)
+         {
+            sb.append(separator).append(pageAlias).append(".id = ")
+                     .append(pageAlias).append(".lang4id ");
+         }
+         else if (search.getObj().getLang() == 5)
+         {
+            sb.append(separator).append(pageAlias).append(".id = ")
+                     .append(pageAlias).append(".lang5id ");
+         }
+      }
+
+   }
+
    /**
     * Override this to perform like search both in title and other fields...
     * 
@@ -174,6 +239,24 @@ public abstract class AbstractPageRepository<T extends Page> extends
       sb.append(separator).append(" upper ( ").append(alias).append(".title ) like :title ");
       // params.put("title", StringUtils.clean(likeText)); ...% would be removed!!
       params.put("title", likeText);
+      return true;
+   }
+
+   protected boolean likeSearchNative(String likeText, String pageAlias,
+            String separator, StringBuffer sb, Map<String, Object> params, String alternativeLike)
+   {
+      sb.append(separator).append(" ( ");
+
+      sb.append(" upper ( ").append(pageAlias).append(".title ) LIKE :LIKETEXT ");
+      if (alternativeLike != null)
+      {
+         sb.append(" or ").append(alternativeLike);
+      }
+      sb.append(" ) ");
+
+      // params.put("LIKETEXT", StringUtils.clean(likeText));
+      params.put("LIKETEXT", likeText);
+
       return true;
    }
 

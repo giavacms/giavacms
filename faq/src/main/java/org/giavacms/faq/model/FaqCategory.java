@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.giavacms.base.model.Page;
@@ -18,11 +19,13 @@ import org.giavacms.base.model.attachment.Image;
 
 @Entity
 @DiscriminatorValue(value = FaqCategory.EXTENSION)
+@Table(name = FaqCategory.TABLE_NAME)
 public class FaqCategory extends Page
 {
 
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "FaqCategory";
+   public static final String TABLE_NAME = "FaqCategory";
 
    public FaqCategory()
    {
