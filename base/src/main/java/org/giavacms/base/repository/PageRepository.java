@@ -350,8 +350,8 @@ public class PageRepository
    {
       try
       {
-         StringBuffer sbq = new StringBuffer("select p from "
-                  + Page.class.getSimpleName() + " p where p.clone = :CLONE and p.extension ");
+         StringBuffer sbq = new StringBuffer("select p.id, p.title from "
+                  + Page.TABLE_NAME + " p where p.clone = :CLONE and p.extension ");
          if (extension != null && extension.trim().length() > 0)
          {
             sbq.append(" = :EXTENSION ");
@@ -365,7 +365,18 @@ public class PageRepository
          {
             q.setParameter("EXTENSION", extension);
          }
-         return q.getResultList();
+         List<Page> result = new ArrayList<Page>();
+         List resultList = q.getResultList();
+         Iterator<Object[]> results = resultList.iterator();
+         while (results.hasNext())
+         {
+            Page p = new Page();
+            Object[] row = results.next();
+            p.setId(row[0].toString());
+            p.setTitle("" + row[1]);
+            result.add(p);
+         }
+         return result;
       }
       catch (Exception e)
       {
@@ -379,9 +390,9 @@ public class PageRepository
       try
       {
          return (String) getEm()
-                  .createQuery(
-                           "select p.title from " + Page.class.getSimpleName()
-                                    + " p where p.template.id = :TID and p.clone = :CLONE ")
+                  .createNativeQuery(
+                           "select p.title from " + Page.TABLE_NAME
+                                    + " p where p.template_id = :TID and p.clone = :CLONE ")
                   .setParameter("TID", templateImplId).setParameter("CLONE", false).getSingleResult();
       }
       catch (Exception e)
