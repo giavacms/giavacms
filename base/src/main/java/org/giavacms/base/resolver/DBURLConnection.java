@@ -13,7 +13,6 @@ import java.net.URLConnection;
 
 import org.apache.commons.io.IOUtils;
 import org.giavacms.base.controller.request.PageRequestController;
-import org.giavacms.base.controller.session.PageSessionController;
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageRepository;
@@ -82,16 +81,8 @@ public class DBURLConnection extends URLConnection
                      .fetch(this.form);
             PageRequestController pageRequestController = BeanUtils
                      .getBean(PageRequestController.class);
-            if (pageRequestController.isWithSession())
-            {
-               logger.info("WITH SESSION");
-               BeanUtils.getBean(PageSessionController.class).setElement(
-                        currentPage);
-            }
-            else
-            {
-               pageRequestController.setElement(currentPage);
-            }
+
+            pageRequestController.setElement(currentPage);
 
             PageUtils.generateContent(this.currentPage);
             this.content = this.currentPage.getContent();

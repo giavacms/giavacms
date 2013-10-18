@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 
-import org.giavacms.base.controller.session.PageSessionController;
 import org.jboss.logging.Logger;
 
 import com.ocpsoft.pretty.PrettyContext;
@@ -30,9 +29,6 @@ public class UrlParsingBean implements Serializable
 
    @Inject
    PageRequestController pageRequestController;
-
-   @Inject
-   PageSessionController pageSessionController;
 
    @Inject
    BreadCrumpsHandler breadCrumpsHandler;
@@ -90,13 +86,6 @@ public class UrlParsingBean implements Serializable
          pageRequestController.setUri(uri);
          pageRequestController.getElement().setId(pageId);
          return "/cache/" + pageId + ".xhtml";
-      }
-      if (uri.startsWith("/s/"))
-      {
-         pageRequestController.setWithSession(true);
-         pageSessionController.getElement().setId(pageId);
-         pageSessionController.setUri(uri);
-         return "/db:" + pageId;
       }
       else if (new File(((ServletContext) FacesContext
                .getCurrentInstance().getExternalContext().getContext()).getRealPath("cache"), pageId + ".xhtml")

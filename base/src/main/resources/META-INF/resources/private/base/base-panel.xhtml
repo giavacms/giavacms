@@ -36,6 +36,17 @@
 				</div>
 			</p:tab>
 
+			<p:tab title="Configurazione Pagine"
+				style="width: 200px; float: left;"
+				rendered="#{loginController.admin}">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/pageconfiguration/edit.jsf?faces-redirect=true"
+						value="gestione configurazione pagine" />
+					<br />
+				</div>
+			</p:tab>
+
 			<p:tab title="Log Operazioni"
 				rendered="#{logOperationsController.clear and loginController.isInRole('log')}"
 				style="width: 200px; float: left;">
