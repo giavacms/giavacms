@@ -11,11 +11,13 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.giavacms.base.model.Template;
+import org.giavacms.base.service.CacheService;
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
@@ -31,6 +33,9 @@ public class TemplateRepository extends AbstractRepository<Template> implements
 
    @PersistenceContext
    EntityManager em;
+
+   @Inject
+   CacheService cacheService;
 
    @Override
    public EntityManager getEm()
@@ -126,7 +131,9 @@ public class TemplateRepository extends AbstractRepository<Template> implements
    @LogOperation
    public Template persist(Template object)
    {
-      return super.persist(object);
+      Template result = super.persist(object);
+      cacheService.cacheByTemplateId(object.getId());
+      return result;
    }
 
    @Override
@@ -134,6 +141,8 @@ public class TemplateRepository extends AbstractRepository<Template> implements
    public boolean update(Template object)
    {
       // TODO Auto-generated method stub
-      return super.update(object);
+      boolean result = super.update(object);
+      cacheService.cacheByTemplateId(object.getId());
+      return result;
    }
 }

@@ -15,12 +15,15 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Query;
 
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
+import org.giavacms.base.service.CacheService;
+import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 
 @Named
@@ -31,6 +34,9 @@ public class PageRepository
 {
 
    private static final long serialVersionUID = 1L;
+
+   @Inject
+   CacheService cacheService;
 
    protected void applyRestrictionsNative(Search<Page> search, String pageAlias, String templateImplAlias,
             String templateAlias,
@@ -552,6 +558,24 @@ public class PageRepository
 
       }
       return sb;
+   }
+
+   @Override
+   @LogOperation
+   public Page persist(Page object)
+   {
+      Page result = super.persist(object);
+      cacheService.cacheByPageId(object.getId());
+      return result;
+   }
+
+   @Override
+   @LogOperation
+   public boolean update(Page object)
+   {
+      boolean result = super.update(object);
+      cacheService.cacheByPageId(object.getId());
+      return result;
    }
 
 }
