@@ -43,7 +43,7 @@ public class CacheService implements Serializable
    public void cacheByTemplateId(Long id)
    {
       if (pageConfigurationRepository.load().isWithCache())
-         cacheByTemplateId(id);
+         writeByTemplate(id);
    }
 
    public String write(String pageId)

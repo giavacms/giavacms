@@ -15,23 +15,17 @@
 		<center>
 			<h:form>
 				<p:panel header="Gestione Configurazione Pagine">
-
 					<h:panelGrid columns="2" style="width: 95%">
-
-
 						<h:outputLabel value="con cache?" for="withCache" />
 						<h:selectBooleanCheckbox title="withCache" id="withCache"
 							value="#{pageConfigurationController.element.withCache}">
 						</h:selectBooleanCheckbox>
-
 					</h:panelGrid>
-					<br />
-
 				</p:panel>
 				<br />
 				<br />
 
-				<h:panelGrid columns="4">
+				<h:panelGrid columns="2">
 
 					<h:commandButton action="#{pageConfigurationController.update}"
 						value="Salva le modifiche" />
@@ -72,6 +66,22 @@
 						value="risultato: #{pageConfigurationController.resultTest}"
 						rendered="#{not empty emailConfigurationController.resultTest}" />
 				</p:panel>
+
+
+			</h:form>
+
+			<h:form>
+				<p:panel header=" Generazione della cache totale">
+					<h:outputText value="verranno rigenerate tutte le pagine." />
+
+					<br />
+					<br />
+					<h:commandButton value="rigenera tutto"
+						onclick="if (!confirm('Vuoi davvero rigenerare tutto?')) return false"
+						action="#{pageConfigurationController.generateAllCache}" />
+				</p:panel>
+
+
 			</h:form>
 		</center>
 
