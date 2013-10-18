@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.giavacms.base.model.Page;
@@ -22,11 +23,14 @@ import org.giavacms.base.model.attachment.Image;
 
 @Entity
 @DiscriminatorValue(value = Product.EXTENSION)
+@Table(name = Product.TABLE_NAME)
 public class Product extends Page implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "Product";
+   public static final String TABLE_NAME = "Product";
+   public static final boolean HAS_DETAILS = true;
 
    public Product()
    {
@@ -178,4 +182,3 @@ public class Product extends Page implements Serializable
    }
 
 }
-

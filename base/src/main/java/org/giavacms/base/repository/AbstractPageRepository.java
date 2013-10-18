@@ -107,6 +107,14 @@ public abstract class AbstractPageRepository<T extends Page> extends
          separator = " and ";
       }
 
+      // PAGE
+      if (search.getObj().getId() != null && search.getObj().getId().trim().length() > 0)
+      {
+         sb.append(separator).append(alias).append(".id = :BASEPAGE_ID ");
+         params.put("BASEPAGE_ID", search.getObj().getId());
+         separator = " and ";
+      }
+
       // BASE PAGE
       if (search.getObj().getTemplate() != null && search.getObj().getTemplate().getId() != null)
       {
@@ -168,6 +176,14 @@ public abstract class AbstractPageRepository<T extends Page> extends
       {
          sb.append(separator).append(pageAlias).append(".active = :active");
          params.put("active", true);
+         separator = " and ";
+      }
+
+      // PAGE ID
+      if (search.getObj().getId() != null && search.getObj().getId().trim().length() > 0)
+      {
+         sb.append(separator).append(pageAlias).append(".id = :BASEPAGE_ID ");
+         params.put("BASEPAGE_ID", search.getObj().getId());
          separator = " and ";
       }
 

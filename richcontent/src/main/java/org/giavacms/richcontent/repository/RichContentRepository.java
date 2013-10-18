@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -206,8 +207,10 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       Map<String, Object> params = new HashMap<String, Object>();
       // a flag to drive native query construction
       boolean count = true;
+      // a flag to tell native query whether to fetch all additional fields
+      boolean completeFetch = false;
       // the native query
-      StringBuffer string_query = getListNative(search, params, count, 0, 0);
+      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
       Query query = getEm().createNativeQuery(string_query.toString());
       // substituition of parameters
       for (String param : params.keySet())
@@ -226,8 +229,10 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       Map<String, Object> params = new HashMap<String, Object>();
       // a flag to drive native query construction
       boolean count = false;
+      // a flag to tell native query whether to fetch all additional fields
+      boolean completeFetch = false;
       // the native query
-      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize);
+      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
       Query query = getEm().createNativeQuery(stringbuffer_query.toString());
       // substituition of parameters
       for (String param : params.keySet())
@@ -235,7 +240,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          query.setParameter(param, params.get(param));
       }
       // result extraction
-      return extract(query.getResultList());
+      return extract(query.getResultList(), completeFetch);
    }
 
    /**
@@ -246,13 +251,15 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
     * we need just the external query to apply parameters and count the overall distinct results
     */
    protected StringBuffer getListNative(Search<RichContent> search, Map<String, Object> params, boolean count,
-            int startRow, int pageSize)
+            int startRow, int pageSize, boolean completeFetch)
    {
 
       // aliases to use in the external query
       String pageAlias = "P";
       String richContentAlias = "R";
       String richContentTypeAlias = "RT";
+      String imageAlias = "I";
+      String documentAlias = "D";
 
       // query string buffer
       StringBuffer sb = new StringBuffer(
@@ -268,6 +275,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          // we select a cartesian product of master/details rows in case of count = false
          sb.append(pageAlias).append(".id, ");
          sb.append(pageAlias).append(".title, ");
+         sb.append(pageAlias).append(".description, ");
          sb.append(richContentAlias).append(".author, ");
          sb.append(richContentAlias).append(".content, ");
          sb.append(richContentAlias).append(".date, ");
@@ -276,8 +284,12 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(richContentAlias).append(".tags,  ");
          sb.append(richContentAlias).append(".richContentType_id, ");
          sb.append(richContentTypeAlias).append(".name AS richContentType, ");
-         sb.append(" I.fileName AS image, ");
-         sb.append(" D.filename AS document ");
+         sb.append(imageAlias).append(".fileName AS image, ");
+         sb.append(documentAlias).append(".fileName AS document ");
+         if (completeFetch)
+         {
+            // additional fields to retrieve only when fetching
+         }
       }
 
       // master-from clause is the same in both count = true and count = false
@@ -298,12 +310,20 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          // we need details-from clause in case of count = false
          if (RichContent.HAS_DETAILS)
          {
-            sb.append(" LEFT JOIN RichContent_Document AS RD ON ( RD.RichContent_id = ").append(richContentAlias)
+            sb.append(" LEFT JOIN ").append(RichContent.TABLE_NAME).append("_").append(Document.TABLE_NAME)
+                     .append(" AS RD ON ( RD.").append(RichContent.TABLE_NAME).append("_id = ")
+                     .append(richContentAlias)
                      .append(".id ) ");
-            sb.append(" LEFT JOIN Document AS D ON ( RD.documents_id = D.id ) ");
-            sb.append(" LEFT JOIN RichContent_Image AS RI ON ( RI.RichContent_id = ").append(richContentAlias)
+            sb.append(" LEFT JOIN ").append(Document.TABLE_NAME).append(" AS ").append(documentAlias)
+                     .append(" ON ( RD.documents_id = ").append(documentAlias)
                      .append(".id ) ");
-            sb.append(" LEFT JOIN Image as I on ( I.id = RI.images_id ) ");
+            sb.append(" LEFT JOIN ").append(RichContent.TABLE_NAME).append("_").append(Image.TABLE_NAME)
+                     .append(" AS RI ON ( RI.").append(RichContent.TABLE_NAME).append("_id = ")
+                     .append(richContentAlias)
+                     .append(".id ) ");
+            sb.append(" LEFT JOIN ").append(Image.TABLE_NAME).append(" as ").append(imageAlias)
+                     .append(" on ( ").append(imageAlias)
+                     .append(".id = RI.images_id ) ");
          }
       }
 
@@ -364,6 +384,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       {
          // we need to sort internal results to apply pagination
          sb.append(" order by ").append(innerRichContentAlias).append(".date desc ");
+
          // we apply limit-clause only if we want pagination
          if (pageSize > 0)
          {
@@ -378,6 +399,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             sb.append(" as IN2 ON ").append(pageAlias).append(".ID = IN2.ID ");
             // we also need to sort external results to keep result order within each results page
             sb.append(" order by ").append(richContentAlias).append(".date desc ");
+            sb.append(", ").append(imageAlias).append(".id asc ");
+            sb.append(", ").append(documentAlias).append(".id asc ");
          }
 
       }
@@ -488,8 +511,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       if (search.getObj().getTitle() != null
                && !search.getObj().getTitle().trim().isEmpty())
       {
-         customLike = "upper ( " + richContentAlias + ".content like :LIKETEXTCUSTOM ";
-         params.put("LIKETEXTCUSTOM", search.getObj().getTitle().trim());
+         customLike = "upper ( " + richContentAlias + ".content ) like :LIKETEXTCUSTOM ";
+         params.put("LIKETEXTCUSTOM", likeParam(search.getObj().getTitle().trim().toUpperCase()));
       }
       super.applyRestrictionsNative(search, pageAlias, separator, sb, params, customLike);
 
@@ -509,12 +532,12 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
     * @return
     */
    @SuppressWarnings({ "rawtypes", "unchecked" })
-   protected List<RichContent> extract(List resultList)
+   protected List<RichContent> extract(List resultList, boolean completeFetch)
    {
       RichContent richContent = null;
       Map<String, Set<String>> imageNames = new HashMap<String, Set<String>>();
       Map<String, Set<String>> documentNames = new HashMap<String, Set<String>>();
-      Map<String, RichContent> richContents = new HashMap<String, RichContent>();
+      Map<String, RichContent> richContents = new LinkedHashMap<String, RichContent>();
 
       Iterator<Object[]> results = resultList.iterator();
       while (results.hasNext())
@@ -529,6 +552,10 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          String title = (String) row[i];
          // if (title != null && !title.isEmpty())
          richContent.setTitle(title);
+         i++;
+         String description = (String) row[i];
+         // if (description != null && !description.isEmpty())
+         richContent.setDescription(description);
          i++;
          String author = (String) row[i];
          // if (author != null && !author.isEmpty())
@@ -622,6 +649,11 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                documentNames.put(id, set);
             }
          }
+         i++;
+         if (completeFetch)
+         {
+            // extract additional fields
+         }
          if (!richContents.containsKey(id))
          {
             richContents.put(id, richContent);
@@ -674,106 +706,17 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    @Override
    public RichContent fetch(Object key)
    {
-      RichContent richContent = null;
-      Set<String> imageNames = new HashSet<String>();
-      Set<String> documentNames = new HashSet<String>();
-
-      String nativeQuery = "SELECT  P.id, P.title, R.author, R.content, R.date, R.highlight, R.preview, R.tags, R.richContentType_id, RT.name as richContentType,"
-               + "I.fileName as image, "
-               + "D.filename as document "
-               + "FROM `RichContent` as R "
-               + "left join RichContentType as RT on (RT.id=R.richContentType_id) "
-               + "left join Page as P on (R.id=P.id) "
-               + "left join RichContent_Document as RD on (RD.RichContent_id=R.id) "
-               + "left join Document as D on (RD.documents_id=D.id) "
-               + "left join RichContent_Image as RI on (RI.RichContent_id=R.id) "
-               + "left join Image as I on (I.id=RI.images_id) "
-               + "where R.id= :ID";
-      @SuppressWarnings("unchecked")
-      Iterator<Object[]> results = getEm()
-               .createNativeQuery(nativeQuery).setParameter("ID", key).getResultList().iterator();
-      while (results.hasNext())
+      try
       {
-         if (richContent == null)
-            richContent = new RichContent();
-         Object[] row = results.next();
-         int i = 0;
-         String id = (String) row[i];
-         if (id != null && !id.isEmpty())
-            richContent.setId(id);
-         i++;
-         String title = (String) row[i];
-         if (title != null && !title.isEmpty())
-            richContent.setTitle(title);
-         i++;
-         String author = (String) row[i];
-         if (author != null && !author.isEmpty())
-            richContent.setAuthor(author);
-         i++;
-         String content = (String) row[i];
-         if (content != null && !content.isEmpty())
-            richContent.setContent(content);
-         i++;
-         Timestamp date = (Timestamp) row[i];
-         if (date != null)
-         {
-            richContent.setDate(new Date(date.getTime()));
-         }
-         i++;
-         if (row[i] != null && row[i] instanceof Short)
-         {
-            richContent.setHighlight(((Short) row[i]) > 0 ? true : false);
-         }
-         else if (row[i] != null && row[i] instanceof Boolean)
-         {
-            richContent.setHighlight(((Boolean) row[i]).booleanValue());
-         }
-         i++;
-         String preview = (String) row[i];
-         if (preview != null && !preview.isEmpty())
-            richContent.setPreview(preview);
-         i++;
-         String tags = (String) row[i];
-         if (tags != null && !tags.isEmpty())
-            richContent.setTags(tags);
-         i++;
-         BigInteger richContentType_id = null;
-         if (row[i] instanceof BigInteger)
-         {
-            richContentType_id = (BigInteger) row[i];
-            richContent.getRichContentType().setId(richContentType_id.longValue());
-         }
-         i++;
-         String richContentType = (String) row[i];
-         if (richContentType != null && !richContentType.isEmpty())
-            richContent.getRichContentType().setName(richContentType);
-         i++;
-         String imagefileName = (String) row[i];
-         if (imagefileName != null && !imagefileName.isEmpty())
-         {
-            imageNames.add(imagefileName);
-         }
-         i++;
-         String documentfileName = (String) row[i];
-         if (documentfileName != null && !documentfileName.isEmpty())
-         {
-            documentNames.add(documentfileName);
-         }
-
+         Search<RichContent> sp = new Search<RichContent>(RichContent.class);
+         sp.getObj().setId(key.toString());
+         return getList(sp, 0, 1).get(0);
       }
-      for (String doc : documentNames)
+      catch (Exception e)
       {
-         Document document = new Document();
-         document.setFilename(doc);
-         richContent.addDocument(document);
+         logger.error(e.getMessage(), e);
+         return null;
       }
-      for (String img : imageNames)
-      {
-         Image image = new Image();
-         image.setFilename(img);
-         richContent.addImage(image);
-      }
-      return richContent;
    }
 
 }
