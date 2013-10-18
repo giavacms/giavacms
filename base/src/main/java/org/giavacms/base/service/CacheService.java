@@ -71,6 +71,8 @@ public class CacheService implements Serializable
    public String writeAll()
    {
       Search<Page> sp = new Search<Page>(Page.class);
+      sp.getObj().setExtended(true);
+      sp.getObj().setClone(true);
       return writeAllWithSearch(sp, true);
    }
 
@@ -78,6 +80,8 @@ public class CacheService implements Serializable
    {
       Search<Page> sp = new Search<Page>(Page.class);
       sp.getObj().getTemplate().getTemplate().setId(id);
+      sp.getObj().setExtended(true);
+      sp.getObj().setClone(true);
       return writeAllWithSearch(sp, true);
    }
 
