@@ -61,8 +61,10 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       Map<String, Object> params = new HashMap<String, Object>();
       // a flag to drive native query construction
       boolean count = true;
+      // a flag to tell native query whether to fetch all additional fields
+      boolean completeFetch = false;
       // the native query
-      StringBuffer string_query = getListNative(search, params, count, 0, 0);
+      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
       Query query = getEm().createNativeQuery(string_query.toString());
       // substituition of parameters
       for (String param : params.keySet())
@@ -81,8 +83,10 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       Map<String, Object> params = new HashMap<String, Object>();
       // a flag to drive native query construction
       boolean count = false;
+      // a flag to tell native query whether to fetch all additional fields
+      boolean completeFetch = false;
       // the native query
-      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize);
+      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
       Query query = getEm().createNativeQuery(stringbuffer_query.toString());
       // substituition of parameters
       for (String param : params.keySet())
@@ -90,7 +94,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          query.setParameter(param, params.get(param));
       }
       // result extraction
-      return extract(query.getResultList());
+      return extract(query.getResultList(), completeFetch);
    }
 
    /**
@@ -101,7 +105,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
     * we need just the external query to apply parameters and count the overall distinct results
     */
    protected StringBuffer getListNative(Search<Faq> search, Map<String, Object> params, boolean count,
-            int startRow, int pageSize)
+            int startRow, int pageSize, boolean completeFetch)
    {
 
       // aliases to use in the external query
@@ -130,6 +134,10 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
          sb.append(faqCategoryAlias).append(".orderNum, ");
          sb.append(" I.fileName AS image ");
+         if (completeFetch)
+         {
+            // additional fields to retrieve only when fetching
+         }
       }
 
       // master-from clause is the same in both count = true and count = false
@@ -306,13 +314,13 @@ public class FaqRepository extends AbstractPageRepository<Faq>
     * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
     */
    @SuppressWarnings({ "rawtypes", "unchecked" })
-   protected List<Faq> extract(List resultList)
+   protected List<Faq> extract(List resultList, boolean completeFetch)
    {
       List<Faq> faqs = new ArrayList<Faq>();
       Iterator<Object[]> results = resultList.iterator();
       while (results.hasNext())
       {
-         faqs.add(extract(results.next()));
+         faqs.add(extract(results.next(), completeFetch));
       }
       return faqs;
    }
@@ -325,7 +333,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
     * sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
     * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
     */
-   protected Faq extract(Object[] row)
+   protected Faq extract(Object[] row, boolean completeFetch)
    {
       Faq faq = new Faq();
       faq.setActive(true);
@@ -381,51 +389,26 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          image.setFilename(filename);
       }
       i++;
+      if (completeFetch)
+      {
+         // extract additional fields
+      }
       return faq;
    }
 
    @Override
    public Faq fetch(Object key)
    {
-      // aliases to use in the external query
-      String pageAlias = "P";
-      String faqAlias = "F";
-      String faqCategoryAlias = "FC";
-      String faqCategoryPageAlias = "FCP";
-
-      // query string buffer
-      StringBuffer sb = new StringBuffer(
-               "SELECT ");
-
-      sb.append(pageAlias).append(".id, ");
-      sb.append(pageAlias).append(".title, ");
-      sb.append(faqAlias).append(".answer, ");
-      sb.append(faqAlias).append(".date, ");
-      sb.append(faqAlias).append(".faqCategory_id, ");
-      sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
-      sb.append(faqCategoryAlias).append(".orderNum, ");
-      sb.append(" I.fileName AS image ");
-
-      // master-from clause is the same in both count = true and count = false
-      sb.append(" FROM ").append(Faq.TABLE_NAME).append(" AS ").append(faqAlias);
-      sb.append(" LEFT JOIN ").append(FaqCategory.TABLE_NAME).append(" AS ").append(faqCategoryAlias)
-               .append(" ON ( ").append(faqCategoryAlias).append(".id = ").append(faqAlias)
-               .append(".faqCategory_id ) ");
-      sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(pageAlias).append(" on ( ")
-               .append(faqAlias).append(".id = ")
-               .append(pageAlias).append(".id ) ");
-      sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(faqCategoryPageAlias).append(" on ( ")
-               .append(faqCategoryAlias).append(".id = ")
-               .append(faqCategoryPageAlias).append(".id ) ");
-
-      sb.append(" where ").append(faqAlias).append(".id = :ID ");
-      @SuppressWarnings("unchecked")
-      Iterator<Object[]> results = getEm()
-               .createNativeQuery(sb.toString()).setParameter("ID", key).getResultList().iterator();
-      while (results.hasNext())
+      try
       {
-         return extract(results.next());
+         Search<Faq> sp = new Search<Faq>(Faq.class);
+         sp.getObj().setId(key.toString());
+         return getList(sp, 0, 1).get(0);
       }
-      return null;
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return null;
+      }
    }
 }

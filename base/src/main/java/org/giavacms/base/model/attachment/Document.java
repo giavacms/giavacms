@@ -12,15 +12,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.primefaces.model.UploadedFile;
 
 @Entity
+@Table(name = Document.TABLE_NAME)
 public class Document implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+
+   public static final String TABLE_NAME = "Document";
 
    private Long id;
    private boolean active = true;
