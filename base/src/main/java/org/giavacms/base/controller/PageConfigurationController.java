@@ -73,9 +73,17 @@ public class PageConfigurationController extends
    public void generateCache()
    {
       if (getTemplateId() != null)
-         cacheService.cacheByTemplateId(getTemplateId());
+      {
+         String result = cacheService.writeByTemplate(getTemplateId());
+         setResultTest(result);
+         return;
+      }
       if (getPageId() != null && !getPageId().isEmpty())
-         cacheService.cacheByPageId(getPageId());
+      {
+         String result = cacheService.write(getPageId());
+         setResultTest(result);
+         return;
+      }
    }
 
    public String getPageId()
