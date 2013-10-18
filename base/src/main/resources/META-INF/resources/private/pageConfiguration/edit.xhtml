@@ -52,7 +52,7 @@
 							value="#{pageConfigurationController.templateId}"
 							style="width: 100%;" />
 
-						<h:commandButton value="genera cache"
+						<h:commandButton value="genera cache" 
 							action="#{pageConfigurationController.generateCache}" />
 
 						<h:commandButton id="reset"
@@ -79,7 +79,7 @@
 				<br />
 				<h:outputText id="resultTest"
 					value="risultato: #{pageConfigurationController.resultTest}"
-					rendered="#{not empty emailConfigurationController.resultTest}" />
+					rendered="#{not empty pageConfigurationController.resultTest}" />
 
 
 			</h:form>
