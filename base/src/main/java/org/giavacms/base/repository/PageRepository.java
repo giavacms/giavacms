@@ -74,7 +74,8 @@ public class PageRepository
          {
 
             // NO ESTENSIONI
-            sb.append(separator).append(pageAlias).append(".extension is null ");
+            sb.append(separator).append(" ( ").append(pageAlias).append(".extension is null ");
+            sb.append(" or ").append(pageAlias).append(".extension = '' ) ");
             separator = " and ";
 
             // NO CLONI DI PAGINE BASE (DOVREBBE ESSERE SUPERFLUO)
