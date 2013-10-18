@@ -40,4 +40,9 @@ public class PageConfiguration implements Serializable
       this.withCache = withCache;
    }
 
+   public void setId(Long id)
+   {
+      this.id = id;
+   }
+
 }
