@@ -60,7 +60,6 @@ public class PageConfigurationRepository extends
    @Override
    protected String getDefaultOrderBy()
    {
-
       return "id desc";
    }
 

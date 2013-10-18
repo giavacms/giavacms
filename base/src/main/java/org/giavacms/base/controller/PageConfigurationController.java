@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.model.PageConfiguration;
 import org.giavacms.base.repository.PageConfigurationRepository;
-import org.giavacms.base.service.EmailSession;
+import org.giavacms.base.service.CacheService;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
@@ -39,9 +39,12 @@ public class PageConfigurationController extends
    public static String CONF = "/private/pageConfiguration/edit.xhtml";
    // --------------------------------------------------------
 
-
    @Inject
-   EmailSession emailSession;
+   CacheService cacheService;
+
+   private String pageId;
+   private Long templateId;
+   private String resultTest;
 
    @Inject
    @OwnRepository(PageConfigurationRepository.class)
@@ -65,6 +68,44 @@ public class PageConfigurationController extends
    {
       super.update();
       return CONF;
+   }
+
+   public void generateCache()
+   {
+      if (getTemplateId() != null)
+         cacheService.cacheByTemplateId(getTemplateId());
+      if (getPageId() != null && !getPageId().isEmpty())
+         cacheService.cacheByPageId(getPageId());
+   }
+
+   public String getPageId()
+   {
+      return pageId;
+   }
+
+   public void setPageId(String pageId)
+   {
+      this.pageId = pageId;
+   }
+
+   public Long getTemplateId()
+   {
+      return templateId;
+   }
+
+   public void setTemplateId(Long templateId)
+   {
+      this.templateId = templateId;
+   }
+
+   public String getResultTest()
+   {
+      return resultTest;
+   }
+
+   public void setResultTest(String resultTest)
+   {
+      this.resultTest = resultTest;
    }
 
 }
