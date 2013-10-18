@@ -16,8 +16,13 @@
 		<p:menuitem value="log operazioni" rendered="#{loginController.admin}"
 			url="/private/operations/list.jsf?faces-redirect=true" />
 
-		<p:menuitem value="configurazione" rendered="#{loginController.admin}"
+		<p:menuitem value="configurazione email"
+			rendered="#{loginController.admin}"
 			url="/private/emailconfiguration/edit.jsf?faces-redirect=true" />
+
+		<p:menuitem value="configurazione pagine"
+			rendered="#{loginController.admin}"
+			url="/private/pageconfiguration/edit.jsf?faces-redirect=true" />
 
 		<p:menuitem value="cambio password"
 			action="#{loginController.goToChangePassword}" />

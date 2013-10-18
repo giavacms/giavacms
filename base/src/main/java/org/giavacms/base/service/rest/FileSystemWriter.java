@@ -64,18 +64,30 @@ public class FileSystemWriter implements Serializable
    @GET
    @Path("/writeAll")
    @Produces("text/plain")
-   public String writeAll(
-            )
+   public String writeAll()
+   {
+      Search<Page> sp = new Search<Page>(Page.class);
+      return wrteAllWithSearch(sp, true);
+   }
+
+   @GET
+   @Path("/writeByTemplateId/{id}")
+   @Produces("text/plain")
+   public String writeByTemplate(@PathParam("id") Long id)
+   {
+      Search<Page> sp = new Search<Page>(Page.class);
+      sp.getObj().getTemplate().getTemplate().setId(id);
+      return wrteAllWithSearch(sp, true);
+   }
+
+   private String wrteAllWithSearch(Search<Page> search, boolean overwrite)
    {
       try
       {
          StringBuffer sb = new StringBuffer();
-         boolean fetch = true;
-         boolean overwrite = false;
+         boolean fetch = false;
          String path = null;
-
-         Search<Page> sp = new Search<Page>(Page.class);
-         int pages = pageRepository.getListSize(sp);
+         int pages = pageRepository.getListSize(search);
          int pagesPerIteration = 10;
          for (int i = 0; i < pages; i = i + pagesPerIteration)
          {
@@ -128,6 +140,23 @@ public class FileSystemWriter implements Serializable
          String path = null;
 
          return fileSystemWriterService.clearAll(path);
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return e.getClass().getCanonicalName() + ": " + e.getMessage();
+      }
+   }
+
+   @GET
+   @Path("/clearByTemplateId/{id}")
+   @Produces("text/plain")
+   public String clearByTemplateId(
+            @PathParam("id") Long id)
+   {
+      try
+      {
+         return "TODO";
       }
       catch (Exception e)
       {

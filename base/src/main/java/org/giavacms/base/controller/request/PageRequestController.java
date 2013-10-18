@@ -24,7 +24,6 @@ public class PageRequestController implements Serializable
    @Inject
    PageRepository pageRepository;
    private Page element;
-   private boolean withSession = false;
    private String uri;
 
    public PageRequestController()
@@ -62,16 +61,6 @@ public class PageRequestController implements Serializable
    public void setElement(Page element)
    {
       this.element = element;
-   }
-
-   public boolean isWithSession()
-   {
-      return withSession;
-   }
-
-   public void setWithSession(boolean withSession)
-   {
-      this.withSession = withSession;
    }
 
    public String getUri()

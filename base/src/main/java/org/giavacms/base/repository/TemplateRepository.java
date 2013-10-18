@@ -16,9 +16,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.giavacms.base.model.Template;
+import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
-
 
 @Named
 @Stateless
@@ -102,7 +102,7 @@ public class TemplateRepository extends AbstractRepository<Template> implements
       }
       catch (Exception e)
       {
-logger.error(e.getMessage(),e);
+         logger.error(e.getMessage(), e);
          return false;
       }
    }
@@ -120,5 +120,20 @@ logger.error(e.getMessage(),e);
          logger.error(e.getMessage(), e);
          return false;
       }
+   }
+
+   @Override
+   @LogOperation
+   public Template persist(Template object)
+   {
+      return super.persist(object);
+   }
+
+   @Override
+   @LogOperation
+   public boolean update(Template object)
+   {
+      // TODO Auto-generated method stub
+      return super.update(object);
    }
 }
