@@ -92,7 +92,7 @@ public class CacheService implements Serializable
          int pagesPerIteration = 10;
          for (int i = 0; i < pages; i = i + pagesPerIteration)
          {
-            for (Page page : pageRepository.getList(new Search<Page>(Page.class), i, pagesPerIteration))
+            for (Page page : pageRepository.getList(search, i, pagesPerIteration))
             {
                List<String> files = fileSystemWriterService.write(path, page, overwrite);
                for (String file : files)
