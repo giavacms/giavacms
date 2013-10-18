@@ -11,16 +11,12 @@ import java.util.Set;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
-import org.giavacms.base.repository.PageRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
-import org.giavacms.base.repository.TemplateRepository;
 import org.giavacms.common.util.FileUtils;
 import org.jboss.logging.Logger;
 
@@ -56,20 +52,9 @@ public class FileSystemWriterService implements Serializable
 
    Logger logger = Logger.getLogger(getClass().getCanonicalName());
 
-   @Inject
-   PageRepository pageRepository;
-   @Inject
-   TemplateImplRepository templateImplRepository;
-   @Inject
-   TemplateRepository templateRepository;
-
-   public void write(String path, Template template, boolean fetch, boolean overwrite) throws Exception
+   public void write(String path, Template template, boolean overwrite) throws Exception
    {
       File absolutePath = getAbsolutePath(path);
-      if (fetch)
-      {
-         template = templateRepository.fetch(template.getId());
-      }
       write(absolutePath, template, overwrite);
    }
 
@@ -270,18 +255,15 @@ public class FileSystemWriterService implements Serializable
       return pageFile.getAbsolutePath();
    }
 
-   public List<String> write(String path, Page page, boolean fetch, boolean overwrite) throws Exception
+   public List<String> write(String path, Page page, boolean overwrite) throws Exception
    {
       File absolutePath = getAbsolutePath(path);
-      return write(absolutePath, page, fetch, overwrite);
+      return write(absolutePath, page, overwrite);
    }
 
-   protected List<String> write(File absolutePath, Page page, boolean fetch, boolean overwrite) throws Exception
+   protected List<String> write(File absolutePath, Page page, boolean overwrite) throws Exception
    {
-      if (fetch)
-      {
-         page = pageRepository.fetch(page.getId());
-      }
+
       if (isFaceletsCompliant(page.getTemplate().getTemplate()))
       {
          Set<String> xmlnsSet = getXmlns(page.getTemplate().getTemplate().getHeader_start());
