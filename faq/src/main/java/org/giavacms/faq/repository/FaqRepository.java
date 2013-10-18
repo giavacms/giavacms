@@ -236,6 +236,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       {
          // we need to sort internal results to apply pagination
          sb.append(" order by ").append(innerPageAlias).append(".title desc ");
+         
          // we apply limit-clause only if we want pagination
          if (pageSize > 0)
          {

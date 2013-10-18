@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -257,6 +258,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       String pageAlias = "P";
       String richContentAlias = "R";
       String richContentTypeAlias = "RT";
+      String imageAlias = "I";
+      String documentAlias = "D";
 
       // query string buffer
       StringBuffer sb = new StringBuffer(
@@ -281,8 +284,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(richContentAlias).append(".tags,  ");
          sb.append(richContentAlias).append(".richContentType_id, ");
          sb.append(richContentTypeAlias).append(".name AS richContentType, ");
-         sb.append(" I.fileName AS image, ");
-         sb.append(" D.filename AS document ");
+         sb.append(imageAlias).append(".fileName AS image, ");
+         sb.append(documentAlias).append(".fileName AS document ");
          if (completeFetch)
          {
             // additional fields to retrieve only when fetching
@@ -311,12 +314,16 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                      .append(" AS RD ON ( RD.").append(RichContent.TABLE_NAME).append("_id = ")
                      .append(richContentAlias)
                      .append(".id ) ");
-            sb.append(" LEFT JOIN ").append(Document.TABLE_NAME).append(" AS D ON ( RD.documents_id = D.id ) ");
+            sb.append(" LEFT JOIN ").append(Document.TABLE_NAME).append(" AS ").append(documentAlias)
+                     .append(" ON ( RD.documents_id = ").append(documentAlias)
+                     .append(".id ) ");
             sb.append(" LEFT JOIN ").append(RichContent.TABLE_NAME).append("_").append(Image.TABLE_NAME)
                      .append(" AS RI ON ( RI.").append(RichContent.TABLE_NAME).append("_id = ")
                      .append(richContentAlias)
                      .append(".id ) ");
-            sb.append(" LEFT JOIN ").append(Image.TABLE_NAME).append(" as I on ( I.id = RI.images_id ) ");
+            sb.append(" LEFT JOIN ").append(Image.TABLE_NAME).append(" as ").append(imageAlias)
+                     .append(" on ( ").append(imageAlias)
+                     .append(".id = RI.images_id ) ");
          }
       }
 
@@ -377,6 +384,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       {
          // we need to sort internal results to apply pagination
          sb.append(" order by ").append(innerRichContentAlias).append(".date desc ");
+
          // we apply limit-clause only if we want pagination
          if (pageSize > 0)
          {
@@ -391,6 +399,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             sb.append(" as IN2 ON ").append(pageAlias).append(".ID = IN2.ID ");
             // we also need to sort external results to keep result order within each results page
             sb.append(" order by ").append(richContentAlias).append(".date desc ");
+            sb.append(", ").append(imageAlias).append(".id asc ");
+            sb.append(", ").append(documentAlias).append(".id asc ");
          }
 
       }
@@ -527,7 +537,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       RichContent richContent = null;
       Map<String, Set<String>> imageNames = new HashMap<String, Set<String>>();
       Map<String, Set<String>> documentNames = new HashMap<String, Set<String>>();
-      Map<String, RichContent> richContents = new HashMap<String, RichContent>();
+      Map<String, RichContent> richContents = new LinkedHashMap<String, RichContent>();
 
       Iterator<Object[]> results = resultList.iterator();
       while (results.hasNext())
