@@ -63,37 +63,41 @@ public class PageRepository
          separator = " and ";
       }
 
-      // SOLO PAGINE VERE E PROPRIE
-      if (!search.getObj().isExtended())
+      // SOLO SE NON HO L'ID PRECISO...
+      if (search.getObj().getId() == null || search.getObj().getId().trim().isEmpty())
       {
-
-         // NO ESTENSIONI
-         sb.append(separator).append(pageAlias).append(".extension is null ");
-         separator = " and ";
-
-         // NO CLONI DI PAGINE BASE (DOVREBBE ESSERE SUPERFLUO)
-         sb.append(separator).append(pageAlias).append(".clone = :clone ");
-         params.put("clone", false);
-         separator = " and ";
-      }
-      // RICERCA ESTENSIONI
-      else
-      {
-         // DI CHE TIPO
-         if (search.getObj().getExtension() != null
-                  && !search.getObj().getExtension().trim().isEmpty())
+         // SOLO PAGINE VERE E PROPRIE
+         if (!search.getObj().isExtended())
          {
-            sb.append(separator).append(pageAlias).append(".extension = :extension ");
-            params.put("extension", search.getObj().getExtension());
+
+            // NO ESTENSIONI
+            sb.append(separator).append(pageAlias).append(".extension is null ");
             separator = " and ";
-         }
 
-         // SOLO PAGINE BASE O ANCHE CLONI DI PAGINE BASE
-         if (!search.getObj().isClone())
-         {
+            // NO CLONI DI PAGINE BASE (DOVREBBE ESSERE SUPERFLUO)
             sb.append(separator).append(pageAlias).append(".clone = :clone ");
             params.put("clone", false);
             separator = " and ";
+         }
+         // RICERCA ESTENSIONI
+         else
+         {
+            // DI CHE TIPO
+            if (search.getObj().getExtension() != null
+                     && !search.getObj().getExtension().trim().isEmpty())
+            {
+               sb.append(separator).append(pageAlias).append(".extension = :extension ");
+               params.put("extension", search.getObj().getExtension());
+               separator = " and ";
+            }
+
+            // SOLO PAGINE BASE O ANCHE CLONI DI PAGINE BASE
+            if (!search.getObj().isClone())
+            {
+               sb.append(separator).append(pageAlias).append(".clone = :clone ");
+               params.put("clone", false);
+               separator = " and ";
+            }
          }
       }
 
