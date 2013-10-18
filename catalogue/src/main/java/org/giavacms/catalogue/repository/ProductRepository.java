@@ -182,7 +182,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
          innerPageAlias = pageAlias;
          innerProductAlias = productAlias;
          innerCategoryAlias = categoryAlias;
-         innerCategoryPageAlias = categoryAlias;
+         innerCategoryPageAlias = categoryPageAlias;
       }
       else if (Product.HAS_DETAILS)
       {
