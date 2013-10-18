@@ -32,29 +32,20 @@ public class PageRequestController implements Serializable
 
    public String getPageName()
    {
-      if ((this.element != null) && (this.element.getId() != null))
-      {
-         if (this.element.getTitle() != null
-                  && !this.element.getTitle().isEmpty())
-         {
-            return this.element.getTitle();
-         }
-         this.element = pageRepository.fetch(this.element.getId());
-         return this.element.getTitle();
-      }
-      return "";
+      return getElement().getTitle() == null ? "" : getElement().getTitle();
 
-   }
-
-   public String go()
-   {
-      return "/page.jsf";
    }
 
    public Page getElement()
    {
       if (element == null)
+      {
          element = new Page();
+      }
+      if (element.getId() != null && ( element.getTitle() == null || element.getTitle().trim().isEmpty() ) )
+      {
+         element = pageRepository.fetch(element.getId());
+      }
       return element;
    }
 
