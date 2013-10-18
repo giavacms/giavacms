@@ -86,7 +86,6 @@ public class CacheService implements Serializable
       try
       {
          StringBuffer sb = new StringBuffer();
-         boolean fetch = false;
          String path = null;
          int pages = pageRepository.getListSize(search);
          int pagesPerIteration = 10;
