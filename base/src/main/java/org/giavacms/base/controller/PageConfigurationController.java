@@ -70,6 +70,15 @@ public class PageConfigurationController extends
       return CONF;
    }
 
+   @Override
+   public String reset()
+   {
+      setPageId(null);
+      setTemplateId(null);
+      setResultTest(null);
+      return super.reset();
+   }
+
    public void generateCache()
    {
       if (getTemplateId() != null)
@@ -84,6 +93,13 @@ public class PageConfigurationController extends
          setResultTest(result);
          return;
       }
+   }
+
+   public void generateAllCache()
+   {
+      String result = cacheService.writeAll();
+      setResultTest(result);
+      return;
    }
 
    public String getPageId()

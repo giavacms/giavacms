@@ -71,17 +71,17 @@ public class CacheService implements Serializable
    public String writeAll()
    {
       Search<Page> sp = new Search<Page>(Page.class);
-      return wrteAllWithSearch(sp, true);
+      return writeAllWithSearch(sp, true);
    }
 
    public String writeByTemplate(Long id)
    {
       Search<Page> sp = new Search<Page>(Page.class);
       sp.getObj().getTemplate().getTemplate().setId(id);
-      return wrteAllWithSearch(sp, true);
+      return writeAllWithSearch(sp, true);
    }
 
-   private String wrteAllWithSearch(Search<Page> search, boolean overwrite)
+   private String writeAllWithSearch(Search<Page> search, boolean overwrite)
    {
       try
       {

@@ -60,26 +60,26 @@
 							value="Annulla" immediate="true" />
 
 					</h:panelGrid>
-					<br />
-					<br />
-					<h:outputText id="resultTest"
-						value="risultato: #{pageConfigurationController.resultTest}"
-						rendered="#{not empty emailConfigurationController.resultTest}" />
+
 				</p:panel>
-
-
-			</h:form>
-
-			<h:form>
+				<br />
+				<br />
 				<p:panel header=" Generazione della cache totale">
-					<h:outputText value="verranno rigenerate tutte le pagine." />
+					<h:outputText
+						value="Verranno rigenerate tutte le pagine. Il processo potrebbe durare molto tempo." />
 
 					<br />
 					<br />
-					<h:commandButton value="rigenera tutto"
+					<h:commandButton value="rigenera cache"
 						onclick="if (!confirm('Vuoi davvero rigenerare tutto?')) return false"
 						action="#{pageConfigurationController.generateAllCache}" />
 				</p:panel>
+
+				<br />
+				<br />
+				<h:outputText id="resultTest"
+					value="risultato: #{pageConfigurationController.resultTest}"
+					rendered="#{not empty emailConfigurationController.resultTest}" />
 
 
 			</h:form>
