@@ -51,12 +51,10 @@ public class CacheService implements Serializable
       try
       {
          StringBuffer sb = new StringBuffer();
-         boolean fetch = true;
-         Page page = new Page();
-         page.setId(pageId);
+         Page page = pageRepository.fetch(pageId);
          boolean overwrite = true;
          String path = null;
-         List<String> files = fileSystemWriterService.write(path, page, fetch, overwrite);
+         List<String> files = fileSystemWriterService.write(path, page, overwrite);
          for (String file : files)
          {
             sb.append(", ").append(file);
@@ -96,7 +94,7 @@ public class CacheService implements Serializable
          {
             for (Page page : pageRepository.getList(new Search<Page>(Page.class), i, pagesPerIteration))
             {
-               List<String> files = fileSystemWriterService.write(path, page, fetch, overwrite);
+               List<String> files = fileSystemWriterService.write(path, page, overwrite);
                for (String file : files)
                {
                   sb.append(", ").append(file);
