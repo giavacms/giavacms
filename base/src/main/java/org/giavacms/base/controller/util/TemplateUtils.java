@@ -16,6 +16,7 @@ public class TemplateUtils
       Template clone = new Template();
       clone.setName(original.getName() + " - CLONE");
       clone.setActive(true);
+      clone.setStatico(original.getStatico());
       clone.setCol1_start(original.getCol1_start());
       clone.setCol2_start(original.getCol2_start());
       clone.setCol3_start(original.getCol3_start());

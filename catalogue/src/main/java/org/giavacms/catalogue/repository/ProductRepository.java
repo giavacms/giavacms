@@ -99,9 +99,9 @@ public class ProductRepository extends AbstractPageRepository<Product>
 
       // aliases to use in the external query
       String pageAlias = "P";
-      String productAlias = "F";
-      String categoryAlias = "FC";
-      String categoryPageAlias = "FCP";
+      String productAlias = "T";
+      String categoryAlias = "C";
+      String categoryPageAlias = "CP";
       String imageAlias = "I";
       String documentAlias = "D";
 
@@ -189,7 +189,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
          // we need different aliases for the inner query in case of count = false or multiple detail rows for each
          // master
          innerPageAlias = "P1";
-         innerProductAlias = "D1";
+         innerProductAlias = "T1";
          innerCategoryAlias = "C1";
          innerCategoryPageAlias = "CP1";
          // inner query comes as an inner join, because mysql does not support limit in subquerys
@@ -201,7 +201,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
          sb.append(" select distinct ").append(innerPageAlias)
                   .append(".id from ");
          sb.append(Product.TABLE_NAME).append(" AS ").append(innerProductAlias);
-         sb.append(" LEFT JOIN ").append(Product.TABLE_NAME).append(" AS ").append(innerCategoryAlias)
+         sb.append(" LEFT JOIN ").append(Category.TABLE_NAME).append(" AS ").append(innerCategoryAlias)
                   .append(" ON ( ").append(innerCategoryAlias).append(".id = ").append(innerProductAlias)
                   .append(".category_id ) ");
          sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(innerPageAlias).append(" on ( ")

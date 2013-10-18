@@ -74,13 +74,20 @@ public class FileSystemWriter implements Serializable
          boolean overwrite = false;
          String path = null;
 
-         for (Page page : pageRepository.getList(new Search<Page>(Page.class), 0, 0))
+         Search<Page> sp = new Search<Page>(Page.class);
+         int pages = pageRepository.getListSize(sp);
+         int pagesPerIteration = 10;
+         for (int i = 0; i < pages; i = i + pagesPerIteration)
          {
-            List<String> files = fileSystemWriterService.write(path, page, fetch, overwrite);
-            for (String file : files)
+            for (Page page : pageRepository.getList(new Search<Page>(Page.class), i, pagesPerIteration))
             {
-               sb.append(", ").append(file);
+               List<String> files = fileSystemWriterService.write(path, page, fetch, overwrite);
+               for (String file : files)
+               {
+                  sb.append(", ").append(file);
+               }
             }
+            sb.append("---------------------------------------");
          }
          return "Written: " + (sb.length() == 0 ? "none" : sb.substring(1));
       }

@@ -86,6 +86,7 @@ public class UrlParsingBean implements Serializable
 
       if (uri.startsWith("/c/"))
       {
+         logger.info("forcing cached version for: " + pageId);
          pageRequestController.setUri(uri);
          pageRequestController.getElement().setId(pageId);
          return "/cache/" + pageId + ".xhtml";
@@ -101,6 +102,7 @@ public class UrlParsingBean implements Serializable
                .getCurrentInstance().getExternalContext().getContext()).getRealPath("cache"), pageId + ".xhtml")
                .exists())
       {
+         logger.info("cached version for: " + pageId);
          pageRequestController.setUri(uri);
          pageRequestController.getElement().setId(pageId);
          return "/cache/" + pageId + ".xhtml";
