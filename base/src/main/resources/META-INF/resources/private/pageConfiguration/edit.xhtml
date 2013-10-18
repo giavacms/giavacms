@@ -42,7 +42,37 @@
 
 				</h:panelGrid>
 			</h:form>
-			
+			<br /> <br />
+			<h:form>
+				<p:panel header=" Generazione della cache" id="testEmailPanel">
+
+					<h:panelGrid columns="2">
+
+						<h:outputLabel value="id di pagina" for="pageId" />
+						<h:inputText id="pageId"
+							value="#{pageConfigurationController.pageId}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="id template" for="templateId" />
+						<h:inputText id="templateId"
+							value="#{pageConfigurationController.templateId}"
+							style="width: 100%;" />
+
+						<h:commandButton value="genera cache"
+							action="#{pageConfigurationController.generateCache}" />
+
+						<h:commandButton id="reset"
+							action="#{pageConfigurationController.setResultTest('')}"
+							value="Annulla" immediate="true" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<h:outputText id="resultTest"
+						value="risultato: #{pageConfigurationController.resultTest}"
+						rendered="#{not empty emailConfigurationController.resultTest}" />
+				</p:panel>
+			</h:form>
 		</center>
 
 
