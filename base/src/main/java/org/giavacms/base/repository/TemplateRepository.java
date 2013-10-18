@@ -21,6 +21,7 @@ import org.giavacms.base.service.CacheService;
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
+import org.giavacms.common.util.BeanUtils;
 
 @Named
 @Stateless
@@ -33,9 +34,6 @@ public class TemplateRepository extends AbstractRepository<Template> implements
 
    @PersistenceContext
    EntityManager em;
-
-   @Inject
-   CacheService cacheService;
 
    @Override
    public EntityManager getEm()
@@ -132,7 +130,7 @@ public class TemplateRepository extends AbstractRepository<Template> implements
    public Template persist(Template object)
    {
       Template result = super.persist(object);
-      cacheService.cacheByTemplateId(object.getId());
+      BeanUtils.getBean(CacheService.class).cacheByTemplateId(object.getId());
       return result;
    }
 
@@ -142,7 +140,7 @@ public class TemplateRepository extends AbstractRepository<Template> implements
    {
       // TODO Auto-generated method stub
       boolean result = super.update(object);
-      cacheService.cacheByTemplateId(object.getId());
+      BeanUtils.getBean(CacheService.class).cacheByTemplateId(object.getId());
       return result;
    }
 }
