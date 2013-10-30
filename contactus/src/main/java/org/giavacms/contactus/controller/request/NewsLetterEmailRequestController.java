@@ -1,6 +1,7 @@
 package org.giavacms.contactus.controller.request;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +13,11 @@ import org.giavacms.base.common.util.EmailUtils;
 import org.giavacms.base.service.EmailSession;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.company.controller.request.CompanyRequestController;
+import org.giavacms.common.model.Search;
 import org.giavacms.contactus.model.ContactUs;
+import org.giavacms.contactus.model.ContactUsConfiguration;
 import org.giavacms.contactus.model.NewsLetterEmail;
+import org.giavacms.contactus.repository.ContactUsConfigurationRepository;
 import org.giavacms.contactus.repository.NewsLetterEmailRepository;
 
 /**
@@ -48,7 +51,7 @@ public class NewsLetterEmailRequestController extends
    @OwnRepository(NewsLetterEmailRepository.class)
    NewsLetterEmailRepository newsLetterEmailRepository;
    @Inject
-   CompanyRequestController companyRequestController;
+   ContactUsConfigurationRepository contactUsConfigurationRepository;
 
    @Inject
    EmailSession emailSession;
@@ -108,12 +111,64 @@ public class NewsLetterEmailRequestController extends
          newsLetterEmail.setData(new Date());
          newsLetterEmailRepository.persist(newsLetterEmail);
 
-         String result = emailSession.sendEmail("noreply@giava.by",
+         String from = null;
+         List<String> tos = new ArrayList<String>();
+         List<String> ccs = new ArrayList<String>();
+         List<String> bccs = new ArrayList<String>();
+
+         List<ContactUsConfiguration> configurations = contactUsConfigurationRepository.getList(
+                  new Search<ContactUsConfiguration>(ContactUsConfiguration.class), 0, 0);
+
+         for (ContactUsConfiguration configuration : configurations)
+         {
+            if (!configuration.isContactus())
+            {
+               continue;
+            }
+            if (configuration.getEmail() == null || configuration.getEmail().trim().length() == 0)
+            {
+               continue;
+            }
+            if (configuration.isFrom())
+            {
+               from = configuration.getEmail();
+            }
+            if (configuration.isTo())
+            {
+               tos.add(configuration.getEmail());
+            }
+            else if (configuration.isCc())
+            {
+               ccs.add(configuration.getEmail());
+            }
+            else if (configuration.isBcc())
+            {
+               bccs.add(configuration.getEmail());
+            }
+         }
+
+         if (tos.size() == 0 && ccs.size() == 0 && bccs.size() == 0)
+         {
+            logger.info("CONTACTUS MODULE: sistema non configurato per inoltrare le email.");
+            return "Grazie per averci contattato";
+         }
+         else if (tos.size() == 0)
+         {
+            tos.add("noreply@giavacms.org");
+         }
+
+         if (from == null)
+         {
+            from = "noreply@giavacms.org";
+         }
+
+         String result = emailSession.sendEmail(from,
                   "nuovo iscritto newsletter: " + params.get(PARAM_NAME).trim() + " " + params.get(PARAM_EMAIL).trim(),
                   "iscrizione newletter responsabilitacivileprofessionisti.it",
-                  new String[] { companyRequestController
-                           .getPrincipal().getEmailNewsletter() }, null,
-                  new String[] { "fiorenzino@gmail.com" }, null);
+                  tos.toArray(new String[] {}),
+                  ccs.toArray(new String[] {}),
+                  bccs.toArray(new String[] {}),
+                  null);
          if (result != null && !result.isEmpty())
          {
             System.out.println("ok invio email effettuato");

@@ -15,35 +15,29 @@ import org.giavacms.contactus.repository.ContactUsRepository;
 
 @Named
 @SessionScoped
-public class ContactUsController extends AbstractLazyController<ContactUs> {
+public class ContactUsController extends AbstractLazyController<ContactUs>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	@ListPage
-	@EditPage
-	public static String LIST = "/private/contactus/list.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   @ListPage
+   @EditPage
+   public static String LIST = "/private/contactus/contacts/list.xhtml";
 
-	// --------------------------------------------------------
+   // --------------------------------------------------------
 
-	@Inject
-	@OwnRepository(ContactUsRepository.class)
-	ContactUsRepository notizieRepository;
+   @Inject
+   @OwnRepository(ContactUsRepository.class)
+   ContactUsRepository contactUsRepository;
 
-	// --------------------------------------------------------
+   // --------------------------------------------------------
 
-	public ContactUsController() {
-	}
-	
-	@Override
-	public Object getId(ContactUs t) {
-		// TODO Auto-generated method stub
-		return t.getId();
-	}
-
-	// --------------------------------------------------------
+   public ContactUsController()
+   {
+   }
 
 }

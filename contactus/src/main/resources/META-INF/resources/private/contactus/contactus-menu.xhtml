@@ -6,8 +6,9 @@
 
 	<p:submenu label="ContactUs" icon="ui-icon-document"
 		rendered="#{loginController.isInRole('contactus')}">
-		<p:menuitem value="lista contatti" url="/private/contactus/list.jsf" />
-		<p:menuitem value="lista newsletteremail" url="/private/contactus/newsletteremail/list.jsf" />
+		<p:menuitem value="configurazione" url="/private/contactus/configuration/list.jsf" />
+		<p:menuitem value="lista contatti" url="/private/contactus/contacts/list.jsf" />
+		<p:menuitem value="lista iscrizioni" url="/private/contactus/subscriptions/list.jsf" />
 	</p:submenu>
 
 </ui:composition>

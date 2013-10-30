@@ -38,11 +38,13 @@
 			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>company</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		 -->
 
 	</dependencies>
 

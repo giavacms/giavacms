@@ -20,6 +20,7 @@ import javax.persistence.Query;
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.controller.util.TimeUtils;
 import org.giavacms.base.model.Page;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
@@ -256,6 +257,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
       // aliases to use in the external query
       String pageAlias = "P";
+      String templateImplAlias = "T";
       String richContentAlias = "R";
       String richContentTypeAlias = "RT";
       String imageAlias = "I";
@@ -276,6 +278,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(pageAlias).append(".id, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
+         sb.append(templateImplAlias).append(".id as templateImpl_id, ");
+         sb.append(templateImplAlias).append(".mainPageId, ");
          sb.append(richContentAlias).append(".author, ");
          sb.append(richContentAlias).append(".content, ");
          sb.append(richContentAlias).append(".date, ");
@@ -300,6 +304,10 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(pageAlias).append(" on ( ")
                .append(richContentAlias).append(".id = ")
                .append(pageAlias).append(".id ) ");
+      sb.append(" LEFT JOIN ").append(TemplateImpl.TABLE_NAME).append(" as ").append(templateImplAlias)
+               .append(" on ( ")
+               .append(templateImplAlias).append(".id = ")
+               .append(pageAlias).append(".template_id ) ");
 
       if (count)
       {
@@ -328,6 +336,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       }
 
       String innerPageAlias = null;
+      String innerTemplateImplAlias = null;
       String innerRichContentAlias = null;
       String innerRichContentTypeAlias = null;
       if (count)
@@ -335,6 +344,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          // we don't need an inner query in case of count = true (because we only need distinct id to count,
          // disregarding result pagination) so aliases stay the same
          innerPageAlias = pageAlias;
+         innerTemplateImplAlias = templateImplAlias;
          innerRichContentAlias = richContentAlias;
          innerRichContentTypeAlias = richContentTypeAlias;
       }
@@ -343,6 +353,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          // we need different aliases for the inner query in case of count = false or multiple detail rows for each
          // master
          innerPageAlias = "P1";
+         innerTemplateImplAlias = "T1";
          innerRichContentAlias = "R1";
          innerRichContentTypeAlias = "RT1";
          // inner query comes as an inner join, because mysql does not support limit in subquerys
@@ -360,12 +371,17 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(innerPageAlias).append(" on ( ")
                   .append(innerRichContentAlias).append(".id = ")
                   .append(innerPageAlias).append(".id ) ");
+         sb.append(" LEFT JOIN ").append(TemplateImpl.TABLE_NAME).append(" as ").append(innerTemplateImplAlias)
+                  .append(" on ( ")
+                  .append(innerTemplateImplAlias).append(".id = ")
+                  .append(innerPageAlias).append(".template_id ) ");
       }
       else
       {
          // we also don't need an inner query in case of master-data that has no multiple details
          // so aliases can stay the same
          innerPageAlias = pageAlias;
+         innerTemplateImplAlias = templateImplAlias;
          innerRichContentAlias = richContentAlias;
          innerRichContentTypeAlias = richContentTypeAlias;
       }
@@ -373,7 +389,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // we append filters right after the latest query, so that they apply to the external one in case count = true and
       // to the internal one in case count = false
       String separator = " where ";
-      applyRestrictionsNative(search, innerPageAlias, innerRichContentAlias, innerRichContentTypeAlias, separator, sb,
+      applyRestrictionsNative(search, innerPageAlias, innerTemplateImplAlias, innerRichContentAlias,
+               innerRichContentTypeAlias, separator, sb,
                params);
 
       if (count)
@@ -407,7 +424,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return sb;
    }
 
-   protected void applyRestrictionsNative(Search<RichContent> search, String pageAlias, String richContentAlias,
+   protected void applyRestrictionsNative(Search<RichContent> search, String pageAlias, String templateImplAlias,
+            String richContentAlias,
             String richContentTypeAlias, String separator, StringBuffer sb,
             Map<String, Object> params)
    {
@@ -521,10 +539,11 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    /**
     * // we select a cartesian product of master/details rows in case of count = false
     * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(richContentAlias).append(".author, "); sb.append(richContentAlias).append(".content, ");
-    * sb.append(richContentAlias).append(".date, "); sb.append(richContentAlias).append(".highlight, ");
-    * sb.append(richContentAlias).append(".preview, "); sb.append(richContentAlias).append(".tags,  ");
-    * sb.append(richContentAlias).append(".richContentType_id, ");
+    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(richContentAlias).append(".author, ");
+    * sb.append(richContentAlias).append(".content, "); sb.append(richContentAlias).append(".date, ");
+    * sb.append(richContentAlias).append(".highlight, "); sb.append(richContentAlias).append(".preview, ");
+    * sb.append(richContentAlias).append(".tags,  "); sb.append(richContentAlias).append(".richContentType_id, ");
     * sb.append(richContentTypeAlias).append(".name AS richContentType, "); sb.append(" I.fileName AS image, ");
     * sb.append(" D.filename AS document ");
     * 
@@ -556,6 +575,26 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          String description = (String) row[i];
          // if (description != null && !description.isEmpty())
          richContent.setDescription(description);
+         i++;
+         Object template_impl_id = row[i];
+         if (template_impl_id != null)
+         {
+            if (template_impl_id instanceof BigInteger)
+            {
+               richContent.getTemplate().setId(((BigInteger) template_impl_id).longValue());
+            }
+            else
+            {
+               logger.error("templateImpl_id instance of " + template_impl_id.getClass().getCanonicalName());
+            }
+         }
+         else
+         {
+            logger.error("templateImpl_id should not be null");
+         }
+         i++;
+         String mainPageId = (String) row[i];
+         richContent.getTemplate().setMainPageId(mainPageId);
          i++;
          String author = (String) row[i];
          // if (author != null && !author.isEmpty())
@@ -601,7 +640,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          {
             if (richContentType_id instanceof BigInteger)
             {
-               richContentType_id = (BigInteger) row[i];
                richContent.getRichContentType().setId(((BigInteger) richContentType_id).longValue());
             }
             else
