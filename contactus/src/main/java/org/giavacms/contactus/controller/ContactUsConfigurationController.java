@@ -10,12 +10,14 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
-import org.giavacms.contactus.model.NewsLetterEmail;
-import org.giavacms.contactus.repository.NewsLetterEmailRepository;
+import org.giavacms.contactus.model.ContactUs;
+import org.giavacms.contactus.model.ContactUsConfiguration;
+import org.giavacms.contactus.repository.ContactUsConfigurationRepository;
+import org.giavacms.contactus.repository.ContactUsRepository;
 
 @Named
 @SessionScoped
-public class NewsLetterEmailController extends AbstractLazyController<NewsLetterEmail>
+public class ContactUsConfigurationController extends AbstractLazyController<ContactUsConfiguration>
 {
 
    private static final long serialVersionUID = 1L;
@@ -23,23 +25,30 @@ public class NewsLetterEmailController extends AbstractLazyController<NewsLetter
    // --------------------------------------------------------
    @BackPage
    public static String BACK = "/private/administration.xhtml";
+
    @ViewPage
    @ListPage
    @EditPage
-   public static String LIST = "/private/contactus/subscriptions/lista.xhtml";
+   public static String LIST = "/private/contactus/configuration.xhtml";
 
    // --------------------------------------------------------
 
    @Inject
-   @OwnRepository(NewsLetterEmailRepository.class)
-   NewsLetterEmailRepository newsLetterEmailRepository;
+   @OwnRepository(ContactUsConfigurationRepository.class)
+   ContactUsConfigurationRepository repository;
 
    // --------------------------------------------------------
 
-   public NewsLetterEmailController()
+   public ContactUsConfigurationController()
    {
    }
 
-   // --------------------------------------------------------
-
+   @Override
+   public String addElement()
+   {
+      super.addElement();
+      getElement().setDescription("Nuovo indirizzo...");
+      getElement().setEmail("noreply@giavacms.org");
+      return super.save();
+   }
 }

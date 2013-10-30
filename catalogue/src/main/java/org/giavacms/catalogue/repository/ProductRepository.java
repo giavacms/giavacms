@@ -19,6 +19,7 @@ import javax.persistence.Query;
 
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.Page;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
@@ -99,6 +100,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
 
       // aliases to use in the external query
       String pageAlias = "P";
+      String templateImplAlias = "TI";
       String productAlias = "T";
       String categoryAlias = "C";
       String categoryPageAlias = "CP";
@@ -120,6 +122,8 @@ public class ProductRepository extends AbstractPageRepository<Product>
          sb.append(pageAlias).append(".id, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
+         sb.append(templateImplAlias).append(".id as templateImpl_id, ");
+         sb.append(templateImplAlias).append(".mainPageId, ");
          sb.append(productAlias).append(".preview, ");
          sb.append(productAlias).append(".dimensions, ");
          sb.append(productAlias).append(".code, ");
@@ -144,6 +148,10 @@ public class ProductRepository extends AbstractPageRepository<Product>
       sb.append(" LEFT JOIN ").append(Page.TABLE_NAME).append(" as ").append(categoryPageAlias).append(" on ( ")
                .append(categoryAlias).append(".id = ")
                .append(categoryPageAlias).append(".id ) ");
+      sb.append(" LEFT JOIN ").append(TemplateImpl.TABLE_NAME).append(" as ").append(templateImplAlias)
+               .append(" on ( ")
+               .append(templateImplAlias).append(".id = ")
+               .append(pageAlias).append(".template_id ) ");
 
       if (count)
       {
@@ -172,6 +180,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
       }
 
       String innerPageAlias = null;
+      String innerTemplateImplAlias = null;
       String innerProductAlias = null;
       String innerCategoryAlias = null;
       String innerCategoryPageAlias = null;
@@ -180,6 +189,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
          // we don't need an inner query in case of count = true (because we only need distinct id to count,
          // disregarding result pagination) so aliases stay the same
          innerPageAlias = pageAlias;
+         innerTemplateImplAlias = templateImplAlias;
          innerProductAlias = productAlias;
          innerCategoryAlias = categoryAlias;
          innerCategoryPageAlias = categoryPageAlias;
@@ -189,6 +199,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
          // we need different aliases for the inner query in case of count = false or multiple detail rows for each
          // master
          innerPageAlias = "P1";
+         innerTemplateImplAlias = "TI1";
          innerProductAlias = "T1";
          innerCategoryAlias = "C1";
          innerCategoryPageAlias = "CP1";
@@ -211,12 +222,17 @@ public class ProductRepository extends AbstractPageRepository<Product>
                   .append(" on ( ")
                   .append(innerCategoryAlias).append(".id = ")
                   .append(innerCategoryPageAlias).append(".id ) ");
+         sb.append(" LEFT JOIN ").append(TemplateImpl.TABLE_NAME).append(" as ").append(innerTemplateImplAlias)
+                  .append(" on ( ")
+                  .append(innerTemplateImplAlias).append(".id = ")
+                  .append(innerPageAlias).append(".template_id ) ");
       }
       else
       {
          // we also don't need an inner query in case of master-data that has no multiple details
          // so aliases can stay the same
          innerPageAlias = pageAlias;
+         innerTemplateImplAlias = templateImplAlias;
          innerProductAlias = productAlias;
          innerCategoryAlias = categoryAlias;
          innerCategoryPageAlias = categoryPageAlias;
@@ -225,7 +241,8 @@ public class ProductRepository extends AbstractPageRepository<Product>
       // we append filters right after the latest query, so that they apply to the external one in case count = true and
       // to the internal one in case count = false
       String separator = " where ";
-      applyRestrictionsNative(search, innerPageAlias, innerProductAlias, innerCategoryAlias, innerCategoryPageAlias,
+      applyRestrictionsNative(search, innerPageAlias, innerTemplateImplAlias, innerProductAlias, innerCategoryAlias,
+               innerCategoryPageAlias,
                separator, sb,
                params);
 
@@ -237,7 +254,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
       {
          // we need to sort internal results to apply pagination
          sb.append(" order by ").append(innerProductAlias).append(".code asc ");
-         
+
          // we apply limit-clause only if we want pagination
          if (pageSize > 0)
          {
@@ -260,7 +277,8 @@ public class ProductRepository extends AbstractPageRepository<Product>
       return sb;
    }
 
-   protected void applyRestrictionsNative(Search<Product> search, String pageAlias, String productAlias,
+   protected void applyRestrictionsNative(Search<Product> search, String pageAlias, String innerTemplateImplAlias,
+            String productAlias,
             String categoryAlias, String categoryPageAlias, String separator, StringBuffer sb,
             Map<String, Object> params)
    {
@@ -340,7 +358,8 @@ public class ProductRepository extends AbstractPageRepository<Product>
 
    /**
     * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(pageAlias).append(".description, "); sb.append(productAlias).append(".preview, ");
+    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(productAlias).append(".preview, ");
     * sb.append(productAlias).append(".dimensions, "); sb.append(productAlias).append(".code, ");
     * sb.append(productAlias).append(".category_id, ");
     * sb.append(categoryPageAlias).append(".title AS categoryTitle, "); sb.append(" I.fileName AS image, ");
@@ -368,6 +387,26 @@ public class ProductRepository extends AbstractPageRepository<Product>
          i++;
          String description = (String) row[i];
          product.setDescription(description);
+         i++;
+         Object template_impl_id = row[i];
+         if (template_impl_id != null)
+         {
+            if (template_impl_id instanceof BigInteger)
+            {
+               product.getTemplate().setId(((BigInteger) template_impl_id).longValue());
+            }
+            else
+            {
+               logger.error("templateImpl_id instance of " + template_impl_id.getClass().getCanonicalName());
+            }
+         }
+         else
+         {
+            logger.error("templateImpl_id should not be null");
+         }
+         i++;
+         String mainPageId = (String) row[i];
+         product.getTemplate().setMainPageId(mainPageId);
          i++;
          String preview = (String) row[i];
          product.setPreview(preview);

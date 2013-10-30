@@ -16,6 +16,7 @@ import javax.persistence.Query;
 
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.Page;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.common.model.Search;
@@ -110,6 +111,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
 
       // aliases to use in the external query
       String pageAlias = "P";
+      String templateImplAlias = "T";
       String faqAlias = "F";
       String faqCategoryAlias = "FC";
       String faqCategoryPageAlias = "FCP";
@@ -128,6 +130,9 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          // we select a cartesian product of master/details rows in case of count = false
          sb.append(pageAlias).append(".id, ");
          sb.append(pageAlias).append(".title, ");
+         sb.append(pageAlias).append(".description, ");
+         sb.append(templateImplAlias).append(".id as templateImpl_id, ");
+         sb.append(templateImplAlias).append(".mainPageId, ");
          sb.append(faqAlias).append(".answer, ");
          sb.append(faqAlias).append(".date, ");
          sb.append(faqAlias).append(".faqCategory_id, ");
@@ -152,6 +157,10 @@ public class FaqRepository extends AbstractPageRepository<Faq>
                .append(faqCategoryAlias).append(".id = ")
                .append(faqCategoryPageAlias).append(".id ) ");
       sb.append(" LEFT JOIN Image as I on ( I.id = ").append(faqCategoryAlias).append(".image_id ) ");
+      sb.append(" LEFT JOIN ").append(TemplateImpl.TABLE_NAME).append(" as ").append(templateImplAlias)
+               .append(" on ( ")
+               .append(templateImplAlias).append(".id = ")
+               .append(pageAlias).append(".template_id ) ");
 
       if (count)
       {
@@ -171,6 +180,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       }
 
       String innerPageAlias = null;
+      String innerTemplateImplAlias = null;
       String innerFaqAlias = null;
       String innerFaqCategoryAlias = null;
       String innerFaqCategoryPageAlias = null;
@@ -179,6 +189,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          // we don't need an inner query in case of count = true (because we only need distinct id to count,
          // disregarding result pagination) so aliases stay the same
          innerPageAlias = pageAlias;
+         innerTemplateImplAlias = templateImplAlias;
          innerFaqAlias = faqAlias;
          innerFaqCategoryAlias = faqCategoryAlias;
          innerFaqCategoryPageAlias = faqCategoryPageAlias;
@@ -188,6 +199,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          // we need different aliases for the inner query in case of count = false or multiple detail rows for each
          // master
          innerPageAlias = "P1";
+         innerTemplateImplAlias = "T1";
          innerFaqAlias = "F1";
          innerFaqCategoryAlias = "FC1";
          innerFaqCategoryPageAlias = "FCP1";
@@ -210,12 +222,17 @@ public class FaqRepository extends AbstractPageRepository<Faq>
                   .append(" on ( ")
                   .append(innerFaqCategoryAlias).append(".id = ")
                   .append(innerFaqCategoryPageAlias).append(".id ) ");
+         sb.append(" LEFT JOIN ").append(TemplateImpl.TABLE_NAME).append(" as ").append(innerTemplateImplAlias)
+                  .append(" on ( ")
+                  .append(innerTemplateImplAlias).append(".id = ")
+                  .append(innerPageAlias).append(".template_id ) ");
       }
       else
       {
          // we also don't need an inner query in case of master-data that has no multiple details
          // so aliases can stay the same
          innerPageAlias = pageAlias;
+         innerTemplateImplAlias = templateImplAlias;
          innerFaqAlias = faqAlias;
          innerFaqCategoryAlias = faqCategoryAlias;
          innerFaqCategoryPageAlias = faqCategoryPageAlias;
@@ -224,7 +241,8 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       // we append filters right after the latest query, so that they apply to the external one in case count = true and
       // to the internal one in case count = false
       String separator = " where ";
-      applyRestrictionsNative(search, innerPageAlias, innerFaqAlias, innerFaqCategoryAlias, innerFaqCategoryPageAlias,
+      applyRestrictionsNative(search, innerPageAlias, innerTemplateImplAlias, innerFaqAlias, innerFaqCategoryAlias,
+               innerFaqCategoryPageAlias,
                separator, sb,
                params);
 
@@ -236,7 +254,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       {
          // we need to sort internal results to apply pagination
          sb.append(" order by ").append(innerPageAlias).append(".title desc ");
-         
+
          // we apply limit-clause only if we want pagination
          if (pageSize > 0)
          {
@@ -257,7 +275,8 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       return sb;
    }
 
-   protected void applyRestrictionsNative(Search<Faq> search, String pageAlias, String faqAlias,
+   protected void applyRestrictionsNative(Search<Faq> search, String pageAlias, String templateImplAlias,
+            String faqAlias,
             String faqCategoryAlias, String faqCategoryPageAlias, String separator, StringBuffer sb,
             Map<String, Object> params)
    {
@@ -309,8 +328,9 @@ public class FaqRepository extends AbstractPageRepository<Faq>
    /**
     * // we select a cartesian product of master/details rows in case of count = false
     * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(faqAlias).append(".answer, "); sb.append(faqAlias).append(".date, ");
-    * sb.append(faqAlias).append(".faqCategory_id, ");
+    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(faqAlias).append(".answer, ");
+    * sb.append(faqAlias).append(".date, "); sb.append(faqAlias).append(".faqCategory_id, ");
     * sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
     * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
     */
@@ -329,8 +349,9 @@ public class FaqRepository extends AbstractPageRepository<Faq>
    /**
     * // we select a cartesian product of master/details rows in case of count = false
     * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(faqAlias).append(".answer, "); sb.append(faqAlias).append(".date, ");
-    * sb.append(faqAlias).append(".faqCategory_id, ");
+    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(faqAlias).append(".answer, ");
+    * sb.append(faqAlias).append(".date, "); sb.append(faqAlias).append(".faqCategory_id, ");
     * sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
     * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
     */
@@ -346,6 +367,30 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       String title = (String) row[i];
       // if (title != null && !title.isEmpty())
       faq.setTitle(title);
+      i++;
+      String description = (String) row[i];
+      // if (title != null && !title.isEmpty())
+      faq.setDescription(description);
+      i++;
+      Object template_impl_id = row[i];
+      if (template_impl_id != null)
+      {
+         if (template_impl_id instanceof BigInteger)
+         {
+            faq.getTemplate().setId(((BigInteger) template_impl_id).longValue());
+         }
+         else
+         {
+            logger.error("templateImpl_id instance of " + template_impl_id.getClass().getCanonicalName());
+         }
+      }
+      else
+      {
+         logger.error("templateImpl_id should not be null");
+      }
+      i++;
+      String mainPageId = (String) row[i];
+      faq.getTemplate().setMainPageId(mainPageId);
       i++;
       String answer = (String) row[i];
       // if (answer != null && !answer.isEmpty())

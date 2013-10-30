@@ -1,0 +1,160 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/layout/t.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lista Contatti" />
+	</ui:define>
+	<ui:define name="roles">
+		<f:attribute name="roles" value="contactus" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<center>
+				<p:panel header="Lista Email Per Inoltro Messaggi">
+					<h:panelGrid columns="3">
+						<h:outputLabel for="name" value="Nome:" />
+						<h:inputText id="name"
+							value="#{contactUsConfigurationController.search.obj.description}" />
+						<p:commandButton
+							actionListener="#{contactUsConfigurationController.reloadAjax}"
+							value="Cerca" ajax="true" immediate="false"
+							update="contactusConfigurationList" />
+					</h:panelGrid>
+
+					<br />
+
+					<p:dataTable id="contactusConfigurationList" rowIndexVar="rowIndex"
+						var="t" value="#{contactUsConfigurationController.model}"
+						rows="50" paginator="true" lazy="true" editable="true">
+
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column headerText="email">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.email}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:inputText required="true"
+										requiredMessage="E' obbligatorio specificare una email"
+										value="#{t.email}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="descrizione">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{t.description}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:inputText value="#{t.description}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="contattaci">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="SI" rendered="#{t.contactus}" />
+									<h:outputText value="NO" rendered="#{not t.contactus}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectBooleanCheckbox value="#{t.contactus}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="newsletter">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="SI" rendered="#{t.newsletter}" />
+									<h:outputText value="NO" rendered="#{not t.newsletter}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectBooleanCheckbox value="#{t.newsletter}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="from">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="SI" rendered="#{t.to}" />
+									<h:outputText value="NO" rendered="#{not t.to}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectBooleanCheckbox value="#{t.to}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="to">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="SI" rendered="#{t.to}" />
+									<h:outputText value="NO" rendered="#{not t.to}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectBooleanCheckbox value="#{t.to}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="cc">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="SI" rendered="#{t.cc}" />
+									<h:outputText value="NO" rendered="#{not t.cc}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectBooleanCheckbox value="#{t.cc}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="bcc">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="SI" rendered="#{t.bcc}" />
+									<h:outputText value="NO" rendered="#{not t.bcc}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectBooleanCheckbox value="#{t.bcc}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column width="100" headerText="modifica">
+							<p:rowEditor>
+							</p:rowEditor>
+						</p:column>
+						<p:column width="100" headerText="elimina">
+							<center>
+								<h:commandLink
+									action="#{contactUsConfigurationController.deleteInline}"
+									title="elimina" styleClass="icon-trash"
+									style="font-size: 24px;" immediate="true"
+									onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+							</center>
+						</p:column>
+						<p:ajax event="rowEdit"
+							listener="#{contactUsConfigurationController.onRowEdit}" />
+					</p:dataTable>
+				</p:panel>
+
+				<br /> <br />
+				<p:commandButton ajax="false"
+					action="#{contactUsConfigurationController.addElement}"
+					value="Aggiungi" />
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>
