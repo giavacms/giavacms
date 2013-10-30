@@ -117,7 +117,7 @@ public class BaseProducer implements Serializable {
 		return valori.toArray(new SelectItem[] {});
 	}
 
-	public String getBasePageTitle(Long templateImplId) {
+	public String getBasePageTitleByTemplateImplId(Long templateImplId) {
 		try {
 			return pageRepository.getBasePageTitleByTemplateImplId(
 					templateImplId).toString();
