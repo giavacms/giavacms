@@ -586,6 +586,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             if (template_impl_id instanceof BigInteger)
             {
                richContent.getTemplate().setId(((BigInteger) template_impl_id).longValue());
+               richContent.setTemplateId(((BigInteger) template_impl_id).longValue());
             }
             else
             {

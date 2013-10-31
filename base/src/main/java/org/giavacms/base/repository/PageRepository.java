@@ -33,6 +33,7 @@ public class PageRepository
          extends AbstractPageRepository<Page>
 {
 
+   // VAI SU!!!
    private static final long serialVersionUID = 1L;
 
    protected void applyRestrictionsNative(Search<Page> search, String pageAlias, String templateImplAlias,
@@ -160,7 +161,7 @@ public class PageRepository
    {
       try
       {
-         StringBuffer sbq = new StringBuffer("select p.id, p.title from "
+         StringBuffer sbq = new StringBuffer("select p.id, p.title, p.template_id from "
                   + Page.TABLE_NAME + " p where p.clone = :CLONE and p.extension ");
          if (extension != null && extension.trim().length() > 0)
          {
@@ -170,7 +171,7 @@ public class PageRepository
          {
             sbq.append(" is null ");
          }
-         Query q = getEm().createQuery(sbq.toString()).setParameter("CLONE", false);
+         Query q = getEm().createNativeQuery(sbq.toString()).setParameter("CLONE", false);
          if (extension != null && extension.trim().length() > 0)
          {
             q.setParameter("EXTENSION", extension);
@@ -185,6 +186,7 @@ public class PageRepository
             Object[] row = results.next();
             p.setId(row[0].toString());
             p.setTitle("" + row[1]);
+            p.setTemplateId(((BigInteger)row[2]).longValue());
             result.add(p);
          }
          return result;

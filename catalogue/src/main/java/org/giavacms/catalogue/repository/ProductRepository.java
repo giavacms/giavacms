@@ -394,6 +394,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
             if (template_impl_id instanceof BigInteger)
             {
                product.getTemplate().setId(((BigInteger) template_impl_id).longValue());
+               product.setTemplateId(((BigInteger) template_impl_id).longValue());
             }
             else
             {
