@@ -518,9 +518,13 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                         .append(" ");
             }
 
-            params.put("TAGNAME" + i, likeParam(search.getObj().getTag()
+            // params.put("TAGNAME" + i, likeParam(search.getObj().getTag()
+            // .trim().toUpperCase()));
+            params.put("TAGNAME" + i, likeParam(search.getObj().getTagList().get(i)
                      .trim().toUpperCase()));
+
          }
+         sb.append(" ) ");
          separator = " and ";
       }
 
