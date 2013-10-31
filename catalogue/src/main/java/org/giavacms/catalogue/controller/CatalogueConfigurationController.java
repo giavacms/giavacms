@@ -13,33 +13,51 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 
-
 @Named
 @SessionScoped
 public class CatalogueConfigurationController extends
-		AbstractLazyController<CatalogueConfiguration> {
+         AbstractLazyController<CatalogueConfiguration>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	@ListPage
-	@EditPage
-	public static String LIST = "/private/catalogue/configuration.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   @ListPage
+   @EditPage
+   public static String LIST = "/private/catalogue/configuration.xhtml";
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	@Inject
-	@OwnRepository(CatalogueConfigurationRepository.class)
-	CatalogueConfigurationRepository catalogueConfigurationRepository;
+   @Inject
+   @OwnRepository(CatalogueConfigurationRepository.class)
+   CatalogueConfigurationRepository catalogueConfigurationRepository;
 
-	@Override
-	public CatalogueConfiguration getElement() {
-		if (super.getElement() == null)
-			setElement(catalogueConfigurationRepository.load());
-		return super.getElement();
-	}
+   @Override
+   public CatalogueConfiguration getElement()
+   {
+      if (super.getElement() == null)
+         setElement(catalogueConfigurationRepository.load());
+      return super.getElement();
+   }
+
+   @Override
+   public String update()
+   {
+      if (super.update() == null)
+      {
+         return null;
+      }
+      return backPage();
+   }
+
+   @Override
+   public String reset()
+   {
+      super.reset();
+      return backPage();
+   }
 
 }
