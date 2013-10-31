@@ -33,6 +33,7 @@ public class PageRepository
          extends AbstractPageRepository<Page>
 {
 
+   // VAI SU!!!
    private static final long serialVersionUID = 1L;
 
    protected void applyRestrictionsNative(Search<Page> search, String pageAlias, String templateImplAlias,
