@@ -25,7 +25,7 @@ public class ShoppingCartController extends
    @BackPage
    public static String BACK = "/private/administration.xhtml";
    @ViewPage
-   public static String VIEW_PAGE = "/private/paypal/detail.xhtml";
+   public static String VIEW_PAGE = "/private/paypal/view.xhtml";
    @ListPage
    public static String LIST_PAGE = "/private/paypal/list.xhtml";
    @EditPage
@@ -36,4 +36,14 @@ public class ShoppingCartController extends
    @Inject
    @OwnRepository(ShoppingCartRepository.class)
    ShoppingCartRepository shoppingCartRepository;
+
+   @Override
+   public String viewElement()
+   {
+
+      String vieL = super.viewElement();
+      System.out.println(getElement());
+
+      return vieL;
+   }
 }

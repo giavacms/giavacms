@@ -19,69 +19,162 @@
 
 					<h:panelGrid columns="2">
 
-						<h:outputLabel for="titolo" style="font-weight: bolder; "
-							value="Nominativo: " />
-						<h:outputText id="titolo"
-							value="#{peopleController.element.title}" />
+						<h:outputLabel for="id" style="font-weight: bolder; " value="Id: " />
+						<h:outputText id="id" value="#{shoppingCartController.element.id}" />
 
-						<p:spacer height="10px" />
-						<p:spacer height="10px" />
+						<h:outputLabel for="shipping" style="font-weight: bolder;"
+							value="Shipping: " />
+						<h:outputText id="shipping"
+							value="#{shoppingCartController.element.shipping}" />
 
-						<h:outputLabel for="tipo" style="font-weight: bolder;"
-							value="Categoria: " />
-						<h:outputText id="tipo"
-							value="#{peopleController.element.richContentType.name}"
-							width="640px" height="320px"></h:outputText>
-
-						<p:spacer height="10px" />
-						<p:spacer height="10px" />
-
-						<h:outputLabel for="tagList" style="font-weight: bolder;"
-							value="Tags: " />
-						<h:panelGroup id="tagList">
-							<ui:repeat value="#{peopleController.element.tagList}" var="t"
-								varStatus="varStatus">
+						<h:outputLabel for="shoppingArticles" style="font-weight: bolder;"
+							value="Articoli: " />
+						<h:panelGroup id="shoppingArticles">
+							<ui:repeat
+								value="#{shoppingCartController.element.shoppingArticles}"
+								var="sa" varStatus="varStatus">
 								<h:outputText value="&lt;br/&gt;" escape="false"
 									rendered="#{varStatus.index gt 0}" />
-								<h:outputText value="#{t}" />
+								<h:outputText value="#{sa}" />
 							</ui:repeat>
 						</h:panelGroup>
 
-						<p:spacer height="10px" />
-						<p:spacer height="10px" />
+						<h:outputLabel for="paymentId" style="font-weight: bolder;"
+							value="paymentId: " />
+						<h:outputText id="paymentId"
+							value="#{shoppingCartController.element.paymentId}" />
 
-						<h:outputLabel for="anteprima" style="font-weight: bolder;"
-							value="Descrizione breve: " />
-						<h:outputText id="anteprima"
-							value="#{peopleController.element.preview}" />
+						<h:outputLabel for="currency" style="font-weight: bolder;"
+							value="currency: " />
+						<h:outputText id="currency"
+							value="#{shoppingCartController.element.currency}" escape="false" />
 
-						<p:spacer height="10px" />
-						<p:spacer height="10px" />
+						<h:outputLabel for="created" style="font-weight: bolder;"
+							value="created: " />
+						<h:outputText id="created"
+							value="#{shoppingCartController.element.created}" />
 
-						<h:outputLabel for="contenuto" style="font-weight: bolder;"
-							value="Descrizione estesa: " />
-						<h:outputText id="contenuto"
-							value="#{peopleController.element.content}" escape="false" />
+						<h:outputLabel for="payed" style="font-weight: bolder;"
+							value="payed: " />
+						<h:outputText id="payed"
+							value="#{shoppingCartController.element.payed}" />
+
+						<h:outputLabel for="dataStart" style="font-weight: bolder;"
+							value="dataStart: " />
+						<h:outputText id="dataStart"
+							value="#{shoppingCartController.element.dataStart}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="Europe/Rome" />
+						</h:outputText>
+
+						<h:outputLabel for="dataEnd" style="font-weight: bolder;"
+							value="dataEnd: " />
+						<h:outputText id="dataEnd"
+							value="#{shoppingCartController.element.dataEnd}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="Europe/Rome" />
+						</h:outputText>
+
+
 					</h:panelGrid>
 					<br />
+					<br />
+					<h:panelGrid columns="2"
+						rendered="#{not empty shoppingCartController.element.payerInfo and not empty shoppingCartController.element.payerInfo.firstName}">
 
+						<h:outputLabel for="firstName" style="font-weight: bolder;"
+							value="firstName: " />
+						<h:outputText id="firstName"
+							value="#{shoppingCartController.element.payerInfo.firstName}"
+							escape="false" />
 
-					<h:graphicImage
-						rendered="#{not empty peopleController.element.images and peopleController.element.images.size() gt 0}"
-						value="/img/#{peopleController.element.images[0].filename}"
-						alt="#{peopleController.element.images[0].filename}"
-						title="#{peopleController.element.images[0].filename}"
-						style="padding: 5px;" />
+						<h:outputLabel for="lastName" style="font-weight: bolder;"
+							value="lastName: " />
+						<h:outputText id="lastName"
+							value="#{shoppingCartController.element.payerInfo.lastName}"
+							escape="false" />
 
+						<h:outputLabel for="phone" style="font-weight: bolder;"
+							value="phone: " />
+						<h:outputText id="lastName"
+							value="#{shoppingCartController.element.payerInfo.phone}"
+							escape="false" />
+
+						<h:outputLabel for="email" style="font-weight: bolder;"
+							value="email: " />
+						<h:outputText id="currency"
+							value="#{shoppingCartController.element.payerInfo.email}"
+							escape="false" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<h:panelGrid columns="2"
+						rendered="#{not empty shoppingCartController.element.payerInfo and not empty shoppingCartController.element.payerInfo.shippingAddress}">
+						<h:outputLabel for="recipientName" style="font-weight: bolder;"
+							value="recipientName: " />
+						<h:outputText id="recipientName"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.recipientName}"
+							escape="false" />
+
+						<h:outputLabel for="type" style="font-weight: bolder;"
+							value="type " />
+						<h:outputText id="type"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.type}"
+							escape="false" />
+
+						<h:outputLabel for="line1" style="font-weight: bolder;"
+							value="line1 " />
+						<h:outputText id="line1"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.line1}"
+							escape="false" />
+
+						<h:outputLabel for="line2" style="font-weight: bolder;"
+							value="line2 " />
+						<h:outputText id="line2"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.line2}"
+							escape="false" />
+
+						<h:outputLabel for="city" style="font-weight: bolder;"
+							value="city " />
+						<h:outputText id="city"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.city}"
+							escape="false" />
+
+						<h:outputLabel for="countryCode" style="font-weight: bolder;"
+							value="countryCode " />
+						<h:outputText id="countryCode"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.countryCode}"
+							escape="false" />
+
+						<h:outputLabel for="postalCode" style="font-weight: bolder;"
+							value="postalCode " />
+						<h:outputText id="postalCode"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.postalCode}"
+							escape="false" />
+
+						<h:outputLabel for="state" style="font-weight: bolder;"
+							value="state " />
+						<h:outputText id="state"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.state}"
+							escape="false" />
+
+						<h:outputLabel for="phone" style="font-weight: bolder;"
+							value="phone " />
+						<h:outputText id="phone"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.phone}"
+							escape="false" />
+
+					</h:panelGrid>
 				</p:panel>
 				<br /> <br />
 				<h:panelGrid columns="3">
-					<p:commandButton action="#{peopleController.modCurrent}"
+					<p:commandButton action="#{shoppingCartController.modCurrent}"
 						value="Modifica testi e immagine" />
-					<p:commandButton action="#{peopleController.modImageCurrent}"
+					<p:commandButton action="#{shoppingCartController.modImageCurrent}"
 						value="Gestisci Immagine" />
 					<p:commandButton id="creaContenuto"
-						action="#{peopleController.addElement}" value="Aggiungi" />
+						action="#{shoppingCartController.addElement}" value="Aggiungi" />
 				</h:panelGrid>
 			</center>
 		</h:form>

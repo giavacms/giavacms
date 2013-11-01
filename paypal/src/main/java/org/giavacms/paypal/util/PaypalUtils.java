@@ -2,6 +2,7 @@ package org.giavacms.paypal.util;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import com.paypal.api.payments.PayerInfo;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
 import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.Sale;
 import com.paypal.api.payments.Transaction;
 import com.paypal.core.rest.APIContext;
 import com.paypal.core.rest.PayPalRESTException;
@@ -48,14 +50,42 @@ public class PaypalUtils
       return apiContext;
    }
 
-   public static void end(String payerId, String guid, PaypalConfiguration paypalConfiguration)
-            throws PayPalRESTException
+   public static void end(ShoppingCart shoppingCart, String payerId, String guid,
+            PaypalConfiguration paypalConfiguration)
+            throws PayPalRESTException, ParseException
    {
       Payment payment = new Payment();
+      payment.setId(shoppingCart.getPaymentId());
       PaymentExecution paymentExecution = new PaymentExecution();
       paymentExecution.setPayerId(payerId);
       Payment result = payment.execute(getAPIContext(guid, paypalConfiguration), paymentExecution);
+
+      if (result != null && result.getPayer() != null && result.getPayer().getPayerInfo() != null)
+      {
+         setPayerInfo(shoppingCart, result.getPayer().getPayerInfo());
+         if (result.getUpdateTime() != null && !result.getUpdateTime().isEmpty())
+         {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+            shoppingCart.setDataStart(df.parse(result.getUpdateTime()));
+
+         }
+      }
+      getSaleInfo(shoppingCart.getPaymentId(), paypalConfiguration);
       System.out.println("END RESULT: " + result.toJSON());
+   }
+
+   private static void getSaleInfo(String id, PaypalConfiguration paypalConfiguration)
+   {
+      try
+      {
+         Sale sale = Sale.get(PaypalAccountUtils.getAccessToken(paypalConfiguration), id);
+         System.out.println(sale.toJSON());
+      }
+      catch (PayPalRESTException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
    }
 
    public static void init(PaypalConfiguration paypalConfiguration, ShoppingCart shoppingCart,
@@ -204,6 +234,24 @@ public class PaypalUtils
       }
       logger.info(shoppingCart.toString());
 
+   }
+
+   private static void setPayerInfo(ShoppingCart shoppingCart, PayerInfo payerInfo)
+   {
+      shoppingCart.getPayerInfo().setEmail(payerInfo.getEmail());
+      shoppingCart.getPayerInfo().setFirstName(payerInfo.getFirstName());
+      shoppingCart.getPayerInfo().setLastName(payerInfo.getLastName());
+      shoppingCart.getPayerInfo().setPhone(payerInfo.getPhone());
+      if (payerInfo.getShippingAddress() != null)
+      {
+         shoppingCart.getPayerInfo().getAddress().setCity(payerInfo.getShippingAddress().getCity());
+         shoppingCart.getPayerInfo().getAddress().setCountryCode(payerInfo.getShippingAddress().getCountryCode());
+         shoppingCart.getPayerInfo().getAddress().setLine1(payerInfo.getShippingAddress().getLine1());
+         shoppingCart.getPayerInfo().getAddress().setLine2(payerInfo.getShippingAddress().getLine2());
+         shoppingCart.getPayerInfo().getAddress().setPhone(payerInfo.getShippingAddress().getPhone());
+         shoppingCart.getPayerInfo().getAddress().setPostalCode(payerInfo.getShippingAddress().getPostalCode());
+         shoppingCart.getPayerInfo().getAddress().setState(payerInfo.getShippingAddress().getState());
+      }
    }
 
    private static PayerInfo getPayerInfo(ShoppingCart shoppingCart, boolean addShippingAddress)

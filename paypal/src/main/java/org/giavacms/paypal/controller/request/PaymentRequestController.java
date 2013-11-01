@@ -1,5 +1,6 @@
 package org.giavacms.paypal.controller.request;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -49,10 +50,10 @@ public class PaymentRequestController
          System.out.println("key: " + key + " - value: " + value);
       }
       /*
-       * 2013/11/01 10:56:14,475 INFO [stdout] (http--127.2.86.1-8080-5) key: PayerID - value: CTWEVMQ3RRE52 
-       * 10:56:14,562 INFO [stdout] (http--127.2.86.1-8080-5) key: com.ocpsoft.vP_0 - value: grazie 
-       * 10:56:14,570 INFO [stdout] (http--127.2.86.1-8080-5) key: guid - value: 40 
-       * [stdout] (http--127.2.86.1-8080-5) key: token - value: EC-8AF90434SP532552W
+       * 2013/11/01 10:56:14,475 INFO [stdout] (http--127.2.86.1-8080-5) key: PayerID - value: CTWEVMQ3RRE52
+       * 10:56:14,562 INFO [stdout] (http--127.2.86.1-8080-5) key: com.ocpsoft.vP_0 - value: grazie 10:56:14,570 INFO
+       * [stdout] (http--127.2.86.1-8080-5) key: guid - value: 40 [stdout] (http--127.2.86.1-8080-5) key: token - value:
+       * EC-8AF90434SP532552W
        */
       if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("guid") != null
                && !FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("guid")
@@ -85,7 +86,8 @@ public class PaymentRequestController
          if (shoppingCart != null)
             try
             {
-               PaypalUtils.end(getPayerId(), getGuid(), paypallProducer.getPaypalConfiguration());
+               PaypalUtils.end(shoppingCart, getPayerId(), getGuid(),
+                        paypallProducer.getPaypalConfiguration());
                shoppingCart.setDataEnd(new Date());
                shoppingCart.setPayed(true);
                shoppingCartRepository.update(shoppingCart);
@@ -93,6 +95,11 @@ public class PaymentRequestController
                logger.info("PaymentRequestController.verify: completo!!!");
             }
             catch (PayPalRESTException e)
+            {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+            }
+            catch (ParseException e)
             {
                // TODO Auto-generated catch block
                e.printStackTrace();
