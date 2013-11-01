@@ -19,7 +19,8 @@
 
 					<h:panelGrid columns="2">
 
-						<h:outputLabel value="Pagina di base:" for="basePage" style="font-weight: bolder;"/>
+						<h:outputLabel value="Pagina di base:" for="basePage"
+							style="font-weight: bolder;" />
 						<h:outputText
 							value="#{baseProducer.getBasePageTitleByTemplateImplId(productController.element.template.id)}"
 							id="basePage" />
@@ -49,15 +50,32 @@
 							value="#{productController.element.category.name}" width="640px" />
 
 						<h:outputLabel for="dimensions" style="font-weight: bolder;"
-							value="Dimensioni: " />
+							value="Dimensioni: "
+							rendered="#{catalogueConfigurationController.element.withDimensions}" />
 						<h:outputText id="dimensions"
 							value="#{productController.element.dimensions}" width="640px"
-							height="320px"></h:outputText>
+							height="320px"
+							rendered="#{catalogueConfigurationController.element.withDimensions}" />
+
+						<h:outputLabel for="price" style="font-weight: bolder;"
+							value="Prezzo: "
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
+						<h:outputText id="price"
+							value="#{productController.element.price}" width="640px"
+							height="320px"
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
+
+						<h:outputLabel for="vat" style="font-weight: bolder;"
+							value="Iva: "
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
+						<h:outputText id="vat" value="#{productController.element.vat}"
+							width="640px" height="320px"
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
 
 						<h:outputLabel for="code" style="font-weight: bolder;"
 							value="Codice:  " />
 						<h:outputText id="code" value="#{productController.element.code}"
-							width="640px" height="320px"></h:outputText>
+							width="640px" height="320px" />
 
 
 						<h:outputLabel for="preview" style="font-weight: bolder;"

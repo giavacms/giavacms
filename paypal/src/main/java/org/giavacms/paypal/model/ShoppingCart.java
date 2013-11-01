@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,7 +66,7 @@ public class ShoppingCart implements Serializable
       this.shipping = shipping;
    }
 
-   @OneToMany(cascade = CascadeType.ALL)
+   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    public List<ShoppingArticle> getShoppingArticles()
    {
       if (shoppingArticles == null)
@@ -88,12 +89,15 @@ public class ShoppingCart implements Serializable
             return;
          }
       }
+      article.setShoppingCart(this);
       getShoppingArticles().add(article);
    }
 
-   @OneToOne
+   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    public PayerInfo getPayerInfo()
    {
+      if (payerInfo == null)
+         this.payerInfo = new PayerInfo();
       return payerInfo;
    }
 

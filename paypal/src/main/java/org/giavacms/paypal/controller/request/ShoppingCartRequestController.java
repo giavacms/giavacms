@@ -64,8 +64,10 @@ public class ShoppingCartRequestController extends
          String requestURI = ((HttpServletRequest) FacesContext.getCurrentInstance()
                   .getExternalContext().getRequest()).getRequestURI();
          logger.info(requestURI);
-         shoppingCartSessionController.setLastPage(requestURI.replace("db:", "p/").replace(".jsf", ""));
-         shoppingCartSessionController.setLastPage(requestURI.replace("cache", "p").replace(".jsf", ""));
+         if (requestURI.startsWith("/db:"))
+            shoppingCartSessionController.setLastPage(requestURI.replace("db:", "p/").replace(".jsf", ""));
+         if (requestURI.startsWith("/cache"))
+            shoppingCartSessionController.setLastPage(requestURI.replace("cache", "p").replace(".jsf", ""));
          logger.info("LAST PAGE: " + shoppingCartSessionController.getLastPage());
 
          shoppingCartSessionController.addProduct(params.get(PARAM_VAT), params.get(PARAM_PRICE),

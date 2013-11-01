@@ -14,6 +14,8 @@ public class CatalogueConfiguration implements Serializable {
 	private Long id;
 	private boolean resize;
 	private int maxWidthOrHeight;
+	private boolean withPrices;
+	private boolean withDimensions;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +48,25 @@ public class CatalogueConfiguration implements Serializable {
 		return "CatalogueConfiguration [id=" + id + ", resize=" + resize
 				+ ", maxWidthOrHeight=" + maxWidthOrHeight + "]";
 	}
+
+   public boolean isWithPrices()
+   {
+      return withPrices;
+   }
+
+   public void setWithPrices(boolean withPrices)
+   {
+      this.withPrices = withPrices;
+   }
+
+   public boolean isWithDimensions()
+   {
+      return withDimensions;
+   }
+
+   public void setWithDimensions(boolean withDimensions)
+   {
+      this.withDimensions = withDimensions;
+   }
 
 }

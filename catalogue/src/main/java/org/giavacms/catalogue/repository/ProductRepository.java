@@ -126,6 +126,8 @@ public class ProductRepository extends AbstractPageRepository<Product>
          sb.append(templateImplAlias).append(".mainPageId, ");
          sb.append(productAlias).append(".preview, ");
          sb.append(productAlias).append(".dimensions, ");
+         sb.append(productAlias).append(".price, ");
+         sb.append(productAlias).append(".vat, ");
          sb.append(productAlias).append(".code, ");
          sb.append(productAlias).append(".category_id, ");
          sb.append(categoryPageAlias).append(".title AS categoryTitle, ");
@@ -360,7 +362,9 @@ public class ProductRepository extends AbstractPageRepository<Product>
     * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
     * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
     * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(productAlias).append(".preview, ");
-    * sb.append(productAlias).append(".dimensions, "); sb.append(productAlias).append(".code, ");
+    * sb.append(productAlias).append(".dimensions, "); 
+    * sb.append(productAlias).append(".price, ");
+    * sb.append(productAlias).append(".vat, ");sb.append(productAlias).append(".code, ");
     * sb.append(productAlias).append(".category_id, ");
     * sb.append(categoryPageAlias).append(".title AS categoryTitle, "); sb.append(" I.fileName AS image, ");
     * sb.append(" D.fileName AS document ");
@@ -414,6 +418,12 @@ public class ProductRepository extends AbstractPageRepository<Product>
          i++;
          String dimensions = (String) row[i];
          product.setDimensions(dimensions);
+         i++;
+         String price = (String) row[i];
+         product.setPrice(price);
+         i++;
+         String vat = (String) row[i];
+         product.setVat(vat);
          i++;
          String code = (String) row[i];
          product.setCode(code);

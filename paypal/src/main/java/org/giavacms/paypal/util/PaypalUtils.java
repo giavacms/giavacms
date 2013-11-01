@@ -1,6 +1,8 @@
 package org.giavacms.paypal.util;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -52,14 +54,15 @@ public class PaypalUtils
       Payment payment = new Payment();
       PaymentExecution paymentExecution = new PaymentExecution();
       paymentExecution.setPayerId(payerId);
-      payment.execute(getAPIContext(guid, paypalConfiguration), paymentExecution);
-      System.out.println(Payment.getLastResponse());
+      Payment result = payment.execute(getAPIContext(guid, paypalConfiguration), paymentExecution);
+      System.out.println("END RESULT: " + result.toJSON());
    }
 
-   public static void init(PaypalConfiguration paypalConfiguration, ShoppingCart shoppingCart) throws Exception
+   public static void init(PaypalConfiguration paypalConfiguration, ShoppingCart shoppingCart,
+            boolean addShippingAddress, boolean addPayerInfo) throws Exception
    {
       DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(java.util.Locale.ENGLISH);
-      decimalFormat.applyLocalizedPattern("#.##");
+      decimalFormat.applyLocalizedPattern("#,###,##0.00");
       decimalFormat.setGroupingUsed(false);
       PayPalResource.initConfig(PaypalAccountUtils.getPropertiesFromPaypalConfiguration(paypalConfiguration));
 
@@ -130,13 +133,18 @@ public class PaypalUtils
       // Payment Method
       // as 'paypal'
       Payer payer = new Payer("paypal");
-
-      payer.setPayerInfo(getPayerInfo(shoppingCart));
-
+      if (addPayerInfo)
+         payer.setPayerInfo(getPayerInfo(shoppingCart, addShippingAddress));
+      else
+         payer.setPayerInfo(new PayerInfo());
       // ###Payment
       // A Payment Resource; create one using
       // the above types and intent as 'sale'
-      Payment payment = new Payment("sale", payer, transactions);
+      Payment payment = new Payment();
+      payment.setIntent("sale");
+      payment.setTransactions(transactions);
+      payment.setPayer(payer);
+      // Payment payment = new Payment("sale", payer, transactions);
 
       // ###Redirect URLs
       RedirectUrls redirectUrls = new RedirectUrls();
@@ -158,8 +166,15 @@ public class PaypalUtils
       logger.info("Created payment with id = "
                + createdPayment.getId() + " and status = "
                + createdPayment.getState());
+      logger.info("JSON RESPONSE: " + createdPayment.toJSON());
       if (createdPayment.getState().equalsIgnoreCase("created"))
       {
+         shoppingCart.setPaymentId(createdPayment.getId());
+         if (createdPayment.getCreateTime() != null && !createdPayment.getCreateTime().isEmpty())
+         {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+            shoppingCart.setDataStart(df.parse(createdPayment.getCreateTime()));
+         }
          logger.info("payment created!!");
          shoppingCart.setCreated(true);
          // ###Payment Approval Url
@@ -191,23 +206,34 @@ public class PaypalUtils
 
    }
 
-   private static PayerInfo getPayerInfo(ShoppingCart shoppingCart)
+   private static PayerInfo getPayerInfo(ShoppingCart shoppingCart, boolean addShippingAddress)
    {
       PayerInfo payerInfo = new PayerInfo();
       payerInfo.setEmail(shoppingCart.getPayerInfo().getEmail());
       payerInfo.setFirstName(shoppingCart.getPayerInfo().getFirstName());
       payerInfo.setLastName(shoppingCart.getPayerInfo().getLastName());
       payerInfo.setPhone(shoppingCart.getPayerInfo().getPhone());
-      Address shippingAddress = new Address();
-      shippingAddress.setCity(shoppingCart.getPayerInfo().getAddress().getCity());
-      shippingAddress.setCountryCode(shoppingCart.getPayerInfo().getAddress().getCountryCode());
-      shippingAddress.setLine1(shoppingCart.getPayerInfo().getAddress().getLine1());
-      shippingAddress.setLine2(shoppingCart.getPayerInfo().getAddress().getLine2());
-      shippingAddress.setPhone(shoppingCart.getPayerInfo().getAddress().getPhone());
-      shippingAddress.setPostalCode(shoppingCart.getPayerInfo().getAddress().getPostalCode());
-      shippingAddress.setState(shoppingCart.getPayerInfo().getAddress().getState());
-      payerInfo.setShippingAddress(shippingAddress);
+      if (addShippingAddress)
+      {
+         Address shippingAddress = new Address();
+         shippingAddress.setCity(shoppingCart.getPayerInfo().getAddress().getCity());
+         shippingAddress.setCountryCode(shoppingCart.getPayerInfo().getAddress().getCountryCode());
+         shippingAddress.setLine1(shoppingCart.getPayerInfo().getAddress().getLine1());
+         shippingAddress.setLine2(shoppingCart.getPayerInfo().getAddress().getLine2());
+         shippingAddress.setPhone(shoppingCart.getPayerInfo().getAddress().getPhone());
+         shippingAddress.setPostalCode(shoppingCart.getPayerInfo().getAddress().getPostalCode());
+         shippingAddress.setState(shoppingCart.getPayerInfo().getAddress().getState());
+         payerInfo.setShippingAddress(shippingAddress);
+      }
       return payerInfo;
    }
 
+   public static void main(String[] args)
+   {
+      DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(java.util.Locale.ENGLISH);
+      decimalFormat.applyLocalizedPattern("#,###,##0.00");
+      decimalFormat.setGroupingUsed(false);
+      double total = 23450.2222D;
+      System.out.println(decimalFormat.format(total));
+   }
 }

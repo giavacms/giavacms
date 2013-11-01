@@ -99,10 +99,24 @@
 							requiredMessage="Codice obbligatorio!" />
 
 						<h:outputLabel for="dimensions" value="Dimensioni:"
-							style="width: 100%;" />
+							style="width: 100%;"
+							rendered="#{catalogueConfigurationController.element.withDimensions}" />
 						<h:inputText id="dimensions"
 							value="#{productController.element.dimensions}"
-							style="width: 100%;" />
+							style="width: 100%;"
+							rendered="#{catalogueConfigurationController.element.withDimensions}" />
+
+						<h:outputLabel for="price" value="Prezzo: " style="width: 100%;"
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
+						<h:inputText id="price" value="#{productController.element.price}"
+							style="width: 100%;"
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
+
+						<h:outputLabel for="vat" value="Iva: " style="width: 100%;"
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
+						<h:inputText id="vat" value="#{productController.element.vat}"
+							style="width: 100%;"
+							rendered="#{catalogueConfigurationController.element.withPrices}" />
 
 
 						<h:outputLabel for="preview" value="Anteprima:" />

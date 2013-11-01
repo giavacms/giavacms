@@ -40,13 +40,16 @@ public class Product extends Page implements Serializable
 
    // private Long id --> super.id;
    // private String name --> super.title;
-   private String preview;
    // private String description --> super.description;
+
+   private String preview;
    private Category category;
    private String dimensions;
    private String code;
-   List<Document> documents;
-   List<Image> images;
+   private List<Document> documents;
+   private List<Image> images;
+   private String price;
+   private String vat;
 
    // private boolean active = true; --> super.active
 
@@ -179,6 +182,26 @@ public class Product extends Page implements Serializable
    public void setLangAsString(String lang)
    {
       super.setLang(Integer.parseInt(lang));
+   }
+
+   public String getPrice()
+   {
+      return price;
+   }
+
+   public void setPrice(String price)
+   {
+      this.price = price;
+   }
+
+   public String getVat()
+   {
+      return vat;
+   }
+
+   public void setVat(String vat)
+   {
+      this.vat = vat;
    }
 
 }

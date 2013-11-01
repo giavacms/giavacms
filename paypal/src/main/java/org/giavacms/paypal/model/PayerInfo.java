@@ -2,7 +2,9 @@ package org.giavacms.paypal.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -83,7 +85,7 @@ public class PayerInfo implements Serializable
       this.phone = phone;
    }
 
-   @OneToOne
+   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    public ShippingAddress getShippingAddress()
    {
       if (this.shippingAddress == null)
@@ -96,7 +98,7 @@ public class PayerInfo implements Serializable
       this.shippingAddress = shippingAddress;
    }
 
-   @OneToOne
+   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    public Address getAddress()
    {
       if (this.address == null)

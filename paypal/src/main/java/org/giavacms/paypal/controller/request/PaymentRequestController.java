@@ -23,6 +23,7 @@ public class PaymentRequestController
 {
    private String payerId;
    private String guid;
+   private String token;
 
    @Inject
    ShoppingCartRepository shoppingCartRepository;
@@ -47,7 +48,12 @@ public class PaymentRequestController
          Object value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(key);
          System.out.println("key: " + key + " - value: " + value);
       }
-
+      /*
+       * 2013/11/01 10:56:14,475 INFO [stdout] (http--127.2.86.1-8080-5) key: PayerID - value: CTWEVMQ3RRE52 
+       * 10:56:14,562 INFO [stdout] (http--127.2.86.1-8080-5) key: com.ocpsoft.vP_0 - value: grazie 
+       * 10:56:14,570 INFO [stdout] (http--127.2.86.1-8080-5) key: guid - value: 40 
+       * [stdout] (http--127.2.86.1-8080-5) key: token - value: EC-8AF90434SP532552W
+       */
       if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("guid") != null
                && !FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("guid")
                         .isEmpty())
@@ -55,11 +61,17 @@ public class PaymentRequestController
          setGuid(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("guid"));
       }
 
-      if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("payerId") != null
-               && !FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("payerId")
+      if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("PayerID") != null
+               && !FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("PayerID")
                         .isEmpty())
       {
-         setGuid(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("payerId"));
+         setPayerId(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("PayerID"));
+      }
+      if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("token") != null
+               && !FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("token")
+                        .isEmpty())
+      {
+         setToken(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("token"));
       }
 
    }
@@ -147,5 +159,15 @@ public class PaymentRequestController
    public void setGuid(String guid)
    {
       this.guid = guid;
+   }
+
+   public String getToken()
+   {
+      return token;
+   }
+
+   public void setToken(String token)
+   {
+      this.token = token;
    }
 }

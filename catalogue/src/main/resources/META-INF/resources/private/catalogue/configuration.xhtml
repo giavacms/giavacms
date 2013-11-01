@@ -18,6 +18,17 @@
 
 					<h:panelGrid columns="2" style="width: 95%">
 
+						<h:outputLabel value="with dimensions?" for="withDimensions" />
+						<h:selectBooleanCheckbox title="with dimensions"
+							id="withDimensions"
+							value="#{catalogueConfigurationController.element.withDimensions}">
+						</h:selectBooleanCheckbox>
+
+						<h:outputLabel value="with prices?" for="withPrices" />
+						<h:selectBooleanCheckbox title="with prices" id="withPrices"
+							value="#{catalogueConfigurationController.element.withPrices}">
+						</h:selectBooleanCheckbox>
+
 						<h:outputLabel value="resize?:" for="resize" />
 						<h:selectBooleanCheckbox title="resize" id="resize"
 							value="#{catalogueConfigurationController.element.resize}">
