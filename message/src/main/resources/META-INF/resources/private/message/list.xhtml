@@ -37,8 +37,7 @@
 
 					<p:dataTable id="messageList" rowIndexVar="rowIndex" var="message"
 						value="#{messageController.model}"
-						rows="#{messageController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{messageController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -79,10 +78,12 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{messageController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{messageController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

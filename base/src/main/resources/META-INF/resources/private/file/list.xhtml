@@ -39,14 +39,19 @@
 							width="#{fileController.proportionalWidth(nomeFile,50,50)}"
 							height="#{fileController.proportionalHeight(nomeFile,50,50)}" />
 						<h:outputLink value="/js/#{nomeFile}" target="_blank"
-							rendered="#{fileController.fileType == 3}">[v]</h:outputLink>
+							rendered="#{fileController.fileType == 3}" title="anteprima"
+							styleClass="icon-eye-open" style="font-size: 24px;" />
 						<h:outputLink value="/swf/#{nomeFile}" target="_blank"
-							rendered="#{fileController.fileType == 2}">[v]</h:outputLink>
+							rendered="#{fileController.fileType == 2}" title="anteprima"
+							styleClass="icon-eye-open" style="font-size: 24px;" />
 						<h:outputLink value="/css/#{nomeFile}" target="_blank"
-							rendered="#{fileController.fileType == 0}">[v]</h:outputLink>
-						<h:outputText value=" - " rendered="#{fileController.fileType == 0}" />
-						<h:commandLink action="#{fileController.modFile(nomeFile)}"
-							value="[m]" rendered="#{fileController.fileType == 0}" />
+							rendered="#{fileController.fileType == 0}" title="anteprima"
+							styleClass="icon-eye-open" style="font-size: 24px;" />
+						<h:outputText value=" "
+							rendered="#{fileController.fileType == 0}" />
+						<h:commandLink action="#{fileController.modFile(nomeFile)}" title="modifica"
+							rendered="#{fileController.fileType == 0}" styleClass="icon-edit"
+							style="font-size: 24px;" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>

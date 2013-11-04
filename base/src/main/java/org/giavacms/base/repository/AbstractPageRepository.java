@@ -6,6 +6,9 @@
  */
 package org.giavacms.base.repository;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.TransactionAttribute;
@@ -13,6 +16,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
@@ -57,6 +61,7 @@ public abstract class AbstractPageRepository<T extends Page> extends
       {
          // page id of a brand new page will become the templateImpl's backward reference to its original main page
          page.getTemplate().setMainPageId(idTitle);
+         page.getTemplate().setMainPageTitle(page.getTitle());
          templateImplRepository.persist(page.getTemplate());
       }
 
@@ -66,9 +71,16 @@ public abstract class AbstractPageRepository<T extends Page> extends
    @TransactionAttribute(TransactionAttributeType.REQUIRED)
    protected T preUpdate(T page)
    {
-      if (!page.isClone())
+      if (page.isClone())
       {
-         // when updating a non-clone page the user can change page.template.template.id
+         // clone pages can change their base page by chaning the templateImpl.id they are associated to. must be
+         // refetched here to avoid cascading problems
+         page.setTemplate(templateImplRepository.find(page.getTemplateId()));
+      }
+      else
+      {
+         // when updating a base (non-clone) page, instead, the user can change page.template and
+         // page.template.template.id
          templateImplRepository.update(page.getTemplate());
       }
       return page;
@@ -305,5 +317,98 @@ public abstract class AbstractPageRepository<T extends Page> extends
       }
       return "";
    }
+
+   @Override
+   public T find(Object id)
+   {
+      try
+      {
+         logger.info("findPage: " + id);
+         Search<T> sp = new Search<T>(getEntityType());
+         sp.getObj().setId((String) id);
+         boolean completeFetch = false;
+         List<T> list = getList(sp, 0, 1, completeFetch);
+         return list == null ? null : list.size() == 0 ? null : list.get(0);
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return null;
+      }
+   }
+
+   @Override
+   public T fetch(Object id)
+   {
+      try
+      {
+         logger.info("fetchPage: " + id);
+         Search<T> sp = new Search<T>(getEntityType());
+         sp.getObj().setId((String) id);
+         boolean completeFetch = true;
+         List<T> list = getList(sp, 0, 1, completeFetch);
+         return list == null ? null : list.size() == 0 ? null : list.get(0);
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return null;
+      }
+   }
+
+   @Override
+   public int getListSize(Search<T> search)
+   {
+      // parameters map - the same in both getList() and getListSize() usage
+      Map<String, Object> params = new HashMap<String, Object>();
+      // a flag to drive native query construction
+      boolean count = true;
+      // a flag to tell native query whether to fetch all additional fields
+      boolean completeFetch = false;
+      // the native query
+      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
+      Query query = getEm().createNativeQuery(string_query.toString());
+      // substituition of parameters
+      for (String param : params.keySet())
+      {
+         query.setParameter(param, params.get(param));
+      }
+      // result extraction
+      return ((BigInteger) query.getSingleResult()).intValue();
+   }
+
+   @Override
+   public List<T> getList(Search<T> search, int startRow,
+            int pageSize)
+   {
+      // a flag to tell native query whether to fetch all additional fields
+      boolean completeFetch = false;
+      return getList(search, startRow, pageSize, completeFetch);
+   }
+
+   protected List<T> getList(Search<T> search, int startRow,
+            int pageSize, boolean completeFetch)
+   {
+      // parameters map - the same in both getList() and getListSize() usage
+      Map<String, Object> params = new HashMap<String, Object>();
+      // a flag to drive native query construction
+      boolean count = false;
+      // the native query
+      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
+      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
+      // substituition of parameters
+      for (String param : params.keySet())
+      {
+         query.setParameter(param, params.get(param));
+      }
+      // result extraction
+      return extract(query.getResultList(), completeFetch);
+   }
+
+   @SuppressWarnings("rawtypes")
+   abstract protected List<T> extract(List resultList, boolean completeFetch);
+
+   abstract protected StringBuffer getListNative(Search<T> search, Map<String, Object> params, boolean count, int startRow,
+            int pageSize, boolean completeFetch);
 
 }

@@ -28,8 +28,7 @@
 
 					<p:dataTable id="companyList" rowIndexVar="rowIndex" var="company"
 						value="#{companyController.model}"
-						rows="#{companyController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{companyController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -60,10 +59,12 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{companyController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{companyController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

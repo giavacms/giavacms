@@ -39,16 +39,17 @@
 							<f:facet name="header">
 							n. pagine
 						</f:facet>
-							<h:outputText value="#{m.activeListSize}" rendered="#{not m.dynamic}"/>
-							<h:outputText value="DINAMICO" rendered="#{m.dynamic}"/>
+							<h:outputText value="#{m.activeListSize}"
+								rendered="#{not m.dynamic}" />
+							<h:outputText value="DINAMICO" rendered="#{m.dynamic}" />
 						</p:column>
 						<p:column width="200">
 							<center>
-								<h:commandLink value="vedi"
-									action="#{menuController.viewElement}" />
-								-
-								<h:commandLink value="modifica"
-									action="#{menuController.modElement}" />
+								<h:commandLink title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" action="#{menuController.viewElement}" />
+								<h:outputText value=" " />
+								<h:commandLink title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" action="#{menuController.modElement}" />
 							</center>
 						</p:column>
 					</p:dataTable>

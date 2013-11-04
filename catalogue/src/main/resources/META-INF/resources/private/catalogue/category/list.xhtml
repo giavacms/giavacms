@@ -29,6 +29,7 @@
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
 							value="#{categoryController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
 						</h:selectOneMenu>
@@ -74,7 +75,7 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column width="100" >
+						<p:column width="100">
 							<f:facet name="header">ordine</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
@@ -86,20 +87,17 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column width="200" >
+						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText
-										value="#{t.template.mainPageId} - NEL SELECT SI VEDE IL TITLE - PUO' NON COINCIDERE"
-										rendered="false" />
-									<h:outputText
-										value="#{baseProducer.getBasePageTitleByTemplateImplId(t.template.id)}" />
+									<h:outputText value="#{t.template.mainPageTitle}" />
 								</f:facet>
 								<f:facet name="input">
-									<h:selectOneMenu style="width: 100%;" value="#{t.template.id}"
+									<h:selectOneMenu style="width: 100%;" value="#{t.templateId}"
 										required="true"
 										requiredMessage="E' obbligatorio specificare la pagina base">
+										<f:converter converterId="javax.faces.Long" />
 										<f:selectItems
 											value="#{baseProducer.getBasePageTemplateItems(t.extension)}" />
 									</h:selectOneMenu>
@@ -145,6 +143,7 @@
 						<h:selectOneMenu style="width: 100%;"
 							value="#{categoryController.element.template.id}" required="true"
 							requiredMessage="E' obbligatorio specificare la pagina base">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
 						</h:selectOneMenu>

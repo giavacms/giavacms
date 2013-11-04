@@ -27,8 +27,7 @@
 					<br />
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="sponsor"
 						value="#{sponsorController.model}"
-						rows="#{sponsorController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{sponsorController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -42,13 +41,16 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{sponsorController.viewElement}"
-									value="vedi" />
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{sponsorController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{sponsorController.modImage}"
-									value="modifica immagine" />
+									title="modifica immagine" styleClass="icon-picture"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

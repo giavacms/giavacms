@@ -26,6 +26,7 @@
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
 							value="#{faqCategoryController.element.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(faqCategoryController.extension)}" />
 						</h:selectOneMenu>

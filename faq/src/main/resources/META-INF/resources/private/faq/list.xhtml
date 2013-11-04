@@ -34,6 +34,7 @@
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
 							value="#{faqController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(faqController.extension)}" />
 						</h:selectOneMenu>
@@ -67,8 +68,7 @@
 
 						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
-							<h:outputText
-								value="#{baseProducer.getBasePageTitleByTemplateImplId(faq.template.id)}" />
+							<h:outputText value="#{faq.template.mainPageTitle}" />
 						</p:column>
 
 						<p:column width="100">

@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.giavacms.base.model.Page;
@@ -20,12 +21,15 @@ import org.giavacms.base.model.attachment.Image;
 import org.giavacms.catalogue.model.Product;
 
 @Entity
+@Table(name = Scenario.TABLE_NAME)
 @DiscriminatorValue(value = Scenario.EXTENSION)
 public class Scenario extends Page
 {
 
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "Scenario";
+   public static final String TABLE_NAME = "Scenario";
+   public static final boolean HAS_DETAILS = true;
 
    private String preview;
    private List<Product> products;

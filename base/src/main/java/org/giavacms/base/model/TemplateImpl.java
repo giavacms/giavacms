@@ -42,6 +42,7 @@ public class TemplateImpl implements Serializable
    // private Page page;
    private List<Page> pages;
    private String mainPageId;
+   private String mainPageTitle;
    private Template template;
 
    // ------------------------------------------------------------------------
@@ -179,6 +180,16 @@ public class TemplateImpl implements Serializable
       this.mainPageId = mainPageId;
    }
 
+   public String getMainPageTitle()
+   {
+      return mainPageTitle;
+   }
+
+   public void setMainPageTitle(String mainPageTitle)
+   {
+      this.mainPageTitle = mainPageTitle;
+   }
+
    // ------------------------------------------------------------------------
 
    @Override
@@ -201,5 +212,6 @@ public class TemplateImpl implements Serializable
    {
       return (this.id != null) ? this.id.hashCode() : super.hashCode();
    }
+
 
 }

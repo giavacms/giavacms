@@ -16,7 +16,7 @@ import org.giavacms.base.model.OperazioniLog;
 import org.giavacms.base.repository.LogOperationsRepository;
 import org.giavacms.common.interceptor.LogWriter;
 import org.giavacms.common.util.JSFUtils;
-
+import org.jboss.logging.Logger;
 
 @Stateless
 @LocalBean
@@ -25,6 +25,8 @@ public class LogWriterService implements LogWriter
 
    @Inject
    LogOperationsRepository logOperationsRepository;
+
+   Logger logger = Logger.getLogger(getClass());
 
    @Override
    public void write(String className, String method, String params,
@@ -53,7 +55,15 @@ public class LogWriterService implements LogWriter
       {
          tipo = OperazioniLog.LOGIN;
       }
-      String username = JSFUtils.getUserName();
+      String username = "anonymous";
+      try
+      {
+         username = JSFUtils.getUserName();
+      }
+      catch (Throwable t)
+      {
+         logger.error(t.getClass().getCanonicalName() + " - " + t.getMessage());
+      }
       String descrizione = "CLASSNAME: " + className + " - METHOD: " + method
                + "PARAMS: " + params + " - POST: "
                + (result != null ? result.toString() : "");
@@ -62,5 +72,4 @@ public class LogWriterService implements LogWriter
                descrizione, data);
       logOperationsRepository.persist(operazioniLog);
    }
-
 }

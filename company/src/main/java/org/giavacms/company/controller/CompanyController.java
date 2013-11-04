@@ -76,7 +76,7 @@ public class CompanyController extends AbstractLazyController<Company>
    {
       // TODO Auto-generated method stub
       super.modCurrent();
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    @Override

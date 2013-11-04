@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -15,7 +14,6 @@ import java.util.Set;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import javax.persistence.Query;
 
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.controller.util.TimeUtils;
@@ -201,49 +199,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return "date desc";
    }
 
-   @Override
-   public int getListSize(Search<RichContent> search)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = true;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
-      Query query = getEm().createNativeQuery(string_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return ((BigInteger) query.getSingleResult()).intValue();
-   }
-
-   @Override
-   public List<RichContent> getList(Search<RichContent> search, int startRow,
-            int pageSize)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = false;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
-      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return extract(query.getResultList(), completeFetch);
-   }
-
    /**
     * In case of a main table with one-to-many collections to fetch at once
     * 
@@ -276,10 +231,16 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       {
          // we select a cartesian product of master/details rows in case of count = false
          sb.append(pageAlias).append(".id, ");
+         sb.append(pageAlias).append(".lang1id, ");
+         sb.append(pageAlias).append(".lang2id, ");
+         sb.append(pageAlias).append(".lang3id, ");
+         sb.append(pageAlias).append(".lang4id, ");
+         sb.append(pageAlias).append(".lang5id, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
          sb.append(templateImplAlias).append(".mainPageId, ");
+         sb.append(templateImplAlias).append(".mainPageTitle, ");
          sb.append(richContentAlias).append(".author, ");
          sb.append(richContentAlias).append(".content, ");
          sb.append(richContentAlias).append(".date, ");
@@ -542,9 +503,12 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
    /**
     * // we select a cartesian product of master/details rows in case of count = false
-    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id, ");
-    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(richContentAlias).append(".author, ");
+    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".lang1id, ");
+    * sb.append(pageAlias).append(".lang2id, "); sb.append(pageAlias).append(".lang3id, ");
+    * sb.append(pageAlias).append(".lang4id, "); sb.append(pageAlias).append(".lang5id, ");
+    * sb.append(pageAlias).append(".title, "); sb.append(pageAlias).append(".description, ");
+    * sb.append(templateImplAlias).append(".id, "); sb.append(templateImplAlias).append(".mainPageId, ");
+    * sb.append(templateImplAlias).append(".mainPageTitle, "); sb.append(richContentAlias).append(".author, ");
     * sb.append(richContentAlias).append(".content, "); sb.append(richContentAlias).append(".date, ");
     * sb.append(richContentAlias).append(".highlight, "); sb.append(richContentAlias).append(".preview, ");
     * sb.append(richContentAlias).append(".tags,  "); sb.append(richContentAlias).append(".richContentType_id, ");
@@ -558,8 +522,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    protected List<RichContent> extract(List resultList, boolean completeFetch)
    {
       RichContent richContent = null;
-      Map<String, Set<String>> imageNames = new HashMap<String, Set<String>>();
-      Map<String, Set<String>> documentNames = new HashMap<String, Set<String>>();
+      Map<String, Set<String>> imageNames = new LinkedHashMap<String, Set<String>>();
+      Map<String, Set<String>> documentNames = new LinkedHashMap<String, Set<String>>();
       Map<String, RichContent> richContents = new LinkedHashMap<String, RichContent>();
 
       Iterator<Object[]> results = resultList.iterator();
@@ -571,6 +535,21 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          String id = (String) row[i];
          // if (id != null && !id.isEmpty())
          richContent.setId(id);
+         i++;
+         String lang1id = (String) row[i];
+         richContent.setLang1id(lang1id);
+         i++;
+         String lang2id = (String) row[i];
+         richContent.setLang2id(lang2id);
+         i++;
+         String lang3id = (String) row[i];
+         richContent.setLang3id(lang3id);
+         i++;
+         String lang4id = (String) row[i];
+         richContent.setLang4id(lang4id);
+         i++;
+         String lang5id = (String) row[i];
+         richContent.setLang5id(lang5id);
          i++;
          String title = (String) row[i];
          // if (title != null && !title.isEmpty())
@@ -600,6 +579,9 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          i++;
          String mainPageId = (String) row[i];
          richContent.getTemplate().setMainPageId(mainPageId);
+         i++;
+         String mainPageTitle = (String) row[i];
+         richContent.getTemplate().setMainPageTitle(mainPageTitle);
          i++;
          String author = (String) row[i];
          // if (author != null && !author.isEmpty())
@@ -710,11 +692,14 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          {
             rich = richContents.get(id);
             Set<String> docs = documentNames.get(id);
-            for (String docFileName : docs)
+            if (docs != null)
             {
-               Document document = new Document();
-               document.setFilename(docFileName);
-               rich.addDocument(document);
+               for (String docFileName : docs)
+               {
+                  Document document = new Document();
+                  document.setFilename(docFileName);
+                  rich.addDocument(document);
+               }
             }
          }
          else
@@ -729,12 +714,15 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          if (richContents.containsKey(id))
          {
             rich = richContents.get(id);
-            Set<String> docs = imageNames.get(id);
-            for (String imgFileName : docs)
+            Set<String> imgs = imageNames.get(id);
+            if (imgs != null)
             {
-               Image image = new Image();
-               image.setFilename(imgFileName);
-               rich.addImage(image);
+               for (String imgFileName : imgs)
+               {
+                  Image image = new Image();
+                  image.setFilename(imgFileName);
+                  rich.addImage(image);
+               }
             }
          }
          else
@@ -744,22 +732,6 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
       }
       return new ArrayList<RichContent>(richContents.values());
-   }
-
-   @Override
-   public RichContent fetch(Object key)
-   {
-      try
-      {
-         Search<RichContent> sp = new Search<RichContent>(RichContent.class);
-         sp.getObj().setId(key.toString());
-         return getList(sp, 0, 1).get(0);
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return null;
-      }
    }
 
 }

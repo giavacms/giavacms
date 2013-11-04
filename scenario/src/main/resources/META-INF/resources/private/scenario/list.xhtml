@@ -16,7 +16,7 @@
 		<h:form>
 			<center>
 				<p:panel header="Lista Realizzazioni">
-				
+
 					<h:panelGrid columns="7">
 
 						<h:outputLabel for="titolo" value="Titolo:" />
@@ -26,6 +26,7 @@
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
 							value="#{scenarioController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(scenarioController.extension)}" />
 						</h:selectOneMenu>
@@ -38,8 +39,7 @@
 
 					<p:dataTable id="scenarioList" rowIndexVar="rowIndex"
 						var="scenario" value="#{scenarioController.model}"
-						rows="#{scenarioController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{scenarioController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -56,17 +56,19 @@
 
 						<p:column width="150">
 							<f:facet name="header">pagina base</f:facet>
-							<h:outputText value="#{baseProducer.getBasePageTitleByTemplateImplId(scenario.template.id)}" />
+							<h:outputText value="#{scenario.template.mainPageTitle}" />
 						</p:column>
 
 						<p:column width="100">
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{scenarioController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{scenarioController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

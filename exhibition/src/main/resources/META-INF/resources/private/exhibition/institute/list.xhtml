@@ -42,13 +42,16 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{instituteController.viewElement}"
-									value="vedi" />
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{instituteController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{instituteController.modImage}"
-									value="modifica immagine" />
+									title="modifica immagine" styleClass="icon-picture"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

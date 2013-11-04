@@ -15,7 +15,6 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.Page;
@@ -42,49 +41,6 @@ public class ProductRepository extends AbstractPageRepository<Product>
    protected String getDefaultOrderBy()
    {
       return "code asc";
-   }
-
-   @Override
-   public int getListSize(Search<Product> search)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = true;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
-      Query query = getEm().createNativeQuery(string_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return ((BigInteger) query.getSingleResult()).intValue();
-   }
-
-   @Override
-   public List<Product> getList(Search<Product> search, int startRow,
-            int pageSize)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = false;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
-      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return extract(query.getResultList(), completeFetch);
    }
 
    /**
@@ -120,10 +76,16 @@ public class ProductRepository extends AbstractPageRepository<Product>
       {
          // we select a cartesian product of master/details rows in case of count = false
          sb.append(pageAlias).append(".id, ");
+         sb.append(pageAlias).append(".lang1id, ");
+         sb.append(pageAlias).append(".lang2id, ");
+         sb.append(pageAlias).append(".lang3id, ");
+         sb.append(pageAlias).append(".lang4id, ");
+         sb.append(pageAlias).append(".lang5id, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
          sb.append(templateImplAlias).append(".mainPageId, ");
+         sb.append(templateImplAlias).append(".mainPageTitle, ");
          sb.append(productAlias).append(".preview, ");
          sb.append(productAlias).append(".dimensions, ");
          sb.append(productAlias).append(".price, ");
@@ -359,10 +321,13 @@ public class ProductRepository extends AbstractPageRepository<Product>
    }
 
    /**
-    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
+    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".lang1id, ");
+    * sb.append(pageAlias).append(".lang2id, "); sb.append(pageAlias).append(".lang3id, ");
+    * sb.append(pageAlias).append(".lang4id, ");
+    * sb.append(pageAlias).append(".lang5id, ");sb.append(pageAlias).append(".title, "); *
     * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
-    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(productAlias).append(".preview, ");
-    * sb.append(productAlias).append(".dimensions, "); 
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(templateImplAlias).append(".mainPageTitle, ");
+    * sb.append(productAlias).append(".preview, "); sb.append(productAlias).append(".dimensions, ");
     * sb.append(productAlias).append(".price, ");
     * sb.append(productAlias).append(".vat, ");sb.append(productAlias).append(".code, ");
     * sb.append(productAlias).append(".category_id, ");
@@ -385,6 +350,21 @@ public class ProductRepository extends AbstractPageRepository<Product>
          int i = 0;
          String id = (String) row[i];
          product.setId(id);
+         i++;
+         String lang1id = (String) row[i];
+         product.setLang1id(lang1id);
+         i++;
+         String lang2id = (String) row[i];
+         product.setLang2id(lang2id);
+         i++;
+         String lang3id = (String) row[i];
+         product.setLang3id(lang3id);
+         i++;
+         String lang4id = (String) row[i];
+         product.setLang4id(lang4id);
+         i++;
+         String lang5id = (String) row[i];
+         product.setLang5id(lang5id);
          i++;
          String title = (String) row[i];
          product.setTitle(title);
@@ -412,6 +392,9 @@ public class ProductRepository extends AbstractPageRepository<Product>
          i++;
          String mainPageId = (String) row[i];
          product.getTemplate().setMainPageId(mainPageId);
+         i++;
+         String mainPageTitle = (String) row[i];
+         product.getTemplate().setMainPageTitle(mainPageTitle);
          i++;
          String preview = (String) row[i];
          product.setPreview(preview);
@@ -519,19 +502,4 @@ public class ProductRepository extends AbstractPageRepository<Product>
       return new ArrayList<Product>(products.values());
    }
 
-   @Override
-   public Product fetch(Object key)
-   {
-      try
-      {
-         Search<Product> sp = new Search<Product>(Product.class);
-         sp.getObj().setId(key.toString());
-         return getList(sp, 0, 1).get(0);
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return null;
-      }
-   }
 }
