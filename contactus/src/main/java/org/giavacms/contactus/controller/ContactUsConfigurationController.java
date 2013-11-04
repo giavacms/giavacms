@@ -10,10 +10,8 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
-import org.giavacms.contactus.model.ContactUs;
 import org.giavacms.contactus.model.ContactUsConfiguration;
 import org.giavacms.contactus.repository.ContactUsConfigurationRepository;
-import org.giavacms.contactus.repository.ContactUsRepository;
 
 @Named
 @SessionScoped
