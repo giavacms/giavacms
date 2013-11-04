@@ -15,8 +15,7 @@
 				<p:panel header="Lista Gallerie di Foto">
 					<p:dataTable id="templatesList" rowIndexVar="rowIndex"
 						var="galleria" value="#{gallerieController.model}"
-						rows="#{gallerieController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{gallerieController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -29,9 +28,11 @@
 						<p:column width="200">
 							<f:facet name="header">operazioni</f:facet>
 							<h:commandLink action="#{gallerieController.viewElement}"
-								value="vedi" />
-					- <h:commandLink action="#{gallerieController.modElement}"
-								value="modifica" />
+								title="vedi" styleClass="icon-file-text-alt"
+								style="font-size: 24px;" />
+							<h:outputText value=" " />
+							<h:commandLink action="#{gallerieController.modElement}"
+								title="modifica" styleClass="icon-edit" style="font-size: 24px;" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>

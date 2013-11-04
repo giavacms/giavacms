@@ -62,13 +62,16 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{exhibitionController.viewElement}"
-									value="vedi" />
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{exhibitionController.modElement}"
-									value="modifica testi" />
+									title="modifica testi" styleClass="icon-edit"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{exhibitionController.modImage}"
-									value="modifica immagini" />
+									title="modifica immagine" styleClass="icon-picture"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

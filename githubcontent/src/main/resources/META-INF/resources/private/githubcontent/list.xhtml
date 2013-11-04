@@ -37,6 +37,7 @@
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
 							value="#{githubContentController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(richContentController.extension)}" />
 						</h:selectOneMenu>
@@ -110,21 +111,23 @@
 
 							<p:column width="200">
 								<f:facet name="header">pagina di base</f:facet>
-								<h:outputText
-									value="#{baseProducer.getBasePageTitleByTemplateImplId(contenuto.template.id)}" />
+								<h:outputText value="#{contenuto.template.mainPageTitle}" />
 							</p:column>
 
 							<p:column width="200">
 								<f:facet name="header">operazioni</f:facet>
 								<center>
 									<h:commandLink action="#{githubContentController.viewElement}"
-										value="vedi" />
+										title="vedi" styleClass="icon-file-text-alt"
+										style="font-size: 24px;" />
 									<br />
 									<h:commandLink action="#{githubContentController.modElement}"
-										value="modifica testo" />
+										title="modifica testo" styleClass="icon-edit"
+										style="font-size: 24px;" />
 									<br />
 									<h:commandLink action="#{githubContentController.modImage}"
-										value="gestisci immagine" />
+										title="modifica immagine" styleClass="icon-picture"
+										style="font-size: 24px;" />
 								</center>
 							</p:column>
 						</p:dataTable>

@@ -35,6 +35,7 @@
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
 							value="#{richContentController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(richContentController.extension)}" />
 						</h:selectOneMenu>
@@ -95,8 +96,7 @@
 
 						<p:column width="200">
 							<f:facet name="header">pagina di base</f:facet>
-							<h:outputText
-								value="#{baseProducer.getBasePageTitleByTemplateImplId(contenuto.template.id)}" />
+							<h:outputText value="#{contenuto.template.mainPageTitle}" />
 						</p:column>
 
 						<p:column width="200">
@@ -105,11 +105,11 @@
 								<h:commandLink action="#{richContentController.viewElement}"
 									styleClass="icon-file-text-alt" style="font-size: 24px;"
 									tytle="vedi" />
-								<h:outputText value=" "/>
+								<h:outputText value=" " />
 								<h:commandLink action="#{richContentController.modElement}"
 									styleClass="icon-reorder" style="font-size: 24px;"
 									title="modifica testi" />
-								<h:outputText value=" "/>
+								<h:outputText value=" " />
 								<h:commandLink action="#{richContentController.modDocuments}"
 									styleClass="icon-link" style="font-size: 24px;"
 									title="modifica documenti" />

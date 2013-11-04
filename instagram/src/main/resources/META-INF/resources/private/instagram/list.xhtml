@@ -55,11 +55,13 @@
 							<center>
 								<h:commandLink
 									action="#{instagramCollectionController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
+								<h:outputText value=" " />
 								<h:commandLink
 									action="#{instagramCollectionController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

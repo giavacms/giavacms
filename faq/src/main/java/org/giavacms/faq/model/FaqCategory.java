@@ -26,6 +26,7 @@ public class FaqCategory extends Page
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "FaqCategory";
    public static final String TABLE_NAME = "FaqCategory";
+   public static final boolean HAS_DETAILS = true;
 
    public FaqCategory()
    {

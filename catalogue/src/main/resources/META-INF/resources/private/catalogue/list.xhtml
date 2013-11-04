@@ -33,6 +33,7 @@
 						<h:outputLabel for="base" value="Pagina base:" />
 						<h:selectOneMenu id="base"
 							value="#{productController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(productController.extension)}" />
 						</h:selectOneMenu>
@@ -70,8 +71,7 @@
 
 						<p:column width="150">
 							<f:facet name="header">pagina base</f:facet>
-							<h:outputText
-								value="#{baseProducer.getBasePageTitleByTemplateImplId(product.template.id)}" />
+							<h:outputText value="#{product.template.mainPageTitle}" />
 						</p:column>
 
 						<p:column width="150">
@@ -93,10 +93,12 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{productController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{productController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

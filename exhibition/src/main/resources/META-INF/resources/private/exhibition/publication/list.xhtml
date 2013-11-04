@@ -58,13 +58,16 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{publicationController.viewElement}"
-									value="vedi" />
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{publicationController.modElement}"
-									value="modifica testi" />
+									title="modifica testi" styleClass="icon-edit"
+									style="font-size: 24px;" />
 								<br />
 								<h:commandLink action="#{publicationController.modDocuments}"
-									value="modifica documenti" />
+									title="modifica documenti" styleClass="icon-book"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

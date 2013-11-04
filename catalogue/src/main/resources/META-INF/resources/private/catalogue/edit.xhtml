@@ -77,6 +77,7 @@
 							<h:selectOneMenu style="width: 100%;"
 								value="#{productController.element.templateId}" required="true"
 								requiredMessage="E' obbligatorio specificare la pagina base">
+								<f:converter converterId="javax.faces.Long" />
 								<f:selectItems
 									value="#{baseProducer.getBasePageTemplateItems(productController.element.extension)}" />
 							</h:selectOneMenu>
@@ -165,7 +166,8 @@
 						<f:facet name="header">elimina</f:facet>
 						<center>
 							<h:commandLink action="#{productController.removeImage(img.id)}"
-								value="elimina" immediate="true"
+								title="elimina" styleClass="icon-trash" style="font-size: 24px;"
+								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty img.id}" />
 						</center>

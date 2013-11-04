@@ -8,7 +8,6 @@ package org.giavacms.base.repository;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -111,30 +110,6 @@ public class PageRepository
 
    }
 
-   @Override
-   public Page find(Object key)
-   {
-      logger.info("findPage: " + key);
-      return fetch(key);
-   }
-
-   @Override
-   public Page fetch(Object id)
-   {
-      try
-      {
-         logger.info("fetchPage: " + id);
-         Search<Page> sp = new Search<Page>(Page.class);
-         sp.getObj().setId((String) id);
-         return getList(sp, 0, 1).get(0);
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return null;
-      }
-   }
-
    public boolean reallyDelete(Object key)
    {
       try
@@ -186,7 +161,7 @@ public class PageRepository
             Object[] row = results.next();
             p.setId(row[0].toString());
             p.setTitle("" + row[1]);
-            p.setTemplateId(((BigInteger)row[2]).longValue());
+            p.setTemplateId(((BigInteger) row[2]).longValue());
             result.add(p);
          }
          return result;
@@ -214,66 +189,9 @@ public class PageRepository
       }
    }
 
-   @Override
-   protected String getBaseList(Class<? extends Object> clazz, String alias, boolean count)
-   {
-      if (count)
-      {
-         return "select count(" + alias + ") from " + clazz.getSimpleName()
-                  + " " + alias + " ";
-      }
-      else
-      {
-         return "select " + alias + " from " + clazz.getSimpleName() + " "
-                  + alias + " left join fetch " + alias + ".template ti ";
-      }
-   }
-
-   @Override
-   public int getListSize(Search<Page> search)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = true;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
-      Query query = getEm().createNativeQuery(string_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return ((BigInteger) query.getSingleResult()).intValue();
-   }
-
-   @Override
-   public List<Page> getList(Search<Page> search, int startRow,
-            int pageSize)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = false;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
-      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return extract(query.getResultList(), completeFetch);
-   }
-
    @SuppressWarnings({ "rawtypes", "unchecked" })
-   private List<Page> extract(List resultList, boolean completeFetch)
+   @Override
+   protected List<Page> extract(List resultList, boolean completeFetch)
    {
       List<Page> pages = new ArrayList<Page>();
       Iterator<Object[]> results = resultList.iterator();
@@ -285,12 +203,23 @@ public class PageRepository
    }
 
    /**
-    * // we select a cartesian product of master/details rows in case of count = false
-    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(faqAlias).append(".answer, "); sb.append(faqAlias).append(".date, ");
-    * sb.append(faqAlias).append(".faqCategory_id, ");
-    * sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
-    * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
+    * sb.append(pageAlias).append(".id as p_id, "); sb.append(pageAlias).append(".lang1id, ");
+    * sb.append(pageAlias).append(".lang2id, "); sb.append(pageAlias).append(".lang3id, ");
+    * sb.append(pageAlias).append(".lang4id, "); sb.append(pageAlias).append(".lang5id, ");
+    * sb.append(pageAlias).append(".active as p_active, "); sb.append(pageAlias).append(".clone, ");
+    * sb.append(pageAlias).append(".description, "); sb.append(pageAlias).append(".extension, ");
+    * sb.append(pageAlias).append(".title, "); sb.append(templateImplAlias).append(".id as ti_id, ");
+    * sb.append(templateImplAlias).append(".active as ti_active, "); sb.append(templateImplAlias).append(".col1, ");
+    * sb.append(templateImplAlias).append(".col2, "); sb.append(templateImplAlias).append(".col3, ");
+    * sb.append(templateImplAlias).append(".header, "); sb.append(templateImplAlias).append(".footer, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(templateImplAlias).append(".mainPageTitle, ");
+    * sb.append(templateAlias).append(".id as t_id, "); sb.append(templateAlias).append(".active as t_active, ");
+    * sb.append(templateAlias).append(".col1_start, "); sb.append(templateAlias).append(".col1_stop, ");
+    * sb.append(templateAlias).append(".col2_start, "); sb.append(templateAlias).append(".col2_stop, ");
+    * sb.append(templateAlias).append(".col3_start, "); sb.append(templateAlias).append(".col3_stop, ");
+    * sb.append(templateAlias).append(".header_start, "); sb.append(templateAlias).append(".header_stop, ");
+    * sb.append(templateAlias).append(".footer_start, "); sb.append(templateAlias).append(".footer_stop, ");
+    * sb.append(templateAlias).append(".name as t_name, "); sb.append(templateAlias).append(".statico ");
     */
    protected Page extract(Object[] row, boolean completeFetch)
    {
@@ -362,6 +291,8 @@ public class PageRepository
       String ti_footer = (String) row[i];
       i++;
       String ti_mainPageId = (String) row[i];
+      i++;
+      String ti_mainPageTitle = (String) row[i];
       i++;
       // template
       Long t_id = null;
@@ -435,6 +366,7 @@ public class PageRepository
       page.getTemplate().setHeader(ti_header);
       page.getTemplate().setId(ti_id);
       page.getTemplate().setMainPageId(ti_mainPageId);
+      page.getTemplate().setMainPageTitle(ti_mainPageTitle);
       page.getTemplate().setTemplate(new Template());
       page.getTemplate().getTemplate().setActive(t_active);
       page.getTemplate().getTemplate().setCol1_start(t_col1_start);
@@ -508,6 +440,7 @@ public class PageRepository
          sb.append(templateImplAlias).append(".header, ");
          sb.append(templateImplAlias).append(".footer, ");
          sb.append(templateImplAlias).append(".mainPageId, ");
+         sb.append(templateImplAlias).append(".mainPageTitle, ");
          sb.append(templateAlias).append(".id as t_id, ");
          sb.append(templateAlias).append(".active as t_active, ");
          sb.append(templateAlias).append(".col1_start, ");

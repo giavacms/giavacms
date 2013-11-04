@@ -33,8 +33,7 @@
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="customer"
 						value="#{customerController.model}"
-						rows="#{customerController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{customerController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -54,19 +53,21 @@
 							<h:outputText value="#{customer.category.name}" />
 						</p:column>
 
-                        <p:column width="100">
-                            <f:facet name="header">ordine</f:facet>
-                            <h:outputText value="#{customer.listOrder}" />
-                        </p:column>
+						<p:column width="100">
+							<f:facet name="header">ordine</f:facet>
+							<h:outputText value="#{customer.listOrder}" />
+						</p:column>
 
 						<p:column width="100">
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{customerController.viewElement}"
-									value="vedi" />
-								-
+									title="vedi" styleClass="icon-file-text-alt"
+									style="font-size: 24px;" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{customerController.modElement}"
-									value="modifica" />
+									title="modifica" styleClass="icon-edit"
+									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>

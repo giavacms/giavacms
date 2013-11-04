@@ -55,49 +55,6 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       return super.preUpdate(faq);
    }
 
-   @Override
-   public int getListSize(Search<Faq> search)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = true;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer string_query = getListNative(search, params, count, 0, 0, completeFetch);
-      Query query = getEm().createNativeQuery(string_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return ((BigInteger) query.getSingleResult()).intValue();
-   }
-
-   @Override
-   public List<Faq> getList(Search<Faq> search, int startRow,
-            int pageSize)
-   {
-      // parameters map - the same in both getList() and getListSize() usage
-      Map<String, Object> params = new HashMap<String, Object>();
-      // a flag to drive native query construction
-      boolean count = false;
-      // a flag to tell native query whether to fetch all additional fields
-      boolean completeFetch = false;
-      // the native query
-      StringBuffer stringbuffer_query = getListNative(search, params, count, startRow, pageSize, completeFetch);
-      Query query = getEm().createNativeQuery(stringbuffer_query.toString());
-      // substituition of parameters
-      for (String param : params.keySet())
-      {
-         query.setParameter(param, params.get(param));
-      }
-      // result extraction
-      return extract(query.getResultList(), completeFetch);
-   }
-
    /**
     * In case of a main table with one-to-many collections to fetch at once
     * 
@@ -129,10 +86,16 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       {
          // we select a cartesian product of master/details rows in case of count = false
          sb.append(pageAlias).append(".id, ");
+         sb.append(pageAlias).append(".lang1id, ");
+         sb.append(pageAlias).append(".lang2id, ");
+         sb.append(pageAlias).append(".lang3id, ");
+         sb.append(pageAlias).append(".lang4id, ");
+         sb.append(pageAlias).append(".lang5id, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
          sb.append(templateImplAlias).append(".mainPageId, ");
+         sb.append(templateImplAlias).append(".mainPageTitle, ");
          sb.append(faqAlias).append(".answer, ");
          sb.append(faqAlias).append(".date, ");
          sb.append(faqAlias).append(".faqCategory_id, ");
@@ -325,15 +288,6 @@ public class FaqRepository extends AbstractPageRepository<Faq>
 
    }
 
-   /**
-    * // we select a cartesian product of master/details rows in case of count = false
-    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
-    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
-    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(faqAlias).append(".answer, ");
-    * sb.append(faqAlias).append(".date, "); sb.append(faqAlias).append(".faqCategory_id, ");
-    * sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
-    * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
-    */
    @SuppressWarnings({ "rawtypes", "unchecked" })
    protected List<Faq> extract(List resultList, boolean completeFetch)
    {
@@ -348,10 +302,14 @@ public class FaqRepository extends AbstractPageRepository<Faq>
 
    /**
     * // we select a cartesian product of master/details rows in case of count = false
-    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".title, ");
+    * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".lang1id, ");
+    * sb.append(pageAlias).append(".lang2id, "); sb.append(pageAlias).append(".lang3id, ");
+    * sb.append(pageAlias).append(".lang4id, ");
+    * sb.append(pageAlias).append(".lang5id, ");sb.append(pageAlias).append(".title, "); *
     * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id as templateImpl_id, ");
-    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(faqAlias).append(".answer, ");
-    * sb.append(faqAlias).append(".date, "); sb.append(faqAlias).append(".faqCategory_id, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(templateImplAlias).append(".mainPageTitle, ");
+    * sb.append(faqAlias).append(".answer, "); sb.append(faqAlias).append(".date, ");
+    * sb.append(faqAlias).append(".faqCategory_id, ");
     * sb.append(faqCategoryPageAlias).append(".title AS faqCategoryTitle, ");
     * sb.append(faqCategoryAlias).append(".orderNum, "); sb.append(" I.fileName AS image ");
     */
@@ -363,6 +321,21 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       String id = (String) row[i];
       // if (id != null && !id.isEmpty())
       faq.setId(id);
+      i++;
+      String lang1id = (String) row[i];
+      faq.setLang1id(lang1id);
+      i++;
+      String lang2id = (String) row[i];
+      faq.setLang2id(lang2id);
+      i++;
+      String lang3id = (String) row[i];
+      faq.setLang3id(lang3id);
+      i++;
+      String lang4id = (String) row[i];
+      faq.setLang4id(lang4id);
+      i++;
+      String lang5id = (String) row[i];
+      faq.setLang5id(lang5id);
       i++;
       String title = (String) row[i];
       // if (title != null && !title.isEmpty())
@@ -391,6 +364,9 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       i++;
       String mainPageId = (String) row[i];
       faq.getTemplate().setMainPageId(mainPageId);
+      i++;
+      String mainPageTitle = (String) row[i];
+      faq.getTemplate().setMainPageTitle(mainPageTitle);
       i++;
       String answer = (String) row[i];
       // if (answer != null && !answer.isEmpty())
@@ -442,19 +418,4 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       return faq;
    }
 
-   @Override
-   public Faq fetch(Object key)
-   {
-      try
-      {
-         Search<Faq> sp = new Search<Faq>(Faq.class);
-         sp.getObj().setId(key.toString());
-         return getList(sp, 0, 1).get(0);
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return null;
-      }
-   }
 }

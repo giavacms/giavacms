@@ -23,6 +23,7 @@ public class Category extends Page implements Serializable
    private static final long serialVersionUID = 1L;
    public static final String EXTENSION = "Category";
    public static final String TABLE_NAME = "Category";
+   public static final boolean HAS_DETAILS = true;
 
    public Category()
    {

@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.giavacms.base.model.Page;
 import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.common.repository.AbstractRepository;
 
@@ -21,26 +22,51 @@ import org.giavacms.common.repository.AbstractRepository;
 @Stateless
 @LocalBean
 public class TemplateImplRepository extends AbstractRepository<TemplateImpl>
-		implements Serializable {
+         implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	EntityManager em;
+   @PersistenceContext
+   EntityManager em;
 
-	@Override
-	public EntityManager getEm() {
-		return em;
-	}
+   @Override
+   public EntityManager getEm()
+   {
+      return em;
+   }
 
-	@Override
-	protected String getDefaultOrderBy() {
-		return "id asc";
-	}
+   @Override
+   protected String getDefaultOrderBy()
+   {
+      return "id asc";
+   }
 
-	@Override
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+   @Override
+   public void setEm(EntityManager em)
+   {
+      this.em = em;
+   }
+
+   public int resetMainPageTitles()
+   {
+      return getEm().createNativeQuery("update " + TemplateImpl.TABLE_NAME + " T set T.mainPageTitle = null where 1")
+               .executeUpdate();
+   }
+
+   public int makeMainPageTitles()
+   {
+      return getEm().createNativeQuery(
+               "update " + TemplateImpl.TABLE_NAME + " T set T.mainPageTitle = (select P.title from " + Page.TABLE_NAME
+                        + " P where P.template_id = T.id and P.clone = 0 limit 1 ) where T.mainPageId is not null")
+               .executeUpdate();
+   }
+
+   public int cleanMainPageIds()
+   {
+      return getEm().createNativeQuery(
+               "update " + TemplateImpl.TABLE_NAME + " T set T.mainPageId = null where T.mainPageTitle is null")
+               .executeUpdate();
+   }
 
 }
