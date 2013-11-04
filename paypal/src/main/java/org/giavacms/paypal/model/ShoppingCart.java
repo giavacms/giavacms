@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class ShoppingCart implements Serializable
@@ -31,6 +32,8 @@ public class ShoppingCart implements Serializable
    private boolean created;
    private Date dataEnd;
    private boolean payed;
+   private double partialAmount;
+   private double partialTax;
 
    public ShoppingCart()
    {
@@ -204,4 +207,23 @@ public class ShoppingCart implements Serializable
       this.payed = payed;
    }
 
+   @Transient
+   public double getPartialAmount()
+   {
+      return partialAmount;
+   }
+
+   @Transient
+   public double getPartialTax()
+   {
+      return partialTax;
+   }
+
+   public void addPartial(int quantity, String price, String vat)
+   {
+      double singleAmount = Double.valueOf(quantity) * Double.valueOf(price);
+      double singleTax = Double.valueOf(quantity) * Double.valueOf(vat);
+      this.partialAmount += singleAmount;
+      this.partialTax += singleTax;
+   }
 }

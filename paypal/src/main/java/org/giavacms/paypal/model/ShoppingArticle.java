@@ -19,28 +19,31 @@ public class ShoppingArticle implements Serializable
    private int quantity;
    private String vat;
    private ShoppingCart shoppingCart;
+   private String imageUrl;
 
    public ShoppingArticle()
    {
    }
 
-   public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat)
+   public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat, String imageUrl)
    {
       this.idProduct = idProduct;
       this.description = description;
       this.price = price;
       this.quantity = quantity;
       this.vat = vat;
+      this.imageUrl = imageUrl;
    }
 
    public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat,
-            String currency)
+            String currency, String imageUrl)
    {
       this.idProduct = idProduct;
       this.description = description;
       this.price = price;
       this.quantity = quantity;
       this.vat = vat;
+      this.imageUrl = imageUrl;
    }
 
    @Id
@@ -126,6 +129,16 @@ public class ShoppingArticle implements Serializable
    {
       return "ShoppingArticle [id=" + id + ", idProduct=" + idProduct + ", description=" + description + ", price="
                + price + ", quantity=" + quantity + ", vat=" + vat + "]";
+   }
+
+   public String getImageUrl()
+   {
+      return imageUrl;
+   }
+
+   public void setImageUrl(String imageUrl)
+   {
+      this.imageUrl = imageUrl;
    }
 
 }

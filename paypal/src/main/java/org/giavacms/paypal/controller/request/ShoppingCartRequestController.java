@@ -36,8 +36,9 @@ public class ShoppingCartRequestController extends
    public static final String PARAM_PRICE = "price";
    public static final String PARAM_QUANTITY = "quantity";
    public static final String PARAM_VAT = "vat";
+   public static final String PARAM_IMG_URL = "image";
    public static final String[] PARAM_NAMES = new String[] { PARAM_ID_PRODUCT, PARAM_DESCRIPTION, PARAM_PRICE,
-            PARAM_QUANTITY, PARAM_VAT };
+            PARAM_QUANTITY, PARAM_VAT, PARAM_IMG_URL };
    public static final String ID_PARAM = "unused_idParam";
    public static final String CURRENT_PAGE_PARAM = "unused_currentpage";
 
@@ -72,7 +73,7 @@ public class ShoppingCartRequestController extends
 
          shoppingCartSessionController.addProduct(params.get(PARAM_VAT), params.get(PARAM_PRICE),
                   params.get(PARAM_ID_PRODUCT), params.get(PARAM_DESCRIPTION),
-                  Integer.valueOf(params.get(PARAM_QUANTITY)));
+                  Integer.valueOf(params.get(PARAM_QUANTITY)), params.get(PARAM_IMG_URL));
       }
    }
 

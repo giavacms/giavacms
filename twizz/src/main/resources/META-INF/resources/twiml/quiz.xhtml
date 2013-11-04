@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright 2013 twiliofaces.org. ~ ~ Licensed under the Eclipse Public 
+	License version 1.0, available at ~ http://www.eclipse.org/legal/epl-v10.html -->
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tf="http://twiliofaces.org/twiliofaces">
+	<f:event type="preRenderView"
+		listener="#{questionController.loadQuiz()}" />
+	<tf:response>
+		<tf:gather timeout="45" numDigits="1" action="quiz.twiml"
+			method="POST">
+			<tf:say voice="alice" language="en-GB">#{questionController.message}</tf:say>
+		</tf:gather>
+	</tf:response>
+</f:view>

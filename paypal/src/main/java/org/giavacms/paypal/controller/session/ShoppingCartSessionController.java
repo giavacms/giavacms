@@ -43,13 +43,13 @@ public class ShoppingCartSessionController implements Serializable
    public String addProduct(String vat,
             String price,
             String idProduct,
-            String description, int quantity)
+            String description, int quantity, String imageUrl)
    {
-      getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat));
-
+      getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat, imageUrl));
+      getElement().addPartial(quantity, price, vat);
       logger.info("idProduct:" + idProduct + " description:" + description + " price: " + price + " quantity: "
                + quantity + " vat: "
-               + vat);
+               + vat + " imageUrl:" + imageUrl);
       try
       {
          FacesContext.getCurrentInstance().getExternalContext()
