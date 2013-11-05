@@ -53,9 +53,13 @@ public class QuizCompetitorRepository extends AbstractRepository<QuizCompetitor>
    {
       try
       {
+         /*
+          * his method returns the index of search string in specified string. String positions are 1-based. If string
+          * is not found then it returns "0".
+          */
          List<QuizCompetitor> quizCompetitors = (List<QuizCompetitor>) getEm()
                   .createQuery("select q from " + QuizCompetitor.class.getSimpleName()
-                           + " q where LOCATE(q.phone, :PHONE_NUMBER) > 0")
+                           + " q where (LOCATE(q.phone, :PHONE_NUMBER) > 0) OR (LOCATE(:PHONE_NUMBER, q.phone) > 0)")
                   .setParameter("PHONE_NUMBER", phone).getResultList();
          if (quizCompetitors != null && quizCompetitors.size() > 0)
             return quizCompetitors.get(0);

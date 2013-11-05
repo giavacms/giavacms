@@ -38,7 +38,7 @@ public class PartecipationRepository extends AbstractRepository<Partecipation>
    @Override
    protected String getDefaultOrderBy()
    {
-      return "quizCompetitor.points desc";
+      return "quizCompetitor.score desc";
    }
 
    @Override
