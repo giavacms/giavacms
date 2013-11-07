@@ -51,7 +51,7 @@ public class RegistrationController extends AbstractRequestController<QuizCompet
                && getParams().get(PHONE_NUMBER) != null && !getParams().get(PHONE_NUMBER).isEmpty()
                && getParams().get(ARGUMENT) != null && !getParams().get(ARGUMENT).isEmpty())
       {
-         if (quizCompetitorRepository.findByPhone(getParams().get(PHONE_NUMBER)) == null)
+         if (quizCompetitorRepository.findByPhone(getParams().get(PHONE_NUMBER), false) == null)
          {
             Long minutes = 5L;
             if (getParams().get(MINUTES) != null && !getParams().get(MINUTES).isEmpty())

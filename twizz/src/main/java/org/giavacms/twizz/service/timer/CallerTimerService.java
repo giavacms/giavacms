@@ -55,7 +55,7 @@ public class CallerTimerService
                   .url(callToMake.getUrl()).call();
          System.out.println("call id: " + callId);
       }
-      catch (TwilioRestException e)
+      catch (Throwable e)
       {
          e.printStackTrace();
       }

@@ -33,7 +33,7 @@ public class PartecipationService
 
    public Partecipation loadPartecipation(String from)
    {
-      QuizCompetitor quizCompetitor = quizCompetitorRepository.findByPhone(from);
+      QuizCompetitor quizCompetitor = quizCompetitorRepository.findByPhone(from, true);
       if (quizCompetitor != null)
       {
          quizCompetitor.setConfirmationDate(new Date());

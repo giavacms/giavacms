@@ -9,8 +9,6 @@ import org.giavacms.twizz.model.QuizCompetitor;
 import org.twiliofaces.cdi.doers.Sender;
 import org.twiliofaces.inject.configuration.TwilioAccount;
 
-import com.twilio.sdk.TwilioRestException;
-
 @Stateless
 @LocalBean
 public class MessageService
@@ -30,7 +28,7 @@ public class MessageService
          String sid = sender.to(quizCompetitor.getPhone()).body(body.toString()).simpleSend();
          System.out.println("SMS ID: " + sid);
       }
-      catch (TwilioRestException e)
+      catch (Throwable e)
       {
          // TODO Auto-generated catch block
          e.printStackTrace();

@@ -1,5 +1,6 @@
 package org.giavacms.twizz.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class QuizCompetitorRepository extends AbstractRepository<QuizCompetitor>
 
    }
 
-   public QuizCompetitor findByPhone(String phone)
+   public QuizCompetitor findByPhone(String phone, boolean onlyNotConfirmed)
    {
       try
       {
@@ -57,9 +58,20 @@ public class QuizCompetitorRepository extends AbstractRepository<QuizCompetitor>
           * his method returns the index of search string in specified string. String positions are 1-based. If string
           * is not found then it returns "0".
           */
+         String query = "";
+         if (!onlyNotConfirmed)
+         {
+            query = "select q from " + QuizCompetitor.class.getSimpleName()
+                     + " q where (LOCATE(q.phone, :PHONE_NUMBER) > 0) OR (LOCATE(:PHONE_NUMBER, q.phone) > 0)";
+         }
+         else
+         {
+            query = "select q from "
+                     + QuizCompetitor.class.getSimpleName()
+                     + " q where (LOCATE(q.phone, :PHONE_NUMBER) > 0) OR (LOCATE(:PHONE_NUMBER, q.phone) > 0) AND q.confirmationDate is null";
+         }
          List<QuizCompetitor> quizCompetitors = (List<QuizCompetitor>) getEm()
-                  .createQuery("select q from " + QuizCompetitor.class.getSimpleName()
-                           + " q where (LOCATE(q.phone, :PHONE_NUMBER) > 0) OR (LOCATE(:PHONE_NUMBER, q.phone) > 0)")
+                  .createQuery(query)
                   .setParameter("PHONE_NUMBER", phone).getResultList();
          if (quizCompetitors != null && quizCompetitors.size() > 0)
             return quizCompetitors.get(0);
