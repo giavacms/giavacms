@@ -66,6 +66,8 @@
 		<module>people</module>
 		<module>githubcontent</module>
 		<!--module>twizz</module -->
+		<module>resolver</module>
+		<module>rewriter</module>
 	</modules>
 
 	<properties>
