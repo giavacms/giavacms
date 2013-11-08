@@ -81,6 +81,18 @@
 				<artifactId>giavacms-common-base</artifactId>
 				<version>${giavacms-common-base.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.giavacms.common</groupId>
+				<artifactId>giavacms-common-jpa</artifactId>
+				<version>${giavacms-common-base.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.giavacms.common</groupId>
+				<artifactId>giavacms-common-web</artifactId>
+				<version>${giavacms-common-base.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.giavacms.common</groupId>
 				<artifactId>giavacms-common-rewrite</artifactId>
@@ -206,6 +218,18 @@
 		<dependency>
 			<groupId>org.giavacms.common</groupId>
 			<artifactId>giavacms-common-base</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.giavacms.common</groupId>
+			<artifactId>giavacms-common-jpa</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.giavacms.common</groupId>
+			<artifactId>giavacms-common-web</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
