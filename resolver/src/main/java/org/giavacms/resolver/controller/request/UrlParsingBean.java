@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.giavacms.base.controller.request;
+package org.giavacms.resolver.controller.request;
 
 import java.io.File;
 import java.io.Serializable;
@@ -16,6 +16,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 
+import org.giavacms.base.controller.request.BreadCrumpsHandler;
+import org.giavacms.base.controller.request.PageRequestController;
 import org.jboss.logging.Logger;
 
 import com.ocpsoft.pretty.PrettyContext;

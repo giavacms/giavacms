@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.giavacms.base.resolver;
+package org.giavacms.resolver.resolver;
 
 import java.net.MalformedURLException;
 import java.net.URL;

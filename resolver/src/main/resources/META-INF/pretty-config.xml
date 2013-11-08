@@ -4,15 +4,11 @@
 	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0 http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
 
 	<url-mapping id="indice">
-		<pattern>
-			/index
-		</pattern>
+		<pattern>/index</pattern>
 		<view-id>/index.jsf </view-id>
 	</url-mapping>
 	<url-mapping id="recupero">
-		<pattern>
-			/recupero
-		</pattern>
+		<pattern>/recupero</pattern>
 		<view-id>/recupero.jsf </view-id>
 	</url-mapping>
 
