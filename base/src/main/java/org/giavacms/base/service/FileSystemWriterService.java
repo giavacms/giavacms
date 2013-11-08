@@ -9,23 +9,26 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.giavacms.base.controller.util.PageUtils;
+import org.giavacms.base.filter.MappingFilter;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.common.util.FileUtils;
 import org.jboss.logging.Logger;
 
-@Stateless
+@Singleton
 @LocalBean
 public class FileSystemWriterService implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+
+   private String pagesPath = null;
 
    private static final boolean SINGLE_FILE_FOR_ALL_PAGES = true;
 
@@ -52,9 +55,9 @@ public class FileSystemWriterService implements Serializable
 
    Logger logger = Logger.getLogger(getClass().getCanonicalName());
 
-   public void write(String path, Template template, boolean overwrite) throws Exception
+   public void write(Template template, boolean overwrite) throws Exception
    {
-      File absolutePath = getAbsolutePath(path);
+      File absolutePath = getAbsolutePath();
       write(absolutePath, template, overwrite);
    }
 
@@ -255,9 +258,9 @@ public class FileSystemWriterService implements Serializable
       return pageFile.getAbsolutePath();
    }
 
-   public List<String> write(String path, Page page, boolean overwrite) throws Exception
+   public List<String> write(Page page, boolean overwrite) throws Exception
    {
-      File absolutePath = getAbsolutePath(path);
+      File absolutePath = getAbsolutePath();
       return write(absolutePath, page, overwrite);
    }
 
@@ -288,9 +291,9 @@ public class FileSystemWriterService implements Serializable
       }
    }
 
-   public String clear(String path, String filename) throws Exception
+   public String clear(String filename) throws Exception
    {
-      File absolutePath = getAbsolutePath(path);
+      File absolutePath = getAbsolutePath();
       List<String> files = new ArrayList<String>();
       for (File file : absolutePath.listFiles())
       {
@@ -316,24 +319,21 @@ public class FileSystemWriterService implements Serializable
 
    public String clearAll(String path) throws Exception
    {
-      return clear(path, null);
+      return clear(null);
    }
 
-   private File getAbsolutePath(String path) throws Exception
+   private File getAbsolutePath() throws Exception
    {
-      File absolutePath = null;
-      if (path == null || path.trim().length() == 0)
-      {
-         String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
-         absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), "cache");
-      }
-      else
+      if (pagesPath == null)
       {
          ServletContext servletContext = (ServletContext) FacesContext
                   .getCurrentInstance().getExternalContext().getContext();
-         String webappRoot = servletContext.getRealPath("");
-         absolutePath = new File(webappRoot, path);
+         setPagesPath(servletContext.getRealPath(servletContext
+                  .getInitParameter(MappingFilter.PAGES_PATH_PARAM_NAME)));
       }
+      String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
+      File absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), pagesPath);
+
       if (!absolutePath.exists())
       {
          if (absolutePath.mkdir())
@@ -342,14 +342,14 @@ public class FileSystemWriterService implements Serializable
          }
          else
          {
-            throw new Exception("Failed to make dir: " + path);
+            throw new Exception("Failed to make dir: " + pagesPath);
          }
       }
       else
       {
          if (!absolutePath.isDirectory())
          {
-            throw new Exception("Invalid dir: " + path);
+            throw new Exception("Invalid dir: " + pagesPath);
          }
          else
          {
@@ -392,6 +392,19 @@ public class FileSystemWriterService implements Serializable
       {
          return true;
       }
+   }
+
+   public void setPagesPath(String pagesPath)
+   {
+      if (pagesPath.startsWith("/"))
+      {
+         pagesPath = pagesPath.substring(1);
+      }
+      if (pagesPath.endsWith("/"))
+      {
+         pagesPath = pagesPath.substring(0, pagesPath.length() - 1);
+      }
+      this.pagesPath = pagesPath;
    }
 
 }

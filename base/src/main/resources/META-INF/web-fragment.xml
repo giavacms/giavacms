@@ -8,6 +8,11 @@
 	<name id="giava-cms">giavacms.org</name>
 
 	<context-param>
+		<param-name>pagesPath</param-name>
+		<param-value>/cache/</param-value>
+	</context-param>
+	
+	<context-param>
 		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
 		<param-value>false</param-value>
 	</context-param>
@@ -60,6 +65,32 @@
 	<filter-mapping>
 		<filter-name>UTFEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>mappingFilter</filter-name>
+		<filter-class>org.giavacms.base.filter.MappingFilter</filter-class>
+		<init-param>
+			<param-name>reservedPaths</param-name>
+			<param-value>/private/;/img/;/css/;/docs/;/errors/;/font/;/js/;/javax.faces.resource/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>reservedExtensions</param-name>
+			<param-value>.js;.jpg;.jpeg;.gif;.png;.doc;.docx;.pdf;.xls;.xlsx;.css;.swf;.jsf</param-value>
+		</init-param>
+		<init-param>
+			<param-name>pagesExtension</param-name>
+			<param-value>xhtml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>facesExtension</param-name>
+			<param-value>jsf</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>mappingFilter</filter-name>
+		<url-pattern>*</url-pattern>
 	</filter-mapping>
 
 	<context-param>

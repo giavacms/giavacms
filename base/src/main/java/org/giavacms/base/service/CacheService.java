@@ -46,6 +46,13 @@ public class CacheService implements Serializable
          writeByTemplate(id);
    }
 
+   @Asynchronous
+   public void cacheByTemplateImplId(Long id)
+   {
+      if (pageConfigurationRepository.load().isWithCache())
+         writeByTemplateImpl(id);
+   }
+
    public String write(String pageId)
    {
       try
@@ -53,8 +60,7 @@ public class CacheService implements Serializable
          StringBuffer sb = new StringBuffer();
          Page page = pageRepository.fetch(pageId);
          boolean overwrite = true;
-         String path = null;
-         List<String> files = fileSystemWriterService.write(path, page, overwrite);
+         List<String> files = fileSystemWriterService.write(page, overwrite);
          for (String file : files)
          {
             sb.append(", ").append(file);
@@ -85,19 +91,27 @@ public class CacheService implements Serializable
       return writeAllWithSearch(sp, true);
    }
 
+   public String writeByTemplateImpl(Long id)
+   {
+      Search<Page> sp = new Search<Page>(Page.class);
+      sp.getObj().getTemplate().setId(id);
+      sp.getObj().setExtended(true);
+      sp.getObj().setClone(true);
+      return writeAllWithSearch(sp, true);
+   }
+
    private String writeAllWithSearch(Search<Page> search, boolean overwrite)
    {
       try
       {
          StringBuffer sb = new StringBuffer();
-         String path = null;
          int pages = pageRepository.getListSize(search);
          int pagesPerIteration = 10;
          for (int i = 0; i < pages; i = i + pagesPerIteration)
          {
             for (Page page : pageRepository.getList(search, i, pagesPerIteration))
             {
-               List<String> files = fileSystemWriterService.write(path, page, overwrite);
+               List<String> files = fileSystemWriterService.write(page, overwrite);
                for (String file : files)
                {
                   sb.append(", ").append(file);
@@ -119,9 +133,7 @@ public class CacheService implements Serializable
    {
       try
       {
-         String path = null;
-
-         return fileSystemWriterService.clear(path, page);
+         return fileSystemWriterService.clear(page);
       }
       catch (Exception e)
       {
