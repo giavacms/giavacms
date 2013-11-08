@@ -78,7 +78,7 @@
 						<center>
 							<h:commandLink
 								action="#{insuranceClaimProductController.removeImage(img.id)}"
-								value="elimina" immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty img.id}" />
 						</center>
@@ -103,7 +103,7 @@
 						<center>
 							<h:commandLink
 								action="#{insuranceClaimProductController.removeDocument(doc.id)}"
-								value="elimina" immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty doc.id}" />
 						</center>

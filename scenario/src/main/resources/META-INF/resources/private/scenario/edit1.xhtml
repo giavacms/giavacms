@@ -131,7 +131,7 @@
 					<p:column>
 						<f:facet name="header">elimina</f:facet>
 						<h:commandLink action="#{scenarioController.removeImage(img.id)}"
-							value="elimina"
+							title="elimina" style="font-size: 24px;" styleClass="icon-trash"
 							onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 							rendered="#{not empty img.filename or not empty img.id}" />
 					</p:column>
