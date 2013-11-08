@@ -499,6 +499,9 @@ public class PageRepository
    {
       Page result = super.persist(object);
       BeanUtils.getBean(CacheService.class).cacheByPageId(object.getId());
+      if ( ! object.isClone() ) {
+         BeanUtils.getBean(CacheService.class).cacheByTemplateImplId(object.getTemplate().getId());
+      }
       return result;
    }
 
@@ -508,6 +511,9 @@ public class PageRepository
    {
       boolean result = super.update(object);
       BeanUtils.getBean(CacheService.class).cacheByPageId(object.getId());
+      if ( ! object.isClone() ) {
+         BeanUtils.getBean(CacheService.class).cacheByTemplateImplId(object.getTemplate().getId());
+      }
       return result;
    }
 

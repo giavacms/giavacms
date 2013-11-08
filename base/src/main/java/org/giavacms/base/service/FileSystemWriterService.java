@@ -10,8 +10,6 @@ import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
@@ -52,13 +50,7 @@ public class FileSystemWriterService implements Serializable
 
    Logger logger = Logger.getLogger(getClass().getCanonicalName());
 
-   public void write(String path, Template template, boolean overwrite) throws Exception
-   {
-      File absolutePath = getAbsolutePath(path);
-      write(absolutePath, template, overwrite);
-   }
-
-   protected String write(File absolutePath, Template template, boolean overwrite) throws Exception
+   public String write(File absolutePath, Template template, boolean overwrite) throws Exception
    {
 
       File templateFile = new File(absolutePath, TEMPLATE_PREFIX + template.getId() + XHTML_EXTENSION);
@@ -255,13 +247,7 @@ public class FileSystemWriterService implements Serializable
       return pageFile.getAbsolutePath();
    }
 
-   public List<String> write(String path, Page page, boolean overwrite) throws Exception
-   {
-      File absolutePath = getAbsolutePath(path);
-      return write(absolutePath, page, overwrite);
-   }
-
-   protected List<String> write(File absolutePath, Page page, boolean overwrite) throws Exception
+   public List<String> write(File absolutePath, Page page, boolean overwrite) throws Exception
    {
 
       if (isFaceletsCompliant(page.getTemplate().getTemplate()))
@@ -288,9 +274,8 @@ public class FileSystemWriterService implements Serializable
       }
    }
 
-   public String clear(String path, String filename) throws Exception
+   public String clear(File absolutePath, String filename) throws Exception
    {
-      File absolutePath = getAbsolutePath(path);
       List<String> files = new ArrayList<String>();
       for (File file : absolutePath.listFiles())
       {
@@ -314,48 +299,9 @@ public class FileSystemWriterService implements Serializable
       return "Deleted: " + files.toString();
    }
 
-   public String clearAll(String path) throws Exception
+   public String clearAll(File absolutePath) throws Exception
    {
-      return clear(path, null);
-   }
-
-   private File getAbsolutePath(String path) throws Exception
-   {
-      File absolutePath = null;
-      if (path == null || path.trim().length() == 0)
-      {
-         String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
-         absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), "cache");
-      }
-      else
-      {
-         ServletContext servletContext = (ServletContext) FacesContext
-                  .getCurrentInstance().getExternalContext().getContext();
-         String webappRoot = servletContext.getRealPath("");
-         absolutePath = new File(webappRoot, path);
-      }
-      if (!absolutePath.exists())
-      {
-         if (absolutePath.mkdir())
-         {
-            return absolutePath;
-         }
-         else
-         {
-            throw new Exception("Failed to make dir: " + path);
-         }
-      }
-      else
-      {
-         if (!absolutePath.isDirectory())
-         {
-            throw new Exception("Invalid dir: " + path);
-         }
-         else
-         {
-            return absolutePath;
-         }
-      }
+      return clear(absolutePath, null);
    }
 
    private Set<String> getXmlns(String header)

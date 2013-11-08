@@ -93,6 +93,11 @@
 				<artifactId>giavacms-common-web</artifactId>
 				<version>${giavacms-common-base.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.giavacms.common</groupId>
+				<artifactId>giavacms-common-rewrite</artifactId>
+				<version>${giavacms-common-base.version}</version>
+			</dependency>
 
 			<!-- Modules in this project -->
 			<dependency>
