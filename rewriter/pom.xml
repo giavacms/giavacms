@@ -33,7 +33,14 @@
 
 	<dependencies>
 
-
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>base</artifactId>
+		</dependency>
+		<dependency> 
+			<groupId>org.giavacms.common</groupId>
+			<artifactId>giavacms-common-rewrite</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

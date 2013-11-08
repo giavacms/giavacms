@@ -14,16 +14,17 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Query;
 
+import org.giavacms.base.annotation.event.PageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
-import org.giavacms.base.service.CacheService;
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.util.BeanUtils;
 
 @Named
 @Stateless
@@ -31,6 +32,9 @@ import org.giavacms.common.util.BeanUtils;
 public class PageRepository
          extends AbstractPageRepository<Page>
 {
+
+   @Inject
+   Event<PageEvent> pageEvent;
 
    // VAI SU!!!
    private static final long serialVersionUID = 1L;
@@ -498,10 +502,7 @@ public class PageRepository
    public Page persist(Page object)
    {
       Page result = super.persist(object);
-      BeanUtils.getBean(CacheService.class).cacheByPageId(object.getId());
-      if ( ! object.isClone() ) {
-         BeanUtils.getBean(CacheService.class).cacheByTemplateImplId(object.getTemplate().getId());
-      }
+      pageEvent.fire(new PageEvent(object));
       return result;
    }
 
@@ -510,10 +511,7 @@ public class PageRepository
    public boolean update(Page object)
    {
       boolean result = super.update(object);
-      BeanUtils.getBean(CacheService.class).cacheByPageId(object.getId());
-      if ( ! object.isClone() ) {
-         BeanUtils.getBean(CacheService.class).cacheByTemplateImplId(object.getTemplate().getId());
-      }
+      pageEvent.fire(new PageEvent(object));
       return result;
    }
 

@@ -1,4 +1,4 @@
-package org.giavacms.base.service;
+package org.giavacms.rewriter.service;
 
 import java.io.File;
 import java.io.Serializable;

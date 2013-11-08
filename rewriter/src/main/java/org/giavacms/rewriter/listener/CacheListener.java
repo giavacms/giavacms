@@ -1,10 +1,4 @@
-/*
- * Copyright 2013 twiliofaces.org.
- *
- * Licensed under the Eclipse Public License version 1.0, available at
- * http://www.eclipse.org/legal/epl-v10.html
- */
-package org.giavacms.base.listener;
+package org.giavacms.rewriter.listener;
 
 import java.util.logging.Logger;
 
@@ -13,8 +7,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.giavacms.base.service.CacheService;
 import org.giavacms.common.filter.MappingFilter;
+import org.giavacms.rewriter.service.CacheService;
 
 @WebListener
 public class CacheListener implements ServletContextListener
