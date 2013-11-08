@@ -2,13 +2,10 @@ package org.giavacms.catalogue.repository;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -93,7 +90,9 @@ public class ProductRepository extends AbstractPageRepository<Product>
          sb.append(productAlias).append(".code, ");
          sb.append(productAlias).append(".category_id, ");
          sb.append(categoryPageAlias).append(".title AS categoryTitle, ");
+         sb.append(imageAlias).append(".id AS imageId, ");
          sb.append(imageAlias).append(".fileName AS image, ");
+         sb.append(documentAlias).append(".id AS documentId, ");
          sb.append(documentAlias).append(".fileName AS document ");
          if (completeFetch)
          {
@@ -331,15 +330,16 @@ public class ProductRepository extends AbstractPageRepository<Product>
     * sb.append(productAlias).append(".price, ");
     * sb.append(productAlias).append(".vat, ");sb.append(productAlias).append(".code, ");
     * sb.append(productAlias).append(".category_id, ");
-    * sb.append(categoryPageAlias).append(".title AS categoryTitle, "); sb.append(" I.fileName AS image, ");
-    * sb.append(" D.fileName AS document ");
+    * sb.append(categoryPageAlias).append(".title AS categoryTitle, ");
+    * sb.append(imageAlias).append(".id AS imageId, "); sb.append(imageAlias).append(".fileName AS image");
+    * sb.append(documentAlias).append(".id AS documentId, "); sb.append(documentAlias).append(".fileName AS document ");
     */
    @SuppressWarnings({ "rawtypes", "unchecked" })
    protected List<Product> extract(List resultList, boolean completeFetch)
    {
       Product product = null;
-      Map<String, Set<String>> imageNames = new HashMap<String, Set<String>>();
-      Map<String, Set<String>> documentNames = new HashMap<String, Set<String>>();
+      Map<String, List<Image>> images = new LinkedHashMap<String, List<Image>>();
+      Map<String, List<Document>> documents = new LinkedHashMap<String, List<Document>>();
       Map<String, Product> products = new LinkedHashMap<String, Product>();
 
       Iterator<Object[]> results = resultList.iterator();
@@ -417,35 +417,67 @@ public class ProductRepository extends AbstractPageRepository<Product>
          String category_title = (String) row[i];
          product.getCategory().setTitle(category_title);
          i++;
-         String imagefileName = (String) row[i];
-         if (imagefileName != null && !imagefileName.isEmpty())
+         Image image = null;
+         Object imageId = row[i];
+         if (imageId != null)
          {
-            if (imageNames.containsKey(id))
+            if (imageId instanceof BigInteger)
             {
-               HashSet<String> set = (HashSet<String>) imageNames.get(id);
-               set.add(imagefileName);
+               image = new Image();
+               image.setId(((BigInteger) imageId).longValue());
             }
             else
             {
-               HashSet<String> set = new HashSet<String>();
-               set.add(imagefileName);
-               imageNames.put(id, set);
+               logger.error("imageId instance of " + imageId.getClass().getCanonicalName());
+            }
+         }
+         i++;
+         String imagefileName = (String) row[i];
+         if (image != null && imagefileName != null && !imagefileName.isEmpty())
+         {
+            image.setFilename(imagefileName);
+            if (images.containsKey(id))
+            {
+               List<Image> list = images.get(id);
+               list.add(image);
+            }
+            else
+            {
+               ArrayList<Image> list = new ArrayList<Image>();
+               list.add(image);
+               images.put(id, list);
+            }
+         }
+         i++;
+         Document document = null;
+         Object documentId = row[i];
+         if (documentId != null)
+         {
+            if (documentId instanceof BigInteger)
+            {
+               document = new Document();
+               document.setId(((BigInteger) documentId).longValue());
+            }
+            else
+            {
+               logger.error("documentId instance of " + documentId.getClass().getCanonicalName());
             }
          }
          i++;
          String documentfileName = (String) row[i];
-         if (documentfileName != null && !documentfileName.isEmpty())
+         if (document != null && documentfileName != null && !documentfileName.isEmpty())
          {
-            if (documentNames.containsKey(id))
+            document.setFilename(documentfileName);
+            if (documents.containsKey(id))
             {
-               HashSet<String> set = (HashSet<String>) documentNames.get(id);
-               set.add(documentfileName);
+               List<Document> list = documents.get(id);
+               list.add(document);
             }
             else
             {
-               HashSet<String> set = new HashSet<String>();
-               set.add(documentfileName);
-               documentNames.put(id, set);
+               ArrayList<Document> list = new ArrayList<Document>();
+               list.add(document);
+               documents.put(id, list);
             }
          }
          i++;
@@ -459,18 +491,16 @@ public class ProductRepository extends AbstractPageRepository<Product>
          }
 
       }
-      for (String id : documentNames.keySet())
+      for (String id : documents.keySet())
       {
          Product prod = null;
          if (products.containsKey(id))
          {
             prod = products.get(id);
-            Set<String> docs = documentNames.get(id);
-            for (String docFileName : docs)
+            List<Document> docs = documents.get(id);
+            for (Document doc : docs)
             {
-               Document document = new Document();
-               document.setFilename(docFileName);
-               prod.addDocument(document);
+               prod.addDocument(doc);
             }
          }
          else
@@ -479,18 +509,16 @@ public class ProductRepository extends AbstractPageRepository<Product>
          }
 
       }
-      for (String id : imageNames.keySet())
+      for (String id : images.keySet())
       {
          Product prod = null;
          if (products.containsKey(id))
          {
             prod = products.get(id);
-            Set<String> docs = imageNames.get(id);
-            for (String imgFileName : docs)
+            List<Image> imgs = images.get(id);
+            for (Image img : imgs)
             {
-               Image image = new Image();
-               image.setFilename(imgFileName);
-               prod.addImage(image);
+               prod.addImage(img);
             }
          }
          else

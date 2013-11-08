@@ -4,12 +4,10 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -249,7 +247,9 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(richContentAlias).append(".tags,  ");
          sb.append(richContentAlias).append(".richContentType_id, ");
          sb.append(richContentTypeAlias).append(".name AS richContentType, ");
-         sb.append(imageAlias).append(".fileName AS image, ");
+         sb.append(imageAlias).append(".id AS imageId, ");
+         sb.append(imageAlias).append(".fileName AS image,");
+         sb.append(documentAlias).append(".id AS documentId, ");
          sb.append(documentAlias).append(".fileName AS document ");
          if (completeFetch)
          {
@@ -512,8 +512,10 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
     * sb.append(richContentAlias).append(".content, "); sb.append(richContentAlias).append(".date, ");
     * sb.append(richContentAlias).append(".highlight, "); sb.append(richContentAlias).append(".preview, ");
     * sb.append(richContentAlias).append(".tags,  "); sb.append(richContentAlias).append(".richContentType_id, ");
-    * sb.append(richContentTypeAlias).append(".name AS richContentType, "); sb.append(" I.fileName AS image, ");
-    * sb.append(" D.filename AS document ");
+    * sb.append(richContentTypeAlias).append(".name AS richContentType, ");
+    * sb.append(imageAlias).append(".id AS imageId, "); sb.append(imageAlias).append(".fileName AS image");
+    * sb.append(documentAlias).append(".id AS documentId, ");
+    * sb.append(documentAlias).append(".fileName AS document ");*
     * 
     * @param resultList
     * @return
@@ -522,8 +524,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    protected List<RichContent> extract(List resultList, boolean completeFetch)
    {
       RichContent richContent = null;
-      Map<String, Set<String>> imageNames = new LinkedHashMap<String, Set<String>>();
-      Map<String, Set<String>> documentNames = new LinkedHashMap<String, Set<String>>();
+      Map<String, List<Image>> images = new LinkedHashMap<String, List<Image>>();
+      Map<String, List<Document>> documents = new LinkedHashMap<String, List<Document>>();
       Map<String, RichContent> richContents = new LinkedHashMap<String, RichContent>();
 
       Iterator<Object[]> results = resultList.iterator();
@@ -643,35 +645,67 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          if (richContentType != null && !richContentType.isEmpty())
             richContent.getRichContentType().setName(richContentType);
          i++;
-         String imagefileName = (String) row[i];
-         if (imagefileName != null && !imagefileName.isEmpty())
+         Image image = null;
+         Object imageId = row[i];
+         if (imageId != null)
          {
-            if (imageNames.containsKey(id))
+            if (imageId instanceof BigInteger)
             {
-               HashSet<String> set = (HashSet<String>) imageNames.get(id);
-               set.add(imagefileName);
+               image = new Image();
+               image.setId(((BigInteger) imageId).longValue());
             }
             else
             {
-               HashSet<String> set = new HashSet<String>();
-               set.add(imagefileName);
-               imageNames.put(id, set);
+               logger.error("imageId instance of " + imageId.getClass().getCanonicalName());
+            }
+         }
+         i++;
+         String imagefileName = (String) row[i];
+         if (image != null && imagefileName != null && !imagefileName.isEmpty())
+         {
+            image.setFilename(imagefileName);
+            if (images.containsKey(id))
+            {
+               List<Image> list = images.get(id);
+               list.add(image);
+            }
+            else
+            {
+               ArrayList<Image> list = new ArrayList<Image>();
+               list.add(image);
+               images.put(id, list);
+            }
+         }
+         i++;
+         Document document = null;
+         Object documentId = row[i];
+         if (documentId != null)
+         {
+            if (documentId instanceof BigInteger)
+            {
+               document = new Document();
+               document.setId(((BigInteger) documentId).longValue());
+            }
+            else
+            {
+               logger.error("documentId instance of " + documentId.getClass().getCanonicalName());
             }
          }
          i++;
          String documentfileName = (String) row[i];
-         if (documentfileName != null && !documentfileName.isEmpty())
+         if (document != null && documentfileName != null && !documentfileName.isEmpty())
          {
-            if (documentNames.containsKey(id))
+            document.setFilename(documentfileName);
+            if (documents.containsKey(id))
             {
-               HashSet<String> set = (HashSet<String>) documentNames.get(id);
-               set.add(documentfileName);
+               List<Document> list = documents.get(id);
+               list.add(document);
             }
             else
             {
-               HashSet<String> set = new HashSet<String>();
-               set.add(documentfileName);
-               documentNames.put(id, set);
+               ArrayList<Document> list = new ArrayList<Document>();
+               list.add(document);
+               documents.put(id, list);
             }
          }
          i++;
@@ -685,20 +719,18 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          }
 
       }
-      for (String id : documentNames.keySet())
+      for (String id : documents.keySet())
       {
          RichContent rich = null;
          if (richContents.containsKey(id))
          {
             rich = richContents.get(id);
-            Set<String> docs = documentNames.get(id);
+            List<Document> docs = documents.get(id);
             if (docs != null)
             {
-               for (String docFileName : docs)
+               for (Document doc : docs)
                {
-                  Document document = new Document();
-                  document.setFilename(docFileName);
-                  rich.addDocument(document);
+                  rich.addDocument(doc);
                }
             }
          }
@@ -708,20 +740,18 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          }
 
       }
-      for (String id : imageNames.keySet())
+      for (String id : images.keySet())
       {
          RichContent rich = null;
          if (richContents.containsKey(id))
          {
             rich = richContents.get(id);
-            Set<String> imgs = imageNames.get(id);
+            List<Image> imgs = images.get(id);
             if (imgs != null)
             {
-               for (String imgFileName : imgs)
+               for (Image img : imgs)
                {
-                  Image image = new Image();
-                  image.setFilename(imgFileName);
-                  rich.addImage(image);
+                  rich.addImage(img);
                }
             }
          }
