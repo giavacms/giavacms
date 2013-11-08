@@ -11,16 +11,17 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.giavacms.base.annotation.event.TemplateEvent;
 import org.giavacms.base.model.Template;
-import org.giavacms.base.service.CacheService;
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
-import org.giavacms.common.util.BeanUtils;
 
 @Named
 @Stateless
@@ -33,6 +34,8 @@ public class TemplateRepository extends AbstractRepository<Template> implements
 
    @PersistenceContext
    EntityManager em;
+   @Inject
+   Event<TemplateEvent> templateEvent;
 
    @Override
    public EntityManager getEm()
@@ -129,7 +132,7 @@ public class TemplateRepository extends AbstractRepository<Template> implements
    public Template persist(Template object)
    {
       Template result = super.persist(object);
-      BeanUtils.getBean(CacheService.class).cacheByTemplateId(object.getId());
+      templateEvent.fire(new TemplateEvent(object));
       return result;
    }
 
@@ -137,9 +140,8 @@ public class TemplateRepository extends AbstractRepository<Template> implements
    @LogOperation
    public boolean update(Template object)
    {
-      // TODO Auto-generated method stub
       boolean result = super.update(object);
-      BeanUtils.getBean(CacheService.class).cacheByTemplateId(object.getId());
+      templateEvent.fire(new TemplateEvent(object));
       return result;
    }
 }

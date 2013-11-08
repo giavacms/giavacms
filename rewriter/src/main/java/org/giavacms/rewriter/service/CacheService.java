@@ -1,4 +1,4 @@
-package org.giavacms.base.service;
+package org.giavacms.rewriter.service;
 
 import java.io.File;
 import java.io.Serializable;
@@ -7,12 +7,14 @@ import java.util.List;
 import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Observes;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import org.giavacms.base.annotation.event.PageEvent;
+import org.giavacms.base.annotation.event.TemplateEvent;
 import org.giavacms.base.model.Page;
-import org.giavacms.base.repository.PageConfigurationRepository;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.filter.MappingFilter;
 import org.giavacms.common.model.Search;
@@ -33,28 +35,22 @@ public class CacheService implements Serializable
    @Inject
    PageRepository pageRepository;
 
-   @Inject
-   PageConfigurationRepository pageConfigurationRepository;
-
    @Asynchronous
    public void cacheByPageId(String pageId)
    {
-      if (pageConfigurationRepository.load().isWithCache())
-         write(pageId);
+      write(pageId);
    }
 
    @Asynchronous
    public void cacheByTemplateId(Long id)
    {
-      if (pageConfigurationRepository.load().isWithCache())
-         writeByTemplate(id);
+      writeByTemplate(id);
    }
 
    @Asynchronous
    public void cacheByTemplateImplId(Long id)
    {
-      if (pageConfigurationRepository.load().isWithCache())
-         writeByTemplateImpl(id);
+      writeByTemplateImpl(id);
    }
 
    public String write(String pageId)
@@ -223,6 +219,20 @@ public class CacheService implements Serializable
             return absolutePath;
          }
       }
+   }
+
+   public void observe(@Observes PageEvent pageEvent)
+   {
+      cacheByPageId(pageEvent.getPage().getId());
+      if (!pageEvent.getPage().isClone())
+      {
+         cacheByTemplateImplId(pageEvent.getPage().getTemplate().getId());
+      }
+   }
+
+   public void observe(@Observes TemplateEvent templateEvent)
+   {
+      cacheByTemplateId(templateEvent.getTemplate().getId());
    }
 
 }
