@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import org.giavacms.base.annotation.event.PageEvent;
+import org.giavacms.base.event.PageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;

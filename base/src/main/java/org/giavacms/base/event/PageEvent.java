@@ -1,4 +1,4 @@
-package org.giavacms.base.annotation.event;
+package org.giavacms.base.event;
 
 import org.giavacms.base.model.Page;
 

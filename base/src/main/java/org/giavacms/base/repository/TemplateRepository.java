@@ -17,7 +17,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.giavacms.base.annotation.event.TemplateEvent;
+import org.giavacms.base.event.TemplateEvent;
 import org.giavacms.base.model.Template;
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;

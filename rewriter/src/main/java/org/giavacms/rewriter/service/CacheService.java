@@ -12,8 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.giavacms.base.annotation.event.PageEvent;
-import org.giavacms.base.annotation.event.TemplateEvent;
+import org.giavacms.base.event.PageEvent;
+import org.giavacms.base.event.TemplateEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.filter.MappingFilter;
