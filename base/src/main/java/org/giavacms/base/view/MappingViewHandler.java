@@ -54,7 +54,7 @@ public class MappingViewHandler extends ViewHandlerWrapper
             String paramString, Map<String, List<String>> paramMap,
             boolean paramBoolean)
    {
-      logger.info("getRedirectURL: " + paramString);
+      logger.debug("getRedirectURL: " + paramString);
       paramString = paramString.replace(MappingFilter.getPagesPath(), ROOT_PATH);
 
       if (paramString != null && !paramString.trim().isEmpty())
@@ -64,7 +64,7 @@ public class MappingViewHandler extends ViewHandlerWrapper
          {
             paramString = paramString.substring(0, dotIdx);
          }
-         logger.info("getRedirectURL rewrite:" + paramString);
+         logger.debug("getRedirectURL rewrite:" + paramString);
          HttpServletRequest httpServletRequest = (HttpServletRequest) paramFacesContext
                   .getExternalContext().getRequest();
          httpServletRequest.setAttribute(MappingFilter.ORIGINAL_URI_ATTRIBUTE_NAME, paramString);

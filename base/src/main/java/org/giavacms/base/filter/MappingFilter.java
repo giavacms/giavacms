@@ -60,9 +60,9 @@ public class MappingFilter extends HttpServlet implements Filter
 
       try
       {
-         logger.info("***************************");
-         logger.info("MappingFilter uri: " + uri);
-         logger.info("***************************");
+         logger.debug("***************************");
+         logger.debug("MappingFilter uri: " + uri);
+         logger.debug("***************************");
 
          // Check if the URI matches mapping creteria.
          for (String reservedPath : reservedPaths)
@@ -108,12 +108,12 @@ public class MappingFilter extends HttpServlet implements Filter
             String forwardURI = pagesPath + uri + facesExtension;
             
             // Get the request dispatcher
-            logger.info("***************************");
-            logger.info("MappingFilter forwardURI: "
+            logger.debug("***************************");
+            logger.debug("MappingFilter forwardURI: "
                   + forwardURI);
-            logger.info("MappingFilter originalUri: "
+            logger.debug("MappingFilter originalUri: "
                   + originalUri);
-            logger.info("***************************");
+            logger.debug("***************************");
 
             // Get the request dispatcher
             RequestDispatcher rd = context
