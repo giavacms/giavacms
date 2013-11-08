@@ -1,4 +1,4 @@
-package org.giavacms.base.service.rest;
+package org.giavacms.base.service.rs;
 
 import java.io.Serializable;
 

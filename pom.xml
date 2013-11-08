@@ -68,6 +68,7 @@
 		<!--module>twizz</module -->
 		<module>resolver</module>
 		<module>rewriter</module>
+		<module>compatibility</module>
 	</modules>
 
 	<properties>

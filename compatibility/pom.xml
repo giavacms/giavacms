@@ -6,10 +6,10 @@
 		<artifactId>giavacms</artifactId>
 		<version>2.0.3-SNAPSHOT</version>
 	</parent>
-	<artifactId>resolver</artifactId>
+	<artifactId>compatibility</artifactId>
 
-	<name>GiavaCMS Content Management System : Resolver Module</name>
-	<description>GiavaCMS Content Management System: Resolver Module</description>
+	<name>GiavaCMS Content Management System : Compatibility Module</name>
+	<description>GiavaCMS Content Management System: Compatibility Module</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>
@@ -33,11 +33,6 @@
 	</developers>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.ocpsoft</groupId>
-			<artifactId>prettyfaces-jsf2</artifactId>
-			<version>3.3.2</version>
-		</dependency>
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
