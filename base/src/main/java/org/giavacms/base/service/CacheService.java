@@ -1,16 +1,20 @@
 package org.giavacms.base.service;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageConfigurationRepository;
 import org.giavacms.base.repository.PageRepository;
+import org.giavacms.common.filter.MappingFilter;
 import org.giavacms.common.model.Search;
 import org.jboss.logging.Logger;
 
@@ -60,7 +64,7 @@ public class CacheService implements Serializable
          StringBuffer sb = new StringBuffer();
          Page page = pageRepository.fetch(pageId);
          boolean overwrite = true;
-         List<String> files = fileSystemWriterService.write(page, overwrite);
+         List<String> files = fileSystemWriterService.write(getAbsolutePath(), page, overwrite);
          for (String file : files)
          {
             sb.append(", ").append(file);
@@ -79,7 +83,7 @@ public class CacheService implements Serializable
       Search<Page> sp = new Search<Page>(Page.class);
       sp.getObj().setExtended(true);
       sp.getObj().setClone(true);
-      return writeAllWithSearch(sp, true);
+      return writeAllWithSearch(null, sp, true);
    }
 
    public String writeByTemplate(Long id)
@@ -88,7 +92,7 @@ public class CacheService implements Serializable
       sp.getObj().getTemplate().getTemplate().setId(id);
       sp.getObj().setExtended(true);
       sp.getObj().setClone(true);
-      return writeAllWithSearch(sp, true);
+      return writeAllWithSearch(null, sp, true);
    }
 
    public String writeByTemplateImpl(Long id)
@@ -97,10 +101,10 @@ public class CacheService implements Serializable
       sp.getObj().getTemplate().setId(id);
       sp.getObj().setExtended(true);
       sp.getObj().setClone(true);
-      return writeAllWithSearch(sp, true);
+      return writeAllWithSearch(null, sp, true);
    }
 
-   private String writeAllWithSearch(Search<Page> search, boolean overwrite)
+   private String writeAllWithSearch(String path, Search<Page> search, boolean overwrite)
    {
       try
       {
@@ -111,7 +115,7 @@ public class CacheService implements Serializable
          {
             for (Page page : pageRepository.getList(search, i, pagesPerIteration))
             {
-               List<String> files = fileSystemWriterService.write(page, overwrite);
+               List<String> files = fileSystemWriterService.write(getAbsolutePath(path), page, overwrite);
                for (String file : files)
                {
                   sb.append(", ").append(file);
@@ -133,7 +137,7 @@ public class CacheService implements Serializable
    {
       try
       {
-         return fileSystemWriterService.clear(page);
+         return fileSystemWriterService.clear(getAbsolutePath(), page);
       }
       catch (Exception e)
       {
@@ -146,9 +150,7 @@ public class CacheService implements Serializable
    {
       try
       {
-         String path = null;
-
-         return fileSystemWriterService.clearAll(path);
+         return fileSystemWriterService.clearAll(getAbsolutePath());
       }
       catch (Exception e)
       {
@@ -167,6 +169,59 @@ public class CacheService implements Serializable
       {
          e.printStackTrace();
          return e.getClass().getCanonicalName() + ": " + e.getMessage();
+      }
+   }
+
+   public void writeAll(String path)
+   {
+      Search<Page> sp = new Search<Page>(Page.class);
+      sp.getObj().setExtended(true);
+      sp.getObj().setClone(true);
+      writeAllWithSearch(path, sp, true);
+   }
+
+   private File getAbsolutePath() throws Exception
+   {
+      return getAbsolutePath(null);
+   }
+
+   private File getAbsolutePath(String path) throws Exception
+   {
+      File absolutePath = null;
+      if (path == null || path.trim().length() == 0)
+      {
+         String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
+         ServletContext servletContext = (ServletContext) FacesContext
+                  .getCurrentInstance().getExternalContext().getContext();
+         absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")),
+                  servletContext.getInitParameter(MappingFilter.PAGES_PATH_PARAM_NAME));
+      }
+      else
+      {
+         String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
+         absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), path.replace("/", ""));
+      }
+      if (!absolutePath.exists())
+      {
+         if (absolutePath.mkdir())
+         {
+            return absolutePath;
+         }
+         else
+         {
+            throw new Exception("Failed to make dir: " + path);
+         }
+      }
+      else
+      {
+         if (!absolutePath.isDirectory())
+         {
+            throw new Exception("Invalid dir: " + path);
+         }
+         else
+         {
+            return absolutePath;
+         }
       }
    }
 

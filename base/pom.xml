@@ -55,6 +55,11 @@
 			<artifactId>giavacms-common-base</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.giavacms.common</groupId>
+			<artifactId>giavacms-common-rewrite</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
 

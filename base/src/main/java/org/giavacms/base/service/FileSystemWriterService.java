@@ -9,26 +9,21 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Singleton;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
+import javax.ejb.Stateless;
 
 import org.giavacms.base.controller.util.PageUtils;
-import org.giavacms.base.filter.MappingFilter;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.common.util.FileUtils;
 import org.jboss.logging.Logger;
 
-@Singleton
+@Stateless
 @LocalBean
 public class FileSystemWriterService implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-
-   private String pagesPath = null;
 
    private static final boolean SINGLE_FILE_FOR_ALL_PAGES = true;
 
@@ -55,13 +50,7 @@ public class FileSystemWriterService implements Serializable
 
    Logger logger = Logger.getLogger(getClass().getCanonicalName());
 
-   public void write(Template template, boolean overwrite) throws Exception
-   {
-      File absolutePath = getAbsolutePath();
-      write(absolutePath, template, overwrite);
-   }
-
-   protected String write(File absolutePath, Template template, boolean overwrite) throws Exception
+   public String write(File absolutePath, Template template, boolean overwrite) throws Exception
    {
 
       File templateFile = new File(absolutePath, TEMPLATE_PREFIX + template.getId() + XHTML_EXTENSION);
@@ -258,13 +247,7 @@ public class FileSystemWriterService implements Serializable
       return pageFile.getAbsolutePath();
    }
 
-   public List<String> write(Page page, boolean overwrite) throws Exception
-   {
-      File absolutePath = getAbsolutePath();
-      return write(absolutePath, page, overwrite);
-   }
-
-   protected List<String> write(File absolutePath, Page page, boolean overwrite) throws Exception
+   public List<String> write(File absolutePath, Page page, boolean overwrite) throws Exception
    {
 
       if (isFaceletsCompliant(page.getTemplate().getTemplate()))
@@ -291,9 +274,8 @@ public class FileSystemWriterService implements Serializable
       }
    }
 
-   public String clear(String filename) throws Exception
+   public String clear(File absolutePath, String filename) throws Exception
    {
-      File absolutePath = getAbsolutePath();
       List<String> files = new ArrayList<String>();
       for (File file : absolutePath.listFiles())
       {
@@ -317,45 +299,9 @@ public class FileSystemWriterService implements Serializable
       return "Deleted: " + files.toString();
    }
 
-   public String clearAll(String path) throws Exception
+   public String clearAll(File absolutePath) throws Exception
    {
-      return clear(null);
-   }
-
-   private File getAbsolutePath() throws Exception
-   {
-      if (pagesPath == null)
-      {
-         ServletContext servletContext = (ServletContext) FacesContext
-                  .getCurrentInstance().getExternalContext().getContext();
-         setPagesPath(servletContext.getRealPath(servletContext
-                  .getInitParameter(MappingFilter.PAGES_PATH_PARAM_NAME)));
-      }
-      String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
-      File absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), pagesPath);
-
-      if (!absolutePath.exists())
-      {
-         if (absolutePath.mkdir())
-         {
-            return absolutePath;
-         }
-         else
-         {
-            throw new Exception("Failed to make dir: " + pagesPath);
-         }
-      }
-      else
-      {
-         if (!absolutePath.isDirectory())
-         {
-            throw new Exception("Invalid dir: " + pagesPath);
-         }
-         else
-         {
-            return absolutePath;
-         }
-      }
+      return clear(absolutePath, null);
    }
 
    private Set<String> getXmlns(String header)
@@ -392,19 +338,6 @@ public class FileSystemWriterService implements Serializable
       {
          return true;
       }
-   }
-
-   public void setPagesPath(String pagesPath)
-   {
-      if (pagesPath.startsWith("/"))
-      {
-         pagesPath = pagesPath.substring(1);
-      }
-      if (pagesPath.endsWith("/"))
-      {
-         pagesPath = pagesPath.substring(0, pagesPath.length() - 1);
-      }
-      this.pagesPath = pagesPath;
    }
 
 }

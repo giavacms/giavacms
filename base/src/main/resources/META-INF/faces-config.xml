@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
 	version="2.0">
 
+	<application>
+		<view-handler>org.giavacms.common.view.MappingViewHandler</view-handler>
+	</application>
+	
 	<navigation-rule>
 		<navigation-case>
 			<from-outcome>administration</from-outcome>
