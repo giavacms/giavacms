@@ -371,12 +371,28 @@ public class ResourceController extends AbstractLazyController<Resource>
       height = imageIcon.getIconHeight();
    }
 
+   public String resizeImgNew()
+   {
+      getElement().setName(System.currentTimeMillis() + "_" + getElement().getName());
+      getElement().setId(getElement().getName());
+      return resizeImg();
+   }
+
    public String resizeImg()
    {
       try
       {
-         byte[] resized = ImageUtils.resizeImage(getElement().getBytes(), width, height,
-                  FileUtils.getExtension(getElement().getName()));
+         byte[] resized = null;
+         if (width == 0 || height == 0)
+         {
+            resized = ImageUtils.resizeImage(getElement().getBytes(), width == 0 ? height : width,
+                     FileUtils.getExtension(getElement().getName()));
+         }
+         else
+         {
+            resized = ImageUtils.resizeImage(getElement().getBytes(), width, height,
+                     FileUtils.getExtension(getElement().getName()));
+         }
          getElement().setBytes(resized);
          resourceRepository.updateResource(getElement());
          return modCurrent();

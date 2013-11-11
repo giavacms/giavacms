@@ -48,12 +48,17 @@
 					<ui:fragment rendered="#{resourceController.element.type eq 'img'}">
 
 						<h:panelGrid columns="2">
+							<h:outputLabel value="Ridimensionamento: " for="infoResie" />
+							<h:outputText id="infoResize"
+								value="valorizzare entrambe le dimensioni o lasciare a 0 quella da ridimensionare in proporzione" />
 							<h:outputLabel value="Larghezza: " for="width" />
 							<p:spinner value="#{resourceController.width}" id="width" />
 							<h:outputLabel value="Altezza: " for="height" />
 							<p:spinner value="#{resourceController.height}" id="height" />
 							<p:commandButton value="Ridimensiona"
 								action="#{resourceController.resizeImg}" />
+							<p:commandButton value="Ridimensiona e crea nuovo"
+								action="#{resourceController.resizeImgNew}" />
 						</h:panelGrid>
 						<br />
 						<br />
