@@ -2,6 +2,7 @@ package org.giavacms.twizz.service.timer;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
@@ -16,8 +17,6 @@ import javax.inject.Inject;
 import org.giavacms.twizz.model.pojo.CallToMake;
 import org.twiliofaces.cdi.doers.Caller;
 
-import com.twilio.sdk.TwilioRestException;
-
 @Stateless
 @LocalBean
 public class CallerTimerService
@@ -29,9 +28,11 @@ public class CallerTimerService
    @Resource
    TimerService timerService;
 
+   Logger logger = Logger.getLogger(getClass().getName());
+
    public void createTimer(CallToMake callToMake)
    {
-      System.out.println(callToMake);
+      logger.info(callToMake);
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToMake.getWhen());
       timerService.createCalendarTimer(
@@ -46,14 +47,14 @@ public class CallerTimerService
    public void timeout(Timer timer)
    {
       CallToMake callToMake = (CallToMake) timer.getInfo();
-      System.out.println(getClass().getName() + ": " + new Date() + " " + callToMake);
+      logger.info(getClass().getName() + ": " + new Date() + " " + callToMake);
       try
       {
          String callId = twilioCaller
 
                   .setTo(callToMake.getTo())
                   .url(callToMake.getUrl()).call();
-         System.out.println("call id: " + callId);
+         logger.info("call id: " + callId);
       }
       catch (Throwable e)
       {

@@ -130,11 +130,4 @@ public class Tag implements Serializable
       }
    }
 
-   public static void main(String[] args) throws Exception
-   {
-      Tag t = new Tag();
-      t.setTagName("forlì");
-      System.out.println(t.getTagName());
-      System.out.println(URLEncoder.encode(t.getTagName(), "UTF-8"));
-   }
 }

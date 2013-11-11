@@ -2,6 +2,7 @@ package org.giavacms.twizz.service.timer;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
@@ -20,8 +21,8 @@ import org.twiliofaces.cdi.doers.CallController;
 @Stateless
 @LocalBean
 public class ChronoTimer
-
 {
+   Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
    CallController callController;
@@ -34,7 +35,7 @@ public class ChronoTimer
 
    public void createTimer(CallToComplete callToComplete)
    {
-      System.out.println(callToComplete);
+      logger.info(callToComplete);
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToComplete.getWhen());
       timerService.createCalendarTimer(
@@ -49,9 +50,9 @@ public class ChronoTimer
    public void timeout(Timer timer)
    {
       CallToComplete callToComplete = (CallToComplete) timer.getInfo();
-      System.out.println(getClass().getName() + ": " + new Date() + " " + callToComplete);
+      logger.info(getClass().getName() + ": " + new Date() + " " + callToComplete);
       boolean result = callController.callSid(callToComplete.getCallSid()).completed();
-      System.out.println(" completed: " + result);
+      logger.info(" completed: " + result);
       if (result)
       {
          quizCompetitorController.end(callToComplete.getCallSid());

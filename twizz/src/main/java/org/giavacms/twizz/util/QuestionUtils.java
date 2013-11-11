@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.giavacms.twizz.model.Argument;
 import org.giavacms.twizz.model.Partecipation;
@@ -15,9 +16,11 @@ import org.giavacms.twizz.model.Reply;
 public class QuestionUtils
 {
 
+   static Logger logger = Logger.getLogger(QuestionUtils.class.getName());
+
    public static Partecipation generatePartecipation(Argument argument, QuizCompetitor quizCompetitor)
    {
-      System.out.println("COMPETITOR: " + quizCompetitor);
+      logger.info("COMPETITOR: " + quizCompetitor);
       Partecipation partecipation = new Partecipation();
       Calendar cal = Calendar.getInstance();
       cal.add(Calendar.MINUTE, quizCompetitor.getMinutes().intValue());
@@ -67,11 +70,11 @@ public class QuestionUtils
       Collections.shuffle(list);
       for (int i = 0; i < 20; i++)
       {
-         System.out.println(i);
+         logger.info(i);
          if (!list.isEmpty())
          {
             int l = list.remove();
-            System.out.println(stringhe.get(l));
+            logger.info(stringhe.get(l));
          }
       }
    }

@@ -1,5 +1,7 @@
 package org.giavacms.twizz.controller;
 
+import java.util.logging.Logger;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,6 +16,8 @@ import org.twiliofaces.inject.notification.From;
 @RequestScoped
 public class ConfirmController
 {
+
+   Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
    @From
@@ -32,28 +36,28 @@ public class ConfirmController
 
    public void loadPartecipation()
    {
-      System.out.println("CALLER: " + from);
+      logger.info("CALLER: " + from);
       Partecipation partecipation = partecipationService.loadPartecipation(from);
       if (partecipation != null)
       {
          registerController.addPartecipation(partecipation);
-         System.out.println("ok. partecipation confirmed!");
+         logger.info("ok. partecipation confirmed!");
 
          callerTimerService.createTimer(new CallToMake(partecipation.getQuizCompetitor().getPhone(), END_POINT_URL,
                   partecipation
                            .getDateStart()));
       }
       else
-         System.out.println("QuizCompetitor with this number NOT FOUND!");
+         logger.info("QuizCompetitor with this number NOT FOUND!");
    }
 
    public void recall(String from)
    {
-      System.out.println("recall: " + from);
+      logger.info("recall: " + from);
       if (registerController.getPartecipations().containsKey(from))
       {
          Partecipation partecipation = registerController.getPartecipations().get(from);
-         System.out.println("ok. partecipation confirmed!");
+         logger.info("ok. partecipation confirmed!");
 
          callerTimerService.createTimer(new CallToMake(partecipation.getQuizCompetitor().getPhone(), END_POINT_URL,
                   partecipation
@@ -61,7 +65,7 @@ public class ConfirmController
 
       }
       else
-         System.out.println("recall with this number (" + from + ") NOT FOUND!");
+         logger.info("recall with this number (" + from + ") NOT FOUND!");
    }
 
    public String getFrom()

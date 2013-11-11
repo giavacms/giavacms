@@ -59,7 +59,7 @@ public class FaqRequestController
    @Override
    public List<Faq> loadPage(int startRow, int pageSize)
    {
-      System.out.println("load page");
+      logger.info("load page");
       return faqRepository.getList(buildSearch(), startRow, pageSize);
    }
 
@@ -76,7 +76,7 @@ public class FaqRequestController
    @Override
    public int totalSize()
    {
-      System.out.println("load page size");
+      logger.info("load page size");
       // siamo all'interno della stessa richiesta per servire la quale è
       // avvenuta la postconstruct
       return faqRepository.getListSize(buildSearch());

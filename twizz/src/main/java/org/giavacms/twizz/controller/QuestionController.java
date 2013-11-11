@@ -3,6 +3,7 @@ package org.giavacms.twizz.controller;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -24,6 +25,8 @@ public class QuestionController implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+
+   Logger logger = Logger.getLogger(getClass().getName());
 
    private Partecipation element;
    private Integer index;
@@ -55,7 +58,7 @@ public class QuestionController implements Serializable
 
    public QuestionController()
    {
-      System.out.println("TwilioScopeController: " + new Date() + " - "
+      logger.info("TwilioScopeController: " + new Date() + " - "
                + getClass());
 
    }
@@ -72,7 +75,7 @@ public class QuestionController implements Serializable
          this.element = quizCompetitorController.start(to, callSid);
 
       }
-      System.out.println(this.element);
+      logger.info(this.element.toString());
       evaluate();
 
    }
@@ -96,7 +99,7 @@ public class QuestionController implements Serializable
    public void evaluate()
    {
       String gather = digits.get();
-      System.out.println("GATHER: " + gather);
+      logger.info("GATHER: " + gather);
       if (gather != null && !gather.isEmpty())
       {
          if (gather.equals("1") || gather.equals("4") || gather.equals("7") || gather.equals("3") || gather.equals("6")

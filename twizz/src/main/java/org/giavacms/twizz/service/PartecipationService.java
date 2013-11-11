@@ -1,6 +1,7 @@
 package org.giavacms.twizz.service;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -18,6 +19,8 @@ import org.giavacms.twizz.util.QuestionUtils;
 @LocalBean
 public class PartecipationService
 {
+
+   Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
    QuizCompetitorRepository quizCompetitorRepository;
@@ -39,7 +42,7 @@ public class PartecipationService
          quizCompetitor.setConfirmationDate(new Date());
          quizCompetitor.setPhone(from);
          quizCompetitorRepository.update(quizCompetitor);
-         System.out.println("FOUND: " + quizCompetitor.getFullName());
+         logger.info("FOUND: " + quizCompetitor.getFullName());
          Argument argument = argumentRepository.fetch(quizCompetitor.getArgument().getId());
          Partecipation partecipation = QuestionUtils.generatePartecipation(argument, quizCompetitor);
          partecipationRepository.persist(partecipation);

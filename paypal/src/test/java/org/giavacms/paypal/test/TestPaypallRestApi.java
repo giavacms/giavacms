@@ -22,10 +22,10 @@ import com.paypal.api.payments.Transaction;
 import com.paypal.core.rest.APIContext;
 import com.paypal.core.rest.PayPalRESTException;
 
-public class TestPaypallRestApi 
+public class TestPaypallRestApi
 {
 
-   private static final Logger LOGGER = Logger
+   private static final Logger logger = Logger
             .getLogger(TestPaypallRestApi.class.getCanonicalName());
    private static Map<String, String> map = new HashMap<String, String>();
 
@@ -123,7 +123,7 @@ public class TestPaypallRestApi
          try
          {
             Payment createdPayment = payment.create(apiContext);
-            LOGGER.info("Created payment with id = "
+            logger.info("Created payment with id = "
                      + createdPayment.getId() + " and status = "
                      + createdPayment.getState());
             // ###Payment Approval Url
@@ -133,10 +133,10 @@ public class TestPaypallRestApi
                Links link = links.next();
                if (link.getRel().equalsIgnoreCase("approval_url"))
                {
-                  System.out.println(link.getHref());
+                  logger.info(link.getHref());
                }
             }
-            System.out.println(Payment.getLastResponse());
+            logger.info(Payment.getLastResponse());
             map.put(guid, createdPayment.getId());
          }
          catch (PayPalRESTException e)
@@ -144,7 +144,7 @@ public class TestPaypallRestApi
             e.printStackTrace();
          }
 
-         System.out.println(Payment.getLastRequest());
+         logger.info(Payment.getLastRequest());
 
       }
       catch (PayPalRESTException e)

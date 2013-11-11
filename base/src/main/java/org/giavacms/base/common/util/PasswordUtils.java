@@ -10,11 +10,15 @@ import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.jboss.logging.Logger;
+
 import sun.misc.BASE64Encoder;
 
 @SuppressWarnings("restriction")
 public class PasswordUtils implements Serializable
 {
+
+   static Logger logger = Logger.getLogger(PasswordUtils.class);
 
    private static final long serialVersionUID = 1L;
 
@@ -36,7 +40,7 @@ public class PasswordUtils implements Serializable
 
          // Encode bytes to base64 to get a string
          String encode = new BASE64Encoder().encode(enc);
-         System.out.println(encode);
+         logger.info(encode);
          return encode;
       }
       catch (NoSuchAlgorithmException e)
@@ -49,7 +53,7 @@ public class PasswordUtils implements Serializable
 
    public static void main(String[] args)
    {
-      System.out.println(createPassword("admin"));
-      System.out.println(createPassword("admin"));
+      logger.info(createPassword("admin"));
+      logger.info(createPassword("admin"));
    }
 }
