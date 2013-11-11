@@ -44,17 +44,17 @@
 						<h:inputText id="http_ProxyPort"
 							value="#{paypalConfigurationController.element.http_ProxyPort}"
 							style="width: 100%;" />
-							
+
 						<h:outputLabel value="http ProxyHost:" for="http_ProxyHost" />
 						<h:inputText id="http_ProxyHost"
 							value="#{paypalConfigurationController.element.http_ProxyHost}"
 							style="width: 100%;" />
-							
+
 						<h:outputLabel value="http UseProxy:" for="http_UseProxy" />
 						<h:inputText id="http_UseProxy"
 							value="#{paypalConfigurationController.element.http_UseProxy}"
 							style="width: 100%;" />
-							
+
 						<h:outputLabel value="http ProxyUserName" for="http_ProxyUserName" />
 						<h:inputText id="http_ProxyUserName"
 							value="#{paypalConfigurationController.element.http_ProxyUserName}"
@@ -86,18 +86,28 @@
 							value="#{paypalConfigurationController.element.clientSecret}"
 							style="width: 100%;" />
 
-						<h:outputLabel value="cancelUrl" for="cancelUrl" />
+						<h:outputLabel value="indirizzo locale cancellazione acquisto:"
+							for="cancelUrl" />
 						<h:inputText id="cancelUrl"
 							value="#{paypalConfigurationController.element.cancelUrl}"
 							style="width: 100%;" />
-						<h:outputLabel value="returnUrl:" for="returnUrl" />
+						<h:outputLabel value="indirizzo locale acquisto concluso:"
+							for="returnUrl" />
 						<h:inputText id="returnUrl"
 							value="#{paypalConfigurationController.element.returnUrl}"
 							style="width: 100%;" />
-						<h:outputLabel value="shoppingCartUrl:" for="shoppingCartUrl" />
+						<h:outputLabel value="indirizzo locale carrello:"
+							for="shoppingCartUrl" />
 						<h:inputText id="shoppingCartUrl"
 							value="#{paypalConfigurationController.element.shoppingCartUrl}"
 							style="width: 100%;" />
+						<h:outputLabel value="indirizzo locale di preview:"
+							for="previewShoppingCartUrl" />
+						<h:inputText id="previewShoppingCartUrl"
+							value="#{paypalConfigurationController.element.spreviewShoppingCartUrl}"
+							style="width: 100%;" />
+
+
 						<h:outputLabel value="currency:" for="currency" />
 						<h:inputText id="currency"
 							value="#{paypalConfigurationController.element.currency}"

@@ -46,4 +46,15 @@ public class ShoppingCartController extends
 
       return vieL;
    }
+
+   public String close()
+   {
+
+      return viewCurrent();
+   }
+
+   public String rollback()
+   {
+      return viewCurrent();
+   }
 }

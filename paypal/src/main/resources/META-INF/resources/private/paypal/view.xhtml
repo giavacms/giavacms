@@ -17,50 +17,44 @@
 			<center>
 				<p:panel header="Scheda Paypal">
 
-					<h:panelGrid columns="2">
-
-						<h:outputLabel for="id" style="font-weight: bolder; " value="Id: " />
-						<h:outputText id="id" value="#{shoppingCartController.element.id}" />
+					<p:panelGrid columns="2">
+						<f:facet name="header">Informazioni sul carrello</f:facet>
 
 						<h:outputLabel for="shipping" style="font-weight: bolder;"
-							value="Shipping: " />
+							value="Spese di spedizione: " />
 						<h:outputText id="shipping"
 							value="#{shoppingCartController.element.shipping}" />
 
-						<h:outputLabel for="shoppingArticles" style="font-weight: bolder;"
-							value="Articoli: " />
-						<h:panelGroup id="shoppingArticles">
-							<ui:repeat
-								value="#{shoppingCartController.element.shoppingArticles}"
-								var="sa" varStatus="varStatus">
-								<h:outputText value="&lt;br/&gt;" escape="false"
-									rendered="#{varStatus.index gt 0}" />
-								<h:outputText value="#{sa}" />
-							</ui:repeat>
-						</h:panelGroup>
 
 						<h:outputLabel for="paymentId" style="font-weight: bolder;"
-							value="paymentId: " />
+							value="id paypal:" />
 						<h:outputText id="paymentId"
 							value="#{shoppingCartController.element.paymentId}" />
 
 						<h:outputLabel for="currency" style="font-weight: bolder;"
-							value="currency: " />
+							value="valuta: " />
 						<h:outputText id="currency"
 							value="#{shoppingCartController.element.currency}" escape="false" />
 
 						<h:outputLabel for="created" style="font-weight: bolder;"
-							value="created: " />
-						<h:outputText id="created"
-							value="#{shoppingCartController.element.created}" />
+							value="creato?: " />
+						<h:panelGroup id="created">
+							<h:outputText value="SI"
+								rendered="#{shoppingCartController.element.created}" />
+							<h:outputText value="NO"
+								rendered="#{not shoppingCartController.element.created}" />
+						</h:panelGroup>
 
 						<h:outputLabel for="payed" style="font-weight: bolder;"
-							value="payed: " />
-						<h:outputText id="payed"
-							value="#{shoppingCartController.element.payed}" />
-
+							value="pagato?: " />
+						<h:panelGroup id="payed">
+							<h:outputText value="SI"
+								rendered="#{shoppingCartController.element.payed}" />
+							<h:outputText value="NO"
+								rendered="#{not shoppingCartController.element.payed}" />
+						</h:panelGroup>
 						<h:outputLabel for="dataStart" style="font-weight: bolder;"
-							value="dataStart: " />
+							value="data inzio: " />
 						<h:outputText id="dataStart"
 							value="#{shoppingCartController.element.dataStart}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
@@ -68,113 +62,142 @@
 						</h:outputText>
 
 						<h:outputLabel for="dataEnd" style="font-weight: bolder;"
-							value="dataEnd: " />
+							value="data fine: " />
 						<h:outputText id="dataEnd"
 							value="#{shoppingCartController.element.dataEnd}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 								timeZone="Europe/Rome" />
 						</h:outputText>
 
+					</p:panelGrid>
+					<br />
+					<p:dataTable id="contentList" rowIndexVar="rowIndex" var="shc"
+						value="#{shoppingCartController.element.shoppingArticles}"
+						rows="100">
+						<f:facet name="header">Prodotti nel carrello</f:facet>
+						<p:column width="50">
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+						<p:column width="200">
+							<f:facet name="header">id prodotto</f:facet>
+							<h:outputText value="#{shc.idProduct}" />
+						</p:column>
 
-					</h:panelGrid>
+						<p:column width="100">
+							<f:facet name="header">descrizione</f:facet>
+							<h:outputText value="#{shc.description}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">prezzo</f:facet>
+							<h:outputText value="#{shc.price}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">iva</f:facet>
+							<h:outputText value="#{shc.vat}" />
+						</p:column>
+
+						<p:column width="100">
+							<f:facet name="header">quantita'</f:facet>
+							<h:outputText value="#{shc.quantity}" />
+						</p:column>
+
+					</p:dataTable>
+
 					<br />
 					<br />
-					<h:panelGrid columns="2"
+					<p:panelGrid columns="2"
 						rendered="#{not empty shoppingCartController.element.payerInfo and not empty shoppingCartController.element.payerInfo.firstName}">
-
+						<f:facet name="header">Informazioni sul Pagante</f:facet>
 						<h:outputLabel for="firstName" style="font-weight: bolder;"
-							value="firstName: " />
+							value="nome: " />
 						<h:outputText id="firstName"
 							value="#{shoppingCartController.element.payerInfo.firstName}"
 							escape="false" />
 
 						<h:outputLabel for="lastName" style="font-weight: bolder;"
-							value="lastName: " />
+							value="cognome: " />
 						<h:outputText id="lastName"
 							value="#{shoppingCartController.element.payerInfo.lastName}"
 							escape="false" />
 
 						<h:outputLabel for="phone" style="font-weight: bolder;"
-							value="phone: " />
-						<h:outputText id="lastName"
+							value="telefono: " />
+						<h:outputText id="phone"
 							value="#{shoppingCartController.element.payerInfo.phone}"
 							escape="false" />
 
 						<h:outputLabel for="email" style="font-weight: bolder;"
 							value="email: " />
-						<h:outputText id="currency"
+						<h:outputText id="email"
 							value="#{shoppingCartController.element.payerInfo.email}"
 							escape="false" />
 
-					</h:panelGrid>
+					</p:panelGrid>
 					<br />
 					<br />
-					<h:panelGrid columns="2"
+					<p:panelGrid columns="2"
 						rendered="#{not empty shoppingCartController.element.payerInfo and not empty shoppingCartController.element.payerInfo.shippingAddress}">
+						<f:facet name="header">Informazioni sul indirizzo di consegna</f:facet>
 						<h:outputLabel for="recipientName" style="font-weight: bolder;"
-							value="recipientName: " />
+							value="nome e cognome: " />
 						<h:outputText id="recipientName"
 							value="#{shoppingCartController.element.payerInfo.shippingAddress.recipientName}"
 							escape="false" />
 
-						<h:outputLabel for="type" style="font-weight: bolder;"
-							value="type " />
-						<h:outputText id="type"
-							value="#{shoppingCartController.element.payerInfo.shippingAddress.type}"
+						<h:outputLabel for="phoneAddress" style="font-weight: bolder;"
+							value="telefono: " />
+						<h:outputText id="phoneAddress"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.phone}"
 							escape="false" />
 
 						<h:outputLabel for="line1" style="font-weight: bolder;"
-							value="line1 " />
+							value="indirizzo (linea 1): " />
 						<h:outputText id="line1"
 							value="#{shoppingCartController.element.payerInfo.shippingAddress.line1}"
 							escape="false" />
 
 						<h:outputLabel for="line2" style="font-weight: bolder;"
-							value="line2 " />
+							value="indirizzo (linea 2): " />
 						<h:outputText id="line2"
 							value="#{shoppingCartController.element.payerInfo.shippingAddress.line2}"
 							escape="false" />
 
 						<h:outputLabel for="city" style="font-weight: bolder;"
-							value="city " />
+							value="citta': " />
 						<h:outputText id="city"
 							value="#{shoppingCartController.element.payerInfo.shippingAddress.city}"
 							escape="false" />
 
-						<h:outputLabel for="countryCode" style="font-weight: bolder;"
-							value="countryCode " />
-						<h:outputText id="countryCode"
-							value="#{shoppingCartController.element.payerInfo.shippingAddress.countryCode}"
-							escape="false" />
-
 						<h:outputLabel for="postalCode" style="font-weight: bolder;"
-							value="postalCode " />
+							value="cap: " />
 						<h:outputText id="postalCode"
 							value="#{shoppingCartController.element.payerInfo.shippingAddress.postalCode}"
 							escape="false" />
 
 						<h:outputLabel for="state" style="font-weight: bolder;"
-							value="state " />
+							value="provincia: " />
 						<h:outputText id="state"
 							value="#{shoppingCartController.element.payerInfo.shippingAddress.state}"
 							escape="false" />
 
-						<h:outputLabel for="phone" style="font-weight: bolder;"
-							value="phone " />
-						<h:outputText id="phone"
-							value="#{shoppingCartController.element.payerInfo.shippingAddress.phone}"
+						<h:outputLabel for="countryCode" style="font-weight: bolder;"
+							value="stato: " />
+						<h:outputText id="countryCode"
+							value="#{shoppingCartController.element.payerInfo.shippingAddress.countryCode}"
 							escape="false" />
 
-					</h:panelGrid>
+
+
+					</p:panelGrid>
 				</p:panel>
 				<br /> <br />
 				<h:panelGrid columns="3">
-					<p:commandButton action="#{shoppingCartController.modCurrent}"
-						value="Modifica testi e immagine" />
-					<p:commandButton action="#{shoppingCartController.modImageCurrent}"
-						value="Gestisci Immagine" />
-					<p:commandButton id="creaContenuto"
-						action="#{shoppingCartController.addElement}" value="Aggiungi" />
+					<p:commandButton action="#{shoppingCartController.close}"
+						value="Segna come Consegnato" />
+					<p:commandButton action="#{shoppingCartController.rollback}"
+						value="Effettua Storno" />
 				</h:panelGrid>
 			</center>
 		</h:form>

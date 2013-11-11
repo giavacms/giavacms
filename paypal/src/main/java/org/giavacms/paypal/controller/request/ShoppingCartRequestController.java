@@ -81,6 +81,8 @@ public class ShoppingCartRequestController extends
             shoppingCartSessionController.setLastPage(requestURI.replace("db:", "p/").replace(".jsf", ""));
          if (requestURI.startsWith("/cache"))
             shoppingCartSessionController.setLastPage(requestURI.replace("cache", "p").replace(".jsf", ""));
+         if (requestURI.startsWith("/pages"))
+            shoppingCartSessionController.setLastPage(requestURI.replace("pages", "p").replace(".jsf", ""));
          logger.info("LAST PAGE: " + shoppingCartSessionController.getLastPage());
 
          shoppingCartSessionController.addProduct(vat, price,

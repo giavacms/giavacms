@@ -36,41 +36,56 @@
 						</p:column>
 
 						<p:column width="200">
-							<f:facet name="header">id</f:facet>
+							<f:facet name="header">identificativo interno/paypal</f:facet>
 							<h:outputText value="#{shc.id}" />
+							<br />
+							<h:outputText value="#{shc.paymentId}" />
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">data start</f:facet>
+							<f:facet name="header">data inizio/fine</f:facet>
 							<h:outputText value="#{shc.dataStart}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
-						</p:column>
-
-						<p:column width="100">
-							<f:facet name="header">data end</f:facet>
+							<br />
 							<h:outputText value="#{shc.dataEnd}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 						</p:column>
+						<p:column width="100">
+							<f:facet name="header">utente</f:facet>
+							<h:outputText style="font-weight: bolder;" value="nome: " />
+							<h:outputText id="firstName" value="#{shc.payerInfo.firstName}" />
+							<br />
+
+							<h:outputText style="font-weight: bolder;" value="cognome: " />
+							<h:outputText id="lastName" value="#{shc.payerInfo.lastName}" />
+							<br />
+
+							<h:outputText style="font-weight: bolder;" value="telefono: " />
+							<h:outputText id="phone" value="#{shc.payerInfo.phone}" />
+							<br />
+
+							<h:outputText for="email" style="font-weight: bolder;"
+								value="email: " />
+							<h:outputText id="email" value="#{shc.payerInfo.email}" />
+
+						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">currency</f:facet>
+							<f:facet name="header">valuta</f:facet>
 							<h:outputText value="#{shc.currency}" />
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">paymentId</f:facet>
-							<h:outputText value="#{shc.paymentId}" />
-						</p:column>
-
-						<p:column width="100">
-							<f:facet name="header">created/payed</f:facet>
-							<h:outputText value="#{shc.created}" />
+							<f:facet name="header">creato/pagato</f:facet>
+							<h:outputText value="SI" rendered="#{shc.created}" />
+							<h:outputText value="NO" rendered="#{not shc.created}" />
 							<br />
-							<h:outputText value="#{shc.payed}" />
+							<h:outputText value="SI" rendered="#{shc.payed}" />
+							<h:outputText value="NO" rendered="#{not shc.payed}" />
 						</p:column>
 
 						<p:column width="200">

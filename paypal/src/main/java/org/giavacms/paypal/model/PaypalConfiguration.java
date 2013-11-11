@@ -42,6 +42,7 @@ public class PaypalConfiguration implements Serializable
    private String cancelUrl;
    private String returnUrl;
    private String shoppingCartUrl;
+   private String previewShoppingCartUrl;
    private String currency;
 
    @Id
@@ -224,6 +225,16 @@ public class PaypalConfiguration implements Serializable
    public void setShoppingCartUrl(String shoppingCartUrl)
    {
       this.shoppingCartUrl = shoppingCartUrl;
+   }
+
+   public String getPreviewShoppingCartUrl()
+   {
+      return previewShoppingCartUrl;
+   }
+
+   public void setPreviewShoppingCartUrl(String previewShoppingCartUrl)
+   {
+      this.previewShoppingCartUrl = previewShoppingCartUrl;
    }
 
 }
