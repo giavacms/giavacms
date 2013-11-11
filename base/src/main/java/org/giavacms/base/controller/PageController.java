@@ -7,10 +7,13 @@
 package org.giavacms.base.controller;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.controller.util.PageUtils;
+import org.giavacms.base.event.LanguageEvent;
+import org.giavacms.base.event.PageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.producer.BaseProducer;
@@ -53,6 +56,12 @@ public class PageController extends AbstractLazyController<Page>
 
    @Inject
    TemplateRepository templateRepository;
+
+   @Inject
+   Event<PageEvent> pageEvent;
+
+   @Inject
+   Event<LanguageEvent> languageEvent;
 
    // --------------------------------------------------------
 
@@ -137,7 +146,9 @@ public class PageController extends AbstractLazyController<Page>
             break;
          }
       }
+      pageEvent.fire(new PageEvent(getElement()));
       return outcome;
+
    }
 
    @Override
@@ -168,6 +179,8 @@ public class PageController extends AbstractLazyController<Page>
          getElement().setLang5id(null);
          break;
       }
+      pageEvent.fire(new PageEvent(getElement()));
+      languageEvent.fire(new LanguageEvent(getElement().getTemplate().getId(), getElement().getLang(), true));
       return super.update();
    }
 

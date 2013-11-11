@@ -15,6 +15,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
+import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
@@ -82,6 +83,8 @@ public class PeopleController extends AbstractPageController<RichContent>
 
    @Inject
    Event<ResetEvent> resetEvent;
+   @Inject
+   Event<LanguageEvent> languageEvent;
 
    private List<Group<Tag>> peopleTags;
    private CroppedImage croppedImage;
@@ -189,12 +192,20 @@ public class PeopleController extends AbstractPageController<RichContent>
    @Override
    public String save()
    {
-      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
-      getElement().setRichContentType(richContentType);
+      RichContentType richContentType =
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId());
+      getElement().setTemplate(richContentType
+               .getPage().getTemplate());
       if (super.save() == null)
       {
          super.addFacesMessage("Errori nel salvataggio");
          return null;
+      }
+      if (richContentType.getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
+                  .getLang(), true));
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
       resetEvent.fire(new ResetEvent(RichContent.class));
@@ -228,12 +239,20 @@ public class PeopleController extends AbstractPageController<RichContent>
    @Override
    public String update()
    {
-      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
-      getElement().setRichContentType(richContentType);
+      RichContentType richContentType =
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId());
+      getElement().setTemplate(richContentType
+               .getPage().getTemplate());
       if (super.update() == null)
       {
          super.addFacesMessage("Errori nell'aggiornamento dei dati");
          return null;
+      }
+      if (richContentType.getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
+                  .getLang(), true));
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
       resetEvent.fire(new ResetEvent(RichContent.class));

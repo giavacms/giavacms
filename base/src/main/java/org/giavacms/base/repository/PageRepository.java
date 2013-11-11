@@ -14,16 +14,14 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
+import javax.enterprise.event.Observes;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import org.giavacms.base.event.PageEvent;
+import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
-import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 
 @Named
@@ -32,9 +30,6 @@ import org.giavacms.common.model.Search;
 public class PageRepository
          extends AbstractPageRepository<Page>
 {
-
-   @Inject
-   Event<PageEvent> pageEvent;
 
    // VAI SU!!!
    private static final long serialVersionUID = 1L;
@@ -497,29 +492,12 @@ public class PageRepository
       return sb;
    }
 
-   @Override
-   @LogOperation
-   public Page persist(Page object)
-   {
-      Page result = super.persist(object);
-      pageEvent.fire(new PageEvent(object));
-      return result;
-   }
-
-   @Override
-   @LogOperation
-   public boolean update(Page object)
-   {
-      boolean result = super.update(object);
-      pageEvent.fire(new PageEvent(object));
-      return result;
-   }
-
    public void resetLanguage(Long l, String id)
    {
       try
       {
-         getEm().createNativeQuery("update " + Page.TABLE_NAME + " set lang" + l + "id = null where lang" + l + "id = :ID")
+         getEm().createNativeQuery(
+                  "update " + Page.TABLE_NAME + " set lang" + l + "id = null where lang" + l + "id = :ID")
                   .setParameter("ID", id).executeUpdate();
       }
       catch (Exception e)
@@ -529,4 +507,22 @@ public class PageRepository
       }
    }
 
+   public void observe(@Observes LanguageEvent languageEvent)
+   {
+      try
+      {
+         if (languageEvent.getLang() > 0)
+         {
+            getEm().createNativeQuery(
+                     "update " + Page.TABLE_NAME + " set lang" + languageEvent.getLang() + "id = "
+                              + (languageEvent.isSet() ? " ID " : " NULL ") + " where template_id = :TID ")
+                     .setParameter("TID", languageEvent.getTemplateImplId()).executeUpdate();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage());
+         e.printStackTrace();
+      }
+   }
 }
