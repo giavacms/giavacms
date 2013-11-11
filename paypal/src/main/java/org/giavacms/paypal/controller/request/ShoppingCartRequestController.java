@@ -1,5 +1,6 @@
 package org.giavacms.paypal.controller.request;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.controller.AbstractRequestController;
+import org.giavacms.common.util.JSFUtils;
+import org.giavacms.paypal.controller.PaypalConfigurationController;
 import org.giavacms.paypal.controller.session.ShoppingCartSessionController;
 import org.giavacms.paypal.model.ShoppingCart;
 
@@ -57,6 +60,9 @@ public class ShoppingCartRequestController extends
    @Inject
    ShoppingCartSessionController shoppingCartSessionController;
 
+   @Inject
+   PaypalConfigurationController paypalConfigurationController;
+
    public ShoppingCartRequestController()
    {
       super();
@@ -93,6 +99,42 @@ public class ShoppingCartRequestController extends
    protected String getIdParam()
    {
       return null;
+   }
+
+   public void removeProduct(String idProduct)
+   {
+      getElement().removeArticle(idProduct);
+      try
+      {
+         JSFUtils.redirect(paypalConfigurationController.getElement().getShoppingCartUrl());
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   public void changeArticleQuantity(int quantity, String vat, String price, String idProduct)
+   {
+      getElement().changeArticleQuantity(vat, price, idProduct, quantity);
+      try
+      {
+         JSFUtils.redirect(paypalConfigurationController.getElement().getShoppingCartUrl());
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   public void incArticleQuantity(String vat, String price, String idProduct)
+   {
+      changeArticleQuantity(1, vat, price, idProduct);
+   }
+
+   public void decArticleQuantity(String vat, String price, String idProduct)
+   {
+      changeArticleQuantity(-1, vat, price, idProduct);
    }
 
 }
