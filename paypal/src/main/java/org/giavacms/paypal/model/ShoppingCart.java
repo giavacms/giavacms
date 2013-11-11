@@ -223,6 +223,12 @@ public class ShoppingCart implements Serializable
       return partialTax;
    }
 
+   @Transient
+   public double getTotal()
+   {
+      return partialAmount.add(partialTax).doubleValue();
+   }
+
    public void addPartial(int quantity, String price, String vat)
    {
       BigDecimal singleAmount = null;

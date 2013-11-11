@@ -36,6 +36,7 @@ public class ShoppingCartSessionController implements Serializable
 
    @Inject
    ShippingAmountService shippingAmountService;
+   private boolean emulation = true;
 
    public ShoppingCartSessionController()
    {
@@ -122,28 +123,32 @@ public class ShoppingCartSessionController implements Serializable
 
    public void gotoPaypal()
    {
+      if (emulation)
+      {
+         // EMULAZIONE COMPILAZIONE Address Billing
+         getElement().getPayerInfo().getAddress().setCity("san benedetto del tronto");
+         getElement().getPayerInfo().getAddress().setCountryCode("IT");
+         getElement().getPayerInfo().getAddress().setPostalCode("63074");
+         getElement().getPayerInfo().getAddress().setState("AP");
+         getElement().getPayerInfo().getAddress().setLine1("via cornelio nepote 8");
+
+         // EMULAZIONE DATI PAYER
+         getElement().getPayerInfo().setEmail("fiorenzino@gmail.com");
+         getElement().getPayerInfo().setFirstName("fiorenzo");
+         getElement().getPayerInfo().setLastName("pizza");
+         getElement().getPayerInfo().setPhone("+393922274929");
+
+         // EMULAZIONE COMPILAZIONE Shipping Address
+         getElement().getPayerInfo().getShippingAddress().setCity("san benedetto del tronto");
+         getElement().getPayerInfo().getShippingAddress().setCountryCode("IT");
+         getElement().getPayerInfo().getShippingAddress().setPostalCode("63074");
+         getElement().getPayerInfo().getShippingAddress().setState("AP");
+         getElement().getPayerInfo().getShippingAddress().setLine1("via cornelio nepote 8");
+         getElement().getPayerInfo().getShippingAddress().setRecipientName("fiorenzo pizza");
+         getElement().getPayerInfo().getShippingAddress().setType("residential");
+
+      }
       double shippingAmount = shippingAmountService.calculate(getElement());
-      // EMULAZIONE DATI PAYER
-      getElement().getPayerInfo().setEmail("fiorenzino@gmail.com");
-      getElement().getPayerInfo().setFirstName("fiorenzo");
-      getElement().getPayerInfo().setLastName("pizza");
-      getElement().getPayerInfo().setPhone("+393922274929");
-
-      // EMULAZIONE COMPILAZIONE Address Billing
-      getElement().getPayerInfo().getAddress().setCity("san benedetto del tronto");
-      getElement().getPayerInfo().getAddress().setCountryCode("IT");
-      getElement().getPayerInfo().getAddress().setPostalCode("63074");
-      getElement().getPayerInfo().getAddress().setState("AP");
-      getElement().getPayerInfo().getAddress().setLine1("via cornelio nepote 8");
-
-      // EMULAZIONE COMPILAZIONE Shipping Address
-      getElement().getPayerInfo().getShippingAddress().setCity("san benedetto del tronto");
-      getElement().getPayerInfo().getShippingAddress().setCountryCode("IT");
-      getElement().getPayerInfo().getShippingAddress().setPostalCode("63074");
-      getElement().getPayerInfo().getShippingAddress().setState("AP");
-      getElement().getPayerInfo().getShippingAddress().setLine1("via cornelio nepote 8");
-      getElement().getPayerInfo().getShippingAddress().setRecipientName("fiorenzo pizza");
-      getElement().getPayerInfo().getShippingAddress().setType("residential");
 
       getElement().setShipping(shippingAmount);
       shoppingCartRepository.persist(getElement());
