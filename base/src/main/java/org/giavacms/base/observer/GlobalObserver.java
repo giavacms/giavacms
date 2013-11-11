@@ -2,17 +2,15 @@ package org.giavacms.base.observer;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.Singleton;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.repository.PageRepository;
 import org.jboss.logging.Logger;
 
-@Named
-@SessionScoped
+@Singleton
 public class GlobalObserver implements Serializable
 {
 
