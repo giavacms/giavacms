@@ -24,6 +24,15 @@ public class RichContentType implements Serializable
    private String name;
    private Page page;
 
+   public RichContentType()
+   {
+   }
+
+   public RichContentType(Long id)
+   {
+      this.id = id;
+   }
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    public Long getId()

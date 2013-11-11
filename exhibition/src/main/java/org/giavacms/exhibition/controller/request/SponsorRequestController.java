@@ -11,8 +11,6 @@ import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.repository.AbstractRepository;
-import org.giavacms.exhibition.model.Artist;
 import org.giavacms.exhibition.model.Participant;
 import org.giavacms.exhibition.model.Sponsor;
 import org.giavacms.exhibition.repository.SponsorRepository;
