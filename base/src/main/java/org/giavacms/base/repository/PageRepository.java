@@ -14,11 +14,9 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.enterprise.event.Observes;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
@@ -507,16 +505,16 @@ public class PageRepository
       }
    }
 
-   public void observe(@Observes LanguageEvent languageEvent)
+   public void updateLanguagePage(int langId, Long templateImplId, boolean set)
    {
       try
       {
-         if (languageEvent.getLang() > 0)
+         if (langId > 0)
          {
             getEm().createNativeQuery(
-                     "update " + Page.TABLE_NAME + " set lang" + languageEvent.getLang() + "id = "
-                              + (languageEvent.isSet() ? " id " : " NULL ") + " where template_id = :TID ")
-                     .setParameter("TID", languageEvent.getTemplateImplId()).executeUpdate();
+                     "update " + Page.TABLE_NAME + " set lang" + langId + "id = "
+                              + (set ? " id " : " NULL ") + " where template_id = :TID ")
+                     .setParameter("TID", templateImplId).executeUpdate();
          }
       }
       catch (Exception e)

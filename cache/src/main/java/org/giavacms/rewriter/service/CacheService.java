@@ -222,18 +222,12 @@ public class CacheService implements Serializable
       }
    }
 
-   public void observe(@Observes PageEvent pageEvent)
+   public void cacheByPageIdAndTemplateId(String pageId, boolean clone, Long templateId)
    {
-      cacheByPageId(pageEvent.getPage().getId());
-      if (!pageEvent.getPage().isClone())
+      cacheByPageId(pageId);
+      if (!clone)
       {
-         cacheByTemplateImplId(pageEvent.getPage().getTemplate().getId());
+         cacheByTemplateImplId(templateId);
       }
    }
-
-   public void observe(@Observes TemplateEvent templateEvent)
-   {
-      cacheByTemplateId(templateEvent.getTemplate().getId());
-   }
-
 }
