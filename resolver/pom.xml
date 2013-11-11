@@ -36,7 +36,6 @@
 		<dependency>
 			<groupId>com.ocpsoft</groupId>
 			<artifactId>prettyfaces-jsf2</artifactId>
-			<version>3.3.2</version>
 		</dependency>
 
 		<dependency>
