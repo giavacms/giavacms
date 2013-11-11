@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
+import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.model.enums.ResourceType;
@@ -68,6 +70,9 @@ public class RichContentController extends AbstractPageController<RichContent>
    TagRepository tagRepository;
    @Inject
    RichContentProducer richContentProducer;
+
+   @Inject
+   Event<LanguageEvent> languageEvent;
 
    private List<Group<Tag>> tags;
 
@@ -182,11 +187,19 @@ public class RichContentController extends AbstractPageController<RichContent>
    @Override
    public String save()
    {
-      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
-      getElement().setRichContentType(richContentType);
+      RichContentType richContentType =
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId());
+      getElement().setTemplate(richContentType
+               .getPage().getTemplate());
       if (super.save() == null)
       {
          return null;
+      }
+      if (richContentType.getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
+                  .getLang(), true));
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(),
                getElement().getDate());
@@ -209,11 +222,21 @@ public class RichContentController extends AbstractPageController<RichContent>
    @Override
    public String update()
    {
-      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
-      getElement().setRichContentType(richContentType);
+      RichContentType richContentType =
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId());
+      getElement().setTemplate(
+               richContentTypeRepository
+                        .find(getElement().getRichContentType().getId())
+                        .getPage().getTemplate());
       if (super.update() == null)
       {
          return null;
+      }
+      if (richContentType.getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
+                  .getLang(), true));
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(),
                getElement().getDate());

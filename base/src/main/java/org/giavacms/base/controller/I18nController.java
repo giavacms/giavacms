@@ -7,9 +7,11 @@
 package org.giavacms.base.controller;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.annotation.BackPage;
@@ -38,6 +40,9 @@ public class I18nController extends AbstractController<Page>
    // --------------------------------------------------------
 
    @Inject
+   Event<LanguageEvent> languageEvent;
+
+   @Inject
    @OwnRepository(PageRepository.class)
    PageRepository pageRepository;
 
@@ -64,7 +69,8 @@ public class I18nController extends AbstractController<Page>
    public void resetLanguage(Long l)
    {
       setLanguage(l, null);
-      pageRepository.resetLanguage(l,getElement().getId());
+      pageRepository.resetLanguage(l, getElement().getId());
+      languageEvent.fire(new LanguageEvent(getElement().getTemplateId(), l, false));
    }
 
    public void setLanguage(Long l, String pageId)
@@ -111,6 +117,7 @@ public class I18nController extends AbstractController<Page>
          break;
       }
       getRepository().update(getElement());
+      languageEvent.fire(new LanguageEvent(getElement().getTemplateId(), l, true));
       if (alternate == null && pageId != null
                && !getElement().getId().equals(pageId))
       {
@@ -189,7 +196,8 @@ public class I18nController extends AbstractController<Page>
          getSearch().getObj().setExtension(null);
          getSearch().getObj().setClone(false);
       }
-      else {
+      else
+      {
          getSearch().getObj().setExtended(true);
          getSearch().getObj().setExtension(t.getExtension());
          getSearch().getObj().setClone(true);

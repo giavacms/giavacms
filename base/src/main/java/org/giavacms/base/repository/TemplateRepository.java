@@ -34,8 +34,6 @@ public class TemplateRepository extends AbstractRepository<Template> implements
 
    @PersistenceContext
    EntityManager em;
-   @Inject
-   Event<TemplateEvent> templateEvent;
 
    @Override
    public EntityManager getEm()
@@ -127,21 +125,4 @@ public class TemplateRepository extends AbstractRepository<Template> implements
       }
    }
 
-   @Override
-   @LogOperation
-   public Template persist(Template object)
-   {
-      Template result = super.persist(object);
-      templateEvent.fire(new TemplateEvent(object));
-      return result;
-   }
-
-   @Override
-   @LogOperation
-   public boolean update(Template object)
-   {
-      boolean result = super.update(object);
-      templateEvent.fire(new TemplateEvent(object));
-      return result;
-   }
 }

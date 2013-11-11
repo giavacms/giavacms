@@ -7,10 +7,12 @@
 package org.giavacms.base.controller;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.controller.util.TemplateUtils;
+import org.giavacms.base.event.TemplateEvent;
 import org.giavacms.base.model.Template;
 import org.giavacms.base.producer.BaseProducer;
 import org.giavacms.base.repository.TemplateRepository;
@@ -20,7 +22,6 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
-
 
 @Named
 @SessionScoped
@@ -41,6 +42,9 @@ public class TemplateController extends AbstractLazyController<Template>
    public static final String NEW_OR_EDIT = "/private/template/edit.xhtml";
 
    // --------------------------------------------------------
+
+   @Inject
+   Event<TemplateEvent> templateEvent;
 
    @Inject
    @OwnRepository(TemplateRepository.class)
@@ -65,6 +69,7 @@ public class TemplateController extends AbstractLazyController<Template>
       // salvataggio
       super.update();
       // altre dipendenze
+      templateEvent.fire(new TemplateEvent(getElement()));
       baseProducer.resetItemsForClass(Template.class);
       return viewPage();
    }
