@@ -6,15 +6,22 @@
  */
 package org.giavacms.base.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.swing.ImageIcon;
 
+import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.pojo.Resource;
@@ -26,7 +33,9 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
+import org.giavacms.common.util.FileUtils;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.CroppedImage;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
@@ -65,6 +74,11 @@ public class ResourceController extends AbstractLazyController<Resource>
 
    private UploadedFile replacementFile;
 
+   int width, height;
+   private CroppedImage croppedImage;
+   private StreamedContent streamedContent;
+   private byte[] croppedBytes;
+
    // ------------------------------------------------
 
    /**
@@ -72,6 +86,56 @@ public class ResourceController extends AbstractLazyController<Resource>
     */
    public ResourceController()
    {
+   }
+
+   public int getWidth()
+   {
+      return width;
+   }
+
+   public void setWidth(int width)
+   {
+      this.width = width;
+   }
+
+   public int getHeight()
+   {
+      return height;
+   }
+
+   public void setHeight(int height)
+   {
+      this.height = height;
+   }
+
+   public CroppedImage getCroppedImage()
+   {
+      return croppedImage;
+   }
+
+   public void setCroppedImage(CroppedImage croppedImage)
+   {
+      this.croppedImage = croppedImage;
+   }
+
+   public StreamedContent getStreamedContent()
+   {
+      return streamedContent;
+   }
+
+   public void setStreamedContent(StreamedContent streamedContent)
+   {
+      this.streamedContent = streamedContent;
+   }
+
+   public byte[] getCroppedBytes()
+   {
+      return croppedBytes;
+   }
+
+   public void setCroppedBytes(byte[] croppedBytes)
+   {
+      this.croppedBytes = croppedBytes;
    }
 
    // ------------------------------------------------
@@ -118,6 +182,18 @@ public class ResourceController extends AbstractLazyController<Resource>
       super.setEditMode(true);
       super.setReadOnlyMode(false);
       setElement(t);
+      setDimensions();
+      return editPage();
+   }
+
+   @Override
+   public String modCurrent()
+   {
+      Resource t = resourceRepository.fetch(getElement().getType(), getElement().getId());
+      super.setEditMode(true);
+      super.setReadOnlyMode(false);
+      setElement(t);
+      setDimensions();
       return editPage();
    }
 
@@ -269,6 +345,120 @@ public class ResourceController extends AbstractLazyController<Resource>
    public void setReplacementFile(UploadedFile replacementFile)
    {
       this.replacementFile = replacementFile;
+   }
+
+   // --------------------------------------------------------
+
+   protected void setDimensions()
+   {
+      width = 0;
+      height = 0;
+      croppedImage = null;
+      streamedContent = null;
+      croppedBytes = null;
+      if (!ResourceType.IMAGE.equals(getElement().getResourceType()))
+      {
+         return;
+      }
+      ServletContext servletContext = (ServletContext) FacesContext
+               .getCurrentInstance().getExternalContext().getContext();
+      String folder = servletContext.getRealPath("") + File.separator;
+      getElement().setBytes(
+               FileUtils.getBytesFromFile(new File(new File(folder, ResourceType.IMAGE.getFolder()), getElement()
+                        .getName())));
+      ImageIcon imageIcon = new ImageIcon(getElement().getBytes());
+      width = imageIcon.getIconWidth();
+      height = imageIcon.getIconHeight();
+   }
+
+   public String resizeImg()
+   {
+      try
+      {
+         byte[] resized = ImageUtils.resizeImage(getElement().getBytes(), width, height,
+                  FileUtils.getExtension(getElement().getName()));
+         getElement().setBytes(resized);
+         resourceRepository.updateResource(getElement());
+         return modCurrent();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         super.addFacesMessage("Errori nel ridimensionamento dell'immagine");
+         return null;
+      }
+   }
+
+   public String crop()
+   {
+      if (croppedImage == null)
+         return null;
+
+      ByteArrayOutputStream baos = null;
+      ByteArrayInputStream bais = null;
+      try
+      {
+         baos = new ByteArrayOutputStream();
+         baos.write(croppedImage.getBytes(), 0, croppedImage.getBytes().length);
+
+         croppedBytes = baos.toByteArray();
+         bais = new ByteArrayInputStream(croppedBytes);
+         streamedContent = new DefaultStreamedContent(bais);
+
+      }
+      catch (Exception e)
+      {
+         super.addFacesMessage("Errori nel ritaglio dell'immagine");
+         logger.error(e.getMessage(), e);
+      }
+      finally
+      {
+         if (baos != null)
+         {
+            try
+            {
+               baos.close();
+            }
+            catch (Exception e)
+            {
+            }
+         }
+         if (bais != null)
+         {
+            try
+            {
+               bais.close();
+            }
+            catch (Exception e)
+            {
+            }
+         }
+      }
+      return null;
+   }
+
+   public String undoCrop()
+   {
+      this.streamedContent = null;
+      this.croppedBytes = null;
+      this.croppedImage = null;
+      return modCurrent();
+   }
+
+   public String confirmCrop()
+   {
+      try
+      {
+         getElement().setBytes(croppedBytes);
+         resourceRepository.updateResource(getElement());
+         return modCurrent();
+      }
+      catch (Exception e)
+      {
+         super.addFacesMessage("Errori nel salvataggio dell'immagine ritagliata");
+         e.printStackTrace();
+         return null;
+      }
    }
 
 }

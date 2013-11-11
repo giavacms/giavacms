@@ -45,9 +45,55 @@
 
 					</h:panelGrid>
 					<br />
-					<h:graphicImage value="/img/#{resourceController.element.name}"
-						rendered="#{resourceController.element.type eq 'img'}" />
+					<ui:fragment rendered="#{resourceController.element.type eq 'img'}">
 
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Larghezza: " for="width" />
+							<p:spinner value="#{resourceController.width}" id="width" />
+							<h:outputLabel value="Altezza: " for="height" />
+							<p:spinner value="#{resourceController.height}" id="height" />
+							<p:commandButton value="Ridimensiona"
+								action="#{resourceController.resizeImg}" />
+						</h:panelGrid>
+						<br />
+						<br />
+
+						<p:imageCropper value="#{resourceController.croppedImage}"
+							image="/img/#{resourceController.element.name}"
+							initialCoords="0,0,#{resourceController.width > 100 ? 100 : resourceController.width},#{resourceController.height > 100 ? 100 : resourceController.height}" />
+
+						<h:panelGroup id="localCroppedImage">
+							<h:panelGroup
+								rendered="#{not empty resourceController.streamedContent}">
+								<br />
+								<hr style="width: 90%;" />
+								<br />
+								<p:graphicImage value="#{resourceController.streamedContent}" />
+								<br />
+								<hr style="width: 90%;" />
+								<br />
+							</h:panelGroup>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<center>
+								<h:panelGrid columns="4" id="buttons">
+									<p:commandButton value="Ritaglia"
+										action="#{resourceController.crop}"
+										update="localCroppedImage buttons" />
+									<p:commandButton value="Annulla ritaglio"
+										rendered="#{not empty resourceController.streamedContent}"
+										action="#{resourceController.undoCrop}" ajax="false"
+										update="localCroppedImage" />
+									<p:commandButton value="Conferma ritaglio"
+										rendered="#{not empty resourceController.streamedContent}"
+										action="#{resourceController.confirmCrop}" ajax="false" />
+								</h:panelGrid>
+							</center>
+
+						</h:panelGroup>
+
+					</ui:fragment>
 					<h:inputTextarea value="#{resourceController.element.text}"
 						style="width: 100%; height: 300px;"
 						rendered="#{resourceController.element.type eq 'css' or resourceController.element.type eq 'js' }" />

@@ -182,6 +182,35 @@ public class ImageUtils
       return resizedImageByteArray;
    }
 
+   public static byte[] resizeImage(byte[] imageData, int newWidth, int newHeight,
+            String type) throws IOException
+   {
+      // Create an ImageIcon from the image data
+      ImageIcon imageIcon = new ImageIcon(imageData);
+
+      // Create a new empty image buffer to "draw" the resized image into
+      BufferedImage bufferedResizedImage = new BufferedImage(newWidth, newHeight,
+               BufferedImage.TYPE_INT_RGB);
+      // Create a Graphics object to do the "drawing"
+      Graphics2D g2d = bufferedResizedImage.createGraphics();
+      g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+               RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+      // Draw the resized image
+      g2d.drawImage(imageIcon.getImage(), 0, 0, newWidth, newHeight, null);
+      g2d.dispose();
+      // Now our buffered image is ready
+      // Encode it as a JPEG
+      ByteArrayOutputStream encoderOutputStream = new ByteArrayOutputStream();
+      ImageIO.write(bufferedResizedImage, type.toUpperCase(),
+               encoderOutputStream);
+      // QUESTE CLASSI NON GIRANO SOTTO JAVA 6
+      // JPEGImageEncoder encoder =
+      // JPEGCodec.createJPEGEncoder(encoderOutputStream);
+      // encoder.encode(bufferedResizedImage);
+      byte[] resizedImageByteArray = encoderOutputStream.toByteArray();
+      return resizedImageByteArray;
+   }
+
    public static int[] getBarcodeSize(String barcodeUrl)
    {
       int[] widthAndHeight = new int[] { -1, -1 };
