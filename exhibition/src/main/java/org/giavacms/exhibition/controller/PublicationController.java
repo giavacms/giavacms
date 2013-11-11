@@ -62,13 +62,13 @@ public class PublicationController extends AbstractLazyController<Publication>
    {
       // TODO Auto-generated method stub
       super.modCurrent();
-      return EDIT_DOCS + super.REDIRECT_PARAM;
+      return EDIT_DOCS + REDIRECT_PARAM;
    }
 
    public String modDocuments()
    {
       super.modElement();
-      return EDIT_DOCS + super.REDIRECT_PARAM;
+      return EDIT_DOCS + REDIRECT_PARAM;
    }
 
    public void handleUpload(FileUploadEvent event)
@@ -101,8 +101,10 @@ public class PublicationController extends AbstractLazyController<Publication>
 
    public void handleImgUpload(FileUploadEvent event)
    {
+      @SuppressWarnings("unused")
       String type = event.getFile().getFileName()
                .substring(event.getFile().getFileName().lastIndexOf(".") + 1);
+
       byte[] imgRes = event.getFile().getContents();
 
       Image img = new Image();
@@ -172,7 +174,7 @@ public class PublicationController extends AbstractLazyController<Publication>
       save();
       setEditMode(true);
       setReadOnlyMode(false);
-      return EDIT_DOCS + super.REDIRECT_PARAM;
+      return EDIT_DOCS + REDIRECT_PARAM;
    }
 
    @Override
@@ -193,7 +195,7 @@ public class PublicationController extends AbstractLazyController<Publication>
       update();
       setEditMode(true);
       setReadOnlyMode(false);
-      return EDIT_DOCS + super.REDIRECT_PARAM;
+      return EDIT_DOCS + REDIRECT_PARAM;
    }
 
 }

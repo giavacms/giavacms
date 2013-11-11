@@ -12,7 +12,6 @@ import org.giavacms.banner.repository.BannerRepository;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.model.Search;
 
 @Named
 @RequestScoped

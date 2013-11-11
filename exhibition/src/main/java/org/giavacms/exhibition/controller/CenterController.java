@@ -13,7 +13,6 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.exhibition.model.Center;
-import org.giavacms.exhibition.model.Institute;
 import org.giavacms.exhibition.producer.ExhibitionProducer;
 import org.giavacms.exhibition.repository.CenterRepository;
 
@@ -65,7 +64,7 @@ public class CenterController extends AbstractLazyController<Center> {
 		update();
 		setEditMode(true);
 		setReadOnlyMode(false);
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class CenterController extends AbstractLazyController<Center> {
 		save();
 		setEditMode(true);
 		setReadOnlyMode(false);
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	@Override
@@ -98,13 +97,13 @@ public class CenterController extends AbstractLazyController<Center> {
 	public String modImage() {
 		// TODO Auto-generated method stub
 		super.modElement();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	public String modImageCurrent() {
 		// TODO Auto-generated method stub
 		super.modCurrent();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	private void saveImage() {

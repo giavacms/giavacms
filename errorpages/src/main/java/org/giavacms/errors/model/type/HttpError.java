@@ -2,8 +2,6 @@ package org.giavacms.errors.model.type;
 
 import java.util.logging.Logger;
 
-import org.giavacms.common.util.JSFUtils;
-
 public enum HttpError
 {
 
