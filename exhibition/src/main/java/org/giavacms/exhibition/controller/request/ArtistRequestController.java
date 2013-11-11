@@ -24,9 +24,7 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
 
    private static final long serialVersionUID = 1L;
 
-   public static final String SEARCH = "q";
    public static final String ID_PARAM = "artist";
-   public static final String EXHIBITION = "exhibition";
    public static final String CURRENT_PAGE_PARAM = "start";
 
    @Inject
@@ -37,7 +35,7 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
    ParticipantService participantService;
 
    @Inject
-   @HttpParam(SEARCH)
+   @HttpParam("q")
    String search;
 
    @Inject
@@ -49,42 +47,31 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
    String start;
 
    @Inject
-   @HttpParam(EXHIBITION)
+   @HttpParam("exhibition")
    String exhibition;
 
-   public ArtistRequestController()
-   {
-      super();
-   }
-   
+   Search<Participant> customSearch = new Search<Participant>(Participant.class);
+
    @Override
    protected void initSearch()
    {
-      super.getSearch().getObj().setTitle(search);
-      super.getSearch().getObj().getFaqCategory().setId(category);
+      customSearch.getObj().getSubject().setType(Artist.TYPE);
+      customSearch.getObj().getExhibition().setId(exhibition);
+      customSearch.getObj().getSubject().setSurname(search);
       super.initSearch();
    }
 
+   @SuppressWarnings("unchecked")
    @Override
    public List<Artist> loadPage(int startRow, int pageSize)
    {
-      Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getSubject().setType(Artist.TYPE);
-      r.getObj().getExhibition().setId(exhibition);
-      r.getObj().getSubject().setSurname(search);
-      return (List<Artist>) participantService.getList(r, startRow, pageSize);
+      return (List<Artist>) participantService.getList(customSearch, startRow, pageSize);
    }
 
    @Override
    public int totalSize()
    {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getSubject().setType(Artist.TYPE);
-      r.getObj().getExhibition().setId(exhibition);
-      r.getObj().getSubject().setSurname(search);
-      return participantService.getListSize(r);
+      return participantService.getListSize(customSearch);
    }
 
    @Override
