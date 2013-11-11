@@ -1,4 +1,4 @@
-package org.giavacms.rewriter.service.rs;
+package org.giavacms.cache.service.rs;
 
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.giavacms.rewriter.service.CacheService;
+import org.giavacms.cache.service.CacheService;
 import org.jboss.logging.Logger;
 
 @Path("/v1/writer")

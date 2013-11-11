@@ -1,4 +1,4 @@
-package org.giavacms.rewriter.listener;
+package org.giavacms.cache.listener;
 
 import java.util.logging.Logger;
 
@@ -7,8 +7,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.giavacms.cache.service.CacheService;
 import org.giavacms.common.filter.MappingFilter;
-import org.giavacms.rewriter.service.CacheService;
 
 @WebListener
 public class CacheListener implements ServletContextListener
