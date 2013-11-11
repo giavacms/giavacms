@@ -58,12 +58,12 @@ public class InsuranceClaimProductController extends
 	public String modDocumentsCurrent() {
 		// TODO Auto-generated method stub
 		super.modCurrent();
-		return EDIT_DOCS + super.REDIRECT_PARAM;
+		return EDIT_DOCS + REDIRECT_PARAM;
 	}
 
 	public String modDocuments() {
 		super.modElement();
-		return EDIT_DOCS + super.REDIRECT_PARAM;
+		return EDIT_DOCS + REDIRECT_PARAM;
 	}
 
 	public void handleUpload(FileUploadEvent event) {
@@ -166,7 +166,7 @@ public class InsuranceClaimProductController extends
 		save();
 		setEditMode(true);
 		setReadOnlyMode(false);
-		return EDIT_DOCS + super.REDIRECT_PARAM;
+		return EDIT_DOCS + REDIRECT_PARAM;
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public class InsuranceClaimProductController extends
 		update();
 		setEditMode(true);
 		setReadOnlyMode(false);
-		return EDIT_DOCS + super.REDIRECT_PARAM;
+		return EDIT_DOCS + REDIRECT_PARAM;
 	}
 
 }

@@ -17,7 +17,6 @@ import org.giavacms.message.model.Message;
 import org.giavacms.message.repository.MessageRepository;
 import org.jboss.logging.Logger;
 
-
 @SessionScoped
 @Named
 public class MessageProducer implements Serializable
@@ -55,6 +54,7 @@ public class MessageProducer implements Serializable
       return items.get(Message.class);
    }
 
+   @SuppressWarnings("rawtypes")
    public void resetItemsForClass(Class clazz)
    {
       if (items.containsKey(clazz))
@@ -65,6 +65,7 @@ public class MessageProducer implements Serializable
 
    // ==============================================================================
 
+   @SuppressWarnings("rawtypes")
    @PostConstruct
    public void reset()
    {

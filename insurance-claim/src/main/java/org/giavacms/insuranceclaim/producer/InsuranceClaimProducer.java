@@ -21,7 +21,6 @@ import org.giavacms.insuranceclaim.repository.InsuranceClaimCategoryRepository;
 import org.giavacms.insuranceclaim.repository.InsuranceClaimTypologyRepository;
 import org.jboss.logging.Logger;
 
-
 @SessionScoped
 @Named
 public class InsuranceClaimProducer implements Serializable
@@ -82,6 +81,7 @@ public class InsuranceClaimProducer implements Serializable
       return items.get(InsuranceClaimTypology.class);
    }
 
+   @SuppressWarnings("rawtypes")
    public void resetItemsForClass(Class clazz)
    {
       if (items.containsKey(clazz))
@@ -92,6 +92,7 @@ public class InsuranceClaimProducer implements Serializable
 
    // ==============================================================================
 
+   @SuppressWarnings("rawtypes")
    @PostConstruct
    public void reset()
    {

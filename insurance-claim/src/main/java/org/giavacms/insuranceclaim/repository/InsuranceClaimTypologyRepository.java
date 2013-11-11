@@ -1,7 +1,6 @@
 package org.giavacms.insuranceclaim.repository;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;

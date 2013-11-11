@@ -75,7 +75,8 @@ public class MessageRepository extends AbstractRepository<Message> {
 
 	}
 
-	public List<String> getDistinctType() {
+	@SuppressWarnings("unchecked")
+   public List<String> getDistinctType() {
 		try {
 			List<String> list = getEm().createQuery(
 					"select distinct(m.sourceType) from Message m")

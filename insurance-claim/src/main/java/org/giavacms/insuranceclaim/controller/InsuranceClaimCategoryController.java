@@ -36,7 +36,6 @@ public class InsuranceClaimCategoryController extends
 	public static String EDIT_IMAGE = "/private/insuranceclaim/category/edit-image.xhtml";
 
 	// ------------------------------------------------
-
 	@Inject
 	@OwnRepository(InsuranceClaimCategoryRepository.class)
 	InsuranceClaimCategoryRepository insuranceClaimCategoryRepository;
@@ -58,7 +57,7 @@ public class InsuranceClaimCategoryController extends
 		update();
 		setEditMode(true);
 		setReadOnlyMode(false);
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class InsuranceClaimCategoryController extends
 		setEditMode(true);
 		setReadOnlyMode(false);
 		insuranceClaimProducer.reset();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	@Override
@@ -92,13 +91,13 @@ public class InsuranceClaimCategoryController extends
 	public String modImage() {
 		// TODO Auto-generated method stub
 		super.modElement();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	public String modImageCurrent() {
 		// TODO Auto-generated method stub
 		super.modCurrent();
-		return EDIT_IMAGE + super.REDIRECT_PARAM;
+		return EDIT_IMAGE + REDIRECT_PARAM;
 	}
 
 	private void saveImage() {
