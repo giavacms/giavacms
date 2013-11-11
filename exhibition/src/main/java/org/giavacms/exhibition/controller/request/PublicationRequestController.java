@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -26,12 +27,22 @@ public class PublicationRequestController extends
    public static final String SEARCH = "q";
    public static final String CURRENT_PAGE_PARAM = "start";
    public static final String ID_PARAM = "id";
-   public static final String[] PARAM_NAMES = new String[] { EXHIBITION,
-            SEARCH, ID_PARAM, CURRENT_PAGE_PARAM, AUTHOR };
 
    @Inject
    @OwnRepository(PublicationRepository.class)
    PublicationRepository publicationRepository;
+
+   @Inject
+   @HttpParam(EXHIBITION)
+   String exhibition;
+
+   @Inject
+   @HttpParam(AUTHOR)
+   String author;
+
+   @Inject
+   @HttpParam(SEARCH)
+   String search;
 
    public PublicationRequestController()
    {
@@ -42,9 +53,9 @@ public class PublicationRequestController extends
    public List<Publication> loadPage(int startRow, int pageSize)
    {
       Search<Publication> r = new Search<Publication>(Publication.class);
-      r.getObj().setTitle(getParams().get(SEARCH));
-      r.getObj().setAuthor(getParams().get(AUTHOR));
-      r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
+      r.getObj().setTitle(search);
+      r.getObj().setAuthor(author);
+      r.getObj().getExhibition().setId(exhibition);
       return publicationRepository.getList(r, startRow, pageSize);
    }
 
@@ -54,16 +65,10 @@ public class PublicationRequestController extends
       // siamo all'interno della stessa richiesta per servire la quale è
       // avvenuta la postconstruct
       Search<Publication> r = new Search<Publication>(Publication.class);
-      r.getObj().setTitle(getParams().get(SEARCH));
-      r.getObj().setAuthor(getParams().get(AUTHOR));
-      r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
+      r.getObj().setTitle(search);
+      r.getObj().setAuthor(author);
+      r.getObj().getExhibition().setId(exhibition);
       return publicationRepository.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
    }
 
    @Override

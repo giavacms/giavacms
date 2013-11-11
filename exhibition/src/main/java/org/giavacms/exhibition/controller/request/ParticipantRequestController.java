@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -32,11 +33,29 @@ public class ParticipantRequestController extends
    public static final String SEARCH = "q";
    public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "start";
-   public static final String[] PARAM_NAMES = new String[] { ID_PARAM,
-            EXHIBITION, YEAR, SUBJECT, DISCIPLINE, SEARCH, ID_PARAM, CURRENT_PAGE_PARAM };
 
    private String filter;
    private Exhibition latestExhibition;
+
+   @Inject
+   @HttpParam(ID_PARAM)
+   String id;
+
+   @Inject
+   @HttpParam(SEARCH)
+   String search;
+
+   @Inject
+   @HttpParam(EXHIBITION)
+   String exhibition;
+
+   @Inject
+   @HttpParam(DISCIPLINE)
+   String discipline;
+
+   @Inject
+   @HttpParam(SUBJECT)
+   String subject;
 
    @Inject
    @OwnRepository(ParticipantRepository.class)
@@ -54,18 +73,18 @@ public class ParticipantRequestController extends
    public List<Participant> loadPage(int startRow, int pageSize)
    {
       Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getDiscipline().setId(getParams().get(DISCIPLINE));
-      if (getParams().get(EXHIBITION) != null && !getParams().get(EXHIBITION).isEmpty())
+      r.getObj().getDiscipline().setId(discipline);
+      if (exhibition != null && !exhibition.isEmpty())
       {
-         r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
+         r.getObj().getExhibition().setId(exhibition);
       }
       else
       {
          if (getLatestExhibition() != null)
             r.getObj().getExhibition().setId(getLatestExhibition().getId());
       }
-      r.getObj().getSubject().setId(getParams().get(SUBJECT));
-      r.getObj().getSubject().setSurname(getParams().get(SEARCH));
+      r.getObj().getSubject().setId(subject);
+      r.getObj().getSubject().setSurname(search);
       if (getFilter() != null && !getFilter().isEmpty())
       {
          r.getObj().getSubject().setType(getFilter());
@@ -84,18 +103,18 @@ public class ParticipantRequestController extends
       // siamo all'interno della stessa richiesta per servire la quale è
       // avvenuta la postconstruct
       Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getDiscipline().setId(getParams().get(DISCIPLINE));
-      if (getParams().get(EXHIBITION) != null && !getParams().get(EXHIBITION).isEmpty())
+      r.getObj().getDiscipline().setId(discipline);
+      if (exhibition != null && !exhibition.isEmpty())
       {
-         r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
+         r.getObj().getExhibition().setId(exhibition);
       }
       else
       {
          if (getLatestExhibition() != null)
             r.getObj().getExhibition().setId(getLatestExhibition().getId());
       }
-      r.getObj().getSubject().setId(getParams().get(SUBJECT));
-      r.getObj().getSubject().setSurname(getParams().get(SEARCH));
+      r.getObj().getSubject().setId(subject);
+      r.getObj().getSubject().setSurname(search);
       if (getFilter() != null && !getFilter().isEmpty())
       {
          r.getObj().getSubject().setType(getFilter());
@@ -121,12 +140,6 @@ public class ParticipantRequestController extends
    }
 
    @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
-   }
-
-   @Override
    public String getIdParam()
    {
       return ID_PARAM;
@@ -143,11 +156,9 @@ public class ParticipantRequestController extends
       return getElement() != null && getElement().getId() != null;
    }
 
-
    public List<Discipline> getDiscipline()
    {
-      return participantRepository.getDistinctDiscipline(getParams().get(
-               EXHIBITION));
+      return participantRepository.getDistinctDiscipline(exhibition);
    }
 
    @Override
@@ -157,7 +168,7 @@ public class ParticipantRequestController extends
       if (super.getElement() == null)
       {
          Participant element = participantRepository
-                  .findLatestPartcipantBySubjectId(getParams().get(SUBJECT));
+                  .findLatestPartcipantBySubjectId(subject);
          setElement(element);
       }
       return element;
