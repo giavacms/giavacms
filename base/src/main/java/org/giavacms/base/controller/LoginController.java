@@ -18,6 +18,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import org.giavacms.base.common.util.JSFLocalUtils;
+import org.giavacms.base.common.util.PasswordUtils;
 import org.giavacms.base.model.OperazioniLog;
 import org.giavacms.base.model.UserAuth;
 import org.giavacms.base.repository.UserRepository;
@@ -27,7 +28,6 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.common.util.JSFUtils;
-
 
 @Named
 @SessionScoped
@@ -137,7 +137,17 @@ public class LoginController extends AbstractLazyController<UserAuth>
 
    public String changePassword()
    {
-      if (!getUserAuth().getOldPassword().equals(getUserAuth().getPassword()))
+      if (getUserAuth().getOldPassword() == null || getUserAuth().getOldPassword().trim().isEmpty())
+      {
+         FacesMessage message = new FacesMessage();
+         message.setDetail("La password corrente e' vuota!");
+         message.setSeverity(FacesMessage.SEVERITY_ERROR);
+         message.setSummary("Errore password corrente");
+         FacesContext.getCurrentInstance().addMessage("pwd:opwd", message);
+         return null;
+      }
+      String oldPassword = PasswordUtils.createPassword(getUserAuth().getOldPassword());
+      if (!oldPassword.equals(getUserAuth().getPassword()))
       {
          FacesMessage message = new FacesMessage();
          message.setDetail("La password corrente non e' corretta!");
@@ -175,7 +185,8 @@ public class LoginController extends AbstractLazyController<UserAuth>
          FacesContext.getCurrentInstance().addMessage("pwd:cpwd", message);
          return null;
       }
-      getUserAuth().setPassword(getUserAuth().getNewPassword());
+      String newPassword = PasswordUtils.createPassword(getUserAuth().getNewPassword());
+      getUserAuth().setPassword(newPassword);
       userRepository.update(getUserAuth());
       logOperationsController.save(OperazioniLog.MODIFY,
                JSFUtils.getUserName(),
