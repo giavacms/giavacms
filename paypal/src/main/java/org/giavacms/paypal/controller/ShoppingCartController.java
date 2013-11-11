@@ -42,7 +42,7 @@ public class ShoppingCartController extends
    {
 
       String vieL = super.viewElement();
-      System.out.println(getElement());
+      logger.info(getElement());
 
       return vieL;
    }

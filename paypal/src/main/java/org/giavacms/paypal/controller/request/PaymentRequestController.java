@@ -22,6 +22,7 @@ import com.paypal.core.rest.PayPalRESTException;
 @RequestScoped
 public class PaymentRequestController
 {
+
    private String payerId;
    private String guid;
    private String token;
@@ -47,7 +48,7 @@ public class PaymentRequestController
       for (String key : FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().keySet())
       {
          Object value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(key);
-         System.out.println("key: " + key + " - value: " + value);
+         logger.info("key: " + key + " - value: " + value);
       }
       /*
        * 2013/11/01 10:56:14,475 INFO [stdout] (http--127.2.86.1-8080-5) key: PayerID - value: CTWEVMQ3RRE52

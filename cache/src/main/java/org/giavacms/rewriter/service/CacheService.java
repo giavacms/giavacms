@@ -168,6 +168,7 @@ public class CacheService implements Serializable
       }
    }
 
+   @Asynchronous
    public void writeAll(String path)
    {
       Search<Page> sp = new Search<Page>(Page.class);

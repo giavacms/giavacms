@@ -52,6 +52,7 @@
 	<modules>
 		<module>banner</module>
 		<module>base</module>
+		<module>cache</module>
 		<module>catalogue</module>
 		<module>company</module>
 		<module>compatibility</module>
@@ -68,7 +69,6 @@
 		<module>paypal</module>
 		<module>people</module>
 		<module>resolver</module>
-		<module>cache</module>
 		<module>richcontent</module>
 		<module>scenario</module>
 		<!--module>twizz</module -->
@@ -112,6 +112,11 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>base</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>cache</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -197,11 +202,6 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>resolver</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>cache</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

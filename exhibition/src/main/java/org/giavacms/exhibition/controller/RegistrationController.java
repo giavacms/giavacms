@@ -2,6 +2,7 @@ package org.giavacms.exhibition.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -22,6 +23,8 @@ public class RegistrationController implements Serializable
 
    private static final long serialVersionUID = 1L;
 
+   Logger logger = Logger.getLogger(getClass().getName());
+
    ParticipantRepository participantRepository;
 
    public static String REGISTRY_1 = "/s/iscrizione-anagrafica";
@@ -33,7 +36,7 @@ public class RegistrationController implements Serializable
 
    public String goToOeuvre()
    {
-      System.out.println("goToOeuvre");
+      logger.info("goToOeuvre");
       // se non ci sono errori nella parte anagrafica
       if (Artist.TYPE.equals(getParticipant().getSubject().getType()))
       {
@@ -62,7 +65,7 @@ public class RegistrationController implements Serializable
    public String goToReview()
    {
       // se non ci sono errori nell'opera
-      System.out.println("goToReview");
+      logger.info("goToReview");
       try
       {
          JSFUtils.redirect(REGISTRY_3);
@@ -78,7 +81,7 @@ public class RegistrationController implements Serializable
 
    public String save()
    {
-      System.out.println("save");
+      logger.info("save");
       // se passa la validazione del captcha
       participantRepository.persist(getParticipant());
       try

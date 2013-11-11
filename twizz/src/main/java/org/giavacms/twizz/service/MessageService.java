@@ -1,5 +1,7 @@
 package org.giavacms.twizz.service;
 
+import java.util.logging.Logger;
+
 import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -13,6 +15,9 @@ import org.twiliofaces.inject.configuration.TwilioAccount;
 @LocalBean
 public class MessageService
 {
+
+   Logger logger = Logger.getLogger(getClass().getName());
+
    @Inject
    @TwilioAccount(accountName = "sms")
    Sender sender;
@@ -26,7 +31,7 @@ public class MessageService
          body.append("Hey " + quizCompetitor.getFullName() + ", your score is: " + quizCompetitor.getScore()
                   + " points. powered by http://twizz.me");
          String sid = sender.to(quizCompetitor.getPhone()).body(body.toString()).simpleSend();
-         System.out.println("SMS ID: " + sid);
+         logger.info("SMS ID: " + sid);
       }
       catch (Throwable e)
       {

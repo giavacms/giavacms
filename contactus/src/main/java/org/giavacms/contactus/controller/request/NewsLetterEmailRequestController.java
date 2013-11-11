@@ -77,8 +77,8 @@ public class NewsLetterEmailRequestController extends
 
    public String getReturnMessage()
    {
-      System.out.println("privacy: " + privacy + " email: " + email + " - name: "
-               + name);
+      logger.info("privacy: " + params.get(PARAM_PRIVACY) + " email: " + params.get(PARAM_EMAIL) + " - name: "
+               + params.get(PARAM_NAME));
       if (privacy == null && email == null && name == null)
       {
          return "";
@@ -155,12 +155,12 @@ public class NewsLetterEmailRequestController extends
                   null);
          if (result != null && !result.isEmpty())
          {
-            System.out.println("ok invio email effettuato");
+            logger.info("ok invio email effettuato");
             return "Grazie per esserti iscritto!";
          }
          else
          {
-            System.out.println(" invio email NON effettuato");
+            logger.info(" invio email NON effettuato");
             return null;
          }
 

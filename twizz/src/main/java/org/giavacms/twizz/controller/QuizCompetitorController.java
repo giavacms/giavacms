@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,6 +18,8 @@ import org.giavacms.twizz.service.PartecipationService;
 public class QuizCompetitorController implements Serializable
 {
    private static final long serialVersionUID = 1L;
+   
+   Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
    PartecipationService partecipationService;
@@ -27,7 +30,7 @@ public class QuizCompetitorController implements Serializable
 
    public QuizCompetitorController()
    {
-      System.out.println("RegisterController: " + new Date() + " - "
+      logger.info("RegisterController: " + new Date() + " - "
                + getClass());
    }
 
@@ -56,9 +59,9 @@ public class QuizCompetitorController implements Serializable
 
    public void end(String callSid)
    {
-      System.out.println("END CALLSID: " + callSid);
+      logger.info("END CALLSID: " + callSid);
       String phone = getCalls().get(callSid);
-      System.out.println("END PHONE: " + phone);
+      logger.info("END PHONE: " + phone);
       Partecipation partecipation = getPartecipations().get(phone);
       partecipationService.end(partecipation);
       getPartecipations().remove(phone);

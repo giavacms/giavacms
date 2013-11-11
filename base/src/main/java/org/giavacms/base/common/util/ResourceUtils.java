@@ -248,6 +248,6 @@ public class ResourceUtils
    public static void main(String[] args)
    {
       String type = getType("flower.png");
-      System.out.println(type);
+      logger.info(type);
    }
 }

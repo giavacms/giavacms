@@ -24,6 +24,7 @@ import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
+import org.giavacms.richcontent.model.type.RichContentType;
 import org.giavacms.richcontent.producer.RichContentProducer;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
@@ -181,10 +182,8 @@ public class RichContentController extends AbstractPageController<RichContent>
    @Override
    public String save()
    {
-      getElement().setTemplate(
-               richContentTypeRepository
-                        .find(getElement().getRichContentType().getId())
-                        .getPage().getTemplate());
+      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
+      getElement().setRichContentType(richContentType);
       if (super.save() == null)
       {
          return null;
@@ -210,10 +209,8 @@ public class RichContentController extends AbstractPageController<RichContent>
    @Override
    public String update()
    {
-      getElement().setTemplate(
-               richContentTypeRepository
-                        .find(getElement().getRichContentType().getId())
-                        .getPage().getTemplate());
+      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
+      getElement().setRichContentType(richContentType);
       if (super.update() == null)
       {
          return null;

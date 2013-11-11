@@ -58,11 +58,11 @@ public class FaqRequestController
    }
 
    @Override
-   public Search<Faq> getSearch()
+   protected void initSearch()
    {
       super.getSearch().getObj().setTitle(search);
       super.getSearch().getObj().getFaqCategory().setId(category);
-      return super.getSearch();
+      super.initSearch();
    }
 
    @Override

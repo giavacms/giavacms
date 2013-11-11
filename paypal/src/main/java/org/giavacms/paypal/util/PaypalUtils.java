@@ -71,7 +71,7 @@ public class PaypalUtils
          }
       }
       getSaleInfo(shoppingCart.getPaymentId(), paypalConfiguration);
-      System.out.println("END RESULT: " + result.toJSON());
+      logger.info("END RESULT: " + result.toJSON());
    }
 
    private static void getSaleInfo(String id, PaypalConfiguration paypalConfiguration)
@@ -79,7 +79,7 @@ public class PaypalUtils
       try
       {
          Sale sale = Sale.get(PaypalAccountUtils.getAccessToken(paypalConfiguration), id);
-         System.out.println(sale.toJSON());
+         logger.info(sale.toJSON());
       }
       catch (PayPalRESTException e)
       {
@@ -282,6 +282,6 @@ public class PaypalUtils
       decimalFormat.applyLocalizedPattern("#,###,##0.00");
       decimalFormat.setGroupingUsed(false);
       double total = 23450.2222D;
-      System.out.println(decimalFormat.format(total));
+      logger.info(decimalFormat.format(total));
    }
 }
