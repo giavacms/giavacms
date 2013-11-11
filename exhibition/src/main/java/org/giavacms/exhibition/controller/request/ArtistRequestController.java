@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -24,7 +25,6 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
    private static final long serialVersionUID = 1L;
 
    public static final String SEARCH = "q";
-   public static final String[] PARAM_NAMES = new String[] { SEARCH };
    public static final String ID_PARAM = "artist";
    public static final String EXHIBITION = "exhibition";
    public static final String CURRENT_PAGE_PARAM = "start";
@@ -36,9 +36,33 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
    @Inject
    ParticipantService participantService;
 
+   @Inject
+   @HttpParam(SEARCH)
+   String search;
+
+   @Inject
+   @HttpParam(ID_PARAM)
+   String id;
+
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String start;
+
+   @Inject
+   @HttpParam(EXHIBITION)
+   String exhibition;
+
    public ArtistRequestController()
    {
       super();
+   }
+   
+   @Override
+   protected void initSearch()
+   {
+      super.getSearch().getObj().setTitle(search);
+      super.getSearch().getObj().getFaqCategory().setId(category);
+      super.initSearch();
    }
 
    @Override
@@ -46,8 +70,8 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
    {
       Search<Participant> r = new Search<Participant>(Participant.class);
       r.getObj().getSubject().setType(Artist.TYPE);
-      r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
-      r.getObj().getSubject().setSurname(getParams().get(SEARCH));
+      r.getObj().getExhibition().setId(exhibition);
+      r.getObj().getSubject().setSurname(search);
       return (List<Artist>) participantService.getList(r, startRow, pageSize);
    }
 
@@ -58,15 +82,9 @@ public class ArtistRequestController extends AbstractRequestController<Artist>
       // avvenuta la postconstruct
       Search<Participant> r = new Search<Participant>(Participant.class);
       r.getObj().getSubject().setType(Artist.TYPE);
-      r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
-      r.getObj().getSubject().setSurname(getParams().get(SEARCH));
+      r.getObj().getExhibition().setId(exhibition);
+      r.getObj().getSubject().setSurname(search);
       return participantService.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
    }
 
    @Override
