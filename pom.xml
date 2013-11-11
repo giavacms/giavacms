@@ -155,6 +155,11 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
+				<artifactId>githubcontent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>instagram</artifactId>
 				<version>${project.version}</version>
 			</dependency>
