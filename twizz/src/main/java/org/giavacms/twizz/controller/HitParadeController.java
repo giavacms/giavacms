@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -26,6 +27,10 @@ public class HitParadeController extends AbstractRequestController<Partecipation
    public static final String CURRENT_PAGE_PARAM = "start";
 
    @Inject
+   @HttpParam(SEARCH)
+   String search;
+
+   @Inject
    @OwnRepository(PartecipationRepository.class)
    PartecipationRepository partecipationRepository;
 
@@ -38,7 +43,7 @@ public class HitParadeController extends AbstractRequestController<Partecipation
    public List<Partecipation> loadPage(int startRow, int pageSize)
    {
       Search<Partecipation> r = new Search<Partecipation>(Partecipation.class);
-      r.getObj().getQuizCompetitor().setFullName(getParams().get(SEARCH));
+      r.getObj().getQuizCompetitor().setFullName(search);
       return partecipationRepository.getList(r, startRow, pageSize);
    }
 
@@ -48,14 +53,8 @@ public class HitParadeController extends AbstractRequestController<Partecipation
       // siamo all'interno della stessa richiesta per servire la quale è
       // avvenuta la postconstruct
       Search<Partecipation> r = new Search<Partecipation>(Partecipation.class);
-      r.getObj().getQuizCompetitor().setFullName(getParams().get(SEARCH));
+      r.getObj().getQuizCompetitor().setFullName(search);
       return partecipationRepository.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
    }
 
    @Override

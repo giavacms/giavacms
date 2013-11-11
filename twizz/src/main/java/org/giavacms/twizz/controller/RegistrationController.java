@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.twizz.model.QuizCompetitor;
@@ -31,9 +32,29 @@ public class RegistrationController extends AbstractRequestController<QuizCompet
    public static final String ARGUMENT = "argument";
    public static final String MINUTES = "minutes";
 
-   public static final String[] PARAM_NAMES = new String[] { FULLNAME, EMAIL, PHONE_NUMBER, ARGUMENT, MINUTES };
    public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "start";
+
+   @Inject
+   @HttpParam(FULLNAME)
+   String fullname;
+
+   @Inject
+   @HttpParam(EMAIL)
+   String email;
+
+   @Inject
+   @HttpParam(ARGUMENT)
+   String argument;
+
+   @Inject
+   @HttpParam(MINUTES)
+   String minutesIn;
+
+   @Inject
+   @HttpParam(PHONE_NUMBER)
+   String number;
+
    private QuizCompetitor quizCompetitor;
 
    @Inject
@@ -46,18 +67,17 @@ public class RegistrationController extends AbstractRequestController<QuizCompet
 
    public void finish()
    {
-      if (getParams().get(FULLNAME) != null && !getParams().get(FULLNAME).isEmpty()
-               && getParams().get(EMAIL) != null && !getParams().get(EMAIL).isEmpty()
-               && getParams().get(PHONE_NUMBER) != null && !getParams().get(PHONE_NUMBER).isEmpty()
-               && getParams().get(ARGUMENT) != null && !getParams().get(ARGUMENT).isEmpty())
+      if (fullname != null && !fullname.isEmpty()
+               && email != null && !email.isEmpty()
+               && number != null && !number.isEmpty()
+               && argument != null && !argument.isEmpty())
       {
          if (quizCompetitorRepository.findByPhone(getParams().get(PHONE_NUMBER), false) == null)
          {
             Long minutes = 5L;
-            if (getParams().get(MINUTES) != null && !getParams().get(MINUTES).isEmpty())
-               minutes = Long.parseLong(getParams().get(MINUTES));
-            quizCompetitor = new QuizCompetitor(getParams().get(FULLNAME), getParams().get(PHONE_NUMBER), getParams()
-                     .get(EMAIL), "en", getParams().get(ARGUMENT), minutes);
+            if (minutesIn != null && !minutesIn.isEmpty())
+               minutes = Long.parseLong(minutesIn);
+            quizCompetitor = new QuizCompetitor(fullname, number, email, "en", argument, minutes);
             // REGISTRO NUOVO QUIZCOMPETITOR
             quizCompetitorRepository.persist(quizCompetitor);
             // NON CREO UNA PARTECIPATION PER ARGUMENT SCELTO - ASPETTO CONFERMA
@@ -89,19 +109,19 @@ public class RegistrationController extends AbstractRequestController<QuizCompet
       else
       {
          StringBuffer msg = new StringBuffer(" ");
-         if (getParams().get(FULLNAME) == null || getParams().get(FULLNAME).isEmpty())
+         if (fullname == null || fullname.isEmpty())
          {
             msg.append("FULLNAME EMPTY; ");
          }
-         if (getParams().get(EMAIL) == null || getParams().get(EMAIL).isEmpty())
+         if (email == null || email.isEmpty())
          {
             msg.append("EMAIL EMPTY; ");
          }
-         if (getParams().get(PHONE_NUMBER) == null || getParams().get(PHONE_NUMBER).isEmpty())
+         if (number == null || number.isEmpty())
          {
             msg.append("PHONE_NUMBER EMPTY; ");
          }
-         if (getParams().get(ARGUMENT) == null || getParams().get(ARGUMENT).isEmpty())
+         if (argument == null || argument.isEmpty())
          {
             msg.append("ARGUMENT EMPTY");
          }
@@ -142,12 +162,6 @@ public class RegistrationController extends AbstractRequestController<QuizCompet
    public void setQuizCompetitor(QuizCompetitor quizCompetitor)
    {
       this.quizCompetitor = quizCompetitor;
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
    }
 
    @Override

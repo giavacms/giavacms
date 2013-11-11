@@ -94,7 +94,6 @@ public class CompanyRepository extends AbstractRepository<Company>
       }
       catch (Exception e)
       {
-         e.printStackTrace();
       }
       if (ret == null)
          return findLast();
@@ -120,7 +119,6 @@ public class CompanyRepository extends AbstractRepository<Company>
       }
       catch (Exception e)
       {
-         e.printStackTrace();
       }
       return ret;
    }
@@ -148,7 +146,6 @@ public class CompanyRepository extends AbstractRepository<Company>
       }
       catch (Exception e)
       {
-         e.printStackTrace();
       }
    }
 
@@ -201,7 +198,6 @@ public class CompanyRepository extends AbstractRepository<Company>
       }
       catch (Exception e)
       {
-         logger.error(e.getMessage(), e);
          return null;
       }
    }
