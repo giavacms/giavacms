@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -29,6 +30,14 @@ public class ExhibitionRequestController extends
    public static final String CURRENT_PAGE_PARAM = "start";
 
    @Inject
+   @HttpParam(EXHIBITION)
+   String exhibition;
+
+   @Inject
+   @HttpParam(SEARCH)
+   String search;
+
+   @Inject
    @OwnRepository(ExhibitionRepository.class)
    ExhibitionRepository exhibitionRepository;
 
@@ -37,12 +46,11 @@ public class ExhibitionRequestController extends
       super();
    }
 
-
    @Override
    public List<Exhibition> loadPage(int startRow, int pageSize)
    {
       Search<Exhibition> r = new Search<Exhibition>(Exhibition.class);
-      r.getObj().setName(getParams().get(SEARCH));
+      r.getObj().setName(search);
       return exhibitionRepository.getList(r, startRow, pageSize);
    }
 
@@ -52,19 +60,13 @@ public class ExhibitionRequestController extends
       // siamo all'interno della stessa richiesta per servire la quale è
       // avvenuta la postconstruct
       Search<Exhibition> r = new Search<Exhibition>(Exhibition.class);
-      r.getObj().setName(getParams().get(SEARCH));
+      r.getObj().setName(search);
       return exhibitionRepository.getListSize(r);
    }
 
    public List<Exhibition> getAll()
    {
       return exhibitionRepository.getAll();
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
    }
 
    @Override
@@ -83,7 +85,5 @@ public class ExhibitionRequestController extends
    {
       return getElement() != null && getElement().getId() != null;
    }
-
-
 
 }
