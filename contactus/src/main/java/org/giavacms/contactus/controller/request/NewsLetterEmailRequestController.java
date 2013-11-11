@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.common.util.EmailUtils;
 import org.giavacms.base.service.EmailSession;
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -38,14 +39,15 @@ public class NewsLetterEmailRequestController extends
 {
 
    private static final long serialVersionUID = 1L;
-
-   public static final String PARAM_EMAIL = "email";
-   public static final String PARAM_NAME = "name";
-   public static final String PARAM_PRIVACY = "privacy";
-   public static final String[] PARAM_NAMES = new String[] {
-            PARAM_EMAIL, PARAM_NAME, PARAM_PRIVACY };
-   public static final String ID_PARAM = "unused_idParam";
-   public static final String CURRENT_PAGE_PARAM = "unused_currentpage";
+   @Inject
+   @HttpParam("name")
+   String name;
+   @Inject
+   @HttpParam("email")
+   String email;
+   @Inject
+   @HttpParam("privacy")
+   String privacy;
 
    @Inject
    @OwnRepository(NewsLetterEmailRepository.class)
@@ -62,52 +64,34 @@ public class NewsLetterEmailRequestController extends
    }
 
    @Override
-   public List<ContactUs> loadPage(int startRow, int pageSize)
+   public String getIdParam()
    {
       return null;
    }
 
    @Override
-   public int totalSize()
-   {
-      return 0;
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
-   }
-
-   @Override
-   public String getIdParam()
-   {
-      return ID_PARAM;
-   }
-
-   @Override
    public String getCurrentPageParam()
    {
-      return CURRENT_PAGE_PARAM;
+      return null;
    }
 
    public String getReturnMessage()
    {
       logger.info("privacy: " + params.get(PARAM_PRIVACY) + " email: " + params.get(PARAM_EMAIL) + " - name: "
                + params.get(PARAM_NAME));
-      if (params.get(PARAM_PRIVACY) == null && params.get(PARAM_EMAIL) == null && params.get(PARAM_NAME) == null)
+      if (privacy == null && email == null && name == null)
       {
          return "";
       }
-      if (params.get(PARAM_PRIVACY) != null && params.get(PARAM_PRIVACY).equals("1")
-               && params.get(PARAM_EMAIL) != null
-               && !params.get(PARAM_EMAIL).trim().isEmpty() && params.get(PARAM_NAME) != null
-               && !params.get(PARAM_NAME).trim().isEmpty()
-               && EmailUtils.isValidEmailAddress(params.get(PARAM_EMAIL).trim()))
+      if (privacy != null && privacy.equals("1")
+               && email != null
+               && !email.trim().isEmpty() && name != null
+               && !name.trim().isEmpty()
+               && EmailUtils.isValidEmailAddress(email.trim()))
       {
          NewsLetterEmail newsLetterEmail = new NewsLetterEmail();
-         newsLetterEmail.setEmail(params.get(PARAM_EMAIL));
-         newsLetterEmail.setName(params.get(PARAM_NAME));
+         newsLetterEmail.setEmail(email);
+         newsLetterEmail.setName(name);
          newsLetterEmail.setData(new Date());
          newsLetterEmailRepository.persist(newsLetterEmail);
 
@@ -163,7 +147,7 @@ public class NewsLetterEmailRequestController extends
          }
 
          String result = emailSession.sendEmail(from,
-                  "nuovo iscritto newsletter: " + params.get(PARAM_NAME).trim() + " " + params.get(PARAM_EMAIL).trim(),
+                  "nuovo iscritto newsletter: " + name.trim() + " " + email.trim(),
                   "iscrizione newletter responsabilitacivileprofessionisti.it",
                   tos.toArray(new String[] {}),
                   ccs.toArray(new String[] {}),
@@ -184,17 +168,17 @@ public class NewsLetterEmailRequestController extends
       else
       {
          StringBuffer returnMsg = new StringBuffer("");
-         if (params.get(PARAM_PRIVACY) == null || !params.get(PARAM_PRIVACY).equals("1"))
+         if (privacy == null || !privacy.equals("1"))
             returnMsg.append("non hai siglato la privacy! ");
-         if (params.get(PARAM_EMAIL) == null
-                  || params.get(PARAM_EMAIL).trim().isEmpty())
+         if (email == null
+                  || email.trim().isEmpty())
             returnMsg.append("non hai inserito la tua email! ");
-         if (params.get(PARAM_EMAIL) != null
-                  && !params.get(PARAM_EMAIL).trim().isEmpty()
-                  && !EmailUtils.isValidEmailAddress(params.get(PARAM_EMAIL).trim()))
+         if (email != null
+                  && !email.trim().isEmpty()
+                  && !EmailUtils.isValidEmailAddress(email.trim()))
             returnMsg.append("la tua email non e' valida! ");
-         if (params.get(PARAM_NAME) == null
-                  || params.get(PARAM_NAME).trim().isEmpty())
+         if (name == null
+                  || name.trim().isEmpty())
             returnMsg.append("non hai inserito il tuo nome! ");
          return returnMsg.toString();
       }

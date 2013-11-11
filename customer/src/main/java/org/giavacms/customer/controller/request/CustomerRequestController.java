@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -24,11 +25,14 @@ public class CustomerRequestController extends
 
    private static final long serialVersionUID = 1L;
 
-   public static final String CATEGORIA = "categoria";
-   public static final String SEARCH = "q";
-   public static final String[] PARAM_NAMES = new String[] { CATEGORIA, SEARCH };
    public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "start";
+   @Inject
+   @HttpParam("categoria")
+   String category;
+   @Inject
+   @HttpParam("q")
+   String search;
 
    @Inject
    @OwnRepository(CustomerRepository.class)
@@ -43,29 +47,11 @@ public class CustomerRequestController extends
    }
 
    @Override
-   public List<Customer> loadPage(int startRow, int pageSize)
+   protected void initSearch()
    {
-      Search<Customer> r = new Search<Customer>(Customer.class);
-      r.getObj().setName(getParams().get(SEARCH));
-      r.getObj().getCategory().setName(getParams().get(CATEGORIA));
-      return customerRepository.getList(r, startRow, pageSize);
-   }
-
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Customer> r = new Search<Customer>(Customer.class);
-      r.getObj().getCategory().setName(getParams().get(CATEGORIA));
-      r.getObj().setName(getParams().get(SEARCH));
-      return customerRepository.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
+      getSearch().getObj().setName(search);
+      getSearch().getObj().getCategory().setName(category);
+      super.initSearch();
    }
 
    @Override
@@ -106,6 +92,7 @@ public class CustomerRequestController extends
       return l;
    }
 
+   @Deprecated
    public String getCustomerCategoryOptionsHTML()
    {
       StringBuffer sb = new StringBuffer();
@@ -117,7 +104,7 @@ public class CustomerRequestController extends
          sb.append("<option value=\"")
                   .append(pc.getName())
                   .append("\"")
-                  .append(pc.getName().equals(getParams().get(CATEGORIA)) ? " selected=\"selected\""
+                  .append(pc.getName().equals(category) ? " selected=\"selected\""
                            : "").append(">").append(pc.getName())
                   .append("</option>");
       }

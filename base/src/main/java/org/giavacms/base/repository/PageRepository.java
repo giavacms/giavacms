@@ -515,4 +515,18 @@ public class PageRepository
       return result;
    }
 
+   public void resetLanguage(Long l, String id)
+   {
+      try
+      {
+         getEm().createNativeQuery("update " + Page.TABLE_NAME + " set lang" + l + "id = null where lang" + l + "id = :ID")
+                  .setParameter("ID", id).executeUpdate();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage());
+         e.printStackTrace();
+      }
+   }
+
 }

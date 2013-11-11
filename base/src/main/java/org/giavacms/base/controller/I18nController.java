@@ -64,6 +64,7 @@ public class I18nController extends AbstractController<Page>
    public void resetLanguage(Long l)
    {
       setLanguage(l, null);
+      pageRepository.resetLanguage(l,getElement().getId());
    }
 
    public void setLanguage(Long l, String pageId)

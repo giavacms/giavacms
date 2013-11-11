@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.paypal.controller.session.ShoppingCartSessionController;
 import org.giavacms.paypal.model.ShoppingCart;
@@ -30,17 +31,28 @@ public class ShoppingCartRequestController extends
 {
 
    private static final long serialVersionUID = 1L;
+   @Inject
+   @HttpParam("idProduct")
+   String idProduct;
 
-   public static final String PARAM_ID_PRODUCT = "idProduct";
-   public static final String PARAM_DESCRIPTION = "description";
-   public static final String PARAM_PRICE = "price";
-   public static final String PARAM_QUANTITY = "quantity";
-   public static final String PARAM_VAT = "vat";
-   public static final String PARAM_IMG_URL = "image";
-   public static final String[] PARAM_NAMES = new String[] { PARAM_ID_PRODUCT, PARAM_DESCRIPTION, PARAM_PRICE,
-            PARAM_QUANTITY, PARAM_VAT, PARAM_IMG_URL };
-   public static final String ID_PARAM = "unused_idParam";
-   public static final String CURRENT_PAGE_PARAM = "unused_currentpage";
+   @Inject
+   @HttpParam("description")
+   String description;
+
+   @Inject
+   @HttpParam("price")
+   String price;
+
+   @Inject
+   @HttpParam("quantity")
+   String quantity;
+   @Inject
+   @HttpParam("vat")
+   String vat;
+
+   @Inject
+   @HttpParam("image")
+   String imageUrl;
 
    @Inject
    ShoppingCartSessionController shoppingCartSessionController;
@@ -50,17 +62,11 @@ public class ShoppingCartRequestController extends
       super();
    }
 
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
-   }
-
    public void add()
    {
-      if (params.get(PARAM_ID_PRODUCT) != null &&
-               params.get(PARAM_DESCRIPTION) != null && params.get(PARAM_PRICE) != null &&
-               params.get(PARAM_QUANTITY) != null && params.get(PARAM_VAT) != null)
+      if (idProduct != null &&
+               description != null && price != null &&
+               quantity != null && vat != null)
       {
          String requestURI = ((HttpServletRequest) FacesContext.getCurrentInstance()
                   .getExternalContext().getRequest()).getRequestURI();
@@ -71,9 +77,9 @@ public class ShoppingCartRequestController extends
             shoppingCartSessionController.setLastPage(requestURI.replace("cache", "p").replace(".jsf", ""));
          logger.info("LAST PAGE: " + shoppingCartSessionController.getLastPage());
 
-         shoppingCartSessionController.addProduct(params.get(PARAM_VAT), params.get(PARAM_PRICE),
-                  params.get(PARAM_ID_PRODUCT), params.get(PARAM_DESCRIPTION),
-                  Integer.valueOf(params.get(PARAM_QUANTITY)), params.get(PARAM_IMG_URL));
+         shoppingCartSessionController.addProduct(vat, price,
+                  idProduct, description,
+                  Integer.valueOf(quantity), imageUrl);
       }
    }
 
@@ -86,7 +92,7 @@ public class ShoppingCartRequestController extends
    @Override
    protected String getIdParam()
    {
-      return "id";
+      return null;
    }
 
 }

@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.controller.AbstractPageRequestController;
 import org.giavacms.base.pojo.I18nRequestParams;
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
 import org.giavacms.faq.model.Faq;
@@ -23,30 +24,30 @@ public class FaqRequestController
 {
 
    private static final long serialVersionUID = 1L;
-
-   public static final String CATEGORIA = "f_c";
-   public static final String SEARCH = "f_q";
-   public static final String[] PARAM_NAMES = new String[] { CATEGORIA, SEARCH };
+   public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "f_p";
 
+   public static final String CATEGORY_PARAM = "f_c";
+   public static final String SEARCH_PARAM = "f_q";
+   @Inject
+   @HttpParam(CATEGORY_PARAM)
+   String category;
+   @Inject
+   @HttpParam(SEARCH_PARAM)
+   String search;
+   @Inject
+   @HttpParam(ID_PARAM)
+   String id;
+
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String start;
    @Inject
    @OwnRepository(FaqRepository.class)
    FaqRepository faqRepository;
 
    @Inject
    FaqCategoryRepository faqCategoryRepository;
-
-   public FaqRequestController()
-   {
-      super();
-   }
-
-   @Override
-   public void initParameters()
-   {
-      super.initParameters();
-      this.handleI18N();
-   }
 
    public List<FaqCategory> getFaqCategories()
    {
@@ -57,35 +58,11 @@ public class FaqRequestController
    }
 
    @Override
-   public List<Faq> loadPage(int startRow, int pageSize)
+   protected void initSearch()
    {
-      logger.info("load page");
-      return faqRepository.getList(buildSearch(), startRow, pageSize);
-   }
-
-   private Search<Faq> buildSearch()
-   {
-      Search<Faq> r = new Search<Faq>(Faq.class);
-      r.getObj().setTitle(getParams().get(SEARCH));
-      r.getObj().getFaqCategory().setId(getParams().get(CATEGORIA));
-      // elementi della stessa lingua della pagina base
-      r.getObj().setLang(super.getBasePage().getLang());
-      return r;
-   }
-
-   @Override
-   public int totalSize()
-   {
-      logger.info("load page size");
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      return faqRepository.getListSize(buildSearch());
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
+      super.getSearch().getObj().setTitle(search);
+      super.getSearch().getObj().getFaqCategory().setId(category);
+      super.initSearch();
    }
 
    @Override
@@ -104,6 +81,7 @@ public class FaqRequestController
       return getElement() != null && getElement().getId() != null;
    }
 
+   @Override
    protected void handleI18N()
    {
 
@@ -111,7 +89,7 @@ public class FaqRequestController
 
       int currentLang = getBasePage().getLang();
 
-      String currentLangValue = i18nRequestParams.get(currentLang, CATEGORIA);
+      String currentLangValue = i18nRequestParams.get(currentLang, CATEGORY_PARAM);
       if (currentLangValue != null && currentLangValue.trim().length() > 0)
       {
          for (int i = 0; i < i18nRequestParams.getLanguages().length; i++)
@@ -122,7 +100,7 @@ public class FaqRequestController
             }
             i18nRequestParams
                      .put(i,
-                              CATEGORIA,
+                              CATEGORY_PARAM,
                               (i18nRequestParams.getLanguages()[i] == null || !i18nRequestParams
                                        .getLanguages()[i].isEnabled()) ? "n.a."
                                        : faqCategoryRepository.translate(currentLangValue, currentLang, i,

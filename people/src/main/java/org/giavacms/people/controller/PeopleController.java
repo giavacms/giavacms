@@ -189,8 +189,8 @@ public class PeopleController extends AbstractPageController<RichContent>
    @Override
    public String save()
    {
-      getElement().setTemplate(
-               richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
+      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
+      getElement().setRichContentType(richContentType);
       if (super.save() == null)
       {
          super.addFacesMessage("Errori nel salvataggio");
@@ -228,8 +228,8 @@ public class PeopleController extends AbstractPageController<RichContent>
    @Override
    public String update()
    {
-      getElement().setTemplate(
-               richContentTypeRepository.find(getElement().getRichContentType().getId()).getPage().getTemplate());
+      RichContentType richContentType = richContentTypeRepository.find(getElement().getRichContentType().getId());
+      getElement().setRichContentType(richContentType);
       if (super.update() == null)
       {
          super.addFacesMessage("Errori nell'aggiornamento dei dati");

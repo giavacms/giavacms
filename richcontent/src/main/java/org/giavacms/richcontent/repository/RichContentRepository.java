@@ -20,6 +20,7 @@ import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
+import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.util.StringUtils;
 import org.giavacms.richcontent.model.RichContent;
@@ -37,6 +38,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    @Override
    protected RichContent prePersist(RichContent n)
    {
+      n.setTemplate(n.getRichContentType().getPage().getTemplate());
       n.setClone(true);
       if (n.getDate() == null)
          n.setDate(new Date());
@@ -60,6 +62,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    @Override
    protected RichContent preUpdate(RichContent n)
    {
+      n.setTemplate(n.getRichContentType().getPage().getTemplate());
       n.setClone(true);
       if (n.getDate() == null)
          n.setDate(new Date());
@@ -764,4 +767,27 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return new ArrayList<RichContent>(richContents.values());
    }
 
+   @Override
+   @LogOperation
+   public RichContent persist(RichContent object)
+   {
+      object = super.persist(object);
+      if (object == null)
+      {
+         return null;
+      }
+      update(object);
+      return object;
+   }
+
+   @Override
+   @LogOperation
+   public boolean update(RichContent object)
+   {
+      if (object.getRichContentType().getPage().getLang() > 0)
+      {
+         object.setLang(object.getRichContentType().getPage().getLang());
+      }
+      return super.update(object);
+   }
 }

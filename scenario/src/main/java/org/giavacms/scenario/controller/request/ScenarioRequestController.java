@@ -7,70 +7,66 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
 import org.giavacms.scenario.model.Scenario;
 import org.giavacms.scenario.repository.ScenarioRepository;
 
-
 @Named
 @RequestScoped
 public class ScenarioRequestController extends
-		AbstractRequestController<Scenario> implements Serializable {
+         AbstractRequestController<Scenario> implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
-	public static final String ID_PARAM = "id";
-	public static final String SCENARIO = "scenario";
-	public static final String CURRENT_PAGE_PARAM = "start";
-	public static final String[] PARAM_NAMES = new String[] { SCENARIO };
-	private List<Scenario> randomList = null;
-	@Inject
-	@OwnRepository(ScenarioRepository.class)
-	ScenarioRepository scenarioRepository;
+   private static final long serialVersionUID = 1L;
 
-	public ScenarioRequestController() {
+   public static final String ID_PARAM = "id";
+   public static final String CURRENT_PAGE_PARAM = "start";
 
-	}
+   @Inject
+   @HttpParam("scenario")
+   String scenario;
+   @Inject
+   @HttpParam(ID_PARAM)
+   String id;
 
-	@Override
-	public int totalSize() {
-		// siamo all'interno della stessa richiesta per servire la quale è
-		// avvenuta la postconstruct
-		Search<Scenario> r = new Search<Scenario>(Scenario.class);
-		r.getObj().setTitle(getParams().get(SCENARIO));
-		return scenarioRepository.getListSize(r);
-	}
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String start;
 
-	@Override
-	public String getCurrentPageParam() {
-		return CURRENT_PAGE_PARAM;
-	}
+   private List<Scenario> randomList = null;
 
-	@Override
-	protected String[] getParamNames() {
-		return PARAM_NAMES;
-	}
+   @Inject
+   @OwnRepository(ScenarioRepository.class)
+   ScenarioRepository scenarioRepository;
 
-	@Override
-	protected String getIdParam() {
-		return ID_PARAM;
-	}
+   @Override
+   protected void initSearch() {
+      getSearch().getObj().setTitle(scenario);
+      super.initSearch();
+   }
 
-	@Override
-	public List<Scenario> loadPage(int startRow, int pageSize) {
-		Search<Scenario> r = new Search<Scenario>(Scenario.class);
-		r.getObj().setTitle(getParams().get(SCENARIO));
-		return scenarioRepository.getList(r, startRow, pageSize);
-	}
+   @Override
+   public String getCurrentPageParam()
+   {
+      return CURRENT_PAGE_PARAM;
+   }
 
-	protected List<Scenario> loadRandomList(int pageSize) {
-		if (randomList == null) {
-			Search<Scenario> r = new Search<Scenario>(Scenario.class);
-			r.getObj().setTitle(getParams().get(SCENARIO));
-			randomList = scenarioRepository.loadRandomList(pageSize);
-		}
+   @Override
+   protected String getIdParam()
+   {
+      return ID_PARAM;
+   }
 
-		return randomList;
-	}
+   protected List<Scenario> loadRandomList(int pageSize)
+   {
+      if (randomList == null)
+      {
+         randomList = scenarioRepository.loadRandomList(pageSize);
+      }
+
+      return randomList;
+   }
 }
