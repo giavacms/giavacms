@@ -53,7 +53,7 @@
 						</p:column>
 						<p:column headerText="anteprima">
 							<center>
-								<h:graphicImage value="/img/#{r.name}"
+								<h:graphicImage value="/img/#{r.name}?#{gb:random()}"
 									rendered="#{r.type eq 'img'}"
 									width="#{gb:imageWidthProportionalUrl('img/'.concat(r.name),100,100)}"
 									height="#{gb:imageHeightProportionalUrl('img/'.concat(r.name), 100, 100)}" />
