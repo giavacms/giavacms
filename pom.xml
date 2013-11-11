@@ -45,34 +45,36 @@
 		<url>http://github.com/giavacms/giavacms</url>
 	</scm>
 
+	<properties>
+		<giavacms-common-base.version>2.0.3-SNAPSHOT</giavacms-common-base.version>
+	</properties>
+
 	<modules>
 		<module>banner</module>
 		<module>base</module>
 		<module>catalogue</module>
 		<module>company</module>
+		<module>compatibility</module>
 		<module>contactus</module>
+		<module>customer</module>
+		<module>errorpages</module>
 		<module>exhibition</module>
 		<module>faq</module>
 		<module>gallery</module>
+		<module>githubcontent</module>
 		<module>instagram</module>
 		<module>insurance-claim</module>
 		<module>message</module>
 		<module>paypal</module>
-		<module>scenario</module>
-		<module>errorpages</module>
-		<module>richcontent</module>
-		<module>customer</module>
 		<module>people</module>
-		<module>githubcontent</module>
-		<!--module>twizz</module -->
 		<module>resolver</module>
 		<module>rewriter</module>
-		<module>compatibility</module>
+		<module>richcontent</module>
+		<module>scenario</module>
+		<!--module>twizz</module -->
 	</modules>
 
-	<properties>
-		<giavacms-common-base.version>2.0.3-SNAPSHOT</giavacms-common-base.version>
-	</properties>
+
 
 	<dependencyManagement>
 		<dependencies>
@@ -109,16 +111,6 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>resolver</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>rewriter</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
 				<artifactId>base</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -134,7 +126,22 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
+				<artifactId>compatibility</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>contactus</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>customer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>errorpages</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -174,42 +181,7 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>news</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
 				<artifactId>paypal</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>picasa</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>richnews</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>scenario</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>errorpages</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>richcontent</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>customer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -219,14 +191,42 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>twizz</artifactId>
+				<artifactId>picasa</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>compatibility</artifactId>
+				<artifactId>resolver</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>rewriter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>richcontent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>scenario</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>twizz</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+
+
+
+			<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>news</artifactId> 
+				<version>${project.version}</version> </dependency> <dependency> <groupId>${project.groupId}</groupId> 
+				<artifactId>richnews</artifactId> <version>${project.version}</version> </dependency> -->
 		</dependencies>
 	</dependencyManagement>
 
@@ -252,8 +252,8 @@
 		</dependency>
 
 
-	
-	
+
+
 		<!-- Apache commons -->
 		<dependency>
 			<groupId>commons-lang</groupId>
