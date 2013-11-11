@@ -1,12 +1,16 @@
 package org.giavacms.paypal.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import org.giavacms.common.util.StringUtils;
 
 @Entity
 public class ShoppingArticle implements Serializable
@@ -44,6 +48,24 @@ public class ShoppingArticle implements Serializable
       this.quantity = quantity;
       this.vat = vat;
       this.imageUrl = imageUrl;
+   }
+
+   @Transient
+   public String getTotal()
+   {
+      BigDecimal tot = BigDecimal.ZERO;
+      if (getQuantity() > 0)
+      {
+         if (!StringUtils.isEmpty(getPrice()))
+         {
+            tot = tot.add(new BigDecimal(getPrice()).setScale(2).multiply(new BigDecimal(getQuantity())));
+         }
+         if (!StringUtils.isEmpty(getVat()))
+         {
+            tot = tot.add(new BigDecimal(getVat()).setScale(2).multiply(new BigDecimal(getQuantity())));
+         }
+      }
+      return tot.toString();
    }
 
    @Id
