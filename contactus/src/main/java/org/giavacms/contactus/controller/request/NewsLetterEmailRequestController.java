@@ -77,8 +77,8 @@ public class NewsLetterEmailRequestController extends
 
    public String getReturnMessage()
    {
-      logger.info("privacy: " + params.get(PARAM_PRIVACY) + " email: " + params.get(PARAM_EMAIL) + " - name: "
-               + params.get(PARAM_NAME));
+      logger.info("privacy: " + privacy + " email: " + email + " - name: "
+               + name);
       if (privacy == null && email == null && name == null)
       {
          return "";
