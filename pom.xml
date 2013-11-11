@@ -8,11 +8,10 @@
 	<parent>
 		<artifactId>giavacms-parent</artifactId>
 		<groupId>org.giavacms</groupId>
-		<version>2.0.2</version>
+		<version>2.0.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>giavacms</artifactId>
-	<version>2.0.3-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
