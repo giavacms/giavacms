@@ -70,7 +70,7 @@ public class QuestionUtils
       Collections.shuffle(list);
       for (int i = 0; i < 20; i++)
       {
-         logger.info(i);
+         logger.info("" + i);
          if (!list.isEmpty())
          {
             int l = list.remove();

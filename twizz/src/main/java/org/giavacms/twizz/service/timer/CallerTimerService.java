@@ -32,7 +32,7 @@ public class CallerTimerService
 
    public void createTimer(CallToMake callToMake)
    {
-      logger.info(callToMake);
+      logger.info(callToMake.toString());
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToMake.getWhen());
       timerService.createCalendarTimer(

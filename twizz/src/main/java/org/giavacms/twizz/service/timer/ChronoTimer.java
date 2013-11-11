@@ -35,7 +35,7 @@ public class ChronoTimer
 
    public void createTimer(CallToComplete callToComplete)
    {
-      logger.info(callToComplete);
+      logger.info(callToComplete.toString());
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToComplete.getWhen());
       timerService.createCalendarTimer(
