@@ -69,7 +69,7 @@ public class ArtistController extends AbstractLazyController<Artist>
       update();
       setEditMode(true);
       setReadOnlyMode(false);
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    @Override
@@ -86,7 +86,7 @@ public class ArtistController extends AbstractLazyController<Artist>
       setEditMode(true);
       setReadOnlyMode(false);
       exhibitionProducer.reset();
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    @Override
@@ -108,14 +108,14 @@ public class ArtistController extends AbstractLazyController<Artist>
    {
       // TODO Auto-generated method stub
       super.modElement();
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    public String modImageCurrent()
    {
       // TODO Auto-generated method stub
       super.modCurrent();
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    private void saveImage()

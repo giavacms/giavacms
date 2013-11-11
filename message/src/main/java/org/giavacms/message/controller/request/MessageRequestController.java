@@ -10,7 +10,6 @@ import javax.inject.Named;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.model.Search;
 import org.giavacms.message.model.Message;
 import org.giavacms.message.repository.MessageConfigurationRepository;
 import org.giavacms.message.repository.MessageRepository;

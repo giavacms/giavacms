@@ -245,7 +245,8 @@ public class ExhibitionProducer implements Serializable {
 		return items.get(Subject.class);
 	}
 
-	public void resetItemsForClass(Class clazz) {
+	@SuppressWarnings("rawtypes")
+   public void resetItemsForClass(Class clazz) {
 		if (items.containsKey(clazz)) {
 			items.remove(clazz);
 		}
@@ -253,7 +254,8 @@ public class ExhibitionProducer implements Serializable {
 
 	// ==============================================================================
 
-	@PostConstruct
+	@SuppressWarnings("rawtypes")
+   @PostConstruct
 	public void reset() {
 		items = new HashMap<Class, SelectItem[]>();
 	}

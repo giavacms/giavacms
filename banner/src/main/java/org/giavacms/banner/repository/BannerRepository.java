@@ -122,6 +122,7 @@ public class BannerRepository extends AbstractRepository<Banner>
       return null;
    }
 
+   @SuppressWarnings("unchecked")
    public List<Banner> getRandomByTypology(String typology, int limit)
    {
       return getEm()

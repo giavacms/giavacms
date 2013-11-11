@@ -71,7 +71,7 @@ public class ExhibitionController extends AbstractLazyController<Exhibition>
       update();
       setEditMode(true);
       setReadOnlyMode(false);
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    @Override
@@ -89,7 +89,7 @@ public class ExhibitionController extends AbstractLazyController<Exhibition>
       save();
       setEditMode(true);
       setReadOnlyMode(false);
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    @Override
@@ -118,14 +118,14 @@ public class ExhibitionController extends AbstractLazyController<Exhibition>
    {
       // TODO Auto-generated method stub
       super.modElement();
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    public String modImageCurrent()
    {
       // TODO Auto-generated method stub
       super.modCurrent();
-      return EDIT_IMAGE + super.REDIRECT_PARAM;
+      return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    private void saveImage()

@@ -9,7 +9,6 @@ import javax.inject.Named;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.model.Search;
 import org.giavacms.faq.model.FaqCategory;
 import org.giavacms.faq.repository.FaqCategoryRepository;
 

@@ -20,48 +20,58 @@ import org.jboss.logging.Logger;
 
 @SessionScoped
 @Named
-public class BannerProducer implements Serializable {
+public class BannerProducer implements Serializable
+{
 
-	Logger logger = Logger.getLogger(getClass());
-	private static final long serialVersionUID = 1L;
+   Logger logger = Logger.getLogger(getClass());
+   private static final long serialVersionUID = 1L;
 
-	@Inject
-	private BannerTypologyRepository bannerTypologyRepository;
+   @Inject
+   private BannerTypologyRepository bannerTypologyRepository;
 
-	@SuppressWarnings("rawtypes")
-	private Map<Class, SelectItem[]> items = null;
+   @SuppressWarnings("rawtypes")
+   private Map<Class, SelectItem[]> items = null;
 
-	public BannerProducer() {
-		// TODO Auto-generated constructor stub
-	}
+   public BannerProducer()
+   {
+      // TODO Auto-generated constructor stub
+   }
 
-	@Produces
-	@Named
-	public SelectItem[] getBannerTypologyItems() {
-		if (items.get(BannerTypology.class) == null) {
-			List<SelectItem> valori = new ArrayList<SelectItem>();
-			valori.add(new SelectItem(null, "seleziona tipologia..."));
-			for (BannerTypology t : bannerTypologyRepository.getList(
-					new Search<BannerTypology>(BannerTypology.class), 0, 0)) {
-				valori.add(new SelectItem(t.getId(), t.getName() + " - "
-						+ t.getName()));
-			}
-			items.put(BannerTypology.class, valori.toArray(new SelectItem[] {}));
-		}
-		return items.get(BannerTypology.class);
-	}
+   @Produces
+   @Named
+   public SelectItem[] getBannerTypologyItems()
+   {
+      if (items.get(BannerTypology.class) == null)
+      {
+         List<SelectItem> valori = new ArrayList<SelectItem>();
+         valori.add(new SelectItem(null, "seleziona tipologia..."));
+         for (BannerTypology t : bannerTypologyRepository.getList(
+                  new Search<BannerTypology>(BannerTypology.class), 0, 0))
+         {
+            valori.add(new SelectItem(t.getId(), t.getName() + " - "
+                     + t.getName()));
+         }
+         items.put(BannerTypology.class, valori.toArray(new SelectItem[] {}));
+      }
+      return items.get(BannerTypology.class);
+   }
 
-	public void resetItemsForClass(Class clazz) {
-		if (items.containsKey(clazz)) {
-			items.remove(clazz);
-		}
-	}
+   @SuppressWarnings("rawtypes")
+   public void resetItemsForClass(Class clazz)
+   {
+      if (items.containsKey(clazz))
+      {
+         items.remove(clazz);
+      }
+   }
 
-	// ==============================================================================
+   // ==============================================================================
 
-	@PostConstruct
-	public void reset() {
-		items = new HashMap<Class, SelectItem[]>();
-	}
+   @SuppressWarnings("rawtypes")
+   @PostConstruct
+   public void reset()
+   {
+      items = new HashMap<Class, SelectItem[]>();
+   }
 
 }

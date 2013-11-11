@@ -98,21 +98,28 @@
 
 							<p:column width="200">
 								<f:facet name="header">pagina di base</f:facet>
-								<h:outputText
-									value="#{contenuto.template.mainPageTitle}" />
+								<h:outputText value="#{contenuto.template.mainPageTitle}" />
 							</p:column>
 
 							<p:column width="200">
 								<f:facet name="header">operazioni</f:facet>
 								<center>
 									<h:commandLink action="#{peopleController.viewElement}"
-										title="vedi" styleClass="icon-file-text-alt" style="font-size: 24px;"/>
-									<h:outputText value=" "/>
+										title="vedi" styleClass="icon-file-text-alt"
+										style="font-size: 24px;" />
+									<h:outputText value=" " />
 									<h:commandLink action="#{peopleController.modElement}"
-										title="modifica testo" styleClass="icon-reorder" style="font-size: 24px;"/>
-									<h:outputText value=" "/>
+										title="modifica testo" styleClass="icon-reorder"
+										style="font-size: 24px;" />
+									<h:outputText value=" " />
 									<h:commandLink action="#{peopleController.modImage}"
-										title="gestisci immagine" styleClass="icon-user" style="font-size: 24px;"/>
+										title="gestisci immagine" styleClass="icon-user"
+										style="font-size: 24px;" />
+									<h:outputText value=" " />
+									<h:outputLink target="_blank" style="font-size: 24px;"
+										styleClass="icon-eye-open" title="anteprima"
+										value="#{request.contextPath}/p/#{contenuto.id}">
+									</h:outputLink>
 								</center>
 							</p:column>
 						</p:dataTable>
