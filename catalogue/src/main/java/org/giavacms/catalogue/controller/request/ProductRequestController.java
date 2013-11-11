@@ -13,6 +13,7 @@ import org.giavacms.catalogue.model.Category;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.CategoryRepository;
 import org.giavacms.catalogue.repository.ProductRepository;
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
 
@@ -23,15 +24,17 @@ public class ProductRequestController extends
 {
 
    private static final long serialVersionUID = 1L;
+   @Inject
+   @HttpParam("categoria")
+   String category;
+   @Inject
+   @HttpParam("q")
+   String content;
+   @Inject
+   @HttpParam("t")
+   String type;
 
-   public static final String PARAM_CATEGORY = "categoria";
-   public static final String PARAM_CONTENT = "q";
-   public static final String PARAM_TYPE = "t";
    public static final String CURRENT_PAGE_PARAM = "p";
-   public static final String[] PARAM_NAMES = new String[] { PARAM_CONTENT,
-            PARAM_TYPE,
-            PARAM_CATEGORY,
-            CURRENT_PAGE_PARAM };
 
    @Inject
    @OwnRepository(ProductRepository.class)
@@ -40,42 +43,19 @@ public class ProductRequestController extends
    @Inject
    CategoryRepository categoryRepository;
 
-   public ProductRequestController()
+   @Override
+   public String getCurrentPageParam()
    {
-      super();
+      return CURRENT_PAGE_PARAM;
    }
 
    @Override
-   public void initParameters()
+   public Search<Product> getSearch()
    {
-      super.initParameters();
+      super.getSearch().getObj().setTitle(content);
+      super.getSearch().getObj().getCategory().setTitle(category);
+      return super.getSearch();
    }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
-   }
-
-//   @Override
-//   public List<Product> loadPage(int startRow, int pageSize)
-//   {
-//      Search<Product> r = new Search<Product>(Product.class);
-//      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
-//      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
-//      return productRepository.getList(r, startRow, pageSize);
-//   }
-
-//   @Override
-//   public int totalSize()
-//   {
-//      // siamo all'interno della stessa richiesta per servire la quale è
-//      // avvenuta la postconstruct
-//      Search<Product> r = new Search<Product>(Product.class);
-//      r.getObj().getCategory().setTitle(getParams().get(PARAM_CATEGORY));
-//      r.getObj().setTitle(getParams().get(PARAM_CONTENT));
-//      return productRepository.getListSize(r);
-//   }
 
    public boolean isScheda()
    {
@@ -101,6 +81,7 @@ public class ProductRequestController extends
       return l;
    }
 
+   @Deprecated
    public String getProductCategoryOptionsHTML()
    {
       StringBuffer sb = new StringBuffer();
@@ -111,7 +92,7 @@ public class ProductRequestController extends
          sb.append("<option value=\"")
                   .append(pc.getTitle())
                   .append("\"")
-                  .append(pc.getTitle().equals(getParams().get(PARAM_CATEGORY)) ? " selected=\"selected\""
+                  .append(pc.getTitle().equals(category) ? " selected=\"selected\""
                            : "").append(">").append(pc.getTitle())
                   .append("</option>");
       }
@@ -119,9 +100,8 @@ public class ProductRequestController extends
    }
 
    @Override
-   public String getCurrentPageParam()
+   protected void handleI18N()
    {
-      return CURRENT_PAGE_PARAM;
+      // TODO
    }
-
 }

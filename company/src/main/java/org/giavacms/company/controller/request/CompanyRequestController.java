@@ -1,12 +1,12 @@
 package org.giavacms.company.controller.request;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -20,9 +20,10 @@ public class CompanyRequestController extends
 {
 
    private static final long serialVersionUID = 1L;
+   @Inject
+   @HttpParam("q")
+   String search;
 
-   public static final String SEARCH = "q";
-   public static final String[] PARAM_NAMES = new String[] { SEARCH };
    public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "start";
 
@@ -30,33 +31,11 @@ public class CompanyRequestController extends
    @OwnRepository(CompanyRepository.class)
    CompanyRepository companyRepository;
 
-   public CompanyRequestController()
-   {
-      super();
-   }
-
    @Override
-   public List<Company> loadPage(int startRow, int pageSize)
+   protected void initSearch()
    {
-      Search<Company> r = new Search<Company>(Company.class);
-      r.getObj().setName(getParams().get(SEARCH));
-      return companyRepository.getList(r, startRow, pageSize);
-   }
-
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Company> r = new Search<Company>(Company.class);
-      r.getObj().setName(getParams().get(SEARCH));
-      return companyRepository.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
+      getSearch().getObj().setName(search);
+      super.initSearch();
    }
 
    @Override

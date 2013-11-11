@@ -3,7 +3,6 @@ package org.giavacms.ctp.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;

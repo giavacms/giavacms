@@ -52,7 +52,7 @@
 		<module>catalogue</module>
 		<module>company</module>
 		<module>contactus</module>
-		<module>exhibition</module>
+		<!-- module>exhibition</module-->
 		<module>faq</module>
 		<module>gallery</module>
 		<module>instagram</module>

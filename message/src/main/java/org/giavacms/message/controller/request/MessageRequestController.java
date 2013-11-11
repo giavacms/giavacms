@@ -2,12 +2,12 @@ package org.giavacms.message.controller.request;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -18,89 +18,91 @@ import org.giavacms.message.repository.MessageRepository;
 @Named
 @RequestScoped
 public class MessageRequestController extends
-		AbstractRequestController<Message> implements Serializable {
+         AbstractRequestController<Message> implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
+   @Inject
+   @HttpParam("key")
+   String key;
 
-	public static final String PARAM_KEY = "key";
-	public static final String PARAM_TYPE = "type";
-	public static final String PARAM_BODY = "body";
-	public static final String PARAM_EMAIL = "email";
-	public static final String PARAM_NAME = "name";
-	public static final String[] PARAM_NAMES = new String[] { PARAM_TYPE,
-			PARAM_KEY, PARAM_BODY, PARAM_EMAIL, PARAM_NAME };
-	public static final String ID_PARAM = "idMessage";
-	public static final String CURRENT_PAGE_PARAM = "currentpage";
+   @Inject
+   @HttpParam("type")
+   String type;
 
-	@Inject
-	@OwnRepository(MessageRepository.class)
-	MessageRepository messageRepository;
+   @Inject
+   @HttpParam("body")
+   String body;
 
-	@Inject
-	MessageConfigurationRepository messageConfigurationRepository;
+   @Inject
+   @HttpParam("email")
+   String email;
 
-	public MessageRequestController() {
-		super();
-	}
+   @Inject
+   @HttpParam("name")
+   String name;
 
-	@Override
-	public List<Message> loadPage(int startRow, int pageSize) {
-		return loadPageWithParams(startRow, pageSize, getParams()
-				.get(PARAM_KEY), getParams().get(PARAM_TYPE));
-	}
+   public static final String ID_PARAM = "idMessage";
+   public static final String CURRENT_PAGE_PARAM = "currentpage";
 
-	public List<Message> loadPageWithParams(int startRow, int pageSize,
-			String key, String type) {
-		Search<Message> r = new Search<Message>(Message.class);
-		r.getObj().setSourceKey(key);
-		r.getObj().setSourceType(type);
-		r.getObj().setActive(true);
-		r.setOrder("date asc");
-		return messageRepository.getList(r, startRow, pageSize);
-	}
+   @HttpParam(ID_PARAM)
+   @Inject
+   String idMessage;
 
-	@Override
-	public int totalSize() {
-		// siamo all'interno della stessa richiesta per servire la quale è
-		// avvenuta la postconstruct
-		Search<Message> r = new Search<Message>(Message.class);
-		r.getObj().setSourceKey(getParams().get(PARAM_KEY));
-		r.getObj().setSourceType(getParams().get(PARAM_TYPE));
-		return messageRepository.getListSize(r);
-	}
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String currentpage;
+   @Inject
+   @OwnRepository(MessageRepository.class)
+   MessageRepository messageRepository;
 
-	@Override
-	public String[] getParamNames() {
-		return PARAM_NAMES;
-	}
+   @Inject
+   MessageConfigurationRepository messageConfigurationRepository;
 
-	@Override
-	public String getIdParam() {
-		return ID_PARAM;
-	}
+   @Override
+   protected void initSearch()
+   {
+      getSearch().getObj().setSourceKey(key);
+      getSearch().getObj().setSourceType(type);
+      getSearch().getObj().setActive(true);
+      getSearch().setOrder("date asc");
+      super.initSearch();
+   }
 
-	@Override
-	public String getCurrentPageParam() {
-		return CURRENT_PAGE_PARAM;
-	}
+   @Override
+   public String getIdParam()
+   {
+      return ID_PARAM;
+   }
 
-	public String getReturnMessage() {
-		if (params.get(PARAM_BODY) != null && params.get(PARAM_NAME) != null) {
-			Message message = new Message();
-			message.setDate(new Date());
-			message.setEmail(params.get(PARAM_EMAIL));
-			message.setName(params.get(PARAM_NAME));
-			message.setBody(params.get(PARAM_BODY));
-			message.setSourceKey(params.get(PARAM_KEY));
-			message.setSourceType(params.get(PARAM_TYPE));
-			if (!messageConfigurationRepository.load().isApprove()) {
-				message.setActive(true);
-			}
-			messageRepository.persist(message);
-			return "Grazie per il tuo commento!";
-		} else {
-			return null;
-		}
-	}
+   @Override
+   public String getCurrentPageParam()
+   {
+      return CURRENT_PAGE_PARAM;
+   }
+
+   public String getReturnMessage()
+   {
+      if (body != null && name != null)
+      {
+         Message message = new Message();
+         message.setDate(new Date());
+         message.setEmail(email);
+         message.setName(name);
+         message.setBody(body);
+         message.setSourceKey(key);
+         message.setSourceType(type);
+         if (!messageConfigurationRepository.load().isApprove())
+         {
+            message.setActive(true);
+         }
+         messageRepository.persist(message);
+         return "Grazie per il tuo commento!";
+      }
+      else
+      {
+         return null;
+      }
+   }
 
 }

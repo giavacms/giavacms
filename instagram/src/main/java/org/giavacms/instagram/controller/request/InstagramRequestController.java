@@ -1,15 +1,14 @@
 package org.giavacms.instagram.controller.request;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.util.JSFUtils;
 import org.giavacms.instagram.api.model.result.PaginationResult;
 import org.giavacms.instagram.api.model.result.UserSearchResult;
 import org.giavacms.instagram.model.InstagramCollection;
@@ -23,16 +22,29 @@ public class InstagramRequestController extends
 {
 
    private static final long serialVersionUID = 1L;
+   @Inject
+   @HttpParam("tag")
+   String tag;
 
-   public static final String TAG = "tag";
-   public static final String USERID = "userid";
-   public static final String USERNAME = "username";
-   public static final String MAXTAGID = "maxTagId";
-   public static final String Q = "q";
-   public static final String TYPE = "type";
-   public static final String ID_PARAM = "id";
-   public static final String[] PARAM_NAMES = new String[] { TAG, USERID,
-            USERNAME, MAXTAGID, Q, TYPE, ID_PARAM };
+   @Inject
+   @HttpParam("userid")
+   String userid;
+
+   @Inject
+   @HttpParam("username")
+   String username;
+
+   @Inject
+   @HttpParam("maxTagId")
+   String maxTagId;
+
+   @Inject
+   @HttpParam("q")
+   String q;
+
+   @Inject
+   @HttpParam("type")
+   String type;
 
    @Inject
    InstagramService instagramService;
@@ -57,10 +69,9 @@ public class InstagramRequestController extends
          return mediaByTagSize;
       try
       {
-         if (JSFUtils.getParameter(TAG) == null)
+         if (tag == null || tag.trim().isEmpty())
             return 0;
-         mediaByTagSize = instagramService.getMediaByTagSize(JSFUtils
-                  .getParameter(TAG).toString());
+         mediaByTagSize = instagramService.getMediaByTagSize(tag.toString());
          return mediaByTagSize;
       }
       catch (Exception e)
@@ -76,10 +87,8 @@ public class InstagramRequestController extends
          return mediaByTag;
       try
       {
-         if (JSFUtils.getParameter(TAG) == null)
+         if (tag == null || tag.trim().isEmpty())
             return null;
-         Object tag = JSFUtils.getParameter(TAG);
-         Object maxTagId = JSFUtils.getParameter(MAXTAGID);
          mediaByTag = instagramService.getMediaByTag(
                   tag != null ? (String) tag : "",
                   maxTagId != null ? (String) maxTagId : "");
@@ -98,9 +107,8 @@ public class InstagramRequestController extends
          return userByNickname;
       try
       {
-         if (JSFUtils.getParameter(Q) == null)
+         if (q == null)
             return null;
-         Object q = JSFUtils.getParameter(Q);
          userByNickname = instagramService
                   .getUserByNickname(q != null ? (String) q : "");
          return userByNickname;
@@ -118,12 +126,10 @@ public class InstagramRequestController extends
          return userMediaById;
       try
       {
-         if (JSFUtils.getParameter(USERID) == null)
+         if (userid == null)
             return null;
-         Object userId = JSFUtils.getParameter(USERID);
-         Object maxTagId = JSFUtils.getParameter(MAXTAGID);
          userMediaById = instagramService.getUserMediaById(
-                  userId != null ? (String) userId : "",
+                  userid != null ? (String) userid : "",
                   maxTagId != null ? (String) maxTagId : "");
          return userMediaById;
       }
@@ -135,35 +141,14 @@ public class InstagramRequestController extends
    }
 
    @Override
-   public int totalSize()
-   {
-      // TODO Auto-generated method stub
-      return 0;
-   }
-
-   @Override
    public String getCurrentPageParam()
    {
-      // TODO Auto-generated method stub
       return null;
-   }
-
-   @Override
-   protected String[] getParamNames()
-   {
-      return PARAM_NAMES;
    }
 
    @Override
    protected String getIdParam()
    {
-      return ID_PARAM;
-   }
-
-   @Override
-   public List<InstagramCollection> loadPage(int startRow, int pageSize)
-   {
-      // TODO Auto-generated method stub
       return null;
    }
 

@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import org.giavacms.base.controller.AbstractPageRequestController;
 import org.giavacms.base.pojo.I18nRequestParams;
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
@@ -29,14 +30,26 @@ public class RichContentRequestController extends
 
    private static final long serialVersionUID = 1L;
 
-   public static final String PARAM_CONTENT = "q";
-   public static final String PARAM_TYPE = "t";
-   public static final String PARAM_TAG = "tag";
+   @Inject
+   @HttpParam("q")
+   String content;
+   @Inject
+   @HttpParam("t")
+   String type;
+   @Inject
+   @HttpParam("tag")
+   String tag;
+
    public static final String CURRENT_PAGE_PARAM = "p";
-   public static final String[] PARAM_NAMES = new String[] { PARAM_CONTENT,
-            PARAM_TYPE,
-            PARAM_TAG,
-            CURRENT_PAGE_PARAM };
+   public static final String ID_PARAM = "id";
+
+   @Inject
+   @HttpParam(ID_PARAM)
+   String id;
+
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String start;
 
    @Inject
    @OwnRepository(RichContentRepository.class)
@@ -52,24 +65,6 @@ public class RichContentRequestController extends
    @Inject
    TagRepository tagRepository;
 
-   public RichContentRequestController()
-   {
-      super();
-   }
-
-   @Override
-   public void initParameters()
-   {
-      super.initParameters();
-      this.handleI18N();
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
-   }
-
    public List<String> getTipiRichContent()
    {
       Search<RichContentType> r = new Search<RichContentType>(RichContentType.class);
@@ -80,6 +75,15 @@ public class RichContentRequestController extends
          l.add(rnt.getName());
       }
       return l;
+   }
+
+   @Override
+   protected void initSearch() 
+   {
+      getSearch().getObj().setTag(tag);
+      getSearch().getObj().setTitle(content);
+      getSearch().getObj().getRichContentType().setName(type);
+      super.initSearch();
    }
 
    @Override

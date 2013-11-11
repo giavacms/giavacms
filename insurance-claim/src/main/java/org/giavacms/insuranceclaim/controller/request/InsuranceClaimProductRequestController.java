@@ -1,12 +1,12 @@
 package org.giavacms.insuranceclaim.controller.request;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -22,12 +22,22 @@ public class InsuranceClaimProductRequestController extends
 {
 
    private static final long serialVersionUID = 1L;
+   @Inject
+   @HttpParam("categoria")
+   String category;
+   @Inject
+   @HttpParam("q")
+   String search;
 
-   public static final String CATEGORIA = "categoria";
-   public static final String SEARCH = "q";
-   public static final String[] PARAM_NAMES = new String[] { CATEGORIA, SEARCH };
    public static final String ID_PARAM = "id";
    public static final String CURRENT_PAGE_PARAM = "start";
+   @HttpParam(ID_PARAM)
+   @Inject
+   String id;
+
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String start;
 
    @Inject
    @OwnRepository(InsuranceClaimProductRepository.class)
@@ -36,39 +46,13 @@ public class InsuranceClaimProductRequestController extends
    @Inject
    InsuranceClaimCategoryRepository insuranceClaimCategoryRepository;
 
-   public InsuranceClaimProductRequestController()
-   {
-      super();
-   }
-
    @Override
-   public List<InsuranceClaimProduct> loadPage(int startRow, int pageSize)
+   protected void initSearch()
    {
-      Search<InsuranceClaimProduct> r = new Search<InsuranceClaimProduct>(
-               InsuranceClaimProduct.class);
-      r.getObj().setName(getParams().get(SEARCH));
-      r.getObj().getInsuranceClaimCategory()
-               .setName(getParams().get(CATEGORIA));
-      return insuranceClaimProductRepository.getList(r, startRow, pageSize);
-   }
-
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<InsuranceClaimProduct> r = new Search<InsuranceClaimProduct>(
-               InsuranceClaimProduct.class);
-      r.getObj().getInsuranceClaimCategory()
-               .setName(getParams().get(CATEGORIA));
-      r.getObj().setName(getParams().get(SEARCH));
-      return insuranceClaimProductRepository.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
+      getSearch().getObj().setName(search);
+      getSearch().getObj().getInsuranceClaimCategory()
+               .setName(category);
+      super.initSearch();
    }
 
    @Override

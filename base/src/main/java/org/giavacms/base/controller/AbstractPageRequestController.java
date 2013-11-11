@@ -9,6 +9,7 @@ import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.base.producer.I18nRequestParamsProducer;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.controller.AbstractRequestController;
+import org.giavacms.common.model.Search;
 import org.giavacms.common.util.BeanUtils;
 
 public abstract class AbstractPageRequestController<T extends Page> extends AbstractRequestController<T>
@@ -29,6 +30,15 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
    PageRepository pageRepository;
 
    Page basePage = null;
+
+   @Override
+   protected void initHttpParams()
+   {
+      super.initHttpParams();
+      handleI18N();
+   }
+
+   protected abstract void handleI18N();
 
    public I18nRequestParams getI18nRequestParams()
    {
@@ -79,4 +89,14 @@ public abstract class AbstractPageRequestController<T extends Page> extends Abst
       return basePage;
    }
 
+   @Override
+   protected void initSearch()
+   {
+      // elementi della stessa lingua della pagina base
+      if (getBasePage() != null && getBasePage().getLang() > 0)
+      {
+         super.getSearch().getObj().setLang(getBasePage().getLang());
+      }
+   }
+   
 }
