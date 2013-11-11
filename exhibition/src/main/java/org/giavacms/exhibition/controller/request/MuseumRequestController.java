@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
 import org.giavacms.common.model.Search;
@@ -23,11 +24,35 @@ public class MuseumRequestController extends AbstractRequestController<Museum>
 
    private static final long serialVersionUID = 1L;
 
-   public static final String SEARCH = "q";
-   public static final String[] PARAM_NAMES = new String[] { SEARCH };
    public static final String ID_PARAM = "museum";
-   public static final String EXHIBITION = "exhibition";
    public static final String CURRENT_PAGE_PARAM = "start";
+
+   @Inject
+   @HttpParam("q")
+   String search;
+
+   @Inject
+   @HttpParam(ID_PARAM)
+   String id;
+
+   @Inject
+   @HttpParam(CURRENT_PAGE_PARAM)
+   String start;
+
+   @Inject
+   @HttpParam("exhibition")
+   String exhibition;
+
+   Search<Participant> customSearch = new Search<Participant>(Participant.class);
+
+   @Override
+   protected void initSearch()
+   {
+      customSearch.getObj().getSubject().setType(Museum.TYPE);
+      customSearch.getObj().getExhibition().setId(exhibition);
+      customSearch.getObj().getSubject().setSurname(search);
+      super.initSearch();
+   }
 
    @Inject
    @OwnRepository(MuseumRepository.class)
@@ -36,37 +61,17 @@ public class MuseumRequestController extends AbstractRequestController<Museum>
    @Inject
    ParticipantService participantService;
 
-   public MuseumRequestController()
-   {
-      super();
-   }
-
+   @SuppressWarnings("unchecked")
    @Override
    public List<Museum> loadPage(int startRow, int pageSize)
    {
-      Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getSubject().setType(Museum.TYPE);
-      r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
-      r.getObj().getSubject().setSurname(getParams().get(SEARCH));
-      return (List<Museum>) participantService.getList(r, startRow, pageSize);
+      return (List<Museum>) participantService.getList(customSearch, startRow, pageSize);
    }
 
    @Override
    public int totalSize()
    {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getSubject().setType(Museum.TYPE);
-      r.getObj().getExhibition().setId(getParams().get(EXHIBITION));
-      r.getObj().getSubject().setSurname(getParams().get(SEARCH));
-      return participantService.getListSize(r);
-   }
-
-   @Override
-   public String[] getParamNames()
-   {
-      return PARAM_NAMES;
+      return participantService.getListSize(customSearch);
    }
 
    @Override

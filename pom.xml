@@ -59,7 +59,7 @@
 		<module>contactus</module>
 		<module>customer</module>
 		<module>errorpages</module>
-		<!-- module>exhibition</module-->
+		<module>exhibition</module>
 		<module>faq</module>
 		<module>gallery</module>
 		<module>githubcontent</module>
