@@ -39,8 +39,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.web</groupId>
-			<artifactId>jbossweb</artifactId>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>catalina</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
