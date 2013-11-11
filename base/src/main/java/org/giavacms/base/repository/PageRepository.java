@@ -515,7 +515,7 @@ public class PageRepository
          {
             getEm().createNativeQuery(
                      "update " + Page.TABLE_NAME + " set lang" + languageEvent.getLang() + "id = "
-                              + (languageEvent.isSet() ? " ID " : " NULL ") + " where template_id = :TID ")
+                              + (languageEvent.isSet() ? " id " : " NULL ") + " where template_id = :TID ")
                      .setParameter("TID", languageEvent.getTemplateImplId()).executeUpdate();
          }
       }

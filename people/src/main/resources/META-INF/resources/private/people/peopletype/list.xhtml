@@ -19,32 +19,33 @@
 
 					<p:dataTable id="contentList" rowIndexVar="rowIndex"
 						var="contenuto" value="#{peopleTypeController.model}"
-						rows="#{peopleTypeController.pageSize}" paginator="false"
-						lazy="false">
+						rows="#{peopleTypeController.pageSize}" paginator="true"
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column >
+						<p:column>
 							<f:facet name="header">titolo</f:facet>
 							<h:outputText value="#{contenuto.richContentType.name}" />
 						</p:column>
 
-						<p:column >
+						<p:column>
 							<f:facet name="header">larghezza immagine</f:facet>
 							<h:outputText value="#{contenuto.imageWidth}" />
 						</p:column>
 
-						<p:column >
+						<p:column>
 							<f:facet name="header">altezza immagine</f:facet>
 							<h:outputText value="#{contenuto.imageHeight}" />
 						</p:column>
 
-						<p:column >
+						<p:column>
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{peopleTypeController.deleteInline}"
-									title="elimina" style="font-size: 24px;" styleClass="icon-trash" />
+									title="elimina" style="font-size: 24px;"
+									styleClass="icon-trash" />
 							</center>
 						</p:column>
 					</p:dataTable>
