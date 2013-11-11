@@ -10,7 +10,6 @@ import javax.inject.Named;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.model.Search;
 import org.giavacms.exhibition.model.Exhibition;
 import org.giavacms.exhibition.repository.ExhibitionRepository;
 
@@ -41,27 +40,11 @@ public class ExhibitionRequestController extends
    @OwnRepository(ExhibitionRepository.class)
    ExhibitionRepository exhibitionRepository;
 
-   public ExhibitionRequestController()
-   {
-      super();
-   }
-
    @Override
-   public List<Exhibition> loadPage(int startRow, int pageSize)
+   protected void initSearch()
    {
-      Search<Exhibition> r = new Search<Exhibition>(Exhibition.class);
-      r.getObj().setName(search);
-      return exhibitionRepository.getList(r, startRow, pageSize);
-   }
-
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Exhibition> r = new Search<Exhibition>(Exhibition.class);
-      r.getObj().setName(search);
-      return exhibitionRepository.getListSize(r);
+      getSearch().getObj().setName(search);
+      super.initSearch();
    }
 
    public List<Exhibition> getAll()

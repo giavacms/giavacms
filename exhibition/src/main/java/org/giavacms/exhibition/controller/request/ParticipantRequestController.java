@@ -64,15 +64,10 @@ public class ParticipantRequestController extends
    @Inject
    ExhibitionRepository exhibitionRepository;
 
-   public ParticipantRequestController()
-   {
-      super();
-   }
-
    @Override
-   public List<Participant> loadPage(int startRow, int pageSize)
+   protected void initSearch()
    {
-      Search<Participant> r = new Search<Participant>(Participant.class);
+      Search<Participant> r = getSearch();
       r.getObj().getDiscipline().setId(discipline);
       if (exhibition != null && !exhibition.isEmpty())
       {
@@ -89,37 +84,12 @@ public class ParticipantRequestController extends
       {
          r.getObj().getSubject().setType(getFilter());
       }
-      return participantRepository.getList(r, startRow, pageSize);
+      super.initSearch();
    }
 
    public List<ParticipantExhibition> getAllPartecipantsBySubject()
    {
       return participantRepository.getAllPartecipantsBySubject(getElement().getSubject().getId());
-   }
-
-   @Override
-   public int totalSize()
-   {
-      // siamo all'interno della stessa richiesta per servire la quale è
-      // avvenuta la postconstruct
-      Search<Participant> r = new Search<Participant>(Participant.class);
-      r.getObj().getDiscipline().setId(discipline);
-      if (exhibition != null && !exhibition.isEmpty())
-      {
-         r.getObj().getExhibition().setId(exhibition);
-      }
-      else
-      {
-         if (getLatestExhibition() != null)
-            r.getObj().getExhibition().setId(getLatestExhibition().getId());
-      }
-      r.getObj().getSubject().setId(subject);
-      r.getObj().getSubject().setSurname(search);
-      if (getFilter() != null && !getFilter().isEmpty())
-      {
-         r.getObj().getSubject().setType(getFilter());
-      }
-      return participantRepository.getListSize(r);
    }
 
    public List<Participant> getPageOfSizeWithType(int size, String type)

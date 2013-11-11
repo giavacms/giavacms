@@ -39,6 +39,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    protected RichContent prePersist(RichContent n)
    {
       n.setTemplate(n.getRichContentType().getPage().getTemplate());
+      n.setRichContentType(new RichContentType(n.getRichContentType().getId()));
       n.setClone(true);
       if (n.getDate() == null)
          n.setDate(new Date());
@@ -63,6 +64,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    protected RichContent preUpdate(RichContent n)
    {
       n.setTemplate(n.getRichContentType().getPage().getTemplate());
+      n.setRichContentType(new RichContentType(n.getRichContentType().getId()));
       n.setClone(true);
       if (n.getDate() == null)
          n.setDate(new Date());
