@@ -179,9 +179,10 @@ public class PageController extends AbstractLazyController<Page>
          getElement().setLang5id(null);
          break;
       }
+      String outcome = super.update();
       pageEvent.fire(new PageEvent(getElement()));
       languageEvent.fire(new LanguageEvent(getElement().getTemplate().getId(), getElement().getLang(), true));
-      return super.update();
+      return outcome;
    }
 
    @Override

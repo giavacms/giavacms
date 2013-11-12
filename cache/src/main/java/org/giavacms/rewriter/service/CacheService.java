@@ -32,13 +32,13 @@ public class CacheService implements Serializable
    @Inject
    PageRepository pageRepository;
 
-   @Asynchronous
+   // @Asynchronous
    public void cacheByPageId(String pageId)
    {
       write(pageId);
    }
 
-   @Asynchronous
+   // @Asynchronous
    public void cacheByTemplateId(Long id)
    {
       writeByTemplate(id);
@@ -185,13 +185,16 @@ public class CacheService implements Serializable
       if (path == null || path.trim().length() == 0)
       {
          String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
+         logger.info("NO PATH - USO REAL PATH: " + realPath);
          ServletContext servletContext = (ServletContext) FacesContext
                   .getCurrentInstance().getExternalContext().getContext();
          absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")),
                   servletContext.getInitParameter(MappingFilter.PAGES_PATH_PARAM_NAME));
+         logger.info("absolutePath: " + absolutePath);
       }
       else
       {
+         logger.info("USO PATH: " + path);
          String realPath = getClass().getClassLoader().getResource("cache.marker").getPath();
          absolutePath = new File(realPath.substring(0, realPath.indexOf("WEB-INF")), path.replace("/", ""));
       }
