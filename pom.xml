@@ -66,12 +66,13 @@
 		<module>instagram</module>
 		<module>insurance-claim</module>
 		<module>message</module>
-		<module>paypal</module>
+		<module>paypal-rs</module>
 		<module>people</module>
 		<module>resolver</module>
 		<module>richcontent</module>
 		<module>scenario</module>
 		<!--module>twizz</module -->
+		<module>paypalweb</module>
 	</modules>
 
 
@@ -186,7 +187,7 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>paypal</artifactId>
+				<artifactId>paypal-rs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

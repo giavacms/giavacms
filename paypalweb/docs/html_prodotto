@@ -1,0 +1,54 @@
+<div id="sfondosez"><div class="benvenuto2">Nome:  ANTIFURTO BLOCCAMANUBRIO MOD. BLINDADO KYMCO AGILITY R16 - CLM </div><div class="scheda" style="font-weight:normal">&nbsp;&nbsp;Prezzo unitario: 125,00<br>&nbsp;&nbsp;Spesa parziale: euro 125<br><div class="clear"><div></div></div><br><div class="spesatotale">SPESA TOTALE: EURO 125<br>SPESE DI SPEDIZIONE: EURO 10</div><p></p></div><div style="font-size:12px; width:80%;background:#EAE5CE ; border:1px solid #ff6600;padding:10px;">
+		<b>Indirizzo di spedizione:</b> <br><br>
+		Nome: mario<br>
+		Cognome: rossi<br>
+		Indirizzo E-Mail: mariorossi@gmail.com<br>
+		Codice Fiscale/Partita Iva 123456789<br>
+		Ragione sociale: <br>
+		Indirizzo fatturazione: via del carro 4 <br>
+		CAP: 63074 <br>
+		Citta': san benedettp del tronto<br>
+		Provincia: AP <br>
+		Telefono: 12345678<br>
+		<br></div>
+	<div class="benvenuto2">Seleziona Modalita' di Pagamento:</div>
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post"></form>
+<input type="hidden" name="cmd" value="_cart">
+<input type="hidden" name="redirect_cmd" value="_xclick">
+<input type="hidden" name="email" value="mariorossi@gmail.com"><input type="hidden" name="amount_1" value="125.00">
+			<input type="hidden" name="item_name_1" value="ANTIFURTO BLOCCAMANUBRIO MOD. BLINDADO KYMCO AGILITY R16 - CLM ">
+			<input type="hidden" name="quantity_1" value="1"><input type="hidden" name="shipping_1" value="10">
+<input type="hidden" name="notify_url" value="http://simonellimoto.it/paypal_ipn_handler.php">
+<input type="hidden" name="cancel_return" value="http://simonellimoto.it/risultato.php?tipo=paypal&amp;result=false&amp;id=311">
+<input type="hidden" name="return" value="http://simonellimoto.it/risultato.php?tipo=paypal&amp;result=true&amp;id=311">
+<input type="hidden" name="rm" value="2">
+<input type="hidden" name="currency_code" value="EUR">
+<input type="hidden" name="business" value="info@simonellimoto.it">
+<input type="hidden" name="first_name" value="mario">
+<input type="hidden" name="last_name" value="rossi">
+<input type="hidden" name="address1" value="via del carro 4">
+<input type="hidden" name="city" value="san benedettp del tronto">
+<input type="hidden" name="state" value="AP">
+<input type="hidden" name="zip" value="63074">
+<input type="hidden" name="country" value="IT">
+<input type="hidden" name="lc" value="IT">
+<input type="hidden" name="shipping" value="0.00">
+<input type="hidden" name="custom" value="311">
+<input type="hidden" name="upload" value="1">
+<input type="hidden" name="on0" value="Codice Fiscale/Partita Iva">
+<input type="hidden" name="os0" value="123456789">
+<input type="hidden" name="on1" value="Telefono">
+<input type="hidden" name="os1" value="12345678">
+<input name="submit" type="submit" value="Paga con PayPal">
+<strong class="scheda">&nbsp;(PayPal - Carta di credito - PostPay)</strong><br>
+<p><form action="risultato.php?tipo=contrassegno&amp;result=true&amp;id=311" method="post"></form>
+<input name="submit" type="submit" value="Paga in contrassegno">
+<strong class="scheda">&nbsp;(spese di contrassegno: euro 3.6)</strong></p>
+
+<p><form action="risultato.php?tipo=bonifico&amp;result=true&amp;id=311" method="post"></form>
+<input name="submit" type="submit" value="Paga con bonifico bancario">
+</p> 
+
+<!-- <p><form action='risultato.php?tipo=svuota&result=false&id=311' method='post'>
+<input name='submit' type='submit' value='Svuota Carrello' /></p>-->
+</div>
