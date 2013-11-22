@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
-import javax.ejb.ScheduleExpression;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
@@ -35,12 +34,7 @@ public class CallerTimerService
       logger.info(callToMake.toString());
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToMake.getWhen());
-      timerService.createCalendarTimer(
-               new ScheduleExpression()
-                        .hour(calendar.get(Calendar.HOUR_OF_DAY))
-                        .minute(calendar.get(Calendar.MINUTE))
-                        .second(calendar.get(Calendar.SECOND)),
-               new TimerConfig(callToMake, true));
+      timerService.createSingleActionTimer(callToMake.getWhen(), new TimerConfig(callToMake, true));
    }
 
    @Timeout
