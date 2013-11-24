@@ -1,5 +1,7 @@
 package org.giavacms.paypalweb.controller;
 
+import java.util.Date;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,7 +51,8 @@ public class ShoppingCartController extends
 
    public String close()
    {
-
+      getElement().setSentdDate(new Date());
+      getElement().setSent(true);
       return viewCurrent();
    }
 

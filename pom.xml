@@ -67,6 +67,7 @@
 		<module>insurance-claim</module>
 		<module>message</module>
 		<module>paypal-rs</module>
+		<module>paypalweb</module>
 		<module>people</module>
 		<module>resolver</module>
 		<module>richcontent</module>
@@ -188,6 +189,11 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>paypal-rs</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>paypalweb</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

@@ -2,6 +2,7 @@ package org.giavacms.paypalweb.controller.request;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.giavacms.paypalweb.model.IpnContent;
 import org.giavacms.paypalweb.model.PaypalConfiguration;
 import org.giavacms.paypalweb.model.ShoppingCart;
-import org.giavacms.paypalweb.model.ShoppingCartStatus;
 import org.giavacms.paypalweb.repository.IpnContentRepository;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.giavacms.paypalweb.util.IpnUtils;
@@ -101,7 +101,8 @@ public class IpnController implements Serializable
             if (shoppingCart != null)
             {
                logger.info("update shopping cart");
-               shoppingCart.setShoppingCartStatus(ShoppingCartStatus.SENDING);
+               shoppingCart.setConfirmDate(new Date());
+               shoppingCart.setConfirmed(true);
                shoppingCart.setLogId(ipnContent.getId());
                shoppingCartRepository.update(shoppingCart);
             }
@@ -110,7 +111,9 @@ public class IpnController implements Serializable
          {
             if (shoppingCart != null)
             {
-               shoppingCart.setShoppingCartStatus(ShoppingCartStatus.ERROR);
+               shoppingCart.setConfirmDate(new Date());
+               shoppingCart.setConfirmed(false);
+               shoppingCartRepository.update(shoppingCart);
             }
          }
       }

@@ -40,10 +40,10 @@ public class NewsLetterEmailRequestController extends
 
    private static final long serialVersionUID = 1L;
    @Inject
-   @HttpParam("name")
+   @HttpParam
    String name;
    @Inject
-   @HttpParam("email")
+   @HttpParam
    String email;
    @Inject
    @HttpParam("privacy")

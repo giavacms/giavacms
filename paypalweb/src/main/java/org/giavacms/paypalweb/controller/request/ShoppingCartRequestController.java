@@ -35,27 +35,27 @@ public class ShoppingCartRequestController extends
 
    private static final long serialVersionUID = 1L;
    @Inject
-   @HttpParam("idProduct")
+   @HttpParam
    String idProduct;
 
    @Inject
-   @HttpParam("description")
+   @HttpParam
    String description;
 
    @Inject
-   @HttpParam("price")
+   @HttpParam
    String price;
 
    @Inject
-   @HttpParam("quantity")
+   @HttpParam
    String quantity;
    @Inject
-   @HttpParam("vat")
+   @HttpParam
    String vat;
 
    @Inject
-   @HttpParam("image")
-   String imageUrl;
+   @HttpParam
+   String image;
 
    @Inject
    ShoppingCartSessionController shoppingCartSessionController;
@@ -87,7 +87,7 @@ public class ShoppingCartRequestController extends
 
          shoppingCartSessionController.addProduct(vat, price,
                   idProduct, description,
-                  Integer.valueOf(quantity), imageUrl);
+                  Integer.valueOf(quantity), image);
       }
    }
 

@@ -41,57 +41,30 @@
 						</p:column>
 						<p:column width="300">
 							<f:facet name="header">nome</f:facet>
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{t.name}" />
-								</f:facet>
-								<f:facet name="input">
-									<h:inputText required="true"
-										requiredMessage="E' obbligatorio specificare un nome"
-										value="#{t.name}" />
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{t.name}" />
+						</p:column>
+						<p:column width="300">
+							<f:facet name="header">telefono</f:facet>
+							<h:outputText value="#{t.phone}" />
 						</p:column>
 
 						<p:column width="300">
 							<f:facet name="header">email</f:facet>
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{t.email}" />
-								</f:facet>
-								<f:facet name="input">
-									<h:inputText required="true"
-										requiredMessage="E' obbligatorio specificare un email"
-										value="#{t.email}" />
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{t.email}" />
 						</p:column>
 
 						<p:column width="300">
 							<f:facet name="header">message</f:facet>
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{t.message}" />
-								</f:facet>
-								<f:facet name="input">
-									<h:inputText required="true"
-										requiredMessage="E' obbligatorio specificare un msg"
-										value="#{t.message}" />
-								</f:facet>
-							</p:cellEditor>
+							<h:outputText value="#{t.message}" />
 						</p:column>
 
 						<p:column width="100">
 							<f:facet name="header">operazioni</f:facet>
-							<p:rowEditor>
-							</p:rowEditor>
 							<h:commandLink action="#{contactUsController.deleteInline}"
-								title="elimina" 
-								styleClass="icon-trash" style="font-size: 24px;" immediate="true"
+								title="elimina" styleClass="icon-trash" style="font-size: 24px;"
+								immediate="true"
 								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
 						</p:column>
-						<p:ajax event="rowEdit"
-							listener="#{contactUsController.onRowEdit}" />
 					</p:dataTable>
 				</p:panel>
 

@@ -25,7 +25,6 @@ public class ShoppingCart implements Serializable
    private static final long serialVersionUID = 1L;
    private Long id;
    private String paymentId;
-   private String currency;
    private boolean created;
    private boolean confirmed;
    private boolean sent;
@@ -35,10 +34,10 @@ public class ShoppingCart implements Serializable
    private BigDecimal partialAmount = BigDecimal.ZERO.setScale(2);
    private BigDecimal partialTax = BigDecimal.ZERO.setScale(2);
    private BigDecimal shipping = BigDecimal.ZERO.setScale(2);
+   private String currency;
    private BillingAddress billingAddress;
    private ShippingAddress shippingAddress;
    private List<ShoppingArticle> shoppingArticles;
-   private ShoppingCartStatus shoppingCartStatus;
    private Long logId;
 
    public ShoppingCart()
@@ -323,16 +322,6 @@ public class ShoppingCart implements Serializable
    public void setShipping(BigDecimal shipping)
    {
       this.shipping = shipping;
-   }
-
-   public ShoppingCartStatus getShoppingCartStatus()
-   {
-      return shoppingCartStatus;
-   }
-
-   public void setShoppingCartStatus(ShoppingCartStatus shoppingCartStatus)
-   {
-      this.shoppingCartStatus = shoppingCartStatus;
    }
 
    public Long getLogId()

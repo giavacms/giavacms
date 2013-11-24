@@ -38,14 +38,17 @@ public class ContactUsRequestController extends
 
    private static final long serialVersionUID = 1L;
    @Inject
-   @HttpParam("name")
+   @HttpParam
    String name;
    @Inject
-   @HttpParam("email")
+   @HttpParam
    String email;
    @Inject
-   @HttpParam("message")
+   @HttpParam
    String message;
+   @Inject
+   @HttpParam
+   String phone;
 
    @Inject
    ContactUsConfigurationRepository contactUsConfigurationRepository;
@@ -80,6 +83,7 @@ public class ContactUsRequestController extends
       contactUs.setData(new Date());
       contactUs.setEmail(email);
       contactUs.setName(name);
+      contactUs.setPhone(phone);
       contactUs.setMessage(message);
       contactUsRepository.persist(contactUs);
 

@@ -43,13 +43,18 @@
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">data inizio/fine</f:facet>
-							<h:outputText value="#{shc.dataStart}">
+							<f:facet name="header">data creazione/conferma/invio</f:facet>
+							<h:outputText value="#{shc.creationDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<br />
-							<h:outputText value="#{shc.dataEnd}">
+							<h:outputText value="#{shc.confirmDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+							<br />
+							<h:outputText value="#{shc.sentdDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
@@ -57,35 +62,46 @@
 						<p:column width="100">
 							<f:facet name="header">utente</f:facet>
 							<h:outputText style="font-weight: bolder;" value="nome: " />
-							<h:outputText id="firstName" value="#{shc.payerInfo.firstName}" />
+							<h:outputText id="firstName"
+								value="#{shc.billingAddress.firstName}" />
 							<br />
 
 							<h:outputText style="font-weight: bolder;" value="cognome: " />
-							<h:outputText id="lastName" value="#{shc.payerInfo.lastName}" />
+							<h:outputText id="lastName"
+								value="#{shc.billingAddress.lastName}" />
 							<br />
 
 							<h:outputText style="font-weight: bolder;" value="telefono: " />
-							<h:outputText id="phone" value="#{shc.payerInfo.phone}" />
+							<h:outputText id="phone" value="#{shc.billingAddress.phone}" />
 							<br />
 
 							<h:outputText for="email" style="font-weight: bolder;"
 								value="email: " />
-							<h:outputText id="email" value="#{shc.payerInfo.email}" />
+							<h:outputText id="email" value="#{shc.billingAddress.email}" />
 
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">valuta</f:facet>
+							<f:facet name="header">parziale/tasse/shipping/valuta</f:facet>
+							<h:outputText value="#{shc.partialAmount}" />
+							<br />
+							<h:outputText value="#{shc.partialTax}" />
+							<br />
+							<h:outputText value="#{shc.shipping}" />
+							<br />
 							<h:outputText value="#{shc.currency}" />
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">creato/pagato</f:facet>
+							<f:facet name="header">creato/confermato/inviato</f:facet>
 							<h:outputText value="SI" rendered="#{shc.created}" />
 							<h:outputText value="NO" rendered="#{not shc.created}" />
 							<br />
-							<h:outputText value="SI" rendered="#{shc.payed}" />
-							<h:outputText value="NO" rendered="#{not shc.payed}" />
+							<h:outputText value="SI" rendered="#{shc.confirmed}" />
+							<h:outputText value="NO" rendered="#{not shc.confirmed}" />
+							<br />
+							<h:outputText value="SI" rendered="#{shc.sent}" />
+							<h:outputText value="NO" rendered="#{not shc.sent}" />
 						</p:column>
 
 						<p:column width="200">
