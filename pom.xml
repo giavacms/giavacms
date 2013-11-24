@@ -72,7 +72,7 @@
 		<module>richcontent</module>
 		<module>scenario</module>
 		<!--module>twizz</module -->
-		<module>paypalweb</module>
+		<!--  <module>paypalweb</module>-->
 	</modules>
 
 

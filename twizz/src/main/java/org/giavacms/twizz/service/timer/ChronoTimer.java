@@ -38,12 +38,8 @@ public class ChronoTimer
       logger.info(callToComplete.toString());
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToComplete.getWhen());
-      timerService.createCalendarTimer(
-               new ScheduleExpression()
-                        .hour(calendar.get(Calendar.HOUR_OF_DAY))
-                        .minute(calendar.get(Calendar.MINUTE))
-                        .second(calendar.get(Calendar.SECOND)),
-               new TimerConfig(callToComplete, true));
+      timerService.createSingleActionTimer(callToComplete.getWhen(),
+               new TimerConfig(callToComplete, false));
    }
 
    @Timeout

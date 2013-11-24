@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.giavacms.paypalweb.controller.application.IpnController;
+import org.giavacms.paypalweb.controller.request.IpnController;
 
-@WebServlet(name = "", urlPatterns = { "" })
+@WebServlet(name = "IPNServlet", urlPatterns = { "/ipn" })
 public class IPNServlet extends HttpServlet
 {
    private static final long serialVersionUID = 1L;
@@ -23,14 +23,7 @@ public class IPNServlet extends HttpServlet
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
    {
-      try
-      {
-         ipnController.handleIpn(request);
-      }
-      catch (IpnException e)
-      {
-         e.printStackTrace();
-      }
+      ipnController.handleIpn(request);
    }
 
    @Override

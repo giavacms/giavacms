@@ -11,9 +11,9 @@ import org.giavacms.paypalweb.repository.PaypalConfigurationRepository;
 
 @Named
 @SessionScoped
-public class PaypallProducer implements Serializable
+public class PaypalProducer implements Serializable
 {
-   public PaypallProducer()
+   public PaypalProducer()
    {
    }
 

@@ -38,6 +38,8 @@ public class ShoppingCart implements Serializable
    private BillingAddress billingAddress;
    private ShippingAddress shippingAddress;
    private List<ShoppingArticle> shoppingArticles;
+   private ShoppingCartStatus shoppingCartStatus;
+   private Long logId;
 
    public ShoppingCart()
    {
@@ -321,6 +323,26 @@ public class ShoppingCart implements Serializable
    public void setShipping(BigDecimal shipping)
    {
       this.shipping = shipping;
+   }
+
+   public ShoppingCartStatus getShoppingCartStatus()
+   {
+      return shoppingCartStatus;
+   }
+
+   public void setShoppingCartStatus(ShoppingCartStatus shoppingCartStatus)
+   {
+      this.shoppingCartStatus = shoppingCartStatus;
+   }
+
+   public Long getLogId()
+   {
+      return logId;
+   }
+
+   public void setLogId(Long logId)
+   {
+      this.logId = logId;
    }
 
 }

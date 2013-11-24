@@ -34,7 +34,7 @@ public class CallerTimerService
       logger.info(callToMake.toString());
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(callToMake.getWhen());
-      timerService.createSingleActionTimer(callToMake.getWhen(), new TimerConfig(callToMake, true));
+      timerService.createSingleActionTimer(callToMake.getWhen(), new TimerConfig(callToMake, false));
    }
 
    @Timeout
