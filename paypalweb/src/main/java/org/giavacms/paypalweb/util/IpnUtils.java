@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +18,17 @@ import org.giavacms.paypalweb.model.IpnContent;
 
 public class IpnUtils
 {
+
+   static Logger logger = Logger.getLogger(IpnUtils.class.getName());
+
    public static IpnContent fromRequest(HttpServletRequest request, String res)
    {
+      logger.info("inside IpnUtils.fromRequest");
       IpnContent ipnInfo = new IpnContent();
       ipnInfo.setDate(new Date());
       ipnInfo.setCustom(request.getParameter("custom"));
-//      ipnInfo.setItemName(request.getParameter("item_name"));
-      //      ipnInfo.setItemNumber(request.getParameter("item_number"));
+      // ipnInfo.setItemName(request.getParameter("item_name"));
+      // ipnInfo.setItemNumber(request.getParameter("item_number"));
       ipnInfo.setPaymentStatus(request.getParameter("payment_status"));
       ipnInfo.setPaymentAmount(request.getParameter("mc_gross"));
       ipnInfo.setPaymentCurrency(request.getParameter("mc_currency"));
@@ -37,7 +42,7 @@ public class IpnUtils
 
    public static String postToPaypal(HttpServletRequest request, String ipnUrl) throws IOException
    {
-
+      logger.info("inside IpnUtils.postToPaypal: " + ipnUrl);
       // 1. Prepare 'notify-validate' command with exactly the same parameters
       Enumeration<String> en = request.getParameterNames();
       StringBuilder cmd = new StringBuilder("cmd=_notify-validate");
@@ -45,10 +50,12 @@ public class IpnUtils
       String paramValue;
       while (en.hasMoreElements())
       {
+
          paramName = (String) en.nextElement();
          paramValue = request.getParameter(paramName);
+         logger.info(paramName + ": " + paramValue);
          cmd.append("&").append(paramName).append("=")
-                  .append(URLEncoder.encode(paramValue, request.getParameter("charset")));
+                  .append(URLEncoder.encode(paramValue, "UTF-8"));
       }
 
       // 2. Post above command to Paypal IPN URL

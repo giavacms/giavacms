@@ -38,41 +38,46 @@ public class IpnController implements Serializable
 
    public void handleIpn(HttpServletRequest request) throws IOException
    {
-      logger.info("inside ipn");
-      IpnContent ipnContent = null;
+      logger.info("inside IpnController.handleIpn");
       // 1. Read all posted request parameters
       // 2. Prepare 'notify-validate' command with exactly the same parameters
       // 3. Post above command to Paypal IPN URL {@link IpnConfig#ipnUrl}
       // 4. Read response from Paypal
       String res = IpnUtils.postToPaypal(request, paypalConfiguration.getIpnUrl());
-
+      logger.info("postToPaypal reponse: " + res);
       // 5. Capture Paypal IPN information
-      ipnContent = IpnUtils.fromRequest(request, res);
+      IpnContent ipnContent = IpnUtils.fromRequest(request, res);
       ipnContentRepository.persist(ipnContent);
+      logger.info(ipnContent);
       // 6. Validate captured Paypal IPN Information
       if (res.equals("VERIFIED"))
       {
+         logger.info("Paypal IPN Information: VERIFIED");
          completed = true;
          // 6.1. Check the existence of shoppingCart with custom ID
          ShoppingCart shoppingCart = shoppingCartRepository.find(Long.parseLong(ipnContent.getCustom()));
          if (shoppingCart == null)
          {
+            completed = false;
             logger.info("doesn't exist shoppingCart with custom id {" + ipnContent.getCustom() + "}");
          }
          // 6.1. Check that paymentStatus=Completed
          if (ipnContent.getPaymentStatus() == null || !ipnContent.getPaymentStatus().equalsIgnoreCase("COMPLETED"))
          {
+            completed = false;
             logger.info("payment_status IS NOT COMPLETED {" + ipnContent.getPaymentStatus() + "}");
          }
          // 6.2. Check that txnId has not been previously processed
          IpnContent oldIpnInfo = ipnContentRepository.findByTxnId(ipnContent.getTxnId());
          if (oldIpnInfo != null)
          {
+            completed = false;
             logger.info("txn_id is already processed {old ipn_info " + oldIpnInfo);
          }
          // 6.3. Check that receiverEmail matches with configured {@link IpnConfig#receiverEmail}
          if (!ipnContent.getReceiverEmail().equalsIgnoreCase(paypalConfiguration.getEmail()))
          {
+            completed = false;
             logger.info("receiver_email " + ipnContent.getReceiverEmail()
                      + " does not match with configured ipn email " + paypalConfiguration.getEmail());
          }
@@ -81,6 +86,7 @@ public class IpnController implements Serializable
          if (Double.parseDouble(ipnContent.getPaymentAmount()) != shoppingCart
                   .getTotal())
          {
+            completed = false;
             logger.info("payment amount mc_gross " + ipnContent.getPaymentAmount()
                      + " does not match with configured ipn amount " + shoppingCart
                               .getTotal());
@@ -88,11 +94,13 @@ public class IpnController implements Serializable
          // // 6.5. Check that paymentCurrency matches with configured {@link IpnConfig#paymentCurrency}
          if (!ipnContent.getPaymentCurrency().equalsIgnoreCase(shoppingCart.getCurrency()))
          {
+            completed = false;
             logger.info("payment currency mc_currency " + ipnContent.getPaymentCurrency()
                      + " does not match with configured ipn currency " + shoppingCart.getCurrency());
          }
          if (completed)
          {
+            logger.info("completed");
             /*
              * $totale = $totale + $sped - $total; if ($totale == 0) { $pagato = $total; $stato = "in consegna"; } else
              * { $pagato = $total; $stato = "pagamento scorretto"; } $tot_agg = array('stato' => q($stato), 'pagato'
@@ -100,20 +108,30 @@ public class IpnController implements Serializable
              */
             if (shoppingCart != null)
             {
-               logger.info("update shopping cart");
+               logger.info("update shopping cart: confirmed");
                shoppingCart.setConfirmDate(new Date());
                shoppingCart.setConfirmed(true);
                shoppingCart.setLogId(ipnContent.getId());
                shoppingCartRepository.update(shoppingCart);
             }
+            else
+            {
+               logger.info("update shopping cart: NOT FOUND");
+            }
          }
          else
          {
+            logger.info("not completed");
             if (shoppingCart != null)
             {
+               logger.info("update shopping cart: not confirmed");
                shoppingCart.setConfirmDate(new Date());
                shoppingCart.setConfirmed(false);
                shoppingCartRepository.update(shoppingCart);
+            }
+            else
+            {
+               logger.info("update shopping cart: NOT FOUND");
             }
          }
       }
@@ -121,9 +139,6 @@ public class IpnController implements Serializable
       {
          logger.info("Inavlid response {" + res + "} expecting {VERIFIED}");
       }
-      logger.info("ipnInfo = " + ipnContent);
-
-      // 7. In case of any failed validation checks, throw {@link IpnException}
 
    }
 }
