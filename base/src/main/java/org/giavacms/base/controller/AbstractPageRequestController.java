@@ -9,7 +9,6 @@ import org.giavacms.base.pojo.I18nRequestParams;
 import org.giavacms.base.producer.I18nRequestParamsProducer;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.model.Search;
 import org.giavacms.common.util.BeanUtils;
 
 public abstract class AbstractPageRequestController<T extends Page> extends AbstractRequestController<T>

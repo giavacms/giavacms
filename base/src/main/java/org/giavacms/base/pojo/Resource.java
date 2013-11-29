@@ -27,6 +27,8 @@ public class Resource implements Serializable
    private String name;
    private InputStream inputStream;
    private ResourceType resourceType;
+   
+   private String type;
 
    // ------------------------------------------------------------------------
 
@@ -69,7 +71,7 @@ public class Resource implements Serializable
 
    public String getType()
    {
-      return resourceType == null ? null : resourceType.getFolder();
+      return type != null ? type : resourceType != null ? resourceType.getFolder() : null;
    }
 
    public void setType(String type)
@@ -79,9 +81,11 @@ public class Resource implements Serializable
          if (resourceType.getFolder().equals(type))
          {
             this.resourceType = resourceType;
-            break;
+            this.type = null;
+            return;
          }
       }
+      this.type = type;
    }
 
    @Transient
