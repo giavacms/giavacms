@@ -40,9 +40,9 @@ public class IpnUtils
       return ipnInfo;
    }
 
-   public static String postToPaypal(HttpServletRequest request, String ipnUrl) throws IOException
+   public static String postToPaypal(HttpServletRequest request, String serviceUrl) throws IOException
    {
-      logger.info("inside IpnUtils.postToPaypal: " + ipnUrl);
+      logger.info("inside IpnUtils.postToPaypal: " + serviceUrl);
       // 1. Prepare 'notify-validate' command with exactly the same parameters
       Enumeration<String> en = request.getParameterNames();
       StringBuilder cmd = new StringBuilder("cmd=_notify-validate");
@@ -58,8 +58,13 @@ public class IpnUtils
                   .append(URLEncoder.encode(paramValue, "UTF-8"));
       }
 
-      // 2. Post above command to Paypal IPN URL
-      URL u = new URL(ipnUrl);
+      // 2. Post above command to Paypal Service URL
+      /*
+       * For Production/Live - https://www.paypal.com/cgi-bin/webscr
+       * 
+       * For Sandbox/Testing - https://www.sandbox.paypal.com/cgi-bin/webscr
+       */
+      URL u = new URL(serviceUrl);
       HttpsURLConnection uc = (HttpsURLConnection) u.openConnection();
       uc.setDoOutput(true);
       uc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

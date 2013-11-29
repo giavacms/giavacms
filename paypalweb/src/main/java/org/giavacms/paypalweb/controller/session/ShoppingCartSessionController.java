@@ -10,9 +10,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.common.util.JSFUtils;
+import org.giavacms.paypalweb.controller.request.PaypalConfigurationRequestController;
+import org.giavacms.paypalweb.model.BillingAddress;
+import org.giavacms.paypalweb.model.ShippingAddress;
 import org.giavacms.paypalweb.model.ShoppingArticle;
 import org.giavacms.paypalweb.model.ShoppingCart;
-import org.giavacms.paypalweb.producer.PaypalProducer;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.giavacms.paypalweb.service.ShippingService;
 import org.jboss.logging.Logger;
@@ -28,17 +30,26 @@ public class ShoppingCartSessionController implements Serializable
    Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
-   PaypalProducer paypallProducer;
+   PaypalConfigurationRequestController paypalConfigurationRequestController;
 
    @Inject
    ShoppingCartRepository shoppingCartRepository;
 
    @EJB
    ShippingService shippingService;
-   private boolean emulation = true;
 
    public ShoppingCartSessionController()
    {
+   }
+
+   public void addBillingAddress(BillingAddress billingAddress)
+   {
+      getElement().setBillingAddress(billingAddress);
+   }
+
+   public void addShippingAddress(ShippingAddress shippingAddress)
+   {
+      getElement().setShippingAddress(shippingAddress);
    }
 
    public String addProduct(String vat,
@@ -54,7 +65,7 @@ public class ShoppingCartSessionController implements Serializable
       try
       {
          FacesContext.getCurrentInstance().getExternalContext()
-                  .redirect(paypallProducer.getPaypalConfiguration().getShoppingCartUrl());
+                  .redirect(paypalConfigurationRequestController.getPaypalConfiguration().getShoppingCartUrl());
       }
       catch (IOException e)
       {
@@ -62,123 +73,6 @@ public class ShoppingCartSessionController implements Serializable
          e.printStackTrace();
       }
       return null;
-   }
-
-   public String addPayer()
-   {
-      StringBuffer msg = new StringBuffer();
-
-      // CONTROLLO INFORMAZIONI SUL PAGANTE
-      // if (getElement().getPayerInfo().getEmail() == null || !getElement().getPayerInfo().getEmail().isEmpty())
-      // {
-      // msg.append("Email vuota o nulla. ");
-      // }
-      // else
-      // {
-      // boolean isValid = EmailUtils.isValidEmailAddress(getElement().getPayerInfo().getEmail());
-      // if (!isValid)
-      // msg.append("Email non valida. ");
-      // }
-      // if (getElement().getPayerInfo().getFirstName() == null ||
-      // !getElement().getPayerInfo().getFirstName().isEmpty())
-      // {
-      // msg.append("Nome vuoto o nullo. ");
-      // }
-      // if (getElement().getPayerInfo().getLastName() == null || !getElement().getPayerInfo().getLastName().isEmpty())
-      // {
-      // msg.append("Cognome vuoto o nullo. ");
-      // }
-      // if (getElement().getPayerInfo().getPhone() == null || !getElement().getPayerInfo().getPhone().isEmpty())
-      // {
-      // msg.append("Telefono vuoto o nullo. ");
-      // }
-      // // CONTROLLO INFORMAZIONI SU INDIRIZZO PAGANTE
-      // if (getElement().getPayerInfo().getAddress().getCity() == null
-      // || !getElement().getPayerInfo().getAddress().getCity().isEmpty())
-      // {
-      // msg.append("Citta' dell'indirizzo vuota o nulla. ");
-      // }
-      // if (getElement().getPayerInfo().getAddress().getCountryCode() == null
-      // || !getElement().getPayerInfo().getAddress().getCountryCode().isEmpty())
-      // {
-      // msg.append("Stato dell'indirizzo vuota o nulla. ");
-      // }
-      // if (getElement().getPayerInfo().getAddress().getPostalCode() == null
-      // || !getElement().getPayerInfo().getAddress().getPostalCode().isEmpty())
-      // {
-      // msg.append("CAP dell'indirizzo vuota o nulla. ");
-      // }
-      // if (getElement().getPayerInfo().getAddress().getState() == null
-      // || !getElement().getPayerInfo().getAddress().getState().isEmpty())
-      // {
-      // msg.append("Provincia dell'indirizzo vuota o nulla. ");
-      // }
-      // getElement().getPayerInfo().getAddress().setLine1("via cornelio nepote 8");
-      // CONTROLLO INFORMAZIONI SU INDIRIZZO PAGAMENTO
-      if (msg.toString().isEmpty())
-         return "CONCLUDI";
-
-      return null;
-   }
-
-   public void gotoPaypal()
-   {
-      if (emulation)
-      {
-         // EMULAZIONE COMPILAZIONE Address Billing
-         // getElement().getPayerInfo().getAddress().setCity("san benedetto del tronto");
-         // getElement().getPayerInfo().getAddress().setCountryCode("IT");
-         // getElement().getPayerInfo().getAddress().setPostalCode("63074");
-         // getElement().getPayerInfo().getAddress().setState("AP");
-         // getElement().getPayerInfo().getAddress().setLine1("via cornelio nepote 8");
-         //
-         // // EMULAZIONE DATI PAYER
-         // getElement().getPayerInfo().setEmail("fiorenzino@gmail.com");
-         // getElement().getPayerInfo().setFirstName("fiorenzo");
-         // getElement().getPayerInfo().setLastName("pizza");
-         // getElement().getPayerInfo().setPhone("+393922274929");
-         //
-         // // EMULAZIONE COMPILAZIONE Shipping Address
-         // getElement().getPayerInfo().getShippingAddress().setCity("san benedetto del tronto");
-         // getElement().getPayerInfo().getShippingAddress().setCountryCode("IT");
-         // getElement().getPayerInfo().getShippingAddress().setPostalCode("63074");
-         // getElement().getPayerInfo().getShippingAddress().setState("AP");
-         // getElement().getPayerInfo().getShippingAddress().setLine1("via cornelio nepote 8");
-         // getElement().getPayerInfo().getShippingAddress().setRecipientName("fiorenzo pizza");
-         // getElement().getPayerInfo().getShippingAddress().setType("residential");
-
-      }
-      double shippingAmount = shippingService.calculate(getElement());
-
-      // getElement().setShipping(shippingAmount);
-      // shoppingCartRepository.persist(getElement());
-      // try
-      // {
-      // PaypalUtils.init(paypallProducer.getPaypalConfiguration(), getElement(), false, false);
-      // shoppingCartRepository.update(getElement());
-      // if (getElement().isCreated())
-      // {
-      // logger.info("redirect: " + getElement().getApprovalUrl());
-      // FacesContext.getCurrentInstance().getExternalContext().redirect(getElement().getApprovalUrl());
-      // }
-      // else
-      // {
-      // logger.info("ERROR!!!");
-      // FacesContext.getCurrentInstance().getExternalContext()
-      // .redirect(paypallProducer.getPaypalConfiguration().getShoppingCartUrl());
-      // return;
-      // }
-      // }
-      // catch (RuntimeException e)
-      // {
-      // // TODO Auto-generated catch block
-      // e.printStackTrace();
-      // }
-      // catch (Exception e)
-      // {
-      // // TODO Auto-generated catch block
-      // e.printStackTrace();
-      // }
    }
 
    public void gotoLastPage()
@@ -189,14 +83,13 @@ public class ShoppingCartSessionController implements Serializable
       }
       catch (IOException e)
       {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
    }
 
    public void resetShoppingCart()
    {
-      this.element = new ShoppingCart(paypallProducer.getPaypalConfiguration().getCurrency());
+      this.element = new ShoppingCart(paypalConfigurationRequestController.getPaypalConfiguration().getCurrency());
    }
 
    public void reset()
@@ -204,11 +97,10 @@ public class ShoppingCartSessionController implements Serializable
       resetShoppingCart();
       try
       {
-         JSFUtils.redirect(paypallProducer.getPaypalConfiguration().getShoppingCartUrl());
+         JSFUtils.redirect(paypalConfigurationRequestController.getPaypalConfiguration().getShoppingCartUrl());
       }
       catch (IOException e)
       {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
    }

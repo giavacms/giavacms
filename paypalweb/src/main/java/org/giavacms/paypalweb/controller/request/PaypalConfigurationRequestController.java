@@ -1,8 +1,8 @@
-package org.giavacms.paypalweb.producer;
+package org.giavacms.paypalweb.controller.request;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -10,10 +10,10 @@ import org.giavacms.paypalweb.model.PaypalConfiguration;
 import org.giavacms.paypalweb.repository.PaypalConfigurationRepository;
 
 @Named
-@SessionScoped
-public class PaypalProducer implements Serializable
+@RequestScoped
+public class PaypalConfigurationRequestController implements Serializable
 {
-   public PaypalProducer()
+   public PaypalConfigurationRequestController()
    {
    }
 
