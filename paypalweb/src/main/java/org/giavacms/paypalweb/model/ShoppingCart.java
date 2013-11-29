@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.giavacms.common.util.StringUtils;
@@ -64,7 +66,7 @@ public class ShoppingCart implements Serializable
       this.id = id;
    }
 
-   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="shoppingCart")
    public List<ShoppingArticle> getShoppingArticles()
    {
       if (shoppingArticles == null)

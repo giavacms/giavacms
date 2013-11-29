@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -524,8 +525,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
    protected List<RichContent> extract(List resultList, boolean completeFetch)
    {
       RichContent richContent = null;
-      Map<String, List<Image>> images = new LinkedHashMap<String, List<Image>>();
-      Map<String, List<Document>> documents = new LinkedHashMap<String, List<Document>>();
+      Map<String, Map<Long, Image>> images = new LinkedHashMap<String, Map<Long, Image>>();
+      Map<String, Map<Long, Document>> documents = new LinkedHashMap<String, Map<Long, Document>>();
       Map<String, RichContent> richContents = new LinkedHashMap<String, RichContent>();
 
       Iterator<Object[]> results = resultList.iterator();
@@ -666,14 +667,15 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             image.setFilename(imagefileName);
             if (images.containsKey(id))
             {
-               List<Image> list = images.get(id);
-               list.add(image);
+               Map<Long, Image> map = images.get(id);
+               map.put(image.getId()
+                        , image);
             }
             else
             {
-               ArrayList<Image> list = new ArrayList<Image>();
-               list.add(image);
-               images.put(id, list);
+               Map<Long, Image> map = new HashMap<Long, Image>();
+               map.put(image.getId(), image);
+               images.put(id, map);
             }
          }
          i++;
@@ -698,14 +700,14 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             document.setFilename(documentfileName);
             if (documents.containsKey(id))
             {
-               List<Document> list = documents.get(id);
-               list.add(document);
+               Map<Long, Document> map = documents.get(id);
+               map.put(document.getId(), document);
             }
             else
             {
-               ArrayList<Document> list = new ArrayList<Document>();
-               list.add(document);
-               documents.put(id, list);
+               Map<Long, Document> map = new HashMap<Long, Document>();
+               map.put(document.getId(), document);
+               documents.put(id, map);
             }
          }
          i++;
@@ -725,12 +727,12 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          if (richContents.containsKey(id))
          {
             rich = richContents.get(id);
-            List<Document> docs = documents.get(id);
+            Map<Long, Document> docs = documents.get(id);
             if (docs != null)
             {
-               for (Document doc : docs)
+               for (Long docId : docs.keySet())
                {
-                  rich.addDocument(doc);
+                  rich.addDocument(docs.get(docId));
                }
             }
          }
@@ -746,12 +748,12 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          if (richContents.containsKey(id))
          {
             rich = richContents.get(id);
-            List<Image> imgs = images.get(id);
+            Map<Long, Image> imgs = images.get(id);
             if (imgs != null)
             {
-               for (Image img : imgs)
+               for (Long imgId : imgs.keySet())
                {
-                  rich.addImage(img);
+                  rich.addImage(imgs.get(imgId));
                }
             }
          }

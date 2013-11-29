@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+		<p:dialog header="Scegli una risorsa gia' caricata" widgetVar="resDialog"
+			draggable="true" position="center">
+			<h:form id="resForm">
+	<p:dataTable id="imgList" rowIndexVar="rowIndex" var="r"
+						value="#{resourceController.model}"
+						rows="#{resourceController.pageSize}" paginator="true" lazy="true">
+						<p:column width="50">
+							<center>
+								<h:outputText value="#{rowIndex+1} " />
+							</center>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="nome" />
+							</f:facet>
+							<h:outputText value="#{r.name}" />
+						</p:column>
+						<p:column headerText="anteprima">
+							<center>
+								<h:graphicImage value="/img/#{r.name}?#{gb:random()}"
+									rendered="#{r.type eq 'img'}"
+									width="#{gb:imageWidthProportionalUrl('img/'.concat(r.name),100,100)}"
+									height="#{gb:imageHeightProportionalUrl('img/'.concat(r.name), 100, 100)}" />
+
+								<h:outputLink target="_blank" title="anteprima"
+									style="font-size: 24px;" styleClass="icon-eye-open"
+									value="#{request.contextPath}/docs/#{r.name}"
+									rendered="#{r.type eq 'docs'}">
+								</h:outputLink>
+
+								<h:outputLink target="_blank" title="anteprima"
+									style="font-size: 24px;" styleClass="icon-eye-open"
+									value="#{request.contextPath}/js/#{r.name}"
+									rendered="#{r.type eq 'js'}">
+								</h:outputLink>
+
+								<h:outputLink target="_blank" title="anteprima"
+									style="font-size: 24px;" styleClass="icon-eye-open"
+									value="#{request.contextPath}/css/#{r.name}"
+									rendered="#{r.type eq 'css'}">
+								</h:outputLink>
+							</center>
+						</p:column>
+						<p:column headerText="modifica">
+							<center>
+								<h:commandLink title="scegli" style="font-size: 24px;"
+									styleClass="icon-plus"
+									action="#{richContentController.pickResource}" />
+							</center>
+						</p:column>
+					</p:dataTable>			</h:form>
+		</p:dialog>
+
+</ui:composition>
