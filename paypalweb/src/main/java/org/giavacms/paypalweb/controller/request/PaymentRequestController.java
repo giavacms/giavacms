@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.paypalweb.controller.session.ShoppingCartSessionController;
-import org.giavacms.paypalweb.producer.PaypalProducer;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.jboss.logging.Logger;
 
@@ -21,7 +20,7 @@ public class PaymentRequestController
    ShoppingCartSessionController shoppingCartSessionController;
 
    @Inject
-   PaypalProducer paypallProducer;
+   PaypalConfigurationRequestController paypalConfigurationRequestController;
 
    Logger logger = Logger.getLogger(getClass().getName());
 

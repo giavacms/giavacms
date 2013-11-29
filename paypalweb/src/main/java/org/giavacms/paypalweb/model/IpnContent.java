@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class IpnContent implements Serializable
@@ -92,6 +95,7 @@ public class IpnContent implements Serializable
       this.receiverEmail = receiverEmail;
    }
 
+   @Lob
    public String getRequestParams()
    {
       return requestParams;
@@ -132,6 +136,7 @@ public class IpnContent implements Serializable
       this.custom = custom;
    }
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getDate()
    {
       return date;

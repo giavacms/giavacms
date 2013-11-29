@@ -10,7 +10,7 @@ import org.giavacms.paypalweb.util.ButtonUtils;
 
 @RequestScoped
 @Named
-public class PaypalButtonController
+public class PaypalButtonRequestController
 {
 
    @Inject
@@ -19,7 +19,7 @@ public class PaypalButtonController
    @Inject
    PaypalConfiguration paypalConfiguration;
 
-   public PaypalButtonController()
+   public PaypalButtonRequestController()
    {
    }
 

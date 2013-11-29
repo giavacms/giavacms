@@ -41,14 +41,14 @@ public class IpnContentRepository extends
       return "id desc";
    }
 
-   public IpnContent findByTxnId(String txnId)
+   public IpnContent findByTxnId(String txnId, Long id)
    {
       try
       {
          List<IpnContent> list = em
                   .createQuery(
-                           "select t from IpnContent t where t.txnId = :TXNID")
-                  .setParameter("TXNID", txnId).getResultList();
+                           "select t from IpnContent t where t.txnId = :TXNID and t.id != :CURRENT_ID")
+                  .setParameter("TXNID", txnId).setParameter("CURRENT_ID", id).getResultList();
          if (list != null && list.size() > 0)
             return list.get(0);
          return null;

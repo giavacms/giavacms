@@ -26,6 +26,37 @@ public class BillingAddress implements Serializable
    private String phone;
    private String email;
 
+   public BillingAddress()
+   {
+   }
+
+   public BillingAddress(String firstName,
+            String lastName,
+            String company,
+            String vatCode,
+            String line1,
+            String line2,
+            String city,
+            String countryCode,
+            String zip,
+            String state,
+            String phone,
+            String email)
+   {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.company = (company != null && !company.isEmpty() && company.equals("S")) ? true : false;
+      this.vatCode = vatCode;
+      this.line1 = line1;
+      this.line2 = line2;
+      this.city = city;
+      this.countryCode = countryCode;
+      this.zip = zip;
+      this.state = state;
+      this.phone = phone;
+      this.email = email;
+   }
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    public Long getId()

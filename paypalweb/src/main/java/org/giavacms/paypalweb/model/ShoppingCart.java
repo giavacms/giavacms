@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.giavacms.common.util.StringUtils;
@@ -64,7 +66,7 @@ public class ShoppingCart implements Serializable
       this.id = id;
    }
 
-   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "shoppingCart")
    public List<ShoppingArticle> getShoppingArticles()
    {
       if (shoppingArticles == null)
@@ -121,22 +123,25 @@ public class ShoppingCart implements Serializable
       this.created = created;
    }
 
-   @Transient
    public BigDecimal getPartialAmount()
    {
+      if (partialAmount == null)
+         this.partialAmount = new BigDecimal(0);
       return partialAmount;
    }
 
-   @Transient
    public BigDecimal getPartialTax()
    {
+      if (partialTax == null)
+         this.partialTax = new BigDecimal(0);
       return partialTax;
    }
 
    @Transient
    public double getTotal()
    {
-      return partialAmount.add(partialTax).doubleValue();
+      // gestire i null
+      return getPartialAmount().add(getPartialTax()).doubleValue();
    }
 
    public void addPartial(int quantity, String price, String vat)
@@ -169,11 +174,6 @@ public class ShoppingCart implements Serializable
          this.partialAmount = this.partialAmount.add(singleAmount);
       if (singleTax != null)
          this.partialTax = this.partialTax.add(singleTax);
-
-      // double singleAmount = Double.valueOf(quantity) * Double.valueOf(price);
-      // double singleTax = Double.valueOf(quantity) * Double.valueOf(vat);
-      // this.partialAmount += singleAmount;
-      // this.partialTax += singleTax;
    }
 
    // ALEX
@@ -264,6 +264,7 @@ public class ShoppingCart implements Serializable
       this.sent = sent;
    }
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getCreationDate()
    {
       return creationDate;
@@ -274,6 +275,7 @@ public class ShoppingCart implements Serializable
       this.creationDate = creationDate;
    }
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getConfirmDate()
    {
       return confirmDate;
@@ -284,6 +286,7 @@ public class ShoppingCart implements Serializable
       this.confirmDate = confirmDate;
    }
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getSentdDate()
    {
       return sentdDate;

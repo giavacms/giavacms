@@ -21,6 +21,23 @@ public class ShippingAddress implements Serializable
    private String zip;
    private String state;
 
+   public ShippingAddress()
+   {
+   }
+
+   public ShippingAddress(String firstName, String lastName, String line1, String line2, String city,
+            String countryCode, String zip, String state)
+   {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.line1 = line1;
+      this.line2 = line2;
+      this.city = city;
+      this.countryCode = countryCode;
+      this.zip = zip;
+      this.state = state;
+   }
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    public Long getId()
