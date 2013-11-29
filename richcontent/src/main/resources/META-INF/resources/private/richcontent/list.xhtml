@@ -13,6 +13,29 @@
 		<f:attribute name="roles" value="richcontent" />
 	</ui:define>
 	<ui:define name="content">
+
+		<p:dialog header="Tag cloud (anteprima)" widgetVar="tagCloudDialog"
+			draggable="true" position="center">
+			<h:form id="cloudForm">
+				<h:panelGroup layout="block" id="tagCloud"
+					style="width: 400px; font-size:small; padding: 50px; text-align: center;">
+					<ul style="list-style-type: none;">
+						<ui:repeat value="#{tags}" var="t" varStatus="varStatus">
+							<li style="float: left;"><p:commandLink
+									value="#{t.obj.tagName}"
+									action="#{richContentController.filterTag(t.obj.tagName)}"
+									update=":mainForm:contentList :mainForm:searchGrid"
+									style="padding: 5px; font-size: #{3*t.ratio}em" /></li>
+						</ui:repeat>
+					</ul>
+				</h:panelGroup>
+				<br />
+				<br />
+				<br />
+				<br />
+			</h:form>
+		</p:dialog>
+
 		<h:form id="mainForm">
 			<center>
 				<p:panel header="Lista Contenuti">
@@ -43,19 +66,21 @@
 					</h:panelGrid>
 					<p:commandButton action="#{richContentController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false"
-						update="tagPanel contentList" />
+						update="tagPanel contentList :cloudForm" />
 					<p:commandButton action="#{richContentController.reset}"
 						value="Azzera filtri" ajax="false" immediate="true" />
 					<br />
 					<br />
-					<h:panelGroup id="tagPanel" style="font-size:small;">
+					<h:panelGroup id="tagPanel">
+						<p:commandLink ajax="true" onclick="tagCloudDialog.show();"
+							styleClass="icon-cloud" style="font-size: 24px; margin: 2px;"
+							title="anteprima" />
+						<h:outputText value=" Tags:" style="font-weight: bolder;" />
 						<ui:repeat value="#{tags}" var="t" varStatus="varStatus">
-							<h:outputText value="Tags:" style="font-weight: bolder;"
-								rendered="#{varStatus.first}" />
 							<p:commandLink value="#{t.obj.tagName} (#{t.count})"
 								action="#{richContentController.filterTag(t.obj.tagName)}"
 								update=":mainForm:contentList :mainForm:searchGrid"
-								style="padding: 5px; font-size: #{3*t.ratio}em" />
+								style="padding: 5px;" />
 							<h:outputText value="&lt;br/&gt;&lt;br/&gt;" escape="false"
 								rendered="#{varStatus.last}" />
 						</ui:repeat>
@@ -113,6 +138,9 @@
 								<h:commandLink action="#{richContentController.modDocuments}"
 									styleClass="icon-link" style="font-size: 24px;"
 									title="modifica documenti" />
+								<h:outputText value=" " />
+								<h:commandLink style="font-size: 24px;" styleClass="icon-copy"
+									title="crea copia" action="#{richContentController.cloneElement}" />
 							</center>
 						</p:column>
 					</p:dataTable>

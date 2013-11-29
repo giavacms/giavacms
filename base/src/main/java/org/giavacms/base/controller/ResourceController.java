@@ -6,11 +6,11 @@
  */
 package org.giavacms.base.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +21,7 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.swing.ImageIcon;
 
+import org.giavacms.base.annotation.DefaultResourceController;
 import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.model.enums.ResourceType;
@@ -42,7 +43,8 @@ import org.primefaces.model.UploadedFile;
 
 @Named
 @SessionScoped
-public class ResourceController extends AbstractLazyController<Resource>
+@DefaultResourceController
+public class ResourceController extends AbstractLazyController<Resource> implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
@@ -76,8 +78,6 @@ public class ResourceController extends AbstractLazyController<Resource>
 
    int width, height;
    private CroppedImage croppedImage;
-   private StreamedContent streamedContent;
-   private byte[] croppedBytes;
 
    // ------------------------------------------------
 
@@ -116,26 +116,6 @@ public class ResourceController extends AbstractLazyController<Resource>
    public void setCroppedImage(CroppedImage croppedImage)
    {
       this.croppedImage = croppedImage;
-   }
-
-   public StreamedContent getStreamedContent()
-   {
-      return streamedContent;
-   }
-
-   public void setStreamedContent(StreamedContent streamedContent)
-   {
-      this.streamedContent = streamedContent;
-   }
-
-   public byte[] getCroppedBytes()
-   {
-      return croppedBytes;
-   }
-
-   public void setCroppedBytes(byte[] croppedBytes)
-   {
-      this.croppedBytes = croppedBytes;
    }
 
    // ------------------------------------------------
@@ -354,8 +334,6 @@ public class ResourceController extends AbstractLazyController<Resource>
       width = 0;
       height = 0;
       croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
       if (!ResourceType.IMAGE.equals(getElement().getResourceType()))
       {
          return;
@@ -371,17 +349,15 @@ public class ResourceController extends AbstractLazyController<Resource>
       height = imageIcon.getIconHeight();
    }
 
-   public String resizeImgNew()
-   {
-      getElement().setName(System.currentTimeMillis() + "_" + getElement().getName());
-      getElement().setId(getElement().getName());
-      return resizeImg();
-   }
-
-   public String resizeImg()
+   public String resize()
    {
       try
       {
+         if (!resourceRepository.createSubFolder(ResourceType.IMAGE, "resized"))
+         {
+            super.addFacesMessage("Errore durante la scrittura dei dati temporanei");
+            return null;
+         }
          byte[] resized = null;
          if (width == 0 || height == 0)
          {
@@ -394,6 +370,7 @@ public class ResourceController extends AbstractLazyController<Resource>
                      FileUtils.getExtension(getElement().getName()));
          }
          getElement().setBytes(resized);
+         getElement().setType(getElement().getType() + "/resized");
          resourceRepository.updateResource(getElement());
          return modCurrent();
       }
@@ -411,16 +388,19 @@ public class ResourceController extends AbstractLazyController<Resource>
          return null;
 
       ByteArrayOutputStream baos = null;
-      ByteArrayInputStream bais = null;
       try
       {
+         if (!resourceRepository.createSubFolder(ResourceType.IMAGE, "cropped"))
+         {
+            super.addFacesMessage("Errore durante la scrittura dei dati temporanei");
+            return null;
+         }
          baos = new ByteArrayOutputStream();
          baos.write(croppedImage.getBytes(), 0, croppedImage.getBytes().length);
-
-         croppedBytes = baos.toByteArray();
-         bais = new ByteArrayInputStream(croppedBytes);
-         streamedContent = new DefaultStreamedContent(bais);
-
+         getElement().setBytes(baos.toByteArray());
+         getElement().setType(getElement().getType() + "/cropped");
+         resourceRepository.updateResource(getElement());
+         return modCurrent();
       }
       catch (Exception e)
       {
@@ -439,42 +419,23 @@ public class ResourceController extends AbstractLazyController<Resource>
             {
             }
          }
-         if (bais != null)
-         {
-            try
-            {
-               bais.close();
-            }
-            catch (Exception e)
-            {
-            }
-         }
       }
       return null;
    }
 
-   public String undoCrop()
+   public String undo()
    {
-      this.streamedContent = null;
-      this.croppedBytes = null;
-      this.croppedImage = null;
+      resourceRepository.delete(getElement());
+      getElement().setType(ResourceType.IMAGE.getFolder());
       return modCurrent();
    }
 
-   public String confirmCrop()
+   public String confirm()
    {
-      try
-      {
-         getElement().setBytes(croppedBytes);
-         resourceRepository.updateResource(getElement());
-         return modCurrent();
-      }
-      catch (Exception e)
-      {
-         super.addFacesMessage("Errori nel salvataggio dell'immagine ritagliata");
-         e.printStackTrace();
-         return null;
-      }
+      resourceRepository.delete(getElement());
+      getElement().setType(ResourceType.IMAGE.getFolder());
+      resourceRepository.updateResource(getElement());
+      return modCurrent();
    }
 
 }

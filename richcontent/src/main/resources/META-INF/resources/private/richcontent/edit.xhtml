@@ -147,7 +147,8 @@
 						<center>
 							<h:commandLink
 								action="#{richContentController.removeImage(img.id)}"
-								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
+								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty img.id}" />
 						</center>
@@ -173,7 +174,8 @@
 						<center>
 							<h:commandLink
 								action="#{richContentController.removeDocument(img.id)}"
-								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
+								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty doc.filename or not empty doc.id}" />
 						</center>
@@ -185,6 +187,11 @@
 						value="Salva" immediate="false"
 						rendered="#{not richContentController.editMode}" />
 
+
+					<h:commandButton action="#{richContentController.saveAndModDocuments}"
+						value="Salva e aggiungi documenti" immediate="false"
+						rendered="#{not richContentController.editMode}" />
+
 					<h:commandButton action="#{richContentController.update}"
 						value="Salva le modifiche" immediate="false"
 						rendered="#{richContentController.editMode}" />
@@ -193,6 +200,7 @@
 						value="Elimina" rendered="#{richContentController.editMode}"
 						immediate="true"
 						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
+					
 				</h:panelGrid>
 			</center>
 		</h:form>

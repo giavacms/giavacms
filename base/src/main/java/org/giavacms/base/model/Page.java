@@ -40,6 +40,7 @@ public class Page extends I18nSupport
    boolean clone = false;
    boolean extended = false;
    private String title;
+   private String formerTitle;
    private String description;
    private TemplateImpl template;
    private Long templateId;
@@ -80,6 +81,10 @@ public class Page extends I18nSupport
    public void setTitle(String title)
    {
       this.title = title;
+      if (this.formerTitle == null)
+      {
+         this.formerTitle = title;
+      }
    }
 
    @Lob
@@ -191,6 +196,17 @@ public class Page extends I18nSupport
    public void setTemplateId(Long templateId)
    {
       this.templateId = templateId;
+   }
+
+   @Column(name = "title", insertable = false, updatable = false)
+   public String getFormerTitle()
+   {
+      return formerTitle;
+   }
+
+   public void setFormerTitle(String formerTitle)
+   {
+      this.formerTitle = formerTitle;
    }
 
 }
