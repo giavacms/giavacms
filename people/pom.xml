@@ -9,8 +9,8 @@
 
 	<artifactId>people</artifactId>
 
-	<name>GiavaCMS Content Management System : Rich Content Module</name>
-	<description>GiavaCMS Content Management System: Rich Content Module</description>
+	<name>GiavaCMS Content Management System : People Module</name>
+	<description>GiavaCMS Content Management System: People Module</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>

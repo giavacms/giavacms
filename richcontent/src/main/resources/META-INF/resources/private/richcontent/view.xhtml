@@ -105,14 +105,16 @@
 
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="3">
+				<h:panelGrid columns="4">
 					<h:commandButton action="#{richContentController.modCurrent}"
-						value="Modifica" />
+						value="Modifica Testi" />
 					<h:commandButton
 						action="#{richContentController.modDocumentsCurrent}"
 						value="Modifica Documenti" />
-					<h:commandButton id="creaContenuto"
-						action="#{richContentController.addElement}" value="Aggiungi" />
+					<h:commandButton action="#{richContentController.cloneCurrent}"
+						value="Crea Copia" />
+					<h:commandButton action="#{richContentController.addElement}"
+						value="Aggiungi" />
 				</h:panelGrid>
 			</center>
 		</h:form>

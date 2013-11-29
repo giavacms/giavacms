@@ -15,7 +15,7 @@
 
 	<packaging>pom</packaging>
 
-	<name>GiavaCMS Content Management System: Parent Aggregator</name>
+	<name>GiavaCMS Content Management System : Parent Aggregator</name>
 	<description>GiavaCMS Content Management System: Parent Aggregator</description>
 	<url>http://giavacms.org</url>
 

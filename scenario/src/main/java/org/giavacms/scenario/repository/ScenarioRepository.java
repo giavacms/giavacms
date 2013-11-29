@@ -2,12 +2,11 @@ package org.giavacms.scenario.repository;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -346,8 +345,8 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
             completeFetch)
    {
       Scenario scenario = null;
-      Map<String, Set<Image>> images = new LinkedHashMap<String, Set<Image>>();
-      Map<String, Set<Product>> products = new LinkedHashMap<String, Set<Product>>();
+      Map<String, Map<Long, Image>> images = new LinkedHashMap<String, Map<Long, Image>>();
+      Map<String, Map<String, Product>> products = new LinkedHashMap<String, Map<String, Product>>();
       Map<String, Scenario> scenarios = new LinkedHashMap<String, Scenario>();
       Iterator<Object[]> results = resultList.iterator();
       while (results.hasNext())
@@ -431,13 +430,13 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
             Image image = new Image();
             image.setId(imageId);
             image.setFilename(imagefileName);
-            Set<Image> scenario_images = images.get(id);
+            Map<Long, Image> scenario_images = images.get(id);
             if (scenario_images == null)
             {
-               scenario_images = new HashSet<Image>();
+               scenario_images = new HashMap<Long, Image>();
                images.put(id, scenario_images);
             }
-            scenario_images.add(image);
+            scenario_images.put(image.getId(), image);
          }
          if (!scenarios.containsKey(id))
          {
@@ -452,13 +451,13 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
             Product product = new Product();
             product.setId(productId);
             product.setTitle(productTitle);
-            Set<Product> scenario_products = products.get(id);
+            Map<String, Product> scenario_products = products.get(id);
             if (scenario_products == null)
             {
-               scenario_products = new HashSet<Product>();
+               scenario_products = new HashMap<String, Product>();
                products.put(id, scenario_products);
             }
-            scenario_products.add(product);
+            scenario_products.put(product.getId(), product);
          }
 
       }
@@ -468,12 +467,12 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
          if (scenarios.containsKey(id))
          {
             scen = scenarios.get(id);
-            Set<Image> imgs = images.get(id);
+            Map<Long, Image> imgs = images.get(id);
             if (imgs != null)
             {
-               for (Image img : imgs)
+               for (Long imgId : imgs.keySet())
                {
-                  scen.addImage(img);
+                  scen.addImage(imgs.get(imgId));
                }
             }
          }
@@ -489,12 +488,12 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
          if (scenarios.containsKey(id))
          {
             scen = scenarios.get(id);
-            Set<Product> prods = products.get(id);
+            Map<String, Product> prods = products.get(id);
             if (prods != null)
             {
-               for (Product prod : prods)
+               for (String prodId : prods.keySet())
                {
-                  scen.addProduct(prod);
+                  scen.addProduct(prods.get(prodId));
                }
             }
          }

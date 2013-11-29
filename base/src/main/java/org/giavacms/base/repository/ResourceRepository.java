@@ -302,4 +302,18 @@ public class ResourceRepository extends AbstractRepository<Resource>
       return "nome";
    }
 
+   public boolean createSubFolder(ResourceType resourceType, String subfolderName)
+   {
+      String fullpath = ResourceUtils.getRealPath() + resourceType.getFolder() + File.separator + subfolderName;
+      File newPath = new File(fullpath);
+      if (newPath.exists() && newPath.isDirectory())
+      {
+         return true;
+      }
+      else
+      {
+         return newPath.mkdir();
+      }
+   }
+
 }
