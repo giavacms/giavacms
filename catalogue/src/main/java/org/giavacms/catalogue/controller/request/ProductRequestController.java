@@ -27,9 +27,11 @@ public class ProductRequestController extends
    @Inject
    @HttpParam("categoria")
    String category;
+   
    @Inject
    @HttpParam("q")
    String content;
+   
    @Inject
    @HttpParam("t")
    String type;
