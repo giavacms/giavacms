@@ -22,20 +22,20 @@ Some examples:
 <ul>
 <li><a href="http://arteinsieme-pdp.rhcloud.com/" target="_blank">Arte Insieme</a></li>
 <li><a href="http://comune.colonnella.te.it" target="_blank">comune colonnella in Italy (TE)</a></li>
-<li><a href="http://avissbt.it/" target="_blank">avissbt.it</a></li>
+<li><a href="http://avissbt.it" target="_blank">avissbt.it</a></li>
 <li><a href="http://www.martinainfanzia.it" target="_blank">martinainfanzia.it</a></li>
 <li><a href="http://www.commissarioscozia.it" target="_blank">commissarioscozia.it</a></li>
-<li><a href="http://www.withflower.in/" target="_blank">withflower.in</a></li>
-<li><a href="http://www.arteinsie.me/" target="_blank">arteinsie.me</a></li>
-<li><a href="http://www.ict-group.it/" target="_blank">ict-group.it</a></li>
-<li><a href="http://www.vandel.it/" target="_blank">vandel.it</a></li>
-<li><a href="http://www.chaletstella.it/" target="_blank">chaletstella.it</a></li>
-<li><a href="http://www.andreacapecci.it/" target="_blank">andreacapecci.it</a></li>
-<li><a href="http://www.twiliofaces.org/" target="_blank">twiliofaces.org</a></li>
-<li><a href="http://www.twizz.me/" target="_blank">twizz.me</a></li>
-<li><a href="http://www.tramteatro.it/" target="_blank">tramteatro.it</a></li>
-<li><a href="http://www.responsabilitacivileprofessionisti.it//" target="_blank">responsabilitacivileprofessionisti.it/</a></li>
-<li><a href="http://www.giavacms.org//" target="_blank">giavacms.org/</a></li>
+<li><a href="http://www.withflower.in" target="_blank">withflower.in</a></li>
+<li><a href="http://www.arteinsie.me" target="_blank">arteinsie.me</a></li>
+<li><a href="http://www.ict-group.it" target="_blank">ict-group.it</a></li>
+<li><a href="http://www.vandel.it" target="_blank">vandel.it</a></li>
+<li><a href="http://www.chaletstella.it" target="_blank">chaletstella.it</a></li>
+<li><a href="http://www.andreacapecci.it" target="_blank">andreacapecci.it</a></li>
+<li><a href="http://www.twiliofaces.org" target="_blank">twiliofaces.org</a></li>
+<li><a href="http://www.twizz.me" target="_blank">twizz.me</a></li>
+<li><a href="http://www.tramteatro.it" target="_blank">tramteatro.it</a></li>
+<li><a href="http://www.responsabilitacivileprofessionisti.it" target="_blank">responsabilitacivileprofessionisti.it/</a></li>
+<li><a href="http://www.giavacms.org/" target="_blank">giavacms.org/</a></li>
 </ul><b>GiavaCms loves:</b><br/>
 <img src="https://giavacms.googlecode.com/svn/web-sites/loghi/prettyfaces.png" height="70px"/> 
 <img src="https://giavacms.googlecode.com/svn/web-sites/loghi/primefaces.gif" height="70px" /> 
