@@ -59,4 +59,16 @@ public class NavigationRequestController
       }
    }
 
+   public void gotoPayerInfoUrl()
+   {
+      try
+      {
+         JSFUtils.redirect(paypalConfigurationRequestController.getPaypalConfiguration().getPayerInfoUrl());
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
 }

@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.paypalweb.controller.session.ShoppingCartSessionController;
+import org.giavacms.paypalweb.model.ShoppingCart;
 
 /**
  * 
@@ -77,7 +78,12 @@ public class ShoppingCartRequestController implements Serializable
       }
    }
 
-   public void removeProduct(String idProduct)
+   public ShoppingCart getElement()
+   {
+      return shoppingCartSessionController.getElement();
+   }
+
+   public void del(String idProduct)
    {
       shoppingCartSessionController.removeArticle(idProduct);
       navigationRequestController.goToShoppingCartUrl();
@@ -104,5 +110,16 @@ public class ShoppingCartRequestController implements Serializable
    public String getButton()
    {
       return shoppingCartSessionController.getButton();
+   }
+
+   public String getLastPage()
+   {
+      return shoppingCartSessionController.getLastPage();
+
+   }
+   
+   public void reset()
+   {
+      shoppingCartSessionController.resetShoppingCart();
    }
 }

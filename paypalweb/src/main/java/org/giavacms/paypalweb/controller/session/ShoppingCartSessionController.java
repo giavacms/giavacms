@@ -57,9 +57,10 @@ public class ShoppingCartSessionController implements Serializable
       getElement().setShippingAddress(shippingAddress);
    }
 
-   public void saveAndGotoPreviewShoppingCartPage()
+   public void save()
    {
       shoppingCartRepository.persist(getElement());
+      logger.info(getElement().getId());
    }
 
    public String getButton()

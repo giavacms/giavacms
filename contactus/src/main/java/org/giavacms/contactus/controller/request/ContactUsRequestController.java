@@ -8,6 +8,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.xml.registry.infomodel.TelephoneNumber;
 
 import org.giavacms.base.service.EmailSession;
 import org.giavacms.common.annotation.HttpParam;
@@ -74,8 +75,10 @@ public class ContactUsRequestController extends
 
    public String getReturnMessage()
    {
-      if (message == null)
+      if (message == null || message.isEmpty() || email == null || email.isEmpty() || phone == null || phone.isEmpty()
+               || name == null || name.isEmpty())
       {
+
          return null;
       }
 
@@ -140,7 +143,7 @@ public class ContactUsRequestController extends
 
       String result = emailSession.sendEmail(from,
                "nuovo contatto dal web: " + name.trim()
-                        + " " + email.trim() + " - msg: "
+                        + " \n" + email.trim() + "\n - msg: "
                         + message,
                "nuovo contatto dal web", tos.toArray(new String[] {}),
                ccs.toArray(new String[] {}),

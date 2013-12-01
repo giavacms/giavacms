@@ -3,6 +3,9 @@
 <%@page import="java.util.Properties"%>
 <%
    Logger logger = Logger.getLogger("org.giavacms.multisite.jsp.index");
+try {
+   
+}
    Properties properties = new Properties();
    String hostName = request.getServerName();
    properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("domains.properties"));

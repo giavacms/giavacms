@@ -86,12 +86,13 @@ public class ShoppingCart implements Serializable
          if (shoppingArticle.getIdProduct().equals(article.getIdProduct()))
          {
             shoppingArticle.inc(article.getQuantity());
+            addPartial(article.getQuantity(), article.getPrice(), article.getVat());
             return;
          }
-         addPartial(article.getQuantity(), article.getPrice(), article.getVat());
       }
       article.setShoppingCart(this);
       getShoppingArticles().add(article);
+      addPartial(article.getQuantity(), article.getPrice(), article.getVat());
    }
 
    public String getPaymentId()

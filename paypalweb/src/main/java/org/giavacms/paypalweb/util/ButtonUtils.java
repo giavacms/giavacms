@@ -14,7 +14,7 @@ public class ButtonUtils
             String cancelUrl, String returnUrl)
    {
       StringBuffer html = new StringBuffer();
-      html.append("<form action='https://" + server + "/cgi-bin/webscr' method='post'>");
+      html.append("<form action='" + server + "' method='post'>");
       html.append("<input type='hidden' name='cmd' value='_cart'>");
       html.append("<input type='hidden' name='redirect_cmd' value='_xclick'>");
       html.append("<input type='hidden' name='email' value='" + email + "'>");
