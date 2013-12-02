@@ -103,52 +103,52 @@ public class PayerInfoRequestController
                billingPhone != null && !billingPhone.trim().isEmpty() &&
                billingEmail != null && !billingEmail.trim().isEmpty())
       {
-
+         logger.info("billing address OK");
       }
       else
       {
-         if (billingFirstName != null && !billingFirstName.trim().isEmpty())
+         if (billingFirstName == null || billingFirstName.trim().isEmpty())
          {
             errors.append("; manca il nome (fatturazione)");
          }
-         if (billingLastName != null && !billingLastName.trim().isEmpty())
+         if (billingLastName == null || billingLastName.trim().isEmpty())
          {
             errors.append("; manca il cognome (fatturazione)");
          }
 
-         if (billingVatCode != null && !billingVatCode.trim().isEmpty())
+         if (billingVatCode == null || billingVatCode.trim().isEmpty())
          {
             errors.append("; manca la partita iva/codice fiscale (fatturazione)");
          }
-         if (billingLine1 != null && !billingLine1.trim().isEmpty())
+         if (billingLine1 == null || billingLine1.trim().isEmpty())
          {
             errors.append("; manca la linea1 (fatturazione)");
          }
-         if (billingLine2 != null && !billingLine2.trim().isEmpty())
+         if (billingLine2 == null || billingLine2.trim().isEmpty())
          {
             errors.append("; manca la linea2 (fatturazione)");
          }
-         if (billingCity != null && !billingCity.trim().isEmpty())
+         if (billingCity == null || billingCity.trim().isEmpty())
          {
             errors.append("; manca la citta' (fatturazione)");
          }
-         if (billingCountryCode != null && !billingCountryCode.trim().isEmpty())
+         if (billingCountryCode == null || billingCountryCode.trim().isEmpty())
          {
             errors.append("; manca la provincia (fatturazione)");
          }
-         if (billingZip != null && !billingZip.trim().isEmpty())
+         if (billingZip == null || billingZip.trim().isEmpty())
          {
             errors.append("manca il codice postale (fatturazione)");
          }
-         if (billingState != null && !billingState.trim().isEmpty())
+         if (billingState == null || billingState.trim().isEmpty())
          {
             errors.append("; manca lo stato (fatturazione)");
          }
-         if (billingPhone != null && !billingPhone.trim().isEmpty())
+         if (billingPhone == null || billingPhone.trim().isEmpty())
          {
             errors.append("; manca il telefono (fatturazione)");
          }
-         if (billingEmail != null && !billingEmail.trim().isEmpty())
+         if (billingEmail == null || billingEmail.trim().isEmpty())
          {
             errors.append("; manca la mail (fatturazione)");
          }
@@ -167,39 +167,39 @@ public class PayerInfoRequestController
                shippingZip != null && !shippingZip.trim().isEmpty() &&
                shippingState != null && !shippingState.trim().isEmpty())
       {
-
+         logger.info("shipping address OK");
       }
       else
       {
-         if (shippingFirstName != null && !shippingFirstName.trim().isEmpty())
+         if (shippingFirstName == null || shippingFirstName.trim().isEmpty())
          {
             errors.append("; manca il nome (consegna)");
          }
-         if (shippingLastName != null && !shippingLastName.trim().isEmpty())
+         if (shippingLastName == null || shippingLastName.trim().isEmpty())
          {
             errors.append("; manca il cognome (consegna)");
          }
-         if (shippingLine1 != null && !shippingLine1.trim().isEmpty())
+         if (shippingLine1 == null || shippingLine1.trim().isEmpty())
          {
             errors.append("; manca la linea1 (consegna)");
          }
-         if (shippingLine2 != null && !shippingLine2.trim().isEmpty())
+         if (shippingLine2 == null || shippingLine2.trim().isEmpty())
          {
             errors.append("; manca la linea2 (consegna)");
          }
-         if (shippingCity != null && !shippingCity.trim().isEmpty())
+         if (shippingCity == null || shippingCity.trim().isEmpty())
          {
             errors.append("; manca la citta' (consegna)");
          }
-         if (shippingCountryCode != null && !shippingCountryCode.trim().isEmpty())
+         if (shippingCountryCode == null || shippingCountryCode.trim().isEmpty())
          {
             errors.append("; manca la provincia (consegna)");
          }
-         if (shippingZip != null && !shippingZip.trim().isEmpty())
+         if (shippingZip == null || shippingZip.trim().isEmpty())
          {
             errors.append("; manca il codice postale (consegna)");
          }
-         if (shippingState != null && !shippingState.trim().isEmpty())
+         if (shippingState == null || shippingState.trim().isEmpty())
          {
             errors.append("; manca lo stato (consegna)");
          }
