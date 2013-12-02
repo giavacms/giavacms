@@ -19,15 +19,17 @@ public class ButtonUtils
       html.append("<input type='hidden' name='redirect_cmd' value='_xclick'>");
       html.append("<input type='hidden' name='email' value='" + email + "'>");
       articlesToHtml(shoppingCart.getShoppingArticles(), html);
-      html.append("<input type='hidden' name='shipping_1' value='" + shoppingCart.getShipping().doubleValue() + "'>");
+      // html.append("<input type='hidden' name='shipping_1' value='" + shoppingCart.getShipping().doubleValue() +
+      // "'>");
       payerToHtml(html, shoppingCart.getId(), ipnUrl, cancelUrl, returnUrl, shoppingCart.getCurrency(), email,
                shoppingCart.getShippingAddress(),
-               shoppingCart.getBillingAddress());
+               shoppingCart.getBillingAddress(), shoppingCart.getShipping().doubleValue());
       return html.toString();
    }
 
    private static void payerToHtml(StringBuffer html, Long id, String ipnUrl, String cancelUrl, String returnUrl,
-            String cuncurrency, String email, ShippingAddress shippingAddress, BillingAddress billingAddress)
+            String cuncurrency, String email, ShippingAddress shippingAddress, BillingAddress billingAddress,
+            double shipping)
    {
 
       // ATTACCACI ID PAGAMENTO
@@ -48,7 +50,7 @@ public class ButtonUtils
       html.append("<input type='hidden' name='zip' value='" + shippingAddress.getZip() + "'>");
       html.append("<input type='hidden' name='country' value='" + shippingAddress.getCountryCode() + "'>");
       html.append("<input type='hidden' name='lc' value='" + shippingAddress.getCountryCode() + "'>");
-      html.append("<input type='hidden' name='shipping' value='0.00'>");
+      html.append("<input type='hidden' name='shipping' value='" + shipping + "'>");
       html.append("<input type='hidden' name='custom' value='" + id + "'>");
       html.append("<input type='hidden' name='upload' value='1'>");
       if (billingAddress.getVatCode() != null && !billingAddress.getVatCode().trim().isEmpty())

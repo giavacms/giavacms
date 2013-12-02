@@ -1,6 +1,7 @@
 package org.giavacms.paypalweb.controller.session;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -59,6 +60,11 @@ public class ShoppingCartSessionController implements Serializable
 
    public void save()
    {
+      if (getElement().getShipping().equals(null) || getElement().getShipping().equals(BigDecimal.ZERO))
+      {
+         double shipping = shippingService.calculate(getElement());
+         getElement().setShipping(BigDecimal.valueOf(shipping));
+      }
       shoppingCartRepository.persist(getElement());
       logger.info(getElement().getId());
    }
