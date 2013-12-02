@@ -117,9 +117,14 @@ public class ShoppingCartRequestController implements Serializable
       return shoppingCartSessionController.getLastPage();
 
    }
-   
+
    public void reset()
    {
       shoppingCartSessionController.resetShoppingCart();
+   }
+
+   public void exit()
+   {
+      shoppingCartSessionController.exit();
    }
 }

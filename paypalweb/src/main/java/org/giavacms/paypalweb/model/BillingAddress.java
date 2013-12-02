@@ -50,8 +50,10 @@ public class BillingAddress implements Serializable
       this.line1 = line1;
       this.line2 = line2;
       this.city = city;
+      // STATO
       this.countryCode = countryCode;
       this.zip = zip;
+      // PROVINCIA
       this.state = state;
       this.phone = phone;
       this.email = email;

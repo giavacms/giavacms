@@ -63,8 +63,10 @@ public class ShoppingCartSessionController implements Serializable
 
       double shipping = shippingService.calculate(getElement());
       getElement().setShipping(BigDecimal.valueOf(shipping));
-
-      shoppingCartRepository.persist(getElement());
+      if (getElement().getId() != null)
+         shoppingCartRepository.persist(getElement());
+      else
+         shoppingCartRepository.update(getElement());
       logger.info(getElement().getId());
    }
 
@@ -123,6 +125,17 @@ public class ShoppingCartSessionController implements Serializable
 
    public void reset()
    {
+      resetShoppingCart();
+   }
+
+   public void exit()
+   {
+      if (getElement().getId() != null)
+      {
+         getElement().setConfirmed(false);
+         getElement().setSent(false);
+         shoppingCartRepository.update(getElement());
+      }
       resetShoppingCart();
    }
 

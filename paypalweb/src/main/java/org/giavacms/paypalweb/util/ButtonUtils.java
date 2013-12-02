@@ -48,6 +48,7 @@ public class ButtonUtils
       html.append("<input type='hidden' name='city' value='" + shippingAddress.getCity() + "'>");
       html.append("<input type='hidden' name='state' value='" + shippingAddress.getState() + "'>");
       html.append("<input type='hidden' name='zip' value='" + shippingAddress.getZip() + "'>");
+      // STATO = IT
       html.append("<input type='hidden' name='country' value='" + shippingAddress.getCountryCode() + "'>");
       html.append("<input type='hidden' name='lc' value='" + shippingAddress.getCountryCode() + "'>");
       html.append("<input type='hidden' name='shipping' value='" + shipping + "'>");
