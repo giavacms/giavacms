@@ -3,27 +3,33 @@
 <%@page import="java.util.Properties"%>
 <%
    Logger logger = Logger.getLogger("org.giavacms.multisite.jsp.index");
-try {
-   
-}
-   Properties properties = new Properties();
-   String hostName = request.getServerName();
-   properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("domains.properties"));
-   for (String key : properties.stringPropertyNames())
+   try
    {
-      String value = properties.getProperty(key);
-      logger.info("." + key + "." + " => " + value);
+      Properties properties = new Properties();
+      String hostName = request.getServerName();
+      properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("domains.properties"));
+      for (String key : properties.stringPropertyNames())
+      {
+         String value = properties.getProperty(key);
+         logger.info("." + key + "." + " => " + value);
+      }
+      logger.info("hostName: ." + hostName + ".");
+      if (properties.containsKey(hostName))
+      {
+         String where = properties.getProperty(hostName);
+         response.sendRedirect(request.getContextPath()
+                  + where);
+      }
+      else
+      {
+         response.sendRedirect(request.getContextPath()
+                  + "/p/index");
+      }
    }
-   logger.info("hostName: ." + hostName + ".");
-   if (properties.containsKey(hostName))
+   catch (Exception e)
    {
-      String where = properties.getProperty(hostName);
-      response.sendRedirect(request.getContextPath()
-               + where);
+      e.printStackTrace();
    }
-   else
-   {
-      response.sendRedirect(request.getContextPath()
-               + "/p/index");
-   }
+   response.sendRedirect(request.getContextPath()
+            + "/p/index");
 %>
