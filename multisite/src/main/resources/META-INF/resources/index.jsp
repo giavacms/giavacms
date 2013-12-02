@@ -19,11 +19,13 @@
          String where = properties.getProperty(hostName);
          response.sendRedirect(request.getContextPath()
                   + where);
+         return;
       }
       else
       {
          response.sendRedirect(request.getContextPath()
                   + "/p/index");
+         return;
       }
    }
    catch (Exception e)
