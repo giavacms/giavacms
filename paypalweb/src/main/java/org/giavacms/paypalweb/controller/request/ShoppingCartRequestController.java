@@ -121,10 +121,12 @@ public class ShoppingCartRequestController implements Serializable
    public void reset()
    {
       shoppingCartSessionController.resetShoppingCart();
+      navigationRequestController.goToShoppingCartUrl();
    }
 
    public void exit()
    {
       shoppingCartSessionController.exit();
+      navigationRequestController.goToShoppingCartUrl();
    }
 }
