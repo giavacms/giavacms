@@ -60,11 +60,10 @@ public class ShoppingCartSessionController implements Serializable
 
    public void save()
    {
-      if (getElement().getShipping().equals(null) || getElement().getShipping().equals(BigDecimal.ZERO))
-      {
-         double shipping = shippingService.calculate(getElement());
-         getElement().setShipping(BigDecimal.valueOf(shipping));
-      }
+
+      double shipping = shippingService.calculate(getElement());
+      getElement().setShipping(BigDecimal.valueOf(shipping));
+
       shoppingCartRepository.persist(getElement());
       logger.info(getElement().getId());
    }

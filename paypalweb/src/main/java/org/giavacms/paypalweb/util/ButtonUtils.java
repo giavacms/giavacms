@@ -70,7 +70,7 @@ public class ButtonUtils
       int i = 1;
       for (ShoppingArticle shA : articles)
       {
-         html.append("<input type='hidden' name='amount_" + i + "' value='" + shA.getTotal() + "'>");
+         html.append("<input type='hidden' name='amount_" + i + "' value='" + shA.getPrice() + "'>");
          html.append("<input type='hidden' name='item_name_" + i + "' value='" + shA.getDescription() + "'>");
          html.append("<input type='hidden' name='quantity_" + i + "' value='" + shA.getQuantity() + "'>");
          i++;

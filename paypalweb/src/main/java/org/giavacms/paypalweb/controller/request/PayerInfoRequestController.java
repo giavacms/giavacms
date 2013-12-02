@@ -103,10 +103,7 @@ public class PayerInfoRequestController
                billingPhone != null && !billingPhone.trim().isEmpty() &&
                billingEmail != null && !billingEmail.trim().isEmpty())
       {
-         BillingAddress billingAddress = new BillingAddress(billingFirstName, billingLastName, billingCompany,
-                  billingVatCode, billingLine1, billingLine2,
-                  billingCity, billingCountryCode, billingZip, billingState, billingPhone, billingEmail);
-         shoppingCartSessionController.addBillingAddress(billingAddress);
+
       }
       else
       {
@@ -157,6 +154,11 @@ public class PayerInfoRequestController
          }
 
       }
+      BillingAddress billingAddress = new BillingAddress(billingFirstName, billingLastName, billingCompany,
+               billingVatCode, billingLine1, billingLine2,
+               billingCity, billingCountryCode, billingZip, billingState, billingPhone, billingEmail);
+      shoppingCartSessionController.addBillingAddress(billingAddress);
+
       if (shippingFirstName != null && !shippingFirstName.trim().isEmpty() &&
                shippingLastName != null && !shippingLastName.trim().isEmpty() &&
                shippingLine1 != null && !shippingLine1.trim().isEmpty() &&
@@ -166,9 +168,6 @@ public class PayerInfoRequestController
                shippingState != null && !shippingState.trim().isEmpty())
       {
 
-         ShippingAddress shippingAddress = new ShippingAddress(shippingFirstName, shippingLastName, shippingLine1,
-                  shippingLine2, shippingCity, shippingCountryCode, shippingZip, shippingState);
-         shoppingCartSessionController.addShippingAddress(shippingAddress);
       }
       else
       {
@@ -205,6 +204,9 @@ public class PayerInfoRequestController
             errors.append("; manca lo stato (consegna)");
          }
       }
+      ShippingAddress shippingAddress = new ShippingAddress(shippingFirstName, shippingLastName, shippingLine1,
+               shippingLine2, shippingCity, shippingCountryCode, shippingZip, shippingState);
+      shoppingCartSessionController.addShippingAddress(shippingAddress);
 
       if (errors.length() > 0)
       {
