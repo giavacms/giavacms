@@ -118,6 +118,14 @@
 						rendered="#{not resourceController.element.type.startsWith('img')}"
 						value="Salva le modifiche" ajax="false" />
 
+					<p:commandButton value="Crea copia"
+						rendered="#{resourceController.element.type eq 'img/cropped'}"
+						action="#{resourceController.copy}" ajax="false" />
+
+					<p:commandButton value="Crea copia"
+						rendered="#{resourceController.element.type eq 'img/resized'}"
+						action="#{resourceController.copy}" ajax="false" />
+
 					<p:commandButton
 						action="#{resourceController.delElement(resourceController.element.type, resourceController.element.id)}"
 						rendered="#{resourceController.element.type ne 'img/resized' and resourceController.element.type ne 'img/cropped' }"
