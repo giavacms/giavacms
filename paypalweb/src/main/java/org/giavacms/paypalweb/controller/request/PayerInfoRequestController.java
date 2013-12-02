@@ -96,7 +96,6 @@ public class PayerInfoRequestController
                billingCompany != null && !billingCompany.trim().isEmpty() &&
                billingVatCode != null && !billingVatCode.trim().isEmpty() &&
                billingLine1 != null && !billingLine1.trim().isEmpty() &&
-               billingLine2 != null && !billingLine2.trim().isEmpty() &&
                billingCity != null && !billingCity.trim().isEmpty() &&
                billingCountryCode != null && !billingCountryCode.trim().isEmpty() &&
                billingZip != null && !billingZip.trim().isEmpty() &&
@@ -161,7 +160,6 @@ public class PayerInfoRequestController
       if (shippingFirstName != null && !shippingFirstName.trim().isEmpty() &&
                shippingLastName != null && !shippingLastName.trim().isEmpty() &&
                shippingLine1 != null && !shippingLine1.trim().isEmpty() &&
-               shippingLine2 != null && !shippingLine2.trim().isEmpty() &&
                shippingCity != null && !shippingCity.trim().isEmpty() &&
                shippingCountryCode != null && !shippingCountryCode.trim().isEmpty() &&
                shippingZip != null && !shippingZip.trim().isEmpty() &&
@@ -210,10 +208,12 @@ public class PayerInfoRequestController
 
       if (errors.length() > 0)
       {
+         logger.info(errors.toString());
          MessageUtils.addFacesMessage("", errors.toString().substring(1));
       }
       else
       {
+         shoppingCartSessionController.save();
          try
          {
             FacesContext

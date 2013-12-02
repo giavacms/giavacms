@@ -47,18 +47,26 @@
 							value="#{paypalConfigurationController.element.previewShoppingCartUrl}"
 							style="width: 100%;" />
 
+						<h:outputLabel
+							value="indirizzo inserimento informazioni pagante: "
+							for="payerInfoUrl" />
+						<h:inputText id="payerInfoUrl"
+							value="#{paypalConfigurationController.element.payerInfoUrl}"
+							style="width: 100%;" />
+
 						<h:outputLabel value="paypal serviceUrl:" for="serviceUrl" />
 						<h:inputText id="serviceUrl"
 							value="#{paypalConfigurationController.element.serviceUrl}"
 							style="width: 100%;" />
 
 
-						<h:outputLabel value="ipn Url:" for="ipnUrl" />
+						<h:outputLabel value="ipn Url (http://website.com/ipn):"
+							for="ipnUrl" />
 						<h:inputText id="ipnUrl"
 							value="#{paypalConfigurationController.element.ipnUrl}"
 							style="width: 100%;" />
 
-						<h:outputLabel value="currency:" for="currency" />
+						<h:outputLabel value="valuta (EUR, USD):" for="currency" />
 						<h:inputText id="currency"
 							value="#{paypalConfigurationController.element.currency}"
 							style="width: 100%;" />

@@ -1,15 +1,14 @@
 package org.giavacms.paypalweb.controller.session;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.common.util.JSFUtils;
+import org.giavacms.common.annotation.RequestUri;
 import org.giavacms.paypalweb.controller.request.PaypalConfigurationRequestController;
 import org.giavacms.paypalweb.model.BillingAddress;
 import org.giavacms.paypalweb.model.ShippingAddress;
@@ -17,6 +16,8 @@ import org.giavacms.paypalweb.model.ShoppingArticle;
 import org.giavacms.paypalweb.model.ShoppingCart;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.giavacms.paypalweb.service.ShippingService;
+import org.giavacms.paypalweb.util.ButtonUtils;
+import org.giavacms.paypalweb.util.RequestUriCleaner;
 import org.jboss.logging.Logger;
 
 @Named
@@ -38,6 +39,10 @@ public class ShoppingCartSessionController implements Serializable
    @EJB
    ShippingService shippingService;
 
+   @Inject
+   @RequestUri
+   Instance<String> requestUri;
+
    public ShoppingCartSessionController()
    {
    }
@@ -52,39 +57,53 @@ public class ShoppingCartSessionController implements Serializable
       getElement().setShippingAddress(shippingAddress);
    }
 
-   public String addProduct(String vat,
+   public void save()
+   {
+      shoppingCartRepository.persist(getElement());
+      logger.info(getElement().getId());
+   }
+
+   public String getButton()
+   {
+      return ButtonUtils.generate(getElement(),
+               paypalConfigurationRequestController.getPaypalConfiguration().getServiceUrl(),
+               paypalConfigurationRequestController.getPaypalConfiguration().getEmail(),
+               paypalConfigurationRequestController.getPaypalConfiguration().getIpnUrl(),
+               paypalConfigurationRequestController.getPaypalConfiguration().getCancelUrl(),
+               paypalConfigurationRequestController.getPaypalConfiguration().getReturnUrl());
+   }
+
+   public void addProduct(String vat,
             String price,
             String idProduct,
             String description, int quantity, String imageUrl)
    {
       getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat, imageUrl));
-      getElement().addPartial(quantity, price, vat);
+
       logger.info("idProduct:" + idProduct + " description:" + description + " price: " + price + " quantity: "
                + quantity + " vat: "
                + vat + " imageUrl:" + imageUrl);
-      try
-      {
-         FacesContext.getCurrentInstance().getExternalContext()
-                  .redirect(paypalConfigurationRequestController.getPaypalConfiguration().getShoppingCartUrl());
-      }
-      catch (IOException e)
-      {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-      return null;
+      updateLastPage();
    }
 
-   public void gotoLastPage()
+   public void removeArticle(String idProduct)
    {
-      try
-      {
-         JSFUtils.redirect(getLastPage());
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
-      }
+      getElement().removeArticle(idProduct);
+   }
+
+   public void changeArticleQuantity(int quantity, String idProduct)
+   {
+      getElement().changeArticleQuantity(idProduct, quantity);
+   }
+
+   public void incArticleQuantity(String idProduct)
+   {
+      changeArticleQuantity(1, idProduct);
+   }
+
+   public void decArticleQuantity(String idProduct)
+   {
+      changeArticleQuantity(-1, idProduct);
    }
 
    public void resetShoppingCart()
@@ -92,17 +111,14 @@ public class ShoppingCartSessionController implements Serializable
       this.element = new ShoppingCart(paypalConfigurationRequestController.getPaypalConfiguration().getCurrency());
    }
 
+   private void updateLastPage()
+   {
+      setLastPage(RequestUriCleaner.cleanPage(requestUri.get()));
+   }
+
    public void reset()
    {
       resetShoppingCart();
-      try
-      {
-         JSFUtils.redirect(paypalConfigurationRequestController.getPaypalConfiguration().getShoppingCartUrl());
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
-      }
    }
 
    public ShoppingCart getElement()

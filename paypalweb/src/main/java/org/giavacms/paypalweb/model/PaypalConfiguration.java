@@ -14,15 +14,22 @@ public class PaypalConfiguration implements Serializable
 
    private Long id;
 
-   // Service Configuration
-   private String serviceUrl;
-
    private String email;
+   // acquisto no
    private String cancelUrl;
+   // acquisto ok
    private String returnUrl;
+   // carrello
    private String shoppingCartUrl;
+   // riepilogo
    private String previewShoppingCartUrl;
+   // payer info
+   private String payerInfoUrl;
+   // paypal url
+   private String serviceUrl;
+   // ipn url
    private String ipnUrl;
+
    private String currency;
 
    @Id
@@ -123,6 +130,16 @@ public class PaypalConfiguration implements Serializable
    public void setIpnUrl(String ipnUrl)
    {
       this.ipnUrl = ipnUrl;
+   }
+
+   public String getPayerInfoUrl()
+   {
+      return payerInfoUrl;
+   }
+
+   public void setPayerInfoUrl(String payerInfoUrl)
+   {
+      this.payerInfoUrl = payerInfoUrl;
    }
 
 }

@@ -14,7 +14,7 @@ public class ButtonUtils
             String cancelUrl, String returnUrl)
    {
       StringBuffer html = new StringBuffer();
-      html.append("<form action='https://" + server + "/cgi-bin/webscr' method='post'>");
+      html.append("<form action='" + server + "' method='post'>");
       html.append("<input type='hidden' name='cmd' value='_cart'>");
       html.append("<input type='hidden' name='redirect_cmd' value='_xclick'>");
       html.append("<input type='hidden' name='email' value='" + email + "'>");
@@ -31,13 +31,13 @@ public class ButtonUtils
    {
 
       // ATTACCACI ID PAGAMENTO
-      html.append("<input type='hidden' name='notify_url' value='" + ipnUrl + "?id=" + id + "'>");
+      html.append("<input type='hidden' name='notify_url' value='" + ipnUrl + "'>");
       // ATTACCACI ID PAGAMENTO
       html.append("<input type='hidden' name='cancel_return' value='" + cancelUrl + "?id=" + id + "'>");
       // ATTACCACI ID PAGAMENTO
       html.append("<input type='hidden' name='return' value='" + returnUrl + "?id=" + id + "'>");
       html.append("<input type='hidden' name='rm' value='2'>");
-      html.append("<input type='hidden' name='currency_code' value='"+cuncurrency+"'>");
+      html.append("<input type='hidden' name='currency_code' value='" + cuncurrency + "'>");
       html.append("<input type='hidden' name='business' value='" + email + "'>");
       html.append("<input type='hidden' name='first_name' value='" + shippingAddress.getFirstName() + "'>");
       html.append("<input type='hidden' name='last_name' value='" + shippingAddress.getLastName() + "'>");
@@ -58,7 +58,7 @@ public class ButtonUtils
       }
       html.append("<input type='hidden' name='on1' value='Telefono'>");
       html.append("<input type='hidden' name='os1' value='" + billingAddress.getPhone() + "'>");
-      html.append("<input name='submit' type='submit' value='Paga con PayPal' />");
+      html.append("<input name='submit' type='submit' value='Paga con PayPal' image='https://www.paypalobjects.com/webstatic/mktg/logo-center/logo_paypal_pagamento.jpg'/>");
       html.append("</form>");
 
    }

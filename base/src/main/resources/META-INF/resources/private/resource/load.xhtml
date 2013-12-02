@@ -24,7 +24,17 @@
 						update="commands,resourceList" />
 					<br />
 					<br />
-
+					<b>estensioni permesse e cartelle di destinazione</b>
+					<ul>
+						<li>FONT (/font): otf, eot, svg,ttf, woff</li>
+						<li>IMAGE (/img): gif, jpg, jpeg, png</li>
+						<li>DOCUMENT (/docs): zip, gz, tar, bz2, pdf, doc, docx, xls,
+							xlsx, p7m, txt</li>
+						<li>STYLESHEET (/css): css</li>
+						<li>JAVASCRIPT (/js): js</li>
+						<li>FLASH (/swf): swf</li>
+					</ul>
+					<br />
 					<h:panelGroup id="resourceList">
 						<p:dataTable var="filename" rowIndexVar="row"
 							value="#{resourceController.uploadedResources}">

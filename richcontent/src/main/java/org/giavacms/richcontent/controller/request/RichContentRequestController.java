@@ -30,18 +30,20 @@ public class RichContentRequestController extends
 
    private static final long serialVersionUID = 1L;
 
+   public static final String CURRENT_PAGE_PARAM = "p";
+   public static final String ID_PARAM = "id";
+
    @Inject
    @HttpParam("q")
    String content;
+
    @Inject
    @HttpParam("t")
    String type;
+
    @Inject
    @HttpParam("tag")
    String tag;
-
-   public static final String CURRENT_PAGE_PARAM = "p";
-   public static final String ID_PARAM = "id";
 
    @Inject
    @HttpParam(ID_PARAM)
@@ -78,7 +80,7 @@ public class RichContentRequestController extends
    }
 
    @Override
-   protected void initSearch() 
+   protected void initSearch()
    {
       getSearch().getObj().setTag(tag);
       getSearch().getObj().setTitle(content);

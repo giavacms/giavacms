@@ -86,11 +86,13 @@ public class ShoppingCart implements Serializable
          if (shoppingArticle.getIdProduct().equals(article.getIdProduct()))
          {
             shoppingArticle.inc(article.getQuantity());
+            addPartial(article.getQuantity(), article.getPrice(), article.getVat());
             return;
          }
       }
       article.setShoppingCart(this);
       getShoppingArticles().add(article);
+      addPartial(article.getQuantity(), article.getPrice(), article.getVat());
    }
 
    public String getPaymentId()
@@ -181,20 +183,25 @@ public class ShoppingCart implements Serializable
    {
       if (!StringUtils.isEmpty(idProduct))
       {
-         for (Iterator<ShoppingArticle> it = getShoppingArticles().iterator(); it.hasNext();)
+         ShoppingArticle toRemove = null;
+         for (ShoppingArticle shoppingArticle : getShoppingArticles())
          {
-            ShoppingArticle shoppingArticle = it.next();
             if (shoppingArticle.getIdProduct().equals(idProduct))
             {
-               it.remove();
+               toRemove = shoppingArticle;
                break;
             }
          }
+         if (toRemove != null)
+         {
+            addPartial(-toRemove.getQuantity(), toRemove.getPrice(), toRemove.getVat());
+            getShoppingArticles().remove(toRemove);
+         }
       }
-      return;
+
    }
 
-   public void changeArticleQuantity(String vat, String price, String idProduct, int quantity)
+   public void changeArticleQuantity(String idProduct, int quantity)
    {
       if (!StringUtils.isEmpty(idProduct))
       {
@@ -202,14 +209,14 @@ public class ShoppingCart implements Serializable
          {
             if (shoppingArticle.getIdProduct().equals(idProduct))
             {
-               if (shoppingArticle.getQuantity() + quantity <= 0)
+               if ((shoppingArticle.getQuantity() + quantity) <= 0)
                {
                   quantity = 1 - shoppingArticle.getQuantity();
                }
-               if (quantity > 0)
+               else
                {
                   shoppingArticle.setQuantity(shoppingArticle.getQuantity() + quantity);
-                  addPartial(quantity, price, vat);
+                  addPartial(quantity, shoppingArticle.getPrice(), shoppingArticle.getVat());
                }
                break;
             }

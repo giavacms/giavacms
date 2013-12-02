@@ -1,18 +1,12 @@
 package org.giavacms.paypalweb.controller.request;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 import org.giavacms.common.annotation.HttpParam;
-import org.giavacms.common.controller.AbstractRequestController;
-import org.giavacms.common.util.JSFUtils;
-import org.giavacms.paypalweb.controller.PaypalConfigurationController;
 import org.giavacms.paypalweb.controller.session.ShoppingCartSessionController;
 import org.giavacms.paypalweb.model.ShoppingCart;
 
@@ -29,8 +23,7 @@ import org.giavacms.paypalweb.model.ShoppingCart;
  */
 @Named
 @RequestScoped
-public class ShoppingCartRequestController extends
-         AbstractRequestController<ShoppingCart> implements Serializable
+public class ShoppingCartRequestController implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
@@ -61,7 +54,7 @@ public class ShoppingCartRequestController extends
    ShoppingCartSessionController shoppingCartSessionController;
 
    @Inject
-   PaypalConfigurationController paypalConfigurationController;
+   NavigationRequestController navigationRequestController;
 
    public ShoppingCartRequestController()
    {
@@ -74,69 +67,59 @@ public class ShoppingCartRequestController extends
                description != null && price != null &&
                quantity != null && vat != null)
       {
-         String requestURI = ((HttpServletRequest) FacesContext.getCurrentInstance()
-                  .getExternalContext().getRequest()).getRequestURI();
-         logger.info(requestURI);
-         if (requestURI.startsWith("/db:"))
-            shoppingCartSessionController.setLastPage(requestURI.replace("db:", "p/").replace(".jsf", ""));
-         if (requestURI.startsWith("/cache"))
-            shoppingCartSessionController.setLastPage(requestURI.replace("cache", "p").replace(".jsf", ""));
-         if (requestURI.startsWith("/pages"))
-            shoppingCartSessionController.setLastPage(requestURI.replace("pages", "p").replace(".jsf", ""));
-         logger.info("LAST PAGE: " + shoppingCartSessionController.getLastPage());
-
          shoppingCartSessionController.addProduct(vat, price,
                   idProduct, description,
                   Integer.valueOf(quantity), image);
+         navigationRequestController.goToShoppingCartUrl();
       }
-   }
-
-   @Override
-   public String getCurrentPageParam()
-   {
-      return null;
-   }
-
-   @Override
-   protected String getIdParam()
-   {
-      return null;
-   }
-
-   public void removeProduct(String idProduct)
-   {
-      getElement().removeArticle(idProduct);
-      try
+      else
       {
-         JSFUtils.redirect(paypalConfigurationController.getElement().getShoppingCartUrl());
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
+         return;
       }
    }
 
-   public void changeArticleQuantity(int quantity, String vat, String price, String idProduct)
+   public ShoppingCart getElement()
    {
-      getElement().changeArticleQuantity(vat, price, idProduct, quantity);
-      try
-      {
-         JSFUtils.redirect(paypalConfigurationController.getElement().getShoppingCartUrl());
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
-      }
+      return shoppingCartSessionController.getElement();
    }
 
-   public void incArticleQuantity(String vat, String price, String idProduct)
+   public void del(String idProduct)
    {
-      changeArticleQuantity(1, vat, price, idProduct);
+      shoppingCartSessionController.removeArticle(idProduct);
+      navigationRequestController.goToShoppingCartUrl();
    }
 
-   public void decArticleQuantity(String vat, String price, String idProduct)
+   public void add(int quantity, String idProduct)
    {
-      changeArticleQuantity(-1, vat, price, idProduct);
+      shoppingCartSessionController.changeArticleQuantity(quantity, idProduct);
+      navigationRequestController.goToShoppingCartUrl();
    }
 
+   public void inc(String idProduct)
+   {
+      shoppingCartSessionController.changeArticleQuantity(1, idProduct);
+      navigationRequestController.goToShoppingCartUrl();
+   }
+
+   public void dec(String idProduct)
+   {
+      shoppingCartSessionController.changeArticleQuantity(-1, idProduct);
+      navigationRequestController.goToShoppingCartUrl();
+   }
+
+   public String getButton()
+   {
+      return shoppingCartSessionController.getButton();
+   }
+
+   public String getLastPage()
+   {
+      return shoppingCartSessionController.getLastPage();
+
+   }
+   
+   public void reset()
+   {
+      shoppingCartSessionController.resetShoppingCart();
+   }
 }

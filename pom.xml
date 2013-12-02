@@ -73,7 +73,8 @@
 		<module>richcontent</module>
 		<module>scenario</module>
 		<!--module>twizz</module -->
-		<!--  <module>paypalweb</module>-->
+		<!-- <module>paypalweb</module> -->
+		<module>multisite</module>
 	</modules>
 
 
@@ -227,9 +228,11 @@
 				<version>${project.version}</version>
 			</dependency>
 
-
-
-
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>multisite</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>news</artifactId> 
 				<version>${project.version}</version> </dependency> <dependency> <groupId>${project.groupId}</groupId> 
@@ -257,9 +260,6 @@
 			<artifactId>giavacms-common-web</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
-
-
 
 		<!-- Apache commons -->
 		<dependency>
