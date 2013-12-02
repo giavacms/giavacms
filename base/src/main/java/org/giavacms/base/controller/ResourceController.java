@@ -438,4 +438,13 @@ public class ResourceController extends AbstractLazyController<Resource> impleme
       return modCurrent();
    }
 
+   public String copy()
+   {
+      resourceRepository.delete(getElement());
+      getElement().setType(ResourceType.IMAGE.getFolder());
+      resourceRepository.persist(getElement());
+      getElement().setId(FileUtils.getLastPartOf(getElement().getId()));
+      return modCurrent();
+   }
+
 }
