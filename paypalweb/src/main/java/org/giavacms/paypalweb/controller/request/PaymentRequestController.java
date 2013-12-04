@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import org.giavacms.paypalweb.model.ShoppingCart;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
+import org.giavacms.paypalweb.service.NotificationService;
 import org.jboss.logging.Logger;
 
 @Named
@@ -24,6 +25,9 @@ public class PaymentRequestController implements Serializable
    @Inject
    ShoppingCartRepository shoppingCartRepository;
 
+   @Inject
+   NotificationService notificationService;
+
    public void verifyConfirm()
    {
       if (paymentId != null && !paymentId.isEmpty())
@@ -36,6 +40,7 @@ public class PaymentRequestController implements Serializable
             shoppingCart.setConfirmed(true);
             shoppingCartRepository.update(shoppingCart);
             logger.info("update shopping cart with confirm=true");
+            notificationService.notifyPayment(shoppingCart);
          }
          else
          {
