@@ -19,17 +19,17 @@ public class PaymentRequestController implements Serializable
 
    Logger logger = Logger.getLogger(getClass().getName());
 
-   String id;
+   String paymentId;
 
    @Inject
    ShoppingCartRepository shoppingCartRepository;
 
    public void verifyConfirm()
    {
-      if (id != null && !id.isEmpty())
+      if (paymentId != null && !paymentId.isEmpty())
       {
-         logger.info("ID to confirm: " + id);
-         ShoppingCart shoppingCart = shoppingCartRepository.find(Long.valueOf(id));
+         logger.info("ID to confirm: " + paymentId);
+         ShoppingCart shoppingCart = shoppingCartRepository.find(Long.valueOf(paymentId));
          if (shoppingCart != null && shoppingCart.getConfirmDate() == null)
          {
             shoppingCart.setConfirmDate(new Date());
@@ -50,10 +50,10 @@ public class PaymentRequestController implements Serializable
 
    public void verifyExit()
    {
-      if (id != null && !id.isEmpty())
+      if (paymentId != null && !paymentId.isEmpty())
       {
-         logger.info("ID TO NOT CONFIRMED: " + id);
-         ShoppingCart shoppingCart = shoppingCartRepository.find(Long.valueOf(id));
+         logger.info("ID TO NOT CONFIRMED: " + paymentId);
+         ShoppingCart shoppingCart = shoppingCartRepository.find(Long.valueOf(paymentId));
          if (shoppingCart != null && shoppingCart.getConfirmDate() == null)
          {
             shoppingCart.setConfirmDate(new Date());
@@ -72,14 +72,14 @@ public class PaymentRequestController implements Serializable
       }
    }
 
-   public String getId()
+   public String getPaymentId()
    {
-      return id;
+      return paymentId;
    }
 
-   public void setId(String id)
+   public void setPaymentId(String paymentId)
    {
-      this.id = id;
+      this.paymentId = paymentId;
    }
 
 }
