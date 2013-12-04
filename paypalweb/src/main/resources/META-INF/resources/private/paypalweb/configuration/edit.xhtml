@@ -71,6 +71,16 @@
 							value="#{paypalConfigurationController.element.currency}"
 							style="width: 100%;" />
 
+						<h:outputLabel value="oggetto email:" for="emailObject" />
+						<h:inputText id="emailObject"
+							value="#{paypalConfigurationController.element.emailObject}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="testo email:" for="emailBody" />
+						<h:inputTextarea id="emailBody"
+							value="#{paypalConfigurationController.element.emailBody}"
+							style="width: 100%;" />
+
 					</h:panelGrid>
 					<br />
 

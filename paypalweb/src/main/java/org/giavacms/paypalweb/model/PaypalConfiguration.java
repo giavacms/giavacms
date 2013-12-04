@@ -32,6 +32,9 @@ public class PaypalConfiguration implements Serializable
 
    private String currency;
 
+   private String emailBody;
+   private String emailObject;
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    public Long getId()
@@ -140,6 +143,26 @@ public class PaypalConfiguration implements Serializable
    public void setPayerInfoUrl(String payerInfoUrl)
    {
       this.payerInfoUrl = payerInfoUrl;
+   }
+
+   public String getEmailBody()
+   {
+      return emailBody;
+   }
+
+   public void setEmailBody(String emailBody)
+   {
+      this.emailBody = emailBody;
+   }
+
+   public String getEmailObject()
+   {
+      return emailObject;
+   }
+
+   public void setEmailObject(String emailObject)
+   {
+      this.emailObject = emailObject;
    }
 
 }

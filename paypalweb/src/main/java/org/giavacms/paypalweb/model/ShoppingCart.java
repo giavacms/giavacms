@@ -32,7 +32,7 @@ public class ShoppingCart implements Serializable
    private boolean sent;
    private Date creationDate;
    private Date confirmDate;
-   private Date sentdDate;
+   private Date sentDate;
    private BigDecimal partialAmount = BigDecimal.ZERO.setScale(2);
    private BigDecimal partialTax = BigDecimal.ZERO.setScale(2);
    private BigDecimal shipping = BigDecimal.ZERO.setScale(2);
@@ -294,14 +294,14 @@ public class ShoppingCart implements Serializable
    }
 
    @Temporal(TemporalType.TIMESTAMP)
-   public Date getSentdDate()
+   public Date getSentDate()
    {
-      return sentdDate;
+      return sentDate;
    }
 
-   public void setSentdDate(Date sentdDate)
+   public void setSentDate(Date sentDate)
    {
-      this.sentdDate = sentdDate;
+      this.sentDate = sentDate;
    }
 
    public void setPartialAmount(BigDecimal partialAmount)
@@ -319,7 +319,7 @@ public class ShoppingCart implements Serializable
    {
       return "ShoppingCart [id=" + id + ", paymentId=" + paymentId + ", currency=" + currency + ", created=" + created
                + ", confirmed=" + confirmed + ", sent=" + sent + ", creationDate=" + creationDate + ", confirmDate="
-               + confirmDate + ", sentdDate=" + sentdDate + ", partialAmount=" + partialAmount + ", partialTax="
+               + confirmDate + ", sentdDate=" + sentDate + ", partialAmount=" + partialAmount + ", partialTax="
                + partialTax + ", billingAddress=" + billingAddress + ", shippingAddress=" + shippingAddress
                + ", shoppingArticles=" + shoppingArticles + "]";
    }

@@ -51,7 +51,7 @@ public class ShoppingCartController extends
 
    public String close()
    {
-      getElement().setSentdDate(new Date());
+      getElement().setSentDate(new Date());
       getElement().setSent(true);
       return viewCurrent();
    }

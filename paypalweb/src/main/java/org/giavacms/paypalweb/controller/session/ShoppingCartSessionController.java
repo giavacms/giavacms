@@ -43,6 +43,7 @@ public class ShoppingCartSessionController implements Serializable
    @Inject
    @RequestUri
    Instance<String> requestUri;
+   private boolean oneAddress = true;
 
    public ShoppingCartSessionController()
    {
@@ -63,7 +64,7 @@ public class ShoppingCartSessionController implements Serializable
 
       double shipping = shippingService.calculate(getElement());
       getElement().setShipping(BigDecimal.valueOf(shipping));
-      if (getElement().getId() != null)
+      if (getElement().getId() == null)
          shoppingCartRepository.persist(getElement());
       else
          shoppingCartRepository.update(getElement());
@@ -158,6 +159,16 @@ public class ShoppingCartSessionController implements Serializable
    public void setLastPage(String lastPage)
    {
       this.lastPage = lastPage;
+   }
+
+   public boolean isOneAddress()
+   {
+      return oneAddress;
+   }
+
+   public void setOneAddress(boolean oneAddress)
+   {
+      this.oneAddress = oneAddress;
    }
 
 }

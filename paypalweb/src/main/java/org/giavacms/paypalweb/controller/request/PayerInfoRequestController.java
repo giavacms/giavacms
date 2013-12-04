@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.common.util.EmailUtils;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.util.MessageUtils;
 import org.giavacms.paypalweb.controller.session.ShoppingCartSessionController;
@@ -94,7 +95,7 @@ public class PayerInfoRequestController
       if (billingFirstName != null && !billingFirstName.trim().isEmpty() &&
                billingLastName != null && !billingLastName.trim().isEmpty() &&
                billingCompany != null && !billingCompany.trim().isEmpty() &&
-               billingVatCode != null && !billingVatCode.trim().isEmpty() &&
+               // billingVatCode != null && !billingVatCode.trim().isEmpty() &&
                billingLine1 != null && !billingLine1.trim().isEmpty() &&
                billingCity != null && !billingCity.trim().isEmpty() &&
                billingCountryCode != null && !billingCountryCode.trim().isEmpty() &&
@@ -115,19 +116,19 @@ public class PayerInfoRequestController
          {
             errors.append("; manca il cognome (fatturazione)");
          }
-
-         if (billingVatCode == null || billingVatCode.trim().isEmpty())
+         if (billingCompany != null && billingCompany.equals("true") && billingVatCode == null
+                  || billingVatCode.trim().isEmpty())
          {
-            errors.append("; manca la partita iva/codice fiscale (fatturazione)");
+            errors.append("; manca la partita iva (fatturazione)");
          }
          if (billingLine1 == null || billingLine1.trim().isEmpty())
          {
             errors.append("; manca la linea1 (fatturazione)");
          }
-         if (billingLine2 == null || billingLine2.trim().isEmpty())
-         {
-            errors.append("; manca la linea2 (fatturazione)");
-         }
+         // if (billingLine2 == null || billingLine2.trim().isEmpty())
+         // {
+         // errors.append("; manca la linea2 (fatturazione)");
+         // }
          if (billingCity == null || billingCity.trim().isEmpty())
          {
             errors.append("; manca la citta' (fatturazione)");
@@ -152,66 +153,78 @@ public class PayerInfoRequestController
          {
             errors.append("; manca la mail (fatturazione)");
          }
+         else if (!EmailUtils.isValidEmailAddress(billingEmail))
+         {
+            errors.append("; la mail inserita non e' valida (fatturazione)");
+         }
 
       }
       BillingAddress billingAddress = new BillingAddress(billingFirstName, billingLastName, billingCompany,
                billingVatCode, billingLine1, billingLine2,
                billingCity, billingCountryCode, billingZip, billingState, billingPhone, billingEmail);
       shoppingCartSessionController.addBillingAddress(billingAddress);
-
-      if (shippingFirstName != null && !shippingFirstName.trim().isEmpty() &&
-               shippingLastName != null && !shippingLastName.trim().isEmpty() &&
-               shippingLine1 != null && !shippingLine1.trim().isEmpty() &&
-               shippingCity != null && !shippingCity.trim().isEmpty() &&
-               shippingCountryCode != null && !shippingCountryCode.trim().isEmpty() &&
-               shippingZip != null && !shippingZip.trim().isEmpty() &&
-               shippingState != null && !shippingState.trim().isEmpty())
+      if (!shoppingCartSessionController.isOneAddress())
       {
-         logger.info("shipping address OK");
+         if (shippingFirstName != null && !shippingFirstName.trim().isEmpty() &&
+                  shippingLastName != null && !shippingLastName.trim().isEmpty() &&
+                  shippingLine1 != null && !shippingLine1.trim().isEmpty() &&
+                  shippingCity != null && !shippingCity.trim().isEmpty() &&
+                  shippingCountryCode != null && !shippingCountryCode.trim().isEmpty() &&
+                  shippingZip != null && !shippingZip.trim().isEmpty() &&
+                  shippingState != null && !shippingState.trim().isEmpty())
+         {
+            logger.info("shipping address OK");
+         }
+         else
+         {
+            if (shippingFirstName == null || shippingFirstName.trim().isEmpty())
+            {
+               errors.append("; manca il nome (consegna)");
+            }
+            if (shippingLastName == null || shippingLastName.trim().isEmpty())
+            {
+               errors.append("; manca il cognome (consegna)");
+            }
+            if (shippingLine1 == null || shippingLine1.trim().isEmpty())
+            {
+               errors.append("; manca la linea1 (consegna)");
+            }
+            // if (shippingLine2 == null || shippingLine2.trim().isEmpty())
+            // {
+            // errors.append("; manca la linea2 (consegna)");
+            // }
+            if (shippingCity == null || shippingCity.trim().isEmpty())
+            {
+               errors.append("; manca la citta' (consegna)");
+            }
+            if (shippingCountryCode == null || shippingCountryCode.trim().isEmpty())
+            {
+               errors.append("; manca la provincia (consegna)");
+            }
+            if (shippingZip == null || shippingZip.trim().isEmpty())
+            {
+               errors.append("; manca il codice postale (consegna)");
+            }
+            if (shippingState == null || shippingState.trim().isEmpty())
+            {
+               errors.append("; manca lo stato (consegna)");
+            }
+         }
+         ShippingAddress shippingAddress = new ShippingAddress(shippingFirstName, shippingLastName, shippingLine1,
+                  shippingLine2, shippingCity, shippingCountryCode, shippingZip, shippingState);
+         shoppingCartSessionController.addShippingAddress(shippingAddress);
       }
       else
       {
-         if (shippingFirstName == null || shippingFirstName.trim().isEmpty())
-         {
-            errors.append("; manca il nome (consegna)");
-         }
-         if (shippingLastName == null || shippingLastName.trim().isEmpty())
-         {
-            errors.append("; manca il cognome (consegna)");
-         }
-         if (shippingLine1 == null || shippingLine1.trim().isEmpty())
-         {
-            errors.append("; manca la linea1 (consegna)");
-         }
-         if (shippingLine2 == null || shippingLine2.trim().isEmpty())
-         {
-            errors.append("; manca la linea2 (consegna)");
-         }
-         if (shippingCity == null || shippingCity.trim().isEmpty())
-         {
-            errors.append("; manca la citta' (consegna)");
-         }
-         if (shippingCountryCode == null || shippingCountryCode.trim().isEmpty())
-         {
-            errors.append("; manca la provincia (consegna)");
-         }
-         if (shippingZip == null || shippingZip.trim().isEmpty())
-         {
-            errors.append("; manca il codice postale (consegna)");
-         }
-         if (shippingState == null || shippingState.trim().isEmpty())
-         {
-            errors.append("; manca lo stato (consegna)");
-         }
-      }
-      ShippingAddress shippingAddress = new ShippingAddress(shippingFirstName, shippingLastName, shippingLine1,
-               shippingLine2, shippingCity, shippingCountryCode, shippingZip, shippingState);
-      shoppingCartSessionController.addShippingAddress(shippingAddress);
+         ShippingAddress shippingAddress = new ShippingAddress(billingFirstName, billingLastName, billingLine1,
+                  billingLine2, billingCity, billingCountryCode, billingZip, billingState);
+         shoppingCartSessionController.addShippingAddress(shippingAddress);
 
+      }
       if (errors.length() > 0)
       {
          logger.info(errors.toString());
-         MessageUtils.addFacesMessage("", errors.toString().substring(1));
+         MessageUtils.addFacesMessage(errors.toString().substring(1), errors.toString().substring(1));
       }
       else
       {

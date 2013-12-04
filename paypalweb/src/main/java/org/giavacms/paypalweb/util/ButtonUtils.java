@@ -44,7 +44,7 @@ public class ButtonUtils
       html.append("<input type='hidden' name='first_name' value='" + shippingAddress.getFirstName() + "'>");
       html.append("<input type='hidden' name='last_name' value='" + shippingAddress.getLastName() + "'>");
       html.append("<input type='hidden' name='address1' value='" + shippingAddress.getLine1() + "'>");
-      html.append("<input type='hidden' name='address2' value='" + shippingAddress.getLine2() + "'>");
+      html.append("<input type='hidden' name='address2' value=''>");
       html.append("<input type='hidden' name='city' value='" + shippingAddress.getCity() + "'>");
       html.append("<input type='hidden' name='state' value='" + shippingAddress.getState() + "'>");
       html.append("<input type='hidden' name='zip' value='" + shippingAddress.getZip() + "'>");
