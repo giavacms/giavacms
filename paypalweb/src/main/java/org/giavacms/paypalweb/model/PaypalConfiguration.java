@@ -32,6 +32,8 @@ public class PaypalConfiguration implements Serializable
 
    private String currency;
 
+   private String emailNotification;
+   private String emailSender;
    private String emailBody;
    private String emailObject;
 
@@ -163,6 +165,26 @@ public class PaypalConfiguration implements Serializable
    public void setEmailObject(String emailObject)
    {
       this.emailObject = emailObject;
+   }
+
+   public String getEmailNotification()
+   {
+      return emailNotification;
+   }
+
+   public void setEmailNotification(String emailNotification)
+   {
+      this.emailNotification = emailNotification;
+   }
+
+   public String getEmailSender()
+   {
+      return emailSender;
+   }
+
+   public void setEmailSender(String emailSender)
+   {
+      this.emailSender = emailSender;
    }
 
 }

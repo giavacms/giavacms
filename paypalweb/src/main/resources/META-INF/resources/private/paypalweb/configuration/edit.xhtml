@@ -71,15 +71,46 @@
 							value="#{paypalConfigurationController.element.currency}"
 							style="width: 100%;" />
 
+						<h:outputLabel value="mittente email:" for="emailSender" />
+						<h:inputText id="emailSender"
+							value="#{paypalConfigurationController.element.emailSender}"
+							style="width: 100%;" />
+
+						<h:outputLabel
+							value="email di notifica (divise con ;) - per invio dati acquisto e copia delle email clienti:"
+							for="emailNotification" />
+						<h:inputText id="emailNotification"
+							value="#{paypalConfigurationController.element.emailNotification}"
+							style="width: 100%;" />
+
 						<h:outputLabel value="oggetto email:" for="emailObject" />
 						<h:inputText id="emailObject"
 							value="#{paypalConfigurationController.element.emailObject}"
 							style="width: 100%;" />
 
 						<h:outputLabel value="testo email:" for="emailBody" />
-						<h:inputTextarea id="emailBody"
+						<h:inputTextarea id="emailBody" rows="25" cols="50"
 							value="#{paypalConfigurationController.element.emailBody}"
 							style="width: 100%;" />
+
+						<h:outputText value="E' possibile usare i seguenti placeHolder:" />
+						<h:panelGroup>
+							<ul>
+								<li>firstName</li>
+								<li>lastName</li>
+								<li>vatCode</li>
+								<li>line1</li>
+								<li>line2</li>
+								<li>city</li>
+								<li>countryCode</li>
+								<li>zip</li>
+								<li>state</li>
+								<li>phone</li>
+								<li>email</li>
+							</ul>
+						</h:panelGroup>
+
+
 
 					</h:panelGrid>
 					<br />
