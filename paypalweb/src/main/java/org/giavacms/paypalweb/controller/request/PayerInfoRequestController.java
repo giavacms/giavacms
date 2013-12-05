@@ -55,6 +55,9 @@ public class PayerInfoRequestController
    @Inject
    @HttpParam
    String billingEmail;
+   @Inject
+   @HttpParam
+   String notes;
 
    @Inject
    @HttpParam
@@ -158,6 +161,10 @@ public class PayerInfoRequestController
             errors.append("; la mail inserita non e' valida (fatturazione)");
          }
 
+      }
+      if (notes != null && !notes.trim().isEmpty())
+      {
+         shoppingCartSessionController.setNotes(notes);
       }
       BillingAddress billingAddress = new BillingAddress(billingFirstName, billingLastName, billingCompany,
                billingVatCode, billingLine1, billingLine2,

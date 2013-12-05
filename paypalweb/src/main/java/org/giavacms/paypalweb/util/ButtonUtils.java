@@ -35,9 +35,9 @@ public class ButtonUtils
       // ATTACCACI ID PAGAMENTO
       html.append("<input type='hidden' name='notify_url' value='" + ipnUrl + "'>");
       // ATTACCACI ID PAGAMENTO
-      html.append("<input type='hidden' name='cancel_return' value='" + cancelUrl + "?id=" + id + "'>");
+      html.append("<input type='hidden' name='cancel_return' value='" + cancelUrl + "?paymentId=" + id + "'>");
       // ATTACCACI ID PAGAMENTO
-      html.append("<input type='hidden' name='return' value='" + returnUrl + "?id=" + id + "'>");
+      html.append("<input type='hidden' name='return' value='" + returnUrl + "?paymentId=" + id + "'>");
       html.append("<input type='hidden' name='rm' value='2'>");
       html.append("<input type='hidden' name='currency_code' value='" + cuncurrency + "'>");
       html.append("<input type='hidden' name='business' value='" + email + "'>");

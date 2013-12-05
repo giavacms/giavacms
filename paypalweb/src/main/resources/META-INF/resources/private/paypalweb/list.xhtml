@@ -16,8 +16,15 @@
 		<h:form id="mainForm">
 			<center>
 				<p:panel header="Lista Vendite Paypal WEB">
-					<h:panelGrid columns="8" id="searchGrid">
+					<h:panelGrid columns="4" id="searchGrid">
 
+						<h:outputLabel for="id" value="id: " />
+						<h:inputText id="id"
+							value="#{shoppingCartController.search.obj.id}" />
+
+						<h:outputLabel for="lastName" value="cognome: " />
+						<h:inputText id="lastName"
+							value="#{shoppingCartController.search.obj.billingAddress.lastName}" />
 
 					</h:panelGrid>
 					<p:commandButton action="#{shoppingCartController.reloadAjax}"
@@ -43,7 +50,7 @@
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">data creazione/conferma/invio</f:facet>
+							<f:facet name="header">data creazione/conferma/invio/rollback</f:facet>
 							<h:outputText value="#{shc.creationDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
@@ -55,6 +62,11 @@
 							</h:outputText>
 							<br />
 							<h:outputText value="#{shc.sentDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+							<br />
+							<h:outputText value="#{shc.rollBackDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
@@ -93,7 +105,7 @@
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">creato/confermato/inviato</f:facet>
+							<f:facet name="header">creato/confermato/inviato/rollback</f:facet>
 							<h:outputText value="SI" rendered="#{shc.created}" />
 							<h:outputText value="NO" rendered="#{not shc.created}" />
 							<br />
@@ -102,6 +114,9 @@
 							<br />
 							<h:outputText value="SI" rendered="#{shc.sent}" />
 							<h:outputText value="NO" rendered="#{not shc.sent}" />
+							<br />
+							<h:outputText value="SI" rendered="#{shc.rollBack}" />
+							<h:outputText value="NO" rendered="#{not shc.rollBack}" />
 						</p:column>
 
 						<p:column width="200">

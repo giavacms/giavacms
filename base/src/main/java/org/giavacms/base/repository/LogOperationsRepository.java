@@ -21,7 +21,6 @@ import org.giavacms.base.model.OperazioniLog;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
 
-
 @Named
 @Stateless
 @LocalBean
@@ -46,23 +45,9 @@ public class LogOperationsRepository extends AbstractRepository<OperazioniLog>
    }
 
    @Override
-   protected Query getRestrictions(Search<OperazioniLog> search,
-            boolean justCount)
+   protected void applyRestrictions(Search<OperazioniLog> search, String alias, String separator, StringBuffer sb,
+            Map<String, Object> params)
    {
-
-      if (search.getObj() == null)
-      {
-         return super.getRestrictions(search, justCount);
-      }
-
-      Map<String, Object> params = new HashMap<String, Object>();
-
-      String alias = "c";
-      StringBuffer sb = new StringBuffer(getBaseList(search.getObj()
-               .getClass(), alias, justCount));
-
-      String separator = " where ";
-
       // attivo
       sb.append(separator).append(" ").append(alias)
                .append(".attivo = :attivo ");
@@ -90,19 +75,66 @@ public class LogOperationsRepository extends AbstractRepository<OperazioniLog>
          params.put("type", search.getObj().getTipo());
       }
 
-      if (!justCount)
-      {
-         sb.append(getOrderBy(alias, search.getOrder()));
-      }
-
-      Query q = getEm().createQuery(sb.toString());
-      for (String param : params.keySet())
-      {
-         q.setParameter(param, params.get(param));
-      }
-
-      return q;
    }
+
+   // @Override
+   // protected Query getRestrictions(Search<OperazioniLog> search,
+   // boolean justCount)
+   // {
+   //
+   // if (search.getObj() == null)
+   // {
+   // return super.getRestrictions(search, justCount);
+   // }
+   //
+   // Map<String, Object> params = new HashMap<String, Object>();
+   //
+   // String alias = "c";
+   // StringBuffer sb = new StringBuffer(getBaseList(search.getObj()
+   // .getClass(), alias, justCount));
+   //
+   // String separator = " where ";
+   //
+   // // attivo
+   // sb.append(separator).append(" ").append(alias)
+   // .append(".attivo = :attivo ");
+   // // aggiunta alla mappa
+   // params.put("attivo", true);
+   // // separatore
+   // separator = " and ";
+   //
+   // if (search.getObj().getData() != null)
+   // {
+   // sb.append(separator).append(alias).append(".data = :data ");
+   // params.put("data", search.getObj().getData());
+   // }
+   // if (search.getObj().getUsername() != null
+   // && !search.getObj().getUsername().isEmpty())
+   // {
+   // sb.append(separator).append(alias)
+   // .append(".username LIKE :username ");
+   // params.put("username", likeParam(search.getObj().getUsername()));
+   // }
+   // if (search.getObj().getTipo() != null
+   // && !search.getObj().getTipo().isEmpty())
+   // {
+   // sb.append(separator).append(alias).append(".tipo = :type ");
+   // params.put("type", search.getObj().getTipo());
+   // }
+   //
+   // if (!justCount)
+   // {
+   // sb.append(getOrderBy(alias, search.getOrder()));
+   // }
+   //
+   // Query q = getEm().createQuery(sb.toString());
+   // for (String param : params.keySet())
+   // {
+   // q.setParameter(param, params.get(param));
+   // }
+   //
+   // return q;
+   // }
 
    @Override
    protected OperazioniLog prePersist(OperazioniLog n)

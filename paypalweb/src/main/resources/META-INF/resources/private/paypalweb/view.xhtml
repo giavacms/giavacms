@@ -20,6 +20,10 @@
 					<p:panelGrid columns="2">
 						<f:facet name="header">Informazioni sul carrello</f:facet>
 
+						<h:outputLabel for="id" style="font-weight: bolder;"
+							value="n.ro ordine: " />
+						<h:outputText id="id" value="#{shoppingCartController.element.id}" />
+
 						<h:outputLabel for="partialAmount" style="font-weight: bolder;"
 							value="totale: " />
 						<h:outputText id="partialAmount"
@@ -37,7 +41,7 @@
 							value="Spese di spedizione: " />
 						<h:outputText id="shipping"
 							value="#{shoppingCartController.element.shipping}" />
-							
+
 						<h:outputLabel for="currency" style="font-weight: bolder;"
 							value="valuta: " />
 						<h:outputText id="currency"
@@ -67,6 +71,16 @@
 							<h:outputText value="NO"
 								rendered="#{not shoppingCartController.element.confirmed}" />
 						</h:panelGroup>
+
+						<h:outputLabel for="rollBack" style="font-weight: bolder;"
+							value="rollBack?: " />
+						<h:panelGroup id="rollBack">
+							<h:outputText value="SI"
+								rendered="#{shoppingCartController.element.rollBack}" />
+							<h:outputText value="NO"
+								rendered="#{not shoppingCartController.element.rollBack}" />
+						</h:panelGroup>
+
 						<h:outputLabel for="creationDate" style="font-weight: bolder;"
 							value="creationDate: " />
 						<h:outputText id="dataStart"
@@ -83,10 +97,18 @@
 								timeZone="Europe/Rome" />
 						</h:outputText>
 
-						<h:outputLabel for="sentdDate" style="font-weight: bolder;"
+						<h:outputLabel for="sentDate" style="font-weight: bolder;"
 							value="sentdDate: " />
-						<h:outputText id="sentdDate"
+						<h:outputText id="sentDate"
 							value="#{shoppingCartController.element.sentDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="Europe/Rome" />
+						</h:outputText>
+
+						<h:outputLabel for="rollBackDate" style="font-weight: bolder;"
+							value="rollbackDate: " />
+						<h:outputText id="rollBackDate"
+							value="#{shoppingCartController.element.rollBackDate}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 								timeZone="Europe/Rome" />
 						</h:outputText>
@@ -156,6 +178,54 @@
 							value="#{shoppingCartController.element.billingAddress.email}"
 							escape="false" />
 
+						<h:outputLabel for="company" style="font-weight: bolder;"
+							value="company: " />
+						<h:outputText id="company"
+							value="#{shoppingCartController.element.billingAddress.company}"
+							escape="false" />
+
+						<h:outputLabel for="vatCode" style="font-weight: bolder;"
+							value="vatCode: " />
+						<h:outputText id="vatCode"
+							value="#{shoppingCartController.element.billingAddress.vatCode}"
+							escape="false" />
+
+						<h:outputLabel for="line1B" style="font-weight: bolder;"
+							value="line1: " />
+						<h:outputText id="line1B"
+							value="#{shoppingCartController.element.billingAddress.line1}"
+							escape="false" />
+
+						<h:outputLabel for="line2B" style="font-weight: bolder;"
+							value="line2: " />
+						<h:outputText id="line2B"
+							value="#{shoppingCartController.element.billingAddress.line2}"
+							escape="false" />
+
+						<h:outputLabel for="cityB" style="font-weight: bolder;"
+							value="city: " />
+						<h:outputText id="cityB"
+							value="#{shoppingCartController.element.billingAddress.city}"
+							escape="false" />
+
+						<h:outputLabel for="countryCodeB" style="font-weight: bolder;"
+							value="countryCode: " />
+						<h:outputText id="countryCodeB"
+							value="#{shoppingCartController.element.billingAddress.countryCode}"
+							escape="false" />
+
+						<h:outputLabel for="zipB" style="font-weight: bolder;"
+							value="zip: " />
+						<h:outputText id="zipB"
+							value="#{shoppingCartController.element.billingAddress.zip}"
+							escape="false" />
+
+						<h:outputLabel for="stateB" style="font-weight: bolder;"
+							value="state: " />
+						<h:outputText id="stateB"
+							value="#{shoppingCartController.element.billingAddress.state}"
+							escape="false" />
+
 					</p:panelGrid>
 					<br />
 					<br />
@@ -211,13 +281,19 @@
 				<br /> <br />
 				<h:panelGrid columns="3">
 					<p:commandButton action="#{shoppingCartController.close}"
-						value="Segna come Consegnato" />
+						rendered="#{not shoppingCartController.element.rollBack and not shoppingCartController.element.confirmed}"
+						value="Segna come Consegnato"
+						onclick="if (!confirm('Vuoi davvero segnarlo come consegnato?')) return false" />
 
 					<p:commandButton action="#{shoppingCartController.rollback}"
-						value="Effettua Storno" />
+						value="Effettua Storno"
+						rendered="#{not shoppingCartController.element.rollBack and not shoppingCartController.element.confirmed}"
+						onclick="if (!confirm('Vuoi davvero segnarlo come rollback?')) return false" />
 
 					<p:commandButton action="#{shoppingCartController.delete}"
-						value="Elimina" />
+						value="Elimina"
+						rendered="#{not shoppingCartController.element.rollBack and not shoppingCartController.element.confirmed}"
+						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
 				</h:panelGrid>
 			</center>
 		</h:form>

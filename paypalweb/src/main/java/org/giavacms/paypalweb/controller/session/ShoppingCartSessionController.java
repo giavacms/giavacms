@@ -2,6 +2,7 @@ package org.giavacms.paypalweb.controller.session;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -49,9 +50,23 @@ public class ShoppingCartSessionController implements Serializable
    {
    }
 
+   public boolean load(Long id)
+   {
+      ShoppingCart shoppingCart = shoppingCartRepository.find(id);
+      setElement(shoppingCart);
+      if (shoppingCart != null)
+         return true;
+      return false;
+   }
+
    public void addBillingAddress(BillingAddress billingAddress)
    {
       getElement().setBillingAddress(billingAddress);
+   }
+
+   public void setNotes(String notes)
+   {
+      getElement().setNotes(notes);
    }
 
    public void addShippingAddress(ShippingAddress shippingAddress)
@@ -61,11 +76,16 @@ public class ShoppingCartSessionController implements Serializable
 
    public void save()
    {
-
+      getElement().setCreated(true);
+      getElement().setCreationDate(new Date());
       double shipping = shippingService.calculate(getElement());
       getElement().setShipping(BigDecimal.valueOf(shipping));
       if (getElement().getId() == null)
+      {
+         getElement().setCreated(true);
+         getElement().setCreationDate(new Date());
          shoppingCartRepository.persist(getElement());
+      }
       else
          shoppingCartRepository.update(getElement());
       logger.info(getElement().getId());
@@ -145,6 +165,11 @@ public class ShoppingCartSessionController implements Serializable
       if (this.element == null)
          this.element = new ShoppingCart();
       return element;
+   }
+
+   public void setElement(ShoppingCart element)
+   {
+      this.element = element;
    }
 
    public String getLastPage()

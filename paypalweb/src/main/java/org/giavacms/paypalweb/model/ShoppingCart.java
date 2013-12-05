@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -25,14 +26,17 @@ import org.giavacms.common.util.StringUtils;
 public class ShoppingCart implements Serializable
 {
    private static final long serialVersionUID = 1L;
+   private boolean active = true;
    private Long id;
    private String paymentId;
    private boolean created;
    private boolean confirmed;
    private boolean sent;
+   private boolean rollBack;
    private Date creationDate;
    private Date confirmDate;
    private Date sentDate;
+   private Date rollBackDate;
    private BigDecimal partialAmount = BigDecimal.ZERO.setScale(2);
    private BigDecimal partialTax = BigDecimal.ZERO.setScale(2);
    private BigDecimal shipping = BigDecimal.ZERO.setScale(2);
@@ -41,6 +45,7 @@ public class ShoppingCart implements Serializable
    private ShippingAddress shippingAddress;
    private List<ShoppingArticle> shoppingArticles;
    private Long logId;
+   private String notes;
 
    public ShoppingCart()
    {
@@ -342,6 +347,48 @@ public class ShoppingCart implements Serializable
    public void setLogId(Long logId)
    {
       this.logId = logId;
+   }
+
+   @Lob
+   @Column(length = 1024)
+   public String getNotes()
+   {
+      return notes;
+   }
+
+   public void setNotes(String notes)
+   {
+      this.notes = notes;
+   }
+
+   public boolean isActive()
+   {
+      return active;
+   }
+
+   public void setActive(boolean active)
+   {
+      this.active = active;
+   }
+
+   public boolean isRollBack()
+   {
+      return rollBack;
+   }
+
+   public void setRollBack(boolean rollBack)
+   {
+      this.rollBack = rollBack;
+   }
+
+   public Date getRollBackDate()
+   {
+      return rollBackDate;
+   }
+
+   public void setRollBackDate(Date rollBackDate)
+   {
+      this.rollBackDate = rollBackDate;
    }
 
 }

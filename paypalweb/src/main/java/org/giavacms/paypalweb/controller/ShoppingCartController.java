@@ -14,6 +14,7 @@ import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.paypalweb.model.ShoppingCart;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
+import org.giavacms.paypalweb.service.NotificationService;
 
 @Named
 @SessionScoped
@@ -39,6 +40,9 @@ public class ShoppingCartController extends
    @OwnRepository(ShoppingCartRepository.class)
    ShoppingCartRepository shoppingCartRepository;
 
+   @Inject
+   NotificationService notificationService;
+
    @Override
    public String viewElement()
    {
@@ -53,11 +57,25 @@ public class ShoppingCartController extends
    {
       getElement().setSentDate(new Date());
       getElement().setSent(true);
+      shoppingCartRepository.update(getElement());
+      notificationService.notifyShipment(getElement());
       return viewCurrent();
    }
 
    public String rollback()
    {
+      getElement().setRollBackDate(new Date());
+      getElement().setRollBack(true);
+      shoppingCartRepository.update(getElement());
+      notificationService.notifyRollBack(getElement());
       return viewCurrent();
+   }
+
+   @Override
+   public String delete()
+   {
+      getElement().setActive(false);
+      shoppingCartRepository.update(getElement());
+      return listPage();
    }
 }

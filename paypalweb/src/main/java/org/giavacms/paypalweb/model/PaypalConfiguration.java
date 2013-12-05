@@ -2,10 +2,12 @@ package org.giavacms.paypalweb.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class PaypalConfiguration implements Serializable
@@ -33,9 +35,21 @@ public class PaypalConfiguration implements Serializable
    private String currency;
 
    private String emailNotification;
+
    private String emailSender;
+
    private String emailBody;
    private String emailObject;
+
+   private String emailShipmentBody;
+   private String emailShipmentObject;
+
+   private String emailRollBackBody;
+   private String emailRollBackObject;
+
+   private String shoppingCartDirectUrl;
+
+   private boolean logOnly;
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -147,6 +161,8 @@ public class PaypalConfiguration implements Serializable
       this.payerInfoUrl = payerInfoUrl;
    }
 
+   @Lob
+   @Column(length = 1024)
    public String getEmailBody()
    {
       return emailBody;
@@ -157,6 +173,8 @@ public class PaypalConfiguration implements Serializable
       this.emailBody = emailBody;
    }
 
+   @Lob
+   @Column(length = 1024)
    public String getEmailObject()
    {
       return emailObject;
@@ -185,6 +203,74 @@ public class PaypalConfiguration implements Serializable
    public void setEmailSender(String emailSender)
    {
       this.emailSender = emailSender;
+   }
+
+   public String getShoppingCartDirectUrl()
+   {
+      return shoppingCartDirectUrl;
+   }
+
+   public void setShoppingCartDirectUrl(String shoppingCartDirectUrl)
+   {
+      this.shoppingCartDirectUrl = shoppingCartDirectUrl;
+   }
+
+   public boolean isLogOnly()
+   {
+      return logOnly;
+   }
+
+   public void setLogOnly(boolean logOnly)
+   {
+      this.logOnly = logOnly;
+   }
+
+   @Lob
+   @Column(length = 1024)
+   public String getEmailShipmentBody()
+   {
+      return emailShipmentBody;
+   }
+
+   public void setEmailShipmentBody(String emailShipmentBody)
+   {
+      this.emailShipmentBody = emailShipmentBody;
+   }
+
+   @Lob
+   @Column(length = 1024)
+   public String getEmailShipmentObject()
+   {
+      return emailShipmentObject;
+   }
+
+   public void setEmailShipmentObject(String emailShipmentObject)
+   {
+      this.emailShipmentObject = emailShipmentObject;
+   }
+
+   @Lob
+   @Column(length = 1024)
+   public String getEmailRollBackBody()
+   {
+      return emailRollBackBody;
+   }
+
+   public void setEmailRollBackBody(String emailRollBackBody)
+   {
+      this.emailRollBackBody = emailRollBackBody;
+   }
+
+   @Lob
+   @Column(length = 1024)
+   public String getEmailRollBackObject()
+   {
+      return emailRollBackObject;
+   }
+
+   public void setEmailRollBackObject(String emailRollBackObject)
+   {
+      this.emailRollBackObject = emailRollBackObject;
    }
 
 }

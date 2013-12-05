@@ -9,6 +9,7 @@ import javax.inject.Named;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.paypalweb.controller.session.ShoppingCartSessionController;
 import org.giavacms.paypalweb.model.ShoppingCart;
+import org.jboss.logging.Logger;
 
 /**
  * 
@@ -25,7 +26,7 @@ import org.giavacms.paypalweb.model.ShoppingCart;
 @RequestScoped
 public class ShoppingCartRequestController implements Serializable
 {
-
+   Logger logger = Logger.getLogger(getClass().getName());
    private static final long serialVersionUID = 1L;
    @Inject
    @HttpParam
@@ -50,11 +51,30 @@ public class ShoppingCartRequestController implements Serializable
    @HttpParam
    String image;
 
+   String shopId;
+
    @Inject
    ShoppingCartSessionController shoppingCartSessionController;
 
    @Inject
    NavigationRequestController navigationRequestController;
+
+   public void load()
+   {
+      if (getShopId() != null && !getShopId().isEmpty())
+      {
+         boolean load = shoppingCartSessionController.load(Long.valueOf(getShopId()));
+         if (load)
+            logger.info("FOUND ELEMENT WITH ID: " + getShopId());
+         else
+            logger.info("NO ELEMENT WITH ID: " + getShopId());
+      }
+      else
+      {
+         logger.info("NO ELEMENT WITH ID NULL ");
+      }
+
+   }
 
    public ShoppingCartRequestController()
    {
@@ -128,5 +148,15 @@ public class ShoppingCartRequestController implements Serializable
    {
       shoppingCartSessionController.exit();
       navigationRequestController.goToShoppingCartUrl();
+   }
+
+   public String getShopId()
+   {
+      return shopId;
+   }
+
+   public void setShopId(String shopId)
+   {
+      this.shopId = shopId;
    }
 }

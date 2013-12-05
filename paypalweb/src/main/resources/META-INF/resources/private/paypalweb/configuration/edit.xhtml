@@ -71,6 +71,19 @@
 							value="#{paypalConfigurationController.element.currency}"
 							style="width: 100%;" />
 
+						<h:outputLabel
+							value="url pubblico per shopping cart (es: www.site.com/url?id=)"
+							for="shoppingCartDirectUrl" />
+						<h:inputText id="shoppingCartDirectUrl"
+							value="#{paypalConfigurationController.element.shoppingCartDirectUrl}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="log invece di invio email?:" for="logOnly" />
+						<h:selectBooleanCheckbox title="log only" id="logOnly"
+							value="#{paypalConfigurationController.element.logOnly}">
+						</h:selectBooleanCheckbox>
+
+
 						<h:outputLabel value="mittente email:" for="emailSender" />
 						<h:inputText id="emailSender"
 							value="#{paypalConfigurationController.element.emailSender}"
@@ -83,19 +96,48 @@
 							value="#{paypalConfigurationController.element.emailNotification}"
 							style="width: 100%;" />
 
-						<h:outputLabel value="oggetto email:" for="emailObject" />
+						<h:outputLabel value="oggetto email conferma acquisto:"
+							for="emailObject" />
 						<h:inputText id="emailObject"
 							value="#{paypalConfigurationController.element.emailObject}"
 							style="width: 100%;" />
 
-						<h:outputLabel value="testo email:" for="emailBody" />
+						<h:outputLabel value="testo email conferma acquisto:"
+							for="emailBody" />
 						<h:inputTextarea id="emailBody" rows="25" cols="50"
 							value="#{paypalConfigurationController.element.emailBody}"
 							style="width: 100%;" />
 
-						<h:outputText value="E' possibile usare i seguenti placeHolder:" />
-						<h:panelGroup>
+
+						<h:outputLabel value="oggetto email spedizione:"
+							for="emailShipmentObject" />
+						<h:inputText id="emailShipmentObject"
+							value="#{paypalConfigurationController.element.emailShipmentObject}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="testo email spedizione:"
+							for="emailShipmentBody" />
+						<h:inputTextarea id="emailShipmentBody" rows="25" cols="50"
+							value="#{paypalConfigurationController.element.emailShipmentBody}"
+							style="width: 100%;" />
+
+
+						<h:outputLabel value="oggetto email storno:"
+							for="emailRollBackObject" />
+						<h:inputText id="emailRollBackObject"
+							value="#{paypalConfigurationController.element.emailRollBackObject}"
+							style="width: 100%;" />
+
+						<h:outputLabel value="testo email storno:" for="emailRollBackBody" />
+						<h:inputTextarea id="emailRollBackBody" rows="25" cols="50"
+							value="#{paypalConfigurationController.element.emailRollBackBody}"
+							style="width: 100%;" />
+
+						<h:outputText for="help"
+							value="E' possibile usare i seguenti placeHolder:" />
+						<h:panelGroup id="help">
 							<ul>
+								<li>id</li>
 								<li>firstName</li>
 								<li>lastName</li>
 								<li>vatCode</li>
@@ -107,6 +149,12 @@
 								<li>state</li>
 								<li>phone</li>
 								<li>email</li>
+								<li>notes</li>
+								<li>total</li>
+								<li>vat</li>
+								<li>shipping</li>
+								<li>products</li>
+								<li>directUrl</li>
 							</ul>
 						</h:panelGroup>
 

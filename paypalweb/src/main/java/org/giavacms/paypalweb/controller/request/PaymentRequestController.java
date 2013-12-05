@@ -3,13 +3,16 @@ package org.giavacms.paypalweb.controller.request;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.ejb.Asynchronous;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.paypalweb.model.ShoppingCart;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.giavacms.paypalweb.service.NotificationService;
+import org.giavacms.paypalweb.util.FaceletRenderer;
 import org.jboss.logging.Logger;
 
 @Named
@@ -24,6 +27,9 @@ public class PaymentRequestController implements Serializable
 
    @Inject
    ShoppingCartRepository shoppingCartRepository;
+
+   @Inject
+   ShoppingCartRequestController shoppingCartRequestController;
 
    @Inject
    NotificationService notificationService;
@@ -41,6 +47,7 @@ public class PaymentRequestController implements Serializable
             shoppingCartRepository.update(shoppingCart);
             logger.info("update shopping cart with confirm=true");
             notificationService.notifyPayment(shoppingCart);
+            shoppingCartRequestController.reset();
          }
          else
          {
@@ -65,6 +72,7 @@ public class PaymentRequestController implements Serializable
             shoppingCart.setConfirmed(false);
             shoppingCartRepository.update(shoppingCart);
             logger.info("update shopping cart with confirm=false");
+            shoppingCartRequestController.reset();
          }
          else
          {
@@ -75,6 +83,11 @@ public class PaymentRequestController implements Serializable
       {
          logger.info("verifyExit: NO ID!");
       }
+   }
+
+   public void test(String path)
+   {
+      logger.info(FaceletRenderer.renderView(path));
    }
 
    public String getPaymentId()
