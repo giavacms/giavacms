@@ -40,10 +40,11 @@ public enum PaypalStatus
       {
          for (PaypalStatus paypalStatus : PaypalStatus.values())
          {
-            if (paypalStatus.name().equals(status.trim().toLowerCase()))
+            if (paypalStatus.name().toLowerCase().equals(status.trim().toLowerCase()))
                return paypalStatus;
          }
       }
       return null;
    }
+
 }
