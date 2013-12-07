@@ -49,3 +49,75 @@ body {
 #fixed-nav .buttons a.cmnts:hover {
 	background-position: -24px -48px;
 }
+
+.red {
+	color: red;
+}
+
+.white {
+	color: white;
+}
+
+.cyan {
+	color: cyan;
+}
+
+.silver {
+	color: silver;
+}
+
+.blue {
+	color: blue;
+}
+
+.gray {
+	color: gray;
+}
+
+.darkBlue {
+	color: darkblue;
+}
+
+.black {
+	color: black;
+}
+
+.lightBlue {
+	color: lightblue;
+}
+
+.orange {
+	color: orange;
+}
+
+.purple {
+	color: purple;
+}
+
+.brown {
+	color: brown;
+}
+
+.yellow {
+	color: yellow;
+}
+
+.maroon {
+	color: maroon;
+}
+
+.lime {
+	color: lime;
+}
+
+.green {
+	color: green;
+}
+
+.magenta {
+	color: magenta;
+}
+
+.olive {
+	color: olive;
+}

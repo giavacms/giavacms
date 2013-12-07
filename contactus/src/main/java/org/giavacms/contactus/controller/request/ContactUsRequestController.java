@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.contactus.controller.request;
 
 import java.io.Serializable;
@@ -8,7 +14,6 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.registry.infomodel.TelephoneNumber;
 
 import org.giavacms.base.service.EmailSession;
 import org.giavacms.common.annotation.HttpParam;

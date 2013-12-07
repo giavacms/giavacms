@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.model;
 
 import java.io.Serializable;
@@ -9,6 +15,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,27 +24,29 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.giavacms.common.util.StringUtils;
+import org.giavacms.paypalweb.model.enums.PaypalStatus;
 
 @Entity
+@Table(name = ShoppingCart.TABLE_NAME)
 public class ShoppingCart implements Serializable
 {
    private static final long serialVersionUID = 1L;
-   private boolean active = true;
+   public static final String TABLE_NAME = "PPW_ShoppingCart";
    private Long id;
-   private String paymentId;
-   private boolean created;
-   private boolean confirmed;
-   private boolean sent;
-   private boolean rollBack;
-   private Date creationDate;
-   private Date confirmDate;
+   private boolean active = true;
+   private Date refundedDate;
+   private Date completedDate;
+   private Date initDate;
+   private Date undoDate;
    private Date sentDate;
-   private Date rollBackDate;
+   private Date notCompletedDate;
+
    private BigDecimal partialAmount = BigDecimal.ZERO.setScale(2);
    private BigDecimal partialTax = BigDecimal.ZERO.setScale(2);
    private BigDecimal shipping = BigDecimal.ZERO.setScale(2);
@@ -46,17 +56,18 @@ public class ShoppingCart implements Serializable
    private List<ShoppingArticle> shoppingArticles;
    private Long logId;
    private String notes;
+   private PaypalStatus paypalStatus;
 
    public ShoppingCart()
    {
       this.currency = "EUR";
-      this.creationDate = new Date();
+      this.initDate = new Date();
    }
 
    public ShoppingCart(String currency)
    {
       this.currency = currency;
-      this.creationDate = new Date();
+      this.initDate = new Date();
    }
 
    @Id
@@ -100,16 +111,6 @@ public class ShoppingCart implements Serializable
       addPartial(article.getQuantity(), article.getPrice(), article.getVat());
    }
 
-   public String getPaymentId()
-   {
-      return paymentId;
-   }
-
-   public void setPaymentId(String paymentId)
-   {
-      this.paymentId = paymentId;
-   }
-
    public String getCurrency()
    {
       return currency;
@@ -118,16 +119,6 @@ public class ShoppingCart implements Serializable
    public void setCurrency(String currency)
    {
       this.currency = currency;
-   }
-
-   public boolean isCreated()
-   {
-      return created;
-   }
-
-   public void setCreated(boolean created)
-   {
-      this.created = created;
    }
 
    public BigDecimal getPartialAmount()
@@ -149,6 +140,13 @@ public class ShoppingCart implements Serializable
    {
       // gestire i null
       return getPartialAmount().add(getPartialTax()).doubleValue();
+   }
+
+   @Transient
+   public double getTotalWithSipping()
+   {
+      // gestire i null
+      return getPartialAmount().add(getPartialTax()).add(getShipping()).doubleValue();
    }
 
    public void addPartial(int quantity, String price, String vat)
@@ -256,59 +254,6 @@ public class ShoppingCart implements Serializable
       this.shippingAddress = shippingAddress;
    }
 
-   public boolean isConfirmed()
-   {
-      return confirmed;
-   }
-
-   public void setConfirmed(boolean confirmed)
-   {
-      this.confirmed = confirmed;
-   }
-
-   public boolean isSent()
-   {
-      return sent;
-   }
-
-   public void setSent(boolean sent)
-   {
-      this.sent = sent;
-   }
-
-   @Temporal(TemporalType.TIMESTAMP)
-   public Date getCreationDate()
-   {
-      return creationDate;
-   }
-
-   public void setCreationDate(Date creationDate)
-   {
-      this.creationDate = creationDate;
-   }
-
-   @Temporal(TemporalType.TIMESTAMP)
-   public Date getConfirmDate()
-   {
-      return confirmDate;
-   }
-
-   public void setConfirmDate(Date confirmDate)
-   {
-      this.confirmDate = confirmDate;
-   }
-
-   @Temporal(TemporalType.TIMESTAMP)
-   public Date getSentDate()
-   {
-      return sentDate;
-   }
-
-   public void setSentDate(Date sentDate)
-   {
-      this.sentDate = sentDate;
-   }
-
    public void setPartialAmount(BigDecimal partialAmount)
    {
       this.partialAmount = partialAmount;
@@ -317,16 +262,6 @@ public class ShoppingCart implements Serializable
    public void setPartialTax(BigDecimal partialTax)
    {
       this.partialTax = partialTax;
-   }
-
-   @Override
-   public String toString()
-   {
-      return "ShoppingCart [id=" + id + ", paymentId=" + paymentId + ", currency=" + currency + ", created=" + created
-               + ", confirmed=" + confirmed + ", sent=" + sent + ", creationDate=" + creationDate + ", confirmDate="
-               + confirmDate + ", sentdDate=" + sentDate + ", partialAmount=" + partialAmount + ", partialTax="
-               + partialTax + ", billingAddress=" + billingAddress + ", shippingAddress=" + shippingAddress
-               + ", shoppingArticles=" + shoppingArticles + "]";
    }
 
    public BigDecimal getShipping()
@@ -371,24 +306,128 @@ public class ShoppingCart implements Serializable
       this.active = active;
    }
 
-   public boolean isRollBack()
+   @Enumerated(EnumType.STRING)
+   public PaypalStatus getPaypalStatus()
    {
-      return rollBack;
+      return paypalStatus;
    }
 
-   public void setRollBack(boolean rollBack)
+   public void setPaypalStatus(PaypalStatus paypalStatus)
    {
-      this.rollBack = rollBack;
+      this.paypalStatus = paypalStatus;
    }
 
-   public Date getRollBackDate()
+   @Transient
+   public boolean isRefunded()
    {
-      return rollBackDate;
+      return (paypalStatus != null && paypalStatus.equals(PaypalStatus.Refunded) ? true : false);
    }
 
-   public void setRollBackDate(Date rollBackDate)
+   @Transient
+   public boolean isCompleted()
    {
-      this.rollBackDate = rollBackDate;
+      return (paypalStatus != null && paypalStatus.equals(PaypalStatus.Completed) ? true : false);
+   }
+
+   @Transient
+   public boolean isInit()
+   {
+      return (paypalStatus != null && paypalStatus.equals(PaypalStatus.Init) ? true : false);
+   }
+
+   @Transient
+   public boolean isUndo()
+   {
+      return (paypalStatus != null && paypalStatus.equals(PaypalStatus.Undo) ? true : false);
+   }
+
+   @Transient
+   public boolean isSent()
+   {
+      return (paypalStatus != null && paypalStatus.equals(PaypalStatus.Sent) ? true : false);
+   }
+
+   @Transient
+   public boolean isNotCompleted()
+   {
+      return (paypalStatus != null && paypalStatus.equals(PaypalStatus.NotCompleted) ? true : false);
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getRefundedDate()
+   {
+      return refundedDate;
+   }
+
+   public void setRefundedDate(Date refundedDate)
+   {
+      this.refundedDate = refundedDate;
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getCompletedDate()
+   {
+      return completedDate;
+   }
+
+   public void setCompletedDate(Date completedDate)
+   {
+      this.completedDate = completedDate;
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getInitDate()
+   {
+      return initDate;
+   }
+
+   public void setInitDate(Date initDate)
+   {
+      this.initDate = initDate;
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getUndoDate()
+   {
+      return undoDate;
+   }
+
+   public void setUndoDate(Date undoDate)
+   {
+      this.undoDate = undoDate;
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getSentDate()
+   {
+      return sentDate;
+   }
+
+   public void setSentDate(Date sentDate)
+   {
+      this.sentDate = sentDate;
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getNotCompletedDate()
+   {
+      return notCompletedDate;
+   }
+
+   public void setNotCompletedDate(Date notCompletedDate)
+   {
+      this.notCompletedDate = notCompletedDate;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "ShoppingCart [active=" + active + ", id=" + id + ", refundedDate=" + refundedDate + ", completedDate="
+               + completedDate + ", initDate=" + initDate + ", undoDate=" + undoDate + ", sentDate=" + sentDate
+               + ", notCompletedDate=" + notCompletedDate + ", partialAmount=" + partialAmount + ", partialTax="
+               + partialTax + ", shipping=" + shipping + ", currency=" + currency + ", billingAddress="
+               + billingAddress + ", shippingAddress=" + shippingAddress + ", shoppingArticles=" + shoppingArticles
+               + ", logId=" + logId + ", notes=" + notes + ", paypalStatus=" + paypalStatus + "]";
    }
 
 }

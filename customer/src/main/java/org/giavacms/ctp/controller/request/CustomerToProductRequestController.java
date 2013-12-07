@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.ctp.controller.request;
 
 import java.io.Serializable;
@@ -13,21 +19,23 @@ import org.giavacms.customer.model.Customer;
 
 @Named
 @RequestScoped
-public class CustomerToProductRequestController implements Serializable {
+public class CustomerToProductRequestController implements Serializable
+{
 
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-    @Inject
-    CustomerToProductRepository customerToProductRepository;
+   @Inject
+   CustomerToProductRepository customerToProductRepository;
 
-    public CustomerToProductRequestController() {
-        super();
-    }
+   public CustomerToProductRequestController()
+   {
+      super();
+   }
 
-    public List<Product> getProductList(Customer customer) {
-        List<Product> l = customerToProductRepository.getProductList(customer);
-        return l;
-    }
+   public List<Product> getProductList(Customer customer)
+   {
+      List<Product> l = customerToProductRepository.getProductList(customer);
+      return l;
+   }
 
-    
 }

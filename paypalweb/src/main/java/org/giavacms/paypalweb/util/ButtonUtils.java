@@ -1,8 +1,15 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.util;
 
 import java.util.List;
 
 import org.giavacms.paypalweb.model.BillingAddress;
+import org.giavacms.paypalweb.model.PaypalConfiguration;
 import org.giavacms.paypalweb.model.ShippingAddress;
 import org.giavacms.paypalweb.model.ShoppingArticle;
 import org.giavacms.paypalweb.model.ShoppingCart;
@@ -10,26 +17,32 @@ import org.giavacms.paypalweb.model.ShoppingCart;
 public class ButtonUtils
 {
 
-   public static String generate(ShoppingCart shoppingCart, String server, String email, String ipnUrl,
-            String cancelUrl, String returnUrl)
+   public static String generate(ShoppingCart shoppingCart, PaypalConfiguration paypalConfiguration)
    {
+
       StringBuffer html = new StringBuffer();
-      html.append("<form action='" + server + "' method='post'>");
-      html.append("<input type='hidden' name='cmd' value='_cart'>");
-      html.append("<input type='hidden' name='redirect_cmd' value='_xclick'>");
-      html.append("<input type='hidden' name='email' value='" + email + "'>");
-      articlesToHtml(shoppingCart.getShoppingArticles(), html);
-      // html.append("<input type='hidden' name='shipping_1' value='" + shoppingCart.getShipping().doubleValue() +
-      // "'>");
-      payerToHtml(html, shoppingCart.getId(), ipnUrl, cancelUrl, returnUrl, shoppingCart.getCurrency(), email,
+      addIntro(html, paypalConfiguration.getServiceUrl(), paypalConfiguration.getEmail());
+      articlesToHtml(shoppingCart.getShoppingArticles(), html, shoppingCart.getShipping().doubleValue());
+      payerToHtml(html, shoppingCart.getId(), paypalConfiguration.getIpnUrl(), paypalConfiguration.getCancelUrl(),
+               paypalConfiguration.getReturnUrl(),
+               shoppingCart.getCurrency(),
                shoppingCart.getShippingAddress(),
-               shoppingCart.getBillingAddress(), shoppingCart.getShipping().doubleValue());
+               shoppingCart.getBillingAddress(), shoppingCart.getNotes());
       return html.toString();
    }
 
+   private static void addIntro(StringBuffer html, String server, String email)
+   {
+      html.append("<form action='" + server + "' method='post'>");
+      html.append("<input type='hidden' name='cmd' value='_cart'>");
+      html.append("<input type='hidden' name='redirect_cmd' value='_xclick'>");
+      html.append("<input type='hidden' name='business' value='" + email + "'>");
+      html.append("<input type='hidden' name='upload' value='1'>");
+   }
+
    private static void payerToHtml(StringBuffer html, Long id, String ipnUrl, String cancelUrl, String returnUrl,
-            String cuncurrency, String email, ShippingAddress shippingAddress, BillingAddress billingAddress,
-            double shipping)
+            String cuncurrency, ShippingAddress shippingAddress, BillingAddress billingAddress,
+            String notes)
    {
 
       // ATTACCACI ID PAGAMENTO
@@ -40,37 +53,49 @@ public class ButtonUtils
       html.append("<input type='hidden' name='return' value='" + returnUrl + "?paymentId=" + id + "'>");
       html.append("<input type='hidden' name='rm' value='2'>");
       html.append("<input type='hidden' name='currency_code' value='" + cuncurrency + "'>");
-      html.append("<input type='hidden' name='business' value='" + email + "'>");
+
       html.append("<input type='hidden' name='first_name' value='" + shippingAddress.getFirstName() + "'>");
       html.append("<input type='hidden' name='last_name' value='" + shippingAddress.getLastName() + "'>");
       html.append("<input type='hidden' name='address1' value='" + shippingAddress.getLine1() + "'>");
-      html.append("<input type='hidden' name='address2' value=''>");
+      html.append("<input type='hidden' name='day_phone_a' value='" + billingAddress.getPhone() + "'>");
+      if (shippingAddress.getLine2() != null && !shippingAddress.getLine2().trim().isEmpty())
+      {
+         html.append("<input type='hidden' name='address2' value='" + shippingAddress.getLine2() + "'>");
+      }
+      html.append("<input type='hidden' name='email' value='" + billingAddress.getEmail() + "'>");
       html.append("<input type='hidden' name='city' value='" + shippingAddress.getCity() + "'>");
       html.append("<input type='hidden' name='state' value='" + shippingAddress.getState() + "'>");
       html.append("<input type='hidden' name='zip' value='" + shippingAddress.getZip() + "'>");
       // STATO = IT
       html.append("<input type='hidden' name='country' value='" + shippingAddress.getCountryCode() + "'>");
       html.append("<input type='hidden' name='lc' value='" + shippingAddress.getCountryCode() + "'>");
-      html.append("<input type='hidden' name='shipping' value='" + shipping + "'>");
       html.append("<input type='hidden' name='custom' value='" + id + "'>");
-      html.append("<input type='hidden' name='upload' value='1'>");
+      if (notes != null && !notes.trim().isEmpty())
+      {
+         html.append("<input type='hidden' name='cn' value='" + notes + "'>");
+      }
       if (billingAddress.getVatCode() != null && !billingAddress.getVatCode().trim().isEmpty())
       {
-         html.append("<input type='hidden' name='on0' value='Codice Fiscale/Partita Iva'>");
+         html.append("<input type='hidden' name='on0' value='Partita Iva'>");
          html.append("<input type='hidden' name='os0' value='" + billingAddress.getVatCode() + "'>");
       }
       html.append("<input type='hidden' name='on1' value='Telefono'>");
       html.append("<input type='hidden' name='os1' value='" + billingAddress.getPhone() + "'>");
-      html.append("<input name='submit' type='submit' value='Paga con PayPal' image='https://www.paypalobjects.com/webstatic/mktg/logo-center/logo_paypal_pagamento.jpg'/>");
+      html.append("<input name='submit' type='submit' value='Paga con PayPal' />");
       html.append("</form>");
 
    }
 
-   private static void articlesToHtml(List<ShoppingArticle> articles, StringBuffer html)
+   private static void articlesToHtml(List<ShoppingArticle> articles, StringBuffer html,
+            double shipping)
    {
       int i = 1;
       for (ShoppingArticle shA : articles)
       {
+         if (i == 1)
+         {
+            html.append("<input type='hidden' name='shipping_" + i + "' value='" + shipping + "'>");
+         }
          html.append("<input type='hidden' name='amount_" + i + "' value='" + shA.getPrice() + "'>");
          html.append("<input type='hidden' name='item_name_" + i + "' value='" + shA.getDescription() + "'>");
          html.append("<input type='hidden' name='quantity_" + i + "' value='" + shA.getQuantity() + "'>");

@@ -38,40 +38,62 @@
 						value="#{shoppingCartController.model}"
 						rows="#{shoppingCartController.pageSize}" paginator="true"
 						lazy="true">
-						<p:column width="50">
+						<p:column>
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
 
-						<p:column width="200">
-							<f:facet name="header">identificativo interno/paypal</f:facet>
+						<p:column>
+							<f:facet name="header">n.ro ordine</f:facet>
 							<h:outputText value="#{shc.id}" />
-							<br />
-							<h:outputText value="#{shc.paymentId}" />
 						</p:column>
 
-						<p:column width="100">
-							<f:facet name="header">data creazione/conferma/invio/rollback</f:facet>
-							<h:outputText value="#{shc.creationDate}">
+
+						<p:column>
+							<f:facet name="header">date</f:facet>
+							<h:outputLabel for="initDate" style="font-weight: bolder;"
+								value="initDate: " />
+							<h:outputText id="initDate" value="#{shc.initDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<br />
-							<h:outputText value="#{shc.confirmDate}">
+							<h:outputLabel for="refundedDate" style="font-weight: bolder;"
+								value="refundedDate: " rendered="#{shc.refunded}" />
+							<h:outputText id="refundedDate" value="#{shc.refundedDate}"
+								rendered="#{shc.refunded}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
-							<br />
-							<h:outputText value="#{shc.sentDate}">
+							<h:outputLabel for="completedDate" style="font-weight: bolder;"
+								value="completedDate: " rendered="#{shc.completed}" />
+							<h:outputText id="completedDate" value="#{shc.completedDate}"
+								rendered="#{shc.completed}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
-							<br />
-							<h:outputText value="#{shc.rollBackDate}">
+							<h:outputLabel for="undoDate" style="font-weight: bolder;"
+								value="undoDate: " rendered="#{shc.undo}" />
+							<h:outputText id="undoDate" value="#{shc.undoDate}"
+								rendered="#{shc.undo}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+							<h:outputLabel for="sentDate" style="font-weight: bolder;"
+								value="sentDate: " rendered="#{shc.sentDate}" />
+							<h:outputText id="sentDate" value="#{shc.sentDate}"
+								rendered="#{shc.sent}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+									timeZone="Europe/Rome" />
+							</h:outputText>
+							<h:outputLabel for="notCompleted" style="font-weight: bolder;"
+								value="notCompleted: " rendered="#{shc.notCompleted}" />
+							<h:outputText id="notCompleted" value="#{shc.notCompletedDate}"
+								rendered="#{shc.notCompleted}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 						</p:column>
-						<p:column width="100">
+						<p:column>
 							<f:facet name="header">utente</f:facet>
 							<h:outputText style="font-weight: bolder;" value="nome: " />
 							<h:outputText id="firstName"
@@ -94,32 +116,45 @@
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">parziale/tasse/shipping/valuta</f:facet>
-							<h:outputText value="#{shc.partialAmount}" />
+							<f:facet name="header">totale (con shipping)/shipping</f:facet>
+							<h:outputText value="#{shc.totalWithSipping} #{shc.currency}" />
 							<br />
-							<h:outputText value="#{shc.partialTax}" />
-							<br />
-							<h:outputText value="#{shc.shipping}" />
-							<br />
-							<h:outputText value="#{shc.currency}" />
+							<h:outputText value="#{shc.shipping} #{shc.currency}" />
 						</p:column>
 
-						<p:column width="100">
-							<f:facet name="header">creato/confermato/inviato/rollback</f:facet>
-							<h:outputText value="SI" rendered="#{shc.created}" />
-							<h:outputText value="NO" rendered="#{not shc.created}" />
-							<br />
-							<h:outputText value="SI" rendered="#{shc.confirmed}" />
-							<h:outputText value="NO" rendered="#{not shc.confirmed}" />
-							<br />
-							<h:outputText value="SI" rendered="#{shc.sent}" />
-							<h:outputText value="NO" rendered="#{not shc.sent}" />
-							<br />
-							<h:outputText value="SI" rendered="#{shc.rollBack}" />
-							<h:outputText value="NO" rendered="#{not shc.rollBack}" />
+						<p:column>
+							<f:facet name="header">stato</f:facet>
+							<center>
+								<div style="font-size: 24px;" title="#{shc.paypalStatus.name()}">
+									<ui:fragment rendered="#{shc.paypalStatus.name() eq 'Init'}">
+										<i class="icon-thumbs-up-alt gray icon-2x"></i>
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{shc.paypalStatus.name() eq 'Completed'}">
+										<i class="icon-thumbs-up-alt green icon-2x"></i>
+									</ui:fragment>
+									<ui:fragment rendered="#{shc.paypalStatus.name() eq 'Pending'}">
+										<i class="icon-thumbs-down-alt green icon-2x"></i>
+									</ui:fragment>
+									<ui:fragment rendered="#{shc.paypalStatus.name() eq 'Sent'}">
+										<i class="icon-thumbs-up-alt blue icon-2x"></i>
+									</ui:fragment>
+									<ui:fragment rendered="#{shc.paypalStatus.name() eq 'Undo'}">
+										<i class="icon-thumbs-down-alt purple icon-2x"></i>
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{shc.paypalStatus.name() eq 'Refunded'}">
+										<i class="icon-thumbs-down-alt black icon-2x"></i>
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{shc.paypalStatus.name() eq 'NotCompleted'}">
+										<i class="icon-thumbs-down-alt black icon-2x"></i>
+									</ui:fragment>
+								</div>
+							</center>
 						</p:column>
 
-						<p:column width="200">
+						<p:column>
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{shoppingCartController.viewElement}"

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.controller;
 
 import java.util.Date;
@@ -13,6 +19,7 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.paypalweb.model.ShoppingCart;
+import org.giavacms.paypalweb.model.enums.PaypalStatus;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.giavacms.paypalweb.service.NotificationService;
 
@@ -53,21 +60,29 @@ public class ShoppingCartController extends
       return vieL;
    }
 
-   public String close()
+   public String sent()
    {
       getElement().setSentDate(new Date());
-      getElement().setSent(true);
+      getElement().setPaypalStatus(PaypalStatus.Sent);
       shoppingCartRepository.update(getElement());
-      notificationService.notifyShipment(getElement());
+      notificationService.notifySent(getElement());
       return viewCurrent();
    }
 
-   public String rollback()
+   public String refund()
    {
-      getElement().setRollBackDate(new Date());
-      getElement().setRollBack(true);
+      getElement().setRefundedDate(new Date());
+      getElement().setPaypalStatus(PaypalStatus.Refunded);
       shoppingCartRepository.update(getElement());
-      notificationService.notifyRollBack(getElement());
+      notificationService.notifyRefunded(getElement());
+      return viewCurrent();
+   }
+
+   public String undo()
+   {
+      getElement().setUndoDate(new Date());
+      getElement().setPaypalStatus(PaypalStatus.Undo);
+      shoppingCartRepository.update(getElement());
       return viewCurrent();
    }
 

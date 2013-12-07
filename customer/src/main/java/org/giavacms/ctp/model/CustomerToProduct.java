@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.ctp.model;
 
 import javax.persistence.Entity;
@@ -11,75 +17,83 @@ import org.giavacms.customer.model.Customer;
 
 /**
  * @author alessandro prandini
- *
+ * 
  */
 @Entity
-public class CustomerToProduct {
+public class CustomerToProduct
+{
 
-    private Long id;
-    private Customer customer;
-    private Product product;
-    private Integer listOrder = 0;
+   private Long id;
+   private Customer customer;
+   private Product product;
+   private Integer listOrder = 0;
 
-    /**
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
-        return id;
-    }
+   /**
+    * @return the id
+    */
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   public Long getId()
+   {
+      return id;
+   }
 
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+   /**
+    * @param id the id to set
+    */
+   public void setId(Long id)
+   {
+      this.id = id;
+   }
 
-    /**
-     * @return
-     */
-    @ManyToOne
-    public Customer getCustomer() {
-        return customer;
-    }
+   /**
+    * @return
+    */
+   @ManyToOne
+   public Customer getCustomer()
+   {
+      return customer;
+   }
 
-    /**
-     * @param customer
-     */
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+   /**
+    * @param customer
+    */
+   public void setCustomer(Customer customer)
+   {
+      this.customer = customer;
+   }
 
-    /**
-     * @return
-     */
-    @ManyToOne
-    public Product getProduct() {
-        return product;
-    }
+   /**
+    * @return
+    */
+   @ManyToOne
+   public Product getProduct()
+   {
+      return product;
+   }
 
-    /**
-     * @param product
-     */
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+   /**
+    * @param product
+    */
+   public void setProduct(Product product)
+   {
+      this.product = product;
+   }
 
-	/**
-	 * @return the listOrder
-	 */
-	public Integer getListOrder() {
-		return listOrder;
-	}
+   /**
+    * @return the listOrder
+    */
+   public Integer getListOrder()
+   {
+      return listOrder;
+   }
 
-	/**
-	 * @param listOrder the listOrder to set
-	 */
-	public void setListOrder(Integer listOrder) {
-		this.listOrder = listOrder;
-	}
+   /**
+    * @param listOrder the listOrder to set
+    */
+   public void setListOrder(Integer listOrder)
+   {
+      this.listOrder = listOrder;
+   }
 
 }

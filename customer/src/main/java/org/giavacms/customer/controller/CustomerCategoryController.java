@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.customer.controller;
 
 import javax.enterprise.context.SessionScoped;
@@ -16,53 +22,59 @@ import org.giavacms.customer.repository.CustomerCategoryRepository;
 
 @Named
 @SessionScoped
-public class CustomerCategoryController extends AbstractLazyController<CustomerCategory> {
+public class CustomerCategoryController extends AbstractLazyController<CustomerCategory>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	@ListPage
-	@EditPage
-	public static String LIST = "/private/customer/category/list.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   @ListPage
+   @EditPage
+   public static String LIST = "/private/customer/category/list.xhtml";
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	@Inject
-	@OwnRepository(CustomerCategoryRepository.class)
-	CustomerCategoryRepository categoryRepository;
+   @Inject
+   @OwnRepository(CustomerCategoryRepository.class)
+   CustomerCategoryRepository categoryRepository;
 
-	@Inject
-	CustomerProducer customerProducer;
+   @Inject
+   CustomerProducer customerProducer;
 
-	@Override
-	public void initController() {
-		if (getElement() == null) {
-			setElement(new CustomerCategory());
-		}
-	}
+   @Override
+   public void initController()
+   {
+      if (getElement() == null)
+      {
+         setElement(new CustomerCategory());
+      }
+   }
 
-	@Override
-	public String save() {
-		logger.info("name: " + getElement().getName());
-		logger.info("description: " + getElement().getDescription());
-		customerProducer.reset();
-		super.save();
-		setElement(new CustomerCategory());
-		return listPage();
-	}
+   @Override
+   public String save()
+   {
+      logger.info("name: " + getElement().getName());
+      logger.info("description: " + getElement().getDescription());
+      customerProducer.reset();
+      super.save();
+      setElement(new CustomerCategory());
+      return listPage();
+   }
 
-	@Override
-	public Object getId(CustomerCategory t) {
-		// TODO Auto-generated method stub
-		return t.getId();
-	}
+   @Override
+   public Object getId(CustomerCategory t)
+   {
+      // TODO Auto-generated method stub
+      return t.getId();
+   }
 
-	@Override
-	public String reset() {
-		customerProducer.reset();
-		return super.reset();
-	}
+   @Override
+   public String reset()
+   {
+      customerProducer.reset();
+      return super.reset();
+   }
 }

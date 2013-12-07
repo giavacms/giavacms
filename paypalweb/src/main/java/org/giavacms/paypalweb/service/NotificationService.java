@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.service;
 
 import java.io.File;
@@ -6,14 +12,12 @@ import java.util.Arrays;
 import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.giavacms.base.service.EmailSession;
 import org.giavacms.paypalweb.model.PaypalConfiguration;
 import org.giavacms.paypalweb.model.ShoppingCart;
 import org.giavacms.paypalweb.repository.PaypalConfigurationRepository;
-import org.giavacms.paypalweb.util.FaceletRenderer;
 import org.giavacms.paypalweb.util.PlaceholderUtils;
 import org.jboss.logging.Logger;
 
@@ -29,7 +33,7 @@ public class NotificationService
    PaypalConfigurationRepository paypalConfigurationRepository;
 
    @Asynchronous
-   public void notifyPayment(ShoppingCart shoppingCart)
+   public void notifyCompleted(ShoppingCart shoppingCart)
    {
       PaypalConfiguration paypalConfiguration = paypalConfigurationRepository.load();
       String from = paypalConfiguration.getEmailSender();
@@ -45,11 +49,11 @@ public class NotificationService
       if (!paypalConfiguration.isLogOnly())
          emailSession.sendEmail(from, body, title, to, cc, bcc, file);
       else
-         log(from, body, title, to, cc, bcc);
+         log(shoppingCart.getPaypalStatus().name(), from, body, title, to, cc, bcc);
    }
 
    @Asynchronous
-   public void notifyShipment(ShoppingCart shoppingCart)
+   public void notifySent(ShoppingCart shoppingCart)
    {
       PaypalConfiguration paypalConfiguration = paypalConfigurationRepository.load();
       String from = paypalConfiguration.getEmailSender();
@@ -65,11 +69,11 @@ public class NotificationService
       if (!paypalConfiguration.isLogOnly())
          emailSession.sendEmail(from, body, title, to, cc, bcc, file);
       else
-         log(from, body, title, to, cc, bcc);
+         log(shoppingCart.getPaypalStatus().name(), from, body, title, to, cc, bcc);
    }
 
    @Asynchronous
-   public void notifyRollBack(ShoppingCart shoppingCart)
+   public void notifyRefunded(ShoppingCart shoppingCart)
    {
       PaypalConfiguration paypalConfiguration = paypalConfigurationRepository.load();
       String from = paypalConfiguration.getEmailSender();
@@ -85,14 +89,12 @@ public class NotificationService
       if (!paypalConfiguration.isLogOnly())
          emailSession.sendEmail(from, body, title, to, cc, bcc, file);
       else
-         log(from, body, title, to, cc, bcc);
+         log(shoppingCart.getPaypalStatus().name(), from, body, title, to, cc, bcc);
    }
 
-   
-
-   private void log(String from, String body, String title, String[] to, String[] cc, String[] bcc)
+   private void log(String type, String from, String body, String title, String[] to, String[] cc, String[] bcc)
    {
-      logger.info("EMAIL FOR CONFIRM SHOPPING CART");
+      logger.info("EMAIL FOR SHOPPING CART TYPE: " + type);
       logger.info("from: " + from);
       logger.info("body: " + body);
       logger.info("title: " + title);

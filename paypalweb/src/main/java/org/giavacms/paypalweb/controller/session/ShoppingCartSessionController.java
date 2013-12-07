@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.controller.session;
 
 import java.io.Serializable;
@@ -16,6 +22,7 @@ import org.giavacms.paypalweb.model.BillingAddress;
 import org.giavacms.paypalweb.model.ShippingAddress;
 import org.giavacms.paypalweb.model.ShoppingArticle;
 import org.giavacms.paypalweb.model.ShoppingCart;
+import org.giavacms.paypalweb.model.enums.PaypalStatus;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
 import org.giavacms.paypalweb.service.ShippingService;
 import org.giavacms.paypalweb.util.ButtonUtils;
@@ -76,14 +83,12 @@ public class ShoppingCartSessionController implements Serializable
 
    public void save()
    {
-      getElement().setCreated(true);
-      getElement().setCreationDate(new Date());
+      getElement().setPaypalStatus(PaypalStatus.Init);
+      getElement().setInitDate(new Date());
       double shipping = shippingService.calculate(getElement());
       getElement().setShipping(BigDecimal.valueOf(shipping));
       if (getElement().getId() == null)
       {
-         getElement().setCreated(true);
-         getElement().setCreationDate(new Date());
          shoppingCartRepository.persist(getElement());
       }
       else
@@ -94,11 +99,7 @@ public class ShoppingCartSessionController implements Serializable
    public String getButton()
    {
       return ButtonUtils.generate(getElement(),
-               paypalConfigurationRequestController.getPaypalConfiguration().getServiceUrl(),
-               paypalConfigurationRequestController.getPaypalConfiguration().getEmail(),
-               paypalConfigurationRequestController.getPaypalConfiguration().getIpnUrl(),
-               paypalConfigurationRequestController.getPaypalConfiguration().getCancelUrl(),
-               paypalConfigurationRequestController.getPaypalConfiguration().getReturnUrl());
+               paypalConfigurationRequestController.getPaypalConfiguration());
    }
 
    public void addProduct(String vat,
@@ -137,6 +138,8 @@ public class ShoppingCartSessionController implements Serializable
    public void resetShoppingCart()
    {
       this.element = new ShoppingCart(paypalConfigurationRequestController.getPaypalConfiguration().getCurrency());
+      this.element.getBillingAddress().setCountryCode("IT");
+      this.element.getShippingAddress().setCountryCode("IT");
    }
 
    private void updateLastPage()
@@ -153,8 +156,8 @@ public class ShoppingCartSessionController implements Serializable
    {
       if (getElement().getId() != null)
       {
-         getElement().setConfirmed(false);
-         getElement().setSent(false);
+         getElement().setPaypalStatus(PaypalStatus.Undo);
+         getElement().setUndoDate(new Date());
          shoppingCartRepository.update(getElement());
       }
       resetShoppingCart();
@@ -163,7 +166,11 @@ public class ShoppingCartSessionController implements Serializable
    public ShoppingCart getElement()
    {
       if (this.element == null)
+      {
          this.element = new ShoppingCart();
+         this.element.getBillingAddress().setCountryCode("IT");
+         this.element.getShippingAddress().setCountryCode("IT");
+      }
       return element;
    }
 

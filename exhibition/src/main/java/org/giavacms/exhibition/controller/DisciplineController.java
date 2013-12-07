@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.exhibition.controller;
 
 import javax.enterprise.context.SessionScoped;
@@ -16,55 +22,61 @@ import org.giavacms.exhibition.repository.DisciplineRepository;
 
 @Named
 @SessionScoped
-public class DisciplineController extends AbstractLazyController<Discipline> {
+public class DisciplineController extends AbstractLazyController<Discipline>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	@ListPage
-	@EditPage
-	public static String LIST = "/private/exhibition/discipline/list.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   @ListPage
+   @EditPage
+   public static String LIST = "/private/exhibition/discipline/list.xhtml";
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	@Inject
-	@OwnRepository(DisciplineRepository.class)
-	DisciplineRepository disciplineRepository;
+   @Inject
+   @OwnRepository(DisciplineRepository.class)
+   DisciplineRepository disciplineRepository;
 
-	@Inject
-	ExhibitionProducer exhibitionProducer;
+   @Inject
+   ExhibitionProducer exhibitionProducer;
 
-	// --------------------------------------------------------
+   // --------------------------------------------------------
 
-	@Override
-	public void initController() {
-		if (getElement() == null) {
-			setElement(new Discipline());
-		}
-	}
+   @Override
+   public void initController()
+   {
+      if (getElement() == null)
+      {
+         setElement(new Discipline());
+      }
+   }
 
-	@Override
-	public String save() {
-		super.save();
-		exhibitionProducer.reset();
-		setElement(new Discipline());
-		return listPage();
-	}
+   @Override
+   public String save()
+   {
+      super.save();
+      exhibitionProducer.reset();
+      setElement(new Discipline());
+      return listPage();
+   }
 
-	@Override
-	public String delete() {
-		exhibitionProducer.reset();
-		return listPage();
-	}
+   @Override
+   public String delete()
+   {
+      exhibitionProducer.reset();
+      return listPage();
+   }
 
-	@Override
-	public String update() {
-		super.update();
-		exhibitionProducer.reset();
-		return listPage();
-	}
+   @Override
+   public String update()
+   {
+      super.update();
+      exhibitionProducer.reset();
+      return listPage();
+   }
 
 }

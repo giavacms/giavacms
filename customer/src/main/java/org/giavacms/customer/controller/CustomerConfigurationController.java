@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.customer.controller;
 
 import javax.enterprise.context.SessionScoped;
@@ -16,29 +22,31 @@ import org.giavacms.customer.repository.CustomerConfigurationRepository;
 @Named
 @SessionScoped
 public class CustomerConfigurationController extends
-		AbstractLazyController<CustomerConfiguration> {
+         AbstractLazyController<CustomerConfiguration>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	// --------------------------------------------------------
-	@BackPage
-	public static String BACK = "/private/administration.xhtml";
-	@ViewPage
-	@ListPage
-	@EditPage
-	public static String LIST = "/private/customer/configuration.xhtml";
+   // --------------------------------------------------------
+   @BackPage
+   public static String BACK = "/private/administration.xhtml";
+   @ViewPage
+   @ListPage
+   @EditPage
+   public static String LIST = "/private/customer/configuration.xhtml";
 
-	// ------------------------------------------------
+   // ------------------------------------------------
 
-	@Inject
-	@OwnRepository(CustomerConfigurationRepository.class)
-	CustomerConfigurationRepository catalogueConfigurationRepository;
+   @Inject
+   @OwnRepository(CustomerConfigurationRepository.class)
+   CustomerConfigurationRepository catalogueConfigurationRepository;
 
-	@Override
-	public CustomerConfiguration getElement() {
-		if (super.getElement() == null)
-			setElement(catalogueConfigurationRepository.load());
-		return super.getElement();
-	}
+   @Override
+   public CustomerConfiguration getElement()
+   {
+      if (super.getElement() == null)
+         setElement(catalogueConfigurationRepository.load());
+      return super.getElement();
+   }
 
 }

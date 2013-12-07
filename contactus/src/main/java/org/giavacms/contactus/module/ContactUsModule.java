@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.contactus.module;
 
 import java.util.ArrayList;
@@ -12,47 +18,55 @@ import org.giavacms.common.module.ModuleProvider;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
-public class ContactUsModule implements ModuleProvider {
+public class ContactUsModule implements ModuleProvider
+{
 
-	Logger logger = Logger.getLogger(getClass());
-	Properties permissions = null;
+   Logger logger = Logger.getLogger(getClass());
+   Properties permissions = null;
 
-	@Override
-	public String getName() {
-		return "contactus";
-	}
+   @Override
+   public String getName()
+   {
+      return "contactus";
+   }
 
-	@Override
-	public String getDescription() {
-		return "Contatti";
-	}
+   @Override
+   public String getDescription()
+   {
+      return "Contatti";
+   }
 
-	@Override
-	public String getMenuFragment() {
-		return "/private/contactus/contactus-menu.xhtml";
-	}
+   @Override
+   public String getMenuFragment()
+   {
+      return "/private/contactus/contactus-menu.xhtml";
+   }
 
-	@Override
-	public String getPanelFragment() {
-		return "/private/contactus/contactus-panel.xhtml";
-	}
+   @Override
+   public String getPanelFragment()
+   {
+      return "/private/contactus/contactus-panel.xhtml";
+   }
 
-	@Override
-	public int getPriority() {
-		return 30;
-	}
+   @Override
+   public int getPriority()
+   {
+      return 30;
+   }
 
-	@Override
-	public List<String> getAllowableOperations() {
-		List<String> list = new ArrayList<String>();
-		list.add("gestione contatti");
-		return list;
-	}
+   @Override
+   public List<String> getAllowableOperations()
+   {
+      List<String> list = new ArrayList<String>();
+      list.add("gestione contatti");
+      return list;
+   }
 
-	@Override
-	public Map<String, String> getPermissions() {
-		Map<String, String> permissions = new HashMap<String, String>();
-		permissions.put("contactus", "gestione contatti");
-		return permissions;
-	}
+   @Override
+   public Map<String, String> getPermissions()
+   {
+      Map<String, String> permissions = new HashMap<String, String>();
+      permissions.put("contactus", "gestione contatti");
+      return permissions;
+   }
 }

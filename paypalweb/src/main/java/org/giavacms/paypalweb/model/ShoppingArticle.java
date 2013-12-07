@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.model;
 
 import java.io.Serializable;
@@ -8,19 +14,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.giavacms.common.util.StringUtils;
 
 @Entity
+@Table(name = ShoppingArticle.TABLE_NAME)
 public class ShoppingArticle implements Serializable
 {
    private static final long serialVersionUID = 1L;
    private Long id;
+   public static final String TABLE_NAME = "PPW_ShoppingArticle";
+
    private String idProduct;
    private String description;
    private String price;
-   private int quantity;
+   private int quantity = 0;
    private String vat;
    private ShoppingCart shoppingCart;
    private String imageUrl;

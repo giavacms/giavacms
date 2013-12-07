@@ -17,7 +17,7 @@
 			<center>
 				<p:panel header="Scheda Paypal WEB">
 
-					<p:panelGrid columns="2">
+					<p:panelGrid columns="6">
 						<f:facet name="header">Informazioni sul carrello</f:facet>
 
 						<h:outputLabel for="id" style="font-weight: bolder;"
@@ -34,9 +34,6 @@
 						<h:outputText id="partialTax"
 							value="#{shoppingCartController.element.partialTax}" />
 
-
-
-
 						<h:outputLabel for="shipping" style="font-weight: bolder;"
 							value="Spese di spedizione: " />
 						<h:outputText id="shipping"
@@ -47,72 +44,100 @@
 						<h:outputText id="currency"
 							value="#{shoppingCartController.element.currency}" escape="false" />
 
-						<h:outputLabel for="paymentId" style="font-weight: bolder;"
-							value="id paypal:" />
-						<h:outputText id="paymentId"
-							value="#{shoppingCartController.element.paymentId}" />
 
-
-
-						<h:outputLabel for="created" style="font-weight: bolder;"
-							value="creato?: " />
-						<h:panelGroup id="created">
-							<h:outputText value="SI"
-								rendered="#{shoppingCartController.element.created}" />
-							<h:outputText value="NO"
-								rendered="#{not shoppingCartController.element.created}" />
-						</h:panelGroup>
-
-						<h:outputLabel for="confirmed" style="font-weight: bolder;"
-							value="confermato?: " />
-						<h:panelGroup id="confirmed">
-							<h:outputText value="SI"
-								rendered="#{shoppingCartController.element.confirmed}" />
-							<h:outputText value="NO"
-								rendered="#{not shoppingCartController.element.confirmed}" />
-						</h:panelGroup>
-
-						<h:outputLabel for="rollBack" style="font-weight: bolder;"
-							value="rollBack?: " />
-						<h:panelGroup id="rollBack">
-							<h:outputText value="SI"
-								rendered="#{shoppingCartController.element.rollBack}" />
-							<h:outputText value="NO"
-								rendered="#{not shoppingCartController.element.rollBack}" />
-						</h:panelGroup>
-
-						<h:outputLabel for="creationDate" style="font-weight: bolder;"
-							value="creationDate: " />
-						<h:outputText id="dataStart"
-							value="#{shoppingCartController.element.creationDate}">
+						<h:outputLabel for="initDate" style="font-weight: bolder;"
+							value="initDate: " />
+						<h:outputText id="initDate"
+							value="#{shoppingCartController.element.initDate}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 								timeZone="Europe/Rome" />
 						</h:outputText>
 
-						<h:outputLabel for="confirmDate" style="font-weight: bolder;"
-							value="confirmDate: " />
-						<h:outputText id="confirmDate"
-							value="#{shoppingCartController.element.confirmDate}">
+						<h:outputLabel for="refundedDate" style="font-weight: bolder;"
+							value="refundedDate: " />
+						<h:outputText id="refundedDate"
+							value="#{shoppingCartController.element.refundedDate}"
+							rendered="#{shoppingCartController.element.refunded}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="Europe/Rome" />
+						</h:outputText>
+
+						<h:outputLabel for="completedDate" style="font-weight: bolder;"
+							value="completedDate: " />
+						<h:outputText id="completedDate"
+							value="#{shoppingCartController.element.completedDate}"
+							rendered="#{shoppingCartController.element.completed}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+								timeZone="Europe/Rome" />
+						</h:outputText>
+
+						<h:outputLabel for="undoDate" style="font-weight: bolder;"
+							value="undoDate: " />
+						<h:outputText id="undoDate"
+							value="#{shoppingCartController.element.undoDate}"
+							rendered="#{shoppingCartController.element.undo}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 								timeZone="Europe/Rome" />
 						</h:outputText>
 
 						<h:outputLabel for="sentDate" style="font-weight: bolder;"
-							value="sentdDate: " />
+							value="sentDate: " />
 						<h:outputText id="sentDate"
-							value="#{shoppingCartController.element.sentDate}">
+							value="#{shoppingCartController.element.sentDate}"
+							rendered="#{shoppingCartController.element.sent}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 								timeZone="Europe/Rome" />
 						</h:outputText>
 
-						<h:outputLabel for="rollBackDate" style="font-weight: bolder;"
-							value="rollbackDate: " />
-						<h:outputText id="rollBackDate"
-							value="#{shoppingCartController.element.rollBackDate}">
+						<h:outputLabel for="notCompletedDate" style="font-weight: bolder;"
+							value="notCompletedDate: " />
+						<h:outputText id="notCompletedDate"
+							value="#{shoppingCartController.element.notCompletedDate}"
+							rendered="#{shoppingCartController.element.notCompleted}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 								timeZone="Europe/Rome" />
 						</h:outputText>
 
+						<h:outputLabel for="notes" style="font-weight: bolder;"
+							value="note: " />
+						<h:outputText id="notes"
+							value="#{shoppingCartController.element.notes}" />
+
+						<h:outputLabel for="stato" style="font-weight: bolder;"
+							value="stato: " />
+						<h:panelGroup id="stato">
+							<div style="font-size: 24px;"
+								title="#{shoppingCartController.element.paypalStatus.name()}">
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'Init'}">
+									<i class="icon-thumbs-up-alt gray-alt icon-2x"></i>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'Completed'}">
+									<i class="icon-thumbs-up-alt green icon-2x"></i>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'Pending'}">
+									<i class="icon-thumbs-down-alt green icon-2x"></i>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'Sent'}">
+									<i class="icon-thumbs-up-alt blue icon-2x"></i>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'Undo'}">
+									<i class="icon-thumbs-down-alt purple icon-2x"></i>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'Refunded'}">
+									<i class="icon-thumbs-down-alt black icon-2x"></i>
+								</ui:fragment>
+								<ui:fragment
+									rendered="#{shoppingCartController.element.paypalStatus.name() eq 'NotCompleted'}">
+									<i class="icon-thumbs-down-alt black icon-2x"></i>
+								</ui:fragment>
+							</div>
+						</h:panelGroup>
 					</p:panelGrid>
 					<br />
 					<p:dataTable id="contentList" rowIndexVar="rowIndex" var="shc"
@@ -151,7 +176,7 @@
 
 					<br />
 					<br />
-					<p:panelGrid columns="2"
+					<p:panelGrid columns="6"
 						rendered="#{not empty shoppingCartController.element.billingAddress and not empty shoppingCartController.element.billingAddress.firstName}">
 						<f:facet name="header">Informazioni sul Pagante</f:facet>
 						<h:outputLabel for="firstName" style="font-weight: bolder;"
@@ -229,7 +254,7 @@
 					</p:panelGrid>
 					<br />
 					<br />
-					<p:panelGrid columns="2"
+					<p:panelGrid columns="4"
 						rendered="#{not empty shoppingCartController.element.shippingAddress and not empty shoppingCartController.element.shippingAddress.firstName}">
 						<f:facet name="header">Informazioni sul indirizzo di consegna</f:facet>
 						<h:outputLabel for="recipientName" style="font-weight: bolder;"
@@ -279,20 +304,25 @@
 					</p:panelGrid>
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="3">
-					<p:commandButton action="#{shoppingCartController.close}"
-						rendered="#{not shoppingCartController.element.rollBack and not shoppingCartController.element.confirmed}"
-						value="Segna come Consegnato"
-						onclick="if (!confirm('Vuoi davvero segnarlo come consegnato?')) return false" />
+				<h:panelGrid columns="4">
+					<p:commandButton action="#{shoppingCartController.sent()}"
+						rendered="#{shoppingCartController.element.completed}"
+						value="Segna come Inviato"
+						onclick="if (!confirm('Vuoi davvero segnarlo come inviato?')) return false" />
 
-					<p:commandButton action="#{shoppingCartController.rollback}"
+					<p:commandButton action="#{shoppingCartController.refund()}"
 						value="Effettua Storno"
-						rendered="#{not shoppingCartController.element.rollBack and not shoppingCartController.element.confirmed}"
-						onclick="if (!confirm('Vuoi davvero segnarlo come rollback?')) return false" />
+						rendered="#{shoppingCartController.element.completed}"
+						onclick="if (!confirm('Vuoi davvero segnarlo come stornato?')) return false" />
 
-					<p:commandButton action="#{shoppingCartController.delete}"
+					<p:commandButton action="#{shoppingCartController.undo()}"
+						value="Effettua Annullamento"
+						rendered="#{shoppingCartController.element.init}"
+						onclick="if (!confirm('Vuoi davvero segnarlo come annullato?')) return false" />
+
+					<p:commandButton action="#{shoppingCartController.delete()}"
 						value="Elimina"
-						rendered="#{not shoppingCartController.element.rollBack and not shoppingCartController.element.confirmed}"
+						rendered="#{not shoppingCartController.element.sent and not shoppingCartController.element.completed and not shoppingCartController.element.refunded}"
 						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
 				</h:panelGrid>
 			</center>

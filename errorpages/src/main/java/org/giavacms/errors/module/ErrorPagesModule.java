@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.errors.module;
 
 import java.util.ArrayList;
@@ -12,49 +18,57 @@ import org.giavacms.common.module.ModuleProvider;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
-public class ErrorPagesModule implements ModuleProvider {
+public class ErrorPagesModule implements ModuleProvider
+{
 
-	Logger logger = Logger.getLogger(getClass());
-	Properties permissions = null;
+   Logger logger = Logger.getLogger(getClass());
+   Properties permissions = null;
 
-	@Override
-	public String getName() {
-		return "errorpages";
-	}
+   @Override
+   public String getName()
+   {
+      return "errorpages";
+   }
 
-	@Override
-	public String getDescription() {
-		return "Pagine di errore";
-	}
+   @Override
+   public String getDescription()
+   {
+      return "Pagine di errore";
+   }
 
-	@Override
-	public String getMenuFragment() {
-		return "/private/errorpages/errorpages-menu.xhtml";
-//		return "/private/errors/errors-menu.xhtml";
-	}
+   @Override
+   public String getMenuFragment()
+   {
+      return "/private/errorpages/errorpages-menu.xhtml";
+      // return "/private/errors/errors-menu.xhtml";
+   }
 
-	@Override
-	public String getPanelFragment() {
-		return "/private/errorpages/errorpages-panel.xhtml";
-//		return "/private/errors/errors-panel.xhtml";
-	}
+   @Override
+   public String getPanelFragment()
+   {
+      return "/private/errorpages/errorpages-panel.xhtml";
+      // return "/private/errors/errors-panel.xhtml";
+   }
 
-	@Override
-	public int getPriority() {
-		return 20;
-	}
+   @Override
+   public int getPriority()
+   {
+      return 20;
+   }
 
-	@Override
-	public List<String> getAllowableOperations() {
-		List<String> list = new ArrayList<String>();
-		list.add("gestione pagine di errore");
-		return list;
-	}
+   @Override
+   public List<String> getAllowableOperations()
+   {
+      List<String> list = new ArrayList<String>();
+      list.add("gestione pagine di errore");
+      return list;
+   }
 
-	@Override
-	public Map<String, String> getPermissions() {
-		Map<String, String> permissions = new HashMap<String, String>();
-		permissions.put("errors", "gestione pagine di errore");
-		return permissions;
-	}
+   @Override
+   public Map<String, String> getPermissions()
+   {
+      Map<String, String> permissions = new HashMap<String, String>();
+      permissions.put("errors", "gestione pagine di errore");
+      return permissions;
+   }
 }

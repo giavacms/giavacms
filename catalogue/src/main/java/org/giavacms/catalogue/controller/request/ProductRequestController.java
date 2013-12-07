@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.catalogue.controller.request;
 
 import java.io.Serializable;
@@ -27,11 +33,11 @@ public class ProductRequestController extends
    @Inject
    @HttpParam("categoria")
    String category;
-   
+
    @Inject
    @HttpParam("q")
    String content;
-   
+
    @Inject
    @HttpParam("t")
    String type;

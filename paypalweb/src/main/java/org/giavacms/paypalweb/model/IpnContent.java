@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.model;
 
 import java.io.Serializable;
@@ -8,10 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name = IpnContent.TABLE_NAME)
 public class IpnContent implements Serializable
 {
 
@@ -21,6 +29,7 @@ public class IpnContent implements Serializable
     * $payment_currency = $_POST['mc_currency']; $cartid = $_POST['custom']; $my_email = $_POST['business']; $email =
     * $_POST['payer_email'];
     */
+   public static final String TABLE_NAME = "PPW_IpnContent";
    private Long id;
    private String paymentStatus;
    private String paymentAmount;

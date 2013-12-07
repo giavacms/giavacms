@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.customer.repository;
 
 import java.util.Map;
@@ -16,58 +22,69 @@ import org.giavacms.customer.model.CustomerCategory;
 @Stateless
 @LocalBean
 public class CustomerCategoryRepository extends
-		AbstractRepository<CustomerCategory> {
+         AbstractRepository<CustomerCategory>
+{
 
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
-	@PersistenceContext
-	EntityManager em;
+   @PersistenceContext
+   EntityManager em;
 
-	@Override
-	protected EntityManager getEm() {
-		return em;
-	}
+   @Override
+   protected EntityManager getEm()
+   {
+      return em;
+   }
 
-	@Override
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+   @Override
+   public void setEm(EntityManager em)
+   {
+      this.em = em;
+   }
 
-	@Override
-	protected String getDefaultOrderBy() {
-		// TODO Auto-generated method stub
-		return "orderNum asc";
-	}
+   @Override
+   protected String getDefaultOrderBy()
+   {
+      // TODO Auto-generated method stub
+      return "orderNum asc";
+   }
 
-	@Override
-	public boolean delete(Object key) {
-		try {
-			CustomerCategory category = getEm().find(getEntityType(), key);
-			if (category != null) {
-				category.setActive(false);
-				getEm().merge(category);
-			}
-			return true;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return false;
-		}
-	}
+   @Override
+   public boolean delete(Object key)
+   {
+      try
+      {
+         CustomerCategory category = getEm().find(getEntityType(), key);
+         if (category != null)
+         {
+            category.setActive(false);
+            getEm().merge(category);
+         }
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
+   }
 
-	@Override
-	protected void applyRestrictions(Search<CustomerCategory> search,
-			String alias, String separator, StringBuffer sb,
-			Map<String, Object> params) {
-		sb.append(separator).append(alias).append(".active = :active");
-		params.put("active", true);
-		separator = " and ";
-		if (search.getObj().getName() != null
-				&& !search.getObj().getName().isEmpty()) {
-			sb.append(separator).append(" upper(").append(alias)
-					.append(".name ) like :NAME ");
-			params.put("NAME", likeParam(search.getObj().getName()
-					.toUpperCase()));
-		}
-	}
+   @Override
+   protected void applyRestrictions(Search<CustomerCategory> search,
+            String alias, String separator, StringBuffer sb,
+            Map<String, Object> params)
+   {
+      sb.append(separator).append(alias).append(".active = :active");
+      params.put("active", true);
+      separator = " and ";
+      if (search.getObj().getName() != null
+               && !search.getObj().getName().isEmpty())
+      {
+         sb.append(separator).append(" upper(").append(alias)
+                  .append(".name ) like :NAME ");
+         params.put("NAME", likeParam(search.getObj().getName()
+                  .toUpperCase()));
+      }
+   }
 
 }

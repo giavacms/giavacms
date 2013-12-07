@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.company.module;
 
 import java.util.ArrayList;
@@ -12,47 +18,55 @@ import org.giavacms.common.module.ModuleProvider;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
-public class CompanyModule implements ModuleProvider {
+public class CompanyModule implements ModuleProvider
+{
 
-	Logger logger = Logger.getLogger(getClass());
-	Properties permissions = null;
+   Logger logger = Logger.getLogger(getClass());
+   Properties permissions = null;
 
-	@Override
-	public String getName() {
-		return "Company";
-	}
+   @Override
+   public String getName()
+   {
+      return "Company";
+   }
 
-	@Override
-	public String getDescription() {
-		return "Company";
-	}
+   @Override
+   public String getDescription()
+   {
+      return "Company";
+   }
 
-	@Override
-	public String getMenuFragment() {
-		return "/private/company/company-menu.xhtml";
-	}
+   @Override
+   public String getMenuFragment()
+   {
+      return "/private/company/company-menu.xhtml";
+   }
 
-	@Override
-	public String getPanelFragment() {
-		return "/private/company/company-panel.xhtml";
-	}
+   @Override
+   public String getPanelFragment()
+   {
+      return "/private/company/company-panel.xhtml";
+   }
 
-	@Override
-	public int getPriority() {
-		return 10;
-	}
+   @Override
+   public int getPriority()
+   {
+      return 10;
+   }
 
-	@Override
-	public List<String> getAllowableOperations() {
-		List<String> list = new ArrayList<String>();
-		list.add("gestione company");
-		return list;
-	}
+   @Override
+   public List<String> getAllowableOperations()
+   {
+      List<String> list = new ArrayList<String>();
+      list.add("gestione company");
+      return list;
+   }
 
-	@Override
-	public Map<String, String> getPermissions() {
-		Map<String, String> permissions = new HashMap<String, String>();
-		permissions.put("company", "gestione company");
-		return permissions;
-	}
+   @Override
+   public Map<String, String> getPermissions()
+   {
+      Map<String, String> permissions = new HashMap<String, String>();
+      permissions.put("company", "gestione company");
+      return permissions;
+   }
 }

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.paypalweb.model;
 
 import java.io.Serializable;
@@ -8,11 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = PaypalConfiguration.TABLE_NAME)
 public class PaypalConfiguration implements Serializable
 {
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "PPW_PaypalConfiguration";
 
    private Long id;
 

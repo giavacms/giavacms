@@ -1,3 +1,9 @@
+/*
+ * Copyright 2013 GiavaCms.org.
+ *
+ * Licensed under the Eclipse Public License version 1.0, available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.giavacms.contactus.model;
 
 import java.io.Serializable;
@@ -47,7 +53,7 @@ public class ContactUsConfiguration implements Serializable
       this.active = active;
    }
 
-   @Column(name="TO_USAGE")
+   @Column(name = "TO_USAGE")
    public boolean isTo()
    {
       return to;
@@ -58,7 +64,7 @@ public class ContactUsConfiguration implements Serializable
       this.to = to;
    }
 
-   @Column(name="CC_USAGE")
+   @Column(name = "CC_USAGE")
    public boolean isCc()
    {
       return cc;
@@ -69,7 +75,7 @@ public class ContactUsConfiguration implements Serializable
       this.cc = cc;
    }
 
-   @Column(name="BCC_USAGE")
+   @Column(name = "BCC_USAGE")
    public boolean isBcc()
    {
       return bcc;
@@ -90,7 +96,7 @@ public class ContactUsConfiguration implements Serializable
       this.email = email;
    }
 
-   @Column(name="FROM_USAGE")
+   @Column(name = "FROM_USAGE")
    public boolean isFrom()
    {
       return from;
