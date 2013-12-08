@@ -57,7 +57,13 @@ public class ButtonUtils
       html.append("<input type='hidden' name='first_name' value='" + shippingAddress.getFirstName() + "'>");
       html.append("<input type='hidden' name='last_name' value='" + shippingAddress.getLastName() + "'>");
       html.append("<input type='hidden' name='address1' value='" + shippingAddress.getLine1() + "'>");
-      html.append("<input type='hidden' name='day_phone_a' value='" + billingAddress.getPhone() + "'>");
+
+      html.append("<INPUT TYPE='hidden' NAME='night_phone_a' VALUE='39'>");
+      html.append("<INPUT TYPE='hidden' NAME='night_phone_b' VALUE='" + billingAddress.getPhone() + "'>");
+
+      html.append("<input type='hidden' name='day_phone_a' value='39'>");
+      html.append("<input type='hidden' name='day_phone_b' value='" + billingAddress.getPhone() + "'>");
+      
       if (shippingAddress.getLine2() != null && !shippingAddress.getLine2().trim().isEmpty())
       {
          html.append("<input type='hidden' name='address2' value='" + shippingAddress.getLine2() + "'>");
