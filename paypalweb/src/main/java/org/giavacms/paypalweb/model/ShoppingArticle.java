@@ -29,9 +29,11 @@ public class ShoppingArticle implements Serializable
 
    private String idProduct;
    private String description;
-   private String price;
+   private BigDecimal price = BigDecimal.ZERO.setScale(2);
+   // private String price;
    private int quantity = 0;
-   private String vat;
+   // private String vat;
+   private BigDecimal vat = BigDecimal.ZERO.setScale(2);
    private ShoppingCart shoppingCart;
    private String imageUrl;
 
