@@ -107,7 +107,8 @@ public class ShoppingCartSessionController implements Serializable
             String idProduct,
             String description, int quantity, String imageUrl)
    {
-      getElement().addArticle(new ShoppingArticle(idProduct, description, price, quantity, vat, imageUrl));
+      getElement().addArticle(new ShoppingArticle(idProduct, description, price == null ? null :new BigDecimal(price), quantity, 
+    		  vat == null ? null : new BigDecimal(vat), imageUrl));
 
       logger.info("idProduct:" + idProduct + " description:" + description + " price: " + price + " quantity: "
                + quantity + " vat: "

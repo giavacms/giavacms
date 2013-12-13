@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.giavacms.common.util.StringUtils;
-
 @Entity
 @Table(name = ShoppingArticle.TABLE_NAME)
 public class ShoppingArticle implements Serializable
@@ -30,9 +28,7 @@ public class ShoppingArticle implements Serializable
    private String idProduct;
    private String description;
    private BigDecimal price = BigDecimal.ZERO.setScale(2);
-   // private String price;
    private int quantity = 0;
-   // private String vat;
    private BigDecimal vat = BigDecimal.ZERO.setScale(2);
    private ShoppingCart shoppingCart;
    private String imageUrl;
@@ -41,7 +37,7 @@ public class ShoppingArticle implements Serializable
    {
    }
 
-   public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat, String imageUrl)
+   public ShoppingArticle(String idProduct, String description, BigDecimal price, int quantity, BigDecimal vat, String imageUrl)
    {
       this.idProduct = idProduct;
       this.description = description;
@@ -51,7 +47,7 @@ public class ShoppingArticle implements Serializable
       this.imageUrl = imageUrl;
    }
 
-   public ShoppingArticle(String idProduct, String description, String price, int quantity, String vat,
+   public ShoppingArticle(String idProduct, String description, BigDecimal price, int quantity, BigDecimal vat,
             String currency, String imageUrl)
    {
       this.idProduct = idProduct;
@@ -68,13 +64,13 @@ public class ShoppingArticle implements Serializable
       BigDecimal tot = BigDecimal.ZERO;
       if (getQuantity() > 0)
       {
-         if (!StringUtils.isEmpty(getPrice()))
+         if (getPrice()!=null)
          {
-            tot = tot.add(new BigDecimal(getPrice()).setScale(2).multiply(new BigDecimal(getQuantity())));
+            tot = tot.add(getPrice().setScale(2).multiply(new BigDecimal(getQuantity())));
          }
-         if (!StringUtils.isEmpty(getVat()))
+         if (getVat()!=null)
          {
-            tot = tot.add(new BigDecimal(getVat()).setScale(2).multiply(new BigDecimal(getQuantity())));
+            tot = tot.add(getVat().setScale(2).multiply(new BigDecimal(getQuantity())));
          }
       }
       return tot.toString();
@@ -102,12 +98,12 @@ public class ShoppingArticle implements Serializable
       this.idProduct = idProduct;
    }
 
-   public String getPrice()
+   public BigDecimal getPrice()
    {
       return price;
    }
 
-   public void setPrice(String price)
+   public void setPrice(BigDecimal price)
    {
       this.price = price;
    }
@@ -137,12 +133,12 @@ public class ShoppingArticle implements Serializable
       this.description = description;
    }
 
-   public String getVat()
+   public BigDecimal getVat()
    {
       return vat;
    }
 
-   public void setVat(String vat)
+   public void setVat(BigDecimal vat)
    {
       this.vat = vat;
    }
