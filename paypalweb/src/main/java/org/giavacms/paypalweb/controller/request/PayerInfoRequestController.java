@@ -101,6 +101,7 @@ public class PayerInfoRequestController
    public String addPayer()
    {
       StringBuffer errors = new StringBuffer();
+ 	  String sep = " ";
       if (billingFirstName != null && !billingFirstName.trim().isEmpty() &&
                billingLastName != null && !billingLastName.trim().isEmpty() &&
                billingCompany != null && !billingCompany.trim().isEmpty() &&
@@ -119,52 +120,59 @@ public class PayerInfoRequestController
       {
          if (billingFirstName == null || billingFirstName.trim().isEmpty())
          {
-            errors.append("; manca il nome (fatturazione)");
+            errors.append(sep + "manca il nome (fatturazione)");
+            sep = " - ";
          }
          if (billingLastName == null || billingLastName.trim().isEmpty())
          {
-            errors.append("; manca il cognome (fatturazione)");
+            errors.append(sep + "manca il cognome (fatturazione)");
+            sep = " - ";
          }
-         if (billingCompany != null && billingCompany.equals("true") && billingVatCode == null
-                  || billingVatCode.trim().isEmpty())
+         if (billingCompany != null && billingCompany.equals("true") && (billingVatCode == null
+                  || billingVatCode.trim().isEmpty()))
          {
-            errors.append("; manca la partita iva (fatturazione)");
+            errors.append(sep + "manca la partita iva (fatturazione)");
+            sep = " - ";
          }
          if (billingLine1 == null || billingLine1.trim().isEmpty())
          {
-            errors.append("; manca la linea1 (fatturazione)");
+            errors.append(sep + "manca l'indirizzo (fatturazione)");
+            sep = " - ";
          }
-         // if (billingLine2 == null || billingLine2.trim().isEmpty())
-         // {
-         // errors.append("; manca la linea2 (fatturazione)");
-         // }
          if (billingCity == null || billingCity.trim().isEmpty())
          {
-            errors.append("; manca la citta' (fatturazione)");
+            errors.append(sep + "manca la citta' (fatturazione)");
+            sep = " - ";
          }
          if (billingCountryCode == null || billingCountryCode.trim().isEmpty())
          {
-            errors.append("; manca la provincia (fatturazione)");
+            errors.append(sep + "manca la provincia (fatturazione)");
+            sep = " - ";
          }
          if (billingZip == null || billingZip.trim().isEmpty())
          {
-            errors.append("manca il codice postale (fatturazione)");
+            errors.append(sep + "manca il codice postale (fatturazione)");
+            sep = " - ";
          }
          if (billingState == null || billingState.trim().isEmpty())
          {
-            errors.append("; manca lo stato (fatturazione)");
+            errors.append(sep + "manca lo stato (fatturazione)");
+            sep = " - ";
          }
          if (billingPhone == null || billingPhone.trim().isEmpty())
          {
-            errors.append("; manca il telefono (fatturazione)");
+            errors.append(sep + "manca il telefono (fatturazione)");
+            sep = " - ";
          }
          if (billingEmail == null || billingEmail.trim().isEmpty())
          {
-            errors.append("; manca la mail (fatturazione)");
+            errors.append(sep + "manca la mail (fatturazione)");
+            sep = " - ";
          }
          else if (!EmailUtils.isValidEmailAddress(billingEmail))
          {
-            errors.append("; la mail inserita non e' valida (fatturazione)");
+            errors.append(sep + "la mail inserita non e' valida (fatturazione)");
+            sep = " - ";
          }
 
       }
@@ -192,15 +200,18 @@ public class PayerInfoRequestController
          {
             if (shippingFirstName == null || shippingFirstName.trim().isEmpty())
             {
-               errors.append("; manca il nome (consegna)");
+               errors.append(sep + "manca il nome (consegna)");
+               sep = " - ";
             }
             if (shippingLastName == null || shippingLastName.trim().isEmpty())
             {
                errors.append("; manca il cognome (consegna)");
+               sep = " - ";
             }
             if (shippingLine1 == null || shippingLine1.trim().isEmpty())
             {
-               errors.append("; manca la linea1 (consegna)");
+               errors.append("manca la l'indirizzo (consegna)");
+               sep = " - ";
             }
             // if (shippingLine2 == null || shippingLine2.trim().isEmpty())
             // {
@@ -208,19 +219,23 @@ public class PayerInfoRequestController
             // }
             if (shippingCity == null || shippingCity.trim().isEmpty())
             {
-               errors.append("; manca la citta' (consegna)");
+               errors.append(sep + "manca la citta' (consegna)");
+               sep = " - ";
             }
             if (shippingCountryCode == null || shippingCountryCode.trim().isEmpty())
             {
-               errors.append("; manca la provincia (consegna)");
+               errors.append(sep + "manca la provincia (consegna)");
+               sep = " - ";
             }
             if (shippingZip == null || shippingZip.trim().isEmpty())
             {
-               errors.append("; manca il codice postale (consegna)");
+               errors.append(sep + "manca il codice postale (consegna)");
+               sep = " - ";
             }
             if (shippingState == null || shippingState.trim().isEmpty())
             {
-               errors.append("; manca lo stato (consegna)");
+               errors.append(sep + "manca lo stato (consegna)");
+               sep = " - ";
             }
          }
          ShippingAddress shippingAddress = new ShippingAddress(shippingFirstName, shippingLastName, shippingLine1,

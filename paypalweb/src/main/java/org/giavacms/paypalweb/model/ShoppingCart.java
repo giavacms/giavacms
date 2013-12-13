@@ -149,14 +149,14 @@ public class ShoppingCart implements Serializable
       return getPartialAmount().add(getPartialTax()).add(getShipping()).doubleValue();
    }
 
-   public void addPartial(int quantity, String price, String vat)
+   public void addPartial(int quantity, BigDecimal price, BigDecimal vat)
    {
       BigDecimal singleAmount = null;
       if (price != null)
       {
          try
          {
-            singleAmount = new BigDecimal(quantity).multiply(new BigDecimal(price)).setScale(2);
+            singleAmount = new BigDecimal(quantity).multiply(price).setScale(2);
          }
          catch (NumberFormatException e)
          {
@@ -168,7 +168,7 @@ public class ShoppingCart implements Serializable
       {
          try
          {
-            singleTax = new BigDecimal(quantity).multiply(new BigDecimal(vat)).setScale(2);
+            singleTax = new BigDecimal(quantity).multiply(vat).setScale(2);
          }
          catch (NumberFormatException e)
          {

@@ -16,6 +16,7 @@ import org.giavacms.paypalweb.model.ShoppingCart;
 
 public class ButtonUtils
 {
+   private static String style = "class='btn btn-success' style='width: 150px;'";
 
    public static String generate(ShoppingCart shoppingCart, PaypalConfiguration paypalConfiguration)
    {
@@ -87,7 +88,7 @@ public class ButtonUtils
       }
       html.append("<input type='hidden' name='on1' value='Telefono'>");
       html.append("<input type='hidden' name='os1' value='" + billingAddress.getPhone() + "'>");
-      html.append("<input name='submit' type='submit' value='Paga con PayPal' />");
+      html.append("<input name='submit' type='submit' value='Paga con PayPal' " + style + " />");
       html.append("</form>");
 
    }
