@@ -127,12 +127,8 @@
 						<p:column width="200">
 							<f:facet name="header">operazioni</f:facet>
 							<center>
-								<h:commandLink action="#{richContentController.viewElement}"
-									styleClass="icon-file-text-alt" style="font-size: 24px;"
-									title="vedi" />
-								<h:outputText value=" " />
 								<h:commandLink action="#{richContentController.modElement}"
-									styleClass="icon-reorder" style="font-size: 24px;"
+									styleClass="icon-edit" style="font-size: 24px;"
 									title="modifica testi" />
 								<h:outputText value=" " />
 								<h:commandLink action="#{richContentController.modDocuments}"
@@ -140,7 +136,12 @@
 									title="modifica documenti" />
 								<h:outputText value=" " />
 								<h:commandLink style="font-size: 24px;" styleClass="icon-copy"
-									title="crea copia" action="#{richContentController.cloneElement}" />
+									title="crea copia"
+									action="#{richContentController.cloneElement}" />
+								<h:outputText value=" " />
+								<h:commandLink action="#{richContentController.viewElement}"
+									styleClass="icon-file" style="font-size: 24px;" title="vedi" />
+
 							</center>
 						</p:column>
 					</p:dataTable>

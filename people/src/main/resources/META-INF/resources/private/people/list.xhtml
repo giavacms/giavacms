@@ -47,14 +47,16 @@
 						value="Azzera filtri" ajax="false" immediate="true" />
 					<br />
 					<br />
-					<h:panelGroup id="tagPanel" style="font-size:small;">
-						<ui:repeat value="#{peopleTags}" var="t" varStatus="varStatus">
-							<h:outputText value="Tags:" style="font-weight: bolder;"
-								rendered="#{varStatus.first}" />
+					<h:panelGroup id="tagPanel">
+						<p:commandLink ajax="true" onclick="tagCloudDialog.show();"
+							styleClass="icon-cloud" style="font-size: 24px; margin: 2px;"
+							title="anteprima" />
+						<h:outputText value=" Tags:" style="font-weight: bolder;" />
+						<ui:repeat value="#{tags}" var="t" varStatus="varStatus">
 							<p:commandLink value="#{t.obj.tagName} (#{t.count})"
-								action="#{peopleController.filterTag(t.obj.tagName)}"
+								action="#{richContentController.filterTag(t.obj.tagName)}"
 								update=":mainForm:contentList :mainForm:searchGrid"
-								style="padding: 5px; font-size: #{3*t.ratio}em" />
+								style="padding: 5px;" />
 							<h:outputText value="&lt;br/&gt;&lt;br/&gt;" escape="false"
 								rendered="#{varStatus.last}" />
 						</ui:repeat>
@@ -104,17 +106,16 @@
 							<p:column width="200">
 								<f:facet name="header">operazioni</f:facet>
 								<center>
-									<h:commandLink action="#{peopleController.viewElement}"
-										title="vedi" styleClass="icon-file-text-alt"
-										style="font-size: 24px;" />
-									<h:outputText value=" " />
 									<h:commandLink action="#{peopleController.modElement}"
-										title="modifica testo" styleClass="icon-reorder"
+										title="modifica testo" styleClass="icon-edit"
 										style="font-size: 24px;" />
 									<h:outputText value=" " />
 									<h:commandLink action="#{peopleController.modImage}"
 										title="gestisci immagine" styleClass="icon-user"
 										style="font-size: 24px;" />
+									<h:outputText value=" " />
+									<h:commandLink action="#{peopleController.viewElement}"
+										title="vedi" styleClass="icon-file-alt" style="font-size: 24px;" />
 									<h:outputText value=" " />
 									<h:outputLink target="_blank" style="font-size: 24px;"
 										styleClass="icon-eye-open" title="anteprima"

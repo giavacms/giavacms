@@ -16,6 +16,7 @@ import javax.inject.Named;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.event.LanguageEvent;
+import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
@@ -239,6 +240,25 @@ public class PeopleController extends AbstractPageController<RichContent>
    @Override
    public String update()
    {
+      // gestisco il cambio titolo come un clone del corrente piu' cancellazione del vecchio
+      if (getElement().getFormerTitle() != null && !getElement().getFormerTitle().equals(getElement().getTitle()))
+      {
+         // veccho da cancellare
+         RichContent toDelete = getElement();
+         // clonazione
+         boolean cloneOk = cloneCurrent(getElement().getTitle());
+         // eliminazione del vecchio o msg errore
+         if (cloneOk)
+         {
+            getRepository().delete(toDelete.getId());
+            tagRepository.set(toDelete.getId(), new ArrayList<String>(), new Date());
+            return viewCurrent();
+         }
+         else
+         {
+            return null;
+         }
+      }
       RichContentType richContentType =
                richContentTypeRepository
                         .find(getElement().getRichContentType().getId());
@@ -257,6 +277,79 @@ public class PeopleController extends AbstractPageController<RichContent>
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
       resetEvent.fire(new ResetEvent(RichContent.class));
       return super.viewCurrent();
+   }
+
+   private boolean cloneCurrent(String newTitle)
+   {
+      RichContent original = getElement();
+
+      addElement();
+      getElement().setAuthor(original.getAuthor());
+      getElement().setClone(original.isClone());
+      getElement().setContent(original.getContent());
+      getElement().setDate(original.getDate()
+               );
+      getElement().setDescription(original.getDescription());
+      getElement().setExtended(original.isExtended());
+      getElement().setExtension(original.getExtension());
+      getElement().setHighlight(getElement().isHighlight());
+      getElement().setFormerTitle(null);
+      getElement().setId(null);
+      getElement().setPreview(original.getPreview());
+      getElement().setRichContentType(original.getRichContentType());
+      getElement().setTags(original.getTags());
+      getElement().setTemplate(original.getTemplate());
+      getElement().setTemplateId(original.getTemplateId());
+      getElement().setTitle(newTitle);
+
+      if (save() == null)
+      {
+         super.addFacesMessage("Errori durante la copia dei dati.");
+         return false;
+      }
+
+      List<Document> documents = original.getDocuments();
+      List<Image> images = original.getImages();
+      int lang = original.getLang();
+
+      for (Document document : documents)
+      {
+         document.setId(null);
+         getElement().addDocument(document);
+      }
+      for (Image image : images)
+      {
+         image.setId(null);
+         getElement().addImage(image);
+      }
+      switch (lang)
+      {
+      case 1:
+         getElement().setLang1id(getElement().getId());
+         break;
+      case 2:
+         getElement().setLang2id(getElement().getId());
+         break;
+      case 3:
+         getElement().setLang3id(getElement().getId());
+         break;
+      case 4:
+         getElement().setLang4id(getElement().getId());
+         break;
+      case 5:
+         getElement().setLang5id(getElement().getId());
+         break;
+      default:
+         break;
+      }
+
+      if (update() == null)
+      {
+         return false;
+      }
+
+      return true;
+
    }
 
    @Override
