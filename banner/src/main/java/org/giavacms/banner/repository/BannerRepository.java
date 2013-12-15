@@ -127,8 +127,8 @@ public class BannerRepository extends AbstractRepository<Banner>
    {
       return getEm()
                .createQuery(
-                        "SELECT b FROM Banner b where b.bannerTypology.name = :TIP ORDER BY RAND()")
-               .setParameter("TIP", typology).setMaxResults(limit)
+                        "SELECT b FROM Banner b where b.online= :ONLINE AND b.bannerTypology.name = :TIP ORDER BY RAND()")
+               .setParameter("TIP", typology).setParameter("ONLINE", true).setMaxResults(limit)
                .getResultList();
    }
 

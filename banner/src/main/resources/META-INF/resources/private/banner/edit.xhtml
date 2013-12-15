@@ -36,6 +36,14 @@
 							<f:selectItem itemLabel="no" itemValue="false" />
 						</p:selectOneRadio>
 
+						<h:outputLabel for="online" value="Online (*):"
+							style="width: 100%;" />
+						<p:selectOneRadio id="online"
+							value="#{bannerController.element.online}">
+							<f:selectItem itemLabel="si" itemValue="true" />
+							<f:selectItem itemLabel="no" itemValue="false" />
+						</p:selectOneRadio>
+
 						<h:outputLabel value="Tipologia(*):" for="bannerTypologyId" />
 						<h:selectOneMenu id="bannerTypologyId" style="width: 100%;"
 							value="#{bannerController.element.bannerTypology.id}"

@@ -238,4 +238,13 @@ public class PageController extends AbstractLazyController<Page>
       return editPage();
    }
 
+   @Override
+   public String modElement()
+   {
+      // TODO Auto-generated method stub
+      String where = super.modElement();
+//      PageUtils.prettyHtmlTags(getElement());
+      return where;
+   }
+
 }

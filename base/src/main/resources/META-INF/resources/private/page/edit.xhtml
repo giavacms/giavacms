@@ -18,14 +18,52 @@
 
 		<script language="javascript" type="text/javascript"
 			src="#{request.contextPath}/scripts/tiny_mce/tiny_mce.js"></script>
+		<script
+			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script
+			src="//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+		<script>
+			// Hook up ACE editor to all textareas using class attribute to choice the editor type
+			$(function() {
+				$('textarea').each(function() {
+					var textarea = $(this);
+
+					var mode = textarea.attr('class');
+					console.log("mode: " + mode);
+					if (mode == '' || mode == 'noace' || mode == 'tinyMceTa') {
+						console.log("jump: " + mode);
+						return;
+					}
+					var editDiv = $('<div/>', {
+						position : 'absolute',
+						width : textarea.width(),
+						height : textarea.height(),
+						'class' : textarea.attr('class')
+					}).insertBefore(textarea);
+
+					textarea.css('visibility', 'hidden');
+
+					var editor = ace.edit(editDiv[0]);
+					editor.renderer.setShowGutter(true);
+					editor.getSession().setValue(textarea.val());
+					editor.getSession().setMode('ace/mode/' + mode);
+					editor.setTheme('ace/theme/eclipse');
+
+					// copy back to textarea on form submit...
+					textarea.closest('form').submit(function() {
+						textarea.val(editor.getSession().getValue());
+					})
+
+				});
+			});
+		</script>
 
 		<gb:upDown />
 		<h:form id="mainForm" prependId="false">
 
 			<p:panel header="Gestione Pagina">
 
-				<h:panelGrid columns="2" style="width: 95%"
-					columnClasses="p_col1,p_col2">
+				<h:panelGrid columns="1" style="width: 95%">
 
 					<h:outputLabel value="Titolo(*):" for="titoloW"
 						rendered="#{empty pageController.element.id}" />
@@ -44,7 +82,7 @@
 						value="#{pageController.element.description}" style="width: 100%;" />
 
 					<h:outputLabel value="Lingua:" for="language" />
-					<h:selectOneMenu id="language" style="width: 100%;" 
+					<h:selectOneMenu id="language" style="width: 100%;"
 						value="#{pageController.element.lang}">
 						<f:selectItems value="#{languageItems}" />
 					</h:selectOneMenu>
@@ -56,7 +94,7 @@
 					</h:selectOneMenu>
 
 					<h:outputLabel value="Modello(*):" for="template" />
-					<h:panelGroup id="template">
+					<h:panelGroup id="template" layout="block">
 						<h:selectOneMenu
 							rendered="#{pageController.element.template.template.statico}"
 							value="#{pageController.element.template.template.id}"
@@ -122,9 +160,8 @@
 									}
 								});
 					</script>
-
-					<h:panelGrid columns="2" style="width: 95%"
-						columnClasses="p_col1,p_col2">
+					<br />
+					<h:panelGrid columns="1" style="width: 95%">
 
 						<h:outputLabel value="Intestazione:"
 							rendered="#{not empty pageController.element.template.template.header_stop}"
@@ -134,7 +171,7 @@
 							id="header" layout="block">
 							<h:panelGroup style="width: 100%;" layout="block"
 								rendered="#{not empty pageController.element.template.template.header_stop and not pageController.element.template.template.statico}">
-								<h:inputTextarea
+								<h:inputTextarea styleClass="html"
 									value="#{pageController.element.template.header}"
 									style="color: black; height: 500px; width: 100%;" />
 							</h:panelGroup>
@@ -156,6 +193,7 @@
 							<h:inputTextarea
 								rendered="#{not empty pageController.element.template.template.col1_stop and not pageController.element.template.template.statico}"
 								value="#{pageController.element.template.col1}"
+								styleClass="html"
 								style="color: black; height: 500px; width: 100%;" />
 							<h:panelGroup layout="block"
 								rendered="#{not empty pageController.element.template.template.col1_stop and pageController.element.template.template.statico}">
@@ -174,6 +212,7 @@
 							<h:inputTextarea
 								rendered="#{not empty pageController.element.template.template.col2_stop and not pageController.element.template.template.statico}"
 								value="#{pageController.element.template.col2}"
+								styleClass="html"
 								style="color: black; height: 500px; width: 100%;" />
 							<h:panelGroup layout="block"
 								rendered="#{not empty pageController.element.template.template.col2_stop and pageController.element.template.template.statico}">
@@ -191,6 +230,7 @@
 							<h:inputTextarea
 								rendered="#{not empty pageController.element.template.template.col3_stop and not pageController.element.template.template.statico}"
 								value="#{pageController.element.template.col3}"
+								styleClass="html"
 								style="color: black; height: 500px; width: 100%;" />
 							<h:panelGroup layout="block"
 								rendered="#{not empty pageController.element.template.template.col3_stop and pageController.element.template.template.statico}">
@@ -210,6 +250,7 @@
 							<h:inputTextarea
 								rendered="#{not empty pageController.element.template.template.footer_stop and not pageController.element.template.template.statico}"
 								style="color: black; height: 500px; width: 100%;"
+								styleClass="html"
 								value="#{pageController.element.template.footer}" escape="true" />
 							<h:panelGroup layout="block"
 								rendered="#{not empty pageController.element.template.template.footer_stop and pageController.element.template.template.statico}">

@@ -75,4 +75,13 @@ public class FaqController extends AbstractPageController<Faq>
       return Faq.EXTENSION;
    }
 
+   @Override
+   public String modElement()
+   {
+      // TODO Auto-generated method stub
+      String where = super.modElement();
+
+      return where;
+   }
+
 }

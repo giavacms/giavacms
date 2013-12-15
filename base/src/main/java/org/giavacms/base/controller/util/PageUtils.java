@@ -12,7 +12,6 @@ import org.giavacms.base.model.Template;
 import org.giavacms.base.model.TemplateImpl;
 import org.jboss.logging.Logger;
 
-
 public class PageUtils
 {
 
@@ -205,6 +204,31 @@ public class PageUtils
                   page.getTemplate().getFooter() == null ? null : HtmlUtils
                            .normalizeHtml(page.getTemplate().getFooter()));
       }
+   }
+
+   public static void prettyHtmlTags(Page page)
+   {
+      if (page == null || page.getTemplate() == null
+               || page.getTemplate().getTemplate() == null)
+      {
+         return;
+      }
+      page.getTemplate().setHeader(
+               page.getTemplate().getHeader() == null ? null : HtmlUtils
+                        .prettyXml(page.getTemplate().getHeader()));
+      page.getTemplate().setCol1(
+               page.getTemplate().getCol1() == null ? null : HtmlUtils
+                        .prettyXml(page.getTemplate().getCol1()));
+      page.getTemplate().setCol2(
+               page.getTemplate().getCol2() == null ? null : HtmlUtils
+                        .prettyXml(page.getTemplate().getCol2()));
+      page.getTemplate().setCol3(
+               page.getTemplate().getCol3() == null ? null : HtmlUtils
+                        .prettyXml(page.getTemplate().getCol3()));
+      page.getTemplate().setFooter(
+               page.getTemplate().getFooter() == null ? null : HtmlUtils
+                        .prettyXml(page.getTemplate().getFooter()));
+
    }
 
    public static void closeHtmlTagsT(TemplateImpl templ)

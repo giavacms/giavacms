@@ -282,7 +282,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       }
 
       String customLike = null;
-      super.applyRestrictionsNative(search, faqCategoryPageAlias, separator, sb, params, customLike);
+      super.applyRestrictionsNative(search, pageAlias, separator, sb, params, customLike);
 
    }
 

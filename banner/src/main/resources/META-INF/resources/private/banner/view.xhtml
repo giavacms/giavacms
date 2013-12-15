@@ -28,7 +28,14 @@
 					<h:outputLabel for="internal" value="Interno (*):"
 						style="width: 100%;" />
 					<h:outputText id="internal"
-						value="#{bannerController.element.internal}" style="width: 100%;" />
+						value="#{bannerController.element.internal ? 'si' : 'no'}"
+						style="width: 100%;" />
+
+					<h:outputLabel for="online" value="Online (*):"
+						style="width: 100%;" />
+					<h:outputText id="online"
+						value="#{bannerController.element.online ? 'si' : 'no'}"
+						style="width: 100%;" />
 
 					<h:outputLabel value="Immagine:" for="image"
 						rendered="#{not empty bannerController.element.image}" />

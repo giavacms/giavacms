@@ -39,8 +39,7 @@
 
 					<p:dataTable id="templatesList" rowIndexVar="rowIndex" var="t"
 						value="#{templateController.model}"
-						rows="#{templateController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{templateController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<center>
 								<h:outputText value="#{rowIndex+1} " />
@@ -64,13 +63,16 @@
 								<h:outputText value="#{msg['global.operations']}" />
 							</f:facet>
 							<center>
-								<h:commandLink title="#{msg['global.view']}" style="font-size: 24px;" styleClass="icon-file-text-alt"
-									action="#{templateController.viewElement}" />
-								<h:outputText value=" "/>
-								<h:commandLink title="#{msg['global.edit']}" style="font-size: 24px;" styleClass="icon-edit"
+								<h:commandLink title="#{msg['global.edit']}"
+									style="font-size: 24px;" styleClass="icon-edit"
 									action="#{templateController.modElement}" />
-								<h:outputText value=" "/>
-								<h:commandLink title="#{msg['global.clone']}" style="font-size: 24px;" styleClass="icon-copy"
+								<h:outputText value=" " />
+								<h:commandLink title="#{msg['global.view']}"
+									style="font-size: 24px;" styleClass="icon-file-text-alt"
+									action="#{templateController.viewElement}" />
+								<h:outputText value=" " />
+								<h:commandLink title="#{msg['global.clone']}"
+									style="font-size: 24px;" styleClass="icon-copy"
 									action="#{templateController.cloneElement}" />
 							</center>
 						</p:column>

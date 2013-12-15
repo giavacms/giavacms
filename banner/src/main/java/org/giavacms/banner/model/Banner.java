@@ -32,6 +32,7 @@ public class Banner implements Serializable
    private String description;
    private Image image;
    private Image newImage;
+   private boolean online;
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -134,6 +135,16 @@ public class Banner implements Serializable
    public void setDescription(String description)
    {
       this.description = description;
+   }
+
+   public boolean isOnline()
+   {
+      return online;
+   }
+
+   public void setOnline(boolean online)
+   {
+      this.online = online;
    }
 
 }
