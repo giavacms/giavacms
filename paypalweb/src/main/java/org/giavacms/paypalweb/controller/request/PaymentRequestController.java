@@ -9,9 +9,7 @@ package org.giavacms.paypalweb.controller.request;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.ejb.Asynchronous;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 

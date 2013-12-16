@@ -24,6 +24,7 @@ import org.giavacms.paypalweb.model.ShoppingArticle;
 import org.giavacms.paypalweb.model.ShoppingCart;
 import org.giavacms.paypalweb.model.enums.PaypalStatus;
 import org.giavacms.paypalweb.repository.ShoppingCartRepository;
+import org.giavacms.paypalweb.service.PaypalSubmitService;
 import org.giavacms.paypalweb.service.ShippingService;
 import org.giavacms.paypalweb.util.ButtonUtils;
 import org.giavacms.paypalweb.util.RequestUriCleaner;
@@ -47,6 +48,9 @@ public class ShoppingCartSessionController implements Serializable
 
    @EJB
    ShippingService shippingService;
+
+   @EJB
+   PaypalSubmitService paypalSubmitService;
 
    @Inject
    @RequestUri
@@ -81,6 +85,11 @@ public class ShoppingCartSessionController implements Serializable
       getElement().setShippingAddress(shippingAddress);
    }
 
+   public boolean isReady()
+   {
+      return paypalSubmitService.isReady(getElement());
+   }
+
    public void save()
    {
       getElement().setPaypalStatus(PaypalStatus.Init);
@@ -107,8 +116,9 @@ public class ShoppingCartSessionController implements Serializable
             String idProduct,
             String description, int quantity, String imageUrl)
    {
-      getElement().addArticle(new ShoppingArticle(idProduct, description, price == null ? null :new BigDecimal(price), quantity, 
-    		  vat == null ? null : new BigDecimal(vat), imageUrl));
+      getElement().addArticle(
+               new ShoppingArticle(idProduct, description, price == null ? null : new BigDecimal(price), quantity,
+                        vat == null ? null : new BigDecimal(vat), imageUrl));
 
       logger.info("idProduct:" + idProduct + " description:" + description + " price: " + price + " quantity: "
                + quantity + " vat: "
