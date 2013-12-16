@@ -38,11 +38,7 @@
 	</developers>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>catalina</artifactId>
-			<scope>provided</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
@@ -77,14 +73,6 @@
 			<groupId>net.sf.jtidy</groupId>
 			<artifactId>jtidy</artifactId>
 		</dependency>
-
-
-
-
-
-
-
-
 
 
 

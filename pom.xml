@@ -66,6 +66,8 @@
 		<module>instagram</module>
 		<module>insurance-claim</module>
 		<module>message</module>
+		<module>multisite</module>
+		<module>openshift-jboss7</module>
 		<module>paypal-rs</module>
 		<module>paypalweb</module>
 		<module>people</module>
@@ -73,8 +75,8 @@
 		<module>richcontent</module>
 		<module>scenario</module>
 		<!--module>twizz</module -->
-		<!-- <module>paypalweb</module> -->
-		<module>multisite</module>
+		<!--module>paypalweb</module -->
+
 	</modules>
 
 
@@ -187,6 +189,18 @@
 				<artifactId>message</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>multisite</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>openshift-jboss7</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>paypal-rs</artifactId>
@@ -228,11 +242,7 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>multisite</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+
 
 			<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>news</artifactId> 
 				<version>${project.version}</version> </dependency> <dependency> <groupId>${project.groupId}</groupId> 

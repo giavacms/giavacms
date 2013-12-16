@@ -104,6 +104,11 @@ public class ShoppingCartRequestController implements Serializable
       }
    }
 
+   public boolean isReady()
+   {
+      return shoppingCartSessionController.isReady();
+   }
+
    public ShoppingCart getElement()
    {
       return shoppingCartSessionController.getElement();
