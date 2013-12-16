@@ -15,6 +15,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.common.util.EmailUtils;
 import org.giavacms.base.service.EmailSession;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
@@ -81,7 +82,7 @@ public class ContactUsRequestController extends
    public String getReturnMessage()
    {
       if (message == null || message.isEmpty() || email == null || email.isEmpty() || phone == null || phone.isEmpty()
-               || name == null || name.isEmpty())
+               || name == null || name.isEmpty() || EmailUtils.isValidEmailAddress(email))
       {
 
          return null;

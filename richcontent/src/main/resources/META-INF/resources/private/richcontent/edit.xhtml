@@ -188,7 +188,8 @@
 						rendered="#{not richContentController.editMode}" />
 
 
-					<h:commandButton action="#{richContentController.saveAndModDocuments}"
+					<h:commandButton
+						action="#{richContentController.saveAndModDocuments}"
 						value="Salva e aggiungi documenti" immediate="false"
 						rendered="#{not richContentController.editMode}" />
 
@@ -200,7 +201,7 @@
 						value="Elimina" rendered="#{richContentController.editMode}"
 						immediate="true"
 						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
-					
+
 				</h:panelGrid>
 			</center>
 		</h:form>

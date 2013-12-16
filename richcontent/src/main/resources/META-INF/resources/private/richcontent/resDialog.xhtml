@@ -17,8 +17,8 @@
 
 			<br />
 			<p:dataTable id="resList" rowIndexVar="rowIndex" var="r"
-				value="#{resourceController.model}"
-				rows="#{resourceController.pageSize}" paginator="true" lazy="true">
+				value="#{resourceController.model}" rows="5" paginator="true"
+				lazy="true">
 				<p:column width="50">
 					<center>
 						<h:outputText value="#{rowIndex+1} " />

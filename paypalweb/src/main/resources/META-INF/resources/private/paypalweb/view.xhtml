@@ -7,7 +7,7 @@
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="Scheda Paypal WEB" />
+		<h:outputText value="Scheda Transazione Paypal" />
 	</ui:define>
 	<ui:define name="roles">
 		<f:attribute name="roles" value="paypalweb" />
@@ -15,9 +15,9 @@
 	<ui:define name="content">
 		<h:form>
 			<center>
-				<p:panel header="Scheda Paypal WEB">
+				<p:panel header="Scheda Transazione Paypal">
 
-					<p:panelGrid columns="6">
+					<p:panelGrid columns="6" style="width: 95%">
 						<f:facet name="header">Informazioni sul carrello</f:facet>
 
 						<h:outputLabel for="id" style="font-weight: bolder;"
@@ -46,7 +46,7 @@
 
 
 						<h:outputLabel for="initDate" style="font-weight: bolder;"
-							value="initDate: " />
+							value="data inizio: " />
 						<h:outputText id="initDate"
 							value="#{shoppingCartController.element.initDate}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
@@ -54,7 +54,7 @@
 						</h:outputText>
 
 						<h:outputLabel for="refundedDate" style="font-weight: bolder;"
-							value="refundedDate: " />
+							value="data storno: " />
 						<h:outputText id="refundedDate"
 							value="#{shoppingCartController.element.refundedDate}"
 							rendered="#{shoppingCartController.element.refunded}">
@@ -63,7 +63,7 @@
 						</h:outputText>
 
 						<h:outputLabel for="completedDate" style="font-weight: bolder;"
-							value="completedDate: " />
+							value="data completamento: " />
 						<h:outputText id="completedDate"
 							value="#{shoppingCartController.element.completedDate}"
 							rendered="#{shoppingCartController.element.completed}">
@@ -72,7 +72,7 @@
 						</h:outputText>
 
 						<h:outputLabel for="undoDate" style="font-weight: bolder;"
-							value="undoDate: " />
+							value="data annulllamento: " />
 						<h:outputText id="undoDate"
 							value="#{shoppingCartController.element.undoDate}"
 							rendered="#{shoppingCartController.element.undo}">
@@ -81,7 +81,7 @@
 						</h:outputText>
 
 						<h:outputLabel for="sentDate" style="font-weight: bolder;"
-							value="sentDate: " />
+							value="data invio: " />
 						<h:outputText id="sentDate"
 							value="#{shoppingCartController.element.sentDate}"
 							rendered="#{shoppingCartController.element.sent}">
@@ -90,7 +90,7 @@
 						</h:outputText>
 
 						<h:outputLabel for="notCompletedDate" style="font-weight: bolder;"
-							value="notCompletedDate: " />
+							value="data non completamento: " />
 						<h:outputText id="notCompletedDate"
 							value="#{shoppingCartController.element.notCompletedDate}"
 							rendered="#{shoppingCartController.element.notCompleted}">
@@ -142,7 +142,7 @@
 					<br />
 					<p:dataTable id="contentList" rowIndexVar="rowIndex" var="shc"
 						value="#{shoppingCartController.element.shoppingArticles}"
-						rows="100">
+						rows="100" style="width: 95%">
 						<f:facet name="header">Prodotti nel carrello</f:facet>
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
@@ -176,7 +176,7 @@
 
 					<br />
 					<br />
-					<p:panelGrid columns="6"
+					<p:panelGrid columns="6" style="width: 95%"
 						rendered="#{not empty shoppingCartController.element.billingAddress and not empty shoppingCartController.element.billingAddress.firstName}">
 						<f:facet name="header">Informazioni sul Pagante</f:facet>
 						<h:outputLabel for="firstName" style="font-weight: bolder;"
@@ -216,27 +216,27 @@
 							escape="false" />
 
 						<h:outputLabel for="line1B" style="font-weight: bolder;"
-							value="line1: " />
+							value="indirizzo (linea 1): " />
 						<h:outputText id="line1B"
 							value="#{shoppingCartController.element.billingAddress.line1}"
 							escape="false" />
 
 						<h:outputLabel for="line2B" style="font-weight: bolder;"
-							value="line2: " />
+							value="indirizzo (linea 2): " />
 						<h:outputText id="line2B"
 							value="#{shoppingCartController.element.billingAddress.line2}"
 							escape="false" />
 
 						<h:outputLabel for="cityB" style="font-weight: bolder;"
-							value="city: " />
+							value="citta': " />
 						<h:outputText id="cityB"
 							value="#{shoppingCartController.element.billingAddress.city}"
 							escape="false" />
 
-						<h:outputLabel for="countryCodeB" style="font-weight: bolder;"
-							value="countryCode: " />
-						<h:outputText id="countryCodeB"
-							value="#{shoppingCartController.element.billingAddress.countryCode}"
+						<h:outputLabel for="stateB" style="font-weight: bolder;"
+							value="provincia: " />
+						<h:outputText id="stateB"
+							value="#{shoppingCartController.element.billingAddress.state}"
 							escape="false" />
 
 						<h:outputLabel for="zipB" style="font-weight: bolder;"
@@ -245,18 +245,18 @@
 							value="#{shoppingCartController.element.billingAddress.zip}"
 							escape="false" />
 
-						<h:outputLabel for="stateB" style="font-weight: bolder;"
-							value="state: " />
-						<h:outputText id="stateB"
-							value="#{shoppingCartController.element.billingAddress.state}"
+						<h:outputLabel for="countryCodeB" style="font-weight: bolder;"
+							value="stato: " />
+						<h:outputText id="countryCodeB"
+							value="#{shoppingCartController.element.billingAddress.countryCode}"
 							escape="false" />
 
 					</p:panelGrid>
 					<br />
 					<br />
-					<p:panelGrid columns="4"
+					<p:panelGrid columns="4" style="width: 95%"
 						rendered="#{not empty shoppingCartController.element.shippingAddress and not empty shoppingCartController.element.shippingAddress.firstName}">
-						<f:facet name="header">Informazioni sul indirizzo di consegna</f:facet>
+						<f:facet name="header">Informazioni sull'indirizzo di consegna</f:facet>
 						<h:outputLabel for="recipientName" style="font-weight: bolder;"
 							value="nome e cognome: " />
 						<h:outputText id="recipientName"
@@ -281,17 +281,18 @@
 							value="#{shoppingCartController.element.shippingAddress.city}"
 							escape="false" />
 
+						<h:outputLabel for="state" style="font-weight: bolder;"
+							value="provincia: " />
+						<h:outputText id="state"
+							value="#{shoppingCartController.element.shippingAddress.state}"
+							escape="false" />
+
 						<h:outputLabel for="zip" style="font-weight: bolder;"
 							value="zip: " />
 						<h:outputText id="zip"
 							value="#{shoppingCartController.element.shippingAddress.zip}"
 							escape="false" />
 
-						<h:outputLabel for="state" style="font-weight: bolder;"
-							value="provincia: " />
-						<h:outputText id="state"
-							value="#{shoppingCartController.element.shippingAddress.state}"
-							escape="false" />
 
 						<h:outputLabel for="countryCode" style="font-weight: bolder;"
 							value="stato: " />
@@ -299,12 +300,10 @@
 							value="#{shoppingCartController.element.shippingAddress.countryCode}"
 							escape="false" />
 
-
-
 					</p:panelGrid>
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="4">
+				<p:panelGrid columns="4">
 					<p:commandButton action="#{shoppingCartController.sent()}"
 						rendered="#{shoppingCartController.element.completed}"
 						value="Segna come Inviato"
@@ -324,7 +323,7 @@
 						value="Elimina"
 						rendered="#{not shoppingCartController.element.sent and not shoppingCartController.element.completed and not shoppingCartController.element.refunded}"
 						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
-				</h:panelGrid>
+				</p:panelGrid>
 			</center>
 		</h:form>
 

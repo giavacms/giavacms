@@ -7,7 +7,7 @@
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="Lista Vendite Paypal WEB" />
+		<h:outputText value="Lista Transazioni Paypal" />
 	</ui:define>
 	<ui:define name="roles">
 		<f:attribute name="roles" value="paypalweb" />
@@ -15,10 +15,10 @@
 	<ui:define name="content">
 		<h:form id="mainForm">
 			<center>
-				<p:panel header="Lista Vendite Paypal WEB">
+				<p:panel header="Lista Transazioni Paypal">
 					<h:panelGrid columns="4" id="searchGrid">
 
-						<h:outputLabel for="id" value="id: " />
+						<h:outputLabel for="id" value="n.ro ordine: " />
 						<h:inputText id="id"
 							value="#{shoppingCartController.search.obj.id}" />
 
@@ -51,42 +51,42 @@
 						<p:column>
 							<f:facet name="header">date</f:facet>
 							<h:outputLabel for="initDate" style="font-weight: bolder;"
-								value="initDate: " />
+								value="inizio: " />
 							<h:outputText id="initDate" value="#{shc.initDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<br />
 							<h:outputLabel for="refundedDate" style="font-weight: bolder;"
-								value="refundedDate: " rendered="#{shc.refunded}" />
+								value="storno: " rendered="#{shc.refunded}" />
 							<h:outputText id="refundedDate" value="#{shc.refundedDate}"
 								rendered="#{shc.refunded}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<h:outputLabel for="completedDate" style="font-weight: bolder;"
-								value="completedDate: " rendered="#{shc.completed}" />
+								value="completamento: " rendered="#{shc.completed}" />
 							<h:outputText id="completedDate" value="#{shc.completedDate}"
 								rendered="#{shc.completed}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<h:outputLabel for="undoDate" style="font-weight: bolder;"
-								value="undoDate: " rendered="#{shc.undo}" />
+								value="annullamento: " rendered="#{shc.undo}" />
 							<h:outputText id="undoDate" value="#{shc.undoDate}"
 								rendered="#{shc.undo}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<h:outputLabel for="sentDate" style="font-weight: bolder;"
-								value="sentDate: " rendered="#{shc.sentDate}" />
+								value="inviato: " rendered="#{shc.sentDate}" />
 							<h:outputText id="sentDate" value="#{shc.sentDate}"
 								rendered="#{shc.sent}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<h:outputLabel for="notCompleted" style="font-weight: bolder;"
-								value="notCompleted: " rendered="#{shc.notCompleted}" />
+								value="non completato: " rendered="#{shc.notCompleted}" />
 							<h:outputText id="notCompleted" value="#{shc.notCompletedDate}"
 								rendered="#{shc.notCompleted}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"

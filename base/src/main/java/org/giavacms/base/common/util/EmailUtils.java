@@ -13,7 +13,7 @@ public class EmailUtils
 {
    public static boolean isValidEmailAddress(String emailAddress)
    {
-      String expression = "^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+      String expression = "[\\w\\.-]*[a-zA-Z0-9_]@[\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]";
       CharSequence inputStr = emailAddress;
       Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
       Matcher matcher = pattern.matcher(inputStr);
