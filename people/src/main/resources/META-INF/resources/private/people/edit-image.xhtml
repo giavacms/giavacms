@@ -34,36 +34,67 @@
 						<h:panelGrid columns="1"
 							rendered="#{not empty peopleController.element.images and peopleController.element.images.size() gt 0}">
 
-							<p:imageCropper value="#{peopleController.croppedImage}"
-								image="/img/#{peopleController.element.images[0].filename}"
-								initialCoords="0,0,#{peopleController.imageWidth},#{peopleController.imageHeight}" aspectRatio="#{peopleController.imageWidth / peopleController.imageHeight}" minSize="#{peopleController.imageWidth},#{peopleController.imageHeight}" />
+							<ui:fragment
+								rendered="#{not peopleController.element.images[0].filePath.startsWith('img/cropped/') and not peopleController.element.images[0].filePath.startsWith('img/resized/')}">
+								<p:imageCropper value="#{peopleController.croppedImage}"
+									image="/img/#{peopleController.element.images[0].filename}"
+									initialCoords="0,0,#{peopleController.imageWidth},#{peopleController.imageHeight}"
+									aspectRatio="#{peopleController.imageWidth / peopleController.imageHeight}"
+									minSize="#{peopleController.imageWidth},#{peopleController.imageHeight}" />
 
-							<h:panelGroup id="localCroppedImage">
-								<h:panelGroup
-									rendered="#{not empty peopleController.streamedContent}">
-									<br />
-									<hr style="width: 90%;" />
-									<br />
-									<p:graphicImage value="#{peopleController.streamedContent}" />
-									<br />
-									<hr style="width: 90%;" />
-									<br />
-								</h:panelGroup>
-							</h:panelGroup>
+								<h:panelGrid columns="3">
+
+									<p:commandButton value="Ritaglia"
+										action="#{peopleController.crop}" ajax="false" />
+
+									<h:outputText value=" ...oppure... " />
+
+									<h:panelGrid columns="3">
+										<h:outputLabel value="Larghezza: " for="width" />
+										<h:outputLabel value="Altezza: " for="height" />
+										<h:outputText id="spazioSopraRidimensiona" />
+										<p:spinner value="#{peopleController.width}" id="width" />
+										<p:spinner value="#{peopleController.height}" id="height" />
+										<p:commandButton value="Ridimensiona" ajax="false"
+											action="#{peopleController.resize}" />
+									</h:panelGrid>
+
+									<h:outputText value="(come da selezione) " />
+									<p:spacer width="100px" height="1px" id="separatore" />
+									<h:outputText
+										value="(valorizzare entrambe le dimensioni o lasciare a 0 quella da ridimensionare in proporzione)" />
+
+								</h:panelGrid>
+								<br />
+								<br />
+							</ui:fragment>
+
+							<ui:fragment
+								rendered="#{peopleController.element.images[0].filePath.startsWith('img/cropped/') or peopleController.element.images[0].filePath.startsWith('img/resized/')}">
+								<h:graphicImage
+									value="/#{peopleController.element.images[0].filePath}?#{gb:random()}" />
+							</ui:fragment>
 
 							<h:panelGroup>
 								<center>
 									<h:panelGrid columns="4" id="buttons">
-										<p:commandButton value="Ritaglia"
-											action="#{peopleController.crop}"
-											update="localCroppedImage buttons" />
+
+										<p:commandButton value="Annulla ridimensionamento"
+											rendered="#{peopleController.element.images[0].filePath.startsWith('img/resized/')}"
+											action="#{peopleController.undo}" ajax="false" />
+
 										<p:commandButton value="Annulla ritaglio"
-											rendered="#{not empty peopleController.streamedContent}"
-											action="#{peopleController.undoCrop}" ajax="false"
-											update="localCroppedImage" />
+											rendered="#{peopleController.element.images[0].filePath.startsWith('img/cropped/')}"
+											action="#{peopleController.undo}" ajax="false" />
+
+										<p:commandButton value="Conferma ridimensionamento"
+											rendered="#{peopleController.element.images[0].filePath.startsWith('img/resized/')}"
+											action="#{peopleController.confirm}" ajax="false" />
+
 										<p:commandButton value="Conferma ritaglio"
-											rendered="#{not empty peopleController.streamedContent}"
-											action="#{peopleController.confirmCrop}" ajax="false" />
+											rendered="#{peopleController.element.images[0].filePath.startsWith('img/cropped/')}"
+											action="#{peopleController.confirm}" ajax="false" />
+
 										<p:commandButton ajax="false"
 											action="#{peopleController.removeImage(peopleController.element.images[0].id)}"
 											value="Elimina l'immagine corrente" immediate="true"
