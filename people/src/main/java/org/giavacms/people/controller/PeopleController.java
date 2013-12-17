@@ -1,7 +1,7 @@
 package org.giavacms.people.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,15 +10,22 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.swing.ImageIcon;
 
+import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.model.enums.ResourceType;
+import org.giavacms.base.pojo.Resource;
 import org.giavacms.base.repository.PageRepository;
+import org.giavacms.base.repository.ResourceRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
@@ -28,6 +35,7 @@ import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.event.ResetEvent;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
+import org.giavacms.common.util.FileUtils;
 import org.giavacms.people.model.PeopleType;
 import org.giavacms.people.producer.PeopleProducer;
 import org.giavacms.people.repository.PeopleTypeRepository;
@@ -39,8 +47,6 @@ import org.giavacms.richcontent.repository.RichContentTypeRepository;
 import org.giavacms.richcontent.repository.TagRepository;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 @Named
 @SessionScoped
@@ -63,6 +69,9 @@ public class PeopleController extends AbstractPageController<RichContent>
    public static String EDIT_IMAGE = "/private/people/edit-image.xhtml";
 
    // --------------------------------------------------------
+
+   @Inject
+   ResourceRepository resourceRepository;
 
    @Inject
    @OwnRepository(RichContentRepository.class)
@@ -89,10 +98,9 @@ public class PeopleController extends AbstractPageController<RichContent>
 
    private List<Group<Tag>> peopleTags;
    private CroppedImage croppedImage;
-   private StreamedContent streamedContent;
-   private byte[] croppedBytes;
    private double imageWidth;
    private double imageHeight;
+   int width, height;
 
    // --------------------------------------------------------
 
@@ -161,8 +169,6 @@ public class PeopleController extends AbstractPageController<RichContent>
    {
       peopleTags = null;
       croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
       return super.reload();
    }
 
@@ -171,8 +177,6 @@ public class PeopleController extends AbstractPageController<RichContent>
    {
       peopleTags = null;
       croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
       return super.reset();
    }
 
@@ -183,8 +187,6 @@ public class PeopleController extends AbstractPageController<RichContent>
    {
       peopleTags = null;
       croppedImage = null;
-      streamedContent = null;
-      croppedBytes = null;
       String outcome = super.addElement();
       getElement().setDate(new Date());
       return outcome;
@@ -218,20 +220,18 @@ public class PeopleController extends AbstractPageController<RichContent>
    public String modImageCurrent()
    {
       modCurrent();
-      setDimensions();
-      streamedContent = null;
       croppedImage = null;
-      croppedBytes = null;
+      setDimensions();
+      setTargetDimensions();
       return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
    public String modImage()
    {
       modElement();
-      setDimensions();
-      streamedContent = null;
       croppedImage = null;
-      croppedBytes = null;
+      setDimensions();
+      setTargetDimensions();
       return EDIT_IMAGE + REDIRECT_PARAM;
    }
 
@@ -419,6 +419,50 @@ public class PeopleController extends AbstractPageController<RichContent>
 
    // --------------------------------------------------------
 
+   public int getWidth()
+   {
+      return width;
+   }
+
+   public void setWidth(int width)
+   {
+      this.width = width;
+   }
+
+   public int getHeight()
+   {
+      return height;
+   }
+
+   public void setHeight(int height)
+   {
+      this.height = height;
+   }
+
+   protected void setDimensions()
+   {
+      try
+      {
+         width = 0;
+         height = 0;
+         croppedImage = null;
+         ServletContext servletContext = (ServletContext) FacesContext
+                  .getCurrentInstance().getExternalContext().getContext();
+         String folder = servletContext.getRealPath("") + File.separator;
+         getElement().getImage().setData(
+                  FileUtils.getBytesFromFile(new File(new File(folder, ResourceType.IMAGE.getFolder()), getElement()
+                           .getImage().getFilename())));
+         ImageIcon imageIcon = new ImageIcon(getElement().getImage().getData());
+         width = imageIcon.getIconWidth();
+         height = imageIcon.getIconHeight();
+      }
+      catch (Exception e)
+      {
+      }
+   }
+
+   // ---------------------------------------------
+
    public CroppedImage getCroppedImage()
    {
       return croppedImage;
@@ -429,29 +473,74 @@ public class PeopleController extends AbstractPageController<RichContent>
       this.croppedImage = croppedImage;
    }
 
+   public String resize()
+   {
+      try
+      {
+         if (!resourceRepository.createSubFolder(ResourceType.IMAGE, "resized"))
+         {
+            super.addFacesMessage("Errore durante la scrittura dei dati temporanei");
+            return null;
+         }
+         byte[] resized = null;
+         if (width == 0 || height == 0)
+         {
+            resized = ImageUtils.resizeImage(getElement().getImage().getData(), width == 0 ? height : width,
+                     FileUtils.getExtension(getElement().getImage().getFilename()));
+         }
+         else
+         {
+            resized = ImageUtils.resizeImage(getElement().getImage().getData(), width, height,
+                     FileUtils.getExtension(getElement().getImage().getFilename()));
+         }
+         getElement().getImage().setData(resized);
+         getElement().getImage().setFilePath(
+                  ResourceType.IMAGE.getFolder() + "/resized/" + getElement().getImage().getFilename());
+         Resource resource = new Resource();
+         resource.setBytes(getElement().getImage().getData());
+         resource.setId(getElement().getImage().getFilename());
+         resource.setName(getElement().getImage().getFilename());
+         resource.setType(ResourceType.IMAGE.getFolder() + "/resized");
+         resourceRepository.updateResource(resource);
+         return "";
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         super.addFacesMessage("Errori nel ridimensionamento dell'immagine");
+         return null;
+      }
+   }
+
    public String crop()
    {
       if (croppedImage == null)
          return null;
 
-      @SuppressWarnings("unused")
-      String extension = org.giavacms.common.util.FileUtils.getExtension(getElement().getImages().get(0).getFilename());
-
       ByteArrayOutputStream baos = null;
-      ByteArrayInputStream bais = null;
       try
       {
+         if (!resourceRepository.createSubFolder(ResourceType.IMAGE, "cropped"))
+         {
+            super.addFacesMessage("Errore durante la scrittura dei dati temporanei");
+            return null;
+         }
          baos = new ByteArrayOutputStream();
          baos.write(croppedImage.getBytes(), 0, croppedImage.getBytes().length);
-
-         croppedBytes = baos.toByteArray();
-         bais = new ByteArrayInputStream(croppedBytes);
-         streamedContent = new DefaultStreamedContent(bais);
-
+         getElement().getImage().setData(baos.toByteArray());
+         getElement().getImage().setFilePath(
+                  ResourceType.IMAGE.getFolder() + "/cropped/" + getElement().getImage().getFilename());
+         Resource resource = new Resource();
+         resource.setBytes(getElement().getImage().getData());
+         resource.setId(getElement().getImage().getFilename());
+         resource.setName(getElement().getImage().getFilename());
+         resource.setType(ResourceType.IMAGE.getFolder() + "/cropped");
+         resourceRepository.updateResource(resource);
+         return "";
       }
       catch (Exception e)
       {
-         super.addFacesMessage("Errori nell'elaborazione dell'immagine");
+         super.addFacesMessage("Errori nel ritaglio dell'immagine");
          logger.error(e.getMessage(), e);
       }
       finally
@@ -466,63 +555,45 @@ public class PeopleController extends AbstractPageController<RichContent>
             {
             }
          }
-         if (bais != null)
-         {
-            try
-            {
-               bais.close();
-            }
-            catch (Exception e)
-            {
-            }
-         }
       }
       return null;
    }
 
-   public String undoCrop()
+   public String undo()
    {
-      this.streamedContent = null;
-      this.croppedBytes = null;
-      this.croppedImage = null;
-      return null;
+      Resource resource = new Resource();
+      resource.setBytes(getElement().getImage().getData());
+      resource.setId(getElement().getImage().getFilename());
+      resource.setName(getElement().getImage().getFilename());
+      resource.setType(ResourceType.IMAGE.getFolder() + "/cropped");
+      resourceRepository.delete(resource);
+      resource.setType(ResourceType.IMAGE.getFolder() + "/resized");
+      resourceRepository.delete(resource);
+      getElement().getImage().setFilePath(null);
+      setDimensions();
+      return modImageCurrent();
    }
 
-   public String confirmCrop()
+   public String confirm()
    {
-      try
-      {
-         String type = getElement().getImages().get(0).getType();
-         String original = getElement().getImages().get(0)
-                  .getFilename();
-         if (getElement().getImages() != null && getElement().getImages().size() > 0)
-         {
-            removeImage(getElement().getImages().get(0).getId());
-         }
-         Image img = new Image();
-         img.setData(croppedBytes);
-         img.setType(type);
-         String filename = ResourceUtils.createImage_("img", "resized_" + original, croppedBytes);
-         img.setFilename(filename);
-         getElement().getImages().add(img);
-      }
-      catch (Exception e)
-      {
-         super.addFacesMessage("Errori nel salvataggio dell'immagine ritagliata");
-         e.printStackTrace();
-      }
-      this.update();
-      return viewCurrent();
-   }
+      Resource resource = new Resource();
+      resource.setBytes(getElement().getImage().getData());
+      resource.setId(getElement().getImage().getFilename());
+      resource.setName(getElement().getImage().getFilename());
+      resource.setType(ResourceType.IMAGE.getFolder() + "/cropped");
+      resourceRepository.delete(resource);
+      resource.setType(ResourceType.IMAGE.getFolder() + "/resized");
+      resourceRepository.delete(resource);
 
-   public StreamedContent getStreamedContent()
-   {
-      return streamedContent;
-   }
+      resource.setBytes(getElement().getImage().getData());
+      resource.setId(getElement().getImage().getFilename());
+      resource.setName(getElement().getImage().getFilename());
+      resource.setType(ResourceType.IMAGE.getFolder());
+      resourceRepository.updateResource(resource);
 
-   public void setStreamedContent(StreamedContent streamedContent)
-   {
-      this.streamedContent = streamedContent;
+      getElement().getImage().setFilePath(null);
+      setDimensions();
+      return modImageCurrent();
    }
 
    public double getImageWidth()
@@ -545,7 +616,7 @@ public class PeopleController extends AbstractPageController<RichContent>
       this.imageHeight = imageHeight;
    }
 
-   private void setDimensions()
+   private void setTargetDimensions()
    {
       for (PeopleType pt : peopleTypeRepository.getAllList())
       {

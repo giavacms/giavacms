@@ -129,14 +129,14 @@
 
 				<h:panelGrid columns="4">
 
-					<p:commandButton action="#{peopleController.save}" value="Salva"
+					<p:commandButton action="#{peopleController.save}" value="Salva" ajax="false"
 						immediate="false" rendered="#{not peopleController.editMode}" />
 
-					<p:commandButton action="#{peopleController.update}"
+					<p:commandButton action="#{peopleController.update}" ajax="false"
 						value="Salva le modifiche" immediate="false"
 						rendered="#{peopleController.editMode}" />
 
-					<p:commandButton action="#{peopleController.delete}"
+					<p:commandButton action="#{peopleController.delete}" ajax="false"
 						value="Elimina" rendered="#{peopleController.editMode}"
 						immediate="true"
 						onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />

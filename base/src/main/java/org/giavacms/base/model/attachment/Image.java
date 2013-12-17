@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.giavacms.base.model.enums.ResourceType;
 import org.primefaces.model.UploadedFile;
 
 @Entity
@@ -31,6 +32,7 @@ public class Image implements Serializable
    private String name;
    private String description;
    private String filename;
+   private String filePath;
    private byte[] data;
    private String type;
    private UploadedFile uploadedData;
@@ -112,7 +114,16 @@ public class Image implements Serializable
    @Transient
    public String getFilePath()
    {
-      return "img/" + filename;
+      if (filePath == null)
+      {
+         filePath = ResourceType.IMAGE.getFolder() + "/" + filename;
+      }
+      return filePath;
+   }
+
+   public void setFilePath(String filepath)
+   {
+      this.filePath = filepath;
    }
 
    public boolean isActive()

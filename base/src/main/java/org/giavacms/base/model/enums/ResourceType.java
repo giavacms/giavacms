@@ -15,7 +15,7 @@ public enum ResourceType
 
    FONT("font", Arrays.asList("otf", "eot", "svg", "ttf",
             "woff")),
-   IMAGE("img", Arrays.asList("gif", "jpg", "jpeg", "png")),
+   IMAGE("img", Arrays.asList("gif", "jpg", "jpeg", "png", "ico")),
    DOCUMENT("docs", Arrays.asList("zip", "gz", "tar", "bz2", "pdf", "doc", "docx", "xls", "xlsx", "p7m", "txt")),
    STYLESHEET("css", Arrays.asList("css")),
    JAVASCRIPT("js", Arrays.asList("js")),
