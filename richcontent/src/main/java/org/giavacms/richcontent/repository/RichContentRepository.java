@@ -235,6 +235,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          sb.append(pageAlias).append(".lang3id, ");
          sb.append(pageAlias).append(".lang4id, ");
          sb.append(pageAlias).append(".lang5id, ");
+         sb.append(pageAlias).append(".clone, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
@@ -507,12 +508,13 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
     * sb.append(pageAlias).append(".id, "); sb.append(pageAlias).append(".lang1id, ");
     * sb.append(pageAlias).append(".lang2id, "); sb.append(pageAlias).append(".lang3id, ");
     * sb.append(pageAlias).append(".lang4id, "); sb.append(pageAlias).append(".lang5id, ");
-    * sb.append(pageAlias).append(".title, "); sb.append(pageAlias).append(".description, ");
-    * sb.append(templateImplAlias).append(".id, "); sb.append(templateImplAlias).append(".mainPageId, ");
-    * sb.append(templateImplAlias).append(".mainPageTitle, "); sb.append(richContentAlias).append(".author, ");
-    * sb.append(richContentAlias).append(".content, "); sb.append(richContentAlias).append(".date, ");
-    * sb.append(richContentAlias).append(".highlight, "); sb.append(richContentAlias).append(".preview, ");
-    * sb.append(richContentAlias).append(".tags,  "); sb.append(richContentAlias).append(".richContentType_id, ");
+    * sb.append(pageAlias).append(".clone, "); sb.append(pageAlias).append(".title, ");
+    * sb.append(pageAlias).append(".description, "); sb.append(templateImplAlias).append(".id, ");
+    * sb.append(templateImplAlias).append(".mainPageId, "); sb.append(templateImplAlias).append(".mainPageTitle, ");
+    * sb.append(richContentAlias).append(".author, "); sb.append(richContentAlias).append(".content, ");
+    * sb.append(richContentAlias).append(".date, "); sb.append(richContentAlias).append(".highlight, ");
+    * sb.append(richContentAlias).append(".preview, "); sb.append(richContentAlias).append(".tags,  ");
+    * sb.append(richContentAlias).append(".richContentType_id, ");
     * sb.append(richContentTypeAlias).append(".name AS richContentType, ");
     * sb.append(imageAlias).append(".id AS imageId, "); sb.append(imageAlias).append(".fileName AS image");
     * sb.append(documentAlias).append(".id AS documentId, ");
@@ -553,6 +555,23 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          i++;
          String lang5id = (String) row[i];
          richContent.setLang5id(lang5id);
+         i++;
+         Object clone = row[i];
+         if (clone != null)
+         {
+            if (clone instanceof Short)
+            {
+               richContent.setClone(((Short) clone).intValue() > 0 ? true : false);
+            }
+            else
+            {
+               logger.error("clone instance of " + clone.getClass().getCanonicalName());
+            }
+         }
+         else
+         {
+            logger.error("clone should not be null");
+         }
          i++;
          String title = (String) row[i];
          // if (title != null && !title.isEmpty())
