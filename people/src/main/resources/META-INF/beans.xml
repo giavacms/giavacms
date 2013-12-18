@@ -4,4 +4,7 @@
 	<interceptors>
 		<class>org.giavacms.common.interceptor.LogOperationInterceptor</class>
 	</interceptors>
+	<scan>
+		<exclude name="org.giavacms.people.model.**" />
+	</scan>
 </beans>

@@ -1,7 +1,15 @@
 <?xml version="1.0"?>
-<beans xmlns="http://java.sun.com/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="       http://java.sun.com/xml/ns/javaee       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
- <interceptors>
-  <class>org.giavacms.common.interceptor.LogOperationInterceptor</class>
- </interceptors>
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="       http://java.sun.com/xml/ns/javaee       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+	<interceptors>
+		<class>org.giavacms.common.interceptor.LogOperationInterceptor</class>
+	</interceptors>
+	<scan>
+		<exclude name="org.giavacms.base.common.module.**" />
+		<exclude name="org.giavacms.base.common.util.**" />
+		<exclude name="org.giavacms.base.controller.util.**" />
+		<exclude name="org.giavacms.base.model.**" />
+		<exclude name="org.giavacms.base.model.attachment.**" />
+		<exclude name="org.giavacms.base.model.enums.**" />
+	</scan>
 </beans>

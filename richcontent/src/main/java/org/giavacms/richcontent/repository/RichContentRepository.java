@@ -406,10 +406,34 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                && search.getObj().getRichContentType().getName() != null
                && search.getObj().getRichContentType().getName().length() > 0)
       {
-         sb.append(separator).append(richContentTypeAlias).append(".name = :NAMETYPE ");
-         params.put("NAMETYPE", search.getObj().getRichContentType()
-                  .getName());
-         separator = " and ";
+         if (search.getObj().getRichContentType().getName().contains(","))
+         {
+            String[] names = search.getObj().getRichContentType().getName().split(",");
+            int i = 0;
+            StringBuffer bf = new StringBuffer(" (");
+            separator = " ";
+            for (String name : names)
+            {
+               if (i > 0)
+               {
+                  separator = " or ";
+               }
+               bf.append(separator).append(richContentTypeAlias).append(".name = :NAMETYPE" + i + " ");
+               params.put("NAMETYPE" + i, name.trim());
+               i++;
+            }
+            bf.append(" ) ");
+            sb.append(bf.toString());
+            separator = " and ";
+         }
+         else
+         {
+            sb.append(separator).append(richContentTypeAlias).append(".name = :NAMETYPE ");
+            params.put("NAMETYPE", search.getObj().getRichContentType()
+                     .getName());
+            separator = " and ";
+         }
+
       }
 
       // TYPE BY ID
