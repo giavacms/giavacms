@@ -36,7 +36,7 @@ public class PayerInfoRequestController
    String billingLastName;
    @Inject
    @HttpParam
-   String billingCompany = "false";
+   String billingCompany;
    @Inject
    @HttpParam
    String billingVatCode;
@@ -290,6 +290,8 @@ public class PayerInfoRequestController
 
    public String getBillingCompany()
    {
+      if (billingCompany == null || billingCompany.trim().isEmpty())
+         billingCompany = "false";
       return billingCompany;
    }
 
