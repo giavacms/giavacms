@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
 import org.giavacms.richcontent.model.type.RichContentType;

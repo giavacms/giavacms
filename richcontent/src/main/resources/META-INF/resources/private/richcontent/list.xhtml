@@ -39,7 +39,7 @@
 		<h:form id="mainForm">
 			<center>
 				<p:panel header="Lista Contenuti">
-					<h:panelGrid columns="8" id="searchGrid">
+					<h:panelGrid columns="10" id="searchGrid">
 
 						<h:outputLabel for="titolo" value="Titolo:" />
 						<h:inputText id="titolo"
@@ -50,6 +50,10 @@
 							value="#{richContentController.search.obj.richContentType.id}">
 							<f:selectItems value="#{richContentTypeItems}" />
 						</h:selectOneMenu>
+
+						<h:outputLabel for="tipi" value="Tipi multipli:" />
+						<h:inputText id="tipi"
+							value="#{richContentController.search.obj.richContentType.name}"/>
 
 						<h:outputLabel for="tag" value="Tag:" />
 						<h:inputText id="tag"

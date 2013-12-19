@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
@@ -19,14 +18,11 @@ import javax.swing.ImageIcon;
 import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
-import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.pojo.Resource;
-import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.ResourceRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
@@ -37,7 +33,6 @@ import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.util.FileUtils;
 import org.giavacms.people.model.PeopleType;
-import org.giavacms.people.producer.PeopleProducer;
 import org.giavacms.people.repository.PeopleTypeRepository;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
@@ -78,23 +73,11 @@ public class PeopleController extends AbstractPageController<RichContent>
    RichContentRepository richContentRepository;
 
    @Inject
-   TemplateImplRepository templateImplRepository;
-   @Inject
-   PageRepository pageRepository;
-
-   @Inject
    RichContentTypeRepository richContentTypeRepository;
    @Inject
    PeopleTypeRepository peopleTypeRepository;
    @Inject
    TagRepository tagRepository;
-   @Inject
-   PeopleProducer richContentProducer;
-
-   @Inject
-   Event<ResetEvent> resetEvent;
-   @Inject
-   Event<LanguageEvent> languageEvent;
 
    private List<Group<Tag>> peopleTags;
    private CroppedImage croppedImage;
@@ -198,20 +181,14 @@ public class PeopleController extends AbstractPageController<RichContent>
       RichContentType richContentType =
                richContentTypeRepository
                         .find(getElement().getRichContentType().getId());
-      getElement().setTemplate(richContentType
-               .getPage().getTemplate());
+      getElement().setTemplateId(richContentType
+               .getPage().getTemplateId());
       if (super.save() == null)
       {
          super.addFacesMessage("Errori nel salvataggio");
          return null;
       }
-      if (richContentType.getPage().getLang() > 0)
-      {
-         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
-                  .getLang(), true));
-      }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
-      resetEvent.fire(new ResetEvent(RichContent.class));
       return modImageCurrent();
    }
 
@@ -262,20 +239,14 @@ public class PeopleController extends AbstractPageController<RichContent>
       RichContentType richContentType =
                richContentTypeRepository
                         .find(getElement().getRichContentType().getId());
-      getElement().setTemplate(richContentType
-               .getPage().getTemplate());
+      getElement().setTemplateId(richContentType
+               .getPage().getTemplateId());
       if (super.update() == null)
       {
          super.addFacesMessage("Errori nell'aggiornamento dei dati");
          return null;
       }
-      if (richContentType.getPage().getLang() > 0)
-      {
-         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
-                  .getLang(), true));
-      }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
-      resetEvent.fire(new ResetEvent(RichContent.class));
       return super.viewCurrent();
    }
 
@@ -350,13 +321,6 @@ public class PeopleController extends AbstractPageController<RichContent>
 
       return true;
 
-   }
-
-   @Override
-   public String delete()
-   {
-      resetEvent.fire(new ResetEvent(RichContent.class));
-      return super.delete();
    }
 
    // --------------------------------------------------------

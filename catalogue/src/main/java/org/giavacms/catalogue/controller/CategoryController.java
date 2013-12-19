@@ -11,10 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.controller.AbstractPageController;
-import org.giavacms.base.repository.PageRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.catalogue.model.Category;
-import org.giavacms.catalogue.producer.CatalogueProducer;
 import org.giavacms.catalogue.repository.CategoryRepository;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
@@ -45,15 +42,6 @@ public class CategoryController extends AbstractPageController<Category>
    @OwnRepository(CategoryRepository.class)
    CategoryRepository categoryRepository;
 
-   @Inject
-   CatalogueProducer catalogueProducer;
-
-   @Inject
-   TemplateImplRepository templateImplRepository;
-
-   @Inject
-   PageRepository pageRepository;
-
    @Override
    public String getExtension()
    {
@@ -61,19 +49,13 @@ public class CategoryController extends AbstractPageController<Category>
    }
 
    @Override
-   public void initController()
+   public Category getElement()
    {
-      if (getElement() == null)
+      if (super.getElement() == null)
       {
-         setElement(new Category());
+         super.setElement(new Category());
       }
-   }
-
-   @Override
-   public String reset()
-   {
-      catalogueProducer.reset();
-      return super.reset();
+      return super.getElement();
    }
 
    // ---------------------------------------------------------------------
@@ -81,7 +63,6 @@ public class CategoryController extends AbstractPageController<Category>
    @Override
    public String save()
    {
-      catalogueProducer.reset();
       if (super.save() == null)
       {
          return null;

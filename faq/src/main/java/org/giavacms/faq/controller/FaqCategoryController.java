@@ -14,7 +14,6 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.faq.model.FaqCategory;
-import org.giavacms.faq.producer.FaqProducer;
 import org.giavacms.faq.repository.FaqCategoryRepository;
 
 @Named
@@ -54,9 +53,6 @@ public class FaqCategoryController extends AbstractPageController<FaqCategory>
    @OwnRepository(FaqCategoryRepository.class)
    FaqCategoryRepository faqCategoryRepository;
 
-   @Inject
-   FaqProducer faqProducer;
-
    @Override
    public void initController()
    {
@@ -73,16 +69,7 @@ public class FaqCategoryController extends AbstractPageController<FaqCategory>
    public String save()
    {
       saveImage();
-      faqProducer.reset();
       return super.save();
-   }
-
-   @Override
-   public String delete()
-   {
-      super.delete();
-      faqProducer.reset();
-      return listPage();
    }
 
    public String deleteImg()
@@ -139,10 +126,4 @@ public class FaqCategoryController extends AbstractPageController<FaqCategory>
       return t.getId();
    }
 
-   @Override
-   public String reset()
-   {
-      faqProducer.reset();
-      return super.reset();
-   }
 }

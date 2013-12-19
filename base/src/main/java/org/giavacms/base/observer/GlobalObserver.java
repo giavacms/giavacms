@@ -32,7 +32,7 @@ public class GlobalObserver implements Serializable
 
    public void observe(@Observes LanguageEvent languageEvent)
    {
-      pageRepository.updateLanguagePage(languageEvent.getLang(), languageEvent.getTemplateImplId(),
+      pageRepository.updateLanguageByTemplate(languageEvent.getLang(), languageEvent.getTemplateImplId(),
                languageEvent.isSet());
    }
 
