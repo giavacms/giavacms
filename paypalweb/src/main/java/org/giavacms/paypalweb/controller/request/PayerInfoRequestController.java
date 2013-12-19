@@ -7,7 +7,6 @@
 package org.giavacms.paypalweb.controller.request;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -37,7 +36,7 @@ public class PayerInfoRequestController
    String billingLastName;
    @Inject
    @HttpParam
-   String billingCompany;
+   String billingCompany = "false";
    @Inject
    @HttpParam
    String billingVatCode;
