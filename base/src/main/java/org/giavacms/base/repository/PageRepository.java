@@ -505,7 +505,7 @@ public class PageRepository
       }
    }
 
-   public void updateLanguagePage(int langId, Long templateImplId, boolean set)
+   public void updateLanguageByTemplate(int langId, Long templateImplId, boolean set)
    {
       try
       {
@@ -515,6 +515,24 @@ public class PageRepository
                      "update " + Page.TABLE_NAME + " set lang" + langId + "id = "
                               + (set ? " id " : " NULL ") + " where template_id = :TID ")
                      .setParameter("TID", templateImplId).executeUpdate();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage());
+         e.printStackTrace();
+      }
+   }
+
+   public void updateLanguage(int langId, String pageId)
+   {
+      try
+      {
+         if (langId > 0)
+         {
+            getEm().createNativeQuery(
+                     "update " + Page.TABLE_NAME + " set lang" + langId + "id = id where id = :PID ")
+                     .setParameter("PID", pageId).executeUpdate();
          }
       }
       catch (Exception e)

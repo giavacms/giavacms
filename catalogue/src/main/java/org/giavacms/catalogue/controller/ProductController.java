@@ -14,15 +14,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.common.util.ImageUtils;
+import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
-import org.giavacms.base.model.Page;
-import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
-import org.giavacms.base.repository.PageRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.catalogue.model.CatalogueConfiguration;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.CatalogueConfigurationRepository;
@@ -59,12 +55,6 @@ public class ProductController extends AbstractPageController<Product>
 
    @Inject
    CatalogueConfigurationRepository catalogueConfigurationRepository;
-
-   @Inject
-   TemplateImplRepository templateImplRepository;
-
-   @Inject
-   PageRepository pageRepository;
 
    @Override
    public String getExtension()
@@ -170,88 +160,6 @@ public class ProductController extends AbstractPageController<Product>
       }
       else
          logger.info("removeImage: non posso rimuovere id:" + id);
-   }
-
-   // --------------------------------------------------------
-
-   @Override
-   public String save()
-   {
-      // reassociate choosen main page
-      TemplateImpl templateImpl = templateImplRepository.find(getElement().getTemplateId());
-      getElement().setTemplate(templateImpl);
-      // persist to get a valid id
-      if (super.save() == null)
-      {
-         return null;
-      }
-      // same language of choosen main page
-      Page basePage = pageRepository.fetch(templateImpl.getMainPageId());
-      switch (basePage.getLang())
-      {
-      case 1:
-         getElement().setLang1id(getElement().getId());
-         super.update();
-         break;
-      case 2:
-         getElement().setLang2id(getElement().getId());
-         super.update();
-         break;
-      case 3:
-         getElement().setLang3id(getElement().getId());
-         super.update();
-         break;
-      case 4:
-         getElement().setLang5id(getElement().getId());
-         super.update();
-         break;
-      case 5:
-         getElement().setLang5id(getElement().getId());
-         super.update();
-         break;
-      default:
-         break;
-      }
-      // view result
-      setElement(getRepository().fetch(getElement().getId()));
-      return super.viewPage();
-   }
-
-   @Override
-   public String update()
-   {
-      // reassociate choosen main page
-      TemplateImpl templateImpl = templateImplRepository.find(getElement().getTemplateId());
-      getElement().setTemplate(templateImpl);
-      // same language of choosen main page
-      Page basePage = pageRepository.fetch(templateImpl.getMainPageId());
-      switch (basePage.getLang())
-      {
-      case 1:
-         getElement().setLang1id(getElement().getId());
-         break;
-      case 2:
-         getElement().setLang2id(getElement().getId());
-         break;
-      case 3:
-         getElement().setLang3id(getElement().getId());
-         break;
-      case 4:
-         getElement().setLang5id(getElement().getId());
-         break;
-      case 5:
-         getElement().setLang5id(getElement().getId());
-      default:
-         break;
-      }
-      // the update
-      if (super.update() == null)
-      {
-         return null;
-      }
-      // view result
-      setElement(getRepository().fetch(getElement().getId()));
-      return super.viewPage();
    }
 
 }

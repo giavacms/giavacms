@@ -137,6 +137,27 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          String lang5id = (String) row[i];
          category.setLang5id(lang5id);
          i++;
+         Object clone = row[i];
+         if (clone != null)
+         {
+            if (clone instanceof Short)
+            {
+               category.setClone(((Short) clone).intValue() > 0 ? true : false);
+            }
+            else if (clone instanceof Boolean)
+            {
+               category.setClone(((Boolean) clone).booleanValue());
+            }
+            else
+            {
+               logger.error("clone instance of " + clone.getClass().getCanonicalName());
+            }
+         }
+         else
+         {
+            logger.error("clone should not be null");
+         }
+         i++;
          String title = (String) row[i];
          // if (title != null && !title.isEmpty())
          category.setTitle(title);
@@ -269,6 +290,7 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          sb.append(pageAlias).append(".lang3id, ");
          sb.append(pageAlias).append(".lang4id, ");
          sb.append(pageAlias).append(".lang5id, ");
+         sb.append(pageAlias).append(".clone, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
@@ -277,8 +299,8 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          if (completeFetch)
          {
             // additional fields to retrieve only when fetching
-            sb.append(", ").append(productAlias).append(".id AS productId, ");
-            sb.append(productPageAlias).append(".title AS productTitle, ");
+            sb.append(", ").append(productAlias).append(".id AS productId ");
+            sb.append(", ").append(productPageAlias).append(".title AS productTitle ");
          }
       }
 

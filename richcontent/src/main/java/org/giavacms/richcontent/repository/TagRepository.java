@@ -82,11 +82,36 @@ public class TagRepository extends AbstractRepository<Tag>
                && search.getObj().getRichContent().getRichContentType().getName() != null
                && search.getObj().getRichContent().getRichContentType().getName().trim().length() > 0)
       {
-         sb.append(separator).append(alias)
-                  .append(".richContent.richContentType.name = :TYPENAME ");
-         params.put("TYPENAME", search.getObj().getRichContent().getRichContentType().getName().trim());
-         separator = " and ";
+         if (search.getObj().getRichContent().getRichContentType().getName().contains(","))
+         {
+            String[] names = search.getObj().getRichContent().getRichContentType().getName().split(",");
+            StringBuffer orBuffer = new StringBuffer();
+            String orSeparator = "";
+            for (int i = 0; i < names.length; i++)
+            {
+               if (names[i].trim().length() > 0)
+               {
+                  orBuffer.append(orSeparator).append(alias).append(".richContent.richContentType.name = :NAMETYPE" + i + " ");
+                  params.put("NAMETYPE" + i, names[i].trim());
+                  orSeparator = " or ";
+               }
+            }
+            if (orBuffer.length() > 0)
+            {
+               sb.append(separator).append(" ( ").append(orBuffer).append(" ) ");
+               separator = " and ";
+            }
+         }
+         else
+         {
+            sb.append(separator).append(alias)
+                     .append(".richContent.richContentType.name = :TYPENAME ");
+            params.put("TYPENAME", search.getObj().getRichContent().getRichContentType().getName().trim());
+            separator = " and ";
+         }
+
       }
+
       // CONTENT TYPE BY ID
       if (search.getObj().getRichContent() != null && search.getObj().getRichContent().getRichContentType() != null
                && search.getObj().getRichContent().getRichContentType().getId() != null)
@@ -121,7 +146,8 @@ public class TagRepository extends AbstractRepository<Tag>
       if (search.getObj().getRichContent() != null && search.getObj().getRichContent().getTitle() != null
                && !search.getObj().getRichContent().getTitle().trim().isEmpty())
       {
-         boolean likeSearch = likeSearch(likeParam(search.getObj().getRichContent().getTitle().trim().toUpperCase()), alias, separator,
+         boolean likeSearch = likeSearch(likeParam(search.getObj().getRichContent().getTitle().trim().toUpperCase()),
+                  alias, separator,
                   sb, params);
          if (likeSearch)
          {
@@ -181,7 +207,8 @@ public class TagRepository extends AbstractRepository<Tag>
       }
 
       // TAG
-      if (search.getObj().getRichContent() != null && search.getObj().getRichContent().getTag() != null && search.getObj().getRichContent().getTag().trim().length() > 0)
+      if (search.getObj().getRichContent() != null && search.getObj().getRichContent().getTag() != null
+               && search.getObj().getRichContent().getTag().trim().length() > 0)
       {
          sb.append(separator).append(alias).append(".richContent.id in ( ");
          sb.append(" select distinct rt.richContent.id from ").append(Tag.class.getSimpleName())

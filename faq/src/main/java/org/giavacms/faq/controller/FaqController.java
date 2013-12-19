@@ -44,26 +44,6 @@ public class FaqController extends AbstractPageController<Faq>
    FaqRepository faqRepository;
 
    @Override
-   public String save()
-   {
-      super.save();
-      return super.viewPage();
-   }
-
-   @Override
-   public String delete()
-   {
-      return super.delete();
-   }
-
-   @Override
-   public String update()
-   {
-      super.update();
-      return super.viewPage();
-   }
-
-   @Override
    public Object getId(Faq t)
    {
       return t.getId();
@@ -73,15 +53,6 @@ public class FaqController extends AbstractPageController<Faq>
    public String getExtension()
    {
       return Faq.EXTENSION;
-   }
-
-   @Override
-   public String modElement()
-   {
-      // TODO Auto-generated method stub
-      String where = super.modElement();
-
-      return where;
    }
 
 }

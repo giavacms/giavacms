@@ -13,13 +13,13 @@ import java.util.Map;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.giavacms.base.controller.util.PageUtils;
 import org.giavacms.base.model.Page;
+import org.giavacms.base.model.TemplateImpl;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
 
@@ -31,11 +31,6 @@ public abstract class AbstractPageRepository<T extends Page> extends
 
    @PersistenceContext
    EntityManager em;
-
-   @Inject
-   TemplateRepository templateRepository;
-   @Inject
-   TemplateImplRepository templateImplRepository;
 
    @Override
    public EntityManager getEm()
@@ -57,12 +52,21 @@ public abstract class AbstractPageRepository<T extends Page> extends
       String idFinal = testKey(idTitle);
       page.setId(idFinal);
 
-      if (!page.isClone())
+      if (page.isClone())
+      {
+         // clone pages can change their base page by changing the templateImpl.id they are associated to. must be
+         // refetched here to avoid cascading problems
+         if (page.getTemplateId() != null)
+         {
+            page.setTemplate(getEm().find(TemplateImpl.class, page.getTemplateId()));
+         }
+      }
+      else
       {
          // page id of a brand new page will become the templateImpl's backward reference to its original main page
          page.getTemplate().setMainPageId(idTitle);
          page.getTemplate().setMainPageTitle(page.getTitle());
-         templateImplRepository.persist(page.getTemplate());
+         getEm().persist(page.getTemplate());
       }
 
       return page;
@@ -73,15 +77,19 @@ public abstract class AbstractPageRepository<T extends Page> extends
    {
       if (page.isClone())
       {
-         // clone pages can change their base page by chaning the templateImpl.id they are associated to. must be
+         // clone pages can change their base page by changing the templateImpl.id they are associated to. must be
          // refetched here to avoid cascading problems
-         page.setTemplate(templateImplRepository.find(page.getTemplateId()));
+         if (page.getTemplateId() != null)
+         {
+            page.setTemplate(getEm().find(TemplateImpl.class, page.getTemplateId()));
+         }
       }
       else
       {
          // when updating a base (non-clone) page, instead, the user can change page.template and
          // page.template.template.id
-         templateImplRepository.update(page.getTemplate());
+         page.getTemplate().setMainPageTitle(page.getTitle());
+         getEm().merge(page.getTemplate());
       }
       return page;
    }
@@ -408,7 +416,8 @@ public abstract class AbstractPageRepository<T extends Page> extends
    @SuppressWarnings("rawtypes")
    abstract protected List<T> extract(List resultList, boolean completeFetch);
 
-   abstract protected StringBuffer getListNative(Search<T> search, Map<String, Object> params, boolean count, int startRow,
+   abstract protected StringBuffer getListNative(Search<T> search, Map<String, Object> params, boolean count,
+            int startRow,
             int pageSize, boolean completeFetch);
 
 }

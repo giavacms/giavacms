@@ -1,9 +1,12 @@
 package org.giavacms.richcontent.controller;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.event.LanguageEvent;
+import org.giavacms.base.event.PageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageRepository;
 import org.giavacms.common.annotation.BackPage;
@@ -12,9 +15,11 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractLazyController;
+import org.giavacms.common.event.ResetEvent;
+import org.giavacms.common.model.Search;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.type.RichContentType;
-import org.giavacms.richcontent.producer.RichContentProducer;
+import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
 import org.primefaces.event.RowEditEvent;
 
@@ -42,10 +47,17 @@ public class RichContentTypeController extends
    RichContentTypeRepository richContentTypeRepository;
 
    @Inject
-   RichContentProducer richContentProducer;
+   Event<LanguageEvent> languageEvent;
+   @Inject
+   Event<PageEvent> pageEvent;
+   @Inject
+   Event<ResetEvent> resetEvent;
 
    @Inject
    PageRepository pageRepository;
+
+   @Inject
+   RichContentRepository richContentRepository;
 
    // --------------------------------------------------------
 
@@ -79,9 +91,15 @@ public class RichContentTypeController extends
    @Override
    public String save()
    {
-      richContentProducer.reset();
       getElement().setPage(pageRepository.find(getElement().getPage().getId()));
       super.save();
+      if (getElement().getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(getElement().getPage().getTemplateId(), getElement().getPage()
+                  .getLang(), true));
+      }
+      updateBasePages(getElement());
+      resetEvent.fire(new ResetEvent(RichContentType.class));
       addElement();
       return super.viewPage();
    }
@@ -89,8 +107,14 @@ public class RichContentTypeController extends
    @Override
    public String update()
    {
-      richContentProducer.reset();
       super.update();
+      if (getElement().getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(getElement().getPage().getTemplateId(), getElement().getPage()
+                  .getLang(), true));
+      }
+      updateBasePages(getElement());
+      resetEvent.fire(new ResetEvent(RichContentType.class));
       return super.viewPage();
    }
 
@@ -100,7 +124,29 @@ public class RichContentTypeController extends
       RichContentType t = (RichContentType) ree.getObject();
       t.setPage(pageRepository.find(t.getPage().getId()));
       getRepository().update(t);
-      richContentProducer.reset();
+      if (t.getPage().getLang() > 0)
+      {
+         languageEvent.fire(new LanguageEvent(t.getPage().getTemplateId(), t.getPage()
+                  .getLang(), true));
+      }
+      updateBasePages(t);
+      resetEvent.fire(new ResetEvent(RichContentType.class));
+   }
+
+   private void updateBasePages(RichContentType t)
+   {
+      Search<RichContent> sr = new Search<RichContent>(RichContent.class);
+      sr.getObj().setRichContentType(t);
+      for (RichContent r : richContentRepository.getList(sr, 0, 0))
+      {
+         r.setTemplateId(t.getPage().getTemplateId());
+         richContentRepository.update(r);
+         pageEvent.fire(new PageEvent(r));
+         if (t.getPage().getLang() > 0)
+         {
+            pageRepository.updateLanguage(t.getPage().getLang(), r.getId());
+         }
+      }
    }
 
    @Override
@@ -122,8 +168,8 @@ public class RichContentTypeController extends
    @Override
    public void deleteInline()
    {
-      richContentProducer.reset();
       super.deleteInline();
+      resetEvent.fire(new ResetEvent(RichContentType.class));
    }
 
    public String getExtension()

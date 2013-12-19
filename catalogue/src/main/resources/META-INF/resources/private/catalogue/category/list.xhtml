@@ -34,7 +34,7 @@
 								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
 						</h:selectOneMenu>
 
-						<p:commandButton action="#{richContentController.reloadAjax}"
+						<p:commandButton action="#{categoryController.reloadAjax}"
 							value="Cerca" ajax="true" immediate="false" update="newsList" />
 
 					</h:panelGrid>
@@ -43,7 +43,7 @@
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
 						editable="true" value="#{categoryController.model}"
 						rows="#{categoryController.pageSize}" paginator="true"
-						lazy="false">
+						lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -110,6 +110,7 @@
 							<p:rowEditor>
 							</p:rowEditor>
 						</p:column>
+						
 						<p:column width="50">
 							<f:facet name="header">elimina</f:facet>
 							<p:commandButton type="submit" title="Elimina" rendered="true"
@@ -141,7 +142,7 @@
 						id="orderNum" />
 					<h:panelGroup id="extension">
 						<h:selectOneMenu style="width: 100%;"
-							value="#{categoryController.element.template.id}" required="true"
+							value="#{categoryController.element.templateId}" required="true"
 							requiredMessage="E' obbligatorio specificare la pagina base">
 							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems

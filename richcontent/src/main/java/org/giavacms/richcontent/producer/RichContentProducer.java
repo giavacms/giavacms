@@ -13,7 +13,6 @@ import org.giavacms.common.producer.AbstractProducer;
 import org.giavacms.common.util.JSFUtils;
 import org.giavacms.richcontent.model.type.RichContentType;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
-import org.giavacms.richcontent.repository.TagRepository;
 
 @Named
 @SessionScoped
@@ -24,8 +23,9 @@ public class RichContentProducer extends AbstractProducer implements Serializabl
 
    @Inject
    RichContentTypeRepository richContentTypeRepository;
-   @Inject
-   TagRepository tagRepository;
+   
+   // @Inject
+   // TagRepository tagRepository;
 
    // ==============================================================================
 

@@ -409,22 +409,22 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          if (search.getObj().getRichContentType().getName().contains(","))
          {
             String[] names = search.getObj().getRichContentType().getName().split(",");
-            int i = 0;
-            StringBuffer bf = new StringBuffer(" (");
-            separator = " ";
-            for (String name : names)
+            StringBuffer orBuffer = new StringBuffer();
+            String orSeparator = "";
+            for (int i = 0; i < names.length; i++)
             {
-               if (i > 0)
+               if (names[i].trim().length() > 0)
                {
-                  separator = " or ";
+                  orBuffer.append(orSeparator).append(richContentTypeAlias).append(".name = :NAMETYPE" + i + " ");
+                  params.put("NAMETYPE" + i, names[i].trim());
+                  orSeparator = " or ";
                }
-               bf.append(separator).append(richContentTypeAlias).append(".name = :NAMETYPE" + i + " ");
-               params.put("NAMETYPE" + i, name.trim());
-               i++;
             }
-            bf.append(" ) ");
-            sb.append(bf.toString());
-            separator = " and ";
+            if (orBuffer.length() > 0)
+            {
+               sb.append(separator).append(" ( ").append(orBuffer).append(" ) ");
+               separator = " and ";
+            }
          }
          else
          {
@@ -586,6 +586,10 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             if (clone instanceof Boolean)
             {
                richContent.setClone(((Boolean) clone).booleanValue());
+            }
+            if (clone instanceof Short)
+            {
+               richContent.setClone(((Short) clone).intValue() > 0 ? true : false);
             }
             else
             {

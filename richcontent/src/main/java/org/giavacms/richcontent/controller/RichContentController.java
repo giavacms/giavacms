@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,13 +13,10 @@ import org.giavacms.base.annotation.DefaultResourceController;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.controller.ResourceController;
-import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.model.enums.ResourceType;
 import org.giavacms.base.pojo.Resource;
-import org.giavacms.base.repository.PageRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
@@ -32,7 +28,6 @@ import org.giavacms.common.util.MimeUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
-import org.giavacms.richcontent.producer.RichContentProducer;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
 import org.giavacms.richcontent.repository.TagRepository;
@@ -65,23 +60,13 @@ public class RichContentController extends AbstractPageController<RichContent>
    RichContentRepository richContentRepository;
 
    @Inject
-   TemplateImplRepository templateImplRepository;
-   @Inject
-   PageRepository pageRepository;
-
-   @Inject
    RichContentTypeRepository richContentTypeRepository;
    @Inject
    TagRepository tagRepository;
-   @Inject
-   RichContentProducer richContentProducer;
 
    @Inject
    @DefaultResourceController
    ResourceController resourceController;
-
-   @Inject
-   Event<LanguageEvent> languageEvent;
 
    private List<Group<Tag>> tags;
 
@@ -292,20 +277,14 @@ public class RichContentController extends AbstractPageController<RichContent>
       RichContentType richContentType =
                richContentTypeRepository
                         .find(getElement().getRichContentType().getId());
-      getElement().setTemplate(richContentType
-               .getPage().getTemplate());
+      getElement().setTemplateId(richContentType
+               .getPage().getTemplate().getId());
       if (super.save() == null)
       {
          return null;
       }
-      if (richContentType.getPage().getLang() > 0)
-      {
-         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
-                  .getLang(), true));
-      }
       tagRepository.set(getElement().getId(), getElement().getTagList(),
                getElement().getDate());
-      richContentProducer.reset();
       tags = null;
       if (getElement().isHighlight())
       {
@@ -341,23 +320,15 @@ public class RichContentController extends AbstractPageController<RichContent>
       RichContentType richContentType =
                richContentTypeRepository
                         .find(getElement().getRichContentType().getId());
-      getElement().setTemplate(
-               richContentTypeRepository
-                        .find(getElement().getRichContentType().getId())
-                        .getPage().getTemplate());
+      getElement().setTemplateId(richContentType
+               .getPage().getTemplateId());
       if (super.update() == null)
       {
          return null;
       }
-      if (richContentType.getPage().getLang() > 0)
-      {
-         languageEvent.fire(new LanguageEvent(richContentType.getPage().getTemplateId(), richContentType.getPage()
-                  .getLang(), true));
-      }
       tagRepository.set(getElement().getId(), getElement().getTagList(),
                getElement().getDate());
       tags = null;
-      richContentProducer.reset();
       if (getElement().isHighlight())
       {
          richContentRepository.refreshEvidenza(getElement().getId());

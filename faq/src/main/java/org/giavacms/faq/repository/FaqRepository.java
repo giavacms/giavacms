@@ -89,6 +89,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          sb.append(pageAlias).append(".lang3id, ");
          sb.append(pageAlias).append(".lang4id, ");
          sb.append(pageAlias).append(".lang5id, ");
+         sb.append(pageAlias).append(".clone, ");
          sb.append(pageAlias).append(".title, ");
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
@@ -335,6 +336,27 @@ public class FaqRepository extends AbstractPageRepository<Faq>
       String lang5id = (String) row[i];
       faq.setLang5id(lang5id);
       i++;
+      Object clone = row[i];
+      if (clone != null)
+      {
+         if (clone instanceof Boolean)
+         {
+            faq.setClone(((Boolean) clone).booleanValue());
+         }
+         if (clone instanceof Short)
+         {
+            faq.setClone(((Short) clone).intValue() > 0 ? true : false);
+         }
+         else
+         {
+            logger.error("clone instance of " + clone.getClass().getCanonicalName());
+         }
+      }
+      else
+      {
+         logger.error("clone should not be null");
+      }
+      i++;
       String title = (String) row[i];
       // if (title != null && !title.isEmpty())
       faq.setTitle(title);
@@ -349,6 +371,7 @@ public class FaqRepository extends AbstractPageRepository<Faq>
          if (template_impl_id instanceof BigInteger)
          {
             faq.getTemplate().setId(((BigInteger) template_impl_id).longValue());
+            faq.setTemplateId(((BigInteger) template_impl_id).longValue());
          }
          else
          {

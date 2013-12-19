@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -14,8 +13,6 @@ import javax.inject.Named;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Image;
-import org.giavacms.base.repository.PageRepository;
-import org.giavacms.base.repository.TemplateImplRepository;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
@@ -25,7 +22,6 @@ import org.giavacms.common.event.ResetEvent;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
 import org.giavacms.githubcontent.model.GithubContentType;
-import org.giavacms.githubcontent.module.producer.GithubProducer;
 import org.giavacms.githubcontent.repository.GithubContentTypeRepository;
 import org.giavacms.githubcontent.util.GithubImporter;
 import org.giavacms.richcontent.model.RichContent;
@@ -63,21 +59,11 @@ public class GithubContentController extends AbstractPageController<RichContent>
    RichContentRepository richContentRepository;
 
    @Inject
-   TemplateImplRepository templateImplRepository;
-   @Inject
-   PageRepository pageRepository;
-
-   @Inject
    RichContentTypeRepository richContentTypeRepository;
    @Inject
    GithubContentTypeRepository githubContentTypeRepository;
    @Inject
    TagRepository tagRepository;
-   @Inject
-   GithubProducer richContentProducer;
-
-   @Inject
-   Event<ResetEvent> resetEvent;
 
    private List<Group<Tag>> githubTags;
    private String githubContent = null;
@@ -183,7 +169,6 @@ public class GithubContentController extends AbstractPageController<RichContent>
          return null;
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
-      resetEvent.fire(new ResetEvent(RichContent.class));
       return modImageCurrent();
    }
 
@@ -214,7 +199,6 @@ public class GithubContentController extends AbstractPageController<RichContent>
          return null;
       }
       tagRepository.set(getElement().getId(), getElement().getTagList(), getElement().getDate());
-      resetEvent.fire(new ResetEvent(RichContent.class));
       return viewCurrent();
    }
 
@@ -222,7 +206,6 @@ public class GithubContentController extends AbstractPageController<RichContent>
    public String delete()
    {
       githubContent = null;
-      resetEvent.fire(new ResetEvent(RichContent.class));
       return super.delete();
    }
 
