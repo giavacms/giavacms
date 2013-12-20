@@ -21,6 +21,8 @@
 		<script language="javascript" type="text/javascript"
 			src="#{request.contextPath}/scripts/tiny_mce/tiny_mce.js"></script>
 
+		<ui:include src="resDialog.xhtml" />
+
 		<h:form prependId="false">
 
 			<p:messages id="messages" />
@@ -80,7 +82,7 @@
 
 						<h:outputLabel for="basepage" value="Pagina base:" />
 						<h:selectOneMenu id="basepage"
-							value="#{scenarioController.element.template.id}">
+							value="#{scenarioController.element.templateId}">
 							<f:converter converterId="javax.faces.Long" />
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(scenarioController.extension)}" />
@@ -102,11 +104,41 @@
 				</p:panel>
 				<br />
 				<p:panel header="Caricamento Immagini">
-					<p:fileUpload
-						fileUploadListener="#{scenarioController.handleImgUpload}"
-						multiple="true" label="Scegli Immagine"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-						description="Scegli Immagine" update="imgList" />
+					<h:panelGrid columns="4">
+
+						<p:spacer width="20px" height="1px" />
+
+						<h:panelGroup>
+							<p:commandLink ajax="true" onclick="resDialog.show();"
+								title="scegli immagine" action="#{scenarioController.chooseImg}"
+								update=":resForm">
+								<i class="icon-picture" style="font-size: 24px; margin: 2px;"></i>
+								<h:outputText value="Scegli un'immagine gia' caricata" />
+							</p:commandLink>
+							<h:outputText value="&lt;br/&gt;" escape="false" rendered="false" />
+							<h:outputText value="&lt;br/&gt;" escape="false" rendered="false" />
+							<p:commandLink ajax="true" onclick="resDialog.show();"
+								action="#{scenarioController.chooseDoc}" update=":resForm"
+								title="scegli documento" rendered="false">
+								<i class="icon-book" style="font-size: 24px; margin: 2px;"></i>
+								<h:outputText value="Scegli un documento gia' caricato" />
+							</p:commandLink>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:spacer width="20px" height="1px" />
+							<h:outputText value=" ... oppure ... " />
+							<p:spacer width="20px" height="1px" />
+						</h:panelGroup>
+
+						<p:fileUpload
+							fileUploadListener="#{scenarioController.handleImgUpload}"
+							multiple="true" label="Scegli Immagine"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							description="Scegli Immagine" update="imgList" />
+
+					</h:panelGrid>
+
 				</p:panel>
 				<br />
 				<p:dataTable id="imgList" var="img"
@@ -147,7 +179,7 @@
 						value="Salva le modifiche ed Esci" immediate="false"
 						rendered="#{not empty scenarioController.element.id}" />
 
-					<h:commandButton action="#{scenarioController.goToStep2}"
+					<h:commandButton action="#{scenarioController.updateAndGoToStep2}"
 						value="Salva le modifiche e Vai alla Fase 2" immediate="false"
 						rendered="#{not empty scenarioController.element.id}" />
 

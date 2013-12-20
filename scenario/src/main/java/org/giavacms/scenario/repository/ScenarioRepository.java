@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContext;
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.TemplateImpl;
-import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.catalogue.model.Product;
@@ -42,51 +41,57 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
       return "title asc";
    }
 
-   @Override
-   public Scenario fetch(Object key)
-   {
-      try
-      {
-         Scenario scenario = find(key);
-         for (Document document : scenario.getDocuments())
-         {
-            document.getName();
-         }
+   // @Override
+   // public Scenario find(Object id)
+   // {
+   // return getEm().find(Scenario.class, id);
+   // }
 
-         for (Image image : scenario.getImages())
-         {
-            image.getName();
-         }
-         for (Product product : scenario.getProducts())
-         {
-            product.getTitle();
-            for (Image image : product.getImages())
-            {
-               // logger.info("prod: " + product.getName() + " - img:"
-               // + image.getFilename());
-               image.getName();
-               image.getFilename();
-            }
-         }
-         scenario.getTemplate().toString();
-         scenario.getTemplate().getTemplate().toString();
-         return scenario;
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return null;
-      }
-   }
+   // @Override
+   // public Scenario fetch(Object key)
+   // {
+   // try
+   // {
+   // Scenario scenario = find(key);
+   // for (Document document : scenario.getDocuments())
+   // {
+   // document.getName();
+   // }
+   //
+   // for (Image image : scenario.getImages())
+   // {
+   // image.getName();
+   // }
+   // for (Product product : scenario.getProducts())
+   // {
+   // product.getTitle();
+   // for (Image image : product.getImages())
+   // {
+   // // logger.info("prod: " + product.getName() + " - img:"
+   // // + image.getFilename());
+   // image.getName();
+   // image.getFilename();
+   // }
+   // }
+   // scenario.getTemplate().toString();
+   // scenario.getTemplate().getTemplate().toString();
+   // return scenario;
+   // }
+   // catch (Exception e)
+   // {
+   // logger.error(e.getMessage(), e);
+   // return null;
+   // }
+   // }
 
    @SuppressWarnings("unchecked")
    public List<Scenario> loadRandomList(int pageSize)
    {
       // TODO Auto-generated method stub
-      String query = "SELECT e FROM Scenario e ORDER BY RAND()";
+      String query = "SELECT e FROM Scenario e WHERE e.active = :ACTIVE ORDER BY RAND()";
       Session session = (Session) getEm().getDelegate();
 
-      List<Scenario> list = session.createQuery(query)
+      List<Scenario> list = session.createQuery(query).setParameter("ACTIVE", true)
                .setMaxResults(pageSize).list();
       for (Scenario scenario : list)
       {
@@ -137,21 +142,6 @@ public class ScenarioRepository extends AbstractPageRepository<Scenario>
       n.setDescription(HtmlUtils.normalizeHtml(n
                .getDescription()));
       return super.preUpdate(n);
-   }
-
-   @Override
-   protected void applyRestrictions(Search<Scenario> search, String alias,
-            String separator, StringBuffer sb, Map<String, Object> params)
-   {
-
-      // always invoke this when extending abstract page repository
-      super.applyRestrictions(search, alias, separator, sb, params);
-   }
-
-   @Override
-   public Scenario find(Object id)
-   {
-      return getEm().find(Scenario.class, id);
    }
 
    @Override
