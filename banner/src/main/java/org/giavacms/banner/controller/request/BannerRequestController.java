@@ -44,6 +44,8 @@ public class BannerRequestController extends AbstractRequestController<Banner>
    @OwnRepository(BannerRepository.class)
    BannerRepository bannerRepository;
 
+   List<Banner> banners;
+
    @Override
    protected void initSearch()
    {
@@ -77,7 +79,11 @@ public class BannerRequestController extends AbstractRequestController<Banner>
 
    public List<Banner> getRandomByTypologyAndLimit(String typology, int limit)
    {
+      if (banners == null)
+      {
+         banners = bannerRepository.getRandomByTypology(typology, limit);
+      }
       logger.info("typology: " + typology);
-      return bannerRepository.getRandomByTypology(typology, limit);
+      return banners;
    }
 }
