@@ -401,6 +401,21 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
          separator = " and ";
       }
 
+      // FROM
+      if (search.getFrom() != null && search.getFrom().getDate() != null)
+      {
+         sb.append(separator).append(richContentTypeAlias).append(".date >= :FROMDATE ");
+         params.put("FROMDATE", search.getFrom().getDate());
+         separator = " and ";
+      }
+      // TO
+      if (search.getTo() != null && search.getTo().getDate() != null)
+      {
+         sb.append(separator).append(richContentTypeAlias).append(".date <= :TODATE ");
+         params.put("TODATE", search.getTo().getDate());
+         separator = " and ";
+      }
+
       // TYPE BY NAME
       if (search.getObj().getRichContentType() != null
                && search.getObj().getRichContentType().getName() != null
