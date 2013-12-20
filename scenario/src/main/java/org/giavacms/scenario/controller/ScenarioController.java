@@ -10,11 +10,15 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.giavacms.base.annotation.DefaultResourceController;
 import org.giavacms.base.common.util.ResourceUtils;
 import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.controller.AbstractPageController;
+import org.giavacms.base.controller.ResourceController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.model.enums.ResourceType;
+import org.giavacms.base.pojo.Resource;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.ProductRepository;
 import org.giavacms.common.annotation.BackPage;
@@ -23,6 +27,7 @@ import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.model.Search;
+import org.giavacms.common.util.MimeUtils;
 import org.giavacms.scenario.model.Scenario;
 import org.giavacms.scenario.model.ScenarioConfiguration;
 import org.giavacms.scenario.pojo.ProductDataModel;
@@ -61,6 +66,10 @@ public class ScenarioController extends AbstractPageController<Scenario>
    @Inject
    ScenarioConfigurationRepository scenarioConfigurationRepository;
 
+   @Inject
+   @DefaultResourceController
+   ResourceController resourceController;
+
    private ProductDataModel products;
    private Product[] selectedProducts;
 
@@ -68,6 +77,48 @@ public class ScenarioController extends AbstractPageController<Scenario>
    public String getExtension()
    {
       return Scenario.EXTENSION;
+   }
+
+   // --------------------------------------------------------
+
+   public void chooseImg()
+   {
+      resourceController.getSearch().getObj().setResourceType(ResourceType.IMAGE);
+      resourceController.reload();
+   }
+
+   public void chooseDoc()
+   {
+      resourceController.getSearch().getObj().setResourceType(ResourceType.DOCUMENT);
+      resourceController.reload();
+   }
+
+   public String pickResource()
+   {
+      resourceController.modElement();
+      Resource resource = resourceController.getElement();
+      switch (resource.getResourceType())
+      {
+      case IMAGE:
+         byte[] imgRes = resource.getBytes();
+         Image img = new Image();
+         img.setData(imgRes);
+         img.setType(MimeUtils.getContentType(resource.getName()));
+         img.setFilename(resource.getName());
+         getElement().getImages().add(img);
+         break;
+      case DOCUMENT:
+         byte[] docRes = resource.getBytes();
+         Document doc = new Document();
+         doc.setData(docRes);
+         doc.setType(MimeUtils.getContentType(resource.getName()));
+         doc.setFilename(resource.getName());
+         getElement().getDocuments().add(doc);
+         break;
+      default:
+         break;
+      }
+      return "";
    }
 
    // --------------------------------------------------------
@@ -232,11 +283,16 @@ public class ScenarioController extends AbstractPageController<Scenario>
       return super.delete();
    }
 
+   public String updateAndGoToStep2() {
+      update();
+      return goToStep2();
+   }
+   
    @Override
    public String update()
    {
       getElement().setProducts(null);
-      scenarioRepository.update(getElement());
+      super.update();
       if (this.selectedProducts != null && this.selectedProducts.length > 0)
       {
          for (Product product : this.selectedProducts)

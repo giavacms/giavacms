@@ -60,8 +60,14 @@ public class ProductRequestController extends
    @Override
    public Search<Product> getSearch()
    {
-      super.getSearch().getObj().setTitle(content);
-      super.getSearch().getObj().getCategory().setTitle(category);
+      if (content != null && content.trim().length() > 0)
+      {
+         super.getSearch().getObj().setTitle(content);
+      }
+      if (category != null && category.trim().length() > 0)
+      {
+         super.getSearch().getObj().getCategory().setTitle(category);
+      }
       return super.getSearch();
    }
 
