@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -735,7 +734,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             }
             else
             {
-               Map<Long, Image> map = new HashMap<Long, Image>();
+               Map<Long, Image> map = new LinkedHashMap<Long, Image>();
                map.put(image.getId(), image);
                images.put(id, map);
             }
@@ -767,7 +766,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             }
             else
             {
-               Map<Long, Document> map = new HashMap<Long, Document>();
+               Map<Long, Document> map = new LinkedHashMap<Long, Document>();
                map.put(document.getId(), document);
                documents.put(id, map);
             }

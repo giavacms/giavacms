@@ -8,7 +8,6 @@ package org.giavacms.catalogue.repository;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -472,7 +471,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
             }
             else
             {
-               Map<Long, Image> map = new HashMap<Long, Image>();
+               Map<Long, Image> map = new LinkedHashMap<Long, Image>();
                map.put(image.getId(), image);
                images.put(id, map);
             }
@@ -504,7 +503,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
             }
             else
             {
-               Map<Long, Document> map = new HashMap<Long, Document>();
+               Map<Long, Document> map = new LinkedHashMap<Long, Document>();
                map.put(document.getId(), document);
                documents.put(id, map);
             }
