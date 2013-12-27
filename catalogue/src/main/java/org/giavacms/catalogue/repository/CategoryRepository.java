@@ -190,6 +190,35 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          String mainPageTitle = (String) row[i];
          category.getTemplate().setMainPageTitle(mainPageTitle);
          i++;
+         Object orderNum = row[i];
+         if (orderNum != null)
+         {
+            if (orderNum instanceof BigInteger)
+            {
+               category.setOrderNum(((BigInteger) orderNum).intValue());
+            }
+            else if (orderNum instanceof Long)
+            {
+               category.setOrderNum(((Long) orderNum).intValue());
+            }
+            else if (orderNum instanceof Integer)
+            {
+               category.setOrderNum(((Integer) orderNum).intValue());
+            }
+            else if (orderNum instanceof Short)
+            {
+               category.setOrderNum(((Short) orderNum).intValue());
+            }
+            else
+            {
+               logger.error("orderNum instance of " + orderNum.getClass().getCanonicalName());
+            }
+         }
+         else
+         {
+            logger.error("orderNum should not be null");
+         }
+         i++;
          if (completeFetch)
          {
             // extract additional fields
@@ -295,7 +324,8 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          sb.append(pageAlias).append(".description, ");
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
          sb.append(templateImplAlias).append(".mainPageId, ");
-         sb.append(templateImplAlias).append(".mainPageTitle ");
+         sb.append(templateImplAlias).append(".mainPageTitle, ");
+         sb.append(categoryAlias).append(".orderNum ");
          if (completeFetch)
          {
             // additional fields to retrieve only when fetching
