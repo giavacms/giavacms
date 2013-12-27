@@ -68,6 +68,7 @@
 					<h:outputLabel value="Titolo(*):" for="titoloW"
 						rendered="#{empty pageController.element.id}" />
 					<h:inputText required="true" id="titoloW"
+						requiredMessage="E' obbligatorio specificare un titolo."
 						value="#{pageController.element.title}" style="width: 100%;"
 						rendered="#{empty pageController.element.id}" />
 
@@ -98,7 +99,8 @@
 						<h:selectOneMenu
 							rendered="#{pageController.element.template.template.statico}"
 							value="#{pageController.element.template.template.id}"
-							required="true" style="width: 100%">
+							required="true" style="width: 100%"
+							requiredMessage="E' obbligatorio specificare un modello.">
 							<f:selectItems value="#{templateStaticiItems}" />
 							<p:ajax listener="#{pageController.cambioTemplate}"
 								update="campi" />

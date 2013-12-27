@@ -76,7 +76,7 @@
 						<h:panelGroup id="extension">
 							<h:selectOneMenu style="width: 100%;"
 								value="#{productController.element.templateId}" required="true"
-								requiredMessage="E' obbligatorio specificare la pagina base">
+								requiredMessage="E' obbligatorio specificare la pagina base.">
 								<f:converter converterId="javax.faces.Long" />
 								<f:selectItems
 									value="#{baseProducer.getBasePageTemplateItems(productController.element.extension)}" />
@@ -86,18 +86,19 @@
 						<h:outputLabel for="name" value="Nome" />
 						<h:inputText id="name" value="#{productController.element.name}"
 							style="width: 100%;" required="true"
-							requiredMessage="nome obbligatorio!" />
+							requiredMessage="E' obbligatorio specificare il nome." />
 
 						<h:outputLabel value="Categoria(*):" for="categoryId" />
 						<h:selectOneMenu id="categoryId" style="width: 100%;"
-							value="#{productController.element.category.id}" required="true">
+							value="#{productController.element.category.id}" required="true"
+							requiredMessage="E' obbligatorio specificare la categoria.">
 							<f:selectItems value="#{categoryItems}" />
 						</h:selectOneMenu>
 
 						<h:outputLabel for="code" value="Codice" />
 						<h:inputText id="code" value="#{productController.element.code}"
 							style="width: 100%;" required="true"
-							requiredMessage="Codice obbligatorio!" />
+							requiredMessage="E' obbligatorio specificare il codice." />
 
 						<h:outputLabel for="dimensions" value="Dimensioni:"
 							style="width: 100%;"
@@ -198,7 +199,8 @@
 						<center>
 							<h:commandLink
 								action="#{productController.removeDocument(img.id)}"
-								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
+								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty doc.filename or not empty doc.id}" />
 						</center>

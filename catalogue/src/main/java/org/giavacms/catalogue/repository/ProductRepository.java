@@ -380,7 +380,7 @@ public class ProductRepository extends AbstractPageRepository<Product>
             {
                product.setClone(((Boolean) clone).booleanValue());
             }
-            if (clone instanceof Short)
+            else if (clone instanceof Short)
             {
                product.setClone(((Short) clone).intValue() > 0 ? true : false);
             }

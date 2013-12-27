@@ -80,8 +80,7 @@
 						</p:column>
 						<p:column width="50">
 							<f:facet name="header">elimina</f:facet>
-							<p:commandLink rendered="true"
-								title="elimina" 
+							<p:commandLink rendered="true" title="elimina"
 								style="font-size: 24px;" styleClass="icon-trash"
 								action="#{bannerTypologyController.deleteInline}" ajax="false"
 								immediate="true"
@@ -99,6 +98,7 @@
 				<h:panelGrid columns="7">
 					<h:outputLabel value="Nome Tipologia(*):" for="name" />
 					<h:inputText required="true"
+						requiredMessage="E' obbligatorio specificare un nome."
 						value="#{bannerTypologyController.element.name}" id="name" />
 					<h:outputLabel value="Descrizione:" for="description" />
 					<h:inputText

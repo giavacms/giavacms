@@ -130,11 +130,7 @@
 							<center>
 								<h:commandLink style="font-size: 24px; " styleClass="icon-edit"
 									title="modifica" action="#{pageController.modElement}" />
-								<h:outputText value=" " />
-								<h:outputLink target="_blank" style="font-size: 24px;"
-									styleClass="icon-eye-open" title="anteprima"
-									value="#{request.contextPath}/p/#{p.id}">
-								</h:outputLink>
+
 								<h:panelGroup rendered="#{not p.clone}">
 									<h:outputText value=" " />
 									<h:commandLink style="font-size: 24px;" styleClass="icon-copy"
@@ -148,6 +144,11 @@
 										action="#{i18nController.modElement(p.id)}"
 										update=":dialog_central" oncomplete="i18nDialog.show();" />
 								</h:panelGroup>
+								<h:outputText value=" " />
+								<h:outputLink target="_blank" style="font-size: 24px;"
+									styleClass="icon-eye-open" title="anteprima"
+									value="#{request.contextPath}/p/#{p.id}">
+								</h:outputLink>
 							</center>
 						</p:column>
 					</p:dataTable>

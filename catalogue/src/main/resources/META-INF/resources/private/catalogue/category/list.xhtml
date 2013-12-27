@@ -42,8 +42,7 @@
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
 						editable="true" value="#{categoryController.model}"
-						rows="#{categoryController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{categoryController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
@@ -110,7 +109,7 @@
 							<p:rowEditor>
 							</p:rowEditor>
 						</p:column>
-						
+
 						<p:column width="50">
 							<f:facet name="header">elimina</f:facet>
 							<p:commandButton type="submit" title="Elimina" rendered="true"
@@ -135,7 +134,8 @@
 					<h:outputText />
 
 					<h:inputText value="#{categoryController.element.name}"
-						id="categoryId" />
+						id="categoryId" required="true"
+						requiredMessage="E' obbligatorio specificare un nome per ogni categoria" />
 					<h:inputText value="#{categoryController.element.description}"
 						id="descriptionId" />
 					<h:inputText value="#{categoryController.element.orderNum}"
