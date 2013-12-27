@@ -8,12 +8,10 @@ package org.giavacms.catalogue.repository;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -109,7 +107,7 @@ public class CategoryRepository extends AbstractPageRepository<Category>
    protected List<Category> extract(List resultList, boolean completeFetch)
    {
       Category category = null;
-      Map<String, Set<Product>> products = new LinkedHashMap<String, Set<Product>>();
+      Map<String, Map<String, Product>> products = new LinkedHashMap<String, Map<String, Product>>();
       Map<String, Category> categories = new LinkedHashMap<String, Category>();
 
       Iterator<Object[]> results = resultList.iterator();
@@ -226,16 +224,16 @@ public class CategoryRepository extends AbstractPageRepository<Category>
             i++;
             String productName = (String) row[i];
             i++;
-            Set<Product> category_products = null;
+            Map<String, Product> category_products = null;
             if (productId != null && !productId.isEmpty())
             {
                if (products.containsKey(id))
                {
-                  category_products = (HashSet<Product>) products.get(id);
+                  category_products = (Map<String, Product>) products.get(id);
                }
                else
                {
-                  category_products = new HashSet<Product>();
+                  category_products = new LinkedHashMap<String, Product>();
                   products.put(id, category_products);
                }
             }
@@ -244,7 +242,7 @@ public class CategoryRepository extends AbstractPageRepository<Category>
                Product p = new Product();
                p.setId(productId);
                p.setTitle(productName);
-               category_products.add(p);
+               category_products.put(p.getId(), p);
             }
          }
          if (!categories.containsKey(id))
@@ -261,10 +259,10 @@ public class CategoryRepository extends AbstractPageRepository<Category>
             if (categories.containsKey(id))
             {
                cat = categories.get(id);
-               Set<Product> prods = products.get(id);
+               Map<String, Product> prods = products.get(id);
                if (prods != null)
                {
-                  for (Product prod : prods)
+                  for (Product prod : prods.values())
                   {
                      prod.setCategory(cat);
                      cat.addProduct(prod);
