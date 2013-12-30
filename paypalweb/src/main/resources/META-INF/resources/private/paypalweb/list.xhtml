@@ -58,7 +58,7 @@
 							</h:outputText>
 							<br />
 							<h:outputLabel for="refundedDate" style="font-weight: bolder;"
-								value="storno: " rendered="#{shc.refunded}" />
+								value="storno: " rendered="#{not empty shc.refunded}" />
 							<h:outputText id="refundedDate" value="#{shc.refundedDate}"
 								rendered="#{shc.refunded}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
@@ -79,7 +79,7 @@
 									timeZone="Europe/Rome" />
 							</h:outputText>
 							<h:outputLabel for="sentDate" style="font-weight: bolder;"
-								value="inviato: " rendered="#{shc.sentDate}" />
+								value="inviato: " rendered="#{shc.sent}" />
 							<h:outputText id="sentDate" value="#{shc.sentDate}"
 								rendered="#{shc.sent}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
