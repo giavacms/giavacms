@@ -601,7 +601,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
             {
                richContent.setClone(((Boolean) clone).booleanValue());
             }
-            if (clone instanceof Short)
+            else if (clone instanceof Short)
             {
                richContent.setClone(((Short) clone).intValue() > 0 ? true : false);
             }
