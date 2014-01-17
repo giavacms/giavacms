@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+
+import org.giavacms.twizz.model.enums.QuestionType;
+import org.giavacms.twizz.model.enums.ResponseType;
 
 @Entity
 public class Argument implements Serializable
@@ -18,6 +21,8 @@ public class Argument implements Serializable
    private String id;
    private String name;
    private String language;
+   private QuestionType questionType;
+   private ResponseType responseType;
    private List<Question> questions;
 
    public Argument()
@@ -84,6 +89,28 @@ public class Argument implements Serializable
    public String toString()
    {
       return "Argument [id=" + id + ", name=" + name + ", language=" + language + "]";
+   }
+
+   @Enumerated(EnumType.STRING)
+   public QuestionType getQuestionType()
+   {
+      return questionType;
+   }
+
+   public void setQuestionType(QuestionType questionType)
+   {
+      this.questionType = questionType;
+   }
+
+   @Enumerated(EnumType.STRING)
+   public ResponseType getResponseType()
+   {
+      return responseType;
+   }
+
+   public void setResponseType(ResponseType responseType)
+   {
+      this.responseType = responseType;
    }
 
 }

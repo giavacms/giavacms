@@ -16,6 +16,7 @@ public class Question implements Serializable
    private Long id;
    private String text;
    private boolean correct;
+   private String correctResponse;
    private Argument argument;
 
    @Id
@@ -59,6 +60,16 @@ public class Question implements Serializable
    public void setArgument(Argument argument)
    {
       this.argument = argument;
+   }
+
+   public String getCorrectResponse()
+   {
+      return correctResponse;
+   }
+
+   public void setCorrectResponse(String correctResponse)
+   {
+      this.correctResponse = correctResponse;
    }
 
 }
