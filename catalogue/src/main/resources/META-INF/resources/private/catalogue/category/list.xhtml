@@ -46,8 +46,10 @@
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
-
-						<p:column width="300">
+						<p:column style="width: 10px;">
+							<p:rowToggler />
+						</p:column>
+						<p:column width="290">
 							<f:facet name="header">nome</f:facet>
 							<p:cellEditor>
 								<f:facet name="output">
@@ -119,6 +121,18 @@
 
 						</p:column>
 						<p:ajax event="rowEdit" listener="#{categoryController.onRowEdit}" />
+						<p:rowExpansion>
+							<ul>
+								<ui:repeat value="#{t.props}" var="p" varStatus="varStatus">
+									<ui:fragment
+										rendered="#{not empty t.getProp(varStatus.index+1)}">
+										<h:outputText value="#{t.getProp(varStatus.index+1)}" />
+									(<h:outputText value="#{t.getRef(varStatus.index+1)}" />)
+									<br />
+									</ui:fragment>
+								</ui:repeat>
+							</ul>
+						</p:rowExpansion>
 					</p:dataTable>
 				</p:panel>
 				<br />

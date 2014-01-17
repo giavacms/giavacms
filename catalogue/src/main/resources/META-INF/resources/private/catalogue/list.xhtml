@@ -48,13 +48,15 @@
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
-
+						<p:column style="width: 10px;">
+							<p:rowToggler />
+						</p:column>
 						<p:column width="150">
 							<f:facet name="header">nome</f:facet>
 							<h:outputText value="#{product.name}" />
 						</p:column>
 
-						<p:column width="150">
+						<p:column width="140">
 							<f:facet name="header">codice</f:facet>
 							<h:outputText value="#{product.code}" />
 						</p:column>
@@ -101,6 +103,22 @@
 									style="font-size: 24px;" />
 							</center>
 						</p:column>
+						<p:rowExpansion>
+							<ul>
+								<ui:repeat value="#{product.category.props}" var="p"
+									varStatus="varStatus">
+									<ui:fragment
+										rendered="#{not empty product.category.getProp(varStatus.index+1)}">
+										<h:outputText
+											value="#{product.category.getProp(varStatus.index+1)}" />
+									(<h:outputText
+											value="#{product.category.getRef(varStatus.index+1)}" />) = 
+									<h:outputText value="#{product.getVal(varStatus.index+1)}" />
+										<br />
+									</ui:fragment>
+								</ui:repeat>
+							</ul>
+						</p:rowExpansion>
 					</p:dataTable>
 				</p:panel>
 				<br /> <br />

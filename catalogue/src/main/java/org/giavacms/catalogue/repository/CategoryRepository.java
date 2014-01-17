@@ -188,6 +188,16 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          String mainPageTitle = (String) row[i];
          category.getTemplate().setMainPageTitle(mainPageTitle);
          i++;
+         for (int p = 1; p <= 10; p++)
+         {
+            category.setProp(p, (String) row[i]);
+            i++;
+         }
+         for (int r = 1; r <= 10; r++)
+         {
+            category.setRef(r, (String) row[i]);
+            i++;
+         }
          Object orderNum = row[i];
          if (orderNum != null)
          {
@@ -323,6 +333,14 @@ public class CategoryRepository extends AbstractPageRepository<Category>
          sb.append(templateImplAlias).append(".id as templateImpl_id, ");
          sb.append(templateImplAlias).append(".mainPageId, ");
          sb.append(templateImplAlias).append(".mainPageTitle, ");
+         for (int p = 1; p <= 10; p++)
+         {
+            sb.append(categoryAlias).append(".prop").append(p).append(", ");
+         }
+         for (int r = 1; r <= 10; r++)
+         {
+            sb.append(categoryAlias).append(".ref").append(r).append(", ");
+         }
          sb.append(categoryAlias).append(".orderNum ");
          if (completeFetch)
          {
