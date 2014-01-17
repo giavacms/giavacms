@@ -95,6 +95,18 @@ public class ProductRepository extends AbstractPageRepository<Product>
          sb.append(productAlias).append(".price, ");
          sb.append(productAlias).append(".vat, ");
          sb.append(productAlias).append(".code, ");
+         for (int v = 1; v <= 10; v++)
+         {
+            sb.append(productAlias).append(".val").append(v).append(", ");
+         }
+         for (int p = 1; p <= 10; p++)
+         {
+            sb.append(categoryAlias).append(".prop").append(p).append(", ");
+         }
+         for (int r = 1; r <= 10; r++)
+         {
+            sb.append(categoryAlias).append(".ref").append(r).append(", ");
+         }
          sb.append(productAlias).append(".category_id, ");
          sb.append(categoryPageAlias).append(".title AS categoryTitle, ");
          sb.append(imageAlias).append(".id AS imageId, ");
@@ -439,6 +451,21 @@ public class ProductRepository extends AbstractPageRepository<Product>
          String code = (String) row[i];
          product.setCode(code);
          i++;
+         for (int v = 1; v <= 10; v++)
+         {
+            product.setVal(v, (String) row[i]);
+            i++;
+         }
+         for (int p = 1; p <= 10; p++)
+         {
+            product.getCategory().setProp(p, (String) row[i]);
+            i++;
+         }
+         for (int r = 1; r <= 10; r++)
+         {
+            product.getCategory().setRef(r, (String) row[i]);
+            i++;
+         }
          String category_id = (String) row[i];
          product.getCategory().setId(category_id);
          i++;

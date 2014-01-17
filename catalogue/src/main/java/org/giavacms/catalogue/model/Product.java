@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 GiavaCms.org.
+ * Copyright 213 GiavaCms.org.
  *
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -57,6 +57,17 @@ public class Product extends Page implements Serializable
    private String price;
    private String vat;
 
+   private String val1;
+   private String val2;
+   private String val3;
+   private String val4;
+   private String val5;
+   private String val6;
+   private String val7;
+   private String val8;
+   private String val9;
+   private String val10;
+
    // private boolean active = true; --> super.active
 
    @Transient
@@ -73,7 +84,7 @@ public class Product extends Page implements Serializable
    }
 
    @Lob
-   @Column(length = 1024)
+   @Column(length = 124)
    public String getPreview()
    {
       return preview;
@@ -209,5 +220,210 @@ public class Product extends Page implements Serializable
    {
       this.vat = vat;
    }
+
+   public String getVal1()
+   {
+      return val1;
+   }
+
+   public void setVal1(String val1)
+   {
+      this.val1 = val1;
+   }
+
+   public String getVal2()
+   {
+      return val2;
+   }
+
+   public void setVal2(String val2)
+   {
+      this.val2 = val2;
+   }
+
+   public String getVal3()
+   {
+      return val3;
+   }
+
+   public void setVal3(String val3)
+   {
+      this.val3 = val3;
+   }
+
+   public String getVal4()
+   {
+      return val4;
+   }
+
+   public void setVal4(String val4)
+   {
+      this.val4 = val4;
+   }
+
+   public String getVal5()
+   {
+      return val5;
+   }
+
+   public void setVal5(String val5)
+   {
+      this.val5 = val5;
+   }
+
+   public String getVal6()
+   {
+      return val6;
+   }
+
+   public void setVal6(String val6)
+   {
+      this.val6 = val6;
+   }
+
+   public String getVal7()
+   {
+      return val7;
+   }
+
+   public void setVal7(String val7)
+   {
+      this.val7 = val7;
+   }
+
+   public String getVal8()
+   {
+      return val8;
+   }
+
+   public void setVal8(String val8)
+   {
+      this.val8 = val8;
+   }
+
+   public String getVal9()
+   {
+      return val9;
+   }
+
+   public void setVal9(String val9)
+   {
+      this.val9 = val9;
+   }
+
+   public String getVal10()
+   {
+      return val10;
+   }
+
+   public void setVal10(String val10)
+   {
+      this.val10 = val10;
+   }
+
+   public String getVal(int index)
+   {
+      switch (index)
+      {
+      case 1:
+         return val1;
+      case 2:
+         return val2;
+      case 3:
+         return val3;
+      case 4:
+         return val4;
+      case 5:
+         return val5;
+      case 6:
+         return val6;
+      case 7:
+         return val7;
+      case 8:
+         return val8;
+      case 9:
+         return val9;
+      case 10:
+         return val10;
+      default:
+         return null;
+      }
+   }
+
+   public void setVal(int index, String val)
+   {
+      switch (index)
+      {
+      case 1:
+         val1 = val;
+         return;
+      case 2:
+         val2 = val;
+         return;
+      case 3:
+         val3 = val;
+         return;
+      case 4:
+         val4 = val;
+         return;
+      case 5:
+         val5 = val;
+         return;
+      case 6:
+         val6 = val;
+         return;
+      case 7:
+         val7 = val;
+         return;
+      case 8:
+         val8 = val;
+         return;
+      case 9:
+         val9 = val;
+         return;
+      case 10:
+         val10 = val;
+         return;
+      default:
+         return;
+      }
+   }
+
+   public String getProp(String prop)
+   {
+      if (prop == null || prop.trim().length() == 0 || category == null)
+      {
+         return null;
+      }
+      return getVal(category.getPropIndex(prop));
+   }
+
+   public void setProp(String prop, String val)
+   {
+      if (prop == null || prop.trim().length() == 0 || category == null)
+      {
+         return;
+      }
+      setVal(category.getPropIndex(prop), val);
+   }
+
+   public String getRef(String ref)
+   {
+      if (ref == null || ref.trim().length() == 0 || category == null)
+      {
+         return null;
+      }
+      return getVal(category.getRefIndex(ref));
+   }
+
+   public void setRef(String ref, String val)
+   {
+      if (ref == null || ref.trim().length() == 0 || category == null)
+      {
+         return;
+      }
+      setVal(category.getRefIndex(ref), val);
+   }
+
 
 }
