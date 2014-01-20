@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:weld="http://jboss.org/schema/weld/beans"
+	xsi:schemaLocation="
+          http://java.sun.com/xml/ns/javaee http://docs.jboss.org/cdi/beans_1_0.xsd
+          http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
+	<interceptors>
+		<class>org.giavacms.common.interceptor.LogOperationInterceptor</class>
+	</interceptors>
+	<weld:scan>
+		<weld:exclude name="org.giavacms.base.common.module.**" />
+		<weld:exclude name="org.giavacms.base.common.util.**" />
+		<weld:exclude name="org.giavacms.base.controller.util.**" />
+		<weld:exclude name="org.giavacms.base.model.**" />
+		<weld:exclude name="org.giavacms.base.model.attachment.**" />
+		<weld:exclude name="org.giavacms.base.model.enums.**" />
+	</weld:scan>
+</beans>

@@ -74,6 +74,11 @@
 		<module>richcontent</module>
 		<module>scenario</module>
 		<module>twizz</module>
+
+		<!-- RS MODULES -->
+		
+		<module>base-rs</module>
+		<module>catalogue-rs</module>
 	</modules>
 
 
@@ -118,12 +123,22 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
+				<artifactId>base-rs</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>cache</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>catalogue</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>catalogue-rs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

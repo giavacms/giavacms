@@ -66,11 +66,22 @@
 		<param-name>facelets.FACELETS_REFRESH_PERIOD</param-name>
 		<param-value>0</param-value>
 	</context-param>
+	<!-- <security-constraint> <web-resource-collection> <web-resource-name>All 
+		Page</web-resource-name> <url-pattern>/private/*</url-pattern> <url-pattern>/rest/*</url-pattern> 
+		</web-resource-collection> <auth-constraint> Anyone with one of the listed 
+		roles may access this area <role-name>admin</role-name> <role-name>user</role-name> 
+		</auth-constraint> </security-constraint> -->
+
+	<!-- Default login configuration uses form-based authentication -->
+	<!-- <login-config> <auth-method>FORM</auth-method> <realm-name>Example 
+		Form-Based Authentication Area</realm-name> <form-login-config> <form-login-page>/login.jsf</form-login-page> 
+		<form-error-page>/login.jsf</form-error-page> </form-login-config> </login-config> -->
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>All Page</web-resource-name>
 			<url-pattern>/private/*</url-pattern>
-			<url-pattern>/rest/*</url-pattern>
+			<url-pattern>/rest/private/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<!-- Anyone with one of the listed roles may access this area -->
@@ -79,14 +90,8 @@
 		</auth-constraint>
 	</security-constraint>
 
-	<!-- Default login configuration uses form-based authentication -->
 	<login-config>
-		<auth-method>FORM</auth-method>
-		<realm-name>Example Form-Based Authentication Area</realm-name>
-		<form-login-config>
-			<form-login-page>/login.jsf</form-login-page>
-			<form-error-page>/login.jsf</form-error-page>
-		</form-login-config>
+		<auth-method>BASIC</auth-method>
 	</login-config>
 
 	<!-- Security roles referenced by this web application -->

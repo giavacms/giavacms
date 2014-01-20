@@ -15,27 +15,18 @@
 		<div>
 
 			<center>
-				<form method="post" action="j_security_check">
-					<table border="0" cellspacing="5">
-						<tr>
-							<th align="right">Username:</th>
-							<td align="left"><input type="text" name="j_username" /></td>
-						</tr>
-						<tr>
-							<th align="right">Password:</th>
-							<td align="left"><input type="password" name="j_password" /></td>
-						</tr>
-						<tr>
-							<td align="right"><input type="submit" value="Log In" /></td>
-							<td align="left"><input type="reset" value="Annulla" /></td>
-						</tr>
-						<tr>
-							<td align="center" colspan="2"><a
-								href="#{request.contextPath}/renew-password.jsf?faces-redirect=true">Hai
-									dimenticato la password?</a></td>
-						</tr>
-					</table>
-				</form>
+				<h:form>
+					<h:messages />
+					<h:outputLabel for="usernameInput" value="username:" />
+					<h:inputText id="usernameInput" value="#{loginController.username}"
+						required="true" />
+					<br />
+					<h:outputLabel for="passwordInput" value="password:" />
+					<h:inputSecret id="passwordInput"
+						value="#{loginController.password}" required="true" />
+					<br />
+					<h:commandButton value="login" action="#{loginController.login}" />
+				</h:form>
 			</center>
 		</div>
 	</h:body>

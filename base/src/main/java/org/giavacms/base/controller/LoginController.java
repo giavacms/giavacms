@@ -15,6 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.giavacms.base.common.util.JSFLocalUtils;
@@ -59,9 +61,30 @@ public class LoginController extends AbstractLazyController<UserAuth>
    @Inject
    LogOperationsController logOperationsController;
 
+   private String username;
+   private String password;
+
    public LoginController()
    {
 
+   }
+
+   public String login()
+   {
+      FacesContext context = FacesContext.getCurrentInstance();
+      HttpServletRequest request = (HttpServletRequest)
+               context.getExternalContext().getRequest();
+      try
+      {
+         request.login(this.username, this.password);
+      }
+      catch (ServletException e)
+      {
+
+         context.addMessage(null, new FacesMessage("Login failed."));
+         return null;
+      }
+      return BACK;
    }
 
    public boolean isAdmin()
@@ -269,6 +292,26 @@ public class LoginController extends AbstractLazyController<UserAuth>
    public void setUserAuth(UserAuth userAuth)
    {
       this.userAuth = userAuth;
+   }
+
+   public String getUsername()
+   {
+      return username;
+   }
+
+   public void setUsername(String username)
+   {
+      this.username = username;
+   }
+
+   public String getPassword()
+   {
+      return password;
+   }
+
+   public void setPassword(String password)
+   {
+      this.password = password;
    }
 
 }
