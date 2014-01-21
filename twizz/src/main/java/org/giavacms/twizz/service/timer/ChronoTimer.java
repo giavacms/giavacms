@@ -14,7 +14,7 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import javax.inject.Inject;
 
-import org.giavacms.twizz.controller.QuizCompetitorController;
+import org.giavacms.twizz.controller.request.QuizCompetitorController;
 import org.giavacms.twizz.model.pojo.CallToComplete;
 import org.twiliofaces.cdi.doers.CallController;
 

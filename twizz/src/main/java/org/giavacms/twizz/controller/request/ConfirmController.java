@@ -1,4 +1,4 @@
-package org.giavacms.twizz.controller;
+package org.giavacms.twizz.controller.request;
 
 import java.util.logging.Logger;
 
