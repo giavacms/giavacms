@@ -7,8 +7,8 @@
 		<version>2.0.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>catalogue-rs</artifactId>
-	<name>GiavaCMS Content Management System : Catalogue Rest Module</name>
-	<description>GiavaCMS Content Management System: Catalogue Rest Module</description>
+	<name>GiavaCMS Content Management System : [RS] Catalogue Rest Module</name>
+	<description>GiavaCMS Content Management System: [RS] Catalogue Rest Module</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>

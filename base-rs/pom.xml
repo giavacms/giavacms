@@ -8,8 +8,8 @@
 	</parent>
 	<artifactId>base-rs</artifactId>
 
-	<name>GiavaCMS Content Management System : Base Rest Subsystem</name>
-	<description>GiavaCMS Content Management System: Base Rest Subsystem</description>
+	<name>GiavaCMS Content Management System : [RS] Base Rest Subsystem</name>
+	<description>GiavaCMS Content Management System: [RS] Base Rest Subsystem</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>

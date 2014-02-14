@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>org.giavacms</groupId>
 		<artifactId>giavacms</artifactId>
-		<version>2.0.3-SNAPSHOT</version>
+		<version>2.0.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>richnews-1.0-importer</artifactId>
 
-	<name>GiavaCMS Content Management System : Rich Content Module</name>
-	<description>GiavaCMS Content Management System: Rich Content Module</description>
+	<name>GiavaCMS Content Management System : [COMPATIBILITY] RichNews Importer Module</name>
+	<description>GiavaCMS Content Management System : [COMPATIBILITY] RichNews Importer Module</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>
