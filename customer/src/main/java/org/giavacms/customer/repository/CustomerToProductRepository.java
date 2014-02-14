@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.giavacms.ctp.repository;
+package org.giavacms.customer.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ import org.giavacms.base.model.attachment.Image;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.AbstractRepository;
-import org.giavacms.ctp.model.CustomerToProduct;
 import org.giavacms.customer.model.Customer;
+import org.giavacms.customer.model.CustomerToProduct;
 
 @Named
 @Stateless

@@ -22,10 +22,10 @@ import org.giavacms.base.repository.PageRepository;
 import org.giavacms.base.repository.TemplateImplRepository;
 import org.jboss.logging.Logger;
 
-@Path("/v1/titler")
+@Path("/v1/base10importer")
 @Stateless
 @LocalBean
-public class TemplateImplTitler implements Serializable
+public class Base10importerRs implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class TemplateImplTitler implements Serializable
    PageRepository pageRepository;
 
    @GET
-   @Path("/runOne/{templateImplId}")
+   @Path("/importOne/{templateImplId}")
    @Produces("text/plain")
    public String runOne(
             @PathParam("templateImplId") Long templateImplId)
@@ -71,17 +71,11 @@ public class TemplateImplTitler implements Serializable
    }
 
    @GET
-   @Path("/runAll")
+   @Path("/import")
    @Produces("text/plain")
-   public String runAll()
+   public String importAll()
    {
       StringBuffer sb = new StringBuffer();
-      // List<TemplateImpl> templateImpls = templateImplRepository.getAllList();
-      // for (TemplateImpl templateImpl : templateImpls)
-      // {
-      // sb.append(runOne(templateImpl.getId()));
-      // sb.append(" | ");
-      // }
       sb.append(templateImplRepository.resetMainPageTitles() + " titoli di pagina base resettati ").append(" | ");
       sb.append(templateImplRepository.makeMainPageTitles() + " titoli di pagina base reimpostati ").append(" | ");
       sb.append(templateImplRepository.cleanMainPageIds() + " identificativi di pagina base ripuliti ").append(" | ");

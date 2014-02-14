@@ -5,7 +5,7 @@
 		<artifactId>giavacms</artifactId>
 		<version>2.0.4-SNAPSHOT</version>
 	</parent>
-	<artifactId>compatibility</artifactId>
+	<artifactId>base10importer</artifactId>
 
 	<name>GiavaCMS Content Management System : Compatibility Module</name>
 	<description>GiavaCMS Content Management System: Compatibility Module</description>

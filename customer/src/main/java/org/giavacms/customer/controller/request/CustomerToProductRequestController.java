@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.giavacms.ctp.controller.request;
+package org.giavacms.customer.controller.request;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,8 +14,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.catalogue.model.Product;
-import org.giavacms.ctp.repository.CustomerToProductRepository;
 import org.giavacms.customer.model.Customer;
+import org.giavacms.customer.repository.CustomerToProductRepository;
 
 @Named
 @RequestScoped
