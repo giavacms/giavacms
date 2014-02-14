@@ -63,7 +63,7 @@ public class Catalogue10ImporterService
       Page defaultProductBasePage = null;
       try
       {
-         defaultCategoryBasePage = (Page) em
+         defaultProductBasePage = (Page) em
                   .createQuery(
                            "select p from " + Page.class.getSimpleName()
                                     + " p where p.extension = :EXTENSION and p.clone = :CLONE ")
@@ -113,6 +113,9 @@ public class Catalogue10ImporterService
             c.setActive(true);
             c.setTitle(oldCategory.getName());
             c.setDescription(oldCategory.getDescription());
+            c.setClone(true);
+            c.setExtension(Category.EXTENSION);
+            c.setTemplate(defaultBasePage.getTemplate());
             c.setOrderNum(oldCategory.getOrderNum());
             c = categoryRepository.persist(c);
             if (c == null)
