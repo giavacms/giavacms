@@ -81,7 +81,7 @@
 		<module>catalogue-rs</module>
 
 		<!-- COMPATIBILITY -->
-		<module>richnews-1.0-importer</module>
+		<module>richnews10importer</module>
 		<module>catalogue10importer</module>
 	</modules>
 
@@ -250,7 +250,7 @@
 
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>richnews-1.0-importer</artifactId>
+				<artifactId>richnews10importer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			

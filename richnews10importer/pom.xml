@@ -7,7 +7,7 @@
 		<version>2.0.4-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>richnews-1.0-importer</artifactId>
+	<artifactId>richnews10importer</artifactId>
 
 	<name>GiavaCMS Content Management System : [COMPATIBILITY] RichNews Importer Module</name>
 	<description>GiavaCMS Content Management System : [COMPATIBILITY] RichNews Importer Module</description>
