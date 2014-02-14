@@ -54,7 +54,6 @@
 		<module>cache</module>
 		<module>catalogue</module>
 		<module>company</module>
-		<module>compatibility</module>
 		<module>contactus</module>
 		<module>customer</module>
 		<module>errorpages</module>
@@ -81,6 +80,7 @@
 		<module>catalogue-rs</module>
 
 		<!-- COMPATIBILITY -->
+		<module>base10importer</module>
 		<module>richnews10importer</module>
 		<module>catalogue10importer</module>
 	</modules>
@@ -152,7 +152,7 @@
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>compatibility</artifactId>
+				<artifactId>base10importer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -253,7 +253,7 @@
 				<artifactId>richnews10importer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>catalogue10importer</artifactId>
