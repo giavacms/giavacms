@@ -7,8 +7,8 @@
 	</parent>
 	<artifactId>base10importer</artifactId>
 
-	<name>GiavaCMS Content Management System : Compatibility Module</name>
-	<description>GiavaCMS Content Management System: Compatibility Module</description>
+	<name>GiavaCMS Content Management System : [COMPATIBILITY] Base Importer Module</name>
+	<description>GiavaCMS Content Management System : [COMPATIBILITY] Base Importer Module</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>
