@@ -121,3 +121,11 @@ body {
 .olive {
 	color: olive;
 }
+
+.oddRow {
+	background-color: #EEE;
+}
+
+.evenRow {
+	background-color: #CCC;
+}

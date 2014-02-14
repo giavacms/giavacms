@@ -20,8 +20,10 @@ import org.giavacms.base.controller.AbstractPageController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.catalogue.model.CatalogueConfiguration;
+import org.giavacms.catalogue.model.Category;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.CatalogueConfigurationRepository;
+import org.giavacms.catalogue.repository.CategoryRepository;
 import org.giavacms.catalogue.repository.ProductRepository;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
@@ -55,6 +57,9 @@ public class ProductController extends AbstractPageController<Product>
 
    @Inject
    CatalogueConfigurationRepository catalogueConfigurationRepository;
+
+   @Inject
+   CategoryRepository categoryRepository;
 
    @Override
    public String getExtension()
@@ -162,4 +167,25 @@ public class ProductController extends AbstractPageController<Product>
          logger.info("removeImage: non posso rimuovere id:" + id);
    }
 
+   // -------------------------------------------------
+
+   public void loadCategory()
+   {
+      if (getElement().getCategory().getId() == null)
+      {
+         getElement().setCategory(new Category());
+         for (int i = 1; i <= 10; i++)
+         {
+            getElement().setVal(i, null);
+         }
+      }
+      else
+      {
+         getElement().setCategory(categoryRepository.find(getElement().getCategory().getId()));
+         for (int i = 1; i <= 10; i++)
+         {
+            getElement().setVal(i, null);
+         }
+      }
+   }
 }

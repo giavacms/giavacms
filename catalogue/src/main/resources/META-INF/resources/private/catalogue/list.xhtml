@@ -46,7 +46,9 @@
 						value="#{productController.model}"
 						rows="#{productController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
-							<h:outputText value="#{rowIndex+1}" />
+							<center>
+								<h:outputText value="#{rowIndex+1}" />
+							</center>
 						</p:column>
 						<p:column style="width: 10px;">
 							<p:rowToggler />
@@ -104,17 +106,20 @@
 							</center>
 						</p:column>
 						<p:rowExpansion>
+							<h:outputText value="Caratteristiche valorizzate: "
+								style="font-weight: bolder;" />
+							<br />
 							<ul>
 								<ui:repeat value="#{product.category.props}" var="p"
 									varStatus="varStatus">
 									<ui:fragment
 										rendered="#{not empty product.category.getProp(varStatus.index+1)}">
-										<h:outputText
-											value="#{product.category.getProp(varStatus.index+1)}" />
-									(<h:outputText
-											value="#{product.category.getRef(varStatus.index+1)}" />) = 
-									<h:outputText value="#{product.getVal(varStatus.index+1)}" />
-										<br />
+										<li><h:outputText
+												value="#{product.category.getProp(varStatus.index+1)}" /> <h:outputText
+												value=" ( #{product.category.getRef(varStatus.index+1)} ) "
+												rendered="#{not empty product.category.getRef(varStatus.index+1)}" />
+											= <h:outputText value="#{product.getVal(varStatus.index+1)}" />
+										</li>
 									</ui:fragment>
 								</ui:repeat>
 							</ul>
