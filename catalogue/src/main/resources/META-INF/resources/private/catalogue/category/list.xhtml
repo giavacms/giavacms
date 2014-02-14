@@ -44,7 +44,9 @@
 						editable="true" value="#{categoryController.model}"
 						rows="#{categoryController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
-							<h:outputText value="#{rowIndex+1}" />
+							<center>
+								<h:outputText value="#{rowIndex+1}" />
+							</center>
 						</p:column>
 						<p:column style="width: 10px;">
 							<p:rowToggler />
@@ -106,29 +108,32 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column width="100">
-							<f:facet name="header">operazioni</f:facet>
+						<p:column width="100" rendered="false">
+							<f:facet name="header">modifica</f:facet>
 							<p:rowEditor>
 							</p:rowEditor>
 						</p:column>
 
-						<p:column width="50">
-							<f:facet name="header">elimina</f:facet>
-							<p:commandButton type="submit" title="Elimina" rendered="true"
-								icon="ui-icon-trash" action="#{categoryController.deleteInline}"
-								ajax="false" immediate="true"
-								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
-
+						<p:column width="50" headerText="modifica">
+							<center>
+								<p:commandLink type="submit" title="Modifica" rendered="true"
+									styleClass="icon-edit"
+									action="#{categoryController.modElement}" ajax="false"
+									immediate="true" />
+							</center>
 						</p:column>
-						<p:ajax event="rowEdit" listener="#{categoryController.onRowEdit}" />
+
 						<p:rowExpansion>
+
+							<h:outputText value="Caratteristiche prodotti: "
+								style="font-weight: bolder;" />
+							<br />
 							<ul>
 								<ui:repeat value="#{t.props}" var="p" varStatus="varStatus">
 									<ui:fragment
 										rendered="#{not empty t.getProp(varStatus.index+1)}">
-										<h:outputText value="#{t.getProp(varStatus.index+1)}" />
-									(<h:outputText value="#{t.getRef(varStatus.index+1)}" />)
-									<br />
+										<li><h:outputText value="#{t.getProp(varStatus.index+1)}" />
+											<h:outputText value=" ( #{t.getRef(varStatus.index+1)} )" rendered="#{not empty t.getRef(varStatus.index+1)}" /></li>
 									</ui:fragment>
 								</ui:repeat>
 							</ul>
@@ -139,34 +144,8 @@
 				<br />
 			</h:form>
 			<h:form prependId="false">
-				<h:panelGrid columns="5">
-
-					<h:outputLabel value="Categoria(*):" for="categoryId" />
-					<h:outputLabel value="Descrizione:" for="descriptionId" />
-					<h:outputLabel value="Ordine(*):" for="orderNum" />
-					<h:outputLabel value="Pagina di base(*):" for="extension" />
-					<h:outputText />
-
-					<h:inputText value="#{categoryController.element.name}"
-						id="categoryId" required="true"
-						requiredMessage="E' obbligatorio specificare un nome per ogni categoria" />
-					<h:inputText value="#{categoryController.element.description}"
-						id="descriptionId" />
-					<h:inputText value="#{categoryController.element.orderNum}"
-						id="orderNum" />
-					<h:panelGroup id="extension">
-						<h:selectOneMenu style="width: 100%;"
-							value="#{categoryController.element.templateId}" required="true"
-							requiredMessage="E' obbligatorio specificare la pagina base">
-							<f:converter converterId="javax.faces.Long" />
-							<f:selectItems
-								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
-						</h:selectOneMenu>
-					</h:panelGroup>
-
-					<p:commandButton action="#{categoryController.save}"
-						value="Aggiungi" ajax="false" />
-				</h:panelGrid>
+				<p:commandButton id="add" action="#{categoryController.addElement}"
+					value="Aggiungi" />
 			</h:form>
 		</center>
 	</ui:define>
