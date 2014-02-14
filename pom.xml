@@ -82,6 +82,7 @@
 
 		<!-- COMPATIBILITY -->
 		<module>richnews-1.0-importer</module>
+		<module>catalogue10importer</module>
 	</modules>
 
 
@@ -250,6 +251,12 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>richnews-1.0-importer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>catalogue10importer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
