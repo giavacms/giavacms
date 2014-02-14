@@ -89,11 +89,16 @@
 							requiredMessage="E' obbligatorio specificare il nome." />
 
 						<h:outputLabel value="Categoria(*):" for="categoryId" />
-						<h:selectOneMenu id="categoryId" style="width: 100%;"
-							value="#{productController.element.category.id}" required="true"
-							requiredMessage="E' obbligatorio specificare la categoria.">
-							<f:selectItems value="#{categoryItems}" />
-						</h:selectOneMenu>
+						<h:panelGroup id="categoryId">
+							<h:selectOneMenu style="width: 90%;"
+								value="#{productController.element.category.id}" required="true"
+								requiredMessage="E' obbligatorio specificare la categoria.">
+								<f:selectItems value="#{categoryItems}" />
+								<p:ajax event="change"/>
+							</h:selectOneMenu>
+							<p:commandButton update="p1 v1 p2 v2 p3 v3 p4 v4 p5 v5 p6 v6 p7 v7 p8 v8 p9 v9 p10 v10" value="Aggiorna caratteristiche"
+								action="#{productController.loadCategory}" immediate="true" />
+						</h:panelGroup>
 
 						<h:outputLabel for="code" value="Codice" />
 						<h:inputText id="code" value="#{productController.element.code}"
@@ -131,6 +136,156 @@
 						<h:inputTextarea value="#{productController.element.description}"
 							id="description" styleClass="tinyMceTa"
 							style=" height : 166px; width: 100%;" />
+
+						<h:panelGroup id="p1">
+							<h:outputLabel for="v1"
+								value="#{productController.element.category.prop1}:"
+								rendered="#{not empty productController.element.category.prop1}" />
+						</h:panelGroup>
+						<h:panelGroup id="v1">
+							<h:inputText value="#{productController.element.val1}"
+								rendered="#{not empty productController.element.category.prop1 and empty productController.element.category.ref1}" />
+							<h:selectOneMenu value="#{productController.element.val1}"
+								rendered="#{not empty productController.element.category.prop1 and not empty productController.element.category.ref1}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref1)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p2">
+							<h:outputLabel for="v2"
+								value="#{productController.element.category.prop2}:"
+								rendered="#{not empty productController.element.category.prop2}" />
+						</h:panelGroup>
+						<h:panelGroup id="v2">
+							<h:inputText value="#{productController.element.val2}"
+								rendered="#{not empty productController.element.category.prop2 and empty productController.element.category.ref2}" />
+							<h:selectOneMenu value="#{productController.element.val2}"
+								rendered="#{not empty productController.element.category.prop2 and not empty productController.element.category.ref2}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref2)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p3">
+							<h:outputLabel for="v3"
+								value="#{productController.element.category.prop3}:"
+								rendered="#{not empty productController.element.category.prop3}" />
+						</h:panelGroup>
+						<h:panelGroup id="v3">
+							<h:inputText value="#{productController.element.val3}"
+								rendered="#{not empty productController.element.category.prop3 and empty productController.element.category.ref3}" />
+							<h:selectOneMenu value="#{productController.element.val3}"
+								rendered="#{not empty productController.element.category.prop3 and not empty productController.element.category.ref3}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref3)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p4">
+							<h:outputLabel for="v4"
+								value="#{productController.element.category.prop4}:"
+								rendered="#{not empty productController.element.category.prop4}" />
+						</h:panelGroup>
+						<h:panelGroup id="v4">
+							<h:inputText value="#{productController.element.val4}"
+								rendered="#{not empty productController.element.category.prop4 and empty productController.element.category.ref4}" />
+							<h:selectOneMenu value="#{productController.element.val4}"
+								rendered="#{not empty productController.element.category.prop4 and not empty productController.element.category.ref4}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref4)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p5">
+							<h:outputLabel for="v5"
+								value="#{productController.element.category.prop5}:"
+								rendered="#{not empty productController.element.category.prop5}" />
+						</h:panelGroup>
+						<h:panelGroup id="v5">
+							<h:inputText value="#{productController.element.val5}"
+								rendered="#{not empty productController.element.category.prop5 and empty productController.element.category.ref5}" />
+							<h:selectOneMenu value="#{productController.element.val5}"
+								rendered="#{not empty productController.element.category.prop5 and not empty productController.element.category.ref5}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref5)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p6">
+							<h:outputLabel for="v6"
+								value="#{productController.element.category.prop6}:"
+								rendered="#{not empty productController.element.category.prop6}" />
+						</h:panelGroup>
+						<h:panelGroup id="v6">
+							<h:inputText value="#{productController.element.val6}"
+								rendered="#{not empty productController.element.category.prop6 and empty productController.element.category.ref6}" />
+							<h:selectOneMenu value="#{productController.element.val6}"
+								rendered="#{not empty productController.element.category.prop6 and not empty productController.element.category.ref6}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref6)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p7">
+							<h:outputLabel for="v7"
+								value="#{productController.element.category.prop7}:"
+								rendered="#{not empty productController.element.category.prop7}" />
+						</h:panelGroup>
+						<h:panelGroup id="v7">
+							<h:inputText value="#{productController.element.val7}"
+								rendered="#{not empty productController.element.category.prop7 and empty productController.element.category.ref7}" />
+							<h:selectOneMenu value="#{productController.element.val7}"
+								rendered="#{not empty productController.element.category.prop7 and not empty productController.element.category.ref7}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref7)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p8">
+							<h:outputLabel for="v8"
+								value="#{productController.element.category.prop8}:"
+								rendered="#{not empty productController.element.category.prop8}" />
+						</h:panelGroup>
+						<h:panelGroup id="v8">
+							<h:inputText value="#{productController.element.val8}"
+								rendered="#{not empty productController.element.category.prop8 and empty productController.element.category.ref8}" />
+							<h:selectOneMenu value="#{productController.element.val8}"
+								rendered="#{not empty productController.element.category.prop8 and not empty productController.element.category.ref8}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref8)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p9">
+							<h:outputLabel for="v9"
+								value="#{productController.element.category.prop9}:"
+								rendered="#{not empty productController.element.category.prop9}" />
+						</h:panelGroup>
+						<h:panelGroup id="v9">
+							<h:inputText value="#{productController.element.val9}"
+								rendered="#{not empty productController.element.category.prop9 and empty productController.element.category.ref9}" />
+							<h:selectOneMenu value="#{productController.element.val9}"
+								rendered="#{not empty productController.element.category.prop9 and not empty productController.element.category.ref9}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref9)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup id="p10">
+							<h:outputLabel for="v10"
+								value="#{productController.element.category.prop10}:"
+								rendered="#{not empty productController.element.category.prop10}" />
+						</h:panelGroup>
+						<h:panelGroup id="v10">
+							<h:inputText value="#{productController.element.val10}"
+								rendered="#{not empty productController.element.category.prop10 and empty productController.element.category.ref10}" />
+							<h:selectOneMenu value="#{productController.element.val10}"
+								rendered="#{not empty productController.element.category.prop10 and not empty productController.element.category.ref10}">
+								<f:selectItems
+									value="#{catalogueProducer.getOptions(productController.element.category.ref10)}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
 
 					</h:panelGrid>
 					<br />

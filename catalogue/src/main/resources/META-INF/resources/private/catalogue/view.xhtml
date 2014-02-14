@@ -17,7 +17,7 @@
 			<center>
 				<p:panel header="Scheda Prodotti">
 
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="2" rowClasses="oddRow,evenRow">
 
 						<h:outputLabel value="Pagina di base:" for="basePage"
 							style="font-weight: bolder;" />
@@ -87,6 +87,50 @@
 							value="Descrizione: " />
 						<h:outputText id="description"
 							value="#{productController.element.description}" escape="false" />
+
+						<p:spacer width="200px" height="1px" />
+						<p:spacer width="200px" height="1px" />
+
+						<h:outputLabel value="#{productController.element.category.prop1}"
+							for="v1" />
+						<h:outputText value="#{productController.element.val1}" id="v1" />
+
+						<h:outputLabel value="#{productController.element.category.prop2}"
+							for="v2" />
+						<h:outputText value="#{productController.element.val2}" id="v2" />
+
+						<h:outputLabel value="#{productController.element.category.prop3}"
+							for="v3" />
+						<h:outputText value="#{productController.element.val3}" id="v3" />
+
+						<h:outputLabel value="#{productController.element.category.prop4}"
+							for="v4" />
+						<h:outputText value="#{productController.element.val4}" id="v4" />
+
+						<h:outputLabel value="#{productController.element.category.prop5}"
+							for="v5" />
+						<h:outputText value="#{productController.element.val5}" id="v5" />
+
+						<h:outputLabel value="#{productController.element.category.prop6}"
+							for="v6" />
+						<h:outputText value="#{productController.element.val6}" id="v6" />
+
+						<h:outputLabel value="#{productController.element.category.prop7}"
+							for="v7" />
+						<h:outputText value="#{productController.element.val7}" id="v7" />
+
+						<h:outputLabel value="#{productController.element.category.prop8}"
+							for="v8" />
+						<h:outputText value="#{productController.element.val8}" id="v8" />
+
+						<h:outputLabel value="#{productController.element.category.prop9}"
+							for="v9" />
+						<h:outputText value="#{productController.element.val9}" id="v9" />
+
+						<h:outputLabel value="#{productController.element.category.prop10}"
+							for="v10" />
+						<h:outputText value="#{productController.element.val10}" id="v10" />
+
 					</h:panelGrid>
 					<f:verbatim rendered="false">
 						<br />

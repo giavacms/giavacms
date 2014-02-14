@@ -9,14 +9,12 @@
 		rendered="#{loginController.isInRole('catalogue')}">
 		<p:tabView>
 
-			<p:tab title="Gestione Prodotti" style="width: 200px; float: left;">
+			<p:tab title="Gestione Proprieta'" style="width: 200px; float: left;">
 				<div style="height: 50px;">
 					<h:commandLink
-						action="/private/catalogue/list.jsf?faces-redirect=true"
-						value="lista prodotti" />
+						action="/private/catalogue/feature/list.jsf?faces-redirect=true"
+						value="lista proprieta'" />
 					<br />
-					<h:commandLink action="#{productController.addElement}"
-						value="Aggiungi nuovo" />
 				</div>
 			</p:tab>
 
@@ -26,6 +24,17 @@
 						action="/private/catalogue/category/list.jsf?faces-redirect=true"
 						value="lista categorie" />
 					<br />
+				</div>
+			</p:tab>
+
+			<p:tab title="Gestione Prodotti" style="width: 200px; float: left;">
+				<div style="height: 50px;">
+					<h:commandLink
+						action="/private/catalogue/list.jsf?faces-redirect=true"
+						value="lista prodotti" />
+					<br />
+					<h:commandLink action="#{productController.addElement}"
+						value="Aggiungi nuovo" />
 				</div>
 			</p:tab>
 

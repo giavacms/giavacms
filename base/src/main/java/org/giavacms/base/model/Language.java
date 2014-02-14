@@ -19,7 +19,7 @@ public class Language implements Serializable
 
    String id;
    String description;
-   int position;
+   int position = 1;
    boolean enabled = true;
 
    @Id

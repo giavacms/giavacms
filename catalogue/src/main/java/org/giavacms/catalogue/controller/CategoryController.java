@@ -33,8 +33,9 @@ public class CategoryController extends AbstractPageController<Category>
 
    @ViewPage
    @ListPage
-   @EditPage
    public static String LIST = "/private/catalogue/category/list.xhtml";
+   @EditPage
+   public static String EDIT = "/private/catalogue/category/edit.xhtml";
 
    // ------------------------------------------------
 
@@ -48,27 +49,6 @@ public class CategoryController extends AbstractPageController<Category>
       return Category.EXTENSION;
    }
 
-   @Override
-   public Category getElement()
-   {
-      if (super.getElement() == null)
-      {
-         super.setElement(new Category());
-      }
-      return super.getElement();
-   }
-
    // ---------------------------------------------------------------------
-
-   @Override
-   public String save()
-   {
-      if (super.save() == null)
-      {
-         return null;
-      }
-      setElement(new Category());
-      return listPage();
-   }
 
 }
