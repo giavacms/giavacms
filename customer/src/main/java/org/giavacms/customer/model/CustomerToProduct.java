@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.giavacms.ctp.model;
+package org.giavacms.customer.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.giavacms.catalogue.model.Product;
-import org.giavacms.customer.model.Customer;
 
 /**
  * @author alessandro prandini
