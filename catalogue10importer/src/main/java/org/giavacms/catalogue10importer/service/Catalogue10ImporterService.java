@@ -43,10 +43,27 @@ public class Catalogue10ImporterService
    {
       EntityManager em = productRepository.getEm();
 
-      Page defaultBasePage = null;
+      Page defaultCategoryBasePage = null;
       try
       {
-         defaultBasePage = (Page) em
+         defaultCategoryBasePage = (Page) em
+                  .createQuery(
+                           "select p from " + Page.class.getSimpleName()
+                                    + " p where p.extension = :EXTENSION and p.clone = :CLONE ")
+                  .setParameter("EXTENSION", Category.EXTENSION).setParameter("CLONE", false).setMaxResults(1)
+                  .getSingleResult();
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         throw new RuntimeException(
+                  "Deve esistere almeno una pagina base da usare come default per le categorie importate");
+      }
+
+      Page defaultProductBasePage = null;
+      try
+      {
+         defaultCategoryBasePage = (Page) em
                   .createQuery(
                            "select p from " + Page.class.getSimpleName()
                                     + " p where p.extension = :EXTENSION and p.clone = :CLONE ")
@@ -60,24 +77,23 @@ public class Catalogue10ImporterService
                   "Deve esistere almeno una pagina base da usare come default per i prodotti importati");
       }
 
-      List<String> richNewsTypes = em.createQuery(
-               "select distinct(rnt.name) from " + OldCategory.class.getSimpleName() + " rnt ")
+      List<OldCategory> oldCategories = em.createQuery("select oc from " + OldCategory.class.getSimpleName() + " oc ")
                .getResultList();
 
-      Map<String, OldCategory> richContentTypes = doImport(em, richNewsTypes, defaultBasePage);
+      Map<String, Category> categories = doImport(em, oldCategories, defaultCategoryBasePage);
 
-      List<String> richNewsIds = em.createQuery("select rn.id from " + RichNews.class.getSimpleName() + " rn ")
+      List<Long> oldProductIds = em.createQuery("select op.id from " + OldProduct.class.getSimpleName() + " op ")
                .getResultList();
 
-      for (String richNewsId : richNewsIds)
+      for (Long oldProductId : oldProductIds)
       {
-         RichNews richNews = fetch(em, richNewsId);
-         doImport(em, richNews, richContentTypes, defaultBasePage);
+         OldProduct oldProduct = fetch(em, oldProductId);
+         doImport(em, oldProduct, categories, defaultProductBasePage);
       }
 
    }
 
-   private Map<String, OldCategory> doImport(EntityManager em, List<String> categories, Page defaultBasePage)
+   private Map<String, Category> doImport(EntityManager em, List<OldCategory> oldCategories, Page defaultBasePage)
    {
       List<Category> categoryTypes = categoryRepository.getAllList();
       Map<String, Category> map = new HashMap<String, Category>();
@@ -85,65 +101,62 @@ public class Catalogue10ImporterService
       {
          if (category.isActive())
          {
-            map.put(category.getName(), category);
+            map.put(category.getTitle(), category);
          }
       }
 
-      for (String category : categories)
+      for (OldCategory oldCategory : oldCategories)
       {
-         if (map.get(category) == null)
+         if (map.get(oldCategory.getName()) == null)
          {
-            Category rct = new Category();
-            rct.setActive(true);
-            rct.setName(category);
-            rct.setPage(new Page());
-            rct.getPage().setId(defaultBasePage.getId());
-            rct = categoryRepository.persist(rct);
-            if (rct == null)
+            Category c = new Category();
+            c.setActive(true);
+            c.setTitle(oldCategory.getName());
+            c.setDescription(oldCategory.getDescription());
+            c.setOrderNum(oldCategory.getOrderNum());
+            c = categoryRepository.persist(c);
+            if (c == null)
             {
-               throw new RuntimeException("Errore nel salvataggio della categoria: " + category);
+               throw new RuntimeException("Errore nel salvataggio della categoria: " + oldCategory);
             }
             else
             {
-               map.put(rct.getName(), rct);
+               map.put(c.getTitle(), c);
             }
          }
       }
       return map;
    }
 
-   private void doImport(EntityManager em, OldProduct rn, Map<String, Category> categoriesMap, Page defaultBasePage)
+   private void doImport(EntityManager em, OldProduct op, Map<String, Category> categoriesMap, Page defaultBasePage)
    {
-      Product rc = new Product();
-      rc.setActive(rn.isActive());
-      rc.setAuthor(rn.getAuthor());
-      rc.setClone(true);
-      rc.setContent(rn.getContent());
-      rc.setDate(rn.getDate());
-      rc.setDescription(rn.getPreview());
-      rc.setDescription(rn.getTitle());
-      rc.setExtension(RichContent.EXTENSION);
-      rc.setHighlight(false);
+      Product p = new Product();
+      p.setActive(op.isActive());
+      p.setTitle(op.getName());
+      p.setPreview(op.getPreview());
+      p.setDescription(op.getDescription());
+      p.setCategory(categoriesMap.get(op.getCategory().getName()));
+      p.setDimensions(op.getDimensions());
+      p.setCode(op.getCode());
+      p.setClone(true);
+      p.setExtension(Product.EXTENSION);
       // non posso settare in fase di persist dei documenti o delle immagini gia esistenti. le associo in fase di update
-      rc.setDocuments(null);
-      rc.setImages(null);
+      p.setDocuments(null);
+      p.setImages(null);
       // da aggiornare una volta generato l'id
-      rc.setLang1id(null);
-      rc.setPreview(rn.getPreview());
-      rc.setCategory(categoriesMap.get(rn.getCategory().getName()));
-      rc.setTemplate(defaultBasePage.getTemplate());
-      rc.setTitle(rn.getTitle());
-      rc = productRepository.persist(rc);
-      if (rc == null)
+      p.setLang1id(null);
+      p.setTemplate(defaultBasePage.getTemplate());
+      p = productRepository.persist(p);
+      if (p == null)
       {
-         throw new RuntimeException("Errore nel salvataggio della news #" + rn.getId() + ": " + rn.getTitle());
+         throw new RuntimeException("Errore nel salvataggio della prodotto #" + op.getId() + ": " + op.getName());
       }
       // em.createQuery("update " + RichContent.class.getSimpleName() + " c set c.lang1id = c.id where c.id = :ID ")
       // .setParameter("ID", rc.getId()).executeUpdate();
-      if (rn.getDocuments() != null)
+      if (op.getDocuments() != null)
       {
-         rc.setDocuments(new ArrayList<Document>());
-         for (Document d : rn.getDocuments())
+         p.setDocuments(new ArrayList<Document>());
+         for (Document d : op.getDocuments())
          {
             Document nd = new Document();
             nd.setId(d.getId());
@@ -153,13 +166,13 @@ public class Catalogue10ImporterService
             nd.setFilename(d.getFilename());
             nd.setName(d.getName());
             nd.setType(d.getType());
-            rc.getDocuments().add(nd);
+            p.getDocuments().add(nd);
          }
       }
-      if (rn.getImages() != null)
+      if (op.getImages() != null)
       {
-         rc.setImages(new ArrayList<Image>());
-         for (Image i : rn.getImages())
+         p.setImages(new ArrayList<Image>());
+         for (Image i : op.getImages())
          {
             Image ni = new Image();
             ni.setId(i.getId());
@@ -169,31 +182,35 @@ public class Catalogue10ImporterService
             ni.setFilename(i.getFilename());
             ni.setName(i.getName());
             ni.setType(i.getType());
-            rc.getImages().add(ni);
+            p.getImages().add(ni);
          }
       }
-      rc.setLang1id(rc.getId());
-      productRepository.update(rc);
+      p.setLang1id(p.getId());
+      productRepository.update(p);
 
    }
 
-   private OldProduct fetch(EntityManager em, String productId)
+   private OldProduct fetch(EntityManager em, Long productId)
    {
-      OldProduct rn = em.find(OldProduct.class, productId);
-      if (rn.getImages() != null)
+      OldProduct op = em.find(OldProduct.class, productId);
+      if (op.getCategory() != null)
       {
-         for (Image rni : rn.getImages())
+         op.getCategory().toString();
+      }
+      if (op.getImages() != null)
+      {
+         for (Image rni : op.getImages())
          {
             rni.toString();
          }
       }
-      if (rn.getDocuments() != null)
+      if (op.getDocuments() != null)
       {
-         for (Document rnd : rn.getDocuments())
+         for (Document rnd : op.getDocuments())
          {
             rnd.toString();
          }
       }
-      return rn;
+      return op;
    }
 }
