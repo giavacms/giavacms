@@ -6,10 +6,13 @@
 
 	<p:submenu label="Contenuti" icon="ui-icon-document"
 		rendered="#{loginController.isInRole('richcontent')}">
+
+		<p:menuitem value="tipologie"
+			url="/private/richcontent/richcontenttype/list.jsf?faces-redirect=true" />
+
 		<p:menuitem value="lista" url="/private/richcontent/list.jsf" />
 
-		<p:menuitem value="tipi contenuto"
-			url="/private/richcontent/richcontenttype/list.jsf?faces-redirect=true" />
+
 	</p:submenu>
 
 </ui:composition>
