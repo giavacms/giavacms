@@ -71,7 +71,7 @@ public class CustomerCategory implements Serializable
    }
 
    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-   @OrderBy("name")
+   @OrderBy("id")
    public List<Customer> getCustomers()
    {
       if (customers == null)

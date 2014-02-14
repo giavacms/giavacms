@@ -117,7 +117,7 @@ public class CustomerToProductRepository extends
    {
       if (search.getObj().getCustomer() != null
                && search.getObj().getCustomer().getId() != null
-               && search.getObj().getCustomer().getId() > 0)
+               && search.getObj().getCustomer().getId().trim().length() > 0)
       {
          sb.append(separator).append(alias).append(".customer.id = :IDC ");
          params.put("IDC", search.getObj().getCustomer().getId());
