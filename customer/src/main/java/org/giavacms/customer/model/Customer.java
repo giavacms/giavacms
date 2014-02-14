@@ -12,30 +12,46 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.giavacms.base.model.Page;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 
 @Entity
-public class Customer implements Serializable
+@DiscriminatorValue(value = Customer.EXTENSION)
+@Table(name = Customer.TABLE_NAME)
+public class Customer extends Page implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-   private Long id;
-   private String name;
+
+   public static final String EXTENSION = "Customer";
+   public static final String TABLE_NAME = "Customer";
+   public static final boolean HAS_DETAILS = true;
+
+   public Customer()
+   {
+      super();
+      super.setExtension(EXTENSION);
+   }
+
+   // private Long id --> super.id;
+   // private String name --> super.title;
+   // private String description --> super.description;
+
+   // private boolean active = true;
+
    private String preview;
-   private String description;
    private String address;
    private String web;
    private String contact;
@@ -43,31 +59,22 @@ public class Customer implements Serializable
    private CustomerCategory category;
    List<Document> documents;
    List<Image> images;
-   private boolean active = true;
+
    private String dimensions;
    private Integer listOrder = 0;
    private String area;
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   public Long getId()
-   {
-      return id;
-   }
-
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
-
+   @Transient
+   @Deprecated
    public String getName()
    {
-      return name;
+      return super.getTitle();
    }
 
+   @Deprecated
    public void setName(String name)
    {
-      this.name = name;
+      super.setTitle(name);
    }
 
    @Lob
@@ -80,18 +87,6 @@ public class Customer implements Serializable
    public void setPreview(String preview)
    {
       this.preview = preview;
-   }
-
-   @Lob
-   @Column(length = 1024)
-   public String getDescription()
-   {
-      return description;
-   }
-
-   public void setDescription(String description)
-   {
-      this.description = description;
    }
 
    @ManyToOne
@@ -163,16 +158,6 @@ public class Customer implements Serializable
    public int getImgSize()
    {
       return getImages().size();
-   }
-
-   public boolean isActive()
-   {
-      return active;
-   }
-
-   public void setActive(boolean active)
-   {
-      this.active = active;
    }
 
    public String getDimensions()
@@ -254,9 +239,11 @@ public class Customer implements Serializable
    @Override
    public String toString()
    {
-      return "Customer [id=" + id + ", name=" + name + ", preview=" + preview
-               + ", description=" + description + ", category="
-               + category.getName() + ", dimensions=" + active + "]";
+      return "Customer [preview=" + preview + ", address=" + address + ", web=" + web + ", contact=" + contact
+               + ", social=" + social + ", category=" + (category == null ? null : category.getName())
+               + ", dimensions=" + dimensions + ", listOrder=" + listOrder + ", area=" + area + "]";
    }
 
 }
+
+

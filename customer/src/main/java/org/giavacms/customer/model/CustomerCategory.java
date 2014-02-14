@@ -19,12 +19,15 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = CustomerCategory.TABLE_NAME)
 public class CustomerCategory implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "CustomerCategory";
 
    private Long id;
    private String name;
