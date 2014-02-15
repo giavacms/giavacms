@@ -14,8 +14,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.base.common.util.ResourceUtils;
+import org.giavacms.base.annotation.DefaultResourceController;
 import org.giavacms.base.common.util.ImageUtils;
+import org.giavacms.base.common.util.ResourceUtils;
+import org.giavacms.base.controller.AbstractPageController;
+import org.giavacms.base.controller.ResourceController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.common.annotation.BackPage;
@@ -23,21 +26,23 @@ import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
-import org.giavacms.common.controller.AbstractLazyController;
 import org.giavacms.customer.model.Customer;
+import org.giavacms.customer.model.CustomerCategory;
 import org.giavacms.customer.model.CustomerConfiguration;
+import org.giavacms.customer.repository.CustomerCategoryRepository;
 import org.giavacms.customer.repository.CustomerConfigurationRepository;
 import org.giavacms.customer.repository.CustomerRepository;
 import org.primefaces.event.FileUploadEvent;
 
 @Named
 @SessionScoped
-public class CustomerController extends AbstractLazyController<Customer>
+public class CustomerController extends AbstractPageController<Customer>
 {
 
    private static final long serialVersionUID = 1L;
 
    // --------------------------------------------------------
+
    @BackPage
    public static String BACK = "/private/administration.xhtml";
    @ViewPage
@@ -51,10 +56,29 @@ public class CustomerController extends AbstractLazyController<Customer>
 
    @Inject
    @OwnRepository(CustomerRepository.class)
-   CustomerRepository prodottiRepository;
+   CustomerRepository customerRepository;
+
+   @Inject
+   CustomerCategoryRepository customerCategoryRepository;
 
    @Inject
    CustomerConfigurationRepository customerConfigurationRepository;
+
+   @Inject
+   @DefaultResourceController
+   ResourceController resourceController;
+
+   // --------------------------------------------------------
+
+   public CustomerController()
+   {
+   }
+
+   @Override
+   public String getExtension()
+   {
+      return Customer.EXTENSION;
+   }
 
    // --------------------------------------------------------
 
@@ -129,7 +153,7 @@ public class CustomerController extends AbstractLazyController<Customer>
             }
          }
          getElement().setDocuments(docsNew);
-         prodottiRepository.update(getElement());
+         customerRepository.update(getElement());
       }
       else
          logger.info("removeImage: non posso rimuovere id:" + id);
@@ -150,7 +174,7 @@ public class CustomerController extends AbstractLazyController<Customer>
             }
          }
          getElement().setImages(imagesNew);
-         prodottiRepository.update(getElement());
+         customerRepository.update(getElement());
       }
       else
          logger.info("removeImage: non posso rimuovere id:" + id);
@@ -161,20 +185,27 @@ public class CustomerController extends AbstractLazyController<Customer>
    @Override
    public String save()
    {
-      super.save();
+      // implementare questo se la categoria determina la pagina base come rich content type fa con rich content
+      // CustomerCategory customerCategory = customerCategoryRepository.find(getElement().getCategory().getId());
+      // getElement().setTemplateId(customerCategory.getPage().getTemplate().getId());
+      if (super.save() == null)
+      {
+         return null;
+      }
       return super.viewPage();
-   }
-
-   @Override
-   public String delete()
-   {
-      return super.delete();
    }
 
    @Override
    public String update()
    {
-      super.update();
+      // implementare questo se la categoria determina la pagina base come rich content type fa con rich content
+      // CustomerCategory customerCategory = customerCategoryRepository.find(getElement().getCategory().getId());
+      // getElement().setTemplateId(customerCategory
+      // .getPage().getTemplateId());
+      if (super.update() == null)
+      {
+         return null;
+      }
       return super.viewPage();
    }
 
