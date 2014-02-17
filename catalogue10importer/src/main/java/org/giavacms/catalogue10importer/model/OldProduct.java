@@ -97,7 +97,7 @@ public class OldProduct
    }
 
    @OneToMany(fetch = FetchType.LAZY, cascade = { javax.persistence.CascadeType.ALL })
-   @JoinTable(name = "Product_Old__Document", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "documents_id") })
+   @JoinTable(name = "Product_Old_Document", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "documents_id") })
    public List<Document> getDocuments()
    {
       if (this.documents == null)
@@ -130,7 +130,7 @@ public class OldProduct
    }
 
    @OneToMany(fetch = FetchType.LAZY, cascade = { javax.persistence.CascadeType.ALL })
-   @JoinTable(name = "Product_Image", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "images_id") })
+   @JoinTable(name = "Product_Old_Image", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "images_id") })
    public List<Image> getImages()
    {
       if (this.images == null)
