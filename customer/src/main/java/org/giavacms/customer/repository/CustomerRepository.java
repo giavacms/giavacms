@@ -46,18 +46,18 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
    protected Customer prePersist(Customer n)
    {
       n.setClone(true);
-//      if (n.getCategory() != null
-//               && n.getCategory().getId() != null)
-//         n.setCategory(getEm().find(CustomerCategory.class,
-//                  n.getCategory().getId()));
-//      if (n.getDocuments() != null && n.getDocuments().size() == 0)
-//      {
-//         n.setDocuments(null);
-//      }
-//      if (n.getImages() != null && n.getImages().size() == 0)
-//      {
-//         n.setImages(null);
-//      }
+      // if (n.getCategory() != null
+      // && n.getCategory().getId() != null)
+      // n.setCategory(getEm().find(CustomerCategory.class,
+      // n.getCategory().getId()));
+      // if (n.getDocuments() != null && n.getDocuments().size() == 0)
+      // {
+      // n.setDocuments(null);
+      // }
+      // if (n.getImages() != null && n.getImages().size() == 0)
+      // {
+      // n.setImages(null);
+      // }
       n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
       n = super.prePersist(n);
       return n;
@@ -79,7 +79,7 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
       // {
       // n.setImages(null);
       // }
-      //    n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+      // n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
       n = super.preUpdate(n);
       return n;
    }
@@ -102,6 +102,7 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
       String customerCategoryAlias = "CC";
       String imageAlias = "I";
       String documentAlias = "D";
+      // String toProductAlias = "P";
 
       // query string buffer
       StringBuffer sb = new StringBuffer(
@@ -145,7 +146,8 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
          sb.append(documentAlias).append(".fileName AS document ");
          if (completeFetch)
          {
-            // additional fields to retrieve only when fetching
+            // sb.append(", ").append(toProductAlias).append(".product_id ");
+            // sb.append(", ").append(toProductAlias).append(".listOrder ");
          }
       }
 

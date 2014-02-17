@@ -128,10 +128,9 @@
 							operazioni
 						</f:facet>
 							<center>
-								<h:commandLink style="font-size: 24px; " styleClass="icon-edit"
-									title="modifica" action="#{pageController.modElement}" />
-
 								<h:panelGroup rendered="#{not p.clone}">
+									<h:commandLink style="font-size: 24px; " styleClass="icon-edit"
+										title="modifica" action="#{pageController.modElement}" />
 									<h:outputText value=" " />
 									<h:commandLink style="font-size: 24px;" styleClass="icon-copy"
 										title="crea copia" action="#{pageController.cloneElement}" />

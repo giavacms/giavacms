@@ -43,6 +43,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>catalogue10importer</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.jboss.ejb3</groupId>
 			<artifactId>jboss-ejb3-ext-api</artifactId>
 			<scope>provided</scope>

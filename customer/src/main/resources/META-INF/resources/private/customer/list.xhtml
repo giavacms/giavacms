@@ -26,6 +26,13 @@
 							value="#{customerController.search.obj.category.id}">
 							<f:selectItems value="#{customerCategoryItems}" />
 						</h:selectOneMenu>
+						<h:outputLabel for="base" value="Pagina base:" />
+						<h:selectOneMenu id="base"
+							value="#{customerController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(customerController.extension)}" />
+						</h:selectOneMenu>
 						<h:commandButton action="#{customerController.reloadAjax}"
 							value="Cerca" />
 					</h:panelGrid>
@@ -58,6 +65,25 @@
 							<center>
 								<h:outputText value="#{customer.listOrder}" />
 							</center>
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">pagina base</f:facet>
+							<h:outputText value="#{customer.template.mainPageTitle}" />
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">lingua</f:facet>
+							<h:outputText value="#{language1.id} "
+								rendered="#{customer.lang eq 1}" />
+							<h:outputText value="#{language2.id} "
+								rendered="#{customer.lang eq 2}" />
+							<h:outputText value="#{language3.id} "
+								rendered="#{customer.lang eq 3}" />
+							<h:outputText value="#{language4.id} "
+								rendered="#{customer.lang eq 4}" />
+							<h:outputText value="#{language5.id} "
+								rendered="#{customer.lang eq 5}" />
 						</p:column>
 
 						<p:column width="100">

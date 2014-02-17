@@ -21,11 +21,12 @@ import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 
 @Entity
-@Table(name = "Product_Old")
+@Table(name = OldProduct.TABLE_NAME)
 public class OldProduct
          implements Serializable
 {
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "Product_Old";
    private Long id;
    private String name;
    private String preview;
