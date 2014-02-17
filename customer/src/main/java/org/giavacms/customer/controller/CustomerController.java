@@ -6,6 +6,7 @@
  */
 package org.giavacms.customer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -17,15 +18,20 @@ import org.giavacms.base.controller.AbstractPageWithImagesAndDocumentsController
 import org.giavacms.base.controller.ResourceController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.catalogue.controller.ProductController;
+import org.giavacms.catalogue.model.Product;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
+import org.giavacms.common.model.Search;
 import org.giavacms.customer.model.Customer;
+import org.giavacms.customer.model.CustomerToProduct;
 import org.giavacms.customer.repository.CustomerCategoryRepository;
 import org.giavacms.customer.repository.CustomerConfigurationRepository;
 import org.giavacms.customer.repository.CustomerRepository;
+import org.giavacms.customer.repository.CustomerToProductRepository;
 
 @Named
 @SessionScoped
@@ -46,6 +52,7 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
    public static String NEW_OR_EDIT = "/private/customer/edit.xhtml";
 
    private static final String EDIT_DOCS = "/private/customer/edit-documents.xhtml";
+   private static final String EDIT_PRODS = "/private/customer/edit-products.xhtml";
 
    // ------------------------------------------------
 
@@ -62,6 +69,12 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
    @Inject
    @DefaultResourceController
    ResourceController resourceController;
+
+   @Inject
+   CustomerToProductRepository customerToProductRepository;
+
+   @Inject
+   ProductController productController;
 
    // --------------------------------------------------------
 
@@ -104,7 +117,6 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
       return super.viewPage();
    }
 
-   
    @Override
    protected List<Document> getElementDocuments()
    {
@@ -121,6 +133,102 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
    public String editDocsPage()
    {
       return EDIT_DOCS;
+   }
+
+   // ------------------------------------------------------
+
+   private List<Product> products;
+
+   public List<Product> getProducts()
+   {
+      if (products == null)
+      {
+         products = new ArrayList<Product>();
+      }
+      return products;
+   }
+
+   public String modProductsCurrent()
+   {
+      // TODO Auto-generated method stub
+      super.modCurrent();
+      loadProducts();
+      return EDIT_PRODS + REDIRECT_PARAM;
+   }
+
+   private void loadProducts()
+   {
+      this.products = null;
+      Search<CustomerToProduct> s = new Search<CustomerToProduct>(CustomerToProduct.class);
+      s.getObj().setCustomer(getElement());
+      for (CustomerToProduct ctp : customerToProductRepository.getList(s, 0, 0))
+      {
+         getProducts().add(ctp.getProduct());
+      }
+   }
+
+   public String modProducts()
+   {
+      super.modElement();
+      loadProducts();
+      return EDIT_PRODS + REDIRECT_PARAM;
+   }
+
+   public void chooseProduct()
+   {
+      productController.reload();
+   }
+
+   public void pickProduct()
+   {
+      productController.modElement();
+      Product product = productController.getElement();
+      for (Product p : getProducts())
+      {
+         if (p.getId().equals(product.getId()))
+         {
+            logger.info(p.getId() + " already associated");
+            return;
+         }
+      }
+      CustomerToProduct ctp = new CustomerToProduct();
+      ctp.setProduct(product);
+      ctp.setCustomer(getElement());
+      customerToProductRepository.persist(ctp);
+      getProducts().add(product);
+   }
+
+   public void removeProduct(Long order)
+   {
+      removeProduct(order.intValue());
+   }
+
+   public void removeProduct(Integer order)
+   {
+      if (order != null && order >= 0 && getElement() != null
+               && getProducts() != null
+               && getProducts().size() > 0 && getProducts().size() > order)
+      {
+         Product toRemove = getProducts().get(order);
+         getProducts().remove(toRemove);
+         if (toRemove.getId() != null)
+         {
+            Search<CustomerToProduct> s = new Search<CustomerToProduct>(CustomerToProduct.class);
+            s.getObj().setCustomer(getElement());
+            for (CustomerToProduct ctp : customerToProductRepository.getList(s, 0, 0))
+            {
+               if (ctp.getProduct().getId().equals(toRemove.getId()))
+               {
+                  customerToProductRepository.delete(ctp.getId());
+                  break;
+               }
+            }
+         }
+      }
+      else
+      {
+         logger.info("removeProduct: non posso rimuovere posizione :" + order);
+      }
    }
 
 }

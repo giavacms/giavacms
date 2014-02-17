@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<p:dialog header="Scegli una prodotto" widgetVar="prodDialog"
+		draggable="true" position="center">
+		<h:form id="prodForm">
+
+			<br />
+			<h:panelGrid columns="6">
+				<h:outputLabel for="name" value="Nome:" />
+				<h:inputText id="name" value="#{productController.search.obj.name}" />
+
+				<h:outputLabel for="code" value="Codice:" />
+				<h:inputText id="code" value="#{productController.search.obj.code}" />
+
+				<h:outputLabel for="tipo" value="Categoria:" />
+				<h:selectOneMenu id="tipo"
+					value="#{productController.search.obj.category.id}">
+					<f:selectItems value="#{categoryItems}" />
+				</h:selectOneMenu>
+			</h:panelGrid>
+
+			<br />
+			<p:commandButton action="#{productController.reloadAjax}"
+				update="prodList" value="Cerca" />
+			<br />
+			<br />
+
+			<p:dataTable id="prodList" rowIndexVar="rowIndex" var="product"
+				value="#{productController.model}" style="width: 800px;"
+				rows="#{productController.pageSize}" paginator="true" lazy="true">
+				<p:column width="50">
+					<center>
+						<h:outputText value="#{rowIndex+1}" />
+					</center>
+				</p:column>
+				<p:column>
+					<f:facet name="header">nome</f:facet>
+					<h:outputText value="#{product.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">codice</f:facet>
+					<h:outputText value="#{product.code}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">categoria</f:facet>
+					<h:outputText value="#{product.category.name}" />
+				</p:column>
+
+				<p:column headerText="scegli">
+					<center>
+						<h:commandLink title="scegli" style="font-size: 24px;"
+							styleClass="icon-plus" action="#{controller[action]}" />
+					</center>
+				</p:column>
+			</p:dataTable>
+			<br />
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

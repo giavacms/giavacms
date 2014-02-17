@@ -113,12 +113,15 @@
 
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="3">
+				<h:panelGrid columns="4">
 					<p:commandButton ajax="false"
 						action="#{customerController.modCurrent}" value="Modifica" />
 					<p:commandButton
 						action="#{customerController.modDocumentsCurrent}"
 						value="Modifica Documenti" />
+					<p:commandButton
+						action="#{customerController.modProductsCurrent}"
+						value="Modifica Prodotti" />
 					<p:commandButton ajax="false"
 						action="#{customerController.addElement}" value="Aggiungi" />
 				</h:panelGrid>
