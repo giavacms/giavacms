@@ -83,6 +83,7 @@
 		<module>base10importer</module>
 		<module>richnews10importer</module>
 		<module>catalogue10importer</module>
+		<module>customer10importer</module>
 	</modules>
 
 
@@ -257,6 +258,12 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>catalogue10importer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>customer10importer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
