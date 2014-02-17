@@ -121,14 +121,14 @@
 
 				<h:panelGrid columns="4">
 
-					<h:commandButton action="#{categoryController.save}" value="Salva"
+					<p:commandButton ajax="false" action="#{categoryController.save}" value="Salva"
 						immediate="false" rendered="#{not categoryController.editMode}" />
 
-					<h:commandButton action="#{categoryController.update}"
+					<p:commandButton ajax="false" action="#{categoryController.update}"
 						value="Salva le modifiche" immediate="false"
 						rendered="#{categoryController.editMode}" />
 
-					<h:commandButton action="#{categoryController.delete}"
+					<p:commandButton ajax="false" action="#{categoryController.delete}"
 						value="Elimina" rendered="#{categoryController.editMode}"
 						immediate="true"
 						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />

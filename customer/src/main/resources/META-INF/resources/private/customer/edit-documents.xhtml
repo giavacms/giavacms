@@ -7,7 +7,7 @@
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="Gestione Contenuto - Immagini e Documenti collegati" />
+		<h:outputText value="Gestione Cliente - Immagini e Documenti collegati" />
 	</ui:define>
 	<ui:define name="roles">
 		<f:attribute name="roles" value="richcontent" />
@@ -16,7 +16,7 @@
 	<ui:define name="content">
 
 		<ui:include src="resDialog.xhtml">
-			<ui:param name="controller" value="#{richContentController}" />
+			<ui:param name="controller" value="#{customerController}" />
 			<ui:param name="action" value="pickResource" />
 		</ui:include>
 
@@ -25,24 +25,19 @@
 
 			<p:messages id="messages" />
 			<center>
-				<p:panel header="Gestione Contenuto - Immagini e Documenti collegati">
+				<p:panel header="Gestione Cliente - Immagini e Documenti collegati">
 
 					<h:panelGrid columns="2">
 						<h:outputLabel for="titolo" style="font-weight: bolder;"
 							value="Titolo: " />
 						<h:outputText id="titolo"
-							value="#{richContentController.element.title}" />
+							value="#{customerController.element.title}" />
 
 						<h:outputLabel for="tipo" style="font-weight: bolder;"
 							value="Tipo informazione: " />
 						<h:outputText id="tipo"
-							value="#{richContentController.element.richContentType.name}"
+							value="#{customerController.element.category.name}"
 							width="640px" height="320px"></h:outputText>
-
-						<h:outputLabel for="anteprima" style="font-weight: bolder;"
-							value="Anteprima: " />
-						<h:outputText id="anteprima"
-							value="#{richContentController.element.preview}" />
 
 					</h:panelGrid>
 					<br />
@@ -57,14 +52,14 @@
 						<h:panelGroup>
 							<p:commandLink ajax="true" onclick="resDialog.show();"
 								title="scegli immagine"
-								action="#{richContentController.chooseImg}" update=":resForm">
+								action="#{customerController.chooseImg}" update=":resForm">
 								<i class="icon-picture" style="font-size: 24px; margin: 2px;"></i>
 								<h:outputText value="Scegli un'immagine gia' caricata" />
 							</p:commandLink>
 							<br />
 							<br />
 							<p:commandLink ajax="true" onclick="resDialog.show();"
-								action="#{richContentController.chooseDoc}" update=":resForm"
+								action="#{customerController.chooseDoc}" update=":resForm"
 								title="scegli documento">
 								<i class="icon-book" style="font-size: 24px; margin: 2px;"></i>
 								<h:outputText value="Scegli un documento gia' caricato" />
@@ -79,7 +74,7 @@
 
 						<p:fileUpload id="imgUp" mode="advanced" multiple="true"
 							sizeLimit="20000000"
-							fileUploadListener="#{richContentController.handleUpload}"
+							fileUploadListener="#{customerController.handleUpload}"
 							label="Scegli Immagine o Documento"
 							description="Scegli Immagine o Documento"
 							update="imgList, docList" />
@@ -88,7 +83,7 @@
 				</p:panel>
 				<br />
 				<p:dataTable id="imgList" var="img"
-					value="#{richContentController.element.images}"
+					value="#{customerController.element.images}"
 					rowIndexVar="index2">
 					<f:facet name="header">Immagini</f:facet>
 					<p:column style="width: 50px">
@@ -118,7 +113,7 @@
 						<f:facet name="header">elimina</f:facet>
 						<center>
 							<h:commandLink
-								action="#{richContentController.removeImage(index2)}"
+								action="#{customerController.removeImage(index2)}"
 								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
 								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
@@ -127,7 +122,7 @@
 				</p:dataTable>
 				<br />
 				<p:dataTable id="docList" var="doc"
-					value="#{richContentController.element.documents}"
+					value="#{customerController.element.documents}"
 					rowIndexVar="index">
 					<f:facet name="header">Documenti</f:facet>
 					<p:column style="width: 50px">
@@ -149,7 +144,7 @@
 						<f:facet name="header">elimina</f:facet>
 						<center>
 							<h:commandLink
-								action="#{richContentController.removeDocument(index)}"
+								action="#{customerController.removeDocument(index)}"
 								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
 								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
@@ -160,13 +155,13 @@
 				<h:panelGrid columns="4">
 
 					<p:commandButton ajax="false"
-						action="#{richContentController.save}" value="Salva"
-						immediate="false" rendered="#{not richContentController.editMode}" />
+						action="#{customerController.save}" value="Salva"
+						immediate="false" rendered="#{not customerController.editMode}" />
 
 					<p:commandButton ajax="false"
-						action="#{richContentController.update}"
+						action="#{customerController.update}"
 						value="Salva le modifiche" immediate="false"
-						rendered="#{richContentController.editMode}" />
+						rendered="#{customerController.editMode}" />
 
 				</h:panelGrid>
 			</center>

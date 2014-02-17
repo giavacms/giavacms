@@ -13,9 +13,33 @@
 		<f:attribute name="roles" value="people" />
 	</ui:define>
 	<ui:define name="content">
+
+		<p:dialog header="Tag cloud (anteprima)" widgetVar="tagCloudDialog"
+			draggable="true" position="center">
+			<h:form id="cloudForm">
+				<h:panelGroup layout="block" id="tagCloud"
+					style="width: 400px; font-size:small; padding: 50px; text-align: center;">
+					<ul style="list-style-type: none;">
+						<ui:repeat value="#{tags}" var="t" varStatus="varStatus">
+							<li style="float: left;"><p:commandLink
+									value="#{t.obj.tagName}"
+									action="#{peopleController.filterTag(t.obj.tagName)}"
+									update=":mainForm:contentList :mainForm:searchGrid"
+									style="padding: 5px; font-size: #{3*t.ratio}em" /></li>
+						</ui:repeat>
+					</ul>
+				</h:panelGroup>
+				<br />
+				<br />
+				<br />
+				<br />
+			</h:form>
+		</p:dialog>
+		
 		<h:form id="mainForm">
 			<center>
 				<p:panel header="Lista Contenuti">
+					<br />
 					<h:panelGrid columns="8" id="searchGrid">
 
 						<h:outputLabel for="titolo" value="Titolo:" />
@@ -40,6 +64,7 @@
 						</h:selectOneMenu>
 
 					</h:panelGrid>
+					<br />
 					<p:commandButton action="#{peopleController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false"
 						update="tagPanel contentList" />
@@ -61,7 +86,6 @@
 								rendered="#{varStatus.last}" />
 						</ui:repeat>
 					</h:panelGroup>
-					<br />
 					<br />
 
 					<h:panelGroup id="contentList">
@@ -115,7 +139,8 @@
 										style="font-size: 24px;" />
 									<h:outputText value=" " />
 									<h:commandLink action="#{peopleController.viewElement}"
-										title="vedi" styleClass="icon-file-alt" style="font-size: 24px;" />
+										title="vedi" styleClass="icon-file-alt"
+										style="font-size: 24px;" />
 									<h:outputText value=" " />
 									<h:outputLink target="_blank" style="font-size: 24px;"
 										styleClass="icon-eye-open" title="anteprima"
@@ -126,12 +151,11 @@
 						</p:dataTable>
 					</h:panelGroup>
 				</p:panel>
-				<br /> <br />
+				<br />
 
-				<h:panelGrid columns="1">
-					<p:commandButton id="creaContenuto"
-						action="#{peopleController.addElement}" value="Aggiungi" />
-				</h:panelGrid>
+				<p:commandButton action="#{peopleController.addElement}"
+					value="Aggiungi" />
+
 			</center>
 		</h:form>
 	</ui:define>

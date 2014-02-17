@@ -4,8 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:gb="http://giavacms.org/base"
-	template="/WEB-INF/layout/t.xhtml">
+	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
 		<h:outputText value="Scheda Cliente" />
@@ -39,61 +38,43 @@
 						<h:outputText id="preview"
 							value="#{customerController.element.preview}" />
 
-                        <h:outputLabel for="order" style="font-weight: bolder;"
-                            value="Ordine per lista: " />
-                        <h:outputText id="order"
-                            value="#{customerController.element.listOrder}" />
+						<h:outputLabel for="order" style="font-weight: bolder;"
+							value="Ordine per lista: " />
+						<h:outputText id="order"
+							value="#{customerController.element.listOrder}" />
 
 						<h:outputLabel for="description" style="font-weight: bolder;"
 							value="Descrizione: " />
 						<h:outputText id="description"
 							value="#{customerController.element.description}" escape="false" />
 
-                        <h:outputLabel for="area" style="font-weight: bolder;"
-                            value="Settore: " />
-                        <h:outputText id="area"
-                            value="#{customerController.element.area}" escape="false" />
+						<h:outputLabel for="area" style="font-weight: bolder;"
+							value="Settore: " />
+						<h:outputText id="area" value="#{customerController.element.area}"
+							escape="false" />
 
-                        <h:outputLabel for="address" style="font-weight: bolder;"
-                            value="Indirizzo: " />
-                        <h:outputText id="address"
-                            value="#{customerController.element.address}" escape="false" />
+						<h:outputLabel for="address" style="font-weight: bolder;"
+							value="Indirizzo: " />
+						<h:outputText id="address"
+							value="#{customerController.element.address}" escape="false" />
 
-                        <h:outputLabel for="web" style="font-weight: bolder;"
-                            value="Sito web: " />
-                        <h:outputText id="web"
-                            value="#{customerController.element.web}" escape="false" />
+						<h:outputLabel for="web" style="font-weight: bolder;"
+							value="Sito web: " />
+						<h:outputText id="web" value="#{customerController.element.web}"
+							escape="false" />
 
-                        <h:outputLabel for="contact" style="font-weight: bolder;"
-                            value="Contatti: " />
-                        <h:outputText id="contact"
-                            value="#{customerController.element.contact}" escape="false" />
+						<h:outputLabel for="contact" style="font-weight: bolder;"
+							value="Contatti: " />
+						<h:outputText id="contact"
+							value="#{customerController.element.contact}" escape="false" />
 
-                        <h:outputLabel for="social" style="font-weight: bolder;"
-                            value="Social: " />
-                        <h:outputText id="social"
-                            value="#{customerController.element.social}" escape="false" />
+						<h:outputLabel for="social" style="font-weight: bolder;"
+							value="Social: " />
+						<h:outputText id="social"
+							value="#{customerController.element.social}" escape="false" />
 
 					</h:panelGrid>
-					<f:verbatim rendered="false">
-						<br />
-						<h2>Documenti</h2>
-					</f:verbatim>
 
-					<p:dataTable var="doc" rowIndexVar="rowIndex" rendered="false"
-						value="#{customerController.element.documents}">
-						<p:column>
-							<f:facet name="header">num</f:facet>
-							<h:outputText value="#{rowIndex+1}" />
-						</p:column>
-
-						<p:column>
-							<f:facet name="header">scarica documento</f:facet>
-							<h:outputLink value="/docs/#{doc.filename}" target="_blank">
-								<h:outputText value="#{doc.filename}" />
-							</h:outputLink>
-						</p:column>
-					</p:dataTable>
 					<br />
 
 					<h2>Immagini</h2>
@@ -112,12 +93,33 @@
 						</ui:repeat>
 					</p:lightBox>
 
+					<br />
+					<h2>Documenti</h2>
+
+					<p:dataTable var="doc" rowIndexVar="rowIndex" 
+						value="#{customerController.element.documents}">
+						<p:column>
+							<f:facet name="header">num</f:facet>
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">scarica documento</f:facet>
+							<h:outputLink value="/docs/#{doc.filename}" target="_blank">
+								<h:outputText value="#{doc.filename}" />
+							</h:outputLink>
+						</p:column>
+					</p:dataTable>
+
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="2">
-					<h:commandButton action="#{customerController.modCurrent}"
-						value="Modifica" />
-					<h:commandButton id="addElement"
+				<h:panelGrid columns="3">
+					<p:commandButton ajax="false"
+						action="#{customerController.modCurrent}" value="Modifica" />
+					<p:commandButton
+						action="#{customerController.modDocumentsCurrent}"
+						value="Modifica Documenti" />
+					<p:commandButton ajax="false"
 						action="#{customerController.addElement}" value="Aggiungi" />
 				</h:panelGrid>
 			</center>

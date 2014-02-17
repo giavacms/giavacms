@@ -37,8 +37,12 @@
 		</p:dialog>
 
 		<h:form id="mainForm">
+
 			<center>
+
 				<p:panel header="Lista Contenuti">
+					<br />
+
 					<h:panelGrid columns="10" id="searchGrid">
 
 						<h:outputLabel for="titolo" value="Titolo:" />
@@ -53,7 +57,7 @@
 
 						<h:outputLabel for="tipi" value="Tipi multipli:" />
 						<h:inputText id="tipi"
-							value="#{richContentController.search.obj.richContentType.name}"/>
+							value="#{richContentController.search.obj.richContentType.name}" />
 
 						<h:outputLabel for="tag" value="Tag:" />
 						<h:inputText id="tag"
@@ -68,6 +72,7 @@
 						</h:selectOneMenu>
 
 					</h:panelGrid>
+					<br />
 					<p:commandButton action="#{richContentController.reloadAjax}"
 						value="Cerca" ajax="true" immediate="false"
 						update="tagPanel contentList :cloudForm" />
@@ -89,7 +94,7 @@
 								rendered="#{varStatus.last}" />
 						</ui:repeat>
 					</h:panelGroup>
-					<br />
+
 					<br />
 
 					<p:dataTable id="contentList" rowIndexVar="rowIndex"
@@ -152,10 +157,9 @@
 				</p:panel>
 				<br /> <br />
 
-				<h:panelGrid columns="1">
-					<h:commandButton id="creaContenuto"
-						action="#{richContentController.addElement}" value="Aggiungi" />
-				</h:panelGrid>
+				<p:commandButton ajax="false"
+					action="#{richContentController.addElement}" value="Aggiungi" />
+
 			</center>
 		</h:form>
 	</ui:define>

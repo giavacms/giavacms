@@ -16,6 +16,7 @@
 		<h:form acceptcharset="UTF-8">
 			<center>
 				<p:panel header="Lista Prodotti">
+					<br />
 					<h:panelGrid columns="9">
 						<h:outputLabel for="name" value="Nome:" />
 						<h:inputText id="name"
@@ -37,9 +38,12 @@
 							<f:selectItems
 								value="#{baseProducer.getBasePageTemplateItems(productController.extension)}" />
 						</h:selectOneMenu>
-						<h:commandButton action="#{productController.reloadAjax}"
-							value="Cerca" />
 					</h:panelGrid>
+
+					<br />
+					<p:commandButton action="#{productController.reloadAjax}" update="newsList"
+						value="Cerca" />
+					<br />
 					<br />
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="product"
@@ -97,8 +101,12 @@
 							<f:facet name="header">operazioni</f:facet>
 							<center>
 								<h:commandLink action="#{productController.modElement}"
-									title="modifica" styleClass="icon-edit"
+									title="modifica testi" styleClass="icon-edit"
 									style="font-size: 24px;" />
+								<h:outputText value=" " />
+								<h:commandLink action="#{productController.modDocuments}"
+									styleClass="icon-link" style="font-size: 24px;"
+									title="modifica documenti" />
 								<h:outputText value=" " />
 								<h:commandLink action="#{productController.viewElement}"
 									title="vedi" styleClass="icon-file-text-alt"
@@ -125,13 +133,14 @@
 							</ul>
 						</p:rowExpansion>
 					</p:dataTable>
+					<br />
+					<br />
 				</p:panel>
 				<br /> <br />
 
-				<h:panelGrid columns="1">
-					<h:commandButton id="add" action="#{productController.addElement}"
-						value="Aggiungi" />
-				</h:panelGrid>
+				<p:commandButton ajax="false"
+					action="#{productController.addElement}" value="Aggiungi" />
+
 			</center>
 		</h:form>
 	</ui:define>

@@ -49,11 +49,11 @@
 
 				<h:panelGrid columns="2">
 
-					<h:commandButton
+					<p:commandButton ajax="false"
 						action="#{catalogueConfigurationController.update}"
 						value="Salva le modifiche" />
 
-					<h:commandButton id="reset"
+					<p:commandButton ajax="false"
 						action="#{catalogueConfigurationController.reset}" value="Annulla"
 						immediate="true" />
 

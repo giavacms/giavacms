@@ -127,30 +127,12 @@
 							for="v9" />
 						<h:outputText value="#{productController.element.val9}" id="v9" />
 
-						<h:outputLabel value="#{productController.element.category.prop10}"
-							for="v10" />
+						<h:outputLabel
+							value="#{productController.element.category.prop10}" for="v10" />
 						<h:outputText value="#{productController.element.val10}" id="v10" />
 
 					</h:panelGrid>
-					<f:verbatim rendered="false">
-						<br />
-						<h2>Documenti</h2>
-					</f:verbatim>
 
-					<p:dataTable var="doc" rowIndexVar="rowIndex" rendered="false"
-						value="#{productController.element.documents}">
-						<p:column>
-							<f:facet name="header">num</f:facet>
-							<h:outputText value="#{rowIndex+1}" />
-						</p:column>
-
-						<p:column>
-							<f:facet name="header">scarica documento</f:facet>
-							<h:outputLink value="/docs/#{doc.filename}" target="_blank">
-								<h:outputText value="#{doc.filename}" />
-							</h:outputLink>
-						</p:column>
-					</p:dataTable>
 					<br />
 
 					<h2>Immagini</h2>
@@ -169,12 +151,33 @@
 						</ui:repeat>
 					</p:lightBox>
 
+					<br />
+					<h2>Documenti</h2>
+
+					<p:dataTable var="doc" rowIndexVar="rowIndex"
+						value="#{productController.element.documents}">
+						<p:column>
+							<f:facet name="header">num</f:facet>
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">scarica documento</f:facet>
+							<h:outputLink value="/docs/#{doc.filename}" target="_blank">
+								<h:outputText value="#{doc.filename}" />
+							</h:outputLink>
+						</p:column>
+					</p:dataTable>
+
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="2">
-					<h:commandButton action="#{productController.modCurrent}"
-						value="Modifica" />
-					<h:commandButton id="addElement"
+				<h:panelGrid columns="4">
+					<p:commandButton ajax="false"
+						action="#{productController.modCurrent}" value="Modifica" />
+					<p:commandButton
+						action="#{productController.modDocumentsCurrent}"
+						value="Modifica Documenti" />
+					<p:commandButton ajax="false"
 						action="#{productController.addElement}" value="Aggiungi" />
 				</h:panelGrid>
 			</center>
