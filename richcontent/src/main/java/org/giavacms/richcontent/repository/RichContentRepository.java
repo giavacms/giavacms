@@ -450,6 +450,14 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
 
       }
 
+      // AUTHOR
+      if (search.getObj().getAuthor() != null && search.getObj().getAuthor().trim().length() > 0)
+      {
+         sb.append(separator).append(" upper ( ").append(".author LIKE :AUTHOR ");
+         params.put("AUTHOR", likeParam(search.getObj().getAuthor().trim().toUpperCase()));
+         separator = " and ";
+      }
+
       // TYPE BY ID
       if (search.getObj().getRichContentType() != null
                && search.getObj().getRichContentType().getId() != null)
