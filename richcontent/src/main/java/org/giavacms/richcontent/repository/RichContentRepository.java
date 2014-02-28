@@ -25,6 +25,7 @@ import org.giavacms.common.util.StringUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
+import org.hibernate.sql.Alias;
 
 @Named
 @Stateless
@@ -453,7 +454,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // AUTHOR
       if (search.getObj().getAuthor() != null && search.getObj().getAuthor().trim().length() > 0)
       {
-         sb.append(separator).append(" upper ( ").append(".author LIKE :AUTHOR ");
+         sb.append(separator).append(" upper ( ").append(richContentAlias).append(".author ) LIKE :AUTHOR ");
          params.put("AUTHOR", likeParam(search.getObj().getAuthor().trim().toUpperCase()));
          separator = " and ";
       }

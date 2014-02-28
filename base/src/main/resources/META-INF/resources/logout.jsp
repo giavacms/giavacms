@@ -13,5 +13,5 @@
       e.printStackTrace();
    }
    response.sendRedirect(request.getContextPath()
-            + "/index.jsp");
+            + "/login.jsf");
 %>
