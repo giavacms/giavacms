@@ -16,6 +16,8 @@
 		<h:form acceptcharset="UTF-8">
 			<center>
 				<p:panel header="Lista Clienti">
+
+					<br />
 					<h:panelGrid columns="7">
 						<h:outputLabel for="name" value="Nome:" />
 						<h:inputText id="name"
@@ -26,9 +28,18 @@
 							value="#{customerController.search.obj.category.id}">
 							<f:selectItems value="#{customerCategoryItems}" />
 						</h:selectOneMenu>
-						<h:commandButton action="#{customerController.reloadAjax}"
-							value="Cerca" />
+						<h:outputLabel for="base" value="Pagina base:" />
+						<h:selectOneMenu id="base"
+							value="#{customerController.search.obj.template.id}">
+							<f:converter converterId="javax.faces.Long" />
+							<f:selectItems
+								value="#{baseProducer.getBasePageTemplateItems(customerController.extension)}" />
+						</h:selectOneMenu>
 					</h:panelGrid>
+					<br />
+					<p:commandButton action="#{customerController.reloadAjax}"
+						update="newsList" value="Cerca" />
+					<br />
 					<br />
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="customer"
@@ -55,29 +66,59 @@
 
 						<p:column width="100">
 							<f:facet name="header">ordine</f:facet>
-							<h:outputText value="#{customer.listOrder}" />
+							<center>
+								<h:outputText value="#{customer.listOrder}" />
+							</center>
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">pagina base</f:facet>
+							<h:outputText value="#{customer.template.mainPageTitle}" />
+						</p:column>
+
+						<p:column width="150">
+							<f:facet name="header">lingua</f:facet>
+							<h:outputText value="#{language1.id} "
+								rendered="#{customer.lang eq 1}" />
+							<h:outputText value="#{language2.id} "
+								rendered="#{customer.lang eq 2}" />
+							<h:outputText value="#{language3.id} "
+								rendered="#{customer.lang eq 3}" />
+							<h:outputText value="#{language4.id} "
+								rendered="#{customer.lang eq 4}" />
+							<h:outputText value="#{language5.id} "
+								rendered="#{customer.lang eq 5}" />
 						</p:column>
 
 						<p:column width="100">
 							<f:facet name="header">operazioni</f:facet>
 							<center>
-								<h:commandLink action="#{customerController.viewElement}"
-									title="vedi" styleClass="icon-file-text-alt"
+								<h:commandLink action="#{customerController.modElement}"
+									title="modifica testi" styleClass="icon-edit"
 									style="font-size: 24px;" />
 								<h:outputText value=" " />
-								<h:commandLink action="#{customerController.modElement}"
-									title="modifica" styleClass="icon-edit"
+								<h:commandLink action="#{customerController.modDocuments}"
+									styleClass="icon-link" style="font-size: 24px;"
+									title="modifica documenti" />
+								<h:outputText value=" " />
+								<h:commandLink action="#{customerController.modProducts}"
+									styleClass="icon-beaker" style="font-size: 24px;"
+									title="modifica prodotti" />
+								<h:outputText value=" " />
+								<h:commandLink action="#{customerController.viewElement}"
+									title="vedi" styleClass="icon-file-text-alt"
 									style="font-size: 24px;" />
 							</center>
 						</p:column>
 					</p:dataTable>
+					<br />
+					<br />
 				</p:panel>
 				<br /> <br />
 
-				<h:panelGrid columns="1">
-					<h:commandButton id="add" action="#{customerController.addElement}"
-						value="Aggiungi" />
-				</h:panelGrid>
+				<p:commandButton ajax="false"
+					action="#{customerController.addElement}" value="Aggiungi" />
+
 			</center>
 		</h:form>
 	</ui:define>

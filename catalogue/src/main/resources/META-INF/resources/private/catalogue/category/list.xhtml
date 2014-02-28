@@ -20,6 +20,7 @@
 			<h:form prependId="false">
 				<p:panel header="#{msg['category.list.title']}">
 
+					<br />
 					<h:panelGrid columns="7">
 
 						<h:outputLabel for="titolo" value="Titolo:" />
@@ -34,10 +35,12 @@
 								value="#{baseProducer.getBasePageTemplateItems(categoryController.extension)}" />
 						</h:selectOneMenu>
 
-						<p:commandButton action="#{categoryController.reloadAjax}"
-							value="Cerca" ajax="true" immediate="false" update="newsList" />
-
 					</h:panelGrid>
+					<br />
+					<p:commandButton action="#{categoryController.reloadAjax}"
+						value="Cerca" ajax="true" immediate="false" update="newsList" />
+
+					<br />
 					<br />
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
@@ -133,7 +136,8 @@
 									<ui:fragment
 										rendered="#{not empty t.getProp(varStatus.index+1)}">
 										<li><h:outputText value="#{t.getProp(varStatus.index+1)}" />
-											<h:outputText value=" ( #{t.getRef(varStatus.index+1)} )" rendered="#{not empty t.getRef(varStatus.index+1)}" /></li>
+											<h:outputText value=" ( #{t.getRef(varStatus.index+1)} )"
+												rendered="#{not empty t.getRef(varStatus.index+1)}" /></li>
 									</ui:fragment>
 								</ui:repeat>
 							</ul>

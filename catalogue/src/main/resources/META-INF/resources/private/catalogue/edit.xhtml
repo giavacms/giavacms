@@ -94,9 +94,11 @@
 								value="#{productController.element.category.id}" required="true"
 								requiredMessage="E' obbligatorio specificare la categoria.">
 								<f:selectItems value="#{categoryItems}" />
-								<p:ajax event="change"/>
+								<p:ajax event="change" />
 							</h:selectOneMenu>
-							<p:commandButton update="p1 v1 p2 v2 p3 v3 p4 v4 p5 v5 p6 v6 p7 v7 p8 v8 p9 v9 p10 v10" value="Aggiorna caratteristiche"
+							<p:commandButton
+								update="p1 v1 p2 v2 p3 v3 p4 v4 p5 v5 p6 v6 p7 v7 p8 v8 p9 v9 p10 v10"
+								value="Aggiorna caratteristiche"
 								action="#{productController.loadCategory}" immediate="true" />
 						</h:panelGroup>
 
@@ -291,86 +293,101 @@
 					<br />
 				</p:panel>
 				<br />
-				<p:panel header="Caricamento Immagini">
-					<p:fileUpload id="imgUp" mode="advanced" multiple="true"
-						sizeLimit="20000000"
-						fileUploadListener="#{productController.handleImgUpload}"
-						label="Scegli Immagine" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-						description="Scegli Immagine" update="imgList" />
-				</p:panel>
-				<br />
-				<p:dataTable id="imgList" var="img"
-					value="#{productController.element.images}" rowIndexVar="index2">
-					<p:column>
-						<f:facet name="header">ind</f:facet>
-						<h:outputText value="#{index2+1}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">foto</f:facet>
-						<h:graphicImage value="/img/#{img.filename}"
-							width="#{gb:imageWidthProportionalUrl('img/'.concat(img.filename),100,100)}"
-							height="#{gb:imageHeightProportionalUrl('img/'.concat(img.filename), 100, 100)}"
-							alt="#{img.filename}" title="#{img.filename}"
-							style="padding: 5px;" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">nome</f:facet>
-						<h:outputText value="#{img.filename}" />
-					</p:column>
 
-					<p:column>
-						<f:facet name="header">elimina</f:facet>
-						<center>
-							<h:commandLink action="#{productController.removeImage(img.id)}"
-								title="elimina" styleClass="icon-trash" style="font-size: 24px;"
-								immediate="true"
-								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
-								rendered="#{not empty img.id}" />
-						</center>
-					</p:column>
-				</p:dataTable>
+				<ui:fragment rendered="false">
+					<p:panel header="Caricamento Immagini">
+						<p:fileUpload id="imgUp" mode="advanced" multiple="true"
+							sizeLimit="20000000"
+							fileUploadListener="#{productController.handleImgUpload}"
+							label="Scegli Immagine" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							description="Scegli Immagine" update="imgList" />
+					</p:panel>
+					<br />
 
-				<p:panel header="Caricamento Documenti" rendered="false">
-					<p:fileUpload id="docUp"
-						fileUploadListener="#{productController.handleFileUpload}"
-						multiple="true" label="Scegli Documenti"
-						allowTypes="/(\.|\/)(doc|docx?|xls|xlsx?|pdf)$/"
-						description="Scegli Documenti" update="docList" />
-				</p:panel>
-				<br />
-				<p:dataTable id="docList" var="doc" rendered="false"
-					value="#{productController.element.documents}" rowIndexVar="index">
-					<p:column>
-						<f:facet name="header">ind</f:facet>
-						<h:outputText value="#{index}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">nome</f:facet>
-						<h:outputText value="#{doc.filename}" />
-					</p:column>
+					<p:dataTable id="imgList" var="img"
+						value="#{productController.element.images}" rowIndexVar="index2">
+						<p:column>
+							<f:facet name="header">ind</f:facet>
+							<h:outputText value="#{index2+1}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">foto</f:facet>
+							<h:graphicImage value="/img/#{img.filename}"
+								width="#{gb:imageWidthProportionalUrl('img/'.concat(img.filename),100,100)}"
+								height="#{gb:imageHeightProportionalUrl('img/'.concat(img.filename), 100, 100)}"
+								alt="#{img.filename}" title="#{img.filename}"
+								style="padding: 5px;" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">nome</f:facet>
+							<h:outputText value="#{img.filename}" />
+						</p:column>
 
-					<p:column>
-						<f:facet name="header">elimina</f:facet>
-						<center>
-							<h:commandLink
-								action="#{productController.removeDocument(img.id)}"
-								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
-								immediate="true"
-								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
-								rendered="#{not empty doc.filename or not empty doc.id}" />
-						</center>
-					</p:column>
-				</p:dataTable>
+						<p:column>
+							<f:facet name="header">elimina</f:facet>
+							<center>
+								<h:commandLink action="#{productController.removeImage(img.id)}"
+									title="elimina" styleClass="icon-trash"
+									style="font-size: 24px;" immediate="true"
+									onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
+									rendered="#{not empty img.id}" />
+							</center>
+						</p:column>
+					</p:dataTable>
+					<br />
+				</ui:fragment>
+
+				<ui:fragment rendered="false">
+					<p:panel header="Caricamento Documenti">
+						<p:fileUpload id="docUp"
+							fileUploadListener="#{productController.handleFileUpload}"
+							multiple="true" label="Scegli Documenti"
+							allowTypes="/(\.|\/)(doc|docx?|xls|xlsx?|pdf)$/"
+							description="Scegli Documenti" update="docList" />
+					</p:panel>
+					<br />
+					<p:dataTable id="docList" var="doc" 
+						value="#{productController.element.documents}" rowIndexVar="index">
+						<p:column>
+							<f:facet name="header">ind</f:facet>
+							<h:outputText value="#{index}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">nome</f:facet>
+							<h:outputText value="#{doc.filename}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">elimina</f:facet>
+							<center>
+								<h:commandLink
+									action="#{productController.removeDocument(img.id)}"
+									title="elimina" style="font-size: 24px;"
+									styleClass="icon-trash" immediate="true"
+									onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
+									rendered="#{not empty doc.filename or not empty doc.id}" />
+							</center>
+						</p:column>
+					</p:dataTable>
+					<br />
+				</ui:fragment>
+				
 				<h:panelGrid columns="4">
 
-					<h:commandButton action="#{productController.save}" value="Salva"
-						immediate="false" rendered="#{not productController.editMode}" />
+					<p:commandButton ajax="false" action="#{productController.save}"
+						value="Salva" immediate="false"
+						rendered="#{not productController.editMode}" />
 
-					<h:commandButton action="#{productController.update}"
+					<p:commandButton ajax="false"
+						action="#{productController.saveAndModDocuments}"
+						value="Salva e aggiungi documenti" immediate="false"
+						rendered="#{not productController.editMode}" />
+
+					<p:commandButton ajax="false" action="#{productController.update}"
 						value="Salva le modifiche" immediate="false"
 						rendered="#{productController.editMode}" />
 
-					<h:commandButton action="#{productController.delete}"
+					<p:commandButton ajax="false" action="#{productController.delete}"
 						value="Elimina" rendered="#{productController.editMode}"
 						immediate="true"
 						onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />

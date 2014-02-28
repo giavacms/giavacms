@@ -8,11 +8,9 @@ package org.giavacms.catalogue.controller;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.giavacms.catalogue.model.Feature;
 import org.giavacms.catalogue.model.Feature;
 import org.giavacms.catalogue.repository.FeatureRepository;
 import org.giavacms.common.annotation.BackPage;

@@ -21,11 +21,12 @@ import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 
 @Entity
-@Table(name = "Product_Old")
+@Table(name = OldProduct.TABLE_NAME)
 public class OldProduct
          implements Serializable
 {
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "Product_Old";
    private Long id;
    private String name;
    private String preview;
@@ -97,7 +98,7 @@ public class OldProduct
    }
 
    @OneToMany(fetch = FetchType.LAZY, cascade = { javax.persistence.CascadeType.ALL })
-   @JoinTable(name = "Product_Old__Document", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "documents_id") })
+   @JoinTable(name = "Product_Old_Document", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "documents_id") })
    public List<Document> getDocuments()
    {
       if (this.documents == null)
@@ -130,7 +131,7 @@ public class OldProduct
    }
 
    @OneToMany(fetch = FetchType.LAZY, cascade = { javax.persistence.CascadeType.ALL })
-   @JoinTable(name = "Product_Image", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "images_id") })
+   @JoinTable(name = "Product_Old_Image", joinColumns = { @javax.persistence.JoinColumn(name = "Product_id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "images_id") })
    public List<Image> getImages()
    {
       if (this.images == null)

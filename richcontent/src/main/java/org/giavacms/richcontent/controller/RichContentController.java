@@ -10,13 +10,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.giavacms.base.annotation.DefaultResourceController;
-import org.giavacms.base.common.util.ResourceUtils;
-import org.giavacms.base.controller.AbstractPageController;
+import org.giavacms.base.controller.AbstractPageWithImagesAndDocumentsController;
 import org.giavacms.base.controller.ResourceController;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
-import org.giavacms.base.model.enums.ResourceType;
-import org.giavacms.base.pojo.Resource;
 import org.giavacms.common.annotation.BackPage;
 import org.giavacms.common.annotation.EditPage;
 import org.giavacms.common.annotation.ListPage;
@@ -24,18 +21,16 @@ import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
-import org.giavacms.common.util.MimeUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
 import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.RichContentTypeRepository;
 import org.giavacms.richcontent.repository.TagRepository;
-import org.primefaces.event.FileUploadEvent;
 
 @Named
 @SessionScoped
-public class RichContentController extends AbstractPageController<RichContent>
+public class RichContentController extends AbstractPageWithImagesAndDocumentsController<RichContent>
 {
 
    private static final long serialVersionUID = 1L;
@@ -80,102 +75,6 @@ public class RichContentController extends AbstractPageController<RichContent>
    public String getExtension()
    {
       return RichContent.EXTENSION;
-   }
-
-   // --------------------------------------------------------
-
-   public void handleUpload(FileUploadEvent event)
-   {
-      logger.info("Uploaded: " + event.getFile().getFileName() + " - "
-               + event.getFile().getContentType() + "- "
-               + event.getFile().getSize());
-      String type = ResourceUtils.getType(event.getFile().getFileName());
-      if (ResourceType.IMAGE.name().equals(type))
-      {
-         handleImgUpload(event);
-      }
-      else
-      {
-         handleFileUpload(event);
-      }
-   }
-
-   public void handleFileUpload(FileUploadEvent event)
-   {
-      Document doc = new Document();
-      doc.setUploadedData(event.getFile());
-      doc.setData(event.getFile().getContents());
-      doc.setType(event.getFile().getContentType());
-      String filename = ResourceUtils.createFile_("docs", event.getFile()
-               .getFileName(), event.getFile().getContents());
-      doc.setFilename(filename);
-      getElement().getDocuments().add(doc);
-   }
-
-   public void handleImgUpload(FileUploadEvent event)
-   {
-      try
-      {
-         byte[] imgRes = event.getFile().getContents();
-         Image img = new Image();
-         img.setUploadedData(event.getFile());
-         img.setData(imgRes);
-         img.setType(event.getFile().getContentType());
-         String filename = ResourceUtils.createImage_("img", event.getFile()
-                  .getFileName(), imgRes);
-         img.setFilename(filename);
-         getElement().getImages().add(img);
-      }
-      catch (Exception e)
-      {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-
-   }
-
-   public void removeDocument(Long order)
-   {
-      removeDocument(order.intValue());
-   }
-
-   public void removeDocument(Integer order)
-   {
-      if (order != null && order > 0 && getElement() != null
-               && getElement().getDocuments() != null
-               && getElement().getDocuments().size() > 0 && getElement().getDocuments().size() > order)
-      {
-         Document toRemove = getElement().getDocuments().get(order);
-         getElement().getDocuments().remove(toRemove);
-         if (toRemove.getId() != null)
-         {
-            richContentRepository.update(getElement());
-         }
-      }
-      else
-         logger.info("removeDocument: non posso rimuovere posizione :" + order);
-   }
-
-   public void removeImage(Long order)
-   {
-      removeImage(order.intValue());
-   }
-
-   public void removeImage(Integer order)
-   {
-      if (order != null && order > 0 && getElement() != null
-               && getElement().getImages() != null
-               && getElement().getImages().size() > 0 && getElement().getImages().size() > order)
-      {
-         Image toRemove = getElement().getImages().get(order);
-         getElement().getImages().remove(toRemove);
-         if (toRemove.getId() != null)
-         {
-            richContentRepository.update(getElement());
-         }
-      }
-      else
-         logger.info("removeImage: non posso rimuovere posizione:" + order);
    }
 
    // --------------------------------------------------------
@@ -336,19 +235,6 @@ public class RichContentController extends AbstractPageController<RichContent>
       return super.viewPage();
    }
 
-   public String modDocumentsCurrent()
-   {
-      // TODO Auto-generated method stub
-      super.modCurrent();
-      return EDIT_DOCS + REDIRECT_PARAM;
-   }
-
-   public String modDocuments()
-   {
-      super.modElement();
-      return EDIT_DOCS + REDIRECT_PARAM;
-   }
-
    public void filterTag(String tagName)
    {
       getSearch().getObj().setTag(tagName);
@@ -394,54 +280,22 @@ public class RichContentController extends AbstractPageController<RichContent>
       return outcome;
    }
 
-   public String saveAndModDocuments()
+   @Override
+   protected List<Document> getElementDocuments()
    {
-      String outcome = save();
-      if (outcome == null)
-      {
-         return null;
-      }
-      return modDocumentsCurrent();
+      return getElement().getDocuments();
    }
 
-   public void chooseImg()
+   @Override
+   protected List<Image> getElementImages()
    {
-      resourceController.getSearch().getObj().setResourceType(ResourceType.IMAGE);
-      resourceController.reload();
+      return getElement().getImages();
    }
 
-   public void chooseDoc()
+   @Override
+   public String editDocsPage()
    {
-      resourceController.getSearch().getObj().setResourceType(ResourceType.DOCUMENT);
-      resourceController.reload();
-   }
-
-   public String pickResource()
-   {
-      resourceController.modElement();
-      Resource resource = resourceController.getElement();
-      switch (resource.getResourceType())
-      {
-      case IMAGE:
-         byte[] imgRes = resource.getBytes();
-         Image img = new Image();
-         img.setData(imgRes);
-         img.setType(MimeUtils.getContentType(resource.getName()));
-         img.setFilename(resource.getName());
-         getElement().getImages().add(img);
-         break;
-      case DOCUMENT:
-         byte[] docRes = resource.getBytes();
-         Document doc = new Document();
-         doc.setData(docRes);
-         doc.setType(MimeUtils.getContentType(resource.getName()));
-         doc.setFilename(resource.getName());
-         getElement().getDocuments().add(doc);
-         break;
-      default:
-         break;
-      }
-      return "";
+      return EDIT_DOCS;
    }
 
 }

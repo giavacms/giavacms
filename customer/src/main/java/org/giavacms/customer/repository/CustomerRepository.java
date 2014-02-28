@@ -46,19 +46,20 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
    protected Customer prePersist(Customer n)
    {
       n.setClone(true);
-      if (n.getCategory() != null
-               && n.getCategory().getId() != null)
-         n.setCategory(getEm().find(CustomerCategory.class,
-                  n.getCategory().getId()));
-      if (n.getDocuments() != null && n.getDocuments().size() == 0)
-      {
-         n.setDocuments(null);
-      }
-      if (n.getImages() != null && n.getImages().size() == 0)
-      {
-         n.setImages(null);
-      }
+      // if (n.getCategory() != null
+      // && n.getCategory().getId() != null)
+      // n.setCategory(getEm().find(CustomerCategory.class,
+      // n.getCategory().getId()));
+      // if (n.getDocuments() != null && n.getDocuments().size() == 0)
+      // {
+      // n.setDocuments(null);
+      // }
+      // if (n.getImages() != null && n.getImages().size() == 0)
+      // {
+      // n.setImages(null);
+      // }
       n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+      n = super.prePersist(n);
       return n;
    }
 
@@ -66,19 +67,20 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
    protected Customer preUpdate(Customer n)
    {
       n.setClone(true);
-      if (n.getCategory() != null
-               && n.getCategory().getId() != null)
-         n.setCategory(getEm().find(CustomerCategory.class,
-                  n.getCategory().getId()));
-      if (n.getDocuments() != null && n.getDocuments().size() == 0)
-      {
-         n.setDocuments(null);
-      }
-      if (n.getImages() != null && n.getImages().size() == 0)
-      {
-         n.setImages(null);
-      }
-      n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+      // if (n.getCategory() != null
+      // && n.getCategory().getId() != null)
+      // n.setCategory(getEm().find(CustomerCategory.class,
+      // n.getCategory().getId()));
+      // if (n.getDocuments() != null && n.getDocuments().size() == 0)
+      // {
+      // n.setDocuments(null);
+      // }
+      // if (n.getImages() != null && n.getImages().size() == 0)
+      // {
+      // n.setImages(null);
+      // }
+      // n.setDescription(HtmlUtils.normalizeHtml(n.getDescription()));
+      n = super.preUpdate(n);
       return n;
    }
 
@@ -100,6 +102,7 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
       String customerCategoryAlias = "CC";
       String imageAlias = "I";
       String documentAlias = "D";
+      // String toProductAlias = "P";
 
       // query string buffer
       StringBuffer sb = new StringBuffer(
@@ -143,7 +146,8 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
          sb.append(documentAlias).append(".fileName AS document ");
          if (completeFetch)
          {
-            // additional fields to retrieve only when fetching
+            // sb.append(", ").append(toProductAlias).append(".product_id ");
+            // sb.append(", ").append(toProductAlias).append(".listOrder ");
          }
       }
 
@@ -251,7 +255,7 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
       else
       {
          // we need to sort internal results to apply pagination
-         sb.append(" order by ").append(innerCustomerAlias).append(".date desc ");
+         sb.append(" order by ").append(innerCustomerAlias).append(".id asc ");
 
          // we apply limit-clause only if we want pagination
          if (pageSize > 0)
@@ -266,7 +270,7 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
             // this is where external id selection applies
             sb.append(" as IN2 ON ").append(pageAlias).append(".ID = IN2.ID ");
             // we also need to sort external results to keep result order within each results page
-            sb.append(" order by ").append(customerAlias).append(".date desc ");
+            sb.append(" order by ").append(customerAlias).append(".id asc ");
             sb.append(", ").append(imageAlias).append(".id asc ");
             sb.append(", ").append(documentAlias).append(".id asc ");
          }

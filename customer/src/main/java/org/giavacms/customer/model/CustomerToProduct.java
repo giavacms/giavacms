@@ -11,10 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.giavacms.catalogue.model.Product;
 
 @Entity
+@Table(name=CustomerToProduct.TABLE_NAME)
 public class CustomerToProduct
 {
 
@@ -22,6 +24,7 @@ public class CustomerToProduct
    private Customer customer;
    private Product product;
    private Integer listOrder = 0;
+   public static final String TABLE_NAME = "CustomerToProduct";
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
