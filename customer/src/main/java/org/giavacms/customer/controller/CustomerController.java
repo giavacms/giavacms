@@ -231,4 +231,41 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
       }
    }
 
+   @Override
+   protected void addImage(Customer clone, Image image)
+   {
+      clone.getImages().add(image);
+   }
+
+   @Override
+   protected void addDocument(Customer clone, Document document)
+   {
+      clone.getDocuments().add(document);
+   }
+
+   @Override
+   protected List<Image> getImages(Customer original)
+   {
+      return original.getImages();
+   }
+
+   @Override
+   protected List<Document> getDocuments(Customer original)
+   {
+      return original.getDocuments();
+   }
+
+   @Override
+   protected void cloneFields(Customer original, Customer clone)
+   {
+      clone.setAddress(original.getAddress());
+      clone.setPreview(original.getPreview());
+      clone.setWeb(original.getWeb());
+      clone.setContact(original.getContact());
+      clone.setSocial(original.getSocial());
+      clone.setCategory(original.getCategory());
+      clone.setDimensions(original.getDimensions());
+      clone.setListOrder(original.getListOrder());
+      clone.setArea(original.getArea());
+   }
 }

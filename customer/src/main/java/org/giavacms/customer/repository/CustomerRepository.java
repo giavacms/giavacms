@@ -644,4 +644,31 @@ public class CustomerRepository extends AbstractPageRepository<Customer>
       return new ArrayList<Customer>(customers.values());
    }
 
+   @Override
+   public boolean destroy(Customer t)
+   {
+      try
+      {
+         getEm().createNativeQuery(
+                  "delete from " + Customer.TABLE_NAME + "_" + Image.TABLE_NAME + " where "
+                           + Customer.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery(
+                  "delete from " + Customer.TABLE_NAME + "_" + Document.TABLE_NAME + " where "
+                           + Customer.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery("delete from " + Customer.TABLE_NAME + " where id = :ID ")
+                  .setParameter("ID", t.getId())
+                  .executeUpdate();
+         getEm().createNativeQuery("delete from " + Page.TABLE_NAME + " where id = :ID ").setParameter("ID", t.getId())
+                  .executeUpdate();
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
+   }
+
 }

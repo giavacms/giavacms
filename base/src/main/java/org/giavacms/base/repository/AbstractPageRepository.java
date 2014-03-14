@@ -114,6 +114,11 @@ public abstract class AbstractPageRepository<T extends Page> extends
       }
    }
 
+   public boolean destroy(T t)
+   {
+      throw new RuntimeException("not implemented");
+   }
+
    @Override
    protected void applyRestrictions(Search<T> search, String alias,
             String separator, StringBuffer sb, Map<String, Object> params)
@@ -419,5 +424,11 @@ public abstract class AbstractPageRepository<T extends Page> extends
    abstract protected StringBuffer getListNative(Search<T> search, Map<String, Object> params, boolean count,
             int startRow,
             int pageSize, boolean completeFetch);
+
+   public boolean moveDependencies(String id, String id2)
+   {
+      logger.debug("nothing to move");
+      return true;
+   }
 
 }

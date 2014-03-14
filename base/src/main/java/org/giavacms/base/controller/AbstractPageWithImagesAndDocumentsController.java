@@ -6,8 +6,6 @@ import javax.inject.Inject;
 
 import org.giavacms.base.annotation.DefaultResourceController;
 import org.giavacms.base.common.util.ResourceUtils;
-import org.giavacms.base.controller.AbstractPageController;
-import org.giavacms.base.controller.ResourceController;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
@@ -186,8 +184,7 @@ abstract public class AbstractPageWithImagesAndDocumentsController<T extends Pag
 
    public String pickResource()
    {
-      resourceController.modElement();
-      Resource resource = resourceController.getElement();
+      Resource resource = resourceController.getModel().getRowData();
       switch (resource.getResourceType())
       {
       case IMAGE:
@@ -211,5 +208,30 @@ abstract public class AbstractPageWithImagesAndDocumentsController<T extends Pag
       }
       return "";
    }
+
+   protected void cloneDependencies(T original, T clone)
+   {
+      List<Document> documents = getDocuments(original);
+      List<Image> images = getImages(original);
+
+      for (Document document : documents)
+      {
+         document.setId(null);
+         addDocument(clone, document);
+      }
+      for (Image image : images)
+      {
+         image.setId(null);
+         addImage(clone, image);
+      }
+   }
+
+   abstract protected void addImage(T clone, Image image);
+
+   abstract protected void addDocument(T clone, Document document);
+
+   abstract protected List<Image> getImages(T original);
+
+   abstract protected List<Document> getDocuments(T original);
 
 }

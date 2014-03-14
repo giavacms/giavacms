@@ -22,6 +22,8 @@ import javax.persistence.PersistenceContext;
 import org.giavacms.base.common.util.HtmlUtils;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.model.TemplateImpl;
+import org.giavacms.base.model.attachment.Document;
+import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.AbstractPageRepository;
 import org.giavacms.catalogue.model.Category;
 import org.giavacms.catalogue.model.Product;
@@ -469,6 +471,50 @@ public class CategoryRepository extends AbstractPageRepository<Category>
 
       String customLike = null;
       super.applyRestrictionsNative(search, pageAlias, separator, sb, params, customLike);
+   }
+
+   @Override
+   public boolean destroy(Category t)
+   {
+      try
+      {
+         getEm().createNativeQuery(
+                  "delete from " + Product.TABLE_NAME + "_" + Image.TABLE_NAME + " where "
+                           + Product.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery(
+                  "delete from " + Product.TABLE_NAME + "_" + Document.TABLE_NAME + " where "
+                           + Product.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery("delete from " + Product.TABLE_NAME + " where id = :ID ")
+                  .setParameter("ID", t.getId())
+                  .executeUpdate();
+         getEm().createNativeQuery("delete from " + Page.TABLE_NAME + " where id = :ID ").setParameter("ID", t.getId())
+                  .executeUpdate();
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
+   }
+
+   @Override
+   public boolean moveDependencies(String oldId, String newId)
+   {
+      try
+      {
+         getEm().createNativeQuery(
+                  "update " + Product.TABLE_NAME + " set category_id = :NEWID where category_id = :OLDID ")
+                  .setParameter("OLDID", oldId).setParameter("NEWID", newId).executeUpdate();
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
    }
 
 }

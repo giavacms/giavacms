@@ -51,56 +51,43 @@ public class CategoryController extends AbstractPageController<Category>
 
    // ---------------------------------------------------------------------
 
-   protected boolean cloneCurrent(String newTitle)
+   protected void cloneFields(Category original, Category clone)
    {
-      Category original = getElement();
+      clone.setOrderNum(original.getOrderNum());
+      clone.setProducts(null);
 
-      addElement();
-      getElement().setClone(original.isClone());
-      getElement().setContent(original.getContent());
+      clone.setProp1(original.getProp1());
+      clone.setProp2(original.getProp2());
+      clone.setProp3(original.getProp3());
+      clone.setProp4(original.getProp4());
+      clone.setProp5(original.getProp5());
+      clone.setProp6(original.getProp6());
+      clone.setProp7(original.getProp7());
+      clone.setProp8(original.getProp8());
+      clone.setProp9(original.getProp9());
+      clone.setProp10(original.getProp10());
 
-      getElement().setDescription(original.getDescription());
-      getElement().setExtended(original.isExtended());
-      getElement().setExtension(original.getExtension());
-      getElement().setFormerTitle(null);
-      getElement().setId(null);
-      getElement().setTemplate(original.getTemplate());
-      getElement().setTemplateId(original.getTemplateId());
-      getElement().setTitle(newTitle);
-
-      getElement().setOrderNum(original.getOrderNum());
-      getElement().setProducts(null);
-
-      getElement().setProp1(original.getProp1());
-      getElement().setProp2(original.getProp2());
-      getElement().setProp3(original.getProp3());
-      getElement().setProp4(original.getProp4());
-      getElement().setProp5(original.getProp5());
-      getElement().setProp6(original.getProp6());
-      getElement().setProp7(original.getProp7());
-      getElement().setProp8(original.getProp8());
-      getElement().setProp9(original.getProp9());
-      getElement().setProp10(original.getProp10());
-
-      getElement().setRef1(original.getRef1());
-      getElement().setRef2(original.getRef2());
-      getElement().setRef3(original.getRef3());
-      getElement().setRef4(original.getRef4());
-      getElement().setRef5(original.getRef5());
-      getElement().setRef6(original.getRef6());
-      getElement().setRef7(original.getRef7());
-      getElement().setRef8(original.getRef8());
-      getElement().setRef9(original.getRef9());
-      getElement().setRef10(original.getRef10());
-
-      if (save() == null)
-      {
-         super.addFacesMessage("Errori durante la copia dei dati.");
-         return false;
-      }
-
-      return true;
-
+      clone.setRef1(original.getRef1());
+      clone.setRef2(original.getRef2());
+      clone.setRef3(original.getRef3());
+      clone.setRef4(original.getRef4());
+      clone.setRef5(original.getRef5());
+      clone.setRef6(original.getRef6());
+      clone.setRef7(original.getRef7());
+      clone.setRef8(original.getRef8());
+      clone.setRef9(original.getRef9());
+      clone.setRef10(original.getRef10());
    }
 
+   @Override
+   protected void cloneDependencies(Category original, Category clone)
+   {
+   }
+   
+   @Override
+   protected void postUpdate()
+   {
+      // TODO Auto-generated method stub
+      super.postUpdate();
+   }
 }

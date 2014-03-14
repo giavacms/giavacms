@@ -79,77 +79,17 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
 
    // --------------------------------------------------------
 
-   protected boolean cloneCurrent(String newTitle)
+   @Override
+   protected void cloneFields(RichContent original, RichContent clone)
    {
-      RichContent original = getElement();
-
-      addElement();
-      getElement().setAuthor(original.getAuthor());
-      getElement().setClone(original.isClone());
-      getElement().setContent(original.getContent());
-      getElement().setDate(original.getDate()
+      clone.setAuthor(original.getAuthor());
+      clone.setPreview(original.getPreview());
+      clone.setContent(original.getContent());
+      clone.setDate(original.getDate()
                );
-      getElement().setDescription(original.getDescription());
-      getElement().setExtended(original.isExtended());
-      getElement().setExtension(original.getExtension());
-      getElement().setHighlight(getElement().isHighlight());
-      getElement().setFormerTitle(null);
-      getElement().setId(null);
-      getElement().setPreview(original.getPreview());
-      getElement().setRichContentType(original.getRichContentType());
-      getElement().setTags(original.getTags());
-      getElement().setTemplate(original.getTemplate());
-      getElement().setTemplateId(original.getTemplateId());
-      getElement().setTitle(newTitle);
-
-      if (save() == null)
-      {
-         super.addFacesMessage("Errori durante la copia dei dati.");
-         return false;
-      }
-
-      List<Document> documents = original.getDocuments();
-      List<Image> images = original.getImages();
-      int lang = original.getLang();
-
-      for (Document document : documents)
-      {
-         document.setId(null);
-         getElement().addDocument(document);
-      }
-      for (Image image : images)
-      {
-         image.setId(null);
-         getElement().addImage(image);
-      }
-      switch (lang)
-      {
-      case 1:
-         getElement().setLang1id(getElement().getId());
-         break;
-      case 2:
-         getElement().setLang2id(getElement().getId());
-         break;
-      case 3:
-         getElement().setLang3id(getElement().getId());
-         break;
-      case 4:
-         getElement().setLang4id(getElement().getId());
-         break;
-      case 5:
-         getElement().setLang5id(getElement().getId());
-         break;
-      default:
-         break;
-      }
-
-      if (update() == null)
-      {
-         return false;
-      }
-
-      return true;
-
+      clone.setRichContentType(original.getRichContentType());
+      clone.setHighlight(clone.isHighlight());
+      clone.setTags(original.getTags());
    }
 
    @Override
@@ -175,38 +115,22 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
    }
 
    @Override
-   public String update()
+   protected void destoryDependencies(RichContent toDestroy)
    {
-      // gestisco il cambio titolo come un clone del corrente piu' cancellazione del vecchio
-      if (getElement().getFormerTitle() != null && !getElement().getFormerTitle().equals(getElement().getTitle()))
-      {
-         // veccho da cancellare
-         RichContent toDelete = getElement();
-         // clonazione
-         boolean cloneOk = cloneCurrent(getElement().getTitle());
-         // eliminazione del vecchio o msg errore
-         if (cloneOk)
-         {
-            getRepository().delete(toDelete.getId());
-            tagRepository.set(toDelete.getId(), new ArrayList<String>(), new Date());
-            return viewCurrent();
-         }
-         else
-         {
-            return null;
-         }
-      }
+      tagRepository.set(toDestroy.getId(), new ArrayList<String>(), new Date());
+   }
 
-      // altrimenti normale update
+   protected void preUpdate()
+   {
       RichContentType richContentType =
                richContentTypeRepository
                         .find(getElement().getRichContentType().getId());
       getElement().setTemplateId(richContentType
                .getPage().getTemplateId());
-      if (super.update() == null)
-      {
-         return null;
-      }
+   }
+
+   protected void postUpdate()
+   {
       tagRepository.set(getElement().getId(), getElement().getTagList(),
                getElement().getDate());
       tags = null;
@@ -214,7 +138,6 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
       {
          richContentRepository.refreshEvidenza(getElement().getId());
       }
-      return super.viewPage();
    }
 
    public void filterTag(String tagName)
@@ -254,10 +177,11 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
    @Override
    public String delete()
    {
+      String id = getElement().getId();
       String outcome = super.delete();
       if (outcome != null)
       {
-         tagRepository.set(getElement().getId(), new ArrayList<String>(), new Date());
+         tagRepository.set(id, new ArrayList<String>(), new Date());
       }
       return outcome;
    }
@@ -278,6 +202,30 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
    public String editDocsPage()
    {
       return EDIT_DOCS;
+   }
+
+   @Override
+   protected void addImage(RichContent clone, Image image)
+   {
+      clone.getImages().add(image);
+   }
+
+   @Override
+   protected void addDocument(RichContent clone, Document document)
+   {
+      clone.getDocuments().add(document);
+   }
+
+   @Override
+   protected List<Image> getImages(RichContent original)
+   {
+      return original.getImages();
+   }
+
+   @Override
+   protected List<Document> getDocuments(RichContent original)
+   {
+      return original.getDocuments();
    }
 
 }
