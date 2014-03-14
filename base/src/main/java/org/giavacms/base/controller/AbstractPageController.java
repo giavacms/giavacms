@@ -193,20 +193,18 @@ public abstract class AbstractPageController<T extends Page> extends AbstractLaz
 
       addElement();
 
-      T clone = getElement();
-      
-      clone.setClone(original.isClone());
-      clone.setContent(original.getContent());
-      clone.setDescription(original.getDescription());
-      clone.setExtended(original.isExtended());
-      clone.setExtension(original.getExtension());
-      clone.setFormerTitle(null);
-      clone.setId(null);
-      clone.setTemplate(original.getTemplate());
-      clone.setTemplateId(original.getTemplateId());
-      clone.setTitle(newTitle);
+      getElement().setClone(original.isClone());
+      getElement().setContent(original.getContent());
+      getElement().setDescription(original.getDescription());
+      getElement().setExtended(original.isExtended());
+      getElement().setExtension(original.getExtension());
+      getElement().setFormerTitle(null);
+      getElement().setId(null);
+      getElement().setTemplate(original.getTemplate());
+      getElement().setTemplateId(original.getTemplateId());
+      getElement().setTitle(newTitle);
 
-      cloneFields(original, clone);
+      cloneFields(original, getElement());
 
       if (save() == null)
       {
@@ -214,25 +212,25 @@ public abstract class AbstractPageController<T extends Page> extends AbstractLaz
          return false;
       }
 
-      cloneDependencies(original, clone);
+      cloneDependencies(original, getElement());
 
       int lang = original.getLang();
       switch (lang)
       {
       case 1:
-         clone.setLang1id(clone.getId());
+         getElement().setLang1id(getElement().getId());
          break;
       case 2:
-         clone.setLang2id(clone.getId());
+         getElement().setLang2id(getElement().getId());
          break;
       case 3:
-         clone.setLang3id(clone.getId());
+         getElement().setLang3id(getElement().getId());
          break;
       case 4:
-         clone.setLang4id(clone.getId());
+         getElement().setLang4id(getElement().getId());
          break;
       case 5:
-         clone.setLang5id(clone.getId());
+         getElement().setLang5id(getElement().getId());
          break;
       default:
          break;

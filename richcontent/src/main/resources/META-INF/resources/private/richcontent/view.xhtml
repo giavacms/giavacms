@@ -105,6 +105,14 @@
 
 				</p:panel>
 				<br /> <br />
+				<h:panelGrid columns="1">
+					<h:outputLink target="_blank"
+						value="#{request.contextPath}/p/#{richContentController.element.id}">
+						<h:outputText value="anteprima" />
+					</h:outputLink>
+				</h:panelGrid>
+				<br />
+
 				<h:panelGrid columns="4">
 					<p:commandButton action="#{richContentController.modCurrent}"
 						value="Modifica Testi" />

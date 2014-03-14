@@ -171,6 +171,14 @@
 
 				</p:panel>
 				<br /> <br />
+				<h:panelGrid columns="1">
+					<h:outputLink target="_blank"
+						value="#{request.contextPath}/p/#{productController.element.id}">
+						<h:outputText value="anteprima" />
+					</h:outputLink>
+				</h:panelGrid>
+				<br />
+
 				<h:panelGrid columns="4">
 					<p:commandButton ajax="false"
 						action="#{productController.modCurrent}" value="Modifica" />
