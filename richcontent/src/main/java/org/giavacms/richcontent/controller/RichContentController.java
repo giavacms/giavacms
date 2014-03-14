@@ -79,25 +79,7 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
 
    // --------------------------------------------------------
 
-   public String cloneElement()
-   {
-      // carico dalla lista
-      viewElement();
-      // clone l'elemento corrente
-      return cloneCurrent();
-   }
-
-   public String cloneCurrent()
-   {
-      // nuovo titolo arbitrario per la copia
-      String newTitle = "Copia di " + getElement().getTitle();
-      // clone
-      boolean cloneOk = cloneCurrent(newTitle);
-      // carico per modifica o ritorno dove sono con msg di errrore
-      return cloneOk ? modCurrent() : null;
-   }
-
-   private boolean cloneCurrent(String newTitle)
+   protected boolean cloneCurrent(String newTitle)
    {
       RichContent original = getElement();
 

@@ -23,14 +23,15 @@
 						<h:outputLabel for="name" value="Nome:" />
 						<h:inputText id="name"
 							value="#{customerCategoryController.search.obj.name}" />
-						<p:commandButton actionListener="#{customerCategoryController.reloadAjax}"
+						<p:commandButton
+							actionListener="#{customerCategoryController.reloadAjax}"
 							value="Cerca" ajax="true" immediate="false" update="newsList" />
 					</h:panelGrid>
 
 					<br />
 
 					<p:dataTable id="newsList" rowIndexVar="rowIndex" var="t"
-						value="#{customerCategoryController.model}"
+						value="#{customerCategoryController.model}" editable="true"
 						rows="#{customerCategoryController.pageSize}" paginator="true"
 						lazy="true">
 						<p:column width="50">
@@ -58,8 +59,7 @@
 									<h:outputText value="#{t.description}" />
 								</f:facet>
 								<f:facet name="input">
-									<h:inputTextarea rows="3" cols="15" required="false"
-										value="#{t.description}" />
+									<h:inputText required="false" value="#{t.description}" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -77,19 +77,22 @@
 						</p:column>
 
 						<p:column width="100">
-							<f:facet name="header">operazioni</f:facet>
+							<f:facet name="header">modifica</f:facet>
 							<p:rowEditor>
 							</p:rowEditor>
 						</p:column>
 						<p:column width="50">
 							<f:facet name="header">elimina</f:facet>
-							<p:commandButton type="submit" title="Elimina" rendered="true"
-								icon="ui-icon-trash" action="#{customerCategoryController.deleteInline}"
-								ajax="false" immediate="true"
-								onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
-
+							<center>
+								<p:commandLink alt="elimina" title="elimina"
+									styleClass="icon-trash"
+									action="#{customerCategoryController.deleteInline}"
+									ajax="false" immediate="true"
+									onclick="if (!confirm('Confermi l\'eliminazione?')) return false" />
+							</center>
 						</p:column>
-						<p:ajax event="rowEdit" listener="#{customerCategoryController.onRowEdit}" />
+						<p:ajax event="rowEdit"
+							listener="#{customerCategoryController.onRowEdit}" />
 					</p:dataTable>
 				</p:panel>
 				<br />
@@ -101,7 +104,8 @@
 					<h:inputText value="#{customerCategoryController.element.name}"
 						id="categoryId" />
 					<h:outputLabel value="Descrizione:" for="descriptionId" />
-					<h:inputText value="#{customerCategoryController.element.description}"
+					<h:inputText
+						value="#{customerCategoryController.element.description}"
 						id="descriptionId" />
 					<h:outputLabel value="Ordine(*):" for="orderNum" />
 					<h:inputText value="#{customerCategoryController.element.orderNum}"

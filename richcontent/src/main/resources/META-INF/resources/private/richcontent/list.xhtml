@@ -150,6 +150,11 @@
 								<h:outputText value=" " />
 								<h:commandLink action="#{richContentController.viewElement}"
 									styleClass="icon-file" style="font-size: 24px;" title="vedi" />
+								<h:outputText value=" " />
+								<h:outputLink target="_blank" style="font-size: 24px;"
+									styleClass="icon-eye-open" title="anteprima"
+									value="#{request.contextPath}/p/#{contenuto.id}">
+								</h:outputLink>
 
 							</center>
 						</p:column>

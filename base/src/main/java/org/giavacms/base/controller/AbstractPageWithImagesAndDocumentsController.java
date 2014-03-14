@@ -162,6 +162,16 @@ abstract public class AbstractPageWithImagesAndDocumentsController<T extends Pag
       return modDocumentsCurrent();
    }
 
+   public String updateAndModDocuments()
+   {
+      String outcome = update();
+      if (outcome == null)
+      {
+         return null;
+      }
+      return modDocumentsCurrent();
+   }
+
    public void chooseImg()
    {
       resourceController.getSearch().getObj().setResourceType(ResourceType.IMAGE);

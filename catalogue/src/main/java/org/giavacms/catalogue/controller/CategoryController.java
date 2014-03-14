@@ -31,8 +31,8 @@ public class CategoryController extends AbstractPageController<Category>
    @BackPage
    public static String BACK = "/private/administration.xhtml";
 
-   @ViewPage
    @ListPage
+   @ViewPage
    public static String LIST = "/private/catalogue/category/list.xhtml";
    @EditPage
    public static String EDIT = "/private/catalogue/category/edit.xhtml";
@@ -50,5 +50,57 @@ public class CategoryController extends AbstractPageController<Category>
    }
 
    // ---------------------------------------------------------------------
+
+   protected boolean cloneCurrent(String newTitle)
+   {
+      Category original = getElement();
+
+      addElement();
+      getElement().setClone(original.isClone());
+      getElement().setContent(original.getContent());
+
+      getElement().setDescription(original.getDescription());
+      getElement().setExtended(original.isExtended());
+      getElement().setExtension(original.getExtension());
+      getElement().setFormerTitle(null);
+      getElement().setId(null);
+      getElement().setTemplate(original.getTemplate());
+      getElement().setTemplateId(original.getTemplateId());
+      getElement().setTitle(newTitle);
+
+      getElement().setOrderNum(original.getOrderNum());
+      getElement().setProducts(null);
+
+      getElement().setProp1(original.getProp1());
+      getElement().setProp2(original.getProp2());
+      getElement().setProp3(original.getProp3());
+      getElement().setProp4(original.getProp4());
+      getElement().setProp5(original.getProp5());
+      getElement().setProp6(original.getProp6());
+      getElement().setProp7(original.getProp7());
+      getElement().setProp8(original.getProp8());
+      getElement().setProp9(original.getProp9());
+      getElement().setProp10(original.getProp10());
+
+      getElement().setRef1(original.getRef1());
+      getElement().setRef2(original.getRef2());
+      getElement().setRef3(original.getRef3());
+      getElement().setRef4(original.getRef4());
+      getElement().setRef5(original.getRef5());
+      getElement().setRef6(original.getRef6());
+      getElement().setRef7(original.getRef7());
+      getElement().setRef8(original.getRef8());
+      getElement().setRef9(original.getRef9());
+      getElement().setRef10(original.getRef10());
+
+      if (save() == null)
+      {
+         super.addFacesMessage("Errori durante la copia dei dati.");
+         return false;
+      }
+
+      return true;
+
+   }
 
 }

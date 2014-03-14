@@ -41,8 +41,8 @@
 					</h:panelGrid>
 
 					<br />
-					<p:commandButton action="#{productController.reloadAjax}" update="newsList"
-						value="Cerca" />
+					<p:commandButton action="#{productController.reloadAjax}"
+						update="newsList" value="Cerca" />
 					<br />
 					<br />
 
@@ -108,9 +108,17 @@
 									styleClass="icon-link" style="font-size: 24px;"
 									title="modifica documenti" />
 								<h:outputText value=" " />
+								<h:commandLink style="font-size: 24px;" styleClass="icon-copy"
+									title="crea copia" action="#{productController.cloneElement}" />
+								<h:outputText value=" " />
 								<h:commandLink action="#{productController.viewElement}"
 									title="vedi" styleClass="icon-file-text-alt"
 									style="font-size: 24px;" />
+								<h:outputText value=" " />
+								<h:outputLink target="_blank" style="font-size: 24px;"
+									styleClass="icon-eye-open" title="anteprima"
+									value="#{request.contextPath}/p/#{product.id}">
+								</h:outputLink>
 							</center>
 						</p:column>
 						<p:rowExpansion>

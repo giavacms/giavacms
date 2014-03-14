@@ -70,6 +70,31 @@ public abstract class AbstractPageController<T extends Page> extends AbstractLaz
    @Override
    public String update()
    {
+      // gestisco il cambio titolo come un clone del corrente piu' cancellazione del vecchio
+      if (getElement().getFormerTitle() != null && !getElement().getFormerTitle().equals(getElement().getTitle()))
+      {
+         // veccho da cancellare
+         T toDelete = getElement();
+         // clonazione
+         boolean cloneOk = cloneCurrent(getElement().getTitle());
+         // eliminazione del vecchio o msg errore
+         if (cloneOk)
+         {
+            getRepository().delete(toDelete.getId());
+            return viewCurrent();
+         }
+         else
+         {
+            return null;
+         }
+      }
+
+      return _update();
+
+   }
+
+   private String _update()
+   {
       String outcome = super.update();
       if (outcome != null)
       {
@@ -119,4 +144,25 @@ public abstract class AbstractPageController<T extends Page> extends AbstractLaz
       resetEvent.fire(new ResetEvent(getEntityClass()));
       return outcome;
    }
+
+   public String cloneElement()
+   {
+      // carico dalla lista
+      viewElement();
+      // clone l'elemento corrente
+      return cloneCurrent();
+   }
+
+   public String cloneCurrent()
+   {
+      // nuovo titolo arbitrario per la copia
+      String newTitle = "Copia di " + getElement().getTitle();
+      // clone
+      boolean cloneOk = cloneCurrent(newTitle);
+      // carico per modifica o ritorno dove sono con msg di errrore
+      return cloneOk ? modCurrent() : null;
+   }
+
+   abstract protected boolean cloneCurrent(String newTitle);
+
 }

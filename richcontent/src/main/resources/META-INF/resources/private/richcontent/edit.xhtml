@@ -198,6 +198,10 @@
 						value="Salva le modifiche" immediate="false"
 						rendered="#{richContentController.editMode}" />
 
+					<p:commandButton ajax="false" action="#{richContentController.updateAndModDocuments}"
+						value="Salva le modifiche e gestisci i documenti" immediate="false"
+						rendered="#{richContentController.editMode}" />
+
 					<p:commandButton ajax="false"
 						action="#{richContentController.delete}" value="Elimina"
 						rendered="#{richContentController.editMode}" immediate="true"
