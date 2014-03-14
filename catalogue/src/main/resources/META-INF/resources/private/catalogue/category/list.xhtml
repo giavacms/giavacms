@@ -111,18 +111,21 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column width="100" rendered="false">
-							<f:facet name="header">modifica</f:facet>
-							<p:rowEditor>
-							</p:rowEditor>
-						</p:column>
-
-						<p:column width="50" headerText="modifica">
+						<p:column width="50" headerText="operazioni">
 							<center>
 								<p:commandLink type="submit" title="Modifica" rendered="true"
-									styleClass="icon-edit"
+									styleClass="icon-edit" style="font-size: 24px;"
 									action="#{categoryController.modElement}" ajax="false"
 									immediate="true" />
+								<h:outputText value=" " />
+								<h:commandLink style="font-size: 24px;" styleClass="icon-copy"
+									title="crea copia"
+									action="#{categoryController.cloneElement}" />
+								<h:outputText value=" " />
+								<h:outputLink target="_blank" style="font-size: 24px;"
+									styleClass="icon-eye-open" title="anteprima"
+									value="#{request.contextPath}/p/#{t.id}">
+								</h:outputLink>
 							</center>
 						</p:column>
 
