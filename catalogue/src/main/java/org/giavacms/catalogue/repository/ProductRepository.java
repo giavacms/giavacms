@@ -585,4 +585,31 @@ public class ProductRepository extends AbstractPageRepository<Product>
       return new ArrayList<Product>(products.values());
    }
 
+   @Override
+   public boolean destroy(Product t)
+   {
+      try
+      {
+         getEm().createNativeQuery(
+                  "delete from " + Product.TABLE_NAME + "_" + Image.TABLE_NAME + " where "
+                           + Product.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery(
+                  "delete from " + Product.TABLE_NAME + "_" + Document.TABLE_NAME + " where "
+                           + Product.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery("delete from " + Product.TABLE_NAME + " where id = :ID ")
+                  .setParameter("ID", t.getId())
+                  .executeUpdate();
+         getEm().createNativeQuery("delete from " + Page.TABLE_NAME + " where id = :ID ").setParameter("ID", t.getId())
+                  .executeUpdate();
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
+   }
+
 }

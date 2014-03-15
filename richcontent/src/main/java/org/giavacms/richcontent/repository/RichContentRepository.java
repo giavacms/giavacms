@@ -25,7 +25,6 @@ import org.giavacms.common.util.StringUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.type.RichContentType;
-import org.hibernate.sql.Alias;
 
 @Named
 @Stateless
@@ -836,4 +835,30 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return new ArrayList<RichContent>(richContents.values());
    }
 
+   @Override
+   public boolean destroy(RichContent t)
+   {
+      try
+      {
+         getEm().createNativeQuery(
+                  "delete from " + RichContent.TABLE_NAME + "_" + Image.TABLE_NAME + " where "
+                           + RichContent.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery(
+                  "delete from " + RichContent.TABLE_NAME + "_" + Document.TABLE_NAME + " where "
+                           + RichContent.class.getSimpleName() + "_id = :ID ")
+                  .setParameter("ID", t.getId()).executeUpdate();
+         getEm().createNativeQuery("delete from " + RichContent.TABLE_NAME + " where id = :ID ")
+                  .setParameter("ID", t.getId())
+                  .executeUpdate();
+         getEm().createNativeQuery("delete from " + Page.TABLE_NAME + " where id = :ID ").setParameter("ID", t.getId())
+                  .executeUpdate();
+         return true;
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return false;
+      }
+   }
 }
