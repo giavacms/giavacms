@@ -397,7 +397,7 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       // HIGHLIGHT
       if (search.getObj().isHighlight())
       {
-         sb.append(separator).append(richContentAlias).append(".highlight <= :HIGHLIGHT ");
+         sb.append(separator).append(richContentAlias).append(".highlight = :HIGHLIGHT ");
          params.put("HIGHLIGHT", search.getObj().isHighlight());
          separator = " and ";
       }
