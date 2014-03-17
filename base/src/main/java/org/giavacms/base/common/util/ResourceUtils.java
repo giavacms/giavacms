@@ -103,12 +103,18 @@ public class ResourceUtils
 
    public static String getType(String fileName)
    {
+      ResourceType resourceType = getResourceType(fileName);
+      return resourceType == null ? null : resourceType.name();
+   }
+
+   public static ResourceType getResourceType(String fileName)
+   {
       String type = fileName.substring(fileName.lastIndexOf(".") + 1);
       for (ResourceType resourceType : ResourceType.values())
       {
          if (resourceType.getExtensions().contains(type.toLowerCase()))
          {
-            return resourceType.name();
+            return resourceType;
          }
       }
       return null;
@@ -116,15 +122,8 @@ public class ResourceUtils
 
    public static String getFolder(String fileName)
    {
-      String type = fileName.substring(fileName.lastIndexOf(".") + 1);
-      for (ResourceType resourceType : ResourceType.values())
-      {
-         if (resourceType.getExtensions().contains(type.toLowerCase()))
-         {
-            return resourceType.getFolder();
-         }
-      }
-      return null;
+      ResourceType resourceType = getResourceType(fileName);
+      return resourceType == null ? null : resourceType.getFolder();
    }
 
    // pdf, p7m, doc, docx, xls, xlsx

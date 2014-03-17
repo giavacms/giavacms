@@ -224,7 +224,7 @@ public class ResourceController extends AbstractLazyController<Resource> impleme
                resource.setBytes(getReplacementFile().getContents());
                resource.setName(filename);
                resource.setId(getElement().getId());
-               resource.setType(ResourceUtils.getType(filename));
+               resource.setResourceType(ResourceUtils.getResourceType(filename));
                resourceRepository.updateResource(resource);
                setElement(resource);
                // refresh locale
@@ -445,6 +445,14 @@ public class ResourceController extends AbstractLazyController<Resource> impleme
       resourceRepository.persist(getElement());
       getElement().setId(FileUtils.getLastPartOf(getElement().getId()));
       return modCurrent();
+   }
+
+   // --------------------------------
+
+   public void substitute(FileUploadEvent event)
+   {
+      this.replacementFile = event.getFile();
+      update();
    }
 
 }
