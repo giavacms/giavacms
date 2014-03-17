@@ -14,7 +14,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form enctype="multipart/form-data">
+		<h:form enctype="multipart/form-data" id="mainForm">
 			<center>
 				<p:panel header="Gestione Risorsa">
 					<h:panelGrid columns="2" style="width: 95%"
@@ -39,9 +39,11 @@
 
 						<h:outputLabel value="Carica il nuovo file:" for="fileUpload"
 							rendered="#{resourceController.element.type eq 'img' or resourceController.element.type eq 'docs' or resourceController.element.type eq 'swf'  }" />
-						<p:fileUpload mode="simple" id="fileUpload"
-							value="#{resourceController.replacementFile}"
-							rendered="#{resourceController.element.type eq 'img' or resourceController.element.type eq 'docs' or resourceController.element.type eq 'swf'  }" />
+						<p:fileUpload id="fileUpload" mode="advanced" multiple="false"
+							sizeLimit="20000000" update=":mainForm"
+							fileUploadListener="#{resourceController.substitute}"
+							label="Scegli Immagine" description="Scegli Immagine" />
+
 
 					</h:panelGrid>
 

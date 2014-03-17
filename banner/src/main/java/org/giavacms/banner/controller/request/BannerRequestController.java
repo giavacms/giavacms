@@ -1,7 +1,9 @@
 package org.giavacms.banner.controller.request;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -44,7 +46,7 @@ public class BannerRequestController extends AbstractRequestController<Banner>
    @OwnRepository(BannerRepository.class)
    BannerRepository bannerRepository;
 
-   List<Banner> banners;
+   Map<String, List<Banner>> banners;
 
    @Override
    protected void initSearch()
@@ -81,9 +83,15 @@ public class BannerRequestController extends AbstractRequestController<Banner>
    {
       if (banners == null)
       {
-         banners = bannerRepository.getRandomByTypology(typology, limit);
+         banners = new HashMap<String, Banner>();
+      }
+      List<Banner> typologyBanners = banners.get(typology);
+      if (typologyBanners == null)
+      {
+         typologyBanners = bannerRepository.getRandomByTypology(typology, limit);
+         banners.put(typology, typologyBanners);
       }
       logger.info("typology: " + typology);
-      return banners;
+      return typologyBanners;
    }
 }

@@ -2,8 +2,10 @@ package org.giavacms.banner.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -127,6 +129,7 @@ public class Banner implements Serializable
    }
 
    @Lob
+   @Basic(fetch = FetchType.EAGER)
    public String getDescription()
    {
       return description;

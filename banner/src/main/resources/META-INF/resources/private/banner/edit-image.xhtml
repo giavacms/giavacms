@@ -14,10 +14,18 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<ui:include src="resDialog.xhtml">
+			<ui:param name="controller" value="#{bannerController}" />
+			<ui:param name="action" value="pickResource" />
+		</ui:include>
+
 		<center>
 			<h:form enctype="multipart/form-data">
 				<p:panel header="Gestione Banner - Immagine">
+
 					<h:panelGrid columns="2" style="width: 95%">
+
 						<h:outputLabel for="name" value="Nome: " style="width: 100%;" />
 						<h:outputText id="name" value="#{bannerController.element.name}"
 							style="width: 100%;" />
@@ -29,19 +37,50 @@
 							style="width: 100%;" escape="false" />
 
 						<h:outputLabel value="Immagine:" for="image"
-							rendered="#{not empty bannerController.element.image}" />
+							rendered="#{not empty bannerController.element.image and not empty bannerController.element.image.filename}" />
 						<h:graphicImage id="image"
 							value="/img/#{bannerController.element.image.filename}"
 							alt="#{bannerController.element.image.filename}"
 							title="#{bannerController.element.image.filename}"
 							style="padding: 5px;"
-							rendered="#{not empty bannerController.element.image}" />
-						<h:outputLabel value="Carica il nuovo file:" for="fileUpload" />
-						<p:fileUpload mode="simple" id="fileUpload"
-							value="#{bannerController.element.newImage.uploadedData}" />
+							rendered="#{not empty bannerController.element.image and not empty bannerController.element.image.filename}" />
+
 					</h:panelGrid>
 					<br />
 				</p:panel>
+				<br />
+				<p:panel
+					header="Caricamento #{(not empty bannerController.element.image and not empty bannerController.element.image.filename) ? 'nuova ': ''}immagine">
+
+					<h:panelGrid columns="4">
+
+						<p:spacer width="20px" height="1px" />
+
+						<h:panelGroup>
+							<p:commandLink ajax="true" onclick="resDialog.show();"
+								title="scegli immagine" action="#{bannerController.chooseImg}"
+								update=":resForm">
+								<i class="icon-picture" style="font-size: 24px; margin: 2px;"></i>
+								<h:outputText value="Scegli un'immagine gia' caricata" />
+							</p:commandLink>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:spacer width="20px" height="1px" />
+							<h:outputText value=" ... oppure ... " />
+							<p:spacer width="20px" height="1px" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<h:outputLabel value="Carica il nuovo file:" for="fileUpload" />
+							<br />
+							<p:fileUpload mode="simple" id="fileUpload"
+								value="#{bannerController.element.newImage.uploadedData}" />
+						</h:panelGroup>
+
+					</h:panelGrid>
+				</p:panel>
+				<br />
 
 				<h:panelGrid columns="4">
 
