@@ -109,7 +109,7 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
       tags = null;
       if (getElement().isHighlight())
       {
-         richContentRepository.refreshEvidenza(getElement().getId());
+         richContentRepository.refreshHighlight(getElement().getId(), getElement().getRichContentType());
       }
       return super.viewPage();
    }
@@ -136,7 +136,7 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
       tags = null;
       if (getElement().isHighlight())
       {
-         richContentRepository.refreshEvidenza(getElement().getId());
+         richContentRepository.refreshHighlight(getElement().getId(), getElement().getRichContentType());
       }
    }
 
@@ -228,4 +228,11 @@ public class RichContentController extends AbstractPageWithImagesAndDocumentsCon
       return original.getDocuments();
    }
 
+   @Override
+   public String addElement()
+   {
+      String outcome = super.addElement();
+      getElement().setDate(new Date());
+      return outcome;
+   }
 }

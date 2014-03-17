@@ -77,7 +77,7 @@
 						<h:outputLabel for="titolo" value="Titolo" />
 						<h:inputText id="titolo"
 							value="#{richContentController.element.title}"
-							style="width: 100%;" required="true" />
+							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare il titolo"/>
 
 						<h:outputLabel for="dataInsert" value="Data inserimento:" />
 						<p:calendar id="dataInsert"
@@ -92,7 +92,7 @@
 						<h:outputLabel value="Tipo informazione(*):" for="tipo" />
 						<h:selectOneMenu id="tipo" style="width: 100%;"
 							value="#{richContentController.element.richContentType.id}"
-							required="true">
+							required="true" requiredMessage="E' obbligatorio specificare il tipo di contenuto">
 							<f:selectItems value="#{richContentTypeItems}" />
 						</h:selectOneMenu>
 
@@ -105,14 +105,12 @@
 						<h:outputLabel for="autore" value="Autore:" style="width: 100%;" />
 						<h:inputText id="autore"
 							value="#{richContentController.element.author}"
-							style="width: 100%;" required="true" />
-
+							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare l'autore"/>
 
 						<h:outputLabel for="anteprima" value="Anteprima:" />
 						<h:inputTextarea id="anteprima" cols="20" rows="20"
 							value="#{richContentController.element.preview}"
 							style=" height : 166px; width: 100%;" />
-
 
 						<h:outputLabel for="descrizione" value="Contenuto:" />
 						<h:inputTextarea value="#{richContentController.element.content}"

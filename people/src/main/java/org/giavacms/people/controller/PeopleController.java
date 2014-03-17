@@ -235,7 +235,7 @@ public class PeopleController extends AbstractPageController<RichContent>
       peopleTags = null;
       if (getElement().isHighlight())
       {
-         richContentRepository.refreshEvidenza(getElement().getId());
+         richContentRepository.refreshHighlight(getElement().getId(), getElement().getRichContentType());
       }
    }
 
