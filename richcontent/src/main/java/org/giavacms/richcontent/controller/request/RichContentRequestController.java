@@ -111,7 +111,8 @@ public class RichContentRequestController extends
       RichContent lastContent = last.get(category);
       if (lastContent == null)
       {
-         lastContent = richContentRepository.getLast(category);
+         int lang = getBasePage() == null ? 0 : getBasePage().getLang();
+         lastContent = richContentRepository.getLast(category,lang);
          last.put(category, lastContent);
       }
       return lastContent;
@@ -126,7 +127,8 @@ public class RichContentRequestController extends
       RichContent highlightContent = highlight.get(category);
       if (highlightContent == null)
       {
-         highlightContent = richContentRepository.getHighlight(category);
+         int lang = getBasePage() == null ? 0 : getBasePage().getLang();
+         highlightContent = richContentRepository.getHighlight(category, lang);
          highlight.put(category, highlightContent);
       }
       return highlightContent;

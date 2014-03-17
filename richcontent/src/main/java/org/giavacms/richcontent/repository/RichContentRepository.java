@@ -108,18 +108,20 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return ret;
    }
 
-   public RichContent getLast(String category)
+   public RichContent getLast(String category, int lang)
    {
       Search<RichContent> r = new Search<RichContent>(RichContent.class);
       r.getObj().getRichContentType().setName(category);
+      r.getObj().setLang(lang);
       List<RichContent> list = getList(r, 0, 1);
       return list.size() > 0 ? list.get(0) : new RichContent();
    }
 
-   public RichContent getHighlight(String category)
+   public RichContent getHighlight(String category, int lang)
    {
       Search<RichContent> r = new Search<RichContent>(RichContent.class);
       r.getObj().getRichContentType().setName(category);
+      r.getObj().setLang(lang);
       r.getObj().setHighlight(true);
       List<RichContent> list = getList(r, 0, 1);
       return list.size() > 0 ? list.get(0) : new RichContent();
