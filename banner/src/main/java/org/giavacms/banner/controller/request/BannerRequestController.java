@@ -18,80 +18,72 @@ import org.giavacms.common.controller.AbstractRequestController;
 @Named
 @RequestScoped
 public class BannerRequestController extends AbstractRequestController<Banner>
-         implements Serializable
-{
+		implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-   private static final String ID_PARAM = "id";
-   private static final String CURRENT_PAGE_PARAM = "start";
+	private static final String ID_PARAM = "id";
+	private static final String CURRENT_PAGE_PARAM = "start";
 
-   @Inject
-   @HttpParam("tipologia")
-   String tipology;
+	@Inject
+	@HttpParam("tipologia")
+	String tipology;
 
-   @Inject
-   @HttpParam("q")
-   String name;
+	@Inject
+	@HttpParam("q")
+	String name;
 
-   @Inject
-   @HttpParam(ID_PARAM)
-   String idParam;
+	@Inject
+	@HttpParam(ID_PARAM)
+	String idParam;
 
-   @Inject
-   @HttpParam(CURRENT_PAGE_PARAM)
-   String currentPageParam;
+	@Inject
+	@HttpParam(CURRENT_PAGE_PARAM)
+	String currentPageParam;
 
-   @Inject
-   @OwnRepository(BannerRepository.class)
-   BannerRepository bannerRepository;
+	@Inject
+	@OwnRepository(BannerRepository.class)
+	BannerRepository bannerRepository;
 
-   Map<String, List<Banner>> banners;
+	Map<String, List<Banner>> banners;
 
-   @Override
-   protected void initSearch()
-   {
-      getSearch().getObj().setName(name);
-      getSearch().getObj().getBannerTypology().setName(tipology);
-      super.initSearch();
-   }
+	@Override
+	protected void initSearch() {
+		getSearch().getObj().setName(name);
+		getSearch().getObj().getBannerTypology().setName(tipology);
+		super.initSearch();
+	}
 
-   @Override
-   public String getIdParam()
-   {
-      return ID_PARAM;
-   }
+	@Override
+	public String getIdParam() {
+		return ID_PARAM;
+	}
 
-   @Override
-   public String getCurrentPageParam()
-   {
-      return CURRENT_PAGE_PARAM;
-   }
+	@Override
+	public String getCurrentPageParam() {
+		return CURRENT_PAGE_PARAM;
+	}
 
-   public boolean isScheda()
-   {
-      return getElement() != null && getElement().getId() != null;
-   }
+	public boolean isScheda() {
+		return getElement() != null && getElement().getId() != null;
+	}
 
-   public Banner getRandomByTypology(String typology)
-   {
-      logger.info("typology: " + typology);
-      return bannerRepository.getRandomByTypology(typology, 0).get(0);
-   }
+	public Banner getRandomByTypology(String typology) {
+		logger.info("typology: " + typology);
+		return bannerRepository.getRandomByTypology(typology, 0).get(0);
+	}
 
-   public List<Banner> getRandomByTypologyAndLimit(String typology, int limit)
-   {
-      if (banners == null)
-      {
-         banners = new HashMap<String, Banner>();
-      }
-      List<Banner> typologyBanners = banners.get(typology);
-      if (typologyBanners == null)
-      {
-         typologyBanners = bannerRepository.getRandomByTypology(typology, limit);
-         banners.put(typology, typologyBanners);
-      }
-      logger.info("typology: " + typology);
-      return typologyBanners;
-   }
+	public List<Banner> getRandomByTypologyAndLimit(String typology, int limit) {
+		if (banners == null) {
+			banners = new HashMap<String, List<Banner>>();
+		}
+		List<Banner> typologyBanners = banners.get(typology);
+		if (typologyBanners == null) {
+			typologyBanners = bannerRepository.getRandomByTypology(typology,
+					limit);
+			banners.put(typology, typologyBanners);
+		}
+		logger.info("typology: " + typology);
+		return typologyBanners;
+	}
 }
