@@ -2,7 +2,9 @@ package org.giavacms.richcontent.controller.request;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -60,7 +62,8 @@ public class RichContentRequestController extends
    @Inject
    RichContentTypeRepository richContentTypeRepository;
 
-   private RichContent last;
+   private Map<String, RichContent> last;
+   private Map<String, RichContent> highlight;
 
    List<Group<Tag>> requestTags;
 
@@ -103,10 +106,30 @@ public class RichContentRequestController extends
    {
       if (last == null)
       {
-         RichContent last = richContentRepository.getLast(category);
-         this.last = last;
+         last = new HashMap<String, RichContent>();
       }
-      return last;
+      RichContent lastContent = last.get(category);
+      if (lastContent == null)
+      {
+         lastContent = richContentRepository.getLast(category);
+         last.put(category, lastContent);
+      }
+      return lastContent;
+   }
+
+   public RichContent getHighlight(String category)
+   {
+      if (highlight == null)
+      {
+         highlight = new HashMap<String, RichContent>();
+      }
+      RichContent highlightContent = highlight.get(category);
+      if (highlightContent == null)
+      {
+         highlightContent = richContentRepository.getHighlight(category);
+         highlight.put(category, highlightContent);
+      }
+      return highlightContent;
    }
 
    protected void handleI18N()

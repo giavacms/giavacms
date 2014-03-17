@@ -116,57 +116,36 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       return list.size() > 0 ? list.get(0) : new RichContent();
    }
 
-   public RichContent findHighlight()
+   public RichContent getHighlight(String category)
+   {
+      Search<RichContent> r = new Search<RichContent>(RichContent.class);
+      r.getObj().getRichContentType().setName(category);
+      r.getObj().setHighlight(true);
+      List<RichContent> list = getList(r, 0, 1);
+      return list.size() > 0 ? list.get(0) : new RichContent();
+   }
+
+   public void refreshHighlight(String id, RichContentType type)
    {
       try
       {
-         String retId = (String) getEm()
-                  .createQuery(
-                           "select p.id from "
-                                    + RichContent.class.getSimpleName()
-                                    + " p where p.highlight = :STATUS ")
-                  .setParameter("STATUS", true).setMaxResults(1)
-                  .getSingleResult();
-         return fetch(retId);
+         getEm()
+
+                  .createNativeQuery(
+                           "update "
+                                    + RichContent.TABLE_NAME
+                                    + " set highlight = :FALSE where id <> :NOTID AND richContentType_id = :TYPEID ")
+                  .setParameter("NOTID", id).setParameter("FALSE", false).setParameter("TYPEID", type.getId())
+                  .executeUpdate();
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return findLast();
       }
    }
 
    @SuppressWarnings("unchecked")
-   public void refreshEvidenza(String id)
-   {
-      List<RichContent> ret = null;
-      try
-      {
-         ret = (List<RichContent>) getEm()
-                  .createQuery(
-                           "select p from "
-                                    + RichContent.class.getSimpleName()
-                                    + " p where p.id != :ID AND p.highlight = :STATUS")
-                  .setParameter("ID", id).setParameter("STATUS", true)
-                  .getResultList();
-         if (ret != null)
-         {
-            for (RichContent richContent : ret)
-            {
-               richContent.setHighlight(false);
-               update(richContent);
-            }
-         }
-
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-      }
-   }
-
-   @SuppressWarnings("unchecked")
-   public Image findHighlightImage()
+   public Image getHighlightImage(String type)
    {
       try
       {
@@ -174,8 +153,8 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
                   .createQuery(
                            "select p from "
                                     + RichContent.class.getSimpleName()
-                                    + " p where p.highlight = :STATUS")
-                  .setParameter("STATUS", true).getResultList();
+                                    + " p where p.highlight = :STATUS and p.richContentType.name = :TYPE ")
+                  .setParameter("STATUS", true).setParameter("TYPE", type).setMaxResults(1).getResultList();
          if (nl == null || nl.size() == 0 || nl.get(0).getImages() == null
                   || nl.get(0).getImages().size() == 0)
          {
@@ -412,6 +391,14 @@ public class RichContentRepository extends AbstractPageRepository<RichContent>
       {
          sb.append(separator).append(richContentTypeAlias).append(".date <= :TODATE ");
          params.put("TODATE", search.getTo().getDate());
+         separator = " and ";
+      }
+
+      // HIGHLIGHT
+      if (search.getObj().isHighlight())
+      {
+         sb.append(separator).append(richContentAlias).append(".highlight <= :HIGHLIGHT ");
+         params.put("HIGHLIGHT", search.getObj().isHighlight());
          separator = " and ";
       }
 

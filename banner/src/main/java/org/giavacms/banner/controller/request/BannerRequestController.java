@@ -69,7 +69,6 @@ public class BannerRequestController extends AbstractRequestController<Banner>
 	}
 
 	public Banner getRandomByTypology(String typology) {
-		logger.info("typology: " + typology);
 		return bannerRepository.getRandomByTypology(typology, 0).get(0);
 	}
 
@@ -83,7 +82,6 @@ public class BannerRequestController extends AbstractRequestController<Banner>
 					limit);
 			banners.put(typology, typologyBanners);
 		}
-		logger.info("typology: " + typology);
 		return typologyBanners;
 	}
 }

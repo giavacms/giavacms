@@ -110,7 +110,7 @@
 							<h:outputText value="#{contenuto.title}" />
 						</p:column>
 
-						<p:column width="100">
+						<p:column width="50">
 							<f:facet name="header">data</f:facet>
 							<h:outputText value="#{contenuto.date}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
@@ -121,6 +121,15 @@
 						<p:column width="100">
 							<f:facet name="header">tipo</f:facet>
 							<h:outputText value="#{contenuto.richContentType.name}" />
+						</p:column>
+
+						<p:column width="50">
+							<f:facet name="header">in evidenza</f:facet>
+							<center>
+								<ui:fragment rendered="#{contenuto.highlight}">
+									<i class="icon-thumbs-up" style="font-size: 24px;"></i>
+								</ui:fragment>
+							</center>
 						</p:column>
 
 						<p:column width="100">
