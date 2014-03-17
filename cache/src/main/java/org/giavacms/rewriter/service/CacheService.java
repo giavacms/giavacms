@@ -185,7 +185,7 @@ public class CacheService implements Serializable
       return getAbsolutePath(null);
    }
 
-   private File getAbsolutePath(String path) throws Exception
+   public File getAbsolutePath(String path) throws Exception
    {
       File absolutePath = null;
       if (path == null || path.trim().length() == 0)

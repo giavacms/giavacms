@@ -19,13 +19,14 @@
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
 
+	<context-param>
+			<param-name>baseFolderSystemProperty</param-name>
+			<param-value>$OPENSHIFT_DATA_DIR</param-value>
+	</context-param>
+		
 	<servlet>
 		<servlet-name>ErrorsStaticOpenShiftServlet</servlet-name>
 		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
-		<init-param>
-			<param-name>baseFolderSystemProperty</param-name>
-			<param-value>$OPENSHIFT_DATA_DIR</param-value>
-		</init-param>
 		<init-param>
 			<param-name>folderName</param-name>
 			<param-value>errors</param-value>
@@ -36,10 +37,6 @@
 		<servlet-name>CssStaticOpenShiftServlet</servlet-name>
 		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
 		<init-param>
-			<param-name>baseFolderSystemProperty</param-name>
-			<param-value>$OPENSHIFT_DATA_DIR</param-value>
-		</init-param>
-		<init-param>
 			<param-name>folderName</param-name>
 			<param-value>css</param-value>
 		</init-param>
@@ -48,10 +45,6 @@
 	<servlet>
 		<servlet-name>FontStaticOpenShiftServlet</servlet-name>
 		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
-		<init-param>
-			<param-name>baseFolderSystemProperty</param-name>
-			<param-value>$OPENSHIFT_DATA_DIR</param-value>
-		</init-param>
 		<init-param>
 			<param-name>folderName</param-name>
 			<param-value>font</param-value>
@@ -62,10 +55,6 @@
 		<servlet-name>ImgStaticOpenShiftServlet</servlet-name>
 		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
 		<init-param>
-			<param-name>baseFolderSystemProperty</param-name>
-			<param-value>$OPENSHIFT_DATA_DIR</param-value>
-		</init-param>
-		<init-param>
 			<param-name>folderName</param-name>
 			<param-value>img</param-value>
 		</init-param>
@@ -74,10 +63,6 @@
 	<servlet>
 		<servlet-name>JsStaticOpenShiftServlet</servlet-name>
 		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
-		<init-param>
-			<param-name>baseFolderSystemProperty</param-name>
-			<param-value>$OPENSHIFT_DATA_DIR</param-value>
-		</init-param>
 		<init-param>
 			<param-name>folderName</param-name>
 			<param-value>js</param-value>
@@ -88,10 +73,6 @@
 	<servlet>
 		<servlet-name>DocsStaticOpenShiftServlet</servlet-name>
 		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
-		<init-param>
-			<param-name>baseFolderSystemProperty</param-name>
-			<param-value>$OPENSHIFT_DATA_DIR</param-value>
-		</init-param>
 		<init-param>
 			<param-name>folderName</param-name>
 			<param-value>docs</param-value>
