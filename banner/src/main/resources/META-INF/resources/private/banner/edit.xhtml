@@ -61,13 +61,13 @@
 							style=" height : 166px; width: 100%;" />
 
 						<h:outputLabel value="Immagine:" for="image"
-							rendered="#{not empty bannerController.element.image}" />
+							rendered="#{not empty bannerController.element.image and not empty bannerController.element.image.id}" />
 						<h:graphicImage id="image"
 							value="/img/#{bannerController.element.image.filename}"
 							alt="#{bannerController.element.image.filename}"
 							title="#{bannerController.element.image.filename}"
 							style="padding: 5px;"
-							rendered="#{not empty bannerController.element.image}" />
+							rendered="#{not empty bannerController.element.image and not empty bannerController.element.image.id}" />
 					</h:panelGrid>
 					<br />
 				</p:panel>
