@@ -79,6 +79,11 @@
 							value="#{richContentController.element.title}"
 							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare il titolo"/>
 
+						<h:outputLabel for="description" value="Descrizione breve" />
+						<h:inputText id="description"
+							value="#{richContentController.element.description}"
+							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare una descrizione breve"/>
+
 						<h:outputLabel for="dataInsert" value="Data inserimento:" />
 						<p:calendar id="dataInsert"
 							value="#{richContentController.element.date}"
