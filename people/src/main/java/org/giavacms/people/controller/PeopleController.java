@@ -214,7 +214,7 @@ public class PeopleController extends AbstractPageController<RichContent>
    // --------------------------------------------------------
 
    @Override
-   protected void destoryDependencies(RichContent toDestroy)
+   protected void destroyDependencies(RichContent toDestroy)
    {
       tagRepository.set(toDestroy.getId(), new ArrayList<String>(), new Date());
    }

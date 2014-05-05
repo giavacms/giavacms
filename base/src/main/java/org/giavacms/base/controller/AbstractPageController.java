@@ -88,8 +88,8 @@ public abstract class AbstractPageController<T extends Page> extends AbstractLaz
          {
             // getRepository().delete(toDelete.getId());
             getRepository().moveDependencies(toDestroy.getId(),getElement().getId());
+            destroyDependencies(toDestroy);
             getRepository().destroy(toDestroy);
-            destoryDependencies(toDestroy);
             return viewCurrent();
          }
          else
@@ -103,7 +103,7 @@ public abstract class AbstractPageController<T extends Page> extends AbstractLaz
 
    }
 
-   protected void destoryDependencies(T toDestroy)
+   protected void destroyDependencies(T toDestroy)
    {
    }
 
