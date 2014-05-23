@@ -78,13 +78,13 @@
 
 		<module>base-rs</module>
 		<module>catalogue-rs</module>
+		<module>richcontent-rs</module>
 
 		<!-- COMPATIBILITY -->
 		<module>base10importer</module>
 		<module>richnews10importer</module>
 		<module>catalogue10importer</module>
 		<module>customer10importer</module>
-		<module>richcontent-rs</module>
 	</modules>
 
 
@@ -247,6 +247,13 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>richcontent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>richcontent-rs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
