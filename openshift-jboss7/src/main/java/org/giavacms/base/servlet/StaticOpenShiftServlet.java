@@ -27,7 +27,7 @@ public class StaticOpenShiftServlet extends DefaultServlet
       env.put(ProxyDirContext.CONTEXT, resources.getContextName());
       StringBuffer phisicalDir = new StringBuffer();
 
-      String docBaseProperty = getServletConfig().getInitParameter(
+      String docBaseProperty = getServletContext().getInitParameter(
                "baseFolderSystemProperty");
       log("baseFolderSystemProperty: " + docBaseProperty);
       if (docBaseProperty != null && !docBaseProperty.trim().isEmpty())

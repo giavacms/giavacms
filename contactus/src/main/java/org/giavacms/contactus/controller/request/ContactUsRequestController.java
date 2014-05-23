@@ -57,6 +57,9 @@ public class ContactUsRequestController extends
    @HttpParam
    String phone;
 
+   String returnMessage;
+   Boolean success;
+
    @Inject
    ContactUsConfigurationRepository contactUsConfigurationRepository;
 
@@ -81,11 +84,46 @@ public class ContactUsRequestController extends
 
    public String getReturnMessage()
    {
-      if (message == null || message.isEmpty() || email == null || email.isEmpty() || phone == null || phone.isEmpty()
-               || name == null || name.isEmpty() || EmailUtils.isValidEmailAddress(email))
+      if (returnMessage != null)
       {
+         return returnMessage;
+      }
 
-         return null;
+      boolean hasMessage = message != null && message.trim().length() > 0;
+      boolean hasEmail = email != null && email.trim().length() > 0 && EmailUtils.isValidEmailAddress(email);
+      boolean hasPhone = phone != null && phone.trim().length() > 0;
+      boolean hasName = name != null && name.trim().length() > 0;
+
+      if (!hasMessage && !hasPhone && !hasEmail && !hasName)
+      {
+         message = null;
+         email = null;
+         phone = null;
+         name = null;
+         success = false;
+         returnMessage = null;
+         return returnMessage;
+      }
+
+      if (!hasEmail && !hasPhone)
+      {
+         success = false;
+         returnMessage = "E' necessario specificare un indirizzo email valido o un numero di telefono per poter essere ricontattati.";
+         return returnMessage;
+      }
+
+      if (!hasName)
+      {
+         success = false;
+         returnMessage = "E' necessario specificare un nominativo per poter essere ricontattati.";
+         return returnMessage;
+      }
+
+      if (!hasName)
+      {
+         success = false;
+         returnMessage = "E' necessario specificare il motivo per cui si desidera essere ricontattati.";
+         return returnMessage;
       }
 
       ContactUs contactUs = new ContactUs();
@@ -135,7 +173,9 @@ public class ContactUsRequestController extends
       if (tos.size() == 0 && ccs.size() == 0 && bccs.size() == 0)
       {
          logger.info("CONTACTUS MODULE: sistema non configurato per inoltrare le email.");
-         return "Grazie per averci contattato";
+         success = true;
+         returnMessage = "Grazie per averci contattato";
+         return returnMessage;
       }
       else if (tos.size() == 0)
       {
@@ -164,6 +204,42 @@ public class ContactUsRequestController extends
       {
          logger.info("CONTACTUS MODULE: invio email NON effettuato");
       }
-      return "Grazie per averci contattato";
+      message = null;
+      email = null;
+      phone = null;
+      name = null;
+      success = true;
+      returnMessage = "Grazie per averci contattato";
+      return returnMessage;
    }
+
+   public String getName()
+   {
+      return name;
+   }
+
+   public String getEmail()
+   {
+      return email;
+   }
+
+   public String getMessage()
+   {
+      return message;
+   }
+
+   public String getPhone()
+   {
+      return phone;
+   }
+
+   public boolean isSuccess()
+   {
+      if (success == null)
+      {
+         getReturnMessage();
+      }
+      return success;
+   }
+
 }
