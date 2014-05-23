@@ -60,7 +60,7 @@ public class ProductRs implements Serializable
    @GET
    @Path("/products/{id}")
    @Produces(MediaType.APPLICATION_JSON)
-   public Product getCategory(@PathParam("id") Long id) throws Exception
+   public Product getCategory(@PathParam("id") String id) throws Exception
    {
       return productRepository.fetch(id);
    }
