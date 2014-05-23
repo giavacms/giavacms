@@ -7,9 +7,11 @@
 
 	<name>giavacms</name>
 
+<!-- 
 	<context-param>
 		<param-name>resteasy.providers</param-name>
 		<param-value>org.giavacms.base.rest.RsMixinConfigurator</param-value>
 	</context-param>
+ -->
 	
 </web-fragment>

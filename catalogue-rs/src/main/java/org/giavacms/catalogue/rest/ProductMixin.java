@@ -7,6 +7,7 @@
 package org.giavacms.catalogue.rest;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 abstract class ProductMixin {
