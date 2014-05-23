@@ -21,48 +21,50 @@ import javax.ws.rs.core.MediaType;
 
 import org.giavacms.catalogue.model.Category;
 import org.giavacms.catalogue.repository.CategoryRepository;
+import org.giavacms.catalogue.service.rs.json.JCategory;
+import org.giavacms.catalogue.service.rs.util.JsonUtils;
 import org.giavacms.common.model.Search;
 import org.jboss.logging.Logger;
 
 @Path("/v1/catalogue")
 @Stateless
 @LocalBean
-public class CategoryRs implements Serializable
-{
+public class CategoryRs implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-   Logger logger = Logger.getLogger(getClass().getCanonicalName());
+	Logger logger = Logger.getLogger(getClass().getCanonicalName());
 
-   @Inject
-   CategoryRepository categoryRepository;
+	@Inject
+	CategoryRepository categoryRepository;
 
-   @GET
-   @Path("/categories")
-   @Produces(MediaType.APPLICATION_JSON)
-   public List<Category> getList(@QueryParam("startRow") int startRow, @QueryParam("pageSize") int pageSize)
-   {
-      Search<Category> search = new Search<Category>(Category.class);
-      return categoryRepository.getList(search, pageSize, pageSize);
+	@GET
+	@Path("/categories")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JCategory> getList(@QueryParam("startRow") int startRow,
+			@QueryParam("pageSize") int pageSize) {
+		Search<Category> search = new Search<Category>(Category.class);
+		List<Category> categories = categoryRepository.getList(search,
+				pageSize, pageSize);
+		return JsonUtils.getJCategories(categories);
 
-   }
+	}
 
-   @GET
-   @Path("/categories/size")
-   @Produces(MediaType.APPLICATION_JSON)
-   public int getListSize()
-   {
-      Search<Category> search = new Search<Category>(Category.class);
-      return categoryRepository.getListSize(search);
+	@GET
+	@Path("/categories/size")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int getListSize() {
+		Search<Category> search = new Search<Category>(Category.class);
+		return categoryRepository.getListSize(search);
 
-   }
+	}
 
-   @GET
-   @Path("/categories/{id}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Category getCategory(@PathParam("id") Long id) throws Exception
-   {
-      return categoryRepository.fetch(id);
-   }
+	@GET
+	@Path("/categories/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JCategory getCategory(@PathParam("id") String id) throws Exception {
+		Category category = categoryRepository.fetch(id);
+		return JsonUtils.getJCategory(category);
+	}
 
 }
