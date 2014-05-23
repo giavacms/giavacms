@@ -234,6 +234,21 @@ public class BaseProducer implements Serializable
 
    @Produces
    @Named
+   public SelectItem[] getEditableResourceItems()
+   {
+      List<SelectItem> valori = new ArrayList<SelectItem>();
+      for (ResourceType t : ResourceType.values())
+      {
+         if (t.getFolder() != null && !t.getFolder().isEmpty() && t.isEditable())
+         {
+            valori.add(new SelectItem(t.getFolder(), t.getDescription()));
+         }
+      }
+      return valori.toArray(new SelectItem[] {});
+   }
+
+   @Produces
+   @Named
    public SelectItem[] getPageItems()
    {
       Search<Page> ricerca = new Search<Page>(Page.class);

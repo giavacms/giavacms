@@ -15,16 +15,20 @@
 			<center>
 				<p:panel header="Lista Risorse">
 
-					<h:panelGrid columns="5">
+					<h:panelGrid columns="7">
+
 						<h:outputLabel for="nome" value="Nome:" />
 						<h:inputText id="nome"
-							value="#{resourceController.search.obj.name}" />
+							value="#{resourceController.search.obj.name}">
+							<p:ajax event="blur" update="createButton" listener="#{resourceController.checkExists}"/>
+						</h:inputText>
 
 						<h:outputLabel for="tipo" value="Tipo di risorsa:"
 							rendered="#{loginController.admin}" />
 						<h:selectOneMenu id="tipo"
 							value="#{resourceController.search.obj.type}"
 							rendered="#{loginController.admin}">
+							<p:ajax event="change" update="createButton" listener="#{resourceController.checkExists}"/>
 							<f:selectItems value="#{resourceItems}"
 								rendered="#{loginController.admin}" />
 						</h:selectOneMenu>
@@ -32,9 +36,20 @@
 							rendered="#{loginController.user}" />
 						<h:outputText value="Immagini " id="tipo2"
 							rendered="#{loginController.user}" />
+
 						<p:commandButton action="#{resourceController.reloadAjax}"
 							value="Cerca" ajax="true" immediate="false"
-							update="resourcesList" rendered="#{loginController.admin}" />
+							update="resourcesList"
+							rendered="#{loginController.admin}" />
+
+						<p:spacer width="10px" />
+						
+						<p:commandButton id="createButton"
+							action="#{resourceController.createElement}" value="Crea se non presente"
+							rendered="#{loginController.admin}" ajax="false"
+							immediate="false"
+							disabled="#{empty resourceController.search.obj.name or resourceController.search.obj.exists or resourceController.search.obj.name.trim().length() eq 0 or (resourceController.search.obj.type ne 'css' and resourceController.search.obj.type ne 'js'  and resourceController.search.obj.type ne 'h' )}" />
+
 					</h:panelGrid>
 					<br />
 					<p:dataTable id="resourcesList" rowIndexVar="rowIndex" var="r"
@@ -87,12 +102,8 @@
 					</p:dataTable>
 				</p:panel>
 				<br /> <br />
-				<h:panelGrid columns="2">
-					<h:commandButton action="#{resourceController.addElement}"
-						value="Aggiungi" />
-					<h:commandButton action="#{resourceController.backPage}"
-						value="Indietro" rendered="false" />
-				</h:panelGrid>
+				<p:commandButton action="#{resourceController.addElement}"
+					value="Carica" />
 			</center>
 		</h:form>
 
