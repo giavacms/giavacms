@@ -2,6 +2,7 @@ package org.giavacms.base.rest;
 
 import java.util.logging.Logger;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
@@ -12,7 +13,8 @@ import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.giavacms.base.rest.producer.ObjectMapperProducer;
 
 @Provider
-@Produces(MediaType.APPLICATION_JSON)
+@Consumes({ MediaType.APPLICATION_JSON, "text/json" })
+@Produces({ MediaType.APPLICATION_JSON, "text/json" })
 public class RsMixinResolver implements ContextResolver<ObjectMapper>
 {
 
