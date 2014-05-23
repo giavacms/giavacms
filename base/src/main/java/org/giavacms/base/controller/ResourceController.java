@@ -197,7 +197,8 @@ public class ResourceController extends AbstractLazyController<Resource> impleme
    public String update()
    {
       if (ResourceType.JAVASCRIPT.equals(getElement().getResourceType())
-               || ResourceType.STYLESHEET.equals(getElement().getResourceType()))
+               || ResourceType.STYLESHEET.equals(getElement().getResourceType())
+               || ResourceType.STATIC.equals(getElement().getResourceType()))
       {
          logger.debug("don't exist new resource uploaded; let's persist modifications on text");
          resourceRepository.updateResource(getElement());

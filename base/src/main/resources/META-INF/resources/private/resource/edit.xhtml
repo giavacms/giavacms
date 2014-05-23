@@ -14,6 +14,48 @@
 	</ui:define>
 
 	<ui:define name="content">
+	
+		<script
+			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script
+			src="//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+		<script>
+			// Hook up ACE editor to all textareas using class attribute to choice the editor type
+			$(function() {
+				$('textarea').each(function() {
+					var textarea = $(this);
+
+					var mode = textarea.attr('class');
+					console.log("mode: " + mode);
+					if (mode == '' || mode == 'noace' || mode == 'tinyMceTa') {
+						console.log("jump: " + mode);
+						return;
+					}
+					var editDiv = $('<div/>', {
+						position : 'absolute',
+						width : textarea.width(),
+						height : textarea.height(),
+						'class' : textarea.attr('class')
+					}).insertBefore(textarea);
+
+					textarea.css('visibility', 'hidden');
+
+					var editor = ace.edit(editDiv[0]);
+					editor.renderer.setShowGutter(true);
+					editor.getSession().setValue(textarea.val());
+					editor.getSession().setMode('ace/mode/' + mode);
+					editor.setTheme('ace/theme/eclipse');
+
+					// copy back to textarea on form submit...
+					textarea.closest('form').submit(function() {
+						textarea.val(editor.getSession().getValue());
+					})
+
+				});
+			});
+		</script>
+	
+	
 		<h:form enctype="multipart/form-data" id="mainForm">
 			<center>
 				<p:panel header="Gestione Risorsa">
@@ -38,11 +80,11 @@
 						</h:outputLink>
 
 						<h:outputLabel value="Carica il nuovo file:" for="fileUpload"
-							rendered="#{resourceController.element.type eq 'img' or resourceController.element.type eq 'docs' or resourceController.element.type eq 'swf'  }" />
-						<p:fileUpload id="fileUpload" mode="advanced" multiple="false"
+							rendered="#{not resourceController.element.resourceType.editable}" />
+						<p:fileUpload id="fileUpload" mode="advanced" multiple="false" 					rendered="#{not resourceController.element.resourceType.editable}" 
 							sizeLimit="20000000" update=":mainForm"
 							fileUploadListener="#{resourceController.substitute}"
-							label="Scegli Immagine" description="Scegli Immagine" />
+							label="Scegli file" description="Scegli il file" />
 
 
 					</h:panelGrid>
@@ -50,7 +92,7 @@
 					<br />
 
 					<ui:fragment
-						rendered="#{resourceController.element.type eq 'css' or resourceController.element.type eq 'js' }">
+						rendered="#{resourceController.element.resourceType.editable}">
 						<h:inputTextarea value="#{resourceController.element.text}"
 							style="width: 100%; height: 300px;" />
 					</ui:fragment>

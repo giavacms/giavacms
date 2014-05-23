@@ -20,7 +20,7 @@
 					<p:fileUpload label="Scegli Risorse" sizeLimit="10000000"
 						fileUploadListener="#{resourceController.handleFileUpload}"
 						description="Seleziona i file da caricare" multiple="true"
-						allowTypes="/(\.|\/)(otf|eot|svg|ttf|woff|gif|jpe?g|png|ico|zip|gz|tar|bz2|pdf|doc|docx|xls|xlsx|p7m|txt|css|js|swf)$/"
+						allowTypes="/(\.|\/)(otf|eot|svg|ttf|woff|gif|jpe?g|png|ico|zip|gz|tar|bz2|pdf|doc|docx|xls|xlsx|p7m|txt|css|js|swf|html|xhtml|htm)$/"
 						update="commands,resourceList" />
 					<br />
 					<br />
@@ -32,6 +32,7 @@
 						<li>STYLESHEET (/css): css</li>
 						<li>JAVASCRIPT (/js): js</li>
 						<li>FLASH (/swf): swf</li>
+						<li>CONTENUTI STATICI (/h): htm, html, xhtml</li>
 					</ul>
 					<br />
 					<h:panelGroup id="resourceList">

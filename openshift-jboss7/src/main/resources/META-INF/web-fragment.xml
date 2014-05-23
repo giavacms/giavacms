@@ -79,6 +79,16 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ContentStaticOpenShiftServlet</servlet-name>
+		<servlet-class>org.giavacms.base.servlet.StaticOpenShiftServlet</servlet-class>
+		<init-param>
+			<param-name>folderName</param-name>
+			<param-value>h</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>CssStaticOpenShiftServlet</servlet-name>
@@ -103,6 +113,10 @@
 	<servlet-mapping>
 		<servlet-name>ErrorsStaticOpenShiftServlet</servlet-name>
 		<url-pattern>/errors/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ContentStaticOpenShiftServlet</servlet-name>
+		<url-pattern>/h/*</url-pattern>
 	</servlet-mapping>
 
 
