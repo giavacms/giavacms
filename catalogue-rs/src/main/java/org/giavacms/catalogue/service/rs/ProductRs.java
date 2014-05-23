@@ -21,47 +21,51 @@ import javax.ws.rs.core.MediaType;
 
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.ProductRepository;
+import org.giavacms.catalogue.service.rs.json.JProduct;
+import org.giavacms.catalogue.service.rs.util.JsonUtils;
 import org.giavacms.common.model.Search;
 import org.jboss.logging.Logger;
 
 @Path("/v1/catalogue")
 @Stateless
 @LocalBean
-public class ProductRs implements Serializable
-{
+public class ProductRs implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-   Logger logger = Logger.getLogger(getClass().getCanonicalName());
+	Logger logger = Logger.getLogger(getClass().getCanonicalName());
 
-   @Inject
-   ProductRepository productRepository;
+	@Inject
+	ProductRepository productRepository;
 
-   @GET
-   @Path("/products")
-   @Produces(MediaType.APPLICATION_JSON)
-   public List<Product> getList(@QueryParam("startRow") int startRow, @QueryParam("pageSize") int pageSize)
-   {
-      Search<Product> search = new Search<Product>(Product.class);
-      return productRepository.getList(search, pageSize, pageSize);
+	@GET
+	@Path("/products")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<JProduct> getList(@QueryParam("startRow") int startRow,
+			@QueryParam("pageSize") int pageSize) {
+		Search<Product> search = new Search<Product>(Product.class);
+		List<Product> products = productRepository.getList(search, pageSize,
+				pageSize);
+		return JsonUtils.getJProducts(products);
 
-   }
+	}
 
-   @GET
-   @Path("/products/size")
-   @Produces(MediaType.APPLICATION_JSON)
-   public int getListSize()
-   {
-      Search<Product> search = new Search<Product>(Product.class);
-      return productRepository.getListSize(search);
+	@GET
+	@Path("/products/size")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int getListSize() {
+		Search<Product> search = new Search<Product>(Product.class);
+		return productRepository.getListSize(search);
 
-   }
+	}
 
-   @GET
-   @Path("/products/{id}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Product getCategory(@PathParam("id") String id) throws Exception
-   {
-      return productRepository.fetch(id);
-   }
+
+	@GET
+	@Path("/products/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JProduct getCategory(@PathParam("id") String id) throws Exception {
+		Product product = productRepository.fetch(id);
+		return JsonUtils.getJProduct(product);
+	}
+
 }
