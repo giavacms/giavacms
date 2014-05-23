@@ -5,7 +5,7 @@
 	http://java.sun.com/xml/ns/javaee/web-fragment_3_0.xsd"
 	version="3.0">
 
-	<name>giavacms.org</name>
+	<name>giavacms</name>
 
 	<context-param>
 		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
