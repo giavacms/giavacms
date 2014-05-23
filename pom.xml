@@ -84,6 +84,7 @@
 		<module>richnews10importer</module>
 		<module>catalogue10importer</module>
 		<module>customer10importer</module>
+		<module>richcontent-rs</module>
 	</modules>
 
 
