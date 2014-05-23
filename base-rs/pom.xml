@@ -64,9 +64,10 @@
 
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jettison-provider</artifactId>
-			<scope>provided</scope>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>3.0.8.Final</version>
 		</dependency>
+
 
 	</dependencies>
 
