@@ -15,166 +15,203 @@
 	</ui:define>
 	<ui:define name="content">
 
+		<script
+			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script
+			src="//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+		<script>
+			// Hook up ACE editor to all textareas using class attribute to choice the editor type
+			$(function() {
+				$('textarea').each(function() {
+					var textarea = $(this);
+
+					var mode = textarea.attr('class');
+					console.log("mode: " + mode);
+					if (mode == '' || mode == 'noace' || mode == 'tinyMceTa') {
+						console.log("jump: " + mode);
+						return;
+					}
+					var editDiv = $('<div/>', {
+						position : 'absolute',
+						width : textarea.width(),
+						height : textarea.height(),
+						'class' : textarea.attr('class')
+					}).insertBefore(textarea);
+
+					textarea.css('visibility', 'hidden');
+
+					var editor = ace.edit(editDiv[0]);
+					editor.renderer.setShowGutter(true);
+					editor.getSession().setValue(textarea.val());
+					editor.getSession().setMode('ace/mode/' + mode);
+					editor.setTheme('ace/theme/eclipse');
+
+					// copy back to textarea on form submit...
+					textarea.closest('form').submit(function() {
+						textarea.val(editor.getSession().getValue());
+					})
+
+				});
+			});
+		</script>
+
 		<gb:upDown />
 		<h:form prependId="false">
 
-			<center>
-				<p:panel header="#{msg['template.module.edit.title']}">
+			<p:panel header="#{msg['template.module.edit.title']}">
 
-					<h:panelGrid columns="2" style="width: 50%">
+				<h:panelGrid columns="2" style="width: 50%">
 
-						<h:outputLabel value="#{msg['template.edit.name']}" for="nome" />
-						<h:inputText required="true" id="nome"
-							requiredMessage="E' obbligatorio specificare un nome."
-							value="#{templateController.element.name}" style="width: 100%;" />
+					<h:outputLabel value="#{msg['template.edit.name']}" for="nome" />
+					<h:inputText required="true" id="nome"
+						requiredMessage="E' obbligatorio specificare un nome."
+						value="#{templateController.element.name}" style="width: 100%;" />
 
-						<h:outputLabel for="statico"
-							value="#{msg['template.edit.static.label']}" escape="false" />
-						<h:selectBooleanCheckbox id="statico"
-							value="#{templateController.element.statico}" />
+					<h:outputLabel for="statico"
+						value="#{msg['template.edit.static.label']}" escape="false" />
+					<h:selectBooleanCheckbox id="statico"
+						value="#{templateController.element.statico}" />
 
-					</h:panelGrid>
+				</h:panelGrid>
 
-					<br />
-					<h:outputText value="#{msg['global.mandatory']}" />
-					<br />
-					<br />
+				<br />
+				<h:outputText value="#{msg['global.mandatory']}" />
+				<br />
+				<br />
 
-					<p:panel header="#{msg['template.edit.header_start']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<p:inputTextarea
-							value="#{templateController.element.header_start}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.header_stop']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<h:outputText style="font-size: small;"
-							value="#{msg['template.edit.static.notEditlabel']}" />
-						<br />
-						<p:inputTextarea value="#{templateController.element.header_stop}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.col1_start']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<p:inputTextarea value="#{templateController.element.col1_start}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.col1_stop']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<h:outputText style="font-size: small;"
-							value="#{msg['template.edit.static.notEditlabel']}" />
-						<br />
-						<p:inputTextarea value="#{templateController.element.col1_stop}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.col2_start']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<p:inputTextarea value="#{templateController.element.col2_start}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.col2_stop']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<h:outputText style="font-size: small;"
-							value="#{msg['template.edit.static.notEditlabel']}" />
-						<br />
-						<p:inputTextarea value="#{templateController.element.col2_stop}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.col3_start']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<p:inputTextarea value="#{templateController.element.col3_start}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.col3_stop']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<h:outputText style="font-size: small;"
-							value="#{msg['template.edit.static.notEditlabel']}" />
-						<br />
-						<p:inputTextarea value="#{templateController.element.col3_stop}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.footer_start']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<p:inputTextarea
-							value="#{templateController.element.footer_start}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
-					<p:panel header="#{msg['template.edit.footer_stop']}"
-						toggleable="true" toggleSpeed="500" closeSpeed="500">
-						<h:outputText style="font-size: small;"
-							value="#{msg['template.edit.static.notEditlabel']}" />
-						<br />
-						<p:inputTextarea value="#{templateController.element.footer_stop}"
-							style="color: black; width: 100%; " escape="false" />
-					</p:panel>
-
-					<br />
-					<br />
-
+				<p:panel header="#{msg['template.edit.header_start']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<p:inputTextarea value="#{templateController.element.header_start}"
+						style="color: black; width: 100%; " escape="false" />
 				</p:panel>
 
-				<br /> <br />
+				<br />
+				<br />
 
-				<h:panelGrid columns="4">
-					<h:commandButton action="#{templateController.save}"
-						value="#{msg['global.save']}"
-						rendered="#{empty templateController.element.id}" />
+				<p:panel header="#{msg['template.edit.header_stop']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<h:outputText style="font-size: small;"
+						value="#{msg['template.edit.static.notEditlabel']}" />
+					<br />
+					<p:inputTextarea value="#{templateController.element.header_stop}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
 
-					<h:commandButton action="#{templateController.update}"
-						value="#{msg['global.update']}"
-						rendered="#{not empty templateController.element.id}" />
+				<br />
+				<br />
 
-					<h:commandButton action="#{templateController.delete}"
-						value="#{msg['global.delete']}" immediate="true"
-						rendered="#{not empty templateController.element.id}"
-						onclick="if (!confirm('#{msg['global.deleteMsg']}')) return false" />
+				<p:panel header="#{msg['template.edit.col1_start']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<p:inputTextarea value="#{templateController.element.col1_start}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
 
-					<h:commandButton id="del2"
-						action="#{templateController.reallyDelete}"
-						value="#{msg['global.reallyDelete']}" immediate="true"
-						rendered="#{not empty templateController.element.id and loginController.admin}"
-						onclick="if (!confirm('#{msg['global.reallyDeleteMsg']}')) return false" />
+				<br />
+				<br />
 
-					<h:commandButton id="reset" action="#{templateController.reset}"
-						value="#{msg['global.undo']}" immediate="true" />
-				</h:panelGrid>
-			</center>
+				<p:panel header="#{msg['template.edit.col1_stop']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<h:outputText style="font-size: small;"
+						value="#{msg['template.edit.static.notEditlabel']}" />
+					<br />
+					<p:inputTextarea value="#{templateController.element.col1_stop}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+				<p:panel header="#{msg['template.edit.col2_start']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<p:inputTextarea value="#{templateController.element.col2_start}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+				<p:panel header="#{msg['template.edit.col2_stop']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<h:outputText style="font-size: small;"
+						value="#{msg['template.edit.static.notEditlabel']}" />
+					<br />
+					<p:inputTextarea value="#{templateController.element.col2_stop}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+				<p:panel header="#{msg['template.edit.col3_start']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<p:inputTextarea value="#{templateController.element.col3_start}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+				<p:panel header="#{msg['template.edit.col3_stop']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<h:outputText style="font-size: small;"
+						value="#{msg['template.edit.static.notEditlabel']}" />
+					<br />
+					<p:inputTextarea value="#{templateController.element.col3_stop}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+				<p:panel header="#{msg['template.edit.footer_start']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<p:inputTextarea value="#{templateController.element.footer_start}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+				<p:panel header="#{msg['template.edit.footer_stop']}"
+					toggleable="true" toggleSpeed="500" closeSpeed="500">
+					<h:outputText style="font-size: small;"
+						value="#{msg['template.edit.static.notEditlabel']}" />
+					<br />
+					<p:inputTextarea value="#{templateController.element.footer_stop}"
+						style="color: black; width: 100%; " escape="false" />
+				</p:panel>
+
+				<br />
+				<br />
+
+			</p:panel>
+
+			<br />
+			<br />
+
+			<h:panelGrid columns="4">
+				<h:commandButton action="#{templateController.save}"
+					value="#{msg['global.save']}"
+					rendered="#{empty templateController.element.id}" />
+
+				<h:commandButton action="#{templateController.update}"
+					value="#{msg['global.update']}"
+					rendered="#{not empty templateController.element.id}" />
+
+				<h:commandButton action="#{templateController.delete}"
+					value="#{msg['global.delete']}" immediate="true"
+					rendered="#{not empty templateController.element.id}"
+					onclick="if (!confirm('#{msg['global.deleteMsg']}')) return false" />
+
+				<h:commandButton id="del2"
+					action="#{templateController.reallyDelete}"
+					value="#{msg['global.reallyDelete']}" immediate="true"
+					rendered="#{not empty templateController.element.id and loginController.admin}"
+					onclick="if (!confirm('#{msg['global.reallyDeleteMsg']}')) return false" />
+
+				<h:commandButton id="reset" action="#{templateController.reset}"
+					value="#{msg['global.undo']}" immediate="true" />
+			</h:panelGrid>
 
 		</h:form>
 	</ui:define>

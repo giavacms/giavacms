@@ -14,7 +14,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-	
+
 		<script
 			src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 		<script
@@ -54,92 +54,95 @@
 				});
 			});
 		</script>
-	
-	
+
+
 		<h:form enctype="multipart/form-data" id="mainForm">
-			<center>
-				<p:panel header="Gestione Risorsa">
-					<h:panelGrid columns="2" style="width: 95%"
-						columnClasses="col1,col2">
 
-						<h:outputLabel value="Tipo:" for="tipo" />
-						<h:outputText id="tipo" value="#{resourceController.element.type}"
-							style="width: 100%;" />
+			<p:panel header="Gestione Risorsa">
+				<h:panelGrid columns="2" style="width: 95%"
+					columnClasses="col1,col2">
 
-						<h:outputLabel value="Nome:" for="nome" />
-						<h:outputText id="nome" value="#{resourceController.element.name}"
-							style="width: 100%;" />
+					<h:outputLabel value="Tipo:" for="tipo" />
+					<h:outputText id="tipo" value="#{resourceController.element.type}"
+						style="width: 100%;" />
 
-						<h:outputLabel value="Scarica il file:" for="fileDownload"
-							rendered="#{resourceController.element.type eq 'docs'}" />
-						<h:outputLink id="fileDownload"
-							value="#{request.contextPath}/docs/#{resourceController.element.name}"
-							target="_blank"
-							rendered="#{resourceController.element.type eq 'docs'}">
-							<h:outputText value="#{resourceController.element.name}" />
-						</h:outputLink>
+					<h:outputLabel value="Nome:" for="nome" />
+					<h:outputText id="nome" value="#{resourceController.element.name}"
+						style="width: 100%;" />
 
-						<h:outputLabel value="Carica il nuovo file:" for="fileUpload"
-							rendered="#{not resourceController.element.resourceType.editable}" />
-						<p:fileUpload id="fileUpload" mode="advanced" multiple="false" 					rendered="#{not resourceController.element.resourceType.editable}" 
-							sizeLimit="20000000" update=":mainForm"
-							fileUploadListener="#{resourceController.substitute}"
-							label="Scegli file" description="Scegli il file" />
+					<h:outputLabel value="Scarica il file:" for="fileDownload"
+						rendered="#{resourceController.element.type eq 'docs'}" />
+					<h:outputLink id="fileDownload"
+						value="#{request.contextPath}/docs/#{resourceController.element.name}"
+						target="_blank"
+						rendered="#{resourceController.element.type eq 'docs'}">
+						<h:outputText value="#{resourceController.element.name}" />
+					</h:outputLink>
 
-
-					</h:panelGrid>
-
-					<br />
-
-					<ui:fragment
-						rendered="#{resourceController.element.resourceType.editable}">
-						<h:inputTextarea value="#{resourceController.element.text}"
-							style="width: 100%; height: 300px; text-align: left;" />
-					</ui:fragment>
-
-					<ui:fragment
-						rendered="#{resourceController.element.type eq 'img/resized' or resourceController.element.type eq 'img/cropped'}">
-						<h:graphicImage
-							value="/#{resourceController.element.type}/#{resourceController.element.name}?#{gb:random()}" />
-					</ui:fragment>
+					<h:outputLabel value="Carica il nuovo file:" for="fileUpload"
+						rendered="#{not resourceController.element.resourceType.editable}" />
+					<p:fileUpload id="fileUpload" mode="advanced" multiple="false"
+						rendered="#{not resourceController.element.resourceType.editable}"
+						sizeLimit="20000000" update=":mainForm"
+						fileUploadListener="#{resourceController.substitute}"
+						label="Scegli file" description="Scegli il file" />
 
 
-					<ui:fragment rendered="#{resourceController.element.type eq 'img'}">
+				</h:panelGrid>
 
-						<p:imageCropper value="#{resourceController.croppedImage}"
-							image="/img/#{resourceController.element.name}?#{gb:random()}"
-							initialCoords="0,0,#{resourceController.width > 100 ? 100 : resourceController.width},#{resourceController.height > 100 ? 100 : resourceController.height}" />
+				<br />
+
+				<ui:fragment
+					rendered="#{resourceController.element.resourceType.editable}">
+					<h:inputTextarea value="#{resourceController.element.text}"
+						style="width: 100%; height: 300px; text-align: left;" />
+				</ui:fragment>
+
+				<ui:fragment
+					rendered="#{resourceController.element.type eq 'img/resized' or resourceController.element.type eq 'img/cropped'}">
+					<h:graphicImage
+						value="/#{resourceController.element.type}/#{resourceController.element.name}?#{gb:random()}" />
+				</ui:fragment>
+
+
+				<ui:fragment rendered="#{resourceController.element.type eq 'img'}">
+
+					<p:imageCropper value="#{resourceController.croppedImage}"
+						image="/img/#{resourceController.element.name}?#{gb:random()}"
+						initialCoords="0,0,#{resourceController.width > 100 ? 100 : resourceController.width},#{resourceController.height > 100 ? 100 : resourceController.height}" />
+
+					<h:panelGrid columns="3">
+
+						<p:commandButton value="Ritaglia"
+							action="#{resourceController.crop}" ajax="false" />
+
+						<h:outputText value=" ...oppure... " />
 
 						<h:panelGrid columns="3">
-
-							<p:commandButton value="Ritaglia"
-								action="#{resourceController.crop}" ajax="false" />
-
-							<h:outputText value=" ...oppure... " />
-
-							<h:panelGrid columns="3">
-								<h:outputLabel value="Larghezza: " for="width" />
-								<h:outputLabel value="Altezza: " for="height" />
-								<h:outputText id="spazioSopraRidimensiona" />
-								<p:spinner value="#{resourceController.width}" id="width" />
-								<p:spinner value="#{resourceController.height}" id="height" />
-								<p:commandButton value="Ridimensiona" ajax="false"
-									action="#{resourceController.resize}" />
-							</h:panelGrid>
-
-							<h:outputText value="(come da selezione) " />
-							<p:spacer width="100px" height="1px" id="separatore" />
-							<h:outputText
-								value="(valorizzare entrambe le dimensioni o lasciare a 0 quella da ridimensionare in proporzione)" />
-
+							<h:outputLabel value="Larghezza: " for="width" />
+							<h:outputLabel value="Altezza: " for="height" />
+							<h:outputText id="spazioSopraRidimensiona" />
+							<p:spinner value="#{resourceController.width}" id="width" />
+							<p:spinner value="#{resourceController.height}" id="height" />
+							<p:commandButton value="Ridimensiona" ajax="false"
+								action="#{resourceController.resize}" />
 						</h:panelGrid>
-						<br />
-						<br />
 
-					</ui:fragment>
-				</p:panel>
-				<br /> <br />
+						<h:outputText value="(come da selezione) " />
+						<p:spacer width="100px" height="1px" id="separatore" />
+						<h:outputText
+							value="(valorizzare entrambe le dimensioni o lasciare a 0 quella da ridimensionare in proporzione)" />
 
+					</h:panelGrid>
+					<br />
+					<br />
+
+				</ui:fragment>
+			</p:panel>
+			<br />
+			<br />
+
+			<center>
 				<h:panelGrid columns="3">
 
 					<p:commandButton value="Annulla ridimensionamento"
