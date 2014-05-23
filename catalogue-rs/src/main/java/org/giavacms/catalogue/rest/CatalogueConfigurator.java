@@ -6,6 +6,7 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import org.giavacms.base.rest.RsMixinConfigurator;
+import org.giavacms.catalogue.model.Product;
 import org.jboss.logging.Logger;
 
 @Singleton
@@ -22,7 +23,8 @@ public class CatalogueConfigurator {
 	@PostConstruct
 	public void init() {
 		logger.info("add module");
-		
+		rsMixinConfigurator.getObjectMapper().getSerializationConfig()
+				.addMixInAnnotations(Product.class, ProductMixin.class);
 
 	}
 }

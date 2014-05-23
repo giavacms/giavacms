@@ -41,13 +41,6 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>catalogue</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-
 		<!-- REST -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
