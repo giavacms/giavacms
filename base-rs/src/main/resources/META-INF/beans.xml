@@ -14,5 +14,6 @@
 		<weld:exclude name="org.giavacms.base.model.**" />
 		<weld:exclude name="org.giavacms.base.model.attachment.**" />
 		<weld:exclude name="org.giavacms.base.model.enums.**" />
+		<weld:exclude name="org.giavacms.base.rest.RsMixinConfigurator" />
 	</weld:scan>
 </beans>

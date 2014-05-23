@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import org.giavacms.base.rest.producer.ObjectMapperProducer;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJacksonProvider;
 
 @Provider
@@ -19,16 +19,14 @@ public class RsMixinConfigurator extends ResteasyJacksonProvider {
 
 	public RsMixinConfigurator() {
 		super();
-		logger.info("RsMixinConfigurator startup");
+		logger.info("RsMixinConfigurator startup " + this);
 
-		// ObjectMapper mapper = _mapperConfig.getConfiguredMapper();
+		_mapperConfig.setMapper(new ObjectMapperProducer().getObjectMapper());
+		
 		// configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
 		// false);
 		// configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
 
 	}
 
-	public ObjectMapper getObjectMapper() {
-		return _mapperConfig.getConfiguredMapper();
-	}
 }
