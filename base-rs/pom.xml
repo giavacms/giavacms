@@ -41,7 +41,6 @@
 		</dependency>
 
 
-
 		<!-- REST -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>

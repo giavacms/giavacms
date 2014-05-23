@@ -5,29 +5,32 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
-import org.giavacms.base.rest.RsMixinConfigurator;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.giavacms.catalogue.model.Product;
-import org.jboss.logging.*;
+import org.jboss.logging.Logger;
 
 @Singleton
 @Startup
-public class CatalogueConfigurator {
+public class CatalogueConfigurator
+{
 
-	Logger logger = Logger.getLogger(getClass());
-	@Inject
-	RsMixinConfigurator rsMixinConfigurator;
+   Logger logger = Logger.getLogger(getClass());
+   @Inject
+   ObjectMapper objectMapper;
 
-	public CatalogueConfigurator() {
-	}
+   public CatalogueConfigurator()
+   {
+   }
 
-	@PostConstruct
-	public void init() {
-		logger.info("add module");
-		
-		logger.info("rxMixinConfigurator is " + rsMixinConfigurator);
-		
-		rsMixinConfigurator.getObjectMapper().getSerializationConfig()
-				.addMixInAnnotations(Product.class, ProductMixin.class);
+   @PostConstruct
+   public void init()
+   {
+      logger.info("add module");
 
-	}
+      logger.info("objectMapper is " + objectMapper);
+
+      objectMapper.getSerializationConfig()
+               .addMixInAnnotations(Product.class, ProductMixin.class);
+
+   }
 }
