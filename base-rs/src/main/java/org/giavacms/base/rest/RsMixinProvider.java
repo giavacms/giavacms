@@ -22,7 +22,7 @@ public class RsMixinProvider extends ResteasyJacksonProvider
    public RsMixinProvider()
    {
       super();
-      logger.info("RsMixinConfigurator startup " + this);
+      logger.info("RsMixinProvider startup " + this);
 
       ObjectMapper objectMapper = new ObjectMapperProducer().getObjectMapper();
 
