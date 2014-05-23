@@ -19,6 +19,8 @@ public class RsMixinConfigurator extends ResteasyJacksonProvider {
 
 	public RsMixinConfigurator() {
 		super();
+		logger.info("RsMixinConfigurator startup");
+
 		// ObjectMapper mapper = _mapperConfig.getConfiguredMapper();
 		// configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
 		// false);
