@@ -59,6 +59,7 @@ public class ProductRs implements Serializable {
 
 	}
 
+
 	@GET
 	@Path("/products/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,4 +67,5 @@ public class ProductRs implements Serializable {
 		Product product = productRepository.fetch(id);
 		return JsonUtils.getJProduct(product);
 	}
+
 }

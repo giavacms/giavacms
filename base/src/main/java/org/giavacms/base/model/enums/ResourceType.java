@@ -13,22 +13,31 @@ import java.util.Arrays;
 public enum ResourceType
 {
 
-   FONT("font", Arrays.asList("otf", "eot", "svg", "ttf",
+   FONT(false, "caratteri", "font", Arrays.asList("otf", "eot", "svg", "ttf",
             "woff")),
-   IMAGE("img", Arrays.asList("gif", "jpg", "jpeg", "png", "ico")),
-   DOCUMENT("docs", Arrays.asList("zip", "gz", "tar", "bz2", "pdf", "doc", "docx", "xls", "xlsx", "p7m", "txt")),
-   STYLESHEET("css", Arrays.asList("css")),
-   JAVASCRIPT("js", Arrays.asList("js")),
-   FLASH("swf", Arrays.asList("swf")),
-   ALL("", new ArrayList<String>()),
+   IMAGE(false, "immagini", "img", Arrays.asList("gif", "jpg", "jpeg", "png", "ico")),
+   DOCUMENT(false, "documenti", "docs", Arrays.asList("zip", "gz", "tar", "bz2", "pdf", "doc", "docx", "xls", "xlsx",
+            "p7m",
+            "txt", "rtf")),
+   STYLESHEET(true, "fogli di stile", "css", Arrays.asList("css")),
+   JAVASCRIPT(true, "funzioni javascript", "js", Arrays.asList("js")),
+   FLASH(false, "contenuti flash", "swf", Arrays.asList("swf")),
+
+   STATIC(true, "contenuti statici", "h", Arrays.asList("xhtml", "html", "htm")),
+
+   ALL(false, "tutto", "", new ArrayList<String>()),
 
    ;
 
+   boolean editable;
+   private String description;
    private String folder;
    private List<String> extensions;
 
-   private ResourceType(String folder, List<String> extensions)
+   private ResourceType(boolean editable, String description, String folder, List<String> extensions)
    {
+      this.editable = editable;
+      this.description = description;
       this.folder = folder;
       this.extensions = extensions;
    }
@@ -41,6 +50,16 @@ public enum ResourceType
    public List<String> getExtensions()
    {
       return extensions;
+   }
+
+   public String getDescription()
+   {
+      return description;
+   }
+
+   public boolean isEditable()
+   {
+      return editable;
    }
 
    public static ResourceType getValueByFolder(String folder)

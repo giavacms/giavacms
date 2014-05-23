@@ -137,6 +137,11 @@ public class ResourceUtils
       return getFilesName(ResourceType.STYLESHEET.getFolder(), ResourceType.STYLESHEET.getExtensions());
    }
 
+   public static List<String> getStaticFiles()
+   {
+      return getFilesName(ResourceType.STATIC.getFolder(), ResourceType.STATIC.getExtensions());
+   }
+
    public static List<String> getJsFiles()
    {
       return getFilesName(ResourceType.JAVASCRIPT.getFolder(), ResourceType.JAVASCRIPT.getExtensions());
