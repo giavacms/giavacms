@@ -75,21 +75,10 @@
 
 								<h:outputLink target="_blank" title="anteprima"
 									style="font-size: 24px;" styleClass="icon-eye-open"
-									value="#{request.contextPath}/docs/#{r.name}"
-									rendered="#{r.type eq 'docs'}">
+									value="#{request.contextPath}/#{r.type}/#{r.name}"
+									rendered="#{r.type eq 'docs' or r.type eq 'h' or r.type eq 'js' or r.type eq 'css'}">
 								</h:outputLink>
 
-								<h:outputLink target="_blank" title="anteprima"
-									style="font-size: 24px;" styleClass="icon-eye-open"
-									value="#{request.contextPath}/js/#{r.name}"
-									rendered="#{r.type eq 'js'}">
-								</h:outputLink>
-
-								<h:outputLink target="_blank" title="anteprima"
-									style="font-size: 24px;" styleClass="icon-eye-open"
-									value="#{request.contextPath}/css/#{r.name}"
-									rendered="#{r.type eq 'css'}">
-								</h:outputLink>
 							</center>
 						</p:column>
 						<p:column headerText="modifica">
