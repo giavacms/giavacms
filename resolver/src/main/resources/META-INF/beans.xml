@@ -3,7 +3,7 @@
 	xmlns:weld="http://jboss.org/schema/weld/beans"
 	xsi:schemaLocation="
           http://java.sun.com/xml/ns/javaee http://docs.jboss.org/cdi/beans_1_0.xsd
-          http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">/javaee       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+          http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
 	<weld:scan>
 		<weld:exclude name="org.giavacms.resolver.resolver.**" />
 	</weld:scan>
