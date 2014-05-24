@@ -128,7 +128,7 @@ public class ResourceController extends AbstractLazyController<Resource> impleme
    public void defaultCriteria()
    {
       getSearch().getObj().setType(
-               baseProducer.getResourceItems()[0].getValue().toString());
+               baseProducer.getResourceItems()[0].getValue() + "");
    }
 
    /**
@@ -456,4 +456,65 @@ public class ResourceController extends AbstractLazyController<Resource> impleme
       update();
    }
 
+   // ------------------------------
+
+   public void checkExists()
+   {
+      String folder = getSearch().getObj().getType();
+      if (folder == null || folder.isEmpty())
+      {
+         return;
+      }
+      String filename = getSearch().getObj().getName();
+      if (filename == null || filename.isEmpty())
+      {
+         return;
+      }
+      String extension = FileUtils.getExtension(filename);
+      ResourceType resourceType = ResourceType.getValueByFolder(folder);
+      if (extension == null || !resourceType.getExtensions().contains(extension.toLowerCase()))
+      {
+         filename += "." + resourceType.getExtensions().get(0);
+      }
+      File file = new File(ResourceUtils.getRealPath() + "/" + getSearch().getObj().getType(), filename);
+      getSearch().getObj().setExists(file.exists());
+   }
+
+   public String createElement()
+   {
+      checkExists();
+      if (getSearch().getObj().isExists())
+      {
+         super.addFacesMessage("Risorsa gia' presente");
+      }
+      String folder = getSearch().getObj().getType();
+      String filename = getSearch().getObj().getName();
+      String extension = FileUtils.getExtension(filename);
+      ResourceType resourceType = ResourceType.getValueByFolder(folder);
+      if (extension == null || !resourceType.getExtensions().contains(extension.toLowerCase()))
+      {
+         filename += "." + resourceType.getExtensions().get(0);
+      }
+      String content = "";
+      switch (resourceType)
+      {
+      case STYLESHEET:
+         content = "redStyle { color: red; }";
+         break;
+      case JAVASCRIPT:
+         content = "var uno = 1;";
+         break;
+      case STATIC:
+         content = "<!DOCTYPE HTML>";
+         break;
+      default:
+         content = "...";
+         break;
+      }
+      String file = ResourceUtils.createFile_(getSearch().getObj().getType(), filename,
+               content.getBytes());
+      Resource resource = resourceRepository.fetch(folder, file);
+      setElement(resource);
+      return modCurrent();
+   }
 }

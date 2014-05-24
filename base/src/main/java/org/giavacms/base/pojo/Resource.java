@@ -23,6 +23,7 @@ public class Resource implements Serializable
 
    private String id;
    private byte[] bytes;
+   private boolean exists;
 
    private String name;
    private InputStream inputStream;
@@ -135,4 +136,16 @@ public class Resource implements Serializable
       this.inputStream = inputStream;
    }
 
+   @Transient
+   public boolean isExists()
+   {
+      return exists;
+   }
+
+   public void setExists(boolean exists)
+   {
+      this.exists = exists;
+   }
+
+   
 }
