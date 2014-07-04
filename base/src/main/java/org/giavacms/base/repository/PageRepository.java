@@ -490,55 +490,63 @@ public class PageRepository
       return sb;
    }
 
-   public void resetLanguage(int l, String id)
+   public boolean resetLanguage(int l, String id)
    {
       try
       {
-         getEm().createNativeQuery(
-                  "update " + Page.TABLE_NAME + " set lang" + l + "id = null where lang" + l + "id = :ID")
+         int affectedRows = getEm().createNativeQuery(
+                  "update " + Page.TABLE_NAME + " set lang" + l + "id = null where id = :ID")
                   .setParameter("ID", id).executeUpdate();
+         return affectedRows == 1;
       }
       catch (Exception e)
       {
          logger.error(e.getMessage());
          e.printStackTrace();
+         return false;
       }
    }
 
-   public void updateLanguageByTemplate(int langId, Long templateImplId, boolean set)
+   public boolean updateLanguageByTemplate(int langId, Long templateImplId, boolean set)
    {
       try
       {
          if (langId > 0)
          {
-            getEm().createNativeQuery(
+            int affectedRows = getEm().createNativeQuery(
                      "update " + Page.TABLE_NAME + " set lang" + langId + "id = "
                               + (set ? " id " : " NULL ") + " where template_id = :TID ")
                      .setParameter("TID", templateImplId).executeUpdate();
+            return affectedRows > 0;
          }
+         return false;
       }
       catch (Exception e)
       {
          logger.error(e.getMessage());
          e.printStackTrace();
+         return false;
       }
    }
 
-   public void updateLanguage(int langId, String pageId)
+   public boolean updateLanguage(int langId, String pageId)
    {
       try
       {
          if (langId > 0)
          {
-            getEm().createNativeQuery(
+            int affectedRows = getEm().createNativeQuery(
                      "update " + Page.TABLE_NAME + " set lang" + langId + "id = id where id = :PID ")
                      .setParameter("PID", pageId).executeUpdate();
+            return affectedRows == 1;
          }
+         return false;
       }
       catch (Exception e)
       {
          logger.error(e.getMessage());
          e.printStackTrace();
+         return false;
       }
    }
 

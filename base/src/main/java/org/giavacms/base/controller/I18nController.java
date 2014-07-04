@@ -61,23 +61,18 @@ public class I18nController extends AbstractController<Page>
          switch (languageToEdit)
          {
          case 1:
-            formerAlternatePageId = getElement().getLang1id();
             getElement().setLang1id(null);
             break;
          case 2:
-            formerAlternatePageId = getElement().getLang2id();
             getElement().setLang2id(null);
             break;
          case 3:
-            formerAlternatePageId = getElement().getLang3id();
             getElement().setLang3id(null);
             break;
          case 4:
-            formerAlternatePageId = getElement().getLang4id();
             getElement().setLang4id(null);
             break;
          case 5:
-            formerAlternatePageId = getElement().getLang5id();
             getElement().setLang5id(null);
             break;
          default:
@@ -169,17 +164,12 @@ public class I18nController extends AbstractController<Page>
             break;
          }
 
-         if (formerAlternatePageId == null)
-         {
-            return;
-         }
          pageRepository.setupLanguage(languageToEdit, getElement().getId(), newAlternatePageId);
+         pageRepository.setupLanguage(languageToEdit, newAlternatePageId, newAlternatePageId);
          if (!bidirectional)
          {
             return;
          }
-
-         pageRepository.setupLanguage(languageToEdit, newAlternatePageId, newAlternatePageId);
 
          List<Integer> currentLanguages = new ArrayList<Integer>();
          if (getElement().getId().equals(getElement().getLang1id()))
@@ -210,8 +200,11 @@ public class I18nController extends AbstractController<Page>
             return;
          }
 
-         pageRepository.resetLanguage(currentLanguages.get(0), formerAlternatePageId);
          pageRepository.setupLanguage(currentLanguages.get(0), newAlternatePageId, getElement().getId());
+         if (formerAlternatePageId != null)
+         {
+            pageRepository.resetLanguage(currentLanguages.get(0), formerAlternatePageId);
+         }
 
       }
       catch (Exception e)
