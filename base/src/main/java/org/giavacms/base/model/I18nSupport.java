@@ -111,4 +111,10 @@ public abstract class I18nSupport implements I18Nable, Serializable {
 		}
 	}
 
+   public void setLangAsString(String lang)
+   {
+      setLang(Integer.parseInt(lang));
+   }
+
+
 }
