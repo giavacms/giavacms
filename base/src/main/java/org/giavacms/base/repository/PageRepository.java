@@ -490,7 +490,7 @@ public class PageRepository
       return sb;
    }
 
-   public void resetLanguage(Long l, String id)
+   public void resetLanguage(int l, String id)
    {
       try
       {
@@ -533,6 +533,24 @@ public class PageRepository
             getEm().createNativeQuery(
                      "update " + Page.TABLE_NAME + " set lang" + langId + "id = id where id = :PID ")
                      .setParameter("PID", pageId).executeUpdate();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage());
+         e.printStackTrace();
+      }
+   }
+
+   public void setupLanguage(int langId, String pageId, String alternatePageId)
+   {
+      try
+      {
+         if (langId > 0)
+         {
+            getEm().createNativeQuery(
+                     "update " + Page.TABLE_NAME + " set lang" + langId + "id = :alternatePageId where id = :PID ")
+                     .setParameter("PID", pageId).setParameter("alternatePageId", alternatePageId).executeUpdate();
          }
       }
       catch (Exception e)

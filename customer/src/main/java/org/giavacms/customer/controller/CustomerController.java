@@ -231,6 +231,53 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
       }
    }
 
+   // ------------------------------------------------------
+
+   @Override
+   public String viewElement()
+   {
+      String outcome = super.viewElement();
+      loadProducts();
+      return outcome;
+   }
+
+   @Override
+   public String cloneCurrent()
+   {
+      String cloneOk = super.cloneCurrent();
+      if (cloneOk != null)
+      {
+         cloneProducts();
+      }
+      return cloneOk;
+   }
+
+   private void cloneProducts()
+   {
+      // empty current product list
+      List<Product> originalProducts = products;
+      products = null;
+      // TODO: decide whether to clone/reassociate also the products
+      for (Product product : originalProducts)
+      {
+         logger.info("Not reassociating product " + product.getId());
+      }
+   }
+
+   @Override
+   protected void cloneFields(Customer original, Customer clone)
+   {
+      clone.setAddress(original.getAddress());
+      clone.setPreview(original.getPreview());
+      clone.setWeb(original.getWeb());
+      clone.setContact(original.getContact());
+      clone.setSocial(original.getSocial());
+      clone.setCategory(original.getCategory());
+      clone.setDimensions(original.getDimensions());
+      clone.setListOrder(original.getListOrder());
+      clone.setArea(original.getArea());
+   }
+
    @Override
    protected void addImage(Customer clone, Image image)
    {
@@ -253,19 +300,5 @@ public class CustomerController extends AbstractPageWithImagesAndDocumentsContro
    protected List<Document> getDocuments(Customer original)
    {
       return original.getDocuments();
-   }
-
-   @Override
-   protected void cloneFields(Customer original, Customer clone)
-   {
-      clone.setAddress(original.getAddress());
-      clone.setPreview(original.getPreview());
-      clone.setWeb(original.getWeb());
-      clone.setContact(original.getContact());
-      clone.setSocial(original.getSocial());
-      clone.setCategory(original.getCategory());
-      clone.setDimensions(original.getDimensions());
-      clone.setListOrder(original.getListOrder());
-      clone.setArea(original.getArea());
    }
 }
