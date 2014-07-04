@@ -6,6 +6,9 @@
  */
 package org.giavacms.base.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -14,11 +17,7 @@ import javax.inject.Named;
 import org.giavacms.base.event.LanguageEvent;
 import org.giavacms.base.model.Page;
 import org.giavacms.base.repository.PageRepository;
-import org.giavacms.common.annotation.BackPage;
-import org.giavacms.common.annotation.EditPage;
-import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
-import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.controller.AbstractController;
 
 @Named
@@ -30,17 +29,20 @@ public class I18nController extends AbstractController<Page>
 
    // --------------------------------------------------------
 
-   @BackPage
-   public static final String BACK = "/private/administration.xhtml";
-   @ListPage
-   @ViewPage
-   @EditPage
-   public static final String LIST = "/private/i18n/list.xhtml";
-
-   // --------------------------------------------------------
-
    @Inject
    Event<LanguageEvent> languageEvent;
+
+   int languageToEdit = 0;
+
+   public int getLanguageToEdit()
+   {
+      return languageToEdit;
+   }
+
+   public void setLanguageToEdit(int languageToEdit)
+   {
+      this.languageToEdit = languageToEdit;
+   }
 
    @Inject
    @OwnRepository(PageRepository.class)
@@ -52,128 +54,175 @@ public class I18nController extends AbstractController<Page>
       return t.getId();
    }
 
-   @Override
-   public String update()
+   public void deassociate(String formerAlternatePageId, boolean bidirectional)
    {
-      String outcome = super.update();
-      setElement(null);
-      return outcome;
+      try
+      {
+         switch (languageToEdit)
+         {
+         case 1:
+            formerAlternatePageId = getElement().getLang1id();
+            getElement().setLang1id(null);
+            break;
+         case 2:
+            formerAlternatePageId = getElement().getLang2id();
+            getElement().setLang2id(null);
+            break;
+         case 3:
+            formerAlternatePageId = getElement().getLang3id();
+            getElement().setLang3id(null);
+            break;
+         case 4:
+            formerAlternatePageId = getElement().getLang4id();
+            getElement().setLang4id(null);
+            break;
+         case 5:
+            formerAlternatePageId = getElement().getLang5id();
+            getElement().setLang5id(null);
+            break;
+         default:
+            break;
+         }
+
+         pageRepository.resetLanguage(languageToEdit, getElement().getId());
+
+         if (getElement().getId().equals(formerAlternatePageId))
+         {
+            return;
+         }
+
+         if (!bidirectional)
+         {
+            return;
+         }
+
+         List<Integer> currentLanguages = new ArrayList<Integer>();
+         if (getElement().getId().equals(getElement().getLang1id()))
+         {
+            currentLanguages.add(1);
+         }
+         if (getElement().getId().equals(getElement().getLang2id()))
+         {
+            currentLanguages.add(2);
+         }
+         if (getElement().getId().equals(getElement().getLang3id()))
+         {
+            currentLanguages.add(3);
+         }
+         if (getElement().getId().equals(getElement().getLang4id()))
+         {
+            currentLanguages.add(4);
+         }
+         if (getElement().getId().equals(getElement().getLang5id()))
+         {
+            currentLanguages.add(5);
+         }
+
+         if (currentLanguages.size() > 1)
+         {
+            logger.warn("Bidirectional language setup is only implemented in case of one language!");
+            super.addFacesMessage("Attenzione: il setup bidirezionale e' possibile solo in caso la pagina corrente sia associata a una sola lingua");
+            return;
+         }
+         pageRepository.resetLanguage(currentLanguages.get(0), formerAlternatePageId);
+      }
+      catch (Exception e)
+      {
+         logger.warn(e.getMessage(), e);
+         super.addFacesMessage("Errori nella lavorazione");
+      }
+      finally
+      {
+         setModel(null);
+      }
+
    }
 
-   public void searchLanguage(Long l)
+   public void associate(String newAlternatePageId, boolean bidirectional)
    {
-      getSearch().getObj().setLang(l.intValue());
-      refreshModel();
-   }
+      try
+      {
+         String formerAlternatePageId = null;
+         switch (languageToEdit)
+         {
+         case 1:
+            formerAlternatePageId = getElement().getLang1id();
+            getElement().setLang1id(newAlternatePageId);
+            break;
+         case 2:
+            formerAlternatePageId = getElement().getLang2id();
+            getElement().setLang2id(newAlternatePageId);
+            break;
+         case 3:
+            formerAlternatePageId = getElement().getLang3id();
+            getElement().setLang3id(newAlternatePageId);
+            break;
+         case 4:
+            formerAlternatePageId = getElement().getLang4id();
+            getElement().setLang4id(newAlternatePageId);
+            break;
+         case 5:
+            formerAlternatePageId = getElement().getLang5id();
+            getElement().setLang5id(newAlternatePageId);
+            break;
+         default:
+            break;
+         }
 
-   public void resetLanguage(Long l)
-   {
-      setLanguage(l, null);
-      pageRepository.resetLanguage(l, getElement().getId());
-      languageEvent.fire(new LanguageEvent(getElement().getTemplateId(), l, false));
-   }
+         if (formerAlternatePageId == null)
+         {
+            return;
+         }
+         pageRepository.setupLanguage(languageToEdit, getElement().getId(), newAlternatePageId);
+         if (!bidirectional)
+         {
+            return;
+         }
 
-   public void setLanguage(Long l, String pageId)
-   {
-      Page alternate = null;
-      switch (l.intValue())
-      {
-      case 1:
-         if (getElement().getLang1id() != null)
-         {
-            alternate = getRepository().fetch(getElement().getLang1id());
-         }
-         getElement().setLang1id(pageId);
-         break;
-      case 2:
-         if (getElement().getLang2id() != null)
-         {
-            alternate = getRepository().fetch(getElement().getLang2id());
-         }
-         getElement().setLang2id(pageId);
-         break;
-      case 3:
-         if (getElement().getLang3id() != null)
-         {
-            alternate = getRepository().fetch(getElement().getLang3id());
-         }
-         getElement().setLang3id(pageId);
-         break;
-      case 4:
-         if (getElement().getLang4id() != null)
-         {
-            alternate = getRepository().fetch(getElement().getLang4id());
-         }
-         getElement().setLang4id(pageId);
-         break;
-      case 5:
-         if (getElement().getLang5id() != null)
-         {
-            alternate = getRepository().fetch(getElement().getLang5id());
-         }
-         getElement().setLang5id(pageId);
-         break;
-      default:
-         break;
-      }
-      getRepository().update(getElement());
-      languageEvent.fire(new LanguageEvent(getElement().getTemplateId(), l, true));
-      if (alternate == null && pageId != null
-               && !getElement().getId().equals(pageId))
-      {
-         alternate = getRepository().fetch(pageId);
-      }
-      if (alternate != null)
-      {
-         setReverseLanguage(alternate, l.intValue(), pageId == null ? null
-                  : getElement().getId());
-      }
-   }
+         pageRepository.setupLanguage(languageToEdit, newAlternatePageId, newAlternatePageId);
 
-   private void setReverseLanguage(Page alternate, int alternateLang,
-            String pageId)
-   {
-      switch (getElement().getLang())
-      {
-      case 1:
-         alternate.setLang1id(pageId);
-         break;
-      case 2:
-         alternate.setLang2id(pageId);
-         break;
-      case 3:
-         alternate.setLang3id(pageId);
-         break;
-      case 4:
-         alternate.setLang4id(pageId);
-         break;
-      case 5:
-         alternate.setLang5id(pageId);
-         break;
-      default:
-         break;
+         List<Integer> currentLanguages = new ArrayList<Integer>();
+         if (getElement().getId().equals(getElement().getLang1id()))
+         {
+            currentLanguages.add(1);
+         }
+         if (getElement().getId().equals(getElement().getLang2id()))
+         {
+            currentLanguages.add(2);
+         }
+         if (getElement().getId().equals(getElement().getLang3id()))
+         {
+            currentLanguages.add(3);
+         }
+         if (getElement().getId().equals(getElement().getLang4id()))
+         {
+            currentLanguages.add(4);
+         }
+         if (getElement().getId().equals(getElement().getLang5id()))
+         {
+            currentLanguages.add(5);
+         }
+
+         if (currentLanguages.size() > 1)
+         {
+            logger.warn("Bidirectional language setup is only implemented in case of one language!");
+            super.addFacesMessage("Attenzione: il setup bidirezionale e' possibile solo in caso la pagina corrente sia associata a una sola lingua");
+            return;
+         }
+
+         pageRepository.resetLanguage(currentLanguages.get(0), formerAlternatePageId);
+         pageRepository.setupLanguage(currentLanguages.get(0), newAlternatePageId, getElement().getId());
+
       }
-      switch (alternateLang)
+      catch (Exception e)
       {
-      case 1:
-         alternate.setLang1id(alternate.getId());
-         break;
-      case 2:
-         alternate.setLang2id(alternate.getId());
-         break;
-      case 3:
-         alternate.setLang3id(alternate.getId());
-         break;
-      case 4:
-         alternate.setLang4id(alternate.getId());
-         break;
-      case 5:
-         alternate.setLang5id(alternate.getId());
-         break;
-      default:
-         break;
+         logger.warn(e.getMessage(), e);
+         super.addFacesMessage("Errori nella lavorazione");
       }
-      getRepository().update(alternate);
+      finally
+      {
+         setModel(null);
+      }
    }
 
    @Override
