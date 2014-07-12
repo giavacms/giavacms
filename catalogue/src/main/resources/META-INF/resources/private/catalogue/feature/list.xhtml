@@ -56,7 +56,8 @@
 									<h:outputText value="#{t.option}" />
 								</f:facet>
 								<f:facet name="input">
-									<h:inputText required="false" value="#{t.option}" />
+									<h:inputTextarea required="false" value="#{t.option}"
+										style="width: 80%; height: 20%" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -76,12 +77,13 @@
 
 						</p:column>
 
-						<p:ajax event="rowEdit" listener="#{featureController.onRowEdit}" update=":mainForm:listMessages"/>
+						<p:ajax event="rowEdit" listener="#{featureController.onRowEdit}"
+							update=":mainForm:listMessages" />
 
 					</p:dataTable>
-					
-							<p:messages id="listMessages" for="featuresList"></p:messages>
-					
+
+					<p:messages id="listMessages" for="featuresList"></p:messages>
+
 				</p:panel>
 				<br />
 				<br />
@@ -96,8 +98,8 @@
 					<h:inputText value="#{featureController.element.name}" id="newname"
 						required="false"
 						requiredMessage="E' obbligatorio specificare un nome per ogni proprieta'" />
-					<h:inputText value="#{featureController.element.option}"
-						required="false"
+					<h:inputTextarea value="#{featureController.element.option}"
+						required="false" style="width: 80%; height: 20%"
 						requiredMessage="E' obbligatorio specificare una opzione valida per ogni proprieta'"
 						id="newoption" />
 
