@@ -25,6 +25,8 @@ abstract public class AbstractPageWithImagesAndDocumentsController<T extends Pag
    @DefaultResourceController
    ResourceController resourceController;
 
+   private String resourceUrl;
+
    // --------------------------------------------------------
 
    public AbstractPageWithImagesAndDocumentsController()
@@ -234,4 +236,45 @@ abstract public class AbstractPageWithImagesAndDocumentsController<T extends Pag
 
    abstract protected List<Document> getDocuments(T original);
 
+   public String getResourceUrl()
+   {
+      return resourceUrl;
+   }
+
+   public void setResourceUrl(String resourceUrl)
+   {
+      this.resourceUrl = resourceUrl;
+   }
+
+   public void addImageUrl()
+   {
+      addResource(ResourceType.IMAGE);
+   }
+
+   public void addDocumentUrl()
+   {
+      addResource(ResourceType.DOCUMENT);
+   }
+
+   private void addResource(ResourceType resourceType)
+   {
+      switch (resourceType)
+      {
+      case IMAGE:
+         Image img = new Image();
+         img.setFilename(resourceUrl);
+         img.setType(null);
+         getElementImages().add(img);
+         break;
+      case DOCUMENT:
+         Document doc = new Document();
+         doc.setFilename(resourceUrl);
+         doc.setType(null);
+         getElementDocuments().add(doc);
+         break;
+      default:
+         break;
+      }
+      this.resourceUrl = null;
+   }
 }

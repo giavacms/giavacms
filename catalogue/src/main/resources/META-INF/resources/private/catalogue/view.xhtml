@@ -142,10 +142,14 @@
 							<h:outputLink value="#{request.contextPath}/img/#{var.filename}"
 								title="#{var.filename}">
 								<h:graphicImage value="/img/#{var.filename}"
+									rendered="#{not var.remote}"
 									width="#{gb:imageWidthProportionalUrl('img/'.concat(r.filename),100,100)}"
 									height="#{gb:imageHeightProportionalUrl('img/'.concat(r.filename), 100, 100)}"
 									alt="#{var.filename}" title="#{var.filename}"
 									style="padding: 5px;" />
+								<h:graphicImage value="#{var.filename}" rendered="#{var.remote}"
+									width="100" alt="#{var.filename}"
+									title="#{gb:lastPartOf(var.filename)}" style="padding: 5px;" />
 							</h:outputLink>
 
 						</ui:repeat>
@@ -163,7 +167,12 @@
 
 						<p:column>
 							<f:facet name="header">scarica documento</f:facet>
-							<h:outputLink value="/docs/#{doc.filename}" target="_blank">
+							<h:outputLink value="/docs/#{doc.filename}" target="_blank"
+								rendered="#{not doc.remote}">
+								<h:outputText value="#{doc.filename}" />
+							</h:outputLink>
+							<h:outputLink value="#{doc.filename}" target="_blank"
+								rendered="#{doc.remote}">
 								<h:outputText value="#{doc.filename}" />
 							</h:outputLink>
 						</p:column>
@@ -182,10 +191,9 @@
 				<h:panelGrid columns="4">
 					<p:commandButton ajax="false"
 						action="#{productController.modCurrent}" value="Modifica" />
-					<p:commandButton
-						action="#{productController.modDocumentsCurrent}"
+					<p:commandButton action="#{productController.modDocumentsCurrent}"
 						value="Modifica Documenti" />
-							<p:commandButton action="#{productController.cloneCurrent}"
+					<p:commandButton action="#{productController.cloneCurrent}"
 						value="Crea Copia" />
 					<p:commandButton ajax="false"
 						action="#{productController.addElement}" value="Aggiungi" />

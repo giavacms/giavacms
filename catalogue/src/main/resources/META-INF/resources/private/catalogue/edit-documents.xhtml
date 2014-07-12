@@ -45,9 +45,7 @@
 				<br />
 				<p:panel header="Caricamento Documenti e Immagini">
 
-					<h:panelGrid columns="4">
-
-						<p:spacer width="20px" height="1px" />
+					<h:panelGrid columns="5">
 
 						<h:panelGroup>
 							<p:commandLink ajax="true" onclick="resDialog.show();"
@@ -79,6 +77,25 @@
 							description="Scegli Immagine o Documento"
 							update="imgList, docList" />
 
+						<h:panelGroup>
+							<p:spacer width="20px" height="1px" />
+							<h:outputText value=" ... oppure ... " />
+							<p:spacer width="20px" height="1px" />
+						</h:panelGroup>
+
+						<h:panelGrid columns="3">
+							<f:facet name="header">
+								<h:outputText value="Digita URL:" />
+							</f:facet>
+							<p:inputText value="#{productController.resourceUrl}" style="width: 500px;"/>
+							<h:commandLink title="immagine" style="font-size: 24px;"
+								styleClass="icon-picture"
+								action="#{productController.addImageUrl}" />
+							<h:commandLink title="documento" style="font-size: 24px;"
+								styleClass="icon-book"
+								action="#{productController.addDocumentUrl}" />
+						</h:panelGrid>
+
 					</h:panelGrid>
 				</p:panel>
 				<br />
@@ -97,10 +114,14 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">foto</f:facet>
-						<h:graphicImage value="/img/#{img.filename}"
+						<h:graphicImage value="/img/#{img.filename}" rendered="#{not img.remote}"
 							width="#{gb:imageWidthProportionalUrl('img/'.concat(img.filename),100,100)}"
 							height="#{gb:imageHeightProportionalUrl('img/'.concat(img.filename), 100, 100)}"
 							alt="#{img.filename}" title="#{img.filename}"
+							style="padding: 5px;" />
+						<h:graphicImage value="#{img.filename}" rendered="#{img.remote}"
+							width="100"
+							alt="#{img.filename}" title="#{gb:lastPartOf(img.filename)}"
 							style="padding: 5px;" />
 					</p:column>
 					<p:column>
