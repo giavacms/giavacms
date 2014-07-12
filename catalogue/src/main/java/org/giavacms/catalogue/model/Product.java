@@ -9,6 +9,7 @@ package org.giavacms.catalogue.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -67,6 +68,8 @@ public class Product extends Page implements Serializable
    private String val8;
    private String val9;
    private String val10;
+
+   private Map<String, String[]> vals = null;
 
    // private boolean active = true; --> super.active
 
@@ -420,5 +423,15 @@ public class Product extends Page implements Serializable
       setVal(category.getRefIndex(ref), val);
    }
 
+   @Transient
+   public Map<String, String[]> getVals()
+   {
+      return vals;
+   }
+
+   public void setVals(Map<String, String[]> vals)
+   {
+      this.vals = vals;
+   }
 
 }

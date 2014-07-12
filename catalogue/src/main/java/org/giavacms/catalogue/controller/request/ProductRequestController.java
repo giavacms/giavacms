@@ -8,7 +8,11 @@ package org.giavacms.catalogue.controller.request;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -22,6 +26,7 @@ import org.giavacms.catalogue.repository.ProductRepository;
 import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
+import org.giavacms.common.util.JSFUtils;
 
 @Named
 @RequestScoped
@@ -31,18 +36,24 @@ public class ProductRequestController extends
 
    private static final long serialVersionUID = 1L;
    @Inject
-   @HttpParam("categoria")
+   @HttpParam(CATEGORY_PARAM)
    String category;
 
    @Inject
-   @HttpParam("q")
+   @HttpParam(CONTENT_PARAM)
    String content;
 
    @Inject
-   @HttpParam("t")
+   @HttpParam(TYPE_PARAM)
    String type;
 
    public static final String CURRENT_PAGE_PARAM = "p";
+   public static final String CONTENT_PARAM = "q";
+   public static final String TYPE_PARAM = "t";
+   public static final String CATEGORY_PARAM = "categoria";
+
+   public static final List<String> wellKnownParams = Arrays.asList(CURRENT_PAGE_PARAM, CONTENT_PARAM, TYPE_PARAM,
+            CATEGORY_PARAM);
 
    @Inject
    @OwnRepository(ProductRepository.class)
@@ -58,17 +69,24 @@ public class ProductRequestController extends
    }
 
    @Override
-   public Search<Product> getSearch()
+   protected void initSearch()
    {
-      if (content != null && content.trim().length() > 0)
+      getSearch().getObj().setTitle(content);
+      getSearch().getObj().getCategory().setTitle(category);
+      Map<String, String[]> parametersMap = JSFUtils.getParameters();
+      Map<String, String[]> valsMap = new HashMap<String, String[]>();
+      for (String parameter : parametersMap.keySet())
       {
-         super.getSearch().getObj().setTitle(content);
+         if (!wellKnownParams.contains(parameter))
+         {
+            valsMap.put(parameter, parametersMap.get(parameter));
+         }
       }
-      if (category != null && category.trim().length() > 0)
+      if (valsMap.size() > 0)
       {
-         super.getSearch().getObj().getCategory().setTitle(category);
+         getSearch().getObj().setVals(valsMap);
       }
-      return super.getSearch();
+      super.initSearch();
    }
 
    public boolean isScheda()
@@ -95,27 +113,9 @@ public class ProductRequestController extends
       return l;
    }
 
-   @Deprecated
-   public String getProductCategoryOptionsHTML()
-   {
-      StringBuffer sb = new StringBuffer();
-      Search<Category> r = new Search<Category>(Category.class);
-      List<Category> list = categoryRepository.getList(r, 0, 0);
-      for (Category pc : list)
-      {
-         sb.append("<option value=\"")
-                  .append(pc.getTitle())
-                  .append("\"")
-                  .append(pc.getTitle().equals(category) ? " selected=\"selected\""
-                           : "").append(">").append(pc.getTitle())
-                  .append("</option>");
-      }
-      return sb.toString();
-   }
-
    @Override
    protected void handleI18N()
    {
-      // TODO
+      // @see example in RichContentRequestController
    }
 }
