@@ -8,6 +8,7 @@ package org.giavacms.catalogue.repository;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -304,6 +305,33 @@ public class ProductRepository extends AbstractPageRepository<Product>
          sb.append(separator).append(productAlias).append(".code = :CODE ");
          params.put("CODE", search.getObj().getCode());
          separator = " and ";
+      }
+
+      // VALS
+      if (search.getObj().getVals() != null && search.getObj().getVals().size() > 0)
+      {
+         int valsCount = 0;
+         for (String prop : search.getObj().getVals().keySet())
+         {
+            valsCount++;
+            String[] vals = search.getObj().getVals().get(prop);
+            sb.append(separator).append(" ( ");
+            boolean first = true;
+            for (int v = 1; v <= 10; v++)
+            {
+               if (!first)
+               {
+                  sb.append(" or ");
+               }
+               sb.append(productAlias).append(".val").append(v).append(" in ( :VAL").append(valsCount).append(" ) ");
+               sb.append(" and ");
+               sb.append(categoryAlias).append(".prop").append(v).append(" = :PROP").append(valsCount);
+            }
+            sb.append(separator).append(" ) ");
+            params.put("PROP" + valsCount, prop);
+            params.put("VAL" + valsCount, Arrays.asList(vals));
+            separator = " and ";
+         }
       }
 
       // NAME OR DESCRIPTION

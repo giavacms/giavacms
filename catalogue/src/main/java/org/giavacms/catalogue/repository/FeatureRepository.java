@@ -104,16 +104,25 @@ public class FeatureRepository extends AbstractRepository<Feature>
    }
 
    @SuppressWarnings("unchecked")
-   public List<String> getOptions(String name)
+   public List<String> getAvailableOptions(String name)
    {
       try
       {
-         return getEm()
+         List<String> options = getEm()
                   .createQuery(
                            "select distinct p.option from " + Feature.class.getSimpleName()
                                     + " p where p.active = :ACTIVE and p.name = :NAME order by p.option asc ")
                   .setParameter("ACTIVE", true).setParameter("NAME", name)
                   .getResultList();
+         if (options != null && options.size() == 1 && options.get(0) != null
+                  && options.get(0).toLowerCase().startsWith("select "))
+         {
+            return getEm().createNativeQuery(options.get(0)).getResultList();
+         }
+         else
+         {
+            return options;
+         }
       }
       catch (Exception e)
       {

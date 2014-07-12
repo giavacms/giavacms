@@ -91,7 +91,7 @@ public class CatalogueProducer implements Serializable
 
    public SelectItem[] getOptions(String featureName)
    {
-      List<String> options = propertyRepository.getOptions(featureName);
+      List<String> options = propertyRepository.getAvailableOptions(featureName);
       List<SelectItem> selectItems = new ArrayList<SelectItem>();
       selectItems.add(new SelectItem(null, "..."));
       for (String option : options)
