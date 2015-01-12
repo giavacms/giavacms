@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <f:view contentType="text/html" encoding="UTF-8"
- xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:gb="http://giavacms.org/base">
 
 	<h:outputText escape="false"
@@ -17,121 +18,139 @@
 	<h:outputText escape="false"
 		value="&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;" />
 	<html lang="it">
-	<h:outputText escape="false" value="&lt;!--&lt;![endif]--&gt;" />
+<h:outputText escape="false" value="&lt;!--&lt;![endif]--&gt;" />
 
-	<f:event type="preRenderView" listener="#{loginController.checkRoles}" />
+<f:event type="preRenderView" listener="#{loginController.checkRoles}" />
 
-	<ui:insert name="roles">
-		<f:attribute name="roles" value="ANY" />
+<ui:insert name="roles">
+	<f:attribute name="roles" value="ANY" />
+</ui:insert>
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:define name="title">
+			<h:outputText value="GiavaCms - Administration" />
+		</ui:define></title>
+	<h:outputStylesheet library="styles" name="administration.css"
+		target="head" />
+	<link
+		href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+		rel="stylesheet" />
+	<h:outputText escape="false"
+		value="&lt;!--[if IE 7 ]&gt; &lt;link rel='stylesheet' href='styles/font-awesome-ie7.min.css' &gt; &lt;![endif]--&gt;" />
+	<style>
+<
+ui
+:insert
+ 
+name
+="styles"
+>
+</
+ui
+:insert
+>
+</style>
+	<ui:insert name="bundle">
 	</ui:insert>
+	<script type="text/javascript">
+		PrimeFaces.locales['it'] = {
+			closeText : 'Chiudi',
+			prevText : 'Precedente',
+			nextText : 'Successivo',
+			currentText : 'Oggi',
+			monthNames : [ 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio',
+					'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre',
+					'Novembre', 'Dicembre' ],
+			monthNamesShort : [ 'Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu',
+					'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic' ],
+			dayNames : [ 'Domenica', 'Lunedi', 'Martedi', 'Mercoledi',
+					'Giovedi', 'Venerdi', 'Sabato' ],
+			dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab' ],
+			dayNamesMin : [ 'D', 'L', 'M', 'M ', 'G', 'V ', 'S' ],
+			weekHeader : 'Settimana',
+			FirstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Solo Ora',
+			timeText : 'Ora',
+			hourText : 'Ore',
+			minuteText : 'Minuti',
+			secondText : 'Secondi',
+			ampm : false,
+			month : 'Mese',
+			week : 'Settimana',
+			day : 'Giorno',
+			allDayText : 'Tutto il giorno'
+		};
+	</script>
+</h:head>
+<h:body>
 
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><ui:define name="title">
-				<h:outputText value="GiavaCms - Administration" />
-			</ui:define></title>
-		<h:outputStylesheet library="styles" name="administration.css" target="head"/>
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
-      rel="stylesheet" />
-		<h:outputText escape="false"
-			value="&lt;!--[if IE 7 ]&gt; &lt;link rel='stylesheet' href='styles/font-awesome-ie7.min.css' &gt; &lt;![endif]--&gt;" />
-		<style>
-			<ui:insert name="styles"></ui:insert>
-		</style>
-		<ui:insert name="bundle">
-		</ui:insert>
-		<script type="text/javascript"> PrimeFaces.locales ['it'] = {
-			closeText: 'Chiudi', 
-			prevText: 'Precedente', 
-			nextText: 'Successivo', 
-			currentText: 'Oggi', 
-			monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-			monthNamesShort: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'], 
-			dayNames: ['Domenica','Lunedi', 'Martedi', 'Mercoledi', 'Giovedi', 'Venerdi', 'Sabato'], 
-			dayNamesShort: ['Dom','Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'], 
-			dayNamesMin: ['D', 'L', 'M', 'M ', 'G', 'V ', 'S'],
-			weekHeader: 'Settimana', 
-			FirstDay: 1, 
-			isRTL: false, 
-			showMonthAfterYear: false, 
-			yearSuffix:'', 
-			timeOnlyTitle: 'Solo Ora', 
-			timeText: 'Ora', 
-			hourText: 'Ore', 
-			minuteText: 'Minuti', 
-			secondText: 'Secondi', 
-			ampm: false, 
-			month: 'Mese', 
-			week: 'Settimana', 
-			day: 'Giorno', 
-			allDayText: 'Tutto il giorno'}; 
-		</script>
-	</h:head>
-	<h:body>
-	
-		<p:idleMonitor timeout="3600000" onidle="idleDialog.show();"
+	<p:idleMonitor timeout="3600000" onidle="idleDialog.show();"
 		onactive="idleDialog.hide();" />
 
-		<p:dialog header="Cosa Succede?" resizable="false"
-			widgetVar="idleDialog" modal="true" width="400">
-			<h:outputText
-				value="Sei ancora al monitor? Salva per evitare di perdere il tuo lavoro!" />
-		</p:dialog>
-	
-		<ui:insert name="modalWait">
-			<p:ajaxStatus onstart="statusDialog.show();"
-				onsuccess="statusDialog.hide();" id="ajaxStatusPanel2">
-				<f:facet name="start">
+	<p:dialog header="Cosa Succede?" resizable="false"
+		widgetVar="idleDialog" modal="true" width="400">
+		<h:outputText
+			value="Sei ancora al monitor? Salva per evitare di perdere il tuo lavoro!" />
+	</p:dialog>
+
+	<ui:insert name="modalWait">
+		<p:ajaxStatus onstart="statusDialog.show();"
+			onsuccess="statusDialog.hide();" id="ajaxStatusPanel2">
+			<f:facet name="start">
 
 
-				</f:facet>
-				<f:facet name="complete">
-					<h:outputText value="" />
-				</f:facet>
-			</p:ajaxStatus>
-		</ui:insert>
-				
-		<p:dialog modal="true" widgetVar="statusDialog"
-			header="Operazione in corso" draggable="false" closable="false"
-			width="400" resizable="false">
-			<center>
-				<h:outputText value="Attendere prego..." />
-				<br />
-				<h:graphicImage library="images" name="ajaxloading.gif"
-					alt="loading" title="loading" />
-			</center>
-		</p:dialog>
-		
-		<div id="headPage"></div>
-		<p:messages></p:messages>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</ui:insert>
 
-		<ui:insert name="menu-alto">
-			<ui:include src="menu-alto.xhtml" />
-		</ui:insert>
+	<p:dialog modal="true" widgetVar="statusDialog"
+		header="Operazione in corso" draggable="false" closable="false"
+		width="400" resizable="false">
+		<center>
+			<h:outputText value="Attendere prego..." />
+			<br />
+			<h:graphicImage library="images" name="ajaxloading.gif" alt="loading"
+				title="loading" />
+		</center>
+	</p:dialog>
+
+	<div id="headPage"></div>
+	<p:messages></p:messages>
+
+	<ui:insert name="menu-alto">
+		<ui:include src="menu-alto.xhtml" />
+	</ui:insert>
+	<p:spacer></p:spacer>
+
+	<p:panel>
+		<gb:primeBreadcrumbs></gb:primeBreadcrumbs>
 		<p:spacer></p:spacer>
-
-		<p:panel>
-			<gb:primeBreadcrumbs></gb:primeBreadcrumbs>
-			<p:spacer></p:spacer>
-			<ui:insert name="content">
-				<ui:include src="content.xhtml" />
-			</ui:insert>
-		</p:panel>
-		<p:spacer></p:spacer>
-		<p:panel>
-			<center>
-				<h:outputText value="Utente: " />
-				<h:outputText value="#{loginController.userAuth.username}"
-					style="font-weight: bolder;" />
-				<h:outputText value=" -  Ruolo: " />
-				<h:outputText value="amministratore"
-					rendered="#{loginController.admin}" style="font-weight: bolder;" />
-				<h:outputText value="utente ordinario"
-					rendered="#{loginController.user}" style="font-weight: bolder;" />
-			</center>
-		</p:panel>
-		<div id="footPage"></div>
-	</h:body>
+		<ui:insert name="content">
+			<ui:include src="content.xhtml" />
+		</ui:insert>
+	</p:panel>
+	<p:spacer></p:spacer>
+	<p:panel>
+		<center>
+			<h:outputText value="Utente: " />
+			<h:outputText value="#{loginController.userAuth.username}"
+				style="font-weight: bolder;" />
+			<h:outputText value=" -  Ruolo: " />
+			<h:outputText value="amministratore"
+				rendered="#{loginController.admin}" style="font-weight: bolder;" />
+			<h:outputText value="utente ordinario"
+				rendered="#{loginController.user}" style="font-weight: bolder;" />
+		</center>
+	</p:panel>
+	<div id="footPage"></div>
+</h:body>
 
 	</html>
 

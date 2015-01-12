@@ -1,8 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 	<ui:define name="title">
 		<h:outputText value="Lista Risorse" />
@@ -20,7 +22,8 @@
 						<h:outputLabel for="nome" value="Nome:" />
 						<h:inputText id="nome"
 							value="#{resourceController.search.obj.name}">
-							<p:ajax event="blur" update="createButton" listener="#{resourceController.checkExists}"/>
+							<p:ajax event="blur" update="createButton"
+								listener="#{resourceController.checkExists}" />
 						</h:inputText>
 
 						<h:outputLabel for="tipo" value="Tipo di risorsa:"
@@ -28,7 +31,8 @@
 						<h:selectOneMenu id="tipo"
 							value="#{resourceController.search.obj.type}"
 							rendered="#{loginController.admin}">
-							<p:ajax event="change" update="createButton" listener="#{resourceController.checkExists}"/>
+							<p:ajax event="change" update="createButton"
+								listener="#{resourceController.checkExists}" />
 							<f:selectItems value="#{resourceItems}"
 								rendered="#{loginController.admin}" />
 						</h:selectOneMenu>
@@ -39,15 +43,14 @@
 
 						<p:commandButton action="#{resourceController.reloadAjax}"
 							value="Cerca" ajax="true" immediate="false"
-							update="resourcesList"
-							rendered="#{loginController.admin}" />
+							update="resourcesList" rendered="#{loginController.admin}" />
 
 						<p:spacer width="10px" />
-						
+
 						<p:commandButton id="createButton"
-							action="#{resourceController.createElement}" value="Crea se non presente"
-							rendered="#{loginController.admin}" ajax="false"
-							immediate="false"
+							action="#{resourceController.createElement}"
+							value="Crea se non presente" rendered="#{loginController.admin}"
+							ajax="false" immediate="false"
 							disabled="#{empty resourceController.search.obj.name or resourceController.search.obj.exists or resourceController.search.obj.name.trim().length() eq 0 or (resourceController.search.obj.type ne 'css' and resourceController.search.obj.type ne 'js'  and resourceController.search.obj.type ne 'h' )}" />
 
 					</h:panelGrid>

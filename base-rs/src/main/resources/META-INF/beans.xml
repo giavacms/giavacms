@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:weld="http://jboss.org/schema/weld/beans"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://docs.jboss.org/cdi/beans_1_0.xsd
-http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
-	<weld:scan>
-		<weld:exclude name="org.giavacms.base.rest.RsMixinResolver" />
-		<weld:exclude name="org.giavacms.base.rest.RsMixinProvider" />
-	</weld:scan>
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+	bean-discovery-mode="annotated">
+	<scan>
+		<exclude name="org.giavacms.base.rest.RsMixinResolver" />
+		<exclude name="org.giavacms.base.rest.RsMixinProvider" />
+	</scan>
 </beans>

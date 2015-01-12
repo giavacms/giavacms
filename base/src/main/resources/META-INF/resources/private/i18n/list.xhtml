@@ -1,8 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/WEB-INF/layout/t.xhtml">
 	<ui:define name="title">
 		<h:outputText value="Lista Pagine" />
@@ -77,7 +79,8 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language1 and i18nController.element.id != i18nController.element.lang1id}">
-							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
+							<h:commandLink title="elimina" style="font-size: 24px;"
+								styleClass="icon-trash"
 								action="#{i18nController.resetLanguage(1)}"
 								rendered="#{not empty i18nController.element.lang1id}" />
 						</h:panelGroup>
@@ -94,7 +97,8 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language2 and i18nController.element.id != i18nController.element.lang2id}">
-							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
+							<h:commandLink title="elimina" style="font-size: 24px;"
+								styleClass="icon-trash"
 								action="#{i18nController.resetLanguage(2)}"
 								rendered="#{not empty i18nController.element.lang2id}" />
 						</h:panelGroup>
@@ -111,7 +115,8 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language3 and i18nController.element.id != i18nController.element.lang3id}">
-							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
+							<h:commandLink title="elimina" style="font-size: 24px;"
+								styleClass="icon-trash"
 								action="#{i18nController.resetLanguage(3)}"
 								rendered="#{not empty i18nController.element.lang3id}" />
 						</h:panelGroup>
@@ -128,7 +133,8 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id}">
-							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
+							<h:commandLink title="elimina" style="font-size: 24px;"
+								styleClass="icon-trash"
 								action="#{i18nController.resetLanguage(4)}"
 								rendered="#{not empty language4 and i18nController.element.id != i18nController.element.lang4id and not empty i18nController.element.lang4id}" />
 						</h:panelGroup>
@@ -145,7 +151,8 @@
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{not empty language5 and i18nController.element.id != i18nController.element.lang5id}">
-							<h:commandLink title="elimina" style="font-size: 24px;" styleClass="icon-trash" 
+							<h:commandLink title="elimina" style="font-size: 24px;"
+								styleClass="icon-trash"
 								action="#{i18nController.resetLanguage(5)}"
 								rendered="#{not empty i18nController.element.lang5id}" />
 						</h:panelGroup>

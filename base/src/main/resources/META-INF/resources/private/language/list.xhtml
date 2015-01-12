@@ -1,8 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -93,7 +95,8 @@
 							</p:rowEditor>
 							<p:commandLink action="#{languageController.delete(id)}"
 								ajax="false" immediate=""
-								onclick="if(!confirm('Vuoi veramente eliminare il linguaggio \'#{l.id}\''?')) return false" title="elimina" style="font-size: 24px;" styleClass="icon-trash" >
+								onclick="if(!confirm('Vuoi veramente eliminare il linguaggio \'#{l.id}\''?')) return false"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash">
 							</p:commandLink>
 						</p:column>
 						<p:ajax event="rowEdit" listener="#{languageController.onRowEdit}"

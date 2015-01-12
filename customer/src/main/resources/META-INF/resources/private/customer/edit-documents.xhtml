@@ -1,13 +1,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="Gestione Cliente - Immagini e Documenti collegati" />
+		<h:outputText
+			value="Gestione Cliente - Immagini e Documenti collegati" />
 	</ui:define>
 	<ui:define name="roles">
 		<f:attribute name="roles" value="richcontent" />
@@ -36,8 +38,8 @@
 						<h:outputLabel for="tipo" style="font-weight: bolder;"
 							value="Tipo informazione: " />
 						<h:outputText id="tipo"
-							value="#{customerController.element.category.name}"
-							width="640px" height="320px"></h:outputText>
+							value="#{customerController.element.category.name}" width="640px"
+							height="320px"></h:outputText>
 
 					</h:panelGrid>
 					<br />
@@ -51,8 +53,8 @@
 
 						<h:panelGroup>
 							<p:commandLink ajax="true" onclick="resDialog.show();"
-								title="scegli immagine"
-								action="#{customerController.chooseImg}" update=":resForm">
+								title="scegli immagine" action="#{customerController.chooseImg}"
+								update=":resForm">
 								<i class="icon-picture" style="font-size: 24px; margin: 2px;"></i>
 								<h:outputText value="Scegli un'immagine gia' caricata" />
 							</p:commandLink>
@@ -83,8 +85,7 @@
 				</p:panel>
 				<br />
 				<p:dataTable id="imgList" var="img"
-					value="#{customerController.element.images}"
-					rowIndexVar="index2">
+					value="#{customerController.element.images}" rowIndexVar="index2">
 					<f:facet name="header">Immagini</f:facet>
 					<p:column style="width: 50px">
 						<center>
@@ -112,8 +113,7 @@
 					<p:column style="width: 50px">
 						<f:facet name="header">elimina</f:facet>
 						<center>
-							<h:commandLink
-								action="#{customerController.removeImage(index2)}"
+							<h:commandLink action="#{customerController.removeImage(index2)}"
 								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
 								immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false" />
@@ -122,8 +122,7 @@
 				</p:dataTable>
 				<br />
 				<p:dataTable id="docList" var="doc"
-					value="#{customerController.element.documents}"
-					rowIndexVar="index">
+					value="#{customerController.element.documents}" rowIndexVar="index">
 					<f:facet name="header">Documenti</f:facet>
 					<p:column style="width: 50px">
 						<f:facet name="header">num</f:facet>
@@ -154,12 +153,11 @@
 				<br />
 				<h:panelGrid columns="4">
 
-					<p:commandButton ajax="false"
-						action="#{customerController.save}" value="Salva"
-						immediate="false" rendered="#{not customerController.editMode}" />
+					<p:commandButton ajax="false" action="#{customerController.save}"
+						value="Salva" immediate="false"
+						rendered="#{not customerController.editMode}" />
 
-					<p:commandButton ajax="false"
-						action="#{customerController.update}"
+					<p:commandButton ajax="false" action="#{customerController.update}"
 						value="Salva le modifiche" immediate="false"
 						rendered="#{customerController.editMode}" />
 

@@ -1,9 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -179,7 +180,7 @@
 					</p:dataTable>
 					<br />
 				</ui:fragment>
-				
+
 				<ui:fragment rendered="false">
 					<p:panel header="Caricamento Documenti">
 						<p:fileUpload id="docUp"
@@ -218,8 +219,9 @@
 
 				<h:panelGrid columns="4">
 
-					<p:commandButton action="#{customerController.save}" value="Salva" ajax="false"
-						immediate="false" rendered="#{not customerController.editMode}" />
+					<p:commandButton action="#{customerController.save}" value="Salva"
+						ajax="false" immediate="false"
+						rendered="#{not customerController.editMode}" />
 
 					<p:commandButton action="#{customerController.update}" ajax="false"
 						value="Salva le modifiche" immediate="false"
