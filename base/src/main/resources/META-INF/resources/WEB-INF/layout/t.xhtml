@@ -39,17 +39,7 @@
 	<h:outputText escape="false"
 		value="&lt;!--[if IE 7 ]&gt; &lt;link rel='stylesheet' href='styles/font-awesome-ie7.min.css' &gt; &lt;![endif]--&gt;" />
 	<style>
-<
-ui
-:insert
- 
-name
-="styles"
->
-</
-ui
-:insert
->
+<ui:insert name="styles"></ui:insert>
 </style>
 	<ui:insert name="bundle">
 	</ui:insert>
@@ -88,8 +78,8 @@ ui
 </h:head>
 <h:body>
 
-	<p:idleMonitor timeout="3600000" onidle="idleDialog.show();"
-		onactive="idleDialog.hide();" />
+	<p:idleMonitor timeout="3600000" onidle="PF('idleDialog').show()"
+		onactive="PF('idleDialog').hide();" />
 
 	<p:dialog header="Cosa Succede?" resizable="false"
 		widgetVar="idleDialog" modal="true" width="400">
@@ -98,8 +88,8 @@ ui
 	</p:dialog>
 
 	<ui:insert name="modalWait">
-		<p:ajaxStatus onstart="statusDialog.show();"
-			onsuccess="statusDialog.hide();" id="ajaxStatusPanel2">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide();" id="ajaxStatusPanel2">
 			<f:facet name="start">
 
 
