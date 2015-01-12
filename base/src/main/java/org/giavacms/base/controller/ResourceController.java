@@ -21,6 +21,7 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.IOUtils;
 import org.giavacms.base.annotation.DefaultResourceController;
 import org.giavacms.base.common.util.ImageUtils;
 import org.giavacms.base.common.util.ResourceUtils;
@@ -269,12 +270,13 @@ public class ResourceController extends AbstractLazyController<Resource>
 			String filename = file.getFileName();
 			if (filename.contains("\\"))
 				filename = filename.substring(filename.lastIndexOf("\\") + 1);
+			byte[] bites = IOUtils.toByteArray(is);
 			Resource resource = new Resource();
 			resource.setInputStream(is);
 			resource.setName(filename);
 			resource.setType(ResourceUtils.getType(filename));
 
-			resource.setBytes(file.getContents());
+			resource.setBytes(bites);
 			uploadedResources.add(resource);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
