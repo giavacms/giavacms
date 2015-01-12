@@ -7,5 +7,5 @@
 	</interceptors>
 	<scan>
 		<exclude name="org.giavacms.banner.model.*" />
-	</weld:scan>
+	</scan>
 </beans>
