@@ -65,7 +65,6 @@
 		<module>insurance-claim</module>
 		<module>message</module>
 		<module>multisite</module>
-		<module>openshift-jboss7</module>
 		<module>paypal-rs</module>
 		<module>paypalweb</module>
 		<module>people</module>
@@ -211,11 +210,7 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>openshift-jboss7</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>paypal-rs</artifactId>
@@ -236,11 +231,7 @@
 				<artifactId>picasa</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>resolver</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>richcontent</artifactId>
@@ -277,14 +268,6 @@
 				<artifactId>scenario</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
-
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>twizz</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
 
 
 			<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>news</artifactId> 
