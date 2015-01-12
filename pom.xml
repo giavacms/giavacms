@@ -69,11 +69,8 @@
 		<module>paypal-rs</module>
 		<module>paypalweb</module>
 		<module>people</module>
-		<module>resolver</module>
 		<module>richcontent</module>
 		<module>scenario</module>
-		<module>twizz</module>
-
 		<!-- RS MODULES -->
 
 		<module>base-rs</module>
