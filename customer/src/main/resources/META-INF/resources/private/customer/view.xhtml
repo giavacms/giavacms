@@ -1,9 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -96,7 +97,7 @@
 					<br />
 					<h2>Documenti</h2>
 
-					<p:dataTable var="doc" rowIndexVar="rowIndex" 
+					<p:dataTable var="doc" rowIndexVar="rowIndex"
 						value="#{customerController.element.documents}">
 						<p:column>
 							<f:facet name="header">num</f:facet>
@@ -116,11 +117,9 @@
 				<h:panelGrid columns="4">
 					<p:commandButton ajax="false"
 						action="#{customerController.modCurrent}" value="Modifica" />
-					<p:commandButton
-						action="#{customerController.modDocumentsCurrent}"
+					<p:commandButton action="#{customerController.modDocumentsCurrent}"
 						value="Modifica Documenti" />
-					<p:commandButton
-						action="#{customerController.modProductsCurrent}"
+					<p:commandButton action="#{customerController.modProductsCurrent}"
 						value="Modifica Prodotti" />
 					<p:commandButton ajax="false"
 						action="#{customerController.addElement}" value="Aggiungi" />

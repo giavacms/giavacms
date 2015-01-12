@@ -1,9 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -74,7 +75,8 @@
 								});
 					</script>
 
-					<h:panelGrid columns="2" style="width: 95%" columnClasses="fixedWidth200px,remainingWidth">
+					<h:panelGrid columns="2" style="width: 95%"
+						columnClasses="fixedWidth200px,remainingWidth">
 
 						<h:outputLabel value="Pagina di base(*):" for="extension" />
 						<h:panelGroup id="extension">
@@ -149,16 +151,19 @@
 				<br />
 				<p:panel header="Caratteristiche" id="features">
 
-					<h:panelGrid columns="2" style="width: 95%" columnClasses="fixedWidth200px,remainingWidth">
+					<h:panelGrid columns="2" style="width: 95%"
+						columnClasses="fixedWidth200px,remainingWidth">
 						<h:panelGroup id="p1">
 							<h:outputLabel for="v1"
 								value="#{productController.element.category.prop1}:"
 								rendered="#{not empty productController.element.category.prop1}" />
 						</h:panelGroup>
-						<h:panelGroup id="v1" >
-							<h:inputText value="#{productController.element.val1}" style="width: 100%;"
+						<h:panelGroup id="v1">
+							<h:inputText value="#{productController.element.val1}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop1 and empty productController.element.category.ref1}" />
-							<h:selectOneMenu value="#{productController.element.val1}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val1}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop1 and not empty productController.element.category.ref1}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref1)}" />
@@ -171,9 +176,11 @@
 								rendered="#{not empty productController.element.category.prop2}" />
 						</h:panelGroup>
 						<h:panelGroup id="v2">
-							<h:inputText value="#{productController.element.val2}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val2}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop2 and empty productController.element.category.ref2}" />
-							<h:selectOneMenu value="#{productController.element.val2}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val2}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop2 and not empty productController.element.category.ref2}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref2)}" />
@@ -186,9 +193,11 @@
 								rendered="#{not empty productController.element.category.prop3}" />
 						</h:panelGroup>
 						<h:panelGroup id="v3">
-							<h:inputText value="#{productController.element.val3}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val3}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop3 and empty productController.element.category.ref3}" />
-							<h:selectOneMenu value="#{productController.element.val3}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val3}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop3 and not empty productController.element.category.ref3}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref3)}" />
@@ -201,9 +210,11 @@
 								rendered="#{not empty productController.element.category.prop4}" />
 						</h:panelGroup>
 						<h:panelGroup id="v4">
-							<h:inputText value="#{productController.element.val4}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val4}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop4 and empty productController.element.category.ref4}" />
-							<h:selectOneMenu value="#{productController.element.val4}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val4}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop4 and not empty productController.element.category.ref4}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref4)}" />
@@ -216,9 +227,11 @@
 								rendered="#{not empty productController.element.category.prop5}" />
 						</h:panelGroup>
 						<h:panelGroup id="v5">
-							<h:inputText value="#{productController.element.val5}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val5}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop5 and empty productController.element.category.ref5}" />
-							<h:selectOneMenu value="#{productController.element.val5}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val5}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop5 and not empty productController.element.category.ref5}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref5)}" />
@@ -231,9 +244,11 @@
 								rendered="#{not empty productController.element.category.prop6}" />
 						</h:panelGroup>
 						<h:panelGroup id="v6">
-							<h:inputText value="#{productController.element.val6}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val6}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop6 and empty productController.element.category.ref6}" />
-							<h:selectOneMenu value="#{productController.element.val6}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val6}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop6 and not empty productController.element.category.ref6}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref6)}" />
@@ -246,9 +261,11 @@
 								rendered="#{not empty productController.element.category.prop7}" />
 						</h:panelGroup>
 						<h:panelGroup id="v7">
-							<h:inputText value="#{productController.element.val7}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val7}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop7 and empty productController.element.category.ref7}" />
-							<h:selectOneMenu value="#{productController.element.val7}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val7}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop7 and not empty productController.element.category.ref7}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref7)}" />
@@ -261,9 +278,11 @@
 								rendered="#{not empty productController.element.category.prop8}" />
 						</h:panelGroup>
 						<h:panelGroup id="v8">
-							<h:inputText value="#{productController.element.val8}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val8}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop8 and empty productController.element.category.ref8}" />
-							<h:selectOneMenu value="#{productController.element.val8}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val8}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop8 and not empty productController.element.category.ref8}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref8)}" />
@@ -276,9 +295,11 @@
 								rendered="#{not empty productController.element.category.prop9}" />
 						</h:panelGroup>
 						<h:panelGroup id="v9">
-							<h:inputText value="#{productController.element.val9}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val9}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop9 and empty productController.element.category.ref9}" />
-							<h:selectOneMenu value="#{productController.element.val9}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val9}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop9 and not empty productController.element.category.ref9}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref9)}" />
@@ -291,17 +312,19 @@
 								rendered="#{not empty productController.element.category.prop10}" />
 						</h:panelGroup>
 						<h:panelGroup id="v10">
-							<h:inputText value="#{productController.element.val10}" style="width: 100%;"
+							<h:inputText value="#{productController.element.val10}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop10 and empty productController.element.category.ref10}" />
-							<h:selectOneMenu value="#{productController.element.val10}" style="width: 100%;"
+							<h:selectOneMenu value="#{productController.element.val10}"
+								style="width: 100%;"
 								rendered="#{not empty productController.element.category.prop10 and not empty productController.element.category.ref10}">
 								<f:selectItems
 									value="#{catalogueProducer.getOptions(productController.element.category.ref10)}" />
 							</h:selectOneMenu>
 						</h:panelGroup>
-						
-						<p:spacer height="1px" width="200px"/>
-						<p:spacer height="1px" width="100%"/>
+
+						<p:spacer height="1px" width="200px" />
+						<p:spacer height="1px" width="100%" />
 
 					</h:panelGrid>
 				</p:panel>
@@ -400,9 +423,10 @@
 						value="Salva le modifiche" immediate="false"
 						rendered="#{productController.editMode}" />
 
-					<p:commandButton ajax="false" action="#{productController.updateAndModDocuments}"
-						value="Salva le modifiche e gestisci i documenti" immediate="false"
-						rendered="#{productController.editMode}" />
+					<p:commandButton ajax="false"
+						action="#{productController.updateAndModDocuments}"
+						value="Salva le modifiche e gestisci i documenti"
+						immediate="false" rendered="#{productController.editMode}" />
 
 					<p:commandButton ajax="false" action="#{productController.delete}"
 						value="Elimina" rendered="#{productController.editMode}"

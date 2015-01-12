@@ -1,8 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -43,16 +45,16 @@
 					<h:panelGroup id="template">
 						<h:selectOneMenu
 							rendered="#{pageController.element.template.template.statico}"
-							value="#{pageController.element.template.template.id}" required="true"
-							style="width: 100%">
+							value="#{pageController.element.template.template.id}"
+							required="true" style="width: 100%">
 							<f:selectItems value="#{templateStaticiItems}" />
 							<p:ajax actionListener="#{pageController.cambioTemplate}"
 								update="campi" event="change" process="@this" />
 						</h:selectOneMenu>
 						<h:selectOneMenu
 							rendered="#{not pageController.element.template.template.statico}"
-							value="#{pageController.element.template.template.id}" required="true"
-							style="width: 100%">
+							value="#{pageController.element.template.template.id}"
+							required="true" style="width: 100%">
 							<f:selectItems value="#{templateDinamiciItems}" />
 							<p:ajax actionListener="#{pageController.cambioTemplate}"
 								update="campi" event="change" process="@this" />
@@ -93,9 +95,11 @@
 										style="float: right;">riduci</span>
 								</f:verbatim>
 								<script type="text/javascript">
-						         //<![CDATA[
-						         	addImageBrowser(myEditorH,'#{request.contextPath}/private/page/imagesH.jsf');
-						         //]]></script>
+									//<![CDATA[
+									addImageBrowser(myEditorH,
+											'#{request.contextPath}/private/page/imagesH.jsf');
+									//]]>
+								</script>
 							</h:panelGroup>
 						</h:panelGroup>
 
@@ -128,9 +132,11 @@
 										style="float: right;">riduci</span>
 								</f:verbatim>
 								<script type="text/javascript">
-						         //<![CDATA[
-						         	addImageBrowser(myEditorC1,'#{request.contextPath}/private/page/imagesC1.jsf');
-						         //]]></script>
+									//<![CDATA[
+									addImageBrowser(myEditorC1,
+											'#{request.contextPath}/private/page/imagesC1.jsf');
+									//]]>
+								</script>
 							</h:panelGroup>
 						</h:panelGroup>
 
@@ -157,9 +163,11 @@
 										style="float: right;">riduci</span>
 								</f:verbatim>
 								<script type="text/javascript">
-						         //<![CDATA[
-						         	addImageBrowser(myEditorC2,'#{request.contextPath}/private/page/imagesC2.jsf');
-						         //]]></script>
+									//<![CDATA[
+									addImageBrowser(myEditorC2,
+											'#{request.contextPath}/private/page/imagesC2.jsf');
+									//]]>
+								</script>
 							</h:panelGroup>
 						</h:panelGroup>
 
@@ -186,9 +194,11 @@
 										style="float: right;">riduci</span>
 								</f:verbatim>
 								<script type="text/javascript">
-						         //<![CDATA[
-						         	addImageBrowser(myEditorC3,'#{request.contextPath}/private/page/imagesC3.jsf');
-						         //]]></script>
+									//<![CDATA[
+									addImageBrowser(myEditorC3,
+											'#{request.contextPath}/private/page/imagesC3.jsf');
+									//]]>
+								</script>
 							</h:panelGroup>
 						</h:panelGroup>
 
@@ -221,9 +231,11 @@
 										style="float: right;">riduci</span>
 								</f:verbatim>
 								<script type="text/javascript">
-						         //<![CDATA[
-						         	addImageBrowser(myEditorF,'#{request.contextPath}/private/page/imagesF.jsf');
-						         //]]></script>
+									//<![CDATA[
+									addImageBrowser(myEditorF,
+											'#{request.contextPath}/private/page/imagesF.jsf');
+									//]]>
+								</script>
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGrid>
@@ -256,7 +268,8 @@
 						action="#{pageController.salvaPerAnteprimaRisultato}" />
 
 					<h:commandButton id="save2" action="#{pageController.save}"
-						value="Salva ed esci" rendered="#{empty pageController.element.id}" />
+						value="Salva ed esci"
+						rendered="#{empty pageController.element.id}" />
 
 					<h:commandButton id="up1" action="#{pageController.update}"
 						value="Salva le modifiche ed esci"

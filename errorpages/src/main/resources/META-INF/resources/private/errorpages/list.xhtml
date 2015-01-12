@@ -1,9 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -35,9 +36,11 @@
 				<p:column headerText="operazioni">
 					<center>
 						<h:commandLink action="#{errorPageController.modElement}"
-							immediate="true" styleClass="icon-edit" style="font-size: 24px;" title="modifica"  />
+							immediate="true" styleClass="icon-edit" style="font-size: 24px;"
+							title="modifica" />
 						<h:outputText value=" " />
-						<h:outputLink target="_blank" title="anteprima" styleClass="icon-eye-open" style="font-size: 24px;" 
+						<h:outputLink target="_blank" title="anteprima"
+							styleClass="icon-eye-open" style="font-size: 24px;"
 							value="/#{e.path}/#{e.httpError.name()}.html">
 						</h:outputLink>
 					</center>

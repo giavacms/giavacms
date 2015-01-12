@@ -1,8 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/layout/t.xhtml">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
 		<h:outputText value="Gestione Risorsa" />
@@ -28,7 +31,8 @@
 					<ul>
 						<li>FONT (/font): otf, eot, svg,ttf, woff</li>
 						<li>IMAGE (/img): gif, jpg, jpeg, png, ico</li>
-						<li>DOCUMENT (/docs): zip, gz, tar, bz2, pdf, doc, docx, xls, xlsx, p7m, txt</li>
+						<li>DOCUMENT (/docs): zip, gz, tar, bz2, pdf, doc, docx, xls,
+							xlsx, p7m, txt</li>
 						<li>STYLESHEET (/css): css</li>
 						<li>JAVASCRIPT (/js): js</li>
 						<li>FLASH (/swf): swf</li>

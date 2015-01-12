@@ -1,9 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -47,11 +48,10 @@
 						<h:outputLink value="/css/#{nomeFile}" target="_blank"
 							rendered="#{fileController.fileType == 0}" title="anteprima"
 							styleClass="icon-eye-open" style="font-size: 24px;" />
-						<h:outputText value=" "
-							rendered="#{fileController.fileType == 0}" />
-						<h:commandLink action="#{fileController.modFile(nomeFile)}" title="modifica"
-							rendered="#{fileController.fileType == 0}" styleClass="icon-edit"
-							style="font-size: 24px;" />
+						<h:outputText value=" " rendered="#{fileController.fileType == 0}" />
+						<h:commandLink action="#{fileController.modFile(nomeFile)}"
+							title="modifica" rendered="#{fileController.fileType == 0}"
+							styleClass="icon-edit" style="font-size: 24px;" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
