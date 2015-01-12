@@ -119,4 +119,11 @@ public class Document implements Serializable
       this.active = active;
    }
 
+   @Transient
+   public boolean isRemote()
+   {
+      return filename != null
+               && (filename.toLowerCase().startsWith("http://") || filename.toLowerCase().startsWith("https://"));
+   }
+
 }
