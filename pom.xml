@@ -8,7 +8,7 @@
 	<parent>
 		<artifactId>giavacms-parent</artifactId>
 		<groupId>org.giavacms</groupId>
-		<version>2.0.4-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>giavacms</artifactId>
@@ -45,7 +45,7 @@
 	</scm>
 
 	<properties>
-		<giavacms-common-base.version>2.0.4-SNAPSHOT</giavacms-common-base.version>
+		<giavacms-common-base.version>3.0.0-SNAPSHOT</giavacms-common-base.version>
 	</properties>
 
 	<modules>
