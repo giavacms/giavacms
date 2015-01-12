@@ -1,11 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gb="http://giavacms.org/base"
+	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
 		<h:outputText value="Gestione Prodotti e Sinistri" />
@@ -78,8 +78,7 @@
 						<center>
 							<h:commandLink
 								action="#{insuranceClaimProductController.removeImage(img.id)}"
-								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
-								immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty img.id}" />
 						</center>
@@ -104,8 +103,7 @@
 						<center>
 							<h:commandLink
 								action="#{insuranceClaimProductController.removeDocument(doc.id)}"
-								title="elimina" style="font-size: 24px;" styleClass="icon-trash"
-								immediate="true"
+								title="elimina" style="font-size: 24px;" styleClass="icon-trash" immediate="true"
 								onclick="if (!confirm('Vuoi davvero eliminare?')) return false"
 								rendered="#{not empty doc.id}" />
 						</center>

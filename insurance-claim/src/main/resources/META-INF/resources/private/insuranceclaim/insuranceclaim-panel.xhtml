@@ -1,13 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-	<p:panel header="Catalogo Prodotti e Sinistri Module" toggleable="true"
-		closable="true" toggleSpeed="500" closeSpeed="2000"
+	<p:panel header="Catalogo Prodotti e Sinistri Module" toggleable="true" closable="true"
+		toggleSpeed="500" closeSpeed="2000"
 		rendered="#{loginController.isInRole('insurance-claim')}">
 		<p:tabView>
 

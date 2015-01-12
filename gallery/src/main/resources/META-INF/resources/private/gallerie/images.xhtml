@@ -1,11 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:gb="http://giavacms.org/base"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:flw="http://jflower/taglib"
 	template="/WEB-INF/layout/popup.xhtml">
 
 	<ui:define name="title">
@@ -42,7 +41,7 @@
 						<br />
 						<br />
 
-						<gb:uiRepeatPagedWithParams id="immagini" showpages="2"
+						<flw:uiRepeatPaged id="immagini" showpages="2"
 							label="Immagini disponibili..." selectedStyleClass="selected"
 							styleClass="pager" model="#{resourceController.imgModel}"
 							width="350px">
@@ -54,7 +53,7 @@
 									style="border: 1px;" />
 							</p>
 
-						</gb:uiRepeatPagedWithParams>
+						</flw:uiRepeatPaged>
 
 						<div style="clear: both;"></div>
 						<br />

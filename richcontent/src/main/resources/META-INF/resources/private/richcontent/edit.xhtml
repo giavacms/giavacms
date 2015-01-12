@@ -1,10 +1,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:gb="http://giavacms.org/base" template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -78,14 +77,12 @@
 						<h:outputLabel for="titolo" value="Titolo" />
 						<h:inputText id="titolo"
 							value="#{richContentController.element.title}"
-							style="width: 100%;" required="true"
-							requiredMessage="E' obbligatorio specificare il titolo" />
+							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare il titolo"/>
 
 						<h:outputLabel for="description" value="Descrizione breve" />
 						<h:inputText id="description"
 							value="#{richContentController.element.description}"
-							style="width: 100%;" required="true"
-							requiredMessage="E' obbligatorio specificare una descrizione breve" />
+							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare una descrizione breve"/>
 
 						<h:outputLabel for="dataInsert" value="Data inserimento:" />
 						<p:calendar id="dataInsert"
@@ -100,8 +97,7 @@
 						<h:outputLabel value="Tipo informazione(*):" for="tipo" />
 						<h:selectOneMenu id="tipo" style="width: 100%;"
 							value="#{richContentController.element.richContentType.id}"
-							required="true"
-							requiredMessage="E' obbligatorio specificare il tipo di contenuto">
+							required="true" requiredMessage="E' obbligatorio specificare il tipo di contenuto">
 							<f:selectItems value="#{richContentTypeItems}" />
 						</h:selectOneMenu>
 
@@ -114,8 +110,7 @@
 						<h:outputLabel for="autore" value="Autore:" style="width: 100%;" />
 						<h:inputText id="autore"
 							value="#{richContentController.element.author}"
-							style="width: 100%;" required="true"
-							requiredMessage="E' obbligatorio specificare l'autore" />
+							style="width: 100%;" required="true" requiredMessage="E' obbligatorio specificare l'autore"/>
 
 						<h:outputLabel for="anteprima" value="Anteprima:" />
 						<h:inputTextarea id="anteprima" cols="20" rows="20"
@@ -206,10 +201,9 @@
 						value="Salva le modifiche" immediate="false"
 						rendered="#{richContentController.editMode}" />
 
-					<p:commandButton ajax="false"
-						action="#{richContentController.updateAndModDocuments}"
-						value="Salva le modifiche e gestisci i documenti"
-						immediate="false" rendered="#{richContentController.editMode}" />
+					<p:commandButton ajax="false" action="#{richContentController.updateAndModDocuments}"
+						value="Salva le modifiche e gestisci i documenti" immediate="false"
+						rendered="#{richContentController.editMode}" />
 
 					<p:commandButton ajax="false"
 						action="#{richContentController.delete}" value="Elimina"

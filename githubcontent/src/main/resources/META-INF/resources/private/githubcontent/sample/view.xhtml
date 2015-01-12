@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:gb="http://giavacms.org/base"
+	xmlns:coop="http://www.coopservice.it/commons2/taglib"
+	xmlns:perm="http://www.coopservice.it/commons2/permissions"
+	xmlns:form="http://www.coopservice.it/commons2/form" lang="en">
 
 <f:view contentType="text/html">
 
@@ -15,9 +17,9 @@
 		<f:event type="preRenderView"
 			listener="#{githubContentRequestController.setIdValue(param['pageId'])}" />
 
-		<h:outputText
-			value="#{githubContentRequestController.element.content}"
-			escape="false" />
+			<h:outputText
+				value="#{githubContentRequestController.element.content}"
+				escape="false" />
 
 	</h:body>
 </f:view>
