@@ -1,16 +1,19 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
-	<p:panel header="Github Content Module" toggleable="true" closable="true"
-		toggleSpeed="500" closeSpeed="2000"
+	<p:panel header="Github Content Module" toggleable="true"
+		closable="true" toggleSpeed="500" closeSpeed="2000"
 		rendered="#{loginController.isInRole('githubcontent')}">
 
 		<p:tabView>
 
-			<p:tab title="Gestione Contenuti Github" style="width:200px; float:left;">
+			<p:tab title="Gestione Contenuti Github"
+				style="width:200px; float:left;">
 				<div style="height: 50px;">
 					<h:commandLink
 						action="/private/githubcontent/list.jsf?faces-redirect=true"
@@ -21,7 +24,8 @@
 				</div>
 			</p:tab>
 
-			<p:tab title="Gestione Tipologie di Contenuti associati a github" style="width: 200px; float: left;">
+			<p:tab title="Gestione Tipologie di Contenuti associati a github"
+				style="width: 200px; float: left;">
 				<div style="height: 50px;">
 					<h:commandLink
 						action="/private/githubcontent/githubcontenttype/list.jsf?faces-redirect=true"

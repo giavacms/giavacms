@@ -1,9 +1,10 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	template="/WEB-INF/layout/t.xhtml">
 
 	<ui:define name="title">
@@ -37,8 +38,7 @@
 
 					<p:dataTable id="messageList" rowIndexVar="rowIndex" var="message"
 						value="#{messageController.model}"
-						rows="#{messageController.pageSize}" paginator="true"
-						lazy="true">
+						rows="#{messageController.pageSize}" paginator="true" lazy="true">
 						<p:column width="50">
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
