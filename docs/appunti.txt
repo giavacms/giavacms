@@ -1,0 +1,15 @@
+https://developer.jboss.org/thread/243144
+
+
+
+There are many reasons for switching to jackson2 provider, see their release notes, and only reason we didn't use it 8.0 as well is that we forgot to switch it...
+Both providers are bundled with AS since 7.1 times, we just changed what default was now.
+
+see more about it at http://wiki.fasterxml.com/JacksonRelease20 http://wiki.fasterxml.com/JacksonRelease20Features
+
+and http://wiki.fasterxml.com/JacksonUpgradeFrom19To20 for migrating
+- See more at: https://developer.jboss.org/thread/243144#sthash.Ikk2Pc9w.dpuf
+
+
+in wildfly9
+import com.fasterxml.jackson.annotation.JsonIgnore;
