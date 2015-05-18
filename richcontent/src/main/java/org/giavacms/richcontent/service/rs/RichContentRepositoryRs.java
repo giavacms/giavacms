@@ -169,6 +169,47 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
       }
    }
 
+   @PUT
+   @Path("/{richContentId}/image/{imageId}")
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+   //TODO
+   public Response updateImage(@PathParam("richContentId") String richContentId,
+            @PathParam("imageId") String imageId,
+            MultipartFormDataInput input)
+            throws Exception
+   {
+      try
+      {
+         return Response.status(200).entity("ok").build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error updating image").build();
+      }
+   }
+
+   @DELETE
+   @Path("/{richContentId}/image/{imageId}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   //TODO
+   public Response deleteImage(@PathParam("richContentId") String richContentId,
+            @PathParam("imageId") String imageId)
+            throws Exception
+   {
+      try
+      {
+         return Response.status(200).entity("ok").build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error updating image").build();
+      }
+   }
+
    @POST
    @Path("/{richContentId}/document")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -220,6 +261,46 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
                   .entity("Error creating doc").build();
+      }
+   }
+
+   @PUT
+   @Path("/{richContentId}/document/{documentId}")
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+   //TODO
+   public Response updateDocument(@PathParam("richContentId") String richContentId,
+            @PathParam("documentId") String documentId, MultipartFormDataInput input)
+            throws Exception
+   {
+      try
+      {
+         return Response.status(200).entity("ok").build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error updating doc").build();
+      }
+   }
+
+   @DELETE
+   @Path("/{richContentId}/document/{documentId}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   //TODO
+   public Response deleteDocument(@PathParam("richContentId") String richContentId,
+            @PathParam("documentId") String documentId)
+            throws Exception
+   {
+      try
+      {
+         return Response.status(200).entity("ok").build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error updating doc").build();
       }
    }
 
