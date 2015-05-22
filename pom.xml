@@ -50,12 +50,15 @@
     </properties>
 
     <modules>
+        <module>api</module>
+        <module>audit</module>
         <module>banner</module>
         <module>base</module>
         <module>catalogue</module>
-        <module>richcontent</module>
         <module>lang</module>
-        <module>api</module>
+        <module>resources</module>
+        <module>richcontent</module>
+        <module>security</module>
     </modules>
 
 
@@ -67,6 +70,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>audit</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -98,6 +107,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>richcontent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>security</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
