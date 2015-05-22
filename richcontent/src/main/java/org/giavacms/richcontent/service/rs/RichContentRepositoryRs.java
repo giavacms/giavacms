@@ -1,5 +1,28 @@
 package org.giavacms.richcontent.service.rs;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.commons.io.IOUtils;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.base.model.attachment.Document;
@@ -16,20 +39,6 @@ import org.giavacms.richcontent.repository.RichContentRepository;
 import org.giavacms.richcontent.repository.TagRepository;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Path(AppConstants.BASE_PATH + AppConstants.RICHCONTENT_PATH)
 @Stateless
@@ -122,84 +131,83 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    {
       try
       {
-         String fileName = "";
          Map<String, List<InputPart>> formParts = input.getFormDataMap();
-         List<InputPart> inPart = formParts.get("file");
-         for (InputPart inputPart : inPart)
+         List<InputPart> fileParts = formParts.get("file");
+         for (InputPart filePart : fileParts)
          {
-            // Retrieve headers, read the Content-Disposition header to obtain the original name of the file
-            MultivaluedMap<String, String> headers = inputPart.getHeaders();
-            fileName = FileUtils.getLastPartOf(HttpUtils.parseFileName(headers));
-            // Handle the body of that part with an InputStream
-            InputStream istream = inputPart.getBody(InputStream.class, null);
-            byte[] byteArray = IOUtils.toByteArray(istream);
-            Image image = new Image();
-            image.setFilename(FileUtils.getLastPartOf(fileName));
-            image.setType(ResourceUtils.getType(fileName));
-            fileName = ResourceUtils.createImage_(AppConstants.IMG_FOLDER, fileName, byteArray);
-            image.setFilename(fileName);
-            if (input.getFormDataMap().containsKey("name"))
+            Image img = new Image();
+            try
             {
-               String name = input.getFormDataMap().get("name").get(0).getBodyAsString();
-               image.setName(name);
+               saveImage(richContentId, input, filePart, img);
+               String output = "File saved to server location : " + img.getFilename();
+               return Response.status(200).entity(output).build();
             }
-            if (input.getFormDataMap().containsKey("description"))
-            {
-               String description = input.getFormDataMap().get("description").get(0).getBodyAsString();
-               image.setDescription(description);
-            }
-
-            image.setData(byteArray);
-            image = imageRepository.persist(image);
-            if (image.getId() == null)
+            catch (Exception e)
             {
                return Response.status(Status.INTERNAL_SERVER_ERROR)
-                        .entity("Error writing file: " + fileName).build();
+                        .entity("Error writing file : " + img.getFilename()).build();
             }
-            ((RichContentRepository) getRepository()).addImage(richContentId, image.getId());
          }
-         String output = "File saved to server location : " + fileName;
-         return Response.status(200).entity(output).build();
+         return Response.status(Status.BAD_REQUEST)
+                  .entity("File part not found in form data").build();
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error creating image").build();
+                  .entity("Error creating doc").build();
       }
    }
 
    @PUT
    @Path("/{richContentId}/image/{imageId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-   //TODO
    public Response updateImage(@PathParam("richContentId") String richContentId,
-            @PathParam("imageId") String imageId,
+            @PathParam("imageId") Long imageId,
             MultipartFormDataInput input)
             throws Exception
    {
       try
       {
-         return Response.status(200).entity("ok").build();
+         Map<String, List<InputPart>> formParts = input.getFormDataMap();
+         List<InputPart> fileParts = formParts.get("file");
+         for (InputPart filePart : fileParts)
+         {
+            Image img = new Image();
+            try
+            {
+               img.setId(imageId);
+               saveImage(richContentId, input, filePart, img);
+               String output = "File saved to server location : " + img.getFilename();
+               return Response.status(200).entity(output).build();
+            }
+            catch (Exception e)
+            {
+               return Response.status(Status.INTERNAL_SERVER_ERROR)
+                        .entity("Error writing file : " + img.getFilename()).build();
+            }
+         }
+         return Response.status(Status.BAD_REQUEST)
+                  .entity("File part not found in form data").build();
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error updating image").build();
+                  .entity("Error creating doc").build();
       }
    }
 
    @DELETE
    @Path("/{richContentId}/image/{imageId}")
    @Consumes(MediaType.APPLICATION_JSON)
-   //TODO
    public Response deleteImage(@PathParam("richContentId") String richContentId,
-            @PathParam("imageId") String imageId)
+            @PathParam("imageId") Long imageId)
             throws Exception
    {
       try
       {
+         ((RichContentRepository) getRepository()).removeImage(richContentId, imageId);
          return Response.status(200).entity("ok").build();
       }
       catch (Exception e)
@@ -218,43 +226,25 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    {
       try
       {
-         String fileName = "";
          Map<String, List<InputPart>> formParts = input.getFormDataMap();
-         List<InputPart> inPart = formParts.get("file");
-         for (InputPart inputPart : inPart)
+         List<InputPart> fileParts = formParts.get("file");
+         for (InputPart filePart : fileParts)
          {
-            // Retrieve headers, read the Content-Disposition header to obtain the original name of the file
-            MultivaluedMap<String, String> headers = inputPart.getHeaders();
-            fileName = FileUtils.getLastPartOf(HttpUtils.parseFileName(headers));
-            // Handle the body of that part with an InputStream
-            InputStream istream = inputPart.getBody(InputStream.class, null);
-            byte[] byteArray = IOUtils.toByteArray(istream);
             Document doc = new Document();
-            doc.setData(byteArray);
-            doc.setType(MimeUtils.getContentType(FileUtils.getLastPartOf(fileName)));
-            String filename = ResourceUtils.createFile_(AppConstants.DOC_FOLDER, fileName, byteArray);
-            doc.setFilename(filename);
-            if (input.getFormDataMap().containsKey("name"))
+            try
             {
-               String name = input.getFormDataMap().get("name").get(0).getBodyAsString();
-               doc.setName("");
+               saveDocument(richContentId, input, filePart, doc);
+               String output = "File saved to server location : " + doc.getFilename();
+               return Response.status(200).entity(output).build();
             }
-            if (input.getFormDataMap().containsKey("description"))
-            {
-               String description = input.getFormDataMap().get("description").get(0).getBodyAsString();
-               doc.setDescription("");
-            }
-            doc = documentRepository.persist(doc);
-
-            if (doc.getId() == null)
+            catch (Exception e)
             {
                return Response.status(Status.INTERNAL_SERVER_ERROR)
-                        .entity("Error writing file: " + fileName).build();
+                        .entity("Error writing file : " + doc.getFilename()).build();
             }
-            ((RichContentRepository) getRepository()).addDocument(richContentId, doc.getId());
          }
-         String output = "File saved to server location : " + fileName;
-         return Response.status(200).entity(output).build();
+         return Response.status(Status.BAD_REQUEST)
+                  .entity("File part not found in form data").build();
       }
       catch (Exception e)
       {
@@ -267,33 +257,119 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    @PUT
    @Path("/{richContentId}/document/{documentId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-   //TODO
    public Response updateDocument(@PathParam("richContentId") String richContentId,
-            @PathParam("documentId") String documentId, MultipartFormDataInput input)
+            @PathParam("documentId") Long documentId, MultipartFormDataInput input)
             throws Exception
    {
       try
       {
-         return Response.status(200).entity("ok").build();
+         Map<String, List<InputPart>> formParts = input.getFormDataMap();
+         List<InputPart> fileParts = formParts.get("file");
+         for (InputPart filePart : fileParts)
+         {
+            Document doc = new Document();
+            try
+            {
+               doc.setId(documentId);
+               saveDocument(richContentId, input, filePart, doc);
+               String output = "File saved to server location : " + doc.getFilename();
+               return Response.status(200).entity(output).build();
+            }
+            catch (Exception e)
+            {
+               return Response.status(Status.INTERNAL_SERVER_ERROR)
+                        .entity("Error writing file : " + doc.getFilename()).build();
+            }
+         }
+         return Response.status(Status.BAD_REQUEST)
+                  .entity("File part not found in form data").build();
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error updating doc").build();
+                  .entity("Error creating doc").build();
+      }
+   }
+
+   private void saveDocument(String richContentId, MultipartFormDataInput input, InputPart filePart, Document doc)
+            throws Exception
+   {
+      // Retrieve headers, read the Content-Disposition header to obtain the original name of the file
+      MultivaluedMap<String, String> headers = filePart.getHeaders();
+      String fileName = FileUtils.getLastPartOf(HttpUtils.parseFileName(headers));
+      // Handle the body of that part with an InputStream
+      InputStream istream = filePart.getBody(InputStream.class, null);
+      byte[] byteArray = IOUtils.toByteArray(istream);
+      doc.setData(byteArray);
+      doc.setType(MimeUtils.getContentType(FileUtils.getLastPartOf(fileName)));
+      String filename = ResourceUtils.createFile_(AppConstants.DOC_FOLDER, fileName, byteArray);
+      doc.setFilename(filename);
+      if (input.getFormDataMap().containsKey("name"))
+      {
+         String name = input.getFormDataMap().get("name").get(0).getBodyAsString();
+         doc.setName(name);
+      }
+      if (input.getFormDataMap().containsKey("description"))
+      {
+         String description = input.getFormDataMap().get("description").get(0).getBodyAsString();
+         doc.setDescription(description);
+      }
+      if (doc.getId() == null)
+      {
+         doc = documentRepository.persist(doc);
+         ((RichContentRepository) getRepository()).addDocument(richContentId, doc.getId());
+      }
+      else
+      {
+         documentRepository.update(doc);
+      }
+   }
+
+   private void saveImage(String richContentId, MultipartFormDataInput input, InputPart filePart, Image img)
+            throws Exception
+   {
+      // Retrieve headers, read the Content-Disposition header to obtain the original name of the file
+      MultivaluedMap<String, String> headers = filePart.getHeaders();
+      String fileName = FileUtils.getLastPartOf(HttpUtils.parseFileName(headers));
+      // Handle the body of that part with an InputStream
+      InputStream istream = filePart.getBody(InputStream.class, null);
+      byte[] byteArray = IOUtils.toByteArray(istream);
+      img.setData(byteArray);
+      img.setType(MimeUtils.getContentType(FileUtils.getLastPartOf(fileName)));
+      String filename = ResourceUtils.createFile_(AppConstants.IMG_FOLDER, fileName, byteArray);
+      img.setFilename(filename);
+      if (input.getFormDataMap().containsKey("name"))
+      {
+         String name = input.getFormDataMap().get("name").get(0).getBodyAsString();
+         img.setName(name);
+      }
+      if (input.getFormDataMap().containsKey("description"))
+      {
+         String description = input.getFormDataMap().get("description").get(0).getBodyAsString();
+         img.setDescription(description);
+      }
+      if (img.getId() == null)
+      {
+         img = imageRepository.persist(img);
+         ((RichContentRepository) getRepository()).addImage(richContentId, img.getId());
+      }
+      else
+      {
+         imageRepository.update(img);
       }
    }
 
    @DELETE
    @Path("/{richContentId}/document/{documentId}")
    @Consumes(MediaType.APPLICATION_JSON)
-   //TODO
    public Response deleteDocument(@PathParam("richContentId") String richContentId,
-            @PathParam("documentId") String documentId)
+            @PathParam("documentId") Long documentId)
             throws Exception
    {
       try
       {
+         ((RichContentRepository) getRepository()).removeDocument(richContentId, documentId);
          return Response.status(200).entity("ok").build();
       }
       catch (Exception e)

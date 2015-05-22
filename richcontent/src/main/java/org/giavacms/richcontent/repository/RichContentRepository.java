@@ -35,36 +35,39 @@ public class RichContentRepository extends BaseRepository<RichContent>
    @SuppressWarnings("unchecked")
    public List<Image> getImages(String id)
    {
-      //SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM Image I left join RichContent_Image RI on (I.id = RI.images_id) left join RichContent RC on (RC.id=RI.RichContent_id)
-      //      where RC.id='1-agosto-ore-2130--le-marche-i-manicomi-i-matti-gli-amori' and I.active=true
+      // SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM Image I left join RichContent_Image RI on
+      // (I.id = RI.images_id) left join RichContent RC on (RC.id=RI.RichContent_id)
+      // where RC.id='1-agosto-ore-2130--le-marche-i-manicomi-i-matti-gli-amori' and I.active=true
 
       return getEm()
                .createNativeQuery(
                         "SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM " + Image.TABLE_NAME
                                  + " I left join " + RichContent.IMAGES_JOINTABLE_NAME
-                                 + " RI on (I.id = RI." + RichContent.IMAGE_FK + ") left join " + RichContent.TABLE_NAME
+                                 + " RI on (I.id = RI." + RichContent.IMAGE_FK + ") left join "
+                                 + RichContent.TABLE_NAME
                                  + " RC on (RC.id=RI." + RichContent.TABLE_FK + ") "
                                  + " where RC.id = :ID and I.active = :ACTIVE",
                         Image.class).setParameter("ID", id).setParameter("ACTIVE", true)
                .getResultList();
-      //      return getEm()
-      //               .createNativeQuery(
-      //                        "select * from " + Image.TABLE_NAME + " where id in ( "
-      //                                 + "    select " + RichContent.IMAGE_FK + " from "
-      //                                 + RichContent.IMAGES_JOINTABLE_NAME
-      //                                 + " where " + RichContent.TABLE_FK + " = ( "
-      //                                 + "       select id from " + RichContent.TABLE_NAME
-      //                                 + "    ) "
-      //                                 + " ) ", Image.class)
-      //               .getResultList();
+      // return getEm()
+      // .createNativeQuery(
+      // "select * from " + Image.TABLE_NAME + " where id in ( "
+      // + "    select " + RichContent.IMAGE_FK + " from "
+      // + RichContent.IMAGES_JOINTABLE_NAME
+      // + " where " + RichContent.TABLE_FK + " = ( "
+      // + "       select id from " + RichContent.TABLE_NAME
+      // + "    ) "
+      // + " ) ", Image.class)
+      // .getResultList();
    }
 
    @SuppressWarnings("unchecked")
    public List<Image> getDocuments(String id)
    {
 
-      //SELECT D.id, D.active, D.description, D.filename, D.name, D.type  FROM Document D left join RichContent_Document RD on (D.id=RD.documents_id) left join RichContent RC on (RC.id=RD.RichContent_id)
-      //where RC.id = '1-agosto-ore-2130--le-marche-i-manicomi-i-matti-gli-amori' and D.active = true
+      // SELECT D.id, D.active, D.description, D.filename, D.name, D.type FROM Document D left join RichContent_Document
+      // RD on (D.id=RD.documents_id) left join RichContent RC on (RC.id=RD.RichContent_id)
+      // where RC.id = '1-agosto-ore-2130--le-marche-i-manicomi-i-matti-gli-amori' and D.active = true
 
       return getEm()
                .createNativeQuery(
@@ -75,16 +78,16 @@ public class RichContentRepository extends BaseRepository<RichContent>
                                  + " where RC.id = :ID and D.active = :ACTIVE",
                         Document.class).setParameter("ID", id).setParameter("ACTIVE", true)
                .getResultList();
-      //      return getEm()
-      //               .createNativeQuery(
-      //                        "select * from " + Document.TABLE_NAME + " where id in ( "
-      //                                 + "    select " + RichContent.DOCUMENT_FK + " from "
-      //                                 + RichContent.DOCUMENTS_JOINTABLE_NAME
-      //                                 + " where " + RichContent.TABLE_FK + " = ( "
-      //                                 + "       select id from " + RichContent.TABLE_NAME
-      //                                 + "    ) "
-      //                                 + " ) ", Document.class)
-      //               .getResultList();
+      // return getEm()
+      // .createNativeQuery(
+      // "select * from " + Document.TABLE_NAME + " where id in ( "
+      // + "    select " + RichContent.DOCUMENT_FK + " from "
+      // + RichContent.DOCUMENTS_JOINTABLE_NAME
+      // + " where " + RichContent.TABLE_FK + " = ( "
+      // + "       select id from " + RichContent.TABLE_NAME
+      // + "    ) "
+      // + " ) ", Document.class)
+      // .getResultList();
    }
 
    @Override
@@ -368,5 +371,23 @@ public class RichContentRepository extends BaseRepository<RichContent>
                "INSERT INTO " + RichContent.DOCUMENTS_JOINTABLE_NAME + "(" + RichContent.TABLE_FK + ", "
                         + RichContent.DOCUMENT_FK + ") VALUES (:richContentId,:documentId) ")
                .setParameter("richContentId", richContentId).setParameter("documentId", documentId).executeUpdate();
+   }
+
+   public void removeDocument(String richContentId, Long documentId)
+   {
+      getEm().createNativeQuery(
+               "DELETE FROM " + RichContent.DOCUMENTS_JOINTABLE_NAME + " where " + RichContent.TABLE_FK
+                        + " :richContentId and "
+                        + RichContent.DOCUMENT_FK + " = :documentId ")
+               .setParameter("richContentId", richContentId).setParameter("documentId", documentId).executeUpdate();
+   }
+
+   public void removeImage(String richContentId, Long imageId)
+   {
+      getEm().createNativeQuery(
+               "DELETE FROM " + RichContent.IMAGES_JOINTABLE_NAME + " where " + RichContent.TABLE_FK
+                        + " :richContentId and "
+                        + RichContent.IMAGE_FK + " = :imageId ")
+               .setParameter("richContentId", richContentId).setParameter("imageId", imageId).executeUpdate();
    }
 }
