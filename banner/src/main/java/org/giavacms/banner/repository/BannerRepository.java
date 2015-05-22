@@ -81,17 +81,24 @@ public class BannerRepository extends BaseRepository<Banner>
          params.put("IDTYP", search.getObj().getBannerTypology().getId());
       }
 
-      // NAME OR DESCRIPTION
+      // NAME
       if (search.getObj().getName() != null
-               && !search.getObj().getName().isEmpty())
+               && !search.getLike().getName().isEmpty())
       {
          sb.append(separator + " ( upper(").append(alias)
                   .append(".name) LIKE :NAMEPROD ");
-         params.put("NAMEPROD", likeParam(search.getObj().getName()
+         params.put("NAMEPROD", likeParam(search.getLike().getName()
                   .toUpperCase()));
-         sb.append(" or ").append(" upper(").append(alias)
+      }
+
+      // DESCRIPTION
+      if (search.getObj().getName() != null
+               && !search.getLike().getDescription().isEmpty())
+      {
+
+         sb.append(separator + "  upper(").append(alias)
                   .append(".description ) LIKE :DESC").append(") ");
-         params.put("DESC", likeParam(search.getObj().getName()
+         params.put("DESC", likeParam(search.getLike().getDescription()
                   .toUpperCase()));
       }
    }
