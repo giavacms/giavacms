@@ -229,12 +229,9 @@ public class ResourceUtils
 
    public static String getRealPath(String folderName)
    {
-      // ServletContext servletContext = (ServletContext) FacesContext
-      // .getCurrentInstance().getExternalContext().getContext();
-      // String folder = servletContext.getRealPath("") + File.separator;
-      // return folder;
-      String root = new File(ResourceUtils.class.getClassLoader().getResource("angcms").getPath()).getParentFile()
-               .getParentFile().getParent();
+      // con solo persistence.xml non funziona. con META-INF/persistence.xml si
+      String root = new File(ResourceUtils.class.getClassLoader().getResource("META-INF/persistence.xml").getPath())
+               .getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
       File folder = new File(root, folderName);
       if (!folder.exists())
       {
