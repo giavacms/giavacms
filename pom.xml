@@ -60,6 +60,7 @@
         <module>richcontent</module>
         <module>security</module>
         <module>scenario</module>
+        <module>faq</module>
     </modules>
 
 
