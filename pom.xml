@@ -59,6 +59,7 @@
         <module>resources</module>
         <module>richcontent</module>
         <module>security</module>
+        <module>scenario</module>
     </modules>
 
 
