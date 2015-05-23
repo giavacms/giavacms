@@ -5,12 +5,12 @@ import org.giavacms.api.util.IdUtils;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.base.util.DateUtils;
 import org.giavacms.base.util.StringUtils;
 import org.giavacms.base.util.TimeUtils;
-import org.giavacms.base.util.DateUtils;
 import org.giavacms.richcontent.model.RichContent;
-import org.giavacms.richcontent.model.Tag;
 import org.giavacms.richcontent.model.RichContentType;
+import org.giavacms.richcontent.model.Tag;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -377,7 +377,7 @@ public class RichContentRepository extends BaseRepository<RichContent>
    {
       getEm().createNativeQuery(
                "DELETE FROM " + RichContent.DOCUMENTS_JOINTABLE_NAME + " where " + RichContent.TABLE_FK
-                        + " :richContentId and "
+                        + " = :richContentId and "
                         + RichContent.DOCUMENT_FK + " = :documentId ")
                .setParameter("richContentId", richContentId).setParameter("documentId", documentId).executeUpdate();
    }
@@ -386,7 +386,7 @@ public class RichContentRepository extends BaseRepository<RichContent>
    {
       getEm().createNativeQuery(
                "DELETE FROM " + RichContent.IMAGES_JOINTABLE_NAME + " where " + RichContent.TABLE_FK
-                        + " :richContentId and "
+                        + " = :richContentId and "
                         + RichContent.IMAGE_FK + " = :imageId ")
                .setParameter("richContentId", richContentId).setParameter("imageId", imageId).executeUpdate();
    }
