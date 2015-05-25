@@ -1,6 +1,6 @@
 package org.giavacms.catalogue.service.rs;
 
-import org.giavacms.api.management.AppConstants;
+import org.giavacms.catalogue.management.AppConstants;
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.catalogue.model.Category;

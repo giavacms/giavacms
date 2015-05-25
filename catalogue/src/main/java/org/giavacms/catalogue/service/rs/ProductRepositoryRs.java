@@ -1,6 +1,6 @@
 package org.giavacms.catalogue.service.rs;
 
-import org.giavacms.api.management.AppConstants;
+import org.giavacms.catalogue.management.AppConstants;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.catalogue.model.Product;

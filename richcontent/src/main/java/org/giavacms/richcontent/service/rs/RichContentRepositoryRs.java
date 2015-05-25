@@ -115,7 +115,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    }
 
    @POST
-   @Path("/{richContentId}/image")
+   @Path("/{richContentId}/images")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response addImage(@PathParam("richContentId") String richContentId, MultipartFormDataInput input)
             throws Exception
@@ -151,7 +151,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    }
 
    @PUT
-   @Path("/{richContentId}/image/{imageId}")
+   @Path("/{richContentId}/images/{imageId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response updateImage(@PathParam("richContentId") String richContentId,
             @PathParam("imageId") Long imageId,
@@ -190,7 +190,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    }
 
    @DELETE
-   @Path("/{richContentId}/image/{imageId}")
+   @Path("/{richContentId}/images/{imageId}")
    @Consumes(MediaType.APPLICATION_JSON)
    public Response deleteImage(@PathParam("richContentId") String richContentId,
             @PathParam("imageId") Long imageId)
@@ -210,7 +210,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    }
 
    @POST
-   @Path("/{richContentId}/document")
+   @Path("/{richContentId}/documents")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response addDocument(@PathParam("richContentId") String richContentId, MultipartFormDataInput input)
             throws Exception
@@ -226,7 +226,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
             {
                saveDocument(richContentId, input, filePart, doc);
                String output = "File saved to server location : " + doc.getFilename();
-               return Response.status(200).entity(output).build();
+               return Response.status(200).entity(doc).build();
             }
             catch (Exception e)
             {
@@ -246,7 +246,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    }
 
    @PUT
-   @Path("/{richContentId}/document/{documentId}")
+   @Path("/{richContentId}/documents/{documentId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response updateDocument(@PathParam("richContentId") String richContentId,
             @PathParam("documentId") Long documentId, MultipartFormDataInput input)
@@ -264,7 +264,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
                doc.setId(documentId);
                saveDocument(richContentId, input, filePart, doc);
                String output = "File saved to server location : " + doc.getFilename();
-               return Response.status(200).entity(output).build();
+               return Response.status(200).entity(doc).build();
             }
             catch (Exception e)
             {
@@ -352,7 +352,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    }
 
    @DELETE
-   @Path("/{richContentId}/document/{documentId}")
+   @Path("/{richContentId}/documents/{documentId}")
    @Consumes(MediaType.APPLICATION_JSON)
    public Response deleteDocument(@PathParam("richContentId") String richContentId,
             @PathParam("documentId") Long documentId)
@@ -398,7 +398,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
 
    @GET
    @Path("/{richContentId}/documents")
-   public Response getDocument(@PathParam("richContentId") String richContentId)
+   public Response getDocuments(@PathParam("richContentId") String richContentId)
    {
       try
       {
