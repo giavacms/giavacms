@@ -6,9 +6,9 @@
  */
 package org.giavacms.audit.service;
 
-import org.giavacms.audit.interceptor.LogWriter;
-import org.giavacms.audit.model.OperazioniLog;
-import org.giavacms.audit.repository.LogOperationsRepository;
+import org.giavacms.audit.interceptor.AuditWriter;
+import org.giavacms.audit.model.OperationAudit;
+import org.giavacms.audit.repository.OperationAuditRepository;
 import org.jboss.logging.Logger;
 
 import javax.ejb.LocalBean;
@@ -18,11 +18,11 @@ import java.util.Date;
 
 @Stateless
 @LocalBean
-public class LogWriterService implements LogWriter
+public class AuditWriterService implements AuditWriter
 {
 
    @Inject
-   LogOperationsRepository logOperationsRepository;
+   OperationAuditRepository operationAuditRepository;
 
    Logger logger = Logger.getLogger(getClass());
 
@@ -35,23 +35,23 @@ public class LogWriterService implements LogWriter
       String tipo = "";
       if (method.contains("persist"))
       {
-         tipo = OperazioniLog.NEW;
+         tipo = OperationAudit.NEW;
       }
       else if (method.contains("update"))
       {
-         tipo = OperazioniLog.MODIFY;
+         tipo = OperationAudit.MODIFY;
       }
       else if (method.contains("delete"))
       {
-         tipo = OperazioniLog.DELETE;
+         tipo = OperationAudit.DELETE;
       }
       else if (method.contains("logout"))
       {
-         tipo = OperazioniLog.LOGOUT;
+         tipo = OperationAudit.LOGOUT;
       }
       else if (method.contains("login"))
       {
-         tipo = OperazioniLog.LOGIN;
+         tipo = OperationAudit.LOGIN;
       }
       String username = "anonymous";
       try
@@ -66,8 +66,8 @@ public class LogWriterService implements LogWriter
                + "PARAMS: " + params + " - POST: "
                + (result != null ? result.toString() : "");
       Date data = new Date();
-      OperazioniLog operazioniLog = new OperazioniLog(tipo, username,
+      OperationAudit operationAudit = new OperationAudit(tipo, username,
                descrizione, data);
-      logOperationsRepository.persist(operazioniLog);
+      operationAuditRepository.persist(operationAudit);
    }
 }

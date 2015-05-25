@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class OperazioniLog implements Serializable
+public class OperationAudit implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
@@ -25,22 +25,20 @@ public class OperazioniLog implements Serializable
    private String tipo;
    private String username;
    private String descrizione;
-   private boolean attivo = true;
    private Date data;
 
-   public OperazioniLog()
+   public OperationAudit()
    {
 
    }
 
-   public OperazioniLog(String tipo, String username, String descrizione,
+   public OperationAudit(String tipo, String username, String descrizione,
             Date data)
    {
       this.tipo = tipo;
       this.username = username;
       this.descrizione = descrizione;
       this.data = data;
-      this.attivo = true;
    }
 
    @Id
@@ -90,16 +88,6 @@ public class OperazioniLog implements Serializable
    public void setDescrizione(String descrizione)
    {
       this.descrizione = descrizione;
-   }
-
-   public boolean isAttivo()
-   {
-      return attivo;
-   }
-
-   public void setAttivo(boolean attivo)
-   {
-      this.attivo = attivo;
    }
 
    public Date getData()

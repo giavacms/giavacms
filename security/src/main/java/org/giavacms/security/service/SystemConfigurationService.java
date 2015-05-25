@@ -6,7 +6,7 @@
  */
 package org.giavacms.security.service;
 
-import org.giavacms.security.repository.UserRepository;
+import org.giavacms.security.repository.UserAuthRepository;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +26,7 @@ public class SystemConfigurationService implements Serializable
             .getCanonicalName());
 
    @Inject
-   UserRepository userRepository;
+   UserAuthRepository userAuthRepository;
 
    public SystemConfigurationService()
    {
@@ -37,6 +37,6 @@ public class SystemConfigurationService implements Serializable
    public void verifyConfiguration()
    {
       logger.info("init system: verify if admin exist");
-      userRepository.verifyConfiguration();
+      userAuthRepository.verifyConfiguration();
    }
 }

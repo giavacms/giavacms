@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = BannerTypology.TABLE_NAME)
-public class BannerTypology implements Serializable
+@Table(name = BannerType.TABLE_NAME)
+public class BannerType implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-   public static final String TABLE_NAME = "BannerTypology";
+   public static final String TABLE_NAME = "BannerType";
 
    private Long id;
    private String name;
@@ -84,7 +84,7 @@ public class BannerTypology implements Serializable
 
    @Override public String toString()
    {
-      return "BannerTypology{" +
+      return "BannerType{" +
                "id=" + id +
                ", name='" + name + '\'' +
                ", description='" + description + '\'' +

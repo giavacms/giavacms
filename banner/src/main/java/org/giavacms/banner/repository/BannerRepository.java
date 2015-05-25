@@ -62,23 +62,23 @@ public class BannerRepository extends BaseRepository<Banner>
       separator = " and ";
 
       // TYPOLOGY NAME
-      if (search.getObj().getBannerTypology() != null
-               && search.getObj().getBannerTypology().getName() != null
-               && search.getObj().getBannerTypology().getName().trim()
+      if (search.getObj().getBannerType() != null
+               && search.getObj().getBannerType().getName() != null
+               && search.getObj().getBannerType().getName().trim()
                .length() > 0)
       {
          sb.append(separator).append(alias)
                   .append(".bannerTypology.name = :NAMETYP ");
-         params.put("NAMETYP", search.getObj().getBannerTypology().getName());
+         params.put("NAMETYP", search.getObj().getBannerType().getName());
       }
       // TYPOLOGY ID
-      if (search.getObj().getBannerTypology() != null
-               && search.getObj().getBannerTypology().getId() != null
-               && search.getObj().getBannerTypology().getId() > 0)
+      if (search.getObj().getBannerType() != null
+               && search.getObj().getBannerType().getId() != null
+               && search.getObj().getBannerType().getId() > 0)
       {
          sb.append(separator).append(alias)
                   .append(".bannerTypology.id = :IDTYP ");
-         params.put("IDTYP", search.getObj().getBannerTypology().getId());
+         params.put("IDTYP", search.getObj().getBannerType().getId());
       }
 
       // NAME

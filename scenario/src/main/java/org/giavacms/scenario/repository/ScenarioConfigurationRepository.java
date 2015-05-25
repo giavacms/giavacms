@@ -3,7 +3,6 @@ package org.giavacms.scenario.repository;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.scenario.model.ScenarioConfiguration;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -11,7 +10,6 @@ import javax.persistence.PersistenceContext;
 
 @Named
 @Stateless
-@LocalBean
 public class ScenarioConfigurationRepository extends
          BaseRepository<ScenarioConfiguration>
 {

@@ -17,7 +17,7 @@ public class Banner implements Serializable
    private Long id;
    private String name;
    private String language;
-   private BannerTypology bannerTypology;
+   private BannerType bannerType;
    private boolean active = true;
    private String url;
    private boolean internal;
@@ -69,16 +69,16 @@ public class Banner implements Serializable
    }
 
    @ManyToOne
-   public BannerTypology getBannerTypology()
+   public BannerType getBannerType()
    {
-      if (this.bannerTypology == null)
-         this.bannerTypology = new BannerTypology();
-      return bannerTypology;
+      if (this.bannerType == null)
+         this.bannerType = new BannerType();
+      return bannerType;
    }
 
-   public void setBannerTypology(BannerTypology bannerTypology)
+   public void setBannerType(BannerType bannerType)
    {
-      this.bannerTypology = bannerTypology;
+      this.bannerType = bannerType;
    }
 
    @OneToOne(cascade = CascadeType.ALL)
@@ -157,7 +157,7 @@ public class Banner implements Serializable
                "id=" + id +
                ", name='" + name + '\'' +
                ", language='" + language + '\'' +
-               ", bannerTypology=" + bannerTypology +
+               ", bannerType=" + bannerType +
                ", active=" + active +
                ", url='" + url + '\'' +
                ", internal=" + internal +

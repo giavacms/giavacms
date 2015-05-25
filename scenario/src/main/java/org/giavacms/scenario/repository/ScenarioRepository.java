@@ -5,7 +5,6 @@ import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.scenario.model.Scenario;
 import org.hibernate.Session;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @Named
 @Stateless
-@LocalBean
 public class ScenarioRepository extends BaseRepository<Scenario>
 {
 

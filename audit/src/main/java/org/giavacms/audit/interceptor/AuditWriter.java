@@ -6,7 +6,7 @@
  */
 package org.giavacms.audit.interceptor;
 
-public interface LogWriter
+public interface AuditWriter
 {
    public void write(String className, String method, String params,
             Object result) throws Exception;

@@ -9,29 +9,27 @@ package org.giavacms.security.service;
 import org.giavacms.security.model.EmailConfiguration;
 import org.giavacms.security.pojo.Email2Send;
 import org.giavacms.security.pojo.Server;
+import org.giavacms.security.repository.EmailConfigurationRepository;
 import org.giavacms.security.util.Sender;
 import org.jboss.logging.Logger;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.Serializable;
 
 @Named
 @Stateless
-@LocalBean
-public class EmailSession implements Serializable
+public class EmailService implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
-   private Logger logger = Logger.getLogger(EmailSession.class);
+   private Logger logger = Logger.getLogger(EmailService.class);
 
-   @PersistenceContext
-   EntityManager em;
+   @Inject
+   EmailConfigurationRepository emailConfigurationRepository;
 
    public String sendEmail(String from, String body, String title,
             String[] to, String[] cc, String[] bcc, File file)
@@ -92,7 +90,7 @@ public class EmailSession implements Serializable
 
    private Server getServer()
    {
-      EmailConfiguration conf = getConfigurazione();
+      EmailConfiguration conf = emailConfigurationRepository.getEmailConfiguration();
       Server server = new Server();
       server.setAddress(conf.getSmtp());
       server.setUser(conf.getUsername());
@@ -105,16 +103,4 @@ public class EmailSession implements Serializable
 
    }
 
-   public EmailConfiguration getConfigurazione()
-   {
-      try
-      {
-         return em.find(EmailConfiguration.class, 1L);
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return null;
-      }
-   }
 }

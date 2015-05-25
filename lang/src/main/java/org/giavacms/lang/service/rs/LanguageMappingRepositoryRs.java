@@ -1,7 +1,7 @@
 package org.giavacms.lang.service.rs;
 
-import org.giavacms.api.management.AppConstants;
 import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.lang.management.AppConstants;
 import org.giavacms.lang.model.LanguageMapping;
 import org.giavacms.lang.repository.LanguageMappingRepository;
 

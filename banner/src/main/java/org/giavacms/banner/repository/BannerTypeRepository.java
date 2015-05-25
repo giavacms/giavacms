@@ -1,7 +1,7 @@
 package org.giavacms.banner.repository;
 
 import org.giavacms.api.model.Search;
-import org.giavacms.banner.model.BannerTypology;
+import org.giavacms.banner.model.BannerType;
 import org.giavacms.base.repository.BaseRepository;
 
 import javax.ejb.LocalBean;
@@ -12,8 +12,8 @@ import java.util.Map;
 @Named
 @Stateless
 @LocalBean
-public class BannerTypologyRepository extends
-         BaseRepository<BannerTypology>
+public class BannerTypeRepository extends
+         BaseRepository<BannerType>
 {
 
    private static final long serialVersionUID = 1L;
@@ -29,17 +29,17 @@ public class BannerTypologyRepository extends
    public void delete(Object key) throws Exception
    {
 
-      BannerTypology bannerTypology = getEm().find(getEntityType(), key);
-      if (bannerTypology != null)
+      BannerType bannerType = getEm().find(getEntityType(), key);
+      if (bannerType != null)
       {
-         bannerTypology.setActive(false);
-         getEm().merge(bannerTypology);
+         bannerType.setActive(false);
+         getEm().merge(bannerType);
       }
 
    }
 
    @Override
-   protected void applyRestrictions(Search<BannerTypology> search,
+   protected void applyRestrictions(Search<BannerType> search,
             String alias, String separator, StringBuffer sb,
             Map<String, Object> params)
    {

@@ -16,7 +16,7 @@ import javax.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoLogOperation
+public @interface AuditDisabled
 {
 
 }

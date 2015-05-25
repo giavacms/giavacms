@@ -6,8 +6,8 @@
  */
 package org.giavacms.audit.interceptor;
 
-import org.giavacms.audit.annotation.LogOperation;
-import org.giavacms.audit.annotation.NoLogOperation;
+import org.giavacms.audit.annotation.AuditEnabled;
+import org.giavacms.audit.annotation.AuditDisabled;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.inject.Instance;
@@ -17,14 +17,14 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import java.util.Arrays;
 
-@LogOperation
+@AuditEnabled
 @Interceptor
-public class LogOperationInterceptor
+public class AuditInterceptor
 {
    @Inject
-   Instance<LogWriter> logWriters;
+   Instance<AuditWriter> logWriters;
 
-   Logger logger = Logger.getLogger(LogOperationInterceptor.class);
+   Logger logger = Logger.getLogger(AuditInterceptor.class);
 
    @AroundInvoke
    public Object manageTransaction(InvocationContext ctx) throws Exception
@@ -34,16 +34,16 @@ public class LogOperationInterceptor
 
       String params = Arrays.toString(ctx.getParameters());
       Object result = ctx.proceed();
-      if (ctx.getMethod().getAnnotation(NoLogOperation.class) != null)
+      if (ctx.getMethod().getAnnotation(AuditDisabled.class) != null)
       {
          logger.info("NOLOG: className: " + className + " methodname: "
                   + methodName);
       }
       else if (logWriters != null)
       {
-         for (LogWriter logWriter : logWriters)
+         for (AuditWriter auditWriter : logWriters)
          {
-            logWriter.write(className, methodName, params, result);
+            auditWriter.write(className, methodName, params, result);
          }
       }
       else

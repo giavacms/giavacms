@@ -13,7 +13,6 @@ import org.giavacms.security.model.UserRole;
 import org.giavacms.security.util.PasswordUtils;
 import org.jboss.logging.Logger;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -24,8 +23,7 @@ import java.util.Map;
 
 @Named
 @Stateless
-@LocalBean
-public class UserRepository extends BaseRepository<UserAuth> implements
+public class UserAuthRepository extends BaseRepository<UserAuth> implements
          Serializable
 {
 
@@ -36,7 +34,7 @@ public class UserRepository extends BaseRepository<UserAuth> implements
    @PersistenceContext
    EntityManager em;
 
-   public UserRepository()
+   public UserAuthRepository()
    {
    }
 
