@@ -9,11 +9,13 @@ package org.giavacms.catalogue.repository;
 import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.catalogue.model.Feature;
+import org.giavacms.catalogue.model.pojo.FeatureItems;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,6 +127,41 @@ public class FeatureRepository extends BaseRepository<Feature>
          logger.error(e.getMessage(), e);
          return new ArrayList<String>();
       }
+   }
+
+   public List<FeatureItems> getItems()
+   {
+      Map<String, FeatureItems> ftMap = new HashMap<>();
+      try
+      {
+         List<Feature> ft = getEm()
+                  .createQuery(
+                           "select p from "
+                                    + Feature.class.getSimpleName()
+                                    + " p where p.active = :ACTIVE order by p.name asc ")
+                  .setParameter("ACTIVE", true)
+                  .getResultList();
+         for (Feature feature : ft)
+         {
+            FeatureItems ftI = null;
+            if (ftMap.containsKey(feature.getName()))
+            {
+               ftI = ftMap.get(feature.getName());
+
+            }
+            else
+            {
+               ftI = new FeatureItems(feature.getName());
+               ftMap.put(feature.getName(), ftI);
+            }
+            ftI.addValue(feature.getOption());
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+      }
+      return new ArrayList<>(ftMap.values());
    }
 
    @SuppressWarnings("unchecked")

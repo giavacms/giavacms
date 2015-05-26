@@ -1,8 +1,9 @@
 package org.giavacms.catalogue.service.rs;
 
-import org.giavacms.catalogue.management.AppConstants;
 import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
+import org.giavacms.catalogue.management.AppConstants;
 import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.ProductRepository;
 
@@ -14,7 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.util.List;
 
-@Path(AppConstants.BASE_PATH + AppConstants.PRODUCT_PATH)
+@Path(AppConstants.BASE_PATH + AppConstants.PRODUCTS_PATH)
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -64,7 +65,7 @@ public class ProductRepositoryRs extends RsRepositoryService<Product>
    {
       try
       {
-         List<Image> list = ((ProductRepository) getRepository()).getDocuments(productId);
+         List<Document> list = ((ProductRepository) getRepository()).getDocuments(productId);
          if (list == null || list.size() == 0)
          {
             return Response.status(Status.NO_CONTENT).build();

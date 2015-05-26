@@ -2,6 +2,7 @@ package org.giavacms.banner.repository;
 
 import org.giavacms.api.model.Search;
 import org.giavacms.banner.model.Banner;
+import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.BaseRepository;
 
 import javax.ejb.LocalBean;
@@ -68,7 +69,7 @@ public class BannerRepository extends BaseRepository<Banner>
                .length() > 0)
       {
          sb.append(separator).append(alias)
-                  .append(".bannerTypology.name = :NAMETYP ");
+                  .append(".bannerType.name = :NAMETYP ");
          params.put("NAMETYP", search.getObj().getBannerType().getName());
       }
       // TYPOLOGY ID
@@ -77,7 +78,7 @@ public class BannerRepository extends BaseRepository<Banner>
                && search.getObj().getBannerType().getId() > 0)
       {
          sb.append(separator).append(alias)
-                  .append(".bannerTypology.id = :IDTYP ");
+                  .append(".bannerType.id = :IDTYP ");
          params.put("IDTYP", search.getObj().getBannerType().getId());
       }
 
@@ -111,13 +112,33 @@ public class BannerRepository extends BaseRepository<Banner>
       return null;
    }
 
-   public List<Banner> getRandomByTypology(String typology, int limit) throws Exception
+   public List<Banner> getRandomByTypology(String bannerType, int limit) throws Exception
    {
       return getEm()
                .createQuery(
-                        "SELECT b FROM Banner b where b.online= :ONLINE AND b.bannerTypology.name = :TIP ORDER BY RAND()")
-               .setParameter("TIP", typology).setParameter("ONLINE", true).setMaxResults(limit)
+                        "SELECT b FROM Banner b where b.online= :ONLINE AND b.bannerType.name = :TIP ORDER BY RAND()")
+               .setParameter("TIP", bannerType).setParameter("ONLINE", true).setMaxResults(limit)
                .getResultList();
    }
 
+   public void updateImage(String bannerId, Long imageId)
+   {
+      getEm().createNativeQuery(
+               "UPDATE " + Banner.TABLE_NAME + " SET  image_id= :IMAGE_ID WHERE id = :BANNER_ID ")
+               .setParameter("BANNER_ID", bannerId).setParameter("IMAGE_ID", imageId)
+               .executeUpdate();
+   }
+
+   public Image getImage(String bannerId) throws Exception
+   {
+      Banner banner = find(bannerId);
+      if (banner.getImage() != null && banner.getImage().getId() != null && banner.getImage().getFilename() != null
+               && !banner
+               .getImage().getFilename()
+               .isEmpty())
+      {
+         return banner.getImage();
+      }
+      return null;
+   }
 }

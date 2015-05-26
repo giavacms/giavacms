@@ -6,6 +6,8 @@
  */
 package org.giavacms.catalogue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -25,7 +27,6 @@ public class Feature implements Serializable
    private boolean active = true;
    private String name;
    private String option;
-   private String optionOnDb;
 
    @Id
    @GeneratedValue
@@ -60,6 +61,7 @@ public class Feature implements Serializable
       this.option = option;
    }
 
+   @JsonIgnore
    public boolean isActive()
    {
       return active;
@@ -68,17 +70,6 @@ public class Feature implements Serializable
    public void setActive(boolean active)
    {
       this.active = active;
-   }
-
-   @Column(name = "anOption", insertable = false, updatable = false)
-   public String getOptionOnDb()
-   {
-      return optionOnDb;
-   }
-
-   public void setOptionOnDb(String optionOnDb)
-   {
-      this.optionOnDb = optionOnDb;
    }
 
 }

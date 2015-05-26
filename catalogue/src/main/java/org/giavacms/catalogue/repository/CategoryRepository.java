@@ -6,6 +6,7 @@
  */
 package org.giavacms.catalogue.repository;
 
+import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.catalogue.model.Category;
 
@@ -14,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Map;
 
 @Named
 @Stateless
@@ -58,6 +60,29 @@ public class CategoryRepository extends BaseRepository<Category>
       n.setDescription(n.getDescription());
       n = super.preUpdate(n);
       return n;
+   }
+
+   @Override
+   protected void applyRestrictions(Search<Category> search, String alias, String separator, StringBuffer sb,
+            Map<String, Object> params) throws Exception
+   {
+
+      // ACTIVE TYPE
+      if (true)
+      {
+         sb.append(separator).append(alias).append(".active = :active ");
+         params.put("active", true);
+         separator = " and ";
+      }
+
+      // TITLE
+      if (search.getLike().getName() != null
+               && !search.getLike().getName().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".name ) like :likeName ");
+         params.put("likeName", likeParam(search.getLike().getName().trim().toUpperCase()));
+         separator = " and ";
+      }
    }
 
 }

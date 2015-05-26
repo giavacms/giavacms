@@ -32,7 +32,6 @@ public class RichContentRepository extends BaseRepository<RichContent>
       return "date desc";
    }
 
-   @SuppressWarnings("unchecked")
    public List<Image> getImages(String id)
    {
       // SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM Image I left join RichContent_Image RI on
@@ -61,7 +60,6 @@ public class RichContentRepository extends BaseRepository<RichContent>
       // .getResultList();
    }
 
-   @SuppressWarnings("unchecked")
    public List<Image> getDocuments(String id)
    {
 

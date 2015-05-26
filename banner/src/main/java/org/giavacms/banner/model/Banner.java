@@ -1,6 +1,5 @@
 package org.giavacms.banner.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.giavacms.base.model.attachment.Image;
 
 import javax.persistence.*;
@@ -23,7 +22,6 @@ public class Banner implements Serializable
    private boolean internal;
    private String description;
    private Image image;
-   private Image newImage;
    private boolean online;
 
    @Id
@@ -93,20 +91,6 @@ public class Banner implements Serializable
    public void setImage(Image image)
    {
       this.image = image;
-   }
-
-   @Transient
-   @JsonIgnore
-   public Image getNewImage()
-   {
-      if (newImage == null)
-         this.newImage = new Image();
-      return newImage;
-   }
-
-   public void setNewImage(Image newImage)
-   {
-      this.newImage = newImage;
    }
 
    public String getUrl()

@@ -164,34 +164,53 @@ public class ProductRepository extends BaseRepository<Product>
 
    }
 
-   @SuppressWarnings("unchecked")
    public List<Image> getImages(String id)
    {
+      //      return getEm()
+      //               .createNativeQuery(
+      //                        "select * from " + Image.TABLE_NAME + " where id in ( "
+      //                                 + "    select " + Product.IMAGE_FK + " from "
+      //                                 + Product.IMAGES_JOINTABLE_NAME
+      //                                 + " where " + Product.TABLE_FK + " = ( "
+      //                                 + "       select id from " + Product.TABLE_NAME
+      //                                 + "    ) "
+      //                                 + " ) ", Image.class)
+      //               .getResultList();
+
       return getEm()
                .createNativeQuery(
-                        "select * from " + Image.TABLE_NAME + " where id in ( "
-                                 + "    select " + Product.IMAGE_FK + " from "
-                                 + Product.IMAGES_JOINTABLE_NAME
-                                 + " where " + Product.TABLE_FK + " = ( "
-                                 + "       select id from " + Product.TABLE_NAME
-                                 + "    ) "
-                                 + " ) ", Image.class)
+                        "SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM " + Image.TABLE_NAME
+                                 + " I left join " + Product.IMAGES_JOINTABLE_NAME
+                                 + " PI on (I.id = PI." + Product.IMAGE_FK + ") left join "
+                                 + Product.TABLE_NAME
+                                 + " P on (P.id=PI." + Product.TABLE_FK + ") "
+                                 + " where P.id = :ID and I.active = :ACTIVE",
+                        Image.class).setParameter("ID", id).setParameter("ACTIVE", true)
                .getResultList();
    }
 
-   @SuppressWarnings("unchecked")
-   public List<Image> getDocuments(String id)
+   public List<Document> getDocuments(String id)
    {
+      //      return getEm()
+      //               .createNativeQuery(
+      //                        "select * from " + Document.TABLE_NAME + " where id in ( "
+      //                                 + "    select " + Product.DOCUMENT_FK + " from "
+      //                                 + Product.DOCUMENTS_JOINTABLE_NAME
+      //                                 + " where " + Product.TABLE_FK + " = ( "
+      //                                 + "       select id from " + Product.TABLE_NAME
+      //                                 + "    ) "
+      //                                 + " ) ", Document.class)
+      //               .getResultList();
       return getEm()
                .createNativeQuery(
-                        "select * from " + Document.TABLE_NAME + " where id in ( "
-                                 + "    select " + Product.DOCUMENT_FK + " from "
-                                 + Product.DOCUMENTS_JOINTABLE_NAME
-                                 + " where " + Product.TABLE_FK + " = ( "
-                                 + "       select id from " + Product.TABLE_NAME
-                                 + "    ) "
-                                 + " ) ", Document.class)
+                        "SELECT D.id, D.active, D.description, D.filename, D.name, D.type  FROM " + Document.TABLE_NAME
+                                 + " D left join " + Product.DOCUMENTS_JOINTABLE_NAME + " PD on (D.id=PD."
+                                 + Product.DOCUMENT_FK
+                                 + ") left join " + Product.TABLE_NAME + " P on (P.id=PD." + Product.TABLE_FK + ")"
+                                 + " where P.id = :ID and D.active = :ACTIVE",
+                        Document.class).setParameter("ID", id).setParameter("ACTIVE", true)
                .getResultList();
+      // return getEm()
    }
 
 }

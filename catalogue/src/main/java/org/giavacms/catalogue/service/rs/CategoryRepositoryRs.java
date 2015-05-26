@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path(AppConstants.BASE_PATH + AppConstants.CATEGORY_PATH)
+@Path(AppConstants.BASE_PATH + AppConstants.CATEGORIES_PATH)
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
