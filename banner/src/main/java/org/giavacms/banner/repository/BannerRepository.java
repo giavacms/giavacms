@@ -121,7 +121,7 @@ public class BannerRepository extends BaseRepository<Banner>
                .getResultList();
    }
 
-   public void updateImage(String bannerId, Long imageId)
+   public void updateImage(Long bannerId, Long imageId)
    {
       getEm().createNativeQuery(
                "UPDATE " + Banner.TABLE_NAME + " SET  image_id= :IMAGE_ID WHERE id = :BANNER_ID ")
@@ -129,7 +129,7 @@ public class BannerRepository extends BaseRepository<Banner>
                .executeUpdate();
    }
 
-   public Image getImage(String bannerId) throws Exception
+   public Image getImage(Long bannerId) throws Exception
    {
       Banner banner = find(bannerId);
       if (banner.getImage() != null && banner.getImage().getId() != null && banner.getImage().getFilename() != null

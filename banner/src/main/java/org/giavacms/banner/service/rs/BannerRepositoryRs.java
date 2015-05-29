@@ -48,35 +48,8 @@ public class BannerRepositoryRs extends RsRepositoryService<Banner>
    }
 
    @GET
-   @Path("/random")
-   public Response getRandomByTypologyAndLimit(@QueryParam("typology") String typology,
-            @QueryParam("limit") int limit)
-   {
-      try
-      {
-         List<Banner> list = ((BannerRepository) getRepository()).getRandomByTypology(typology,
-                  limit);
-         if (list == null || list.size() == 0)
-         {
-            return Response.status(Status.NO_CONTENT).build();
-         }
-         return Response.status(Status.OK).entity(list)
-                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
-                  .header("startRow", 0)
-                  .header("pageSize", list.size())
-                  .header("listSize", list.size())
-                  .build();
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-      }
-   }
-
-   @GET
    @Path("/{bannerId}/image")
-   public Response getImages(@PathParam("bannerId") String bannerId)
+   public Response getImages(@PathParam("bannerId") Long bannerId)
    {
       try
       {
@@ -97,7 +70,7 @@ public class BannerRepositoryRs extends RsRepositoryService<Banner>
    @POST
    @Path("/{bannerId}/image")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-   public Response addImage(@PathParam("bannerId") String bannerId, MultipartFormDataInput input)
+   public Response addImage(@PathParam("bannerId") Long bannerId, MultipartFormDataInput input)
             throws Exception
    {
       try
@@ -133,7 +106,7 @@ public class BannerRepositoryRs extends RsRepositoryService<Banner>
    @PUT
    @Path("/{bannerId}/image/{imageId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-   public Response updateImage(@PathParam("bannerId") String bannerId,
+   public Response updateImage(@PathParam("bannerId") Long bannerId,
             @PathParam("imageId") Long imageId,
             MultipartFormDataInput input)
             throws Exception
@@ -169,7 +142,7 @@ public class BannerRepositoryRs extends RsRepositoryService<Banner>
       }
    }
 
-   private void saveImage(String bannerId, MultipartFormDataInput input, InputPart filePart, Image img)
+   private void saveImage(Long bannerId, MultipartFormDataInput input, InputPart filePart, Image img)
             throws Exception
    {
       // Retrieve headers, read the Content-Disposition header to obtain the original name of the file
@@ -202,4 +175,32 @@ public class BannerRepositoryRs extends RsRepositoryService<Banner>
          imageRepository.update(img);
       }
    }
+
+   @GET
+   @Path("/random")
+   public Response getRandomByTypologyAndLimit(@QueryParam("typology") String typology,
+            @QueryParam("limit") int limit)
+   {
+      try
+      {
+         List<Banner> list = ((BannerRepository) getRepository()).getRandomByTypology(typology,
+                  limit);
+         if (list == null || list.size() == 0)
+         {
+            return Response.status(Status.NO_CONTENT).build();
+         }
+         return Response.status(Status.OK).entity(list)
+                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
+                  .header("startRow", 0)
+                  .header("pageSize", list.size())
+                  .header("listSize", list.size())
+                  .build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
 }

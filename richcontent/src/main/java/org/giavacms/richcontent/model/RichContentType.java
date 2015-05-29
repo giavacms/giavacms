@@ -2,7 +2,6 @@ package org.giavacms.richcontent.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import java.io.Serializable;
 
 @Entity
@@ -17,6 +16,8 @@ public class RichContentType implements Serializable
    private Long id;
    private boolean active = true;
    private String name;
+   private boolean resize;
+   private int maxWidthOrHeight;
 
    public RichContentType()
    {
@@ -64,12 +65,34 @@ public class RichContentType implements Serializable
       this.active = active;
    }
 
-   @Override
-   public String toString()
+   public int getMaxWidthOrHeight()
    {
-      return "RichContentType [id=" + id + ", active=" + active + ", name="
-               + name +
-               "]";
+      return maxWidthOrHeight;
    }
 
+   public void setMaxWidthOrHeight(int maxWidthOrHeight)
+   {
+      this.maxWidthOrHeight = maxWidthOrHeight;
+   }
+
+   public boolean isResize()
+   {
+      return resize;
+   }
+
+   public void setResize(boolean resize)
+   {
+      this.resize = resize;
+   }
+
+   @Override public String toString()
+   {
+      return "RichContentType{" +
+               "active=" + active +
+               ", id=" + id +
+               ", name='" + name + '\'' +
+               ", resize=" + resize +
+               ", maxWidthOrHeight=" + maxWidthOrHeight +
+               '}';
+   }
 }

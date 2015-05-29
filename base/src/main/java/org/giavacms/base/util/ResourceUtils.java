@@ -6,15 +6,12 @@
  */
 package org.giavacms.base.util;
 
-import org.giavacms.base.enums.ResourceType;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.*;
+import org.giavacms.base.enums.ResourceType;
 import org.jboss.logging.Logger;
 
-import javax.faces.context.FacesContext;
 import javax.imageio.stream.FileImageOutputStream;
-import javax.servlet.ServletContext;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +82,18 @@ public class ResourceUtils
                DirectoryFileFilter.INSTANCE);
       FilenameFilter fileFilter = new AndFileFilter(filesFilter, notDirectory);
       String[] resultFiles = rootDir.list(fileFilter);
+      Arrays.sort(resultFiles);
+      if (resultFiles.length > 0)
+      {
+         return Arrays.asList(resultFiles);
+      }
+      return new ArrayList<String>();
+   }
+
+   public static List<String> getAllFiles(String directory)
+   {
+      File rootDir = new File(getRealPath(directory));
+      String[] resultFiles = rootDir.list();
       Arrays.sort(resultFiles);
       if (resultFiles.length > 0)
       {
