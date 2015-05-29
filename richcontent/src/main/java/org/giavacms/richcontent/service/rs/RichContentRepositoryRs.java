@@ -117,6 +117,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    @POST
    @Path("/{richContentId}/images")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
+   //TODO _ RESIZE
    public Response addImage(@PathParam("richContentId") String richContentId, MultipartFormDataInput input)
             throws Exception
    {
@@ -153,6 +154,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    @PUT
    @Path("/{richContentId}/images/{imageId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
+   //TODO _ RESIZE
    public Response updateImage(@PathParam("richContentId") String richContentId,
             @PathParam("imageId") Long imageId,
             MultipartFormDataInput input)
