@@ -115,6 +115,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>resources</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>security</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -141,6 +147,12 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

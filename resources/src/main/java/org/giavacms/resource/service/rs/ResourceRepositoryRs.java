@@ -1,10 +1,9 @@
 package org.giavacms.resource.service.rs;
 
 import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.base.model.pojo.Resource;
 import org.giavacms.base.util.ResourceUtils;
 import org.giavacms.resource.management.AppConstants;
-import org.giavacms.resource.model.pojo.Resource;
-import org.giavacms.resource.util.ResourceConcerter;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
@@ -26,25 +25,23 @@ public class ResourceRepositoryRs extends RsRepositoryService<Resource>
    }
 
    @GET
-   public Response getResources()
+   public Response getResources(@QueryParam("onlyFolder") String onlyFolder)
    {
-
-      return getFileFromFolder("/");
+      return getFilesFromFolder("/", onlyFolder);
    }
 
-   @GET
-   @Path("/{folder}")
-   public Response getFileFromFolder(@PathParam("folder") String folder)
+   public Response getFoldersFromFolder(String folder)
    {
+      logger.info(" getFoldersFromFolder folder: " + folder);
+
       try
       {
-         List<String> list = ResourceUtils.getAllFiles("/");
-         List<Resource> resources = ResourceConcerter.fromNames("/", list);
+         List<Resource> resources = ResourceUtils.getAllFolders(folder, null);
          return Response.status(Response.Status.OK).entity(resources)
                   .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
                   .header("startRow", 0)
-                  .header("pageSize", list.size())
-                  .header("listSize", list.size())
+                  .header("pageSize", resources != null ? resources.size() : 0)
+                  .header("listSize", resources != null ? resources.size() : 0)
                   .build();
       }
       catch (Exception e)
@@ -55,14 +52,21 @@ public class ResourceRepositoryRs extends RsRepositoryService<Resource>
    }
 
    @GET
-   @Path("/{fileName}")
-   //TODO
-   public Response getFile(@PathParam("fileName") String fileName)
+   @Path("/{folder:.*}")
+   public Response getFilesFromFolder(@PathParam("folder") String folder, @QueryParam("onlyFolder") String onlyFolder)
    {
+      logger.info(" getFilesFromFolder folder: " + folder);
       try
       {
-         Resource file = null;
-         return Response.status(Response.Status.OK).entity(file).build();
+         if (onlyFolder != null && onlyFolder.equals("true"))
+            return getFoldersFromFolder(folder);
+         List<Resource> resources = ResourceUtils.getAllFiles(folder);
+         return Response.status(Response.Status.OK).entity(resources)
+                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
+                  .header("startRow", 0)
+                  .header("pageSize", resources != null ? resources.size() : 0)
+                  .header("listSize", resources != null ? resources.size() : 0)
+                  .build();
       }
       catch (Exception e)
       {
@@ -72,14 +76,68 @@ public class ResourceRepositoryRs extends RsRepositoryService<Resource>
    }
 
    @POST
-   @Path("/{fileName}")
+   @Path("/{folder:.*}")
    //TODO
-   public Response updateFile(@PathParam("fileName") String fileName)
+   public Response createFolder(@PathParam("folder") String folder, Resource resource)
    {
       try
       {
-         Resource file = null;
-         return Response.status(Response.Status.OK).entity(file).build();
+         resource = ResourceUtils.createSubFolder(folder, resource.getName());
+         return Response.status(Response.Status.OK).entity(resource).build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
+   @GET
+   @Path("/{folder:.*}/files/{fileName}")
+   //TODO
+   public Response getFile(@PathParam("folder") String folder,
+            @PathParam("fileName") String fileName)
+   {
+      try
+      {
+         logger.info("getFile:" + folder + " - " + fileName);
+         Resource resource = ResourceUtils.getFileContent(folder, fileName);
+         return Response.status(Response.Status.OK).entity(resource).build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
+   @POST
+   @Path("/{folder:.*}/files")
+   //TODO
+   public Response createFile(@PathParam("folder") String folder, Resource resource)
+   {
+      try
+      {
+         resource = ResourceUtils.createFileContent(folder, resource.getName(), resource.getFileContent());
+         return Response.status(Response.Status.OK).entity(resource).build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
+   @PUT
+   @Path("/{folder:.*}/files/{fileName}")
+   //TODO
+   public Response updateFile(@PathParam("folder") String folder,
+            @PathParam("fileName") String fileName, Resource resource)
+   {
+      try
+      {
+         resource = ResourceUtils.setFileContent(folder, fileName, resource.getFileContent());
+         return Response.status(Response.Status.OK).entity(resource).build();
       }
       catch (Exception e)
       {
@@ -89,14 +147,16 @@ public class ResourceRepositoryRs extends RsRepositoryService<Resource>
    }
 
    @DELETE
-   @Path("/{fileName}")
+   @Path("/{folder:.*}/files/{fileName}")
    //TODO
-   public Response deleteFile(@PathParam("fileName") String fileName)
+   public Response deleteFile(@PathParam("folder") String folder,
+            @PathParam("fileName") String fileName)
    {
       try
       {
-         Resource file = null;
-         return Response.status(Response.Status.OK).entity(file).build();
+         ResourceUtils.deleteFileContent(folder, fileName);
+         return Response.status(Response.Status.NO_CONTENT)
+                  .entity("Resource deleted for fileName: " + fileName).build();
       }
       catch (Exception e)
       {

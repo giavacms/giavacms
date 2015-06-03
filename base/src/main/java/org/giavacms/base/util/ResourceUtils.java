@@ -9,10 +9,17 @@ package org.giavacms.base.util;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.*;
 import org.giavacms.base.enums.ResourceType;
+import org.giavacms.base.model.pojo.Resource;
 import org.jboss.logging.Logger;
 
 import javax.imageio.stream.FileImageOutputStream;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +35,9 @@ public class ResourceUtils
    static String endRegExpr = ")$/";
 
    public static String ALL = "ALL";
+
+   static String METAINF = "META-INF";
+   static String WEBINF = "WEB-INF";
 
    public static String getRegExpByTypes(String[] types)
    {
@@ -74,9 +84,9 @@ public class ResourceUtils
    }
 
    public static List<String> getFilesName(String directory,
-            List<String> extensions)
+            List<String> extensions) throws Exception
    {
-      File rootDir = new File(getRealPath(directory));
+      File rootDir = new File(getRealPath(directory, false));
       IOFileFilter filesFilter = new SuffixFileFilter(extensions, IOCase.INSENSITIVE);
       IOFileFilter notDirectory = new NotFileFilter(
                DirectoryFileFilter.INSTANCE);
@@ -90,16 +100,62 @@ public class ResourceUtils
       return new ArrayList<String>();
    }
 
-   public static List<String> getAllFiles(String directory)
+   public static List<Resource> getAllFiles(String directory) throws Exception
    {
-      File rootDir = new File(getRealPath(directory));
-      String[] resultFiles = rootDir.list();
-      Arrays.sort(resultFiles);
-      if (resultFiles.length > 0)
+      File rootDir = new File(getRealPath(directory, false));
+      if (!rootDir.exists())
+         return null;
+      String root = getRoot();
+      File[] resultFiles = rootDir.listFiles();
+      if (resultFiles != null && resultFiles.length > 0)
       {
-         return Arrays.asList(resultFiles);
+         Arrays.sort(resultFiles);
+         List<Resource> resources = new ArrayList<>();
+         for (File file : resultFiles)
+         {
+            if (file.getName().equals(WEBINF) || file.getName().equals(METAINF))
+            {
+               continue;
+            }
+            Resource resource = new Resource(file, root);
+            resources.add(resource);
+         }
+         return resources;
       }
-      return new ArrayList<String>();
+      return null;
+   }
+
+   public static List<Resource> getAllFolders(String folder, List<Resource> resources) throws Exception
+   {
+      File dir = new File(getRealPath(folder, false));
+      if (resources == null)
+      {
+         resources = new ArrayList<>();
+      }
+      if (!dir.exists())
+         return resources;
+      File[] files = dir.listFiles();
+      if (files == null || files.length == 0)
+         return resources;
+      for (File file : files)
+      {
+         if (file.getName().equals(WEBINF) || file.getName().equals(METAINF))
+         {
+            continue;
+         }
+
+         if (file.isDirectory())
+         {
+            resources.add(new Resource(file, getRoot()));
+            System.out.println("Directory Name==>:" + file.getCanonicalPath());
+            getAllFolders(file.getAbsolutePath(), resources);
+         }
+         else
+         {
+            System.out.println("file Not Acess===>" + file.getCanonicalPath());
+         }
+      }
+      return resources;
    }
 
    public static String getType(String fileName)
@@ -128,85 +184,66 @@ public class ResourceUtils
    }
 
    // pdf, p7m, doc, docx, xls, xlsx
-   public static List<String> getPdfFiles()
+   public static List<String> getPdfFiles() throws Exception
    {
       return getFilesName(ResourceType.DOCUMENT.getFolder(), ResourceType.DOCUMENT.getExtensions());
    }
 
-   public static List<String> getCssFiles()
+   public static List<String> getCssFiles() throws Exception
    {
       return getFilesName(ResourceType.STYLESHEET.getFolder(), ResourceType.STYLESHEET.getExtensions());
    }
 
-   public static List<String> getStaticFiles()
+   public static List<String> getStaticFiles() throws Exception
    {
       return getFilesName(ResourceType.STATIC.getFolder(), ResourceType.STATIC.getExtensions());
    }
 
-   public static List<String> getJsFiles()
+   public static List<String> getJsFiles() throws Exception
    {
       return getFilesName(ResourceType.JAVASCRIPT.getFolder(), ResourceType.JAVASCRIPT.getExtensions());
    }
 
-   public static List<String> getImgFiles()
+   public static List<String> getImgFiles() throws Exception
    {
       return getFilesName(ResourceType.IMAGE.getFolder(), ResourceType.IMAGE.getExtensions());
    }
 
-   public static List<String> getFlashFiles()
+   public static List<String> getFlashFiles() throws Exception
    {
       return getFilesName(ResourceType.FLASH.getFolder(), ResourceType.FLASH.getExtensions());
    }
 
-   public static List<String> getFontFiles()
+   public static List<String> getFontFiles() throws Exception
    {
       return getFilesName(ResourceType.FONT.getFolder(), ResourceType.FONT.getExtensions());
    }
 
    public static String createImage_(String folder, String imageFileName,
-            byte[] data)
+            byte[] data) throws Exception
    {
-      try
-      {
-         String actualFileName = getUniqueName(getRealPath(folder),
-                  imageFileName);
-         FileImageOutputStream imageOutput;
-         imageOutput = new FileImageOutputStream(new File(actualFileName));
-         imageOutput.write(data, 0, data.length);
-         imageOutput.close();
-         return actualFileName.substring(actualFileName
-                  .lastIndexOf(File.separator) + 1);
-      }
-      catch (FileNotFoundException e)
-      {
-         e.printStackTrace();
-         return null;
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
-         return null;
-      }
+      String actualFileName = getUniqueName(getRealPath(folder, true),
+               imageFileName);
+      FileImageOutputStream imageOutput;
+      imageOutput = new FileImageOutputStream(new File(actualFileName));
+      imageOutput.write(data, 0, data.length);
+      imageOutput.close();
+      return actualFileName.substring(actualFileName
+               .lastIndexOf(File.separator) + 1);
    }
 
-   public static String createFile_(String folder, String fileName, byte[] data)
+   public static String createFile_(String folder, String fileName, byte[] data) throws Exception
    {
-      try
-      {
-         String actualFileName = getUniqueName(getRealPath(folder),
-                  fileName);
-         FileOutputStream fos = new FileOutputStream(
-                  new File(actualFileName));
-         fos.write(data);
-         fos.close();
-         return actualFileName.substring(actualFileName
-                  .lastIndexOf(File.separator) + 1);
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-         return null;
-      }
+
+      String actualFileName = getUniqueName(getRealPath(folder, true),
+               fileName);
+      FileOutputStream fos = new FileOutputStream(
+               new File(actualFileName));
+      fos.write(data);
+      fos.close();
+      return actualFileName.substring(actualFileName
+               .lastIndexOf(File.separator) + 1);
+
    }
 
    public static String getUniqueName(String folder, String fileName)
@@ -236,28 +273,96 @@ public class ResourceUtils
       return folder + File.separator + finalName;
    }
 
-   public static String getRealPath(String folderName)
+   public static String getRoot() throws Exception
    {
       // con solo persistence.xml non funziona. con META-INF/persistence.xml si
-      String root = new File(ResourceUtils.class.getClassLoader().getResource("META-INF/persistence.xml").getPath())
+      return new File(ResourceUtils.class.getClassLoader().getResource("META-INF/persistence.xml").getPath())
                .getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
+   }
+
+   public static String getRealPath(String folderName, boolean create) throws Exception
+   {
+      // con solo persistence.xml non funziona. con META-INF/persistence.xml si
+      String root = getRoot();
       File folder = new File(root, folderName);
-      if (!folder.exists())
+      if (!folder.exists() && create)
       {
          folder.mkdir();
       }
       return folder.getAbsolutePath();
    }
 
-   public static String getFileContent(String fileName)
+   public static Resource getFileContent(String folder, String fileName) throws Exception
    {
-      // TODO Auto-generated method stub
-      return null;
+      String root = getRoot();
+      String pathName = root + File.separator + folder + File.separator + fileName;
+      logger.info("getFileContent - pathName: " + pathName);
+      Path path = Paths.get(pathName);
+
+      String fileContent = new String(
+               java.nio.file.Files.readAllBytes(path), Charset.defaultCharset());
+
+      Resource resource = new Resource(new File(pathName), root, fileContent);
+      return resource;
    }
 
-   public static void main(String[] args)
+   public static Resource setFileContent(String folder, String fileName, String fileContent) throws Exception
    {
-      String type = getType("flower.png");
-      logger.info(type);
+      String root = getRoot();
+      String pathName = root + File.separator + folder + File.separator + fileName;
+      logger.info("setFileContent - pathName: " + pathName);
+      Path path = Paths.get(pathName);
+
+      Files.write(path, fileContent.getBytes());
+
+      Resource resource = new Resource(new File(pathName), root, fileContent);
+      return resource;
    }
+
+   public static Resource createFileContent(String folder, String fileName, String fileContent) throws Exception
+   {
+      String root = getRoot();
+      String pathName = root + File.separator + folder + File.separator + fileName;
+      logger.info("setFileContent - pathName: " + pathName);
+      Path path = Paths.get(pathName);
+
+      if (Files.exists(path))
+      {
+         throw new Exception("file exists");
+      }
+      Files.write(path, fileContent.getBytes());
+
+      Resource resource = new Resource(new File(pathName), root, fileContent);
+      return resource;
+   }
+
+   public static Resource createSubFolder(String folder, String subFolder) throws Exception
+   {
+      String root = getRoot();
+      String pathName = root + File.separator + folder + File.separator + subFolder;
+      logger.info("createSubFolder - pathName: " + pathName);
+      Path path = Paths.get(pathName);
+
+      if (Files.exists(path))
+      {
+         throw new Exception("SubFolder exists");
+      }
+      Files.createDirectory(path);
+
+      Resource resource = new Resource(new File(pathName), root);
+      return resource;
+   }
+
+   public static boolean deleteFileContent(String folder, String fileName) throws Exception
+   {
+      String root = getRoot();
+      String pathName = root + File.separator + folder + File.separator + fileName;
+      logger.info("setFileContent - pathName: " + pathName);
+      Path path = Paths.get(pathName);
+
+      Files.delete(path);
+
+      return true;
+   }
+
 }
