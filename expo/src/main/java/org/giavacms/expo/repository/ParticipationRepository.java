@@ -1,13 +1,18 @@
 package org.giavacms.expo.repository;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.expo.model.Participation;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import java.util.Map;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.expo.model.Participation;
+import org.giavacms.expo.model.pojo.Discipline;
 
 @Named
 @Stateless
@@ -37,12 +42,30 @@ public class ParticipationRepository extends BaseRepository<Participation>
          params.put("EXHIBITION_ID", search.getObj().getExhibition().getId().trim());
          separator = " and ";
       }
+      // ARTISTID OBJ
+      if (search.getObj() != null && search.getObj().getArtist() != null
+               && search.getObj().getArtist().getId() != null
+               && !search.getObj().getArtist().getId().trim().isEmpty())
+      {
+         sb.append(separator).append(alias).append(".artist.id = :ARTIST_ID ");
+         params.put("ARTIST_ID", search.getObj().getArtist().getId().trim());
+         separator = " and ";
+      }
       // DISCIPLINE OBJ
       if (search.getObj() != null && search.getObj().getDiscipline() != null
                && !search.getObj().getDiscipline().trim().isEmpty())
       {
          sb.append(separator).append(alias).append(".discipline = :DISCIPLINE ");
          params.put("DISCIPLINE", search.getObj().getDiscipline().trim());
+         separator = " and ";
+      }
+
+      // PARTICIPATIONTYPE OBJ
+      if (search.getObj() != null && search.getObj().getParticipationtype() != null
+               && !search.getObj().getParticipationtype().trim().isEmpty())
+      {
+         sb.append(separator).append(alias).append(".participationType = :participationType ");
+         params.put("participationType", search.getObj().getParticipationtype().trim());
          separator = " and ";
       }
 
@@ -66,4 +89,24 @@ public class ParticipationRepository extends BaseRepository<Participation>
 
    }
 
+   public List<Discipline> getDisciplinesByExhibitionId(String exhibitionId)
+   {
+      @SuppressWarnings("unchecked")
+      List<Object[]> results = getEm()
+               .createNativeQuery(
+                        "select count(*),discipline from " + Participation.TABLE_NAME
+                                 + " where exhibition_id = :exhibitionId group by discipline ")
+               .setParameter("exhibitionId", exhibitionId).getResultList();
+      List<Discipline> disciplines = new ArrayList<Discipline>();
+      for (Object[] row : results)
+      {
+         Discipline discipline = new Discipline();
+         discipline.setParticipants(Integer.parseInt(row[0].toString()));
+         discipline.setName((String) row[1]);
+         discipline.setExhibitionId(exhibitionId);
+         disciplines.add(discipline);
+      }
+      Collections.sort(disciplines);
+      return disciplines;
+   }
 }

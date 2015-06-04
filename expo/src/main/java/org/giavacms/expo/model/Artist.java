@@ -10,6 +10,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by fiorenzo on 04/06/15.
  */
@@ -150,6 +152,7 @@ public class Artist implements Serializable
       this.biography = biography;
    }
 
+   @JsonIgnore
    @OneToMany(mappedBy = "artist")
    public List<Participation> getParticipations()
    {

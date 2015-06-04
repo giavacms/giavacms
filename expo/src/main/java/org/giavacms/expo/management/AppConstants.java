@@ -7,6 +7,6 @@ public class AppConstants extends org.giavacms.base.management.AppConstants
 
    public static final String ARTISTS_PATH = "/artists";
 
-   public static final String PARTECIPATIONS_PATH = "/partecipations";
+   public static final String PARTICIPATIONS_PATH = "/participations";
 
 }

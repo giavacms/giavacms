@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by fiorenzo on 04/06/15.
  */
@@ -100,6 +102,7 @@ public class Exhibition implements Serializable
       this.catalogueurl = catalogueurl;
    }
 
+   @JsonIgnore
    @OneToMany(mappedBy = "exhibition")
    public List<Participation> getParticipations()
    {

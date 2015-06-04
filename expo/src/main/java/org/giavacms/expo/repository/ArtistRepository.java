@@ -62,9 +62,9 @@ public class ArtistRepository extends BaseRepository<Artist>
       super.applyRestrictions(search, alias, separator, sb, params);
    }
 
-   public void import2015() throws Exception
+   public void importYear(String year) throws Exception
    {
-      Exhibition exhibition = getEm().find(Exhibition.class, "arte-insieme-2015");
+      Exhibition exhibition = getEm().find(Exhibition.class, "arte-insieme-" + year);
       @SuppressWarnings("unchecked")
       List<Object[]> results = getEm()
                .createNativeQuery(
@@ -72,7 +72,7 @@ public class ArtistRepository extends BaseRepository<Artist>
                                  // ..0..1......2........3..........4.........5......6..........7.........8......9..........10.............11..................12..........13...........14.........15......16.............17......18.........19.......20.........21
                                  + " id, nome, cognome, nomedarte, telefono, email, biografia, nomeopera, data, dimensioni, materiale, descrizione_sintetica, disciplina, revisionata, consegnata, note, partecipazione, sitoWeb, facebook, twitter, instagram, catalogo "
                                  +
-                                 " FROM arte_insieme2015 ").getResultList();
+                                 " FROM arte_insieme" + year).getResultList();
       for (Object[] row : results)
       {
          String nome = (String) row[1];
@@ -100,19 +100,21 @@ public class ArtistRepository extends BaseRepository<Artist>
          }
          Participation p = new Participation();
          p.setArtist(artist);
-         p.setExhibition(exhibition);
          p.setArtifactname((String) row[7]);
          p.setArtistname(artistName);
-         // p.setCatalogue((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
-         p.setArtifactname((String) row[7]);
+         p.setCatalogues((Integer) row[21]);
+         p.setContest("bim".equals(row[16]) ? true : false);
+         p.setCreationdate((String) row[8]);
+         p.setDelivered(((Integer) row[14]) > 0 ? true : false);
+         p.setDimensions((String) row[9]);
+         p.setDiscipline((String) row[12]);
+         p.setExhibition(exhibition);
+         p.setMaterial((String) row[10]);
+         p.setNote((String) row[15]);
+         p.setParticipationtype((String) row[16]);
+         p.setPreview((String) row[11]);
+         p.setReviewed(((Integer) row[13]) > 0 ? true : false);
+         getEm().persist(p);
       }
    }
 }

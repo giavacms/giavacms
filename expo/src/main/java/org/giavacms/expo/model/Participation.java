@@ -2,10 +2,15 @@ package org.giavacms.expo.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by fiorenzo on 04/06/15.
@@ -32,13 +37,17 @@ public class Participation implements Serializable
    private boolean delivered;
    private String note;
    private String participationtype;
-   private boolean catalogue;
+   private int catalogues;
    private boolean contest;
+
+   private String artistId;
+   private String exhibitionId;
 
    private Exhibition exhibition;
    private Artist artist;
 
    @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    public Long getId()
    {
       return id;
@@ -149,14 +158,14 @@ public class Participation implements Serializable
       this.participationtype = participationtype;
    }
 
-   public boolean isCatalogue()
+   public int getCatalogues()
    {
-      return catalogue;
+      return catalogues;
    }
 
-   public void setCatalogue(boolean catalogue)
+   public void setCatalogues(int catalogues)
    {
-      this.catalogue = catalogue;
+      this.catalogues = catalogues;
    }
 
    public boolean isContest()
@@ -169,6 +178,7 @@ public class Participation implements Serializable
       this.contest = contest;
    }
 
+   @JsonIgnore
    @ManyToOne
    public Exhibition getExhibition()
    {
@@ -180,6 +190,7 @@ public class Participation implements Serializable
       this.exhibition = exhibition;
    }
 
+   @JsonIgnore
    @ManyToOne
    public Artist getArtist()
    {
@@ -201,6 +212,28 @@ public class Participation implements Serializable
       this.artistname = artistname;
    }
 
+   @Column(name = "artist_id", insertable = false, updatable = false)
+   public String getArtistId()
+   {
+      return artistId;
+   }
+
+   public void setArtistId(String artistId)
+   {
+      this.artistId = artistId;
+   }
+
+   @Column(name = "exhibition_id", insertable = false, updatable = false)
+   public String getExhibitionId()
+   {
+      return exhibitionId;
+   }
+
+   public void setExhibitionId(String exhibitionId)
+   {
+      this.exhibitionId = exhibitionId;
+   }
+
    @Override
    public String toString()
    {
@@ -208,7 +241,7 @@ public class Participation implements Serializable
                + ", creationdate=" + creationdate + ", dimensions=" + dimensions + ", material=" + material
                + ", preview=" + preview + ", discipline=" + discipline + ", reviewed=" + reviewed
                + ", delivered=" + delivered + ", note=" + note + ", participationtype=" + participationtype
-               + ", catalogue=" + catalogue + ", contest=" + contest + ", exhibition=" + exhibition + ", artist="
+               + ", catalogues=" + catalogues + ", contest=" + contest + ", exhibition=" + exhibition + ", artist="
                + artist + "]";
    }
 
