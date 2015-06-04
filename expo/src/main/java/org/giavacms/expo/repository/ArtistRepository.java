@@ -27,7 +27,10 @@ public class ArtistRepository extends BaseRepository<Artist>
    protected void applyRestrictions(Search<Artist> search, String alias, String separator, StringBuffer sb,
             Map<String, Object> params) throws Exception
    {
-      // NAME
+      // NAME LIKE
+      // SURNAME LIKE
+      // STAGENAME LIKE
+
       if (search.getObj() != null && search.getObj().getName() != null)
       {
          sb.append(separator).append(alias).append(".name = :NAME ");

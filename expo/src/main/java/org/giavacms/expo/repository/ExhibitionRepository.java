@@ -29,7 +29,9 @@ public class ExhibitionRepository extends BaseRepository<Exhibition>
    {
 
       // NAME LIKE
-      
+      // ANNO OBJ
+      // ID OBJ
+
       if (search.getObj() != null && search.getObj().getName() != null)
       {
          sb.append(separator).append(alias).append(".name = :NAME ");

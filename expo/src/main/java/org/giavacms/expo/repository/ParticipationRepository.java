@@ -29,7 +29,12 @@ public class ParticipationRepository extends BaseRepository<Participation>
             Map<String, Object> params) throws Exception
    {
 
-      // NAME
+      // EXHIBITIONID OBJ
+      // DISCIPLINE OBJ
+      
+      // ARTISTNAME LIKE
+      // ARTIFACTNAME LIKE
+      
       if (search.getObj() != null && search.getObj().getName() != null)
       {
          sb.append(separator).append(alias).append(".name = :NAME ");
