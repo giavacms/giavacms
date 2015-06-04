@@ -32,11 +32,17 @@ public class ParticipationRepository extends BaseRepository<Participation>
       if (search.getObj() != null && search.getObj().getExhibition() != null
                && search.getObj().getExhibition().getId() != null)
       {
-         sb.append(separator).append(alias).append(".exhibition.id = :NAME ");
-         params.put("NAME", search.getObj().getName());
+         sb.append(separator).append(alias).append(".exhibition.id = :EXHIBITION_ID ");
+         params.put("EXHIBITION_ID", search.getObj().getExhibition().getId());
          separator = " and ";
       }
       // DISCIPLINE OBJ
+      if (search.getObj() != null && search.getObj().getDiscipline() != null)
+      {
+         sb.append(separator).append(alias).append(".discipline = :DISCIPLINE ");
+         params.put("DISCIPLINE", search.getObj().getDiscipline());
+         separator = " and ";
+      }
 
       // ARTISTNAME LIKE
       // ARTIFACTNAME LIKE
