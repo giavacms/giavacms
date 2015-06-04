@@ -2,7 +2,7 @@ package org.giavacms.expo.service.rs;
 
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.expo.management.AppConstants;
-import org.giavacms.expo.model.Partecipation;
+import org.giavacms.expo.model.Participation;
 import org.giavacms.expo.repository.ParticipationRepository;
 
 import javax.ejb.Stateless;
@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class PartecipationRepositoryRs extends RsRepositoryService<Partecipation>
+public class PartecipationRepositoryRs extends RsRepositoryService<Participation>
 {
 
    private static final long serialVersionUID = 1L;
