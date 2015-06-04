@@ -30,6 +30,13 @@ public class VoteRepository extends BaseRepository<Vote>
             Map<String, Object> params) throws Exception
    {
 
+      //ONLY ACTIVES?
+      if (search.getNot() != null && !search.getNot().isActive())
+      {
+         sb.append(separator).append(alias).append(".active = :ACTIVE ");
+         params.put("ACTIVE", true);
+         separator = " and ";
+      }
       // PHONE
       if (search.getObj() != null && search.getObj().getPhone() != null)
       {
@@ -59,19 +66,22 @@ public class VoteRepository extends BaseRepository<Vote>
 
    public void confirmVote(String phone)
    {
-      getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+      int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
-               + " WHERE phone = :PHONE")
+               + " WHERE phone = :PHONE "
+               + " AND active = :ACTIVE_W ")
                .setParameter("PHONE", phone)
+               .setParameter("ACTIVE_W", true)
                .setParameter("CONFIRMED", new Date())
                .executeUpdate();
+      logger.info("CONFIRM VOTE FOR PHONE - " + phone + ": num. " + result);
    }
 
    public void passivateOldVotes()
    {
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.MINUTE, -5);
-      getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+      int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET active = :ACTIVE "
                + " WHERE confirmed = :CONFIRMED "
                + " AND created < :CREATED "
@@ -80,6 +90,7 @@ public class VoteRepository extends BaseRepository<Vote>
                .setParameter("CONFIRMED", null)
                .setParameter("CREATED", calendar.getTime())
                .setParameter("ACTIVE_W", true).executeUpdate();
+      logger.info("PASSIVATE OLD VOTES - " + " num. " + result);
    }
 
    @Override protected Vote prePersist(Vote vote) throws Exception
@@ -91,9 +102,7 @@ public class VoteRepository extends BaseRepository<Vote>
       return vote;
    }
 
-
-
-//   SELECT photo, count(*) as num FROM Vote
+   //   SELECT photo, count(*) as num FROM Vote
    //   where active=1 and confirmed != ''
    //   group by photo
    //   order by num desc

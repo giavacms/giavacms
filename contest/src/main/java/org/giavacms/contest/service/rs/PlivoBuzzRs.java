@@ -44,7 +44,7 @@ public class PlivoBuzzRs implements Serializable
          String from = map.get(AppConstants.PLIVO_FROM);
          String to = map.get(AppConstants.PLIVO_TO);
          logger.info("RECEIVED CALL FROM: " + from + " - TO: " + to);
-         voteRepository.confirmVote(to);
+         voteRepository.confirmVote(from);
       }
       catch (Exception e)
       {

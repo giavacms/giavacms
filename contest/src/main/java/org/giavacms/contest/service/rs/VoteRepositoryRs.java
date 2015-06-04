@@ -36,14 +36,44 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
    @Override
    protected void prePersist(Vote vote) throws Exception
    {
+      logger.info("prePersist: " + vote);
+      StringBuffer exceptionBuffr = new StringBuffer();
+      if (vote.getName() == null || vote.getName().trim().isEmpty())
+      {
+         exceptionBuffr.append("il nome non puo' essere vuoto.");
+      }
+      if (vote.getSurname() == null || vote.getSurname().trim().isEmpty())
+      {
+         exceptionBuffr.append("il cognome non puo' essere vuoto.");
+      }
+      if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
+      {
+         exceptionBuffr.append("il numero di telefono non puo' essere vuoto.");
+      }
+      if (exceptionBuffr.length() > 0)
+      {
+         throw new Exception(exceptionBuffr.toString());
+      }
       Search<Vote> search = new Search<Vote>(Vote.class);
       search.getObj().setName(vote.getName());
       search.getObj().setSurname(vote.getSurname());
       search.getObj().setPhone(vote.getPhone());
+      search.getNot().setActive(false);
       List<Vote> list = getRepository().getList(search, 0, 0);
       if (list != null && list.size() > 0)
       {
-         throw new Exception("esiste gia' un voto con stesso numero, nome, cognome");
+         throw new Exception("esiste gia' un voto con stesso numero di telefono, nome, cognome.");
+      }
+      else
+      {
+         search = new Search<Vote>(Vote.class);
+         search.getNot().setActive(false);
+         search.getObj().setPhone(vote.getPhone());
+         list = getRepository().getList(search, 0, 0);
+         if (list != null && list.size() > 0)
+         {
+            throw new Exception("esiste gia' un voto con stesso numero di telefono.");
+         }
       }
    }
 

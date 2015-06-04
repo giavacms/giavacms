@@ -145,4 +145,20 @@ public class Vote implements Serializable
    {
       this.active = active;
    }
+
+   @Override public String toString()
+   {
+      return "Vote{" +
+               "active=" + active +
+               ", uid='" + uid + '\'' +
+               ", created=" + created +
+               ", confirmed=" + confirmed +
+               ", name='" + name + '\'' +
+               ", surname='" + surname + '\'' +
+               ", phone='" + phone + '\'' +
+               ", picture='" + picture + '\'' +
+               ", sculpture='" + sculpture + '\'' +
+               ", photo='" + photo + '\'' +
+               '}';
+   }
 }
