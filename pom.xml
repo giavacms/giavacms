@@ -110,6 +110,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>expo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
