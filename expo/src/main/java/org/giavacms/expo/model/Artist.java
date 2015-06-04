@@ -8,15 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Created by fiorenzo on 04/06/15.
  */
 @Entity
+@Table(name = Artist.TABLE_NAME)
 public class Artist implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "artists";
 
    private String id;
    private String name;
