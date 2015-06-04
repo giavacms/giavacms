@@ -28,21 +28,29 @@ public class ArtistRepository extends BaseRepository<Artist>
             Map<String, Object> params) throws Exception
    {
       // NAME LIKE
-      // SURNAME LIKE
-      // STAGENAME LIKE
-
-      if (search.getObj() != null && search.getObj().getName() != null)
+      if (search.getLike() != null && search.getLike().getName() != null
+               && !search.getLike().getName().trim().isEmpty())
       {
-         sb.append(separator).append(alias).append(".name = :NAME ");
-         params.put("NAME", search.getObj().getName());
+         sb.append(separator).append(" upper ( ").append(alias).append(".name ) like :likeName ");
+         params.put("likeName", likeParam(search.getLike().getName().trim().toUpperCase()));
          separator = " and ";
       }
 
-      // SURNAME
-      if (search.getObj() != null && search.getObj().getSurname() != null)
+      // SURNAME LIKE
+      if (search.getLike() != null && search.getLike().getSurname() != null
+               && !search.getLike().getSurname().trim().isEmpty())
       {
-         sb.append(separator).append(alias).append(".surname = :SURNAME ");
-         params.put("SURNAME", search.getObj().getSurname());
+         sb.append(separator).append(" upper ( ").append(alias).append(".surname ) like :likeSurname ");
+         params.put("likeSurname", likeParam(search.getLike().getSurname().trim().toUpperCase()));
+         separator = " and ";
+      }
+
+      // STAGENAME LIKE
+      if (search.getLike() != null && search.getLike().getStagename() != null
+               && !search.getLike().getStagename().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".stagename ) like :likeStagename ");
+         params.put("likeStagename", likeParam(search.getLike().getStagename().trim().toUpperCase()));
          separator = " and ";
       }
 
