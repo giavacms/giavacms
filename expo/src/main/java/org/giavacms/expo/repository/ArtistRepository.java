@@ -64,6 +64,7 @@ public class ArtistRepository extends BaseRepository<Artist>
 
    public void importYear(String year) throws Exception
    {
+      int bimCounter = 0;
       Exhibition exhibition = getEm().find(Exhibition.class, "arte-insieme-" + year);
       @SuppressWarnings("unchecked")
       List<Object[]> results = getEm()
@@ -114,6 +115,10 @@ public class ArtistRepository extends BaseRepository<Artist>
          p.setParticipationtype((String) row[16]);
          p.setPreview((String) row[11]);
          p.setReviewed(((Integer) row[13]) > 0 ? true : false);
+         if (p.isContest())
+         {
+            p.setCustom(++bimCounter + "");
+         }
          getEm().persist(p);
       }
    }

@@ -1,15 +1,19 @@
 package org.giavacms.contest.repository;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.contest.model.Vote;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.contest.model.Vote;
+import org.giavacms.contest.model.pojo.Ranking;
 
 @Named
 @Stateless
@@ -30,7 +34,7 @@ public class VoteRepository extends BaseRepository<Vote>
             Map<String, Object> params) throws Exception
    {
 
-      //ONLY ACTIVES?
+      // ONLY ACTIVES?
       if (search.getNot() != null && !search.getNot().isActive())
       {
          sb.append(separator).append(alias).append(".active = :ACTIVE ");
@@ -93,7 +97,8 @@ public class VoteRepository extends BaseRepository<Vote>
       logger.info("PASSIVATE OLD VOTES - " + " num. " + result);
    }
 
-   @Override protected Vote prePersist(Vote vote) throws Exception
+   @Override
+   protected Vote prePersist(Vote vote) throws Exception
    {
 
       vote.setActive(true);
@@ -102,21 +107,40 @@ public class VoteRepository extends BaseRepository<Vote>
       return vote;
    }
 
-   //   SELECT photo, count(*) as num FROM Vote
-   //   where active=1 and confirmed != ''
-   //   group by photo
-   //   order by num desc
-   //   GO
+   public List<Ranking> getRanking(String discipline)
+   {
+      @SuppressWarnings("unchecked")
+      List<Object[]> results = getEm().createNativeQuery(
+               " SELECT count(*) as num, " + discipline + " FROM " + Vote.TABLE_NAME
+                        + " where active = 1 and confirmed != '' group by " + discipline + " order by num desc")
+               .getResultList();
+      List<Ranking> rankings = new ArrayList<Ranking>();
+      for (Object[] row : results)
+      {
+         Ranking ranking = new Ranking();
+         ranking.setVotes(Integer.parseInt(row[0].toString()));
+         ranking.setParticipationId((String) row[1]);
+         ranking.setDiscipline(discipline);
+         rankings.add(ranking);
+      }
+      return rankings;
+   }
+
+   // SELECT photo, count(*) as num FROM Vote
+   // where active=1 and confirmed != ''
+   // group by photo
+   // order by num desc
+   // GO
    //
-   //   SELECT picture, count(*) as num FROM Vote
-   //   where active=1 and confirmed != ''
-   //   group by picture
-   //   order by num desc
-   //   GO
+   // SELECT picture, count(*) as num FROM Vote
+   // where active=1 and confirmed != ''
+   // group by picture
+   // order by num desc
+   // GO
    //
-   //   SELECT sculpture, count(*) as num FROM Vote
-   //   where active=1 and confirmed != ''
-   //   group by sculpture
-   //   order by num desc
-   //   GO
+   // SELECT sculpture, count(*) as num FROM Vote
+   // where active=1 and confirmed != ''
+   // group by sculpture
+   // order by num desc
+   // GO
 }

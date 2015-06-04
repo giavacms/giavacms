@@ -39,6 +39,7 @@ public class Participation implements Serializable
    private String participationtype;
    private int catalogues;
    private boolean contest;
+   private String custom;
 
    private String artistId;
    private String exhibitionId;
@@ -232,6 +233,16 @@ public class Participation implements Serializable
    public void setExhibitionId(String exhibitionId)
    {
       this.exhibitionId = exhibitionId;
+   }
+
+   public String getCustom()
+   {
+      return custom;
+   }
+
+   public void setCustom(String custom)
+   {
+      this.custom = custom;
    }
 
    @Override

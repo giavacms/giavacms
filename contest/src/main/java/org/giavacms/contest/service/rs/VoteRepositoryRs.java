@@ -1,18 +1,24 @@
 package org.giavacms.contest.service.rs;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.api.service.RsRepositoryService;
-import org.giavacms.contest.management.AppConstants;
-import org.giavacms.contest.model.Vote;
-import org.giavacms.contest.repository.VoteRepository;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.contest.management.AppConstants;
+import org.giavacms.contest.model.Vote;
+import org.giavacms.contest.model.pojo.Ranking;
+import org.giavacms.contest.repository.VoteRepository;
 
 @Path(AppConstants.BASE_PATH + AppConstants.CONTEST_PATH)
 @Stateless
@@ -74,6 +80,29 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
          {
             throw new Exception("esiste gia' un voto con stesso numero di telefono.");
          }
+      }
+   }
+
+   @GET
+   @Path("/{discipline}/rankings")
+   public Response rankings(@PathParam("discipline") String discipline)
+   {
+      logger.info("@GET /" + discipline + "/rankings");
+      try
+      {
+         List<Ranking> rankings = ((VoteRepository) getRepository()).getRanking(discipline);
+         // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
+         // wrapper.setList(list);
+         // wrapper.setListSize(listSize);
+         // wrapper.setStartRow(startRow);
+         return Response.status(Status.OK).entity(rankings)
+                  .build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error reading ranking list for " + discipline).build();
       }
    }
 
