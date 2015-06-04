@@ -1,0 +1,113 @@
+package org.giavacms.contest.repository;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.contest.model.Vote;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+
+@Named
+@Stateless
+@LocalBean
+public class VoteRepository extends BaseRepository<Vote>
+{
+
+   private static final long serialVersionUID = 1L;
+
+   @Override
+   protected String getDefaultOrderBy()
+   {
+      return "uid desc";
+   }
+
+   @Override
+   protected void applyRestrictions(Search<Vote> search, String alias, String separator, StringBuffer sb,
+            Map<String, Object> params) throws Exception
+   {
+
+      // PHONE
+      if (search.getObj() != null && search.getObj().getPhone() != null)
+      {
+         sb.append(separator).append(alias).append(".phone = :PHONE ");
+         params.put("PHONE", search.getObj().getPhone());
+         separator = " and ";
+      }
+
+      // NAME
+      if (search.getObj() != null && search.getObj().getName() != null)
+      {
+         sb.append(separator).append(alias).append(".name = :NAME ");
+         params.put("NAME", search.getObj().getName());
+         separator = " and ";
+      }
+
+      // SURNAME
+      if (search.getObj() != null && search.getObj().getSurname() != null)
+      {
+         sb.append(separator).append(alias).append(".surname = :SURNAME ");
+         params.put("SURNAME", search.getObj().getSurname());
+         separator = " and ";
+      }
+
+      super.applyRestrictions(search, alias, separator, sb, params);
+   }
+
+   public void confirmVote(String phone)
+   {
+      getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+               + " SET confirmed=:CONFIRMED "
+               + " WHERE phone = :PHONE")
+               .setParameter("PHONE", phone)
+               .setParameter("CONFIRMED", new Date())
+               .executeUpdate();
+   }
+
+   public void passivateOldVotes()
+   {
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.MINUTE, -5);
+      getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+               + " SET active = :ACTIVE "
+               + " WHERE confirmed = :CONFIRMED "
+               + " AND created < :CREATED "
+               + " AND active = :ACTIVE_W ")
+               .setParameter("ACTIVE", false)
+               .setParameter("CONFIRMED", null)
+               .setParameter("CREATED", calendar.getTime())
+               .setParameter("ACTIVE_W", true).executeUpdate();
+   }
+
+   @Override protected Vote prePersist(Vote vote) throws Exception
+   {
+
+      vote.setActive(true);
+      vote.setCreated(new Date());
+
+      return vote;
+   }
+
+
+
+//   SELECT photo, count(*) as num FROM Vote
+   //   where active=1 and confirmed != ''
+   //   group by photo
+   //   order by num desc
+   //   GO
+   //
+   //   SELECT picture, count(*) as num FROM Vote
+   //   where active=1 and confirmed != ''
+   //   group by picture
+   //   order by num desc
+   //   GO
+   //
+   //   SELECT sculpture, count(*) as num FROM Vote
+   //   where active=1 and confirmed != ''
+   //   group by sculpture
+   //   order by num desc
+   //   GO
+}

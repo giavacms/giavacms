@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class ResourceUtils
@@ -127,15 +128,23 @@ public class ResourceUtils
 
    public static List<Resource> getAllFolders(String folder, List<Resource> resources) throws Exception
    {
-      File dir = new File(getRealPath(folder, false));
-      if (resources == null)
-      {
-         resources = new ArrayList<>();
-      }
-      if (!dir.exists())
-         return resources;
-      File[] files = dir.listFiles();
-      if (files == null || files.length == 0)
+      Collection<File> files = org.apache.commons.io.FileUtils.listFiles(
+               new File(getRealPath(folder, false)),
+               new RegexFileFilter("^(.*?)"),
+               DirectoryFileFilter.DIRECTORY
+      );
+
+//      File dir = new File(getRealPath(folder, false));
+      //      if (resources == null)
+      //      {
+      //         resources = new ArrayList<>();
+      //      }
+      //      if (!dir.exists())
+      //         return resources;
+      //      //      File[] files = dir.listFiles();
+      //      //      if (files == null || files.length == 0)
+      //      //         return resources;
+      if (files == null || files.isEmpty())
          return resources;
       for (File file : files)
       {

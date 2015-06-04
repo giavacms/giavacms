@@ -62,6 +62,7 @@
         <module>scenario</module>
         <module>faq</module>
         <module>paypal</module>
+        <module>contest</module>
     </modules>
 
 
@@ -97,6 +98,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>catalogue</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>contest</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
