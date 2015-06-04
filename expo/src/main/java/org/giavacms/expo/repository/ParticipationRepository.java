@@ -1,14 +1,13 @@
 package org.giavacms.expo.repository;
 
-import java.util.Map;
+import org.giavacms.api.model.Search;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.expo.model.Participation;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-
-import org.giavacms.api.model.Search;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.expo.model.Participation;
+import java.util.Map;
 
 @Named
 @Stateless
@@ -25,16 +24,23 @@ public class ParticipationRepository extends BaseRepository<Participation>
    }
 
    @Override
-   protected void applyRestrictions(Search<Partecipation> search, String alias, String separator, StringBuffer sb,
+   protected void applyRestrictions(Search<Participation> search, String alias, String separator, StringBuffer sb,
             Map<String, Object> params) throws Exception
    {
 
       // EXHIBITIONID OBJ
+      if (search.getObj() != null && search.getObj().getExhibition() != null
+               && search.getObj().getExhibition().getId() != null)
+      {
+         sb.append(separator).append(alias).append(".exhibition.id = :NAME ");
+         params.put("NAME", search.getObj().getName());
+         separator = " and ";
+      }
       // DISCIPLINE OBJ
-      
+
       // ARTISTNAME LIKE
       // ARTIFACTNAME LIKE
-      
+
       if (search.getObj() != null && search.getObj().getName() != null)
       {
          sb.append(separator).append(alias).append(".name = :NAME ");

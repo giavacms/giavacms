@@ -29,13 +29,25 @@ public class ExhibitionRepository extends BaseRepository<Exhibition>
    {
 
       // NAME LIKE
-      // ANNO OBJ
-      // ID OBJ
 
-      if (search.getObj() != null && search.getObj().getName() != null)
+      if (search.getLike() != null && search.getLike().getName() != null)
       {
          sb.append(separator).append(alias).append(".name = :NAME ");
-         params.put("NAME", search.getObj().getName());
+         params.put("NAME", search.getLike().getName());
+         separator = " and ";
+      }
+      // ANNO OBJ
+      if (search.getObj() != null && search.getObj().getYear() != null)
+      {
+         sb.append(separator).append(alias).append(".year = :YEAR ");
+         params.put("YEAR", search.getObj().getYear());
+         separator = " and ";
+      }
+      // ID OBJ
+      if (search.getObj() != null && search.getObj().getId() != null)
+      {
+         sb.append(separator).append(alias).append(".id = :ID ");
+         params.put("ID", search.getObj().getId());
          separator = " and ";
       }
    }
