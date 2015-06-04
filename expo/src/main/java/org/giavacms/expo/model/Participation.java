@@ -2,71 +2,189 @@ package org.giavacms.expo.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  * Created by fiorenzo on 04/06/15.
  */
+@Entity
 public class Participation implements Serializable
 {
 
-   text latin1_swedish_ci
-   No Nessuno
-    
-    
-   Più
-   8
+   private static final long serialVersionUID = 1L;
 
-   nomeopera varchar(255)latin1_swedish_ci No Nessuno    
+   private Long id;
+   private String artifactname;
+   private String creationdate;
+   private String dimensions;
+   private String material;
 
-   Più
-   9
+   private String shortdescription;
 
-   data varchar(255)latin1_swedish_ci No Nessuno    
+   private String discipline;
+   private boolean reviewed;
+   private boolean delivered;
+   private String note;
+   private String participationtype;
+   private boolean catalogue;
+   private boolean contest;
 
-   Più
-   10
+   private Exhibition exhibition;
+   private Artist artist;
 
-   dimensioni varchar(255)latin1_swedish_ci No Nessuno    
+   @Id
+   public Long getId()
+   {
+      return id;
+   }
 
-   Più
-   11
+   public void setId(Long id)
+   {
+      this.id = id;
+   }
 
-   materiale varchar(255)latin1_swedish_ci No Nessuno    
+   public String getArtifactname()
+   {
+      return artifactname;
+   }
 
-   Più
-   12
-   descrizione_sintetica text
-   latin1_swedish_ci No
-   Nessuno 
-    
-   
-            Più
-   13
+   public void setArtifactname(String artifactname)
+   {
+      this.artifactname = artifactname;
+   }
 
-   disciplina varchar(255)latin1_swedish_ci No Nessuno    
+   public String getCreationdate()
+   {
+      return creationdate;
+   }
 
-   Più
-   14revisionata
+   public void setCreationdate(String creationdate)
+   {
+      this.creationdate = creationdate;
+   }
 
-   int(1)No Nessuno    
+   public String getDimensions()
+   {
+      return dimensions;
+   }
 
-   Più
-   15consegnata
+   public void setDimensions(String dimensions)
+   {
+      this.dimensions = dimensions;
+   }
 
-   int(1)No Nessuno    
+   public String getMaterial()
+   {
+      return material;
+   }
 
-   Più
-   16
+   public void setMaterial(String material)
+   {
+      this.material = material;
+   }
 
-   note varchar(255)latin1_swedish_ci No Nessuno    
+   public String getShortdescription()
+   {
+      return shortdescription;
+   }
 
-   Più
-   17
+   public void setShortdescription(String shortdescription)
+   {
+      this.shortdescription = shortdescription;
+   }
 
-   partecipazione varchar(100)latin1_swedish_ci No Nessuno    
+   public String getDiscipline()
+   {
+      return discipline;
+   }
 
-   Più
-   22
-   catalogo
+   public void setDiscipline(String discipline)
+   {
+      this.discipline = discipline;
+   }
 
-            contest
+   public boolean isReviewed()
+   {
+      return reviewed;
+   }
+
+   public void setReviewed(boolean reviewed)
+   {
+      this.reviewed = reviewed;
+   }
+
+   public boolean isDelivered()
+   {
+      return delivered;
+   }
+
+   public void setDelivered(boolean delivered)
+   {
+      this.delivered = delivered;
+   }
+
+   public String getNote()
+   {
+      return note;
+   }
+
+   public void setNote(String note)
+   {
+      this.note = note;
+   }
+
+   public String getParticipationtype()
+   {
+      return participationtype;
+   }
+
+   public void setParticipationtype(String participationtype)
+   {
+      this.participationtype = participationtype;
+   }
+
+   public boolean isCatalogue()
+   {
+      return catalogue;
+   }
+
+   public void setCatalogue(boolean catalogue)
+   {
+      this.catalogue = catalogue;
+   }
+
+   public boolean isContest()
+   {
+      return contest;
+   }
+
+   public void setContest(boolean contest)
+   {
+      this.contest = contest;
+   }
+
+   @ManyToOne
+   public Exhibition getExhibition()
+   {
+      return exhibition;
+   }
+
+   public void setExhibition(Exhibition exhibition)
+   {
+      this.exhibition = exhibition;
+   }
+
+   @ManyToOne
+   public Artist getArtist()
+   {
+      return artist;
+   }
+
+   public void setArtist(Artist artist)
+   {
+      this.artist = artist;
+   }
+
 }

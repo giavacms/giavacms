@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 
 /**
  * Created by fiorenzo on 04/06/15.
@@ -141,6 +142,17 @@ public class Artist implements Serializable
    public void setBiography(String biography)
    {
       this.biography = biography;
+   }
+
+   @OneToMany(mappedBy = "artist")
+   public List<Participation> getParticipations()
+   {
+      return participations;
+   }
+
+   public void setParticipations(List<Participation> participations)
+   {
+      this.participations = participations;
    }
 
 }
