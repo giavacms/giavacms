@@ -63,6 +63,7 @@
         <module>faq</module>
         <module>paypal</module>
         <module>contest</module>
+        <module>expo</module>
     </modules>
 
 
