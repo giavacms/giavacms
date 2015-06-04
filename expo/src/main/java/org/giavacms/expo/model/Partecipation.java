@@ -10,59 +10,59 @@ public class Partecipation implements Serializable
 
    text latin1_swedish_ci
    No Nessuno
-   Modifica Modifica
-   Elimina Elimina
+    
+    
    Più
    8
 
-   nomeopera varchar(255)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   nomeopera varchar(255)latin1_swedish_ci No Nessuno    
 
    Più
    9
 
-   data varchar(255)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   data varchar(255)latin1_swedish_ci No Nessuno    
 
    Più
    10
 
-   dimensioni varchar(255)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   dimensioni varchar(255)latin1_swedish_ci No Nessuno    
 
    Più
    11
 
-   materiale varchar(255)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   materiale varchar(255)latin1_swedish_ci No Nessuno    
 
    Più
    12
    descrizione_sintetica text
    latin1_swedish_ci No
-   Nessuno Modifica
-   Modifica Elimina
-   Elimina
+   Nessuno 
+    
+   
             Più
    13
 
-   disciplina varchar(255)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   disciplina varchar(255)latin1_swedish_ci No Nessuno    
 
    Più
    14revisionata
 
-   int(1)No Nessuno Modifica Modifica Elimina Elimina
+   int(1)No Nessuno    
 
    Più
    15consegnata
 
-   int(1)No Nessuno Modifica Modifica Elimina Elimina
+   int(1)No Nessuno    
 
    Più
    16
 
-   note varchar(255)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   note varchar(255)latin1_swedish_ci No Nessuno    
 
    Più
    17
 
-   partecipazione varchar(100)latin1_swedish_ci No Nessuno Modifica Modifica Elimina Elimina
+   partecipazione varchar(100)latin1_swedish_ci No Nessuno    
 
    Più
    22
