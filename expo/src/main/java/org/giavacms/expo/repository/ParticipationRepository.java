@@ -1,18 +1,19 @@
 package org.giavacms.expo.repository;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.expo.model.Partecipation;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import java.util.Map;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.expo.model.Participation;
 
 @Named
 @Stateless
 @LocalBean
-public class PartecipationRepository extends BaseRepository<Partecipation>
+public class ParticipationRepository extends BaseRepository<Participation>
 {
 
    private static final long serialVersionUID = 1L;

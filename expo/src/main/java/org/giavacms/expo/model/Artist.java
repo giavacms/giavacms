@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
@@ -11,6 +12,7 @@ import javax.persistence.OneToMany;
 /**
  * Created by fiorenzo on 04/06/15.
  */
+@Entity
 public class Artist implements Serializable
 {
 
@@ -22,6 +24,7 @@ public class Artist implements Serializable
    private String stagename;
    private String telephone;
    private String email;
+   private String imageurl;
    private String website;
    private String facebook;
    private String twitter;
@@ -160,7 +163,8 @@ public class Artist implements Serializable
    {
       return "Artist [id=" + id + ", name=" + name + ", surname=" + surname + ", stagename=" + stagename
                + ", telephone=" + telephone + ", email=" + email + ", website=" + website + ", facebook=" + facebook
-               + ", twitter=" + twitter + ", instagram=" + instagram + ", biography=" + biography + "]";
+               + ", twitter=" + twitter + ", imageurl=" + imageurl + ", instagram=" + instagram + ", biography="
+               + biography + "]";
    }
 
 }

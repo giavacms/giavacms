@@ -28,7 +28,8 @@ public class ExhibitionRepository extends BaseRepository<Exhibition>
             Map<String, Object> params) throws Exception
    {
 
-      // NAME
+      // NAME LIKE
+      
       if (search.getObj() != null && search.getObj().getName() != null)
       {
          sb.append(separator).append(alias).append(".name = :NAME ");

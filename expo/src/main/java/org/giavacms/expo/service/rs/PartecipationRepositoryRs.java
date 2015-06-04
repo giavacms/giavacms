@@ -3,7 +3,7 @@ package org.giavacms.expo.service.rs;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.expo.management.AppConstants;
 import org.giavacms.expo.model.Partecipation;
-import org.giavacms.expo.repository.PartecipationRepository;
+import org.giavacms.expo.repository.ParticipationRepository;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ public class PartecipationRepositoryRs extends RsRepositoryService<Partecipation
    }
 
    @Inject
-   public PartecipationRepositoryRs(PartecipationRepository repository)
+   public PartecipationRepositoryRs(ParticipationRepository repository)
    {
       super(repository);
    }

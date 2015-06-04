@@ -5,14 +5,17 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Created by fiorenzo on 04/06/15.
  */
 @Entity
+@Table(name = Participation.TABLE_NAME)
 public class Participation implements Serializable
 {
 
+   public static final String TABLE_NAME = "participations";
    private static final long serialVersionUID = 1L;
 
    private Long id;
@@ -22,7 +25,7 @@ public class Participation implements Serializable
    private String dimensions;
    private String material;
 
-   private String shortdescription;
+   private String preview;
 
    private String discipline;
    private boolean reviewed;
@@ -86,14 +89,14 @@ public class Participation implements Serializable
       this.material = material;
    }
 
-   public String getShortdescription()
+   public String getPreview()
    {
-      return shortdescription;
+      return preview;
    }
 
-   public void setShortdescription(String shortdescription)
+   public void setPreview(String preview)
    {
-      this.shortdescription = shortdescription;
+      this.preview = preview;
    }
 
    public String getDiscipline()
@@ -203,7 +206,7 @@ public class Participation implements Serializable
    {
       return "Participation [id=" + id + ", artistname=" + artistname + ", artifactname=" + artifactname
                + ", creationdate=" + creationdate + ", dimensions=" + dimensions + ", material=" + material
-               + ", shortdescription=" + shortdescription + ", discipline=" + discipline + ", reviewed=" + reviewed
+               + ", preview=" + preview + ", discipline=" + discipline + ", reviewed=" + reviewed
                + ", delivered=" + delivered + ", note=" + note + ", participationtype=" + participationtype
                + ", catalogue=" + catalogue + ", contest=" + contest + ", exhibition=" + exhibition + ", artist="
                + artist + "]";
