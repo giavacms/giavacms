@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by fiorenzo on 04/06/15.
  */
-public class Partecipation implements Serializable
+public class Participation implements Serializable
 {
 
    text latin1_swedish_ci
