@@ -16,6 +16,7 @@ public class Participation implements Serializable
    private static final long serialVersionUID = 1L;
 
    private Long id;
+   private String artistname;
    private String artifactname;
    private String creationdate;
    private String dimensions;
@@ -185,6 +186,27 @@ public class Participation implements Serializable
    public void setArtist(Artist artist)
    {
       this.artist = artist;
+   }
+
+   public String getArtistname()
+   {
+      return artistname;
+   }
+
+   public void setArtistname(String artistname)
+   {
+      this.artistname = artistname;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "Participation [id=" + id + ", artistname=" + artistname + ", artifactname=" + artifactname
+               + ", creationdate=" + creationdate + ", dimensions=" + dimensions + ", material=" + material
+               + ", shortdescription=" + shortdescription + ", discipline=" + discipline + ", reviewed=" + reviewed
+               + ", delivered=" + delivered + ", note=" + note + ", participationtype=" + participationtype
+               + ", catalogue=" + catalogue + ", contest=" + contest + ", exhibition=" + exhibition + ", artist="
+               + artist + "]";
    }
 
 }

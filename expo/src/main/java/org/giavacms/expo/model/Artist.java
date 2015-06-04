@@ -155,4 +155,12 @@ public class Artist implements Serializable
       this.participations = participations;
    }
 
+   @Override
+   public String toString()
+   {
+      return "Artist [id=" + id + ", name=" + name + ", surname=" + surname + ", stagename=" + stagename
+               + ", telephone=" + telephone + ", email=" + email + ", website=" + website + ", facebook=" + facebook
+               + ", twitter=" + twitter + ", instagram=" + instagram + ", biography=" + biography + "]";
+   }
+
 }
