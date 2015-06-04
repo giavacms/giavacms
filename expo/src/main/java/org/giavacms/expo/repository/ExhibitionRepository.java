@@ -29,25 +29,27 @@ public class ExhibitionRepository extends BaseRepository<Exhibition>
    {
 
       // NAME LIKE
-
-      if (search.getLike() != null && search.getLike().getName() != null)
+      if (search.getLike() != null && search.getLike().getName() != null
+               && !search.getLike().getName().trim().isEmpty())
       {
-         sb.append(separator).append(alias).append(".name = :NAME ");
-         params.put("NAME", search.getLike().getName());
+         sb.append(separator).append(" upper ( ").append(alias).append(".name ) = :NAME ");
+         params.put("NAME", likeParam(search.getLike().getName().trim().toUpperCase()));
          separator = " and ";
       }
+
       // ANNO OBJ
-      if (search.getObj() != null && search.getObj().getYear() != null)
+      if (search.getObj() != null && search.getObj().getYear() != null && !search.getObj().getYear().trim().isEmpty())
       {
          sb.append(separator).append(alias).append(".year = :YEAR ");
-         params.put("YEAR", search.getObj().getYear());
+         params.put("YEAR", search.getObj().getYear().trim());
          separator = " and ";
       }
+
       // ID OBJ
-      if (search.getObj() != null && search.getObj().getId() != null)
+      if (search.getObj() != null && search.getObj().getId() != null && !search.getObj().getId().trim().isEmpty())
       {
          sb.append(separator).append(alias).append(".id = :ID ");
-         params.put("ID", search.getObj().getId());
+         params.put("ID", search.getObj().getId().trim());
          separator = " and ";
       }
    }

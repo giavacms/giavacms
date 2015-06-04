@@ -30,27 +30,37 @@ public class ParticipationRepository extends BaseRepository<Participation>
 
       // EXHIBITIONID OBJ
       if (search.getObj() != null && search.getObj().getExhibition() != null
-               && search.getObj().getExhibition().getId() != null)
+               && search.getObj().getExhibition().getId() != null
+               && !search.getObj().getExhibition().getId().trim().isEmpty())
       {
          sb.append(separator).append(alias).append(".exhibition.id = :EXHIBITION_ID ");
-         params.put("EXHIBITION_ID", search.getObj().getExhibition().getId());
+         params.put("EXHIBITION_ID", search.getObj().getExhibition().getId().trim());
          separator = " and ";
       }
       // DISCIPLINE OBJ
-      if (search.getObj() != null && search.getObj().getDiscipline() != null)
+      if (search.getObj() != null && search.getObj().getDiscipline() != null
+               && !search.getObj().getDiscipline().trim().isEmpty())
       {
          sb.append(separator).append(alias).append(".discipline = :DISCIPLINE ");
-         params.put("DISCIPLINE", search.getObj().getDiscipline());
+         params.put("DISCIPLINE", search.getObj().getDiscipline().trim());
          separator = " and ";
       }
 
-      // ARTISTNAME LIKE
-      // ARTIFACTNAME LIKE
-
-      if (search.getObj() != null && search.getObj().getName() != null)
+      // ArtifactNAME LIKE
+      if (search.getLike() != null && search.getLike().getArtifactname() != null
+               && !search.getLike().getArtifactname().trim().isEmpty())
       {
-         sb.append(separator).append(alias).append(".name = :NAME ");
-         params.put("NAME", search.getObj().getName());
+         sb.append(separator).append(" upper ( ").append(alias).append(".artifactname ) like :likeArtifactname ");
+         params.put("likeArtifactname", likeParam(search.getLike().getArtifactname().trim().toUpperCase()));
+         separator = " and ";
+      }
+
+      // ARTIFACTNAME LIKE
+      if (search.getLike() != null && search.getLike().getArtifactname() != null
+               && !search.getLike().getArtifactname().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".artifactname ) like :likeArtifactname ");
+         params.put("likeArtifactname", likeParam(search.getLike().getArtifactname().trim().toUpperCase()));
          separator = " and ";
       }
 
