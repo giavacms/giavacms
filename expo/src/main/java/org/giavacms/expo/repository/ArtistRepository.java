@@ -7,6 +7,7 @@ import org.giavacms.expo.model.Artist;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import java.util.List;
 import java.util.Map;
 
 @Named
@@ -55,5 +56,14 @@ public class ArtistRepository extends BaseRepository<Artist>
       }
 
       super.applyRestrictions(search, alias, separator, sb, params);
+   }
+
+   public void customQuery()
+   {
+      List<Object[]> result = getEm().createNativeQuery("").getResultList();
+      for (Object[] obj : result)
+      {
+         if()
+      }
    }
 }
