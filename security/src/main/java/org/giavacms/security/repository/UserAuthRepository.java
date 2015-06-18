@@ -199,4 +199,8 @@ public class UserAuthRepository extends BaseRepository<UserAuth> implements
       return "username asc";
    }
 
+   public UserAuth findByToken(String token)
+   {
+      return null;
+   }
 }

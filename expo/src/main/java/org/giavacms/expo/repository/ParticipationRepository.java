@@ -1,18 +1,18 @@
 package org.giavacms.expo.repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import org.giavacms.api.model.Search;
+import org.giavacms.api.util.IdUtils;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.expo.model.Participation;
+import org.giavacms.expo.model.pojo.Discipline;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-
-import org.giavacms.api.model.Search;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.expo.model.Participation;
-import org.giavacms.expo.model.pojo.Discipline;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Named
 @Stateless
@@ -51,6 +51,21 @@ public class ParticipationRepository extends BaseRepository<Participation>
          params.put("ARTIST_ID", search.getObj().getArtist().getId().trim());
          separator = " and ";
       }
+
+      // ARTISTNAME LIKE
+      if (search.getLike() != null && search.getLike().getArtist() != null
+               && search.getLike().getArtist().getName() != null
+               && !search.getLike().getArtist().getName().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".artist.name ) like :ARTIST_NAME ");
+         params.put("ARTIST_NAME", likeParam(search.getLike().getArtist().getName().trim().toUpperCase()));
+         separator = " and ";
+
+         sb.append(separator).append(alias).append(".artist.name = :ARTIST_NAME ");
+         params.put("ARTIST_NAME", search.getObj().getArtist().getName().trim());
+         separator = " and ";
+      }
+
       // DISCIPLINE OBJ
       if (search.getObj() != null && search.getObj().getDiscipline() != null
                && !search.getObj().getDiscipline().trim().isEmpty())
@@ -108,5 +123,20 @@ public class ParticipationRepository extends BaseRepository<Participation>
       }
       Collections.sort(disciplines);
       return disciplines;
+   }
+
+   @Override
+   protected Participation prePersist(Participation p)
+   {
+      String id = IdUtils.createPageId(p.getArtifactname());
+      String idFinal = makeUniqueKey(id, Participation.TABLE_NAME);
+      p.setId(idFinal);
+      return p;
+   }
+
+   @Override
+   protected Participation preUpdate(Participation n)
+   {
+      return n;
    }
 }

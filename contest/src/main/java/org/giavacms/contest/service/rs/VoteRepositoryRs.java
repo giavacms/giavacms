@@ -1,24 +1,22 @@
 package org.giavacms.contest.service.rs;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
+import org.giavacms.api.annotation.AccountTokenVerification;
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.contest.management.AppConstants;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.model.pojo.Ranking;
 import org.giavacms.contest.repository.VoteRepository;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.List;
 
 @Path(AppConstants.BASE_PATH + AppConstants.CONTEST_PATH)
 @Stateless
@@ -43,23 +41,27 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
    protected void prePersist(Vote vote) throws Exception
    {
       logger.info("prePersist: " + vote);
+
       StringBuffer exceptionBuffr = new StringBuffer();
       if (vote.getName() == null || vote.getName().trim().isEmpty())
       {
-         exceptionBuffr.append("il nome non puo' essere vuoto.");
+         exceptionBuffr.append(" - ER1 - il nome non puo' essere vuoto.");
       }
       if (vote.getSurname() == null || vote.getSurname().trim().isEmpty())
       {
-         exceptionBuffr.append("il cognome non puo' essere vuoto.");
+         exceptionBuffr.append(" - ER2 - il cognome non puo' essere vuoto.");
       }
       if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
       {
-         exceptionBuffr.append("il numero di telefono non puo' essere vuoto.");
+         exceptionBuffr.append(" - ER3 - il numero di telefono non puo' essere vuoto.");
       }
       if (exceptionBuffr.length() > 0)
       {
          throw new Exception(exceptionBuffr.toString());
       }
+      String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
+               .replace("\\", "");
+      vote.setPhone(phone);
       Search<Vote> search = new Search<Vote>(Vote.class);
       search.getObj().setName(vote.getName());
       search.getObj().setSurname(vote.getSurname());
@@ -68,7 +70,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       List<Vote> list = getRepository().getList(search, 0, 0);
       if (list != null && list.size() > 0)
       {
-         throw new Exception("esiste gia' un voto con stesso numero di telefono, nome, cognome.");
+         throw new Exception(" - ER4 - esiste gia' un voto con stesso numero di telefono, nome, cognome.");
       }
       else
       {
@@ -78,13 +80,32 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
          list = getRepository().getList(search, 0, 0);
          if (list != null && list.size() > 0)
          {
-            throw new Exception("esiste gia' un voto con stesso numero di telefono.");
+            throw new Exception(" - ER5 - esiste gia' un voto con stesso numero di telefono.");
          }
+      }
+
+   }
+
+   @GET
+   @Path("/{phone}/confirmed")
+   public Response confirmed(@PathParam("phone") String phone)
+   {
+      logger.info("@GET /" + phone + "/confirmed");
+      try
+      {
+         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
+         return jsonResponse(Status.OK, "msg", isConfirmed);
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + phone);
       }
    }
 
    @GET
    @Path("/{discipline}/rankings")
+   @AccountTokenVerification
    public Response rankings(@PathParam("discipline") String discipline)
    {
       logger.info("@GET /" + discipline + "/rankings");
@@ -102,8 +123,31 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error reading ranking list for " + discipline).build();
+                  .entity("{'msg' : 'Error reading ranking list for " + discipline + "'}")
+                  .type(MediaType.APPLICATION_JSON_TYPE).build();
       }
+   }
+
+   @GET
+   @AccountTokenVerification
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response getList(
+            @DefaultValue("0") @QueryParam("startRow") Integer startRow,
+            @DefaultValue("10") @QueryParam("pageSize") Integer pageSize,
+            @QueryParam("orderBy") String orderBy, @Context UriInfo ui)
+   {
+      return super.getList(startRow, pageSize, orderBy, ui);
+   }
+
+   @AccountTokenVerification
+   @PUT
+   @Path("/{id}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response update(@PathParam("id") String id, Vote object) throws Exception
+   {
+      return super.update(id, object);
    }
 
 }

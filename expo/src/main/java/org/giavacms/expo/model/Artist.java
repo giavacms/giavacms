@@ -1,16 +1,10 @@
 package org.giavacms.expo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by fiorenzo on 04/06/15.
@@ -38,6 +32,16 @@ public class Artist implements Serializable
    private String biography;
 
    private List<Participation> participations;
+
+   public Artist()
+   {
+   }
+
+   public Artist(String name, String surname)
+   {
+      this.name = name;
+      this.surname = surname;
+   }
 
    @Id
    public String getId()
@@ -162,6 +166,14 @@ public class Artist implements Serializable
    public void setParticipations(List<Participation> participations)
    {
       this.participations = participations;
+   }
+
+   @JsonIgnore
+   @Transient
+   public String getArtistName()
+   {
+      String artistName = (name == null ? "" : (name + " ")) + (surname == null ? "" : surname);
+      return artistName;
    }
 
    @Override

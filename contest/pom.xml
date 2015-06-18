@@ -49,6 +49,12 @@
         </dependency>
 
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.plivo.ee</groupId>
             <artifactId>plivo-java</artifactId>
             <version>7.0-SNAPSHOT</version>

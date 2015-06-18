@@ -1,19 +1,14 @@
 package org.giavacms.contest.repository;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Named;
-
 import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.model.pojo.Ranking;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import java.util.*;
 
 @Named
 @Stateless
@@ -70,6 +65,17 @@ public class VoteRepository extends BaseRepository<Vote>
 
    public void confirmVote(String phone)
    {
+      if (phone.startsWith("39"))
+      {
+         int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+                  + " SET confirmed=:CONFIRMED "
+                  + " WHERE phone = :PHONE "
+                  + " AND active = :ACTIVE_W ")
+                  .setParameter("PHONE", phone.substring(2))
+                  .setParameter("ACTIVE_W", true)
+                  .setParameter("CONFIRMED", new Date())
+                  .executeUpdate();
+      }
       int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
                + " WHERE phone = :PHONE "
@@ -81,17 +87,31 @@ public class VoteRepository extends BaseRepository<Vote>
       logger.info("CONFIRM VOTE FOR PHONE - " + phone + ": num. " + result);
    }
 
+   public boolean isConfirmed(String phone)
+   {
+      phone = phone.replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
+               .replace("\\", "");
+      java.math.BigInteger result = (java.math.BigInteger) getEm()
+               .createNativeQuery("SELECT count(uuid) FROM " + Vote.TABLE_NAME
+                        + " WHERE confirmed IS NOT NULL "
+                        + " AND phone = :PHONE "
+                        + " AND active = :ACTIVE_W ")
+               .setParameter("PHONE", phone)
+               .setParameter("ACTIVE_W", true)
+               .getSingleResult();
+      return (result != null && result.longValue() > 0) ? true : false;
+   }
+
    public void passivateOldVotes()
    {
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.MINUTE, -5);
       int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET active = :ACTIVE "
-               + " WHERE confirmed = :CONFIRMED "
+               + " WHERE confirmed IS NULL "
                + " AND created < :CREATED "
                + " AND active = :ACTIVE_W ")
                .setParameter("ACTIVE", false)
-               .setParameter("CONFIRMED", null)
                .setParameter("CREATED", calendar.getTime())
                .setParameter("ACTIVE_W", true).executeUpdate();
       logger.info("PASSIVATE OLD VOTES - " + " num. " + result);

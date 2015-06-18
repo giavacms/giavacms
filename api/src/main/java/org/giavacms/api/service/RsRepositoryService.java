@@ -1,31 +1,25 @@
 package org.giavacms.api.service;
 
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.net.URLDecoder;
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.OPTIONS;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
 import org.giavacms.api.model.Search;
 import org.giavacms.api.repository.Repository;
 import org.giavacms.api.util.RepositoryUtils;
 import org.jboss.logging.Logger;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.persistence.NoResultException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Produces(MediaType.APPLICATION_JSON)
 public abstract class RsRepositoryService<T> implements Serializable
 {
 
@@ -63,10 +57,7 @@ public abstract class RsRepositoryService<T> implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage());
-         return Response
-                  .status(Status.BAD_REQUEST)
-                  .entity("Error before creating resource: " + e.getMessage())
-                  .build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error before creating resource: " + e.getMessage());
       }
       try
       {
@@ -74,8 +65,9 @@ public abstract class RsRepositoryService<T> implements Serializable
          if (persisted == null || getId(persisted) == null)
          {
             logger.error("Failed to create resource: " + object);
-            return Response.status(Status.INTERNAL_SERVER_ERROR)
-                     .entity("Failed to create resource: " + object).build();
+            Map<String, String> map = new HashMap<>();
+            map.put("Failed to create resource: ", object.toString());
+            return jsonResponse(map, Status.INTERNAL_SERVER_ERROR);
          }
          else
          {
@@ -86,8 +78,7 @@ public abstract class RsRepositoryService<T> implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error creating resource: " + object).build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error creating resource: " + object.toString());
       }
       finally
       {
@@ -120,8 +111,7 @@ public abstract class RsRepositoryService<T> implements Serializable
          T t = repository.fetch(repository.castId(id));
          if (t == null)
          {
-            return Response.status(Status.NOT_FOUND)
-                     .entity("Resource not found for ID: " + id).build();
+            return jsonResponse(Status.NOT_FOUND, "msg", "Resource not found for ID: " + id);
          }
          else
          {
@@ -131,14 +121,12 @@ public abstract class RsRepositoryService<T> implements Serializable
       catch (NoResultException e)
       {
          logger.error(e.getMessage());
-         return Response.status(Status.NOT_FOUND)
-                  .entity("Resource not found for ID: " + id).build();
+         return jsonResponse(Status.NOT_FOUND, "msg", "Resource not found for ID: " + id);
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error reading resource for ID: " + id).build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading resource for ID: " + id);
       }
    }
 
@@ -161,10 +149,8 @@ public abstract class RsRepositoryService<T> implements Serializable
       }
       catch (Exception e)
       {
-         return Response
-                  .status(Status.BAD_REQUEST)
-                  .entity("Errore before updating resource: "
-                           + e.getMessage()).build();
+         return jsonResponse(Status.BAD_REQUEST, "msg", "Errore before updating resource: "
+                  + e.getMessage());
       }
       try
       {
@@ -174,8 +160,7 @@ public abstract class RsRepositoryService<T> implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error updating resource: " + object).build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error updating resource: " + object);
       }
       finally
       {
@@ -209,28 +194,22 @@ public abstract class RsRepositoryService<T> implements Serializable
       }
       catch (Exception e)
       {
-         return Response
-                  .status(Status.BAD_REQUEST)
-                  .entity("Errore before deleting resource: "
-                           + e.getMessage()).build();
+         return jsonResponse(Status.BAD_REQUEST, "msg", "Errore before deleting resource: " + id);
       }
       try
       {
          repository.delete(repository.castId(id));
-         return Response.status(Status.NO_CONTENT)
-                  .entity("Resource deleted for ID: " + id).build();
+         return jsonResponse(Status.NO_CONTENT, "msg", "Resource deleted for ID: " + id);
       }
       catch (NoResultException e)
       {
          logger.error(e.getMessage());
-         return Response.status(Status.NOT_FOUND)
-                  .entity("Resource not found for ID: " + id).build();
+         return jsonResponse(Status.NOT_FOUND, "msg", "Resource not found for ID: " + id);
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error deleting resource for ID: " + id).build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error deleting resource for ID: " + id);
       }
       finally
       {
@@ -267,20 +246,17 @@ public abstract class RsRepositoryService<T> implements Serializable
          boolean exist = repository.exist(repository.castId(id));
          if (!exist)
          {
-            return Response.status(Status.NOT_FOUND)
-                     .entity("Resource not found for ID: " + id).build();
+            return jsonResponse(Status.NOT_FOUND, "msg", "Resource not found for ID: " + id);
          }
          else
          {
-            return Response.status(Status.FOUND)
-                     .entity("Resource exists for ID: " + id).build();
+            return jsonResponse(Status.FOUND, "msg", "Resource exists for ID: " + id);
          }
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error reading resource for ID: " + id).build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading resource for ID: " + id);
       }
    }
 
@@ -314,8 +290,7 @@ public abstract class RsRepositoryService<T> implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("Error reading resource list").build();
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading resource list");
       }
    }
 
@@ -440,6 +415,30 @@ public abstract class RsRepositoryService<T> implements Serializable
    public Response up()
    {
       return Response.status(Response.Status.OK).entity(true).build();
+   }
+
+   public static Response jsonResponse(Map<String, String> toJson, Response.Status status)
+   {
+      JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+      for (String key : toJson.keySet())
+      {
+         jsonObjBuilder.add(key, toJson.get(key));
+      }
+
+      JsonObject jsonObj = jsonObjBuilder.build();
+      return Response.status(status)
+               .entity(jsonObj.toString())
+               .build();
+   }
+
+   public static Response jsonResponse(Response.Status status, String key, Object value)
+   {
+      JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+      jsonObjBuilder.add(key, value.toString());
+      JsonObject jsonObj = jsonObjBuilder.build();
+      return Response.status(status)
+               .entity(jsonObj.toString())
+               .build();
    }
 
 }

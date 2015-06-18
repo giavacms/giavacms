@@ -24,7 +24,7 @@ public class VoteTimer implements Serializable
    VoteRepository voteRepository;
 
    @Lock(LockType.READ)
-   @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
+   @Schedule(second = "0", minute = "*/5", hour = "*", persistent = false)
    public void timeout()
    {
       logger.info("TIMEOUT TO PASSIVATE VOTES NOT CONFIRMED");

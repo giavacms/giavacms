@@ -1,16 +1,9 @@
 package org.giavacms.expo.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by fiorenzo on 04/06/15.
@@ -23,7 +16,7 @@ public class Participation implements Serializable
    public static final String TABLE_NAME = "participations";
    private static final long serialVersionUID = 1L;
 
-   private Long id;
+   private String id;
    private String artistname;
    private String artifactname;
    private String creationdate;
@@ -43,18 +36,18 @@ public class Participation implements Serializable
 
    private String artistId;
    private String exhibitionId;
+   private String photo;
 
    private Exhibition exhibition;
    private Artist artist;
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   public Long getId()
+   public String getId()
    {
       return id;
    }
 
-   public void setId(Long id)
+   public void setId(String id)
    {
       this.id = id;
    }
@@ -183,6 +176,8 @@ public class Participation implements Serializable
    @ManyToOne
    public Exhibition getExhibition()
    {
+      if (exhibition == null)
+         this.exhibition = new Exhibition();
       return exhibition;
    }
 
@@ -195,6 +190,8 @@ public class Participation implements Serializable
    @ManyToOne
    public Artist getArtist()
    {
+      if (artist == null)
+         this.artist = new Artist();
       return artist;
    }
 
@@ -245,10 +242,21 @@ public class Participation implements Serializable
       this.custom = custom;
    }
 
+   public String getPhoto()
+   {
+      return photo;
+   }
+
+   public void setPhoto(String photo)
+   {
+      this.photo = photo;
+   }
+
    @Override
    public String toString()
    {
-      return "Participation [id=" + id + ", artistname=" + artistname + ", artifactname=" + artifactname
+      return "Participation [id=" + id + ", artistname=" + artistname + ", photo=" + photo + ", artifactname="
+               + artifactname
                + ", creationdate=" + creationdate + ", dimensions=" + dimensions + ", material=" + material
                + ", preview=" + preview + ", discipline=" + discipline + ", reviewed=" + reviewed
                + ", delivered=" + delivered + ", note=" + note + ", participationtype=" + participationtype
