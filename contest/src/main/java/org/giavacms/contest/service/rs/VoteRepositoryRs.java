@@ -16,6 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Path(AppConstants.BASE_PATH + AppConstants.CONTEST_PATH)
@@ -104,14 +107,16 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
    }
 
    @GET
-   @Path("/{discipline}/rankings")
+   @Path("/{preference}/rankings")
    @AccountTokenVerification
-   public Response rankings(@PathParam("discipline") String discipline)
+   public Response rankings(@PathParam("preference") String preference, @QueryParam("when") String when)
    {
-      logger.info("@GET /" + discipline + "/rankings");
+      logger.info("@GET /" + preference + "/rankings");
       try
       {
-         List<Ranking> rankings = ((VoteRepository) getRepository()).getRanking(discipline);
+         DateFormat df = new SimpleDateFormat("YYYYMMDDThhmmssZ");
+         Date dateWhen = df.parse(when);
+         List<Ranking> rankings = ((VoteRepository) getRepository()).getRanking(preference, dateWhen);
          // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
          // wrapper.setList(list);
          // wrapper.setListSize(listSize);
@@ -123,7 +128,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("{'msg' : 'Error reading ranking list for " + discipline + "'}")
+                  .entity("{'msg' : 'Error reading ranking list for " + preference + "'}")
                   .type(MediaType.APPLICATION_JSON_TYPE).build();
       }
    }

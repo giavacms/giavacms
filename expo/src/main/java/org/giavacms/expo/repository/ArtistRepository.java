@@ -78,23 +78,28 @@ public class ArtistRepository extends BaseRepository<Artist>
       {
          String name = (String) row[1];
          String surname = (String) row[2];
-         Artist artist = new Artist(name, surname);
+         String stagename = (String) row[3];
+         Artist artist = new Artist(name, surname, stagename);
+
+         if (artist.getArtistName() == null || artist.getArtistName().trim().isEmpty())
+         {
+            logger.info("no name, no surname, no stageName");
+            continue;
+
+         }
+
          String artistId = IdUtils.createPageId(artist.getArtistName());
          // * @return the found entity instance or null if the entity does
          // * not exist
          artist = find(artistId);
          if (artist == null)
          {
-            artist = new Artist();
-            artist.setStagename((String) row[3]);
+            artist = new Artist(name, surname, stagename);
             artist.setTelephone((String) row[4]);
             artist.setEmail((String) row[5]);
             artist.setBiography((String) row[6]);
             artist.setFacebook((String) row[18]);
-            //            artist.setId(artistId);
             artist.setInstagram((String) row[20]);
-            artist.setName((String) row[1]);
-
             artist.setTwitter((String) row[19]);
             artist.setInstagram((String) row[20]);
             artist.setWebsite((String) row[17]);
@@ -113,7 +118,7 @@ public class ArtistRepository extends BaseRepository<Artist>
          p.setNote((String) row[15]);
          p.setParticipationtype((String) row[16]);
          p.setContest("bim".equals(row[16]) ? true : false);
-
+         p.setExhibitionName(exhibition.getName());
          p.setCatalogues((Integer) row[21]);
          p.setPhoto((String) row[22]);
 

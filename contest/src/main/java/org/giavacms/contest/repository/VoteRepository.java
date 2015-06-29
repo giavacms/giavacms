@@ -127,12 +127,14 @@ public class VoteRepository extends BaseRepository<Vote>
       return vote;
    }
 
-   public List<Ranking> getRanking(String discipline)
+   public List<Ranking> getRanking(String preference, Date dateTime)
    {
       @SuppressWarnings("unchecked")
       List<Object[]> results = getEm().createNativeQuery(
-               " SELECT count(*) as num, " + discipline + " FROM " + Vote.TABLE_NAME
-                        + " where active = 1 and confirmed != '' group by " + discipline + " order by num desc")
+               " SELECT count(*) as num, " + preference + " FROM " + Vote.TABLE_NAME
+                        + " where active = 1 and confirmed != '' and confirmed <= :dateTime"
+                        + "  group by " + preference + " order by num desc")
+               .setParameter("dateTime", dateTime)
                .getResultList();
       List<Ranking> rankings = new ArrayList<Ranking>();
       for (Object[] row : results)
@@ -140,7 +142,7 @@ public class VoteRepository extends BaseRepository<Vote>
          Ranking ranking = new Ranking();
          ranking.setVotes(Integer.parseInt(row[0].toString()));
          ranking.setParticipationId((String) row[1]);
-         ranking.setDiscipline(discipline);
+         ranking.setPreference(preference);
          rankings.add(ranking);
       }
       return rankings;

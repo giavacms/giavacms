@@ -36,6 +36,7 @@ public class Participation implements Serializable
 
    private String artistId;
    private String exhibitionId;
+   private String exhibitionName;
    private String photo;
 
    private Exhibition exhibition;
@@ -250,6 +251,16 @@ public class Participation implements Serializable
    public void setPhoto(String photo)
    {
       this.photo = photo;
+   }
+
+   public String getExhibitionName()
+   {
+      return exhibitionName;
+   }
+
+   public void setExhibitionName(String exhibitionName)
+   {
+      this.exhibitionName = exhibitionName;
    }
 
    @Override

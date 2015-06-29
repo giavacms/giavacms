@@ -7,7 +7,7 @@ public class Ranking implements Serializable
 
    private static final long serialVersionUID = 1L;
    private String participationId;
-   private String discipline;
+   private String preference;
    private int votes;
 
    public String getParticipationId()
@@ -30,14 +30,14 @@ public class Ranking implements Serializable
       this.votes = votes;
    }
 
-   public String getDiscipline()
+   public String getPreference()
    {
-      return discipline;
+      return preference;
    }
 
-   public void setDiscipline(String discipline)
+   public void setPreference(String preference)
    {
-      this.discipline = discipline;
+      this.preference = preference;
    }
 
 }

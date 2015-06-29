@@ -60,7 +60,7 @@ public class RichContentRepository extends BaseRepository<RichContent>
       // .getResultList();
    }
 
-   public List<Image> getDocuments(String id)
+   public List<Document> getDocuments(String id)
    {
 
       // SELECT D.id, D.active, D.description, D.filename, D.name, D.type FROM Document D left join RichContent_Document

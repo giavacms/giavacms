@@ -404,7 +404,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    {
       try
       {
-         List<Image> list = ((RichContentRepository) getRepository()).getDocuments(richContentId);
+         List<Document> list = ((RichContentRepository) getRepository()).getDocuments(richContentId);
          if (list == null || list.size() == 0)
          {
             return Response.status(Status.NO_CONTENT).build();

@@ -25,9 +25,9 @@ public class Vote implements Serializable
    private String surname;
    private String phone;
 
-   private String picture;
-   private String sculpture;
-   private String photo;
+   private String preference1;
+   private String preference2;
+   private String preference3;
 
    private boolean active;
 
@@ -96,34 +96,34 @@ public class Vote implements Serializable
       this.phone = phone;
    }
 
-   public String getPhoto()
+   public String getPreference3()
    {
-      return photo;
+      return preference3;
    }
 
-   public void setPhoto(String photo)
+   public void setPreference3(String preference3)
    {
-      this.photo = photo;
+      this.preference3 = preference3;
    }
 
-   public String getPicture()
+   public String getPreference1()
    {
-      return picture;
+      return preference1;
    }
 
-   public void setPicture(String picture)
+   public void setPreference1(String preference1)
    {
-      this.picture = picture;
+      this.preference1 = preference1;
    }
 
-   public String getSculpture()
+   public String getPreference2()
    {
-      return sculpture;
+      return preference2;
    }
 
-   public void setSculpture(String sculpture)
+   public void setPreference2(String preference2)
    {
-      this.sculpture = sculpture;
+      this.preference2 = preference2;
    }
 
    public String getSurname()
@@ -156,9 +156,9 @@ public class Vote implements Serializable
                ", name='" + name + '\'' +
                ", surname='" + surname + '\'' +
                ", phone='" + phone + '\'' +
-               ", picture='" + picture + '\'' +
-               ", sculpture='" + sculpture + '\'' +
-               ", photo='" + photo + '\'' +
+               ", preference1='" + preference1 + '\'' +
+               ", preference2='" + preference2 + '\'' +
+               ", preference3='" + preference3 + '\'' +
                '}';
    }
 }

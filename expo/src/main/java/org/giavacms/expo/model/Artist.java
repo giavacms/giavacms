@@ -43,6 +43,18 @@ public class Artist implements Serializable
       this.surname = surname;
    }
 
+   public Artist(String name, String surname, String stagename)
+   {
+      this.name = name;
+      this.surname = surname;
+      this.stagename = stagename;
+   }
+
+   public Artist(String stagename)
+   {
+      this.stagename = stagename;
+   }
+
    @Id
    public String getId()
    {
@@ -172,7 +184,13 @@ public class Artist implements Serializable
    @Transient
    public String getArtistName()
    {
-      String artistName = (name == null ? "" : (name + " ")) + (surname == null ? "" : surname);
+      String artistName =
+               (name == null || name.trim().isEmpty() ? "" : (name + " "))
+                        + ((surname == null || surname.trim().isEmpty()) ? "" : surname);
+      if (artistName.isEmpty())
+      {
+         artistName = stagename;
+      }
       return artistName;
    }
 

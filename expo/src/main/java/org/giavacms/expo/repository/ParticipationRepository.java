@@ -62,7 +62,7 @@ public class ParticipationRepository extends BaseRepository<Participation>
          separator = " and ";
 
          sb.append(separator).append(alias).append(".artist.name = :ARTIST_NAME ");
-         params.put("ARTIST_NAME", search.getObj().getArtist().getName().trim());
+         params.put("ARTIST_NAME", search.getLike().getArtist().getName().trim());
          separator = " and ";
       }
 
