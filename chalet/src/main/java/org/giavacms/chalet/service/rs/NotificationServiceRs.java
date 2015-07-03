@@ -65,10 +65,15 @@ public class NotificationServiceRs implements Serializable
       List<ChaletRanking> chaletRankings = new ArrayList<>();
       try
       {
+         String preference = null;
+         Parade parade = paradeRepository.getLast(preference);
+         if (parade == null)
+         {
+            return Response.status(Response.Status.NOT_FOUND)
+                     .entity("No parade found").build();
+         }
          Map<String, Chalet> chaletMap = chaletRepository.getChaletMap();
-         List<Parade> parades = paradeRepository.getList(new Search<Parade>(Parade.class), 0, 1);
          Map<String, List<User>> mapUsers = voteRepository.getUsersForPreference();
-         Parade parade = parades.get(0);
          for (ChaletRanking ranking : parade.getChaletRankings())
          {
             Chalet chalet = chaletMap.get(ranking.getLicenseNumber());
