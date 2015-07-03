@@ -3,7 +3,6 @@ package org.giavacms.chalet.service;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.giavacms.api.model.Search;
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.ChaletRanking;
 import org.giavacms.chalet.model.Parade;
@@ -67,12 +65,7 @@ public class ParadeService implements Serializable
          Parade parade = new Parade();
          parade.setData(atTime);
          parade.setName(preference);
-         List<Chalet> chalets = chaletRepository.getList(new Search<Chalet>(Chalet.class), 0, 0);
-         Map<String, Chalet> map_idChalet_chalet = new HashMap<>();
-         for (Chalet chalet : chalets)
-         {
-            map_idChalet_chalet.put(chalet.getId(), chalet);
-         }
+         Map<String, Chalet> map_licenseNumber_chalet = chaletRepository.getChaletMap();
          int currentVotes = Integer.MAX_VALUE;
          int currentPosition = 0;
          for (Ranking ranking : rankings)
@@ -82,7 +75,7 @@ public class ParadeService implements Serializable
                currentVotes = ranking.getVotes();
                currentPosition++;
             }
-            Chalet chalet = map_idChalet_chalet.get(ranking.getParticipationId());
+            Chalet chalet = map_licenseNumber_chalet.get(ranking.getParticipationId());
             if (chalet == null)
             {
                continue;
