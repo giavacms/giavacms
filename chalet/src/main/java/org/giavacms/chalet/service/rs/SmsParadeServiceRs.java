@@ -10,6 +10,7 @@ import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.ParadeRepository;
 import org.giavacms.contest.model.pojo.User;
 import org.giavacms.contest.repository.VoteRepository;
+import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import javax.jms.JMSContext;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
 import javax.ws.rs.core.Response;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,10 @@ import java.util.Map;
 /**
  * Created by fiorenzo on 03/07/15.
  */
-public class SmsParadeServiceRs
+public class SmsParadeServiceRs implements Serializable
 {
+
+   protected final Logger logger = Logger.getLogger(getClass());
    @Inject
    VoteRepository voteRepository;
 
@@ -76,17 +80,15 @@ public class SmsParadeServiceRs
       try
       {
          MapMessage mapMessage = context.createMapMessage();
-         mapMessage.setString(AppKeys.UUID.name(), uuid);
-         mapMessage.setString(AppKeys.FILE_NAME.name(), fileName);
-         context.createProducer().send(pdfQueue, mapMessage);
-         logger.info("SENT - uid:" + uuid + ", filename:" +
-                  fileName + ", queue: " + AppConstants.QUEUE_PDF_STRIPPER);
+         mapMessage.setString(AppKeys.USER_surname.name(), user.getSurname());
+
+         context.createProducer().send(notificationQueue, mapMessage);
+         logger.info("SENT - uid:");
       }
       catch (Throwable t)
       {
          logger.error(t.getMessage(), t);
-         logger.error("NOT SENT - uid:" + uuid + ", filename:" +
-                  fileName + ", queue: " + AppConstants.QUEUE_PDF_STRIPPER);
+         logger.error("NOT SENT - uid:");
       }
    }
 }
