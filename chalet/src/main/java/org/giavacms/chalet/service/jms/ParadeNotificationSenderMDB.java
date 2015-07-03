@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by fiorenzo on 01/07/15.
  */
-@MessageDriven(name = "NotificationSenderMDB", activationConfig = {
+@MessageDriven(name = "ParadeNotificationSenderMDB", activationConfig = {
          @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
          @ActivationConfigProperty(propertyName = "destination", propertyValue = AppConstants.QUEUE_NOTIFICATION_SENDER),
          @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
          @ActivationConfigProperty(propertyName = "transactionTimeout", propertyValue = "3600"),
          @ActivationConfigProperty(propertyName = "dLQMaxResent", propertyValue = "0") })
 @TransactionTimeout(unit = TimeUnit.MINUTES, value = 60)
-public class NotificationSenderMDB implements MessageListener
+public class ParadeNotificationSenderMDB implements MessageListener
 {
 
    Logger logger = Logger.getLogger(getClass().getName());
