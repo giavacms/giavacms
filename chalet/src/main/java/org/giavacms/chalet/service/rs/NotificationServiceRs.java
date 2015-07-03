@@ -2,6 +2,7 @@ package org.giavacms.chalet.service.rs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,10 @@ import javax.jms.JMSContext;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,6 +29,7 @@ import org.giavacms.chalet.model.ChaletParade;
 import org.giavacms.chalet.model.enums.SmsTypes;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.ChaletParadeRepository;
+import org.giavacms.chalet.service.ParadeService;
 import org.giavacms.chalet.utils.MsgUtils;
 import org.giavacms.contest.model.pojo.User;
 import org.giavacms.contest.repository.VoteRepository;
@@ -45,6 +49,9 @@ public class NotificationServiceRs implements Serializable
    protected final Logger logger = Logger.getLogger(getClass());
    @Inject
    VoteRepository voteRepository;
+
+   @Inject
+   ParadeService paradeService;
 
    @Inject
    ChaletParadeRepository paradeRepository;
@@ -112,4 +119,19 @@ public class NotificationServiceRs implements Serializable
          logger.error("NOT SENT - uid:");
       }
    }
+
+   @GET
+   @Path("/create")
+   public void create(@QueryParam("preference") String preference)
+   {
+      if (preference == null || preference.trim().isEmpty())
+      {
+         paradeService.create(new Date());
+      }
+      else
+      {
+         paradeService.create(preference, new Date());
+      }
+   }
+
 }
