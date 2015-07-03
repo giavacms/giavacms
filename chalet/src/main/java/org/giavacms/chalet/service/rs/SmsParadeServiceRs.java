@@ -1,35 +1,41 @@
 package org.giavacms.chalet.service.rs;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.chalet.management.AppConstants;
-import org.giavacms.chalet.management.AppKeys;
-import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.Parade;
-import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ParadeRepository;
-import org.giavacms.contest.model.pojo.User;
-import org.giavacms.contest.repository.VoteRepository;
-import org.jboss.logging.Logger;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
 import javax.ws.rs.core.Response;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.chalet.management.AppConstants;
+import org.giavacms.chalet.management.AppKeys;
+import org.giavacms.chalet.model.Chalet;
+import org.giavacms.chalet.model.ChaletRanking;
+import org.giavacms.chalet.model.Parade;
+import org.giavacms.chalet.model.enums.SmsTypes;
+import org.giavacms.chalet.repository.ChaletRepository;
+import org.giavacms.chalet.repository.ParadeRepository;
+import org.giavacms.chalet.utils.MsgUtils;
+import org.giavacms.contest.model.pojo.User;
+import org.giavacms.contest.repository.VoteRepository;
+import org.jboss.logging.Logger;
 
 /**
  * Created by fiorenzo on 03/07/15.
  */
+@Stateless
 public class SmsParadeServiceRs implements Serializable
 {
 
+   private static final long serialVersionUID = 1L;
    protected final Logger logger = Logger.getLogger(getClass());
    @Inject
    VoteRepository voteRepository;
@@ -63,7 +69,9 @@ public class SmsParadeServiceRs implements Serializable
             for (User user : users)
             {
                user.setPosition(ranking.getPosition());
-
+               sendSmsToQueue(MsgUtils.getMsg(user.getName() + " " + user.getSurname(), chalet.getName(),
+                        chalet.getLicenseNumber(),
+                        "" + ranking.getPosition()), user.getPhone());
             }
          }
       }
@@ -75,15 +83,17 @@ public class SmsParadeServiceRs implements Serializable
       return Response.status(Response.Status.OK).entity(chaletRankings).build();
    }
 
-   public void sendSmsToQueue(User user)
+   public void sendSmsToQueue(String message, String number)
    {
       try
       {
          MapMessage mapMessage = context.createMapMessage();
-         mapMessage.setString(AppKeys.USER_surname.name(), user.getSurname());
+         mapMessage.setString(AppKeys.MESSAGE_number.name(), number);
+         mapMessage.setString(AppKeys.MESSAGE_text.name(), message);
+         mapMessage.setString(AppKeys.MESSAGE_type.name(), SmsTypes.PARADE.name());
 
          context.createProducer().send(notificationQueue, mapMessage);
-         logger.info("SENT - uid:");
+         logger.info("SMS PARADE - to: " + number + " msg: " + message);
       }
       catch (Throwable t)
       {
