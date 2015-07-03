@@ -1,6 +1,7 @@
 package org.giavacms.chalet.service;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +65,8 @@ public class ParadeService implements Serializable
          List<Ranking> rankings = voteRepository.getRanking(preference, atTime);
          Parade parade = new Parade();
          parade.setData(atTime);
-         parade.setName(preference);
+         parade.setName(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(atTime));
+         parade.setPreference(preference);
          Map<String, Chalet> map_licenseNumber_chalet = chaletRepository.getChaletMap();
          int currentVotes = Integer.MAX_VALUE;
          int currentPosition = 0;
