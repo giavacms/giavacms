@@ -1,5 +1,6 @@
 package org.giavacms.chalet.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,19 +12,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Created by fiorenzo on 03/07/15.
  */
 @Entity
-public class Parade
+@Table(name = Parade.TABLE_NAME)
+public class Parade implements Serializable
 {
 
+   private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "parades";
    private Long id;
    private Date data;
    private String name;
    List<ChaletRanking> chaletRankings;
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getData()
    {
       return data;
@@ -35,7 +43,7 @@ public class Parade
    }
 
    @Id
-   @GeneratedValue(strategy=GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    public Long getId()
    {
       return id;

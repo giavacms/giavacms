@@ -13,6 +13,7 @@ import java.util.Date;
 @Table(name = FreeTicket.TABLE_NAME)
 public class FreeTicket implements Serializable
 {
+   private static final long serialVersionUID = 1L;
    public static final String TABLE_NAME = "freetickets";
 
    private String uuid;
@@ -39,6 +40,7 @@ public class FreeTicket implements Serializable
       this.uuid = uuid;
    }
 
+   @ManyToOne
    public Chalet getChalet()
    {
       return chalet;
@@ -59,6 +61,7 @@ public class FreeTicket implements Serializable
       this.description = description;
    }
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getConsumed()
    {
       return consumed;
@@ -69,6 +72,7 @@ public class FreeTicket implements Serializable
       this.consumed = consumed;
    }
 
+   @Temporal(TemporalType.TIMESTAMP)
    public Date getCreated()
    {
       return created;

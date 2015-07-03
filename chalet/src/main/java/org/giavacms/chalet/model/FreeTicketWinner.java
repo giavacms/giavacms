@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Table(name = FreeTicketWinner.TABLE_NAME)
 public class FreeTicketWinner implements Serializable
 {
+   private static final long serialVersionUID = 1L;
    public static final String TABLE_NAME = "freeticketwinners";
    private String uuid;
    private FreeTicket freeTicket;

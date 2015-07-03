@@ -73,15 +73,22 @@ public class ParadeService implements Serializable
          {
             map_idChalet_chalet.put(chalet.getId(), chalet);
          }
+         int currentVotes = Integer.MAX_VALUE;
+         int currentPosition = 0;
          for (Ranking ranking : rankings)
          {
+            if (ranking.getVotes() < currentVotes)
+            {
+               currentVotes = ranking.getVotes();
+               currentPosition++;
+            }
             Chalet chalet = map_idChalet_chalet.get(ranking.getParticipationId());
             if (chalet == null)
             {
                continue;
             }
             ChaletRanking chaletRanking = new ChaletRanking(chalet.getName(), chalet.getLicenseNumber(),
-                     ranking.getVotes());
+                     ranking.getVotes(), currentPosition);
             parade.addChaletRanking(chaletRanking);
          }
          paradeRepository.persist(parade);

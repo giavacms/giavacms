@@ -17,7 +17,7 @@ public class Chalet implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-   public static final String TABLE_NAME = "Chalet";
+   public static final String TABLE_NAME = "chalets";
    public static final String TABLE_FK = "Chalet_id";
    public static final String IMAGES_JOINTABLE_NAME = "Chalet_Image";
    public static final String IMAGE_FK = "images_id";
