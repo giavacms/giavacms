@@ -2,7 +2,7 @@ package org.giavacms.chalet.service.rs;
 
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.pojo.ChaletRanking;
+import org.giavacms.chalet.model.ChaletRanking;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.contest.model.pojo.Ranking;
 import org.giavacms.contest.model.pojo.User;

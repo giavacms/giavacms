@@ -1,4 +1,4 @@
-package org.giavacms.chalet.model.pojo;
+package org.giavacms.chalet.model;
 
 import java.io.Serializable;
 
