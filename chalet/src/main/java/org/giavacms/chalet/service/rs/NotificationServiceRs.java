@@ -1,19 +1,9 @@
 package org.giavacms.chalet.service.rs;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.chalet.management.AppConstants;
-import org.giavacms.chalet.management.AppKeys;
-import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.FreeTicket;
-import org.giavacms.chalet.model.Parade;
-import org.giavacms.chalet.model.enums.SmsTypes;
-import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ParadeRepository;
-import org.giavacms.chalet.utils.MsgUtils;
-import org.giavacms.contest.model.pojo.User;
-import org.giavacms.contest.repository.VoteRepository;
-import org.jboss.logging.Logger;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -27,11 +17,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.giavacms.chalet.management.AppConstants;
+import org.giavacms.chalet.management.AppKeys;
+import org.giavacms.chalet.model.Chalet;
+import org.giavacms.chalet.model.ChaletRanking;
+import org.giavacms.chalet.model.ChaletParade;
+import org.giavacms.chalet.model.enums.SmsTypes;
+import org.giavacms.chalet.repository.ChaletRepository;
+import org.giavacms.chalet.repository.ChaletParadeRepository;
+import org.giavacms.chalet.utils.MsgUtils;
+import org.giavacms.contest.model.pojo.User;
+import org.giavacms.contest.repository.VoteRepository;
+import org.jboss.logging.Logger;
 
 /**
  * Created by fiorenzo on 03/07/15.
@@ -49,7 +47,7 @@ public class NotificationServiceRs implements Serializable
    VoteRepository voteRepository;
 
    @Inject
-   ParadeRepository paradeRepository;
+   ChaletParadeRepository paradeRepository;
 
    @Inject
    ChaletRepository chaletRepository;
@@ -66,10 +64,15 @@ public class NotificationServiceRs implements Serializable
       List<ChaletRanking> chaletRankings = new ArrayList<>();
       try
       {
+         String preference = null;
+         ChaletParade parade = paradeRepository.getLast(preference);
+         if (parade == null)
+         {
+            return Response.status(Response.Status.NOT_FOUND)
+                     .entity("No parade found").build();
+         }
          Map<String, Chalet> chaletMap = chaletRepository.getChaletMap();
-         List<Parade> parades = paradeRepository.getList(new Search<Parade>(Parade.class), 0, 1);
          Map<String, List<User>> mapUsers = voteRepository.getUsersForPreference();
-         Parade parade = parades.get(0);
          for (ChaletRanking ranking : parade.getChaletRankings())
          {
             Chalet chalet = chaletMap.get(ranking.getLicenseNumber());
@@ -89,22 +92,6 @@ public class NotificationServiceRs implements Serializable
                   .entity("Error ranking: " + e.getMessage()).build();
       }
       return Response.status(Response.Status.OK).entity(chaletRankings).build();
-   }
-
-   public Response sendTicket() throws Exception
-   {
-      //prendo la lista dei numeri gia vincitori
-      List<String> alreadyWinners = new ArrayList<>();
-
-      Map<String, List<FreeTicket>> freeTicketsForChalet = new HashMap<>();
-      // cerco ticket per questo week end
-      for (String licenseNumber : freeTicketsForChalet.keySet())
-      {
-         List<FreeTicket> tickets = freeTicketsForChalet.get(licenseNumber);
-         int numOfTickets = tickets.size();
-         List<String> newWinners = voteRepository.getWinner(numOfTickets, licenseNumber, alreadyWinners);
-      }
-      return null;
    }
 
    public void sendSmsToQueue(String message, String number)

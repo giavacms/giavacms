@@ -32,7 +32,7 @@ import org.giavacms.base.util.ResourceUtils;
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.TagRepository;
+import org.giavacms.chalet.repository.ChaletTagRepository;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -56,7 +56,7 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
    }
 
    @Inject
-   TagRepository tagRepository;
+   ChaletTagRepository tagRepository;
    @Inject
    ImageRepository imageRepository;
 

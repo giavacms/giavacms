@@ -21,7 +21,7 @@ public class ChaletRanking implements Serializable
    private String licenseNumber;
    private int votes = 0;
    private int position = 0;
-   private Parade parade;
+   private ChaletParade parade;
 
    public ChaletRanking(String chaletName, String licenseNumber, int votes, int position)
    {
@@ -74,12 +74,12 @@ public class ChaletRanking implements Serializable
    }
 
    @ManyToOne
-   public Parade getParade()
+   public ChaletParade getParade()
    {
       return parade;
    }
 
-   public void setParade(Parade parade)
+   public void setParade(ChaletParade parade)
    {
       this.parade = parade;
    }

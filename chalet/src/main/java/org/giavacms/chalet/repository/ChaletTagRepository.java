@@ -2,7 +2,7 @@ package org.giavacms.chalet.repository;
 
 import org.giavacms.api.model.Search;
 import org.giavacms.api.repository.AbstractRepository;
-import org.giavacms.chalet.model.Tag;
+import org.giavacms.chalet.model.ChaletTag;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Named
 @Stateless
 @LocalBean
-public class TagRepository extends AbstractRepository<Tag>
+public class ChaletTagRepository extends AbstractRepository<ChaletTag>
 {
 
    private static final long serialVersionUID = 1L;
@@ -48,7 +48,7 @@ public class TagRepository extends AbstractRepository<Tag>
     */
 
    @Override
-   protected void applyRestrictions(Search<Tag> search, String alias,
+   protected void applyRestrictions(Search<ChaletTag> search, String alias,
             String separator, StringBuffer sb, Map<String, Object> params)
    {
 
@@ -116,7 +116,7 @@ public class TagRepository extends AbstractRepository<Tag>
                && search.getObj().getChalet().getTag().trim().length() > 0)
       {
          sb.append(separator).append(alias).append(".chalet.id in ( ");
-         sb.append(" select distinct rt.chalet.id from ").append(Tag.class.getSimpleName())
+         sb.append(" select distinct rt.chalet.id from ").append(ChaletTag.class.getSimpleName())
                   .append(" rt where rt.tagName = :CHALETTAGNAME ");
          sb.append(" ) ");
          params.put("CHALETTAGNAME", search.getObj().getChalet().getTag().trim());
@@ -136,7 +136,7 @@ public class TagRepository extends AbstractRepository<Tag>
             if (usaJoin)
             {
                sb.append(alias).append(".chalet.id in ( ");
-               sb.append(" select distinct rt.chalet.id from ").append(Tag.class.getSimpleName())
+               sb.append(" select distinct rt.chalet.id from ").append(ChaletTag.class.getSimpleName())
                         .append(" rt where upper ( rt.tagName ) like :TAGLIKE").append(i).append(" ");
                sb.append(" ) ");
             }
@@ -154,7 +154,7 @@ public class TagRepository extends AbstractRepository<Tag>
 
    public void set(String chaletId, List<String> tagList, Date date)
    {
-      getEm().createQuery("delete from " + Tag.class.getSimpleName() + " t where t.chaletId = :CHALETID ")
+      getEm().createQuery("delete from " + ChaletTag.class.getSimpleName() + " t where t.chaletId = :CHALETID ")
                .setParameter("CHALETID", chaletId).executeUpdate();
       if (date == null)
       {
@@ -167,7 +167,7 @@ public class TagRepository extends AbstractRepository<Tag>
       int year = cal.get(Calendar.YEAR);
       for (String tagName : tagList)
       {
-         getEm().persist(new Tag(tagName, chaletId, day, month, year));
+         getEm().persist(new ChaletTag(tagName, chaletId, day, month, year));
       }
    }
 
@@ -180,9 +180,9 @@ public class TagRepository extends AbstractRepository<Tag>
    }
 
    @Override
-   protected Tag construct(List<String> fieldNames, List<Object> fieldValues)
+   protected ChaletTag construct(List<String> fieldNames, List<Object> fieldValues)
    {
-      Tag t = new Tag();
+      ChaletTag t = new ChaletTag();
       for (int i = 0; i < fieldNames.size(); i++)
       {
          if ("tagName".equals(fieldNames.get(i)))

@@ -1,11 +1,14 @@
 package org.giavacms.chalet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.giavacms.api.annotation.Active;
 import org.giavacms.base.model.attachment.Image;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ public class Chalet implements Serializable
    private String name;
    private String licenseNumber;
    private String preview;
-   private String content;
+   private String description;
    private List<Image> images;
    private String tag;
    private List<String> tagList;
@@ -53,6 +56,8 @@ public class Chalet implements Serializable
    }
 
    @Id
+   @GeneratedValue(generator = "uuid")
+   @GenericGenerator(name = "uuid", strategy = "uuid2")
    public String getId()
    {
       return id;
@@ -111,14 +116,14 @@ public class Chalet implements Serializable
    }
 
    @Lob
-   public String getContent()
+   public String getDescription()
    {
-      return content;
+      return description;
    }
 
-   public void setContent(String content)
+   public void setDescription(String description)
    {
-      this.content = content;
+      this.description = description;
    }
 
    public String getTags()
@@ -309,7 +314,8 @@ public class Chalet implements Serializable
       this.website = website;
    }
 
-   @Override public String toString()
+   @Override
+   public String toString()
    {
       return "Chalet{" +
                "active=" + active +
@@ -317,7 +323,7 @@ public class Chalet implements Serializable
                ", name='" + name + '\'' +
                ", licenseNumber='" + licenseNumber + '\'' +
                ", preview='" + preview + '\'' +
-               ", content='" + content + '\'' +
+               ", description='" + description + '\'' +
                ", tag='" + tag + '\'' +
                ", tags='" + tags + '\'' +
                ", owner='" + owner + '\'' +

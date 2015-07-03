@@ -5,8 +5,8 @@ import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.Tag;
-import org.giavacms.chalet.repository.TagRepository;
+import org.giavacms.chalet.model.ChaletTag;
+import org.giavacms.chalet.repository.ChaletTagRepository;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,17 +20,17 @@ import java.util.List;
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class TagRepositoryRs extends RsRepositoryService<Tag>
+public class ChaletTagRepositoryRs extends RsRepositoryService<ChaletTag>
 {
 
    private static final long serialVersionUID = 1L;
 
-   public TagRepositoryRs()
+   public ChaletTagRepositoryRs()
    {
    }
 
    @Inject
-   public TagRepositoryRs(TagRepository tagRepository)
+   public ChaletTagRepositoryRs(ChaletTagRepository tagRepository)
    {
       super(tagRepository);
    }
@@ -41,11 +41,11 @@ public class TagRepositoryRs extends RsRepositoryService<Tag>
    {
       try
       {
-         Search<Tag> st = new Search<Tag>(Tag.class);
+         Search<ChaletTag> st = new Search<ChaletTag>(ChaletTag.class);
          st.setGrouping("tagName");
          st.getObj().setChalet(new Chalet());
 
-         List<Group<Tag>> list = ((TagRepository) getRepository())
+         List<Group<ChaletTag>> list = ((ChaletTagRepository) getRepository())
                   .getGroups(st, Integer.parseInt(startRow), Integer.parseInt(pageSize));
          if (list == null || list.size() == 0)
          {

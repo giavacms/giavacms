@@ -9,24 +9,24 @@ import javax.ws.rs.core.MediaType;
 
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.chalet.management.AppConstants;
-import org.giavacms.chalet.model.Parade;
-import org.giavacms.chalet.repository.ParadeRepository;
+import org.giavacms.chalet.model.ChaletParade;
+import org.giavacms.chalet.repository.ChaletParadeRepository;
 
 @Path(AppConstants.BASE_PATH + AppConstants.PARADE_PATH)
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ParadeRepositoryRs extends RsRepositoryService<Parade>
+public class ChaletParadeRepositoryRs extends RsRepositoryService<ChaletParade>
 {
 
    private static final long serialVersionUID = 471883957307995404L;
 
-   public ParadeRepositoryRs()
+   public ChaletParadeRepositoryRs()
    {
    }
 
    @Inject
-   public ParadeRepositoryRs(ParadeRepository repository)
+   public ChaletParadeRepositoryRs(ChaletParadeRepository repository)
    {
       super(repository);
    }
