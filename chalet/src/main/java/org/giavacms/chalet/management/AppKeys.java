@@ -5,6 +5,7 @@ package org.giavacms.chalet.management;
  */
 public enum AppKeys
 {
-   USER_name, USER_surname, USER_phone, USER_preference1, USER_preferenceName,
-   USER_voteUid, USER_position;
+
+   MESSAGE_number,
+   MESSAGE_text, MESSAGE_type;
 }
