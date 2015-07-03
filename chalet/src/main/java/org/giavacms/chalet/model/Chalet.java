@@ -1,14 +1,11 @@
 package org.giavacms.chalet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.giavacms.api.annotation.Active;
 import org.giavacms.base.model.attachment.Image;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +53,6 @@ public class Chalet implements Serializable
    }
 
    @Id
-   @GeneratedValue(generator = "uuid")
-   @GenericGenerator(name = "uuid", strategy = "uuid2")
-   @Column(name = "uuid", unique = true)
    public String getId()
    {
       return id;
