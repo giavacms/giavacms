@@ -182,20 +182,27 @@ public class VoteRepository extends BaseRepository<Vote>
       return mapPref;
    }
 
-   public List<String> getWinner(int size, String licenseNumber, List<String> alreadyWinners)
+   public List<User> getWinner(int size, String licenseNumber, List<String> alreadyWinners)
             throws Exception
    {
-      List<String> winners = (List<String>) getEm()
-               .createNativeQuery(" select distinct(phonenumber) from " + Vote.TABLE_NAME
+      List<User> winners = new ArrayList<>();
+      List<Vote> votes = (List<Vote>) getEm()
+               .createQuery(" select v from " + Vote.class.getName()
                         + " where preference1 != :LICENSE_NUMBER "
                         + " AND confirmed IS NOT NULL "
                         + " AND active = :ACTIVE_W "
+                        + " AND phonenumber NOT IN (:ALREADY_WINNERS)"
                         + " ORDER BY RANDOM()")
                .setParameter("LICENSE_NUMBER", licenseNumber)
                .setParameter("ACTIVE_W", true)
                .setParameter("ALREADY_WINNERS", alreadyWinners)
                .setMaxResults(size)
                .getResultList();
+      for (Vote vote : votes)
+      {
+         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUid());
+         winners.add(user);
+      }
       return winners;
    }
 

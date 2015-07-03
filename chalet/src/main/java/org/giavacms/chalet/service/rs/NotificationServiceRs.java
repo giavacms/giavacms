@@ -1,9 +1,20 @@
 package org.giavacms.chalet.service.rs;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.giavacms.chalet.management.AppConstants;
+import org.giavacms.chalet.management.AppKeys;
+import org.giavacms.chalet.model.Chalet;
+import org.giavacms.chalet.model.ChaletParade;
+import org.giavacms.chalet.model.ChaletRanking;
+import org.giavacms.chalet.model.FreeTicket;
+import org.giavacms.chalet.model.enums.SmsTypes;
+import org.giavacms.chalet.repository.ChaletParadeRepository;
+import org.giavacms.chalet.repository.ChaletRepository;
+import org.giavacms.chalet.repository.FreeTicketRepository;
+import org.giavacms.chalet.repository.FreeTicketWinnerRepository;
+import org.giavacms.chalet.utils.MsgUtils;
+import org.giavacms.contest.model.pojo.User;
+import org.giavacms.contest.repository.VoteRepository;
+import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -17,19 +28,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.giavacms.chalet.management.AppConstants;
-import org.giavacms.chalet.management.AppKeys;
-import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.ChaletParade;
-import org.giavacms.chalet.model.enums.SmsTypes;
-import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ChaletParadeRepository;
-import org.giavacms.chalet.utils.MsgUtils;
-import org.giavacms.contest.model.pojo.User;
-import org.giavacms.contest.repository.VoteRepository;
-import org.jboss.logging.Logger;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by fiorenzo on 03/07/15.
@@ -48,6 +50,12 @@ public class NotificationServiceRs implements Serializable
 
    @Inject
    ChaletParadeRepository paradeRepository;
+
+   @Inject
+   FreeTicketWinnerRepository freeTicketWinnerRepository;
+
+   @Inject
+   FreeTicketRepository freeTicketRepository;
 
    @Inject
    ChaletRepository chaletRepository;
@@ -92,6 +100,67 @@ public class NotificationServiceRs implements Serializable
                   .entity("Error ranking: " + e.getMessage()).build();
       }
       return Response.status(Response.Status.OK).entity(chaletRankings).build();
+   }
+
+   public Response sendTicket()
+   {
+      //prendo la lista dei numeri gia vincitori
+      List<String> alreadyWinners = freeTicketWinnerRepository.getAllreadyWinners();
+
+      Map<String, List<FreeTicket>> freeTicketsForChalet = null;
+      try
+      {
+         freeTicketsForChalet = freeTicketRepository.getFreeTicketForChalet(new Date());
+         // cerco ticket per questo week end
+         for (String licenseNumber : freeTicketsForChalet.keySet())
+         {
+            List<FreeTicket> tickets = freeTicketsForChalet.get(licenseNumber);
+            if (tickets == null || tickets.isEmpty())
+            {
+               return Response.status(Response.Status.OK)
+                        .entity("NO FREE TICKETS FRO TODAY").build();
+            }
+            int numOfTickets = tickets.size();
+            List<User> newWinners = voteRepository.getWinner(numOfTickets, licenseNumber, alreadyWinners);
+            if (newWinners == null || newWinners.isEmpty())
+            {
+               List<String> io = new ArrayList<>();
+               io.add("3922274929");
+               newWinners = voteRepository.getWinner(numOfTickets, licenseNumber, io);
+            }
+            if (newWinners == null || newWinners.isEmpty())
+            {
+               return Response.status(Response.Status.OK)
+                        .entity("NO WINNERS TODAY").build();
+            }
+
+            sendSms(tickets, newWinners);
+         }
+      }
+      catch (Exception e)
+      {
+         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error sending sms fro free tickets: " + e.getMessage()).build();
+      }
+      return Response.status(Response.Status.OK)
+               .entity("PREMI NOTIFICATI").build();
+   }
+
+   public void sendSms(List<FreeTicket> tickets, List<User> newWinners)
+   {
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_YEAR, 5);
+      DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+      int i = 0;
+      for (User user : newWinners)
+      {
+         FreeTicket freeTicket = tickets.get(i);
+         //String fullName, String chaletName, String licenseNumber, String ticketName,  String expireDate)
+         sendSmsToQueue(MsgUtils.ticketSms(user.getName() + " " + user.getSurname(), freeTicket.getChalet().getName(),
+                  freeTicket.getChalet().getLicenseNumber(),
+                  freeTicket.getDescription(), dateFormat.format(calendar.getTime())), user.getPhone());
+         i++;
+      }
    }
 
    public void sendSmsToQueue(String message, String number)

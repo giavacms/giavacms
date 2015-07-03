@@ -7,6 +7,7 @@ import org.giavacms.chalet.model.FreeTicketWinner;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import java.util.List;
 import java.util.Map;
 
 @Named
@@ -30,6 +31,14 @@ public class FreeTicketWinnerRepository extends BaseRepository<FreeTicketWinner>
 
       super.applyRestrictions(search, alias, separator, sb, params);
 
+   }
+
+   public List<String> getAllreadyWinners()
+   {
+      List<String> winners = (List<String>) getEm()
+               .createNativeQuery(" select distinct(phonenumber) from " + FreeTicketWinner.TABLE_NAME)
+               .getResultList();
+      return winners;
    }
 
 }
