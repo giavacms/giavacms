@@ -182,6 +182,23 @@ public class VoteRepository extends BaseRepository<Vote>
       return mapPref;
    }
 
+   public List<String> getWinner(int size, String licenseNumber, List<String> alreadyWinners)
+            throws Exception
+   {
+      List<String> winners = (List<String>) getEm()
+               .createNativeQuery(" select distinct(phonenumber) from " + Vote.TABLE_NAME
+                        + " where preference1 != :LICENSE_NUMBER "
+                        + " AND confirmed IS NOT NULL "
+                        + " AND active = :ACTIVE_W "
+                        + " ORDER BY RANDOM()")
+               .setParameter("LICENSE_NUMBER", licenseNumber)
+               .setParameter("ACTIVE_W", true)
+               .setParameter("ALREADY_WINNERS", alreadyWinners)
+               .setMaxResults(size)
+               .getResultList();
+      return winners;
+   }
+
    // SELECT photo, count(*) as num FROM Vote
    // where active=1 and confirmed != ''
    // group by photo

@@ -20,6 +20,7 @@ public class FreeTicket implements Serializable
    private Chalet chalet;
    private String description;
    private Date created;
+   private Date usingTime;
    private Date consumed;
 
    public FreeTicket()
@@ -81,5 +82,16 @@ public class FreeTicket implements Serializable
    public void setCreated(Date created)
    {
       this.created = created;
+   }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getUsingTime()
+   {
+      return usingTime;
+   }
+
+   public void setUsingTime(Date usingTime)
+   {
+      this.usingTime = usingTime;
    }
 }

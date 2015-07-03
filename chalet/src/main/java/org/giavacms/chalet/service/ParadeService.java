@@ -45,7 +45,7 @@ public class ParadeService implements Serializable
    {
       try
       {
-         List<String> preferences = Arrays.asList("1");
+         List<String> preferences = Arrays.asList("preference1");
          // preferences = SELECT DISTINCT PREFERENCES FROM VOTE....
          for (String preference : preferences)
          {

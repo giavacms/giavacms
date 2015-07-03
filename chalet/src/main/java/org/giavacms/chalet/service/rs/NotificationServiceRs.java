@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,10 +93,16 @@ public class NotificationServiceRs implements Serializable
 
    public Response sendTicket()
    {
-      List<FreeTicket> freeTickets = new ArrayList<>();
-      for (FreeTicket freeTicket : freeTickets)
-      {
+      //prendo la lista dei numeri gia vincitori
+      List<String> phoneNumbers = new ArrayList<>();
 
+      Map<String, List<FreeTicket>> freeTicketsForChalet = new HashMap<>();
+      // cerco ticket per questo week end
+      for (String licenseNumber : freeTicketsForChalet.keySet())
+      {
+         List<FreeTicket> tickets = freeTicketsForChalet.get(licenseNumber);
+         int numOfTickets = tickets.size();
+         List<String> newWinners =
       }
       return null;
    }
