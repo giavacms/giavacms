@@ -1,4 +1,4 @@
-package org.giavacms.chalet.service.rs;
+package org.giavacms.chalet.service;
 
 import java.io.Serializable;
 import java.util.Arrays;
