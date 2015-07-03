@@ -9,4 +9,6 @@ public class AppConstants extends org.giavacms.base.management.AppConstants
 
    public static final String TAG_PATH = "/tags";
 
+   public static final String QUEUE_NOTIFICATION_SENDER = "java:/jms/queue/giavacms.notification";
+
 }

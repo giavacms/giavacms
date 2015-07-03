@@ -29,6 +29,9 @@ public class Vote implements Serializable
    private String preference2;
    private String preference3;
 
+   private boolean sendMeParadeUpdates;
+   private boolean sendMeFreeTickets;
+
    private boolean active;
 
    public Vote()
@@ -146,6 +149,26 @@ public class Vote implements Serializable
       this.active = active;
    }
 
+   public boolean isSendMeFreeTickets()
+   {
+      return sendMeFreeTickets;
+   }
+
+   public void setSendMeFreeTickets(boolean sendMeFreeTickets)
+   {
+      this.sendMeFreeTickets = sendMeFreeTickets;
+   }
+
+   public boolean isSendMeParadeUpdates()
+   {
+      return sendMeParadeUpdates;
+   }
+
+   public void setSendMeParadeUpdates(boolean sendMeParadeUpdates)
+   {
+      this.sendMeParadeUpdates = sendMeParadeUpdates;
+   }
+
    @Override public String toString()
    {
       return "Vote{" +
@@ -159,6 +182,8 @@ public class Vote implements Serializable
                ", preference1='" + preference1 + '\'' +
                ", preference2='" + preference2 + '\'' +
                ", preference3='" + preference3 + '\'' +
+               ", sendMeParadeUpdates=" + sendMeParadeUpdates +
+               ", sendMeFreeTickets=" + sendMeFreeTickets +
                '}';
    }
 }

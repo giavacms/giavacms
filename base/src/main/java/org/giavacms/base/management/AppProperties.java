@@ -5,7 +5,7 @@ import org.giavacms.base.util.SystemPropertiesUtils;
 public enum AppProperties
 {
 
-   ;
+   authId, authToken, number, url;
 
    @SuppressWarnings("unchecked")
    public <T> T cast(Class<T> clazz)

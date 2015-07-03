@@ -4,6 +4,7 @@ import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.model.pojo.Ranking;
+import org.giavacms.contest.model.pojo.User;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -36,6 +37,14 @@ public class VoteRepository extends BaseRepository<Vote>
          params.put("ACTIVE", true);
          separator = " and ";
       }
+
+      // ONLY CONFIRMED?
+      if (search.getNot() != null && search.getNot().getConfirmed() != null)
+      {
+         sb.append(separator).append(alias).append(".confirmed IS NOT NULL ");
+         separator = " and ";
+      }
+
       // PHONE
       if (search.getObj() != null && search.getObj().getPhone() != null)
       {
@@ -146,6 +155,31 @@ public class VoteRepository extends BaseRepository<Vote>
          rankings.add(ranking);
       }
       return rankings;
+   }
+
+   public Map<String, List<User>> getUsersForPreference() throws Exception
+   {
+      Map<String, List<User>> mapPref = new HashMap<>();
+      Search<Vote> search = new Search<Vote>(Vote.class);
+      search.getNot().setActive(true);
+      search.getNot().setConfirmed(new Date());
+      List<Vote> votes = getList(search, 0, 0);
+      for (Vote vote : votes)
+      {
+         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUid());
+         List<User> users;
+         if (mapPref.containsKey(vote.getPreference1()))
+         {
+            users = mapPref.get(vote.getPreference1());
+         }
+         else
+         {
+            users = new ArrayList<>();
+            mapPref.put(vote.getPreference1(), users);
+         }
+         users.add(user);
+      }
+      return mapPref;
    }
 
    // SELECT photo, count(*) as num FROM Vote
