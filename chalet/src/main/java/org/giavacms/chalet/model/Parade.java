@@ -29,6 +29,7 @@ public class Parade implements Serializable
    private Long id;
    private Date data;
    private String name;
+   private String preference;
    List<ChaletRanking> chaletRankings;
 
    @Temporal(TemporalType.TIMESTAMP)
@@ -85,4 +86,15 @@ public class Parade implements Serializable
       this.getChaletRankings().add(chaletRanking);
       return this;
    }
+
+   public String getPreference()
+   {
+      return preference;
+   }
+
+   public void setPreference(String preference)
+   {
+      this.preference = preference;
+   }
+
 }
