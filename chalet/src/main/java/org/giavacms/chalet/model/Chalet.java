@@ -58,6 +58,7 @@ public class Chalet implements Serializable
    @Id
    @GeneratedValue(generator = "uuid")
    @GenericGenerator(name = "uuid", strategy = "uuid2")
+   @Column(name = "uuid", unique = true)
    public String getId()
    {
       return id;
