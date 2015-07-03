@@ -2,13 +2,21 @@ package org.giavacms.chalet.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = ChaletRanking.TABLE_NAME)
 public class ChaletRanking implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "ChaletRanking";
    private String chaletName;
    private String licenseNumber;
-   private int votes;
+   private int votes = 0;
+   private Parade parade;
 
    public ChaletRanking(String chaletName, String licenseNumber, int votes)
    {
@@ -47,7 +55,19 @@ public class ChaletRanking implements Serializable
       this.licenseNumber = licenseNumber;
    }
 
-   @Override public String toString()
+   @ManyToOne
+   public Parade getParade()
+   {
+      return parade;
+   }
+
+   public void setParade(Parade parade)
+   {
+      this.parade = parade;
+   }
+
+   @Override
+   public String toString()
    {
       return "ChaletRanking{" +
                "chaletName='" + chaletName + '\'' +

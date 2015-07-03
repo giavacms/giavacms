@@ -1,5 +1,11 @@
 package org.giavacms.chalet.repository;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ejb.Stateless;
+
 import org.giavacms.api.model.Search;
 import org.giavacms.api.util.IdUtils;
 import org.giavacms.base.model.attachment.Image;
@@ -8,16 +14,7 @@ import org.giavacms.base.util.StringUtils;
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.Tag;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Named;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-@Named
 @Stateless
-@LocalBean
 public class ChaletRepository extends BaseRepository<Chalet>
 {
 
@@ -29,6 +26,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
       return "date desc";
    }
 
+   @SuppressWarnings("unchecked")
    public List<Image> getImages(String id)
    {
       return getEm()
