@@ -91,10 +91,10 @@ public class NotificationServiceRs implements Serializable
       return Response.status(Response.Status.OK).entity(chaletRankings).build();
    }
 
-   public Response sendTicket()
+   public Response sendTicket() throws Exception
    {
       //prendo la lista dei numeri gia vincitori
-      List<String> phoneNumbers = new ArrayList<>();
+      List<String> alreadyWinners = new ArrayList<>();
 
       Map<String, List<FreeTicket>> freeTicketsForChalet = new HashMap<>();
       // cerco ticket per questo week end
@@ -102,7 +102,7 @@ public class NotificationServiceRs implements Serializable
       {
          List<FreeTicket> tickets = freeTicketsForChalet.get(licenseNumber);
          int numOfTickets = tickets.size();
-         List<String> newWinners =
+         List<String> newWinners = voteRepository.getWinner(numOfTickets, licenseNumber, alreadyWinners);
       }
       return null;
    }
