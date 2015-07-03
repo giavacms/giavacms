@@ -48,7 +48,7 @@ public class SmsParadeServiceRs implements Serializable
    @Resource(lookup = AppConstants.QUEUE_NOTIFICATION_SENDER)
    private Queue notificationQueue;
 
-   public Response sendSms()
+   public Response sendParadeSms()
    {
       List<ChaletRanking> chaletRankings = new ArrayList<>();
       try
@@ -64,7 +64,7 @@ public class SmsParadeServiceRs implements Serializable
             for (User user : users)
             {
                user.setPosition(ranking.getPosition());
-               sendSmsToQueue(MsgUtils.getMsg(user.getName() + " " + user.getSurname(), chalet.getName(),
+               sendSmsToQueue(MsgUtils.paradeSms(user.getName() + " " + user.getSurname(), chalet.getName(),
                         chalet.getLicenseNumber(),
                         "" + ranking.getPosition()), user.getPhone());
             }
