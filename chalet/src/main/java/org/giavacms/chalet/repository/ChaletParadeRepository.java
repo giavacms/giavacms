@@ -7,10 +7,10 @@ import javax.ejb.Stateless;
 
 import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.chalet.model.Parade;
+import org.giavacms.chalet.model.ChaletParade;
 
 @Stateless
-public class ParadeRepository extends BaseRepository<Parade>
+public class ChaletParadeRepository extends BaseRepository<ChaletParade>
 {
 
    private static final long serialVersionUID = 1L;
@@ -21,16 +21,16 @@ public class ParadeRepository extends BaseRepository<Parade>
       return "data desc";
    }
 
-   public Parade getLast(String preference) throws Exception
+   public ChaletParade getLast(String preference) throws Exception
    {
-      Search<Parade> sp = new Search<Parade>(Parade.class);
+      Search<ChaletParade> sp = new Search<ChaletParade>(ChaletParade.class);
       sp.getObj().setPreference(preference);
-      List<Parade> parades = getList(sp, 0, 1);
+      List<ChaletParade> parades = getList(sp, 0, 1);
       return parades == null ? null : parades.isEmpty() ? null : parades.get(0);
    }
 
    @Override
-   protected void applyRestrictions(Search<Parade> search, String alias, String separator, StringBuffer sb,
+   protected void applyRestrictions(Search<ChaletParade> search, String alias, String separator, StringBuffer sb,
             Map<String, Object> params) throws Exception
    {
       if (search.getObj().getPreference() != null && !search.getObj().getPreference().trim().isEmpty())

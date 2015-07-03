@@ -8,13 +8,13 @@ import java.io.Serializable;
 import java.net.URLEncoder;
 
 @Entity
-@Table(name = Tag.TABLE_NAME)
+@Table(name = ChaletTag.TABLE_NAME)
 @XmlRootElement
-public class Tag implements Serializable
+public class ChaletTag implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-   public static final String TABLE_NAME = "Tag";
+   public static final String TABLE_NAME = "chalettags";
 
    private Long id;
    private Chalet chalet;
@@ -24,11 +24,11 @@ public class Tag implements Serializable
    private int month;
    private int year;
 
-   public Tag()
+   public ChaletTag()
    {
    }
 
-   public Tag(String tagName, String richContentId, int day, int month, int year)
+   public ChaletTag(String tagName, String richContentId, int day, int month, int year)
    {
       this.tagName = tagName;
       this.chalet = new Chalet();
@@ -130,7 +130,7 @@ public class Tag implements Serializable
    @Override
    public String toString()
    {
-      return "Tag{" +
+      return "Chalet{" +
                "id=" + id +
                ", chalet=" + chalet +
                ", chaletId='" + chaletId + '\'' +

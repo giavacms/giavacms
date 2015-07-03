@@ -13,9 +13,9 @@ import javax.inject.Inject;
 
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.Parade;
+import org.giavacms.chalet.model.ChaletParade;
 import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ParadeRepository;
+import org.giavacms.chalet.repository.ChaletParadeRepository;
 import org.giavacms.contest.model.pojo.Ranking;
 import org.giavacms.contest.repository.VoteRepository;
 import org.jboss.logging.Logger;
@@ -38,7 +38,7 @@ public class ParadeService implements Serializable
    ChaletRepository chaletRepository;
 
    @Inject
-   ParadeRepository paradeRepository;
+   ChaletParadeRepository paradeRepository;
 
    @Asynchronous
    public void create(Date atTime)
@@ -63,7 +63,7 @@ public class ParadeService implements Serializable
       try
       {
          List<Ranking> rankings = voteRepository.getRanking(preference, atTime);
-         Parade parade = new Parade();
+         ChaletParade parade = new ChaletParade();
          parade.setData(atTime);
          parade.setName(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(atTime));
          parade.setPreference(preference);

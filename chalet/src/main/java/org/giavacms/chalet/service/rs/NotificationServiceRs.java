@@ -22,10 +22,10 @@ import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.management.AppKeys;
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.Parade;
+import org.giavacms.chalet.model.ChaletParade;
 import org.giavacms.chalet.model.enums.SmsTypes;
 import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ParadeRepository;
+import org.giavacms.chalet.repository.ChaletParadeRepository;
 import org.giavacms.chalet.utils.MsgUtils;
 import org.giavacms.contest.model.pojo.User;
 import org.giavacms.contest.repository.VoteRepository;
@@ -47,7 +47,7 @@ public class NotificationServiceRs implements Serializable
    VoteRepository voteRepository;
 
    @Inject
-   ParadeRepository paradeRepository;
+   ChaletParadeRepository paradeRepository;
 
    @Inject
    ChaletRepository chaletRepository;
@@ -65,7 +65,7 @@ public class NotificationServiceRs implements Serializable
       try
       {
          String preference = null;
-         Parade parade = paradeRepository.getLast(preference);
+         ChaletParade parade = paradeRepository.getLast(preference);
          if (parade == null)
          {
             return Response.status(Response.Status.NOT_FOUND)

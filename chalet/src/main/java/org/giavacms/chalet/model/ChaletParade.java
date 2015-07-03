@@ -20,12 +20,12 @@ import javax.persistence.TemporalType;
  * Created by fiorenzo on 03/07/15.
  */
 @Entity
-@Table(name = Parade.TABLE_NAME)
-public class Parade implements Serializable
+@Table(name = ChaletParade.TABLE_NAME)
+public class ChaletParade implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-   public static final String TABLE_NAME = "parades";
+   public static final String TABLE_NAME = "chaletparades";
    private Long id;
    private Date data;
    private String name;
@@ -80,7 +80,7 @@ public class Parade implements Serializable
       this.chaletRankings = chaletRankings;
    }
 
-   public Parade addChaletRanking(ChaletRanking chaletRanking)
+   public ChaletParade addChaletRanking(ChaletRanking chaletRanking)
    {
       chaletRanking.setParade(this);
       this.getChaletRankings().add(chaletRanking);

@@ -12,7 +12,7 @@ import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.base.util.StringUtils;
 import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.Tag;
+import org.giavacms.chalet.model.ChaletTag;
 
 @Stateless
 public class ChaletRepository extends BaseRepository<Chalet>
@@ -52,7 +52,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
       {
          n.setImages(null);
       }
-      n.setContent(n.getContent());
+      n.setDescription(n.getDescription());
       return n;
    }
 
@@ -63,7 +63,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
       {
          n.setImages(null);
       }
-      n.setContent(n.getContent());
+      n.setDescription(n.getDescription());
       return n;
    }
 
@@ -96,7 +96,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
 
          sb.append(separator).append(alias).append(".id in ( ");
          sb.append(" select T1.chaletId from ")
-                  .append(Tag.class.getSimpleName())
+                  .append(ChaletTag.class.getSimpleName())
                   .append(" T1 where T1.tagName ")
                   .append(likeMatch ? "like" : "=").append(" :TAGNAME ");
          sb.append(" ) ");
@@ -115,7 +115,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
 
             sb.append(alias).append(".id in ( ");
             sb.append(" select T2.chaletId from ")
-                     .append(Tag.class.getSimpleName())
+                     .append(ChaletTag.class.getSimpleName())
                      .append(" T2 where upper ( T2.tagName ) like :TAGNAME")
                      .append(i).append(" ");
             sb.append(" ) ");
@@ -149,15 +149,15 @@ public class ChaletRepository extends BaseRepository<Chalet>
       }
 
       // CONTENT (ALSO SEARCHES IN TITLE)
-      if (search.getLike().getContent() != null
-               && !search.getLike().getContent().trim().isEmpty())
+      if (search.getLike().getDescription() != null
+               && !search.getLike().getDescription().trim().isEmpty())
       {
          sb.append(separator);
          sb.append(" ( ");
          sb.append(" upper ( ").append(alias).append(".title ) like :likeContent ");
          sb.append(" or ");
-         sb.append(" upper ( ").append(alias).append(".content ) like :likeContent ");
-         params.put("likeContent", likeParam(search.getLike().getContent().trim().toUpperCase()));
+         sb.append(" upper ( ").append(alias).append(".description ) like :likeContent ");
+         params.put("likeContent", likeParam(search.getLike().getDescription().trim().toUpperCase()));
          separator = " and ";
       }
 
