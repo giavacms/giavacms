@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.Serializable;
 
-@Path(AppConstants.BASE_PATH + AppConstants.PARADE_PATH)
+@Path(AppConstants.BASE_PATH + AppConstants.FREETICKET_PATH)
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

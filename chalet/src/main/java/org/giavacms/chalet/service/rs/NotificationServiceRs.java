@@ -12,6 +12,10 @@ import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.MapMessage;
 import javax.jms.Queue;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.giavacms.api.model.Search;
@@ -31,8 +35,11 @@ import org.jboss.logging.Logger;
 /**
  * Created by fiorenzo on 03/07/15.
  */
+@Path(AppConstants.BASE_PATH + AppConstants.NOTIFICATION_PATH)
 @Stateless
-public class SmsParadeServiceRs implements Serializable
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class NotificationServiceRs implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
