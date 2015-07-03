@@ -18,7 +18,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.giavacms.api.model.Search;
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.management.AppKeys;
 import org.giavacms.chalet.model.Chalet;
