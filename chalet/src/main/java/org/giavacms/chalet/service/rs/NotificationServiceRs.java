@@ -3,6 +3,7 @@ package org.giavacms.chalet.service.rs;
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.model.ChaletRanking;
 import org.giavacms.chalet.service.NotificationService;
+import org.giavacms.chalet.service.ParadeService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +29,9 @@ public class NotificationServiceRs implements Serializable
 
    @Inject
    NotificationService notificationService;
+
+   @Inject
+   ParadeService paradeService;
 
    @GET
    @Path("/parade")
@@ -52,6 +57,23 @@ public class NotificationServiceRs implements Serializable
       {
          boolean result = notificationService.sendTickets();
          return Response.status(Response.Status.OK).entity(result).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                  .entity(e.getMessage()).build();
+      }
+   }
+
+   @GET
+   @Path("/create")
+   public Response createParade()
+   {
+      try
+      {
+         Date atTime = new Date();
+         paradeService.create(atTime);
+         return Response.status(Response.Status.OK).entity("").build();
       }
       catch (Exception e)
       {
