@@ -70,7 +70,8 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       search.getObj().setSurname(vote.getSurname());
       search.getObj().setPhone(vote.getPhone());
       search.getNot().setActive(false);
-      List<Vote> list = getRepository().getList(search, 0, 0);
+      List<Vote> list = null;
+      // getRepository().getList(search, 0, 0);
       if (list != null && list.size() > 0)
       {
          throw new Exception(" - ER4 - esiste gia' un voto con stesso numero di telefono, nome, cognome.");

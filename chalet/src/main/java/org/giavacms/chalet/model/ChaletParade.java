@@ -65,7 +65,7 @@ public class ChaletParade implements Serializable
       this.name = name;
    }
 
-   @OneToMany(mappedBy = "parade", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+   @OneToMany(mappedBy = "parade", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
    public List<ChaletRanking> getChaletRankings()
    {
       if (chaletRankings == null)

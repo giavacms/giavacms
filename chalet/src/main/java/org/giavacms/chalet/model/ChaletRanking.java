@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = ChaletRanking.TABLE_NAME)
 public class ChaletRanking implements Serializable
@@ -22,6 +24,11 @@ public class ChaletRanking implements Serializable
    private int votes = 0;
    private int position = 0;
    private ChaletParade parade;
+
+   public ChaletRanking()
+   {
+      super();
+   }
 
    public ChaletRanking(String chaletName, String licenseNumber, int votes, int position)
    {
@@ -73,6 +80,7 @@ public class ChaletRanking implements Serializable
       this.licenseNumber = licenseNumber;
    }
 
+   @JsonIgnore
    @ManyToOne
    public ChaletParade getParade()
    {
