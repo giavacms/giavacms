@@ -8,6 +8,7 @@ import org.giavacms.chalet.model.ChaletRanking;
 import org.giavacms.chalet.model.Parade;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.ParadeRepository;
+import org.giavacms.chalet.utils.MsgUtils;
 import org.giavacms.contest.model.pojo.User;
 import org.giavacms.contest.repository.VoteRepository;
 import org.jboss.logging.Logger;
@@ -63,7 +64,9 @@ public class SmsParadeServiceRs implements Serializable
             for (User user : users)
             {
                user.setPosition(ranking.getPosition());
-
+               sendSmsToQueue(MsgUtils.getMsg(user.getName() + " " + user.getSurname(), chalet.getName(),
+                        chalet.getLicenseNumber(),
+                        "" + ranking.getPosition()), user.getPhone());
             }
          }
       }
@@ -75,15 +78,16 @@ public class SmsParadeServiceRs implements Serializable
       return Response.status(Response.Status.OK).entity(chaletRankings).build();
    }
 
-   public void sendSmsToQueue(User user)
+   public void sendSmsToQueue(String message, String number)
    {
       try
       {
          MapMessage mapMessage = context.createMapMessage();
-         mapMessage.setString(AppKeys.USER_surname.name(), user.getSurname());
+         mapMessage.setString(AppKeys.SMS_DST.name(), number);
+         mapMessage.setString(AppKeys.SMS_MSG.name(), message);
 
          context.createProducer().send(notificationQueue, mapMessage);
-         logger.info("SENT - uid:");
+         logger.info("SMS PARADE - to: " + number + " msg: " + message);
       }
       catch (Throwable t)
       {
