@@ -1,9 +1,19 @@
 package org.giavacms.chalet.service.rs;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.giavacms.api.model.Search;
+import org.giavacms.chalet.management.AppConstants;
+import org.giavacms.chalet.management.AppKeys;
+import org.giavacms.chalet.model.Chalet;
+import org.giavacms.chalet.model.ChaletRanking;
+import org.giavacms.chalet.model.FreeTicket;
+import org.giavacms.chalet.model.Parade;
+import org.giavacms.chalet.model.enums.SmsTypes;
+import org.giavacms.chalet.repository.ChaletRepository;
+import org.giavacms.chalet.repository.ParadeRepository;
+import org.giavacms.chalet.utils.MsgUtils;
+import org.giavacms.contest.model.pojo.User;
+import org.giavacms.contest.repository.VoteRepository;
+import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -17,20 +27,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.giavacms.api.model.Search;
-import org.giavacms.chalet.management.AppConstants;
-import org.giavacms.chalet.management.AppKeys;
-import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.Parade;
-import org.giavacms.chalet.model.enums.SmsTypes;
-import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ParadeRepository;
-import org.giavacms.chalet.utils.MsgUtils;
-import org.giavacms.contest.model.pojo.User;
-import org.giavacms.contest.repository.VoteRepository;
-import org.jboss.logging.Logger;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fiorenzo on 03/07/15.
@@ -88,6 +88,16 @@ public class NotificationServiceRs implements Serializable
                   .entity("Error ranking: " + e.getMessage()).build();
       }
       return Response.status(Response.Status.OK).entity(chaletRankings).build();
+   }
+
+   public Response sendTicket()
+   {
+      List<FreeTicket> freeTickets = new ArrayList<>();
+      for (FreeTicket freeTicket : freeTickets)
+      {
+
+      }
+      return null;
    }
 
    public void sendSmsToQueue(String message, String number)

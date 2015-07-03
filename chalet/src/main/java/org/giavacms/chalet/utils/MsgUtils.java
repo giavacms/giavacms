@@ -12,4 +12,14 @@ public class MsgUtils
                         + position;
       return msg;
    }
+
+   public static String ticketSms(String fullName, String chaletName, String licenseNumber, String ticketName,
+            String expireDate)
+   {
+      String msg =
+               "caro " + fullName + " hai vinto " + ticketName + " presso lo chalet " + chaletName + " conc. "
+                        + licenseNumber + " da consumarsi entro il "
+                        + expireDate;
+      return msg;
+   }
 }
