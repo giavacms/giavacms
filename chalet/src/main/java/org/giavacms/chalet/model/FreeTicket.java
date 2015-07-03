@@ -84,7 +84,7 @@ public class FreeTicket implements Serializable
       this.created = created;
    }
 
-   @Temporal(TemporalType.TIMESTAMP)
+   @Temporal(TemporalType.DATE)
    public Date getUsingTime()
    {
       return usingTime;

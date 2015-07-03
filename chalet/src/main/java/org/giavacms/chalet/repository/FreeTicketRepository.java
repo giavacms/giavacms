@@ -28,14 +28,22 @@ public class FreeTicketRepository extends BaseRepository<FreeTicket>
             Map<String, Object> params) throws Exception
    {
 
+      if (search.getObj().getUsingTime() != null)
+      {
+         sb.append(separator).append(".usingTime = :usingTime ");
+         params.put("usingTime", search.getObj().getUsingTime());
+         separator = " and ";
+      }
       super.applyRestrictions(search, alias, separator, sb, params);
 
    }
 
-   public Map<String, List<FreeTicket>> getFreeTicketForChalet(Date date)
+   public Map<String, List<FreeTicket>> getFreeTicketForChalet(Date date) throws Exception
    {
       Map<String, List<FreeTicket>> freeTicketMap = new HashMap<>();
-      List<FreeTicket> freeTickets = new ArrayList<>();
+      Search<FreeTicket> sft = new Search<FreeTicket>(FreeTicket.class);
+      sft.getObj().setUsingTime(date);
+      List<FreeTicket> freeTickets = getList(sft, 0, 0);
       for (FreeTicket freeTicket : freeTickets)
       {
          List<FreeTicket> forChalet;
@@ -52,5 +60,4 @@ public class FreeTicketRepository extends BaseRepository<FreeTicket>
       }
       return freeTicketMap;
    }
-
 }
