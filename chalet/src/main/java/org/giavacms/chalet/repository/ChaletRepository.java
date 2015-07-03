@@ -23,7 +23,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
    @Override
    protected String getDefaultOrderBy()
    {
-      return "date desc";
+      return "name asc";
    }
 
    @SuppressWarnings("unchecked")
@@ -192,7 +192,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
    public Map<String, Chalet> getChaletMap() throws Exception
    {
       Map<String, Chalet> map = new HashMap<>();
-      List<Chalet> list = getList(null, 0, 0);
+      List<Chalet> list = getList(new Search<Chalet>(Chalet.class), 0, 0);
       for (Chalet chalet : list)
       {
          map.put(chalet.getLicenseNumber(), chalet);

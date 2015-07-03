@@ -58,7 +58,7 @@ public class ParadeService implements Serializable
       }
    }
 
-   private void create(String preference, Date atTime)
+   public void create(String preference, Date atTime)
    {
       try
       {
