@@ -20,12 +20,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-@Path(AppConstants.BASE_PATH + AppConstants.CONTEST_PHONE_PATH)
+@Path(AppConstants.BASE_PATH + AppConstants.CONTEST_TOKEN_PATH)
 @Stateless
 @LocalBean
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class PlivoBuzzRs implements Serializable
+public class PlivoVoteRs implements Serializable
 {
    private static final long serialVersionUID = 1L;
 

@@ -17,6 +17,7 @@ public class Vote implements Serializable
    public static final String TABLE_NAME = "Vote";
 
    private String uid;
+   private String tocall;
    private Date created;
    private Date confirmed;
 
@@ -175,11 +176,22 @@ public class Vote implements Serializable
       this.sendMeParadeUpdates = sendMeParadeUpdates;
    }
 
+   public String getTocall()
+   {
+      return tocall;
+   }
+
+   public void setTocall(String tocall)
+   {
+      this.tocall = tocall;
+   }
+
    @Override public String toString()
    {
       return "Vote{" +
                "active=" + active +
                ", uid='" + uid + '\'' +
+               ", tocall='" + tocall + '\'' +
                ", created=" + created +
                ", confirmed=" + confirmed +
                ", name='" + name + '\'' +

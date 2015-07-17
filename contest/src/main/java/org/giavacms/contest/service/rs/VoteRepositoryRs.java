@@ -7,9 +7,12 @@ import org.giavacms.contest.management.AppConstants;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.model.pojo.Ranking;
 import org.giavacms.contest.repository.VoteRepository;
+import org.giavacms.contest.util.ServletContextUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -30,6 +33,9 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
 
    private static final long serialVersionUID = 1L;
 
+   @Context
+   HttpServletRequest httpServletRequest;
+
    public VoteRepositoryRs()
    {
    }
@@ -43,6 +49,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
    @Override
    protected void prePersist(Vote vote) throws Exception
    {
+      ServletContext servletContext = httpServletRequest.getServletContext();
       logger.info("prePersist: " + vote);
 
       StringBuffer exceptionBuffr = new StringBuffer();
@@ -76,6 +83,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       {
          throw new Exception(" - ER4 - puoi votare al massimo 3 volte al giorno.");
       }
+      vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
    }
 
    //   @GET

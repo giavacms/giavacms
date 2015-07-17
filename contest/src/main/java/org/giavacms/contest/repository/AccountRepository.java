@@ -7,6 +7,8 @@ import org.giavacms.contest.model.Account;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 @Named
@@ -76,5 +78,42 @@ public class AccountRepository extends BaseRepository<Account>
       {
       }
       return acount;
+   }
+
+   public void deleteNotConfirmed()
+   {
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.MINUTE, -5);
+      int result = getEm().createNativeQuery("DELETE  FROM" + Account.TABLE_NAME
+               + " WHERE confirmed IS NULL "
+               + " AND created < :CREATED ")
+               .setParameter("CREATED", calendar.getTime()).executeUpdate();
+      logger.info("DELETED NOT CONFIRMED ACCOUNT - " + " num. " + result);
+   }
+
+   public int confirmAccount(String phone)
+   {
+      if (phone.startsWith("39"))
+      {
+         int result = getEm().createNativeQuery("UPDATE " + Account.TABLE_NAME
+                  + " SET confirmed=:CONFIRMED "
+                  + " WHERE phone = :PHONE "
+                  + " AND created IS NOT NULL ")
+                  .setParameter("PHONE", phone.substring(2))
+                  .setParameter("CONFIRMED", new Date())
+                  .executeUpdate();
+         logger.info("CONFIRM ACCOUNT FOR PHONE - " + phone + ": num. " + result);
+         return result > 0 ? 1 : 0;
+      }
+      int result = getEm().createNativeQuery("UPDATE " + Account.TABLE_NAME
+               + " SET confirmed=:CONFIRMED "
+               + " WHERE phone = :PHONE "
+               + " AND created IS NOT NULL ")
+               .setParameter("PHONE", phone)
+               .setParameter("CONFIRMED", new Date())
+               .executeUpdate();
+      logger.info("CONFIRM ACCOUNT FOR PHONE - " + phone + ": num. " + result);
+      return result > 0 ? 2 : 0;
+
    }
 }

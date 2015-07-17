@@ -1,6 +1,7 @@
 package org.giavacms.contest.util;
 
 import org.giavacms.commons.jwt.management.JWTConstants;
+import org.giavacms.contest.management.AppConstants;
 
 import javax.servlet.ServletContext;
 
@@ -39,5 +40,21 @@ public class ServletContextUtils
          }
       }
       return jwtExpireTime;
+   }
+
+   public static String getVoteNumber(ServletContext servletContext) throws Exception
+   {
+      String voteNumber = servletContext.getInitParameter(
+               AppConstants.VOTE_NUMBER);
+
+      return voteNumber;
+   }
+
+   public static String getTokenNumber(ServletContext servletContext) throws Exception
+   {
+      String tokenNumber = servletContext.getInitParameter(
+               AppConstants.TOKEN_NUMBER);
+
+      return tokenNumber;
    }
 }

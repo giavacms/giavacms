@@ -2,7 +2,6 @@ package org.giavacms.contest.service.rs;
 
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.commons.jwt.util.JWTUtils;
-import org.giavacms.contest.management.AppConstants;
 import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Token;
 import org.giavacms.contest.repository.AccountRepository;
@@ -46,9 +45,18 @@ public class AccountRs implements Serializable
    protected final Logger logger = Logger.getLogger(getClass());
 
    @POST
+   public Response create(Account account)
+   {
+
+      return RsRepositoryService
+               .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+   }
+
+   @POST
    @Path("/login")
    public Response login(String phone)
    {
+      ServletContext servletContext = httpServletRequest.getServletContext();
       logger.info("@POST /login: " + phone);
       if (phone == null || phone.trim().isEmpty())
       {
@@ -64,23 +72,27 @@ public class AccountRs implements Serializable
          try
          {
             token = tokenRepository.persist(token);
+            //se esiste ti torno un numero di telefono da chiamare
+            JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+            jsonObjBuilder.add("tocall", ServletContextUtils.getTokenNumber(servletContext));
+            jsonObjBuilder.add("uid", token.getUid());
+            JsonObject jsonObj = jsonObjBuilder.build();
+            return Response.status(Response.Status.OK)
+                     .entity(jsonObj.toString())
+                     .build();
          }
          catch (Exception e)
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Error in create token ");
          }
-         //se esiste ti torno un numero di telefono da chiamare
-         JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-         jsonObjBuilder.add("tocall", AppConstants.PLIVO_NUMBER);
-         jsonObjBuilder.add("uid", token.getUid());
-         JsonObject jsonObj = jsonObjBuilder.build();
-         return Response.status(Response.Status.OK)
-                  .entity(jsonObj.toString())
-                  .build();
+
       }
-      return RsRepositoryService
-               .jsonResponse(Response.Status.OK, "tocall", AppConstants.PLIVO_NUMBER);
+      else
+      {
+         return RsRepositoryService
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+      }
    }
 
    @POST
@@ -102,6 +114,8 @@ public class AccountRs implements Serializable
          {
             token.setDestroyed(new Date());
             token = tokenRepository.update(token);
+            return RsRepositoryService
+                     .jsonResponse(Response.Status.NO_CONTENT, "msg", "logout for: " + phone);
          }
          catch (Exception e)
          {
@@ -110,12 +124,12 @@ public class AccountRs implements Serializable
          }
 
       }
-      return RsRepositoryService
-               .jsonResponse(Response.Status.OK, "tocall", AppConstants.PLIVO_NUMBER);
+      return RsRepositoryService.jsonResponse(Response.Status.BAD_REQUEST, "msg",
+               "No valid number: " + phone);
    }
 
    @GET
-   @Path("/{uuid}/token")
+   @Path("/login/{uuid}/token")
    public Response confirmed(@PathParam("uuid") String uuid)
    {
       ServletContext servletContext = httpServletRequest.getServletContext();
@@ -148,7 +162,7 @@ public class AccountRs implements Serializable
       {
          logger.error(e.getMessage(), e);
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", " destroyed " + uuid);
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", " error in confirm " + uuid);
       }
    }
 

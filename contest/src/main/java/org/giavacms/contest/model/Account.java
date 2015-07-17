@@ -21,6 +21,7 @@ public class Account implements Serializable
    private String name;
    private String surname;
    private Date created;
+   private Date confirmed;
    private String userRoles;
 
    public Account()
@@ -73,6 +74,16 @@ public class Account implements Serializable
    public void setCreated(Date created)
    {
       this.created = created;
+   }
+
+   public Date getConfirmed()
+   {
+      return confirmed;
+   }
+
+   public void setConfirmed(Date confirmed)
+   {
+      this.confirmed = confirmed;
    }
 
    public String getUserRoles()
