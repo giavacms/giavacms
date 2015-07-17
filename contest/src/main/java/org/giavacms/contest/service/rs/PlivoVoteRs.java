@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-@Path(AppConstants.BASE_PATH + AppConstants.CONTEST_TOKEN_PATH)
+@Path(AppConstants.BASE_PATH + AppConstants.CONTEST_VOTE_PATH)
 @Stateless
 @LocalBean
 @Consumes(MediaType.APPLICATION_JSON)

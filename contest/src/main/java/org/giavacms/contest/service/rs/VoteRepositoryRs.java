@@ -83,6 +83,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
          throw new Exception(" - ER4 - puoi votare al massimo 3 volte al giorno.");
       }
       vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
+      vote.setActive(true);
    }
 
    @POST
@@ -144,7 +145,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       }
       catch (Exception e)
       {
-         logger.error(e.getMessage(), e);
+         logger.error(e.getMessage());
          return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + uuid);
       }
    }
@@ -169,7 +170,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       }
       catch (Exception e)
       {
-         logger.error(e.getMessage(), e);
+         logger.error(e.getMessage());
          return Response.status(Status.INTERNAL_SERVER_ERROR)
                   .entity("{'msg' : 'Error reading ranking list for " + preference + "'}")
                   .type(MediaType.APPLICATION_JSON_TYPE).build();
