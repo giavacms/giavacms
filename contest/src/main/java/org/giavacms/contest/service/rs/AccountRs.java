@@ -4,6 +4,7 @@ import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.commons.jwt.util.JWTUtils;
 import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Token;
+import org.giavacms.contest.model.pojo.Login;
 import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.TokenRepository;
 import org.giavacms.contest.util.ServletContextUtils;
@@ -54,20 +55,20 @@ public class AccountRs implements Serializable
 
    @POST
    @Path("/login")
-   public Response login(String phone)
+   public Response login(Login login)
    {
       ServletContext servletContext = httpServletRequest.getServletContext();
-      logger.info("@POST /login: " + phone);
-      if (phone == null || phone.trim().isEmpty())
+      logger.info("@POST /login: " + login.getPhone());
+      if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
       {
          return RsRepositoryService
                   .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
       }
       //verificare che esiste
-      Account account = accountRepository.exist(phone);
+      Account account = accountRepository.exist(login.getPhone());
       if (account != null)
       {
-         Token token = new Token(new Date(), phone, account.getName() + " " + account.getSurname(),
+         Token token = new Token(new Date(), login.getPhone(), account.getName() + " " + account.getSurname(),
                   account.getUserRoles());
          try
          {
@@ -97,25 +98,25 @@ public class AccountRs implements Serializable
 
    @POST
    @Path("/logout")
-   public Response logout(String phone)
+   public Response logout(Login login)
    {
-      logger.info("@POST /logout: " + phone);
-      if (phone == null || phone.trim().isEmpty())
+      logger.info("@POST /logout: " + login.getPhone());
+      if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
       {
          return RsRepositoryService
                   .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
       }
       //verificare che esiste
-      Account account = accountRepository.exist(phone);
+      Account account = accountRepository.exist(login.getPhone());
       if (account != null)
       {
-         Token token = tokenRepository.exist(phone);
+         Token token = tokenRepository.exist(login.getPhone());
          try
          {
             token.setDestroyed(new Date());
             token = tokenRepository.update(token);
             return RsRepositoryService
-                     .jsonResponse(Response.Status.NO_CONTENT, "msg", "logout for: " + phone);
+                     .jsonResponse(Response.Status.NO_CONTENT, "msg", "logout for: " + login.getPhone());
          }
          catch (Exception e)
          {
@@ -125,7 +126,7 @@ public class AccountRs implements Serializable
 
       }
       return RsRepositoryService.jsonResponse(Response.Status.BAD_REQUEST, "msg",
-               "No valid number: " + phone);
+               "No valid number: " + login.getPhone());
    }
 
    @GET
