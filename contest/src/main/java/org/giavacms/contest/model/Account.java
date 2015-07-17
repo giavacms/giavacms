@@ -20,6 +20,7 @@ public class Account implements Serializable
    private String phone;
    private String name;
    private String surname;
+   private String tocall;
    private Date created;
    private Date confirmed;
    private String userRoles;
@@ -94,5 +95,15 @@ public class Account implements Serializable
    public void setUserRoles(String userRoles)
    {
       this.userRoles = userRoles;
+   }
+
+   public String getTocall()
+   {
+      return tocall;
+   }
+
+   public void setTocall(String tocall)
+   {
+      this.tocall = tocall;
    }
 }

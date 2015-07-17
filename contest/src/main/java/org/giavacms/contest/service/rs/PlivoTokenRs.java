@@ -2,7 +2,7 @@ package org.giavacms.contest.service.rs;
 
 import org.giavacms.contest.management.AppConstants;
 import org.giavacms.contest.repository.AccountRepository;
-import org.giavacms.contest.repository.VoteRepository;
+import org.giavacms.contest.repository.TokenRepository;
 import org.giavacms.contest.util.LoggerCallUtils;
 import org.jboss.logging.Logger;
 
@@ -29,10 +29,10 @@ public class PlivoTokenRs implements Serializable
    Logger logger = Logger.getLogger(getClass().getName());
 
    @Inject
-   VoteRepository voteRepository;
+   AccountRepository accountRepository;
 
    @Inject
-   AccountRepository accountRepository;
+   TokenRepository tokenRepository;
 
    @POST
    @GET
@@ -48,7 +48,16 @@ public class PlivoTokenRs implements Serializable
          String from = map.get(AppConstants.PLIVO_FROM);
          String to = map.get(AppConstants.PLIVO_TO);
          logger.info("RECEIVED CALL FROM: " + from + " - TO: " + to);
-         int result = accountRepository.confirmAccount(from);
+         int result = tokenRepository.confirmToken(from);
+         if (result > 0)
+         {
+            logger.info("token confirmed");
+         }
+         else
+         {
+            logger.info("token not confirmable for: " + from);
+         }
+         result = accountRepository.confirmAccount(from);
          if (result > 0)
          {
             logger.info("account confirmed");

@@ -48,27 +48,47 @@ public class AccountRs implements Serializable
    @POST
    public Response create(Account account)
    {
-
-      return RsRepositoryService
-               .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
-   }
-
-   @POST
-   @Path("/login")
-   public Response login(Login login)
-   {
       ServletContext servletContext = httpServletRequest.getServletContext();
-      logger.info("@POST /login: " + login.getPhone());
-      if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
+      logger.info("@POST /login: " + account.getPhone());
+      if (account == null
+               || account.getSurname() == null || account.getSurname().trim().isEmpty()
+               || account.getName() == null || account.getName().trim().isEmpty()
+               || account.getPhone() == null || account.getPhone().trim().isEmpty())
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid account ");
       }
       //verificare che esiste
-      Account account = accountRepository.exist(login.getPhone());
+      account = accountRepository.exist(account.getPhone());
       if (account != null)
       {
-         Token token = new Token(new Date(), login.getPhone(), account.getName() + " " + account.getSurname(),
+         return RsRepositoryService
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Account already exist ");
+      }
+      else
+      {
+         try
+         {
+            account.setTocall(ServletContextUtils.getTokenNumber(servletContext));
+            account.setCreated(new Date());
+            account.setConfirmed(null);
+            account.setUserRoles("USER");
+            account = accountRepository.persist(account);
+            return generateToken(account, servletContext);
+         }
+         catch (Exception e)
+         {
+            return RsRepositoryService
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "generic error");
+         }
+      }
+   }
+
+   private Response generateToken(Account account, ServletContext servletContext)
+   {
+      if (account != null)
+      {
+         Token token = new Token(new Date(), account.getPhone(), account.getName() + " " + account.getSurname(),
                   account.getUserRoles());
          try
          {
@@ -94,6 +114,22 @@ public class AccountRs implements Serializable
          return RsRepositoryService
                   .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
       }
+   }
+
+   @POST
+   @Path("/login")
+   public Response login(Login login)
+   {
+      ServletContext servletContext = httpServletRequest.getServletContext();
+      logger.info("@POST /login: " + login.getPhone());
+      if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
+      {
+         return RsRepositoryService
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+      }
+      //verificare che esiste
+      Account account = accountRepository.exist(login.getPhone());
+      return generateToken(account, servletContext);
    }
 
    @POST

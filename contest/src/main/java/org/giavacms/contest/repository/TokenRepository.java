@@ -7,6 +7,7 @@ import org.giavacms.contest.model.Token;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import java.util.Date;
 import java.util.Map;
 
 @Named
@@ -64,4 +65,29 @@ public class TokenRepository extends BaseRepository<Token>
       return token;
    }
 
+   public int confirmToken(String phone)
+   {
+      if (phone.startsWith("39"))
+      {
+         int result = getEm().createNativeQuery("UPDATE " + Token.TABLE_NAME
+                  + " SET confirmed=:CONFIRMED "
+                  + " WHERE phone = :PHONE "
+                  + " AND created IS NOT NULL ")
+                  .setParameter("PHONE", phone.substring(2))
+                  .setParameter("CONFIRMED", new Date())
+                  .executeUpdate();
+         logger.info("CONFIRM TOKEN FOR PHONE - " + phone + ": num. " + result);
+         return result > 0 ? 1 : 0;
+      }
+      int result = getEm().createNativeQuery("UPDATE " + Token.TABLE_NAME
+               + " SET confirmed=:CONFIRMED "
+               + " WHERE phone = :PHONE "
+               + " AND created IS NOT NULL ")
+               .setParameter("PHONE", phone)
+               .setParameter("CONFIRMED", new Date())
+               .executeUpdate();
+      logger.info("CONFIRM TOKEN FOR PHONE - " + phone + ": num. " + result);
+      return result > 0 ? 2 : 0;
+
+   }
 }
