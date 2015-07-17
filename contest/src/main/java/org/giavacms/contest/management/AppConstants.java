@@ -10,8 +10,9 @@ public class AppConstants extends org.giavacms.base.management.AppConstants
 
    public static final String SKEBBY_SMS_PHONE_PATH = "/skebbysms";
 
-
    public static final String PLIVO_FROM = "From";
    public static final String PLIVO_TO = "To";
+
+   public static final String PLIVO_NUMBER = "To";
 
 }

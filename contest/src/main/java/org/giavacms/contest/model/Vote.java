@@ -11,7 +11,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = Vote.TABLE_NAME)
-
 public class Vote implements Serializable
 {
    private static final long serialVersionUID = -4581521841453347801L;
@@ -64,6 +63,7 @@ public class Vote implements Serializable
       this.uid = uid;
    }
 
+   @Temporal(TemporalType.DATE)
    public Date getConfirmed()
    {
       return confirmed;

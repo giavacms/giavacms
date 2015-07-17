@@ -1,6 +1,9 @@
 package org.giavacms.contest.service.rs;
 
 import org.giavacms.contest.management.AppConstants;
+import org.giavacms.contest.model.Account;
+import org.giavacms.contest.model.pojo.User;
+import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.VoteRepository;
 import org.giavacms.contest.util.LoggerCallUtils;
 import org.jboss.logging.Logger;
@@ -14,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 @Path(AppConstants.BASE_PATH + AppConstants.CONTEST_PHONE_PATH)
@@ -30,6 +34,9 @@ public class PlivoBuzzRs implements Serializable
    @Inject
    VoteRepository voteRepository;
 
+   @Inject
+   AccountRepository accountRepository;
+
    @POST
    @GET
    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -44,7 +51,37 @@ public class PlivoBuzzRs implements Serializable
          String from = map.get(AppConstants.PLIVO_FROM);
          String to = map.get(AppConstants.PLIVO_TO);
          logger.info("RECEIVED CALL FROM: " + from + " - TO: " + to);
-         voteRepository.confirmVote(from);
+         int result = voteRepository.confirmVote(from);
+         if (accountRepository.exist(from) == null)
+         {
+            Account account = new Account();
+            account.setCreated(new Date());
+            account.setPhone(from);
+            account.setUserRoles("USER");
+            User user;
+            switch (result)
+            {
+            case 0:
+
+               break;
+            case 1:
+               user = voteRepository.getUserByPhone(from.substring(2));
+               account.setName(user.getName());
+               account.setSurname(user.getSurname());
+               accountRepository.persist(account);
+               break;
+            case 2:
+               user = voteRepository.getUserByPhone(from);
+               account.setName(user.getName());
+               account.setSurname(user.getSurname());
+               accountRepository.persist(account);
+               break;
+            }
+         }
+         else
+         {
+            logger.info("account exists already");
+         }
       }
       catch (Exception e)
       {

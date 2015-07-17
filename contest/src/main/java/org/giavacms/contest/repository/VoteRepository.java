@@ -88,7 +88,7 @@ public class VoteRepository extends BaseRepository<Vote>
       super.applyRestrictions(search, alias, separator, sb, params);
    }
 
-   public void confirmVote(String phone)
+   public int confirmVote(String phone)
    {
       if (phone.startsWith("39"))
       {
@@ -100,6 +100,8 @@ public class VoteRepository extends BaseRepository<Vote>
                   .setParameter("ACTIVE_W", true)
                   .setParameter("CONFIRMED", new Date())
                   .executeUpdate();
+         logger.info("CONFIRM VOTE FOR PHONE - " + phone + ": num. " + result);
+         return result > 0 ? 1 : 0;
       }
       int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
@@ -110,6 +112,8 @@ public class VoteRepository extends BaseRepository<Vote>
                .setParameter("CONFIRMED", new Date())
                .executeUpdate();
       logger.info("CONFIRM VOTE FOR PHONE - " + phone + ": num. " + result);
+      return result > 0 ? 2 : 0;
+
    }
 
    public boolean isConfirmed(String phone)
@@ -198,6 +202,28 @@ public class VoteRepository extends BaseRepository<Vote>
          users.add(user);
       }
       return mapPref;
+   }
+
+   public User getUserByPhone(String phone) throws Exception
+   {
+      List<Vote> votes = (List<Vote>) getEm()
+               .createQuery(" select v from " + Vote.class.getName()
+                        + " v where v.confirmed IS NOT NULL "
+                        + " AND v.active = :ACTIVE_W "
+                        + " AND v.phonenumber = :PHONE "
+                        + " AND v.name IS NOT NULL "
+                        + " AND v.surname IS NOT NULL "
+                        + " ORDER BY v.ID ASC")
+               .setParameter("ACTIVE_W", true)
+               .setParameter("PHONE", phone)
+               .setMaxResults(1)
+               .getResultList();
+      for (Vote vote : votes)
+      {
+         User user = new User(vote.getName(), vote.getSurname());
+         return user;
+      }
+      return null;
    }
 
    public List<User> getWinner(int size, String licenseNumber, List<String> alreadyWinners)
