@@ -75,7 +75,7 @@ public class AccountRs implements Serializable
             //se esiste ti torno un numero di telefono da chiamare
             JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
             jsonObjBuilder.add("tocall", ServletContextUtils.getTokenNumber(servletContext));
-            jsonObjBuilder.add("uid", token.getUid());
+            jsonObjBuilder.add("uuid", token.getUuid());
             JsonObject jsonObj = jsonObjBuilder.build();
             return Response.status(Response.Status.OK)
                      .entity(jsonObj.toString())

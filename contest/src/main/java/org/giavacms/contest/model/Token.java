@@ -17,7 +17,7 @@ public class Token implements Serializable
    private static final long serialVersionUID = -4581521841453347801L;
    public static final String TABLE_NAME = "Token";
 
-   private String uid;
+   private String uuid;
    private String name;
    private String phone;
    private int duration;
@@ -43,14 +43,14 @@ public class Token implements Serializable
    @GeneratedValue(generator = "uuid")
    @GenericGenerator(name = "uuid", strategy = "uuid2")
    @Column(name = "uuid", unique = true)
-   public String getUid()
+   public String getUuid()
    {
-      return uid;
+      return uuid;
    }
 
-   public void setUid(String uid)
+   public void setUuid(String uid)
    {
-      this.uid = uid;
+      this.uuid = uuid;
    }
 
    public String getName()
