@@ -45,6 +45,11 @@ public class Vote implements Serializable
       this.phone = phone;
    }
 
+   public Vote(String phone)
+   {
+      this.phone = phone;
+   }
+
    @Id
    @GeneratedValue(generator = "uuid")
    @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -69,6 +74,7 @@ public class Vote implements Serializable
       this.confirmed = confirmed;
    }
 
+   @Temporal(TemporalType.DATE)
    public Date getCreated()
    {
       return created;

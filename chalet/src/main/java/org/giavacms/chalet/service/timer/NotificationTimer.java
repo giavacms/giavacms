@@ -25,7 +25,7 @@ public class NotificationTimer
    NotificationService notificationService;
 
    @Lock(LockType.READ)
-   @Schedule(second = "0", minute = "00", hour = "19", persistent = false)
+   @Schedule(second = "0", minute = "30", hour = "19", persistent = false)
    public void timeout()
    {
       logger.info("TIMEOUT TO SEND NOTIFCATION");

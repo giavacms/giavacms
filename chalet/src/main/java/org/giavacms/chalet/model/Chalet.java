@@ -63,7 +63,6 @@ public class Chalet implements Serializable
       this.id = id;
    }
 
-   @JsonIgnore
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(name = IMAGES_JOINTABLE_NAME, joinColumns = @JoinColumn(name = TABLE_FK), inverseJoinColumns = @JoinColumn(name = IMAGE_FK))
    public List<Image> getImages()

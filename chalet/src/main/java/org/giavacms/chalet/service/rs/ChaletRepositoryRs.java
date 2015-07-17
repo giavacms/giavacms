@@ -1,26 +1,5 @@
 package org.giavacms.chalet.service.rs;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.commons.io.IOUtils;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.base.model.attachment.Image;
@@ -35,6 +14,19 @@ import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.ChaletTagRepository;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Path(AppConstants.BASE_PATH + AppConstants.CHALET_PATH)
 @Stateless
@@ -59,6 +51,23 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
    ChaletTagRepository tagRepository;
    @Inject
    ImageRepository imageRepository;
+
+   @GET
+   @Path("/all")
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response getAll()
+   {
+      try
+      {
+         List<Chalet> all = ((ChaletRepository) getRepository()).getAllWithImages();
+         return Response.status(Status.OK).entity(all).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("ErrorgetAll ").build();
+      }
+   }
 
    @POST
    @Path("/{chaletId}/images")

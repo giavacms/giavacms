@@ -1,11 +1,5 @@
 package org.giavacms.chalet.repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ejb.Stateless;
-
 import org.giavacms.api.model.Search;
 import org.giavacms.api.util.IdUtils;
 import org.giavacms.base.model.attachment.Image;
@@ -13,6 +7,12 @@ import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.base.util.StringUtils;
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.ChaletTag;
+
+import javax.ejb.Stateless;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class ChaletRepository extends BaseRepository<Chalet>
@@ -39,6 +39,131 @@ public class ChaletRepository extends BaseRepository<Chalet>
                                  + " where RC.id = :ID and I.active = :ACTIVE",
                         Image.class).setParameter("ID", id).setParameter("ACTIVE", true)
                .getResultList();
+   }
+
+   public List<Chalet> getAllWithImages()
+   {
+      Map<String, Chalet> mappaChalet = new HashMap<>();
+      @SuppressWarnings("unchecked")
+      List<Object[]> list = getEm()
+               .createNativeQuery(
+                        "select C.id, C.name, C.licenseNumber, C.preview, C.description, C.tags, C.active, C.owner, C.address, C.postalNumber, "
+                                 + " C.city, C.province, C.telephone, C.email, C.website, C.facebook, C.twitter, C.instagram, "
+                                 + " I.id as ImageId, I.active as ImageActive, I.description  as ImageDescription, I.filename, I.name  as ImageName, I.type from "
+                                 + Chalet.TABLE_NAME + " AS C "
+                                 + " LEFT JOIN " + Chalet.IMAGES_JOINTABLE_NAME + " CI on (C.id=CI." + Chalet.TABLE_FK
+                                 + ") "
+                                 + " LEFT JOIN " + Image.TABLE_NAME + " I on (I.id = CI." + Chalet.IMAGE_FK + ") "
+                                 + " where C.active = :ACTIVE1 order by C.licenseNumber asc")
+               .setParameter("ACTIVE1", 1)
+               .getResultList();
+      for (Object[] row : list)
+      {
+         Chalet chalet = chaletFromRow(row);
+         Image image = imageFromRow(row);
+         if (mappaChalet.containsKey(chalet.getId()))
+         {
+            if (image != null)
+            {
+               chalet = mappaChalet.get(chalet.getId());
+               chalet.addImage(image);
+            }
+         }
+         else
+         {
+            if (image != null)
+            {
+               chalet.addImage(image);
+            }
+            mappaChalet.put(chalet.getId(), chalet);
+         }
+
+      }
+      return new ArrayList<>(mappaChalet.values());
+   }
+
+   private Chalet chaletFromRow(Object[] row)
+   {
+      //C.id, C.name, C.licenseNumber, C.preview, C.description, C.tags, C.active, C.owner, C.address, C.postalNumber,
+      // C.city, C.province, C.telephone, C.email, C.website, C.facebook, C.twitter, C.instagram, "
+      int i = 0;
+      Chalet c = new Chalet();
+      c.setId(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setName(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setLicenseNumber(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setPreview(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setDescription(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setTags(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setDescription(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setActive(true);
+      i++;
+      c.setOwner(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setDescription(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setAddress(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setPostalNumber(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setCity(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setProvince(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setTelephone(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setEmail(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setWebsite(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setFacebook(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setTwitter(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setInstagram(row[i] == null ? "" : row[i].toString().trim());
+      return c;
+   }
+
+   private Image imageFromRow(Object[] row)
+   {
+      int i = 18;
+      Image c = new Image();
+      //      I.id, I.active, I.description, I.filename, I.name, I.type
+
+      if (row[i] == null)
+      {
+         return null;
+      }
+      else
+      {
+         c.setId(new Long(row[i].toString()));
+      }
+      i++;
+      c.setActive(row[i] == "1" ? true : false);
+      i++;
+      c.setDescription(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      if (row[i] == null)
+      {
+         return null;
+      }
+      else
+      {
+         c.setFilename(row[i] == null ? "" : row[i].toString().trim());
+      }
+
+      i++;
+      c.setName(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      c.setType(row[i] == null ? "" : row[i].toString().trim());
+
+      return c;
    }
 
    @Override

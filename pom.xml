@@ -175,5 +175,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- REST -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>

@@ -1,19 +1,19 @@
 package org.giavacms.chalet.service.jms;
 
-import java.util.concurrent.TimeUnit;
+import org.giavacms.base.management.AppProperties;
+import org.giavacms.chalet.management.AppConstants;
+import org.giavacms.chalet.management.AppKeys;
+import org.giavacms.contest.util.SkebbySmsUtils;
+import org.giavacms.contest.util.SkebbyType;
+import org.jboss.ejb3.annotation.TransactionTimeout;
+import org.jboss.logging.Logger;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-
-import org.giavacms.base.management.AppProperties;
-import org.giavacms.chalet.management.AppConstants;
-import org.giavacms.chalet.management.AppKeys;
-import org.giavacms.contest.util.PlivoSmsUtils;
-import org.jboss.ejb3.annotation.TransactionTimeout;
-import org.jboss.logging.Logger;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by pisi79 on 03/07/15.
@@ -43,9 +43,15 @@ public class SmsSenderMDB implements MessageListener
          MapMessage mapMessage = (MapMessage) message;
          dstNumber = mapMessage.getString(AppKeys.MESSAGE_number.name());
          text = mapMessage.getString(AppKeys.MESSAGE_text.name());
-         type = mapMessage.getString(AppKeys.MESSAGE_type.name());
-         PlivoSmsUtils.sendSms(AppProperties.authId.value(), AppProperties.authToken.value(),
-                  AppProperties.number.value(), dstNumber, text, type, AppProperties.url.value());
+         //         type = mapMessage.getString(AppKeys.MESSAGE_type.name());
+         //         PlivoSmsUtils.sendSms(AppProperties.authId.value(), AppProperties.authToken.value(),
+         //                  AppProperties.number.value(), dstNumber, text, type, AppProperties.url.value());
+
+         String result = SkebbySmsUtils.skebbyGatewaySendSMS(AppProperties.skebbyUsername.value(),
+                  AppProperties.skebbyPassword.value(), new String[] { dstNumber }, text,
+                  SkebbyType.send_sms_basic, AppProperties.skebbyNumber.value(),
+                  null, "UTF-8");
+         logger.info("result (" + dstNumber + "): " + result);
       }
       catch (Throwable re)
       {

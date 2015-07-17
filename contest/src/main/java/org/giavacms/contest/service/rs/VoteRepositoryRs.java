@@ -66,44 +66,51 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
                .replace("\\", "");
       vote.setPhone(phone);
       Search<Vote> search = new Search<Vote>(Vote.class);
-      search.getObj().setName(vote.getName());
-      search.getObj().setSurname(vote.getSurname());
       search.getObj().setPhone(vote.getPhone());
       search.getNot().setActive(false);
+      search.getObj().setCreated(new Date());
+      search.getObj().setConfirmed(new Date());
       List<Vote> list = null;
       // getRepository().getList(search, 0, 0);
-      if (list != null && list.size() > 0)
+      if (list != null && list.size() > 2)
       {
-         throw new Exception(" - ER4 - esiste gia' un voto con stesso numero di telefono, nome, cognome.");
+         throw new Exception(" - ER4 - puoi votare al massimo 3 volte al giorno.");
       }
-      else
-      {
-         search = new Search<Vote>(Vote.class);
-         search.getNot().setActive(false);
-         search.getObj().setPhone(vote.getPhone());
-         list = getRepository().getList(search, 0, 0);
-         if (list != null && list.size() > 0)
-         {
-            throw new Exception(" - ER5 - esiste gia' un voto con stesso numero di telefono.");
-         }
-      }
-
    }
 
+   //   @GET
+   //   @Path("/{phone}/confirmed")
+   //   public Response confirmed(@PathParam("phone") String phone)
+   //   {
+   //      logger.info("@GET /" + phone + "/confirmed");
+   //      try
+   //      {
+   //         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
+   //         return jsonResponse(Status.OK, "msg", isConfirmed);
+   //      }
+   //      catch (Exception e)
+   //      {
+   //         logger.error(e.getMessage(), e);
+   //         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + phone);
+   //      }
+   //   }
+
    @GET
-   @Path("/{phone}/confirmed")
-   public Response confirmed(@PathParam("phone") String phone)
+   @Path("/{uuid}/confirmed")
+   public Response confirmed(@PathParam("uuid") String uuid)
    {
-      logger.info("@GET /" + phone + "/confirmed");
+      logger.info("@GET /" + uuid + "/confirmed");
       try
       {
-         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
+         //         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
+         Vote vote = ((VoteRepository) getRepository()).find(uuid);
+         boolean isConfirmed = vote.getConfirmed() != null && vote.isActive();
          return jsonResponse(Status.OK, "msg", isConfirmed);
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + phone);
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + uuid);
       }
    }
 

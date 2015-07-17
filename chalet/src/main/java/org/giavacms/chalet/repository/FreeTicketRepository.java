@@ -30,7 +30,7 @@ public class FreeTicketRepository extends BaseRepository<FreeTicket>
 
       if (search.getObj().getUsingTime() != null)
       {
-         sb.append(separator).append(".usingTime = :usingTime ");
+         sb.append(separator).append(alias).append(".usingTime = :usingTime ");
          params.put("usingTime", search.getObj().getUsingTime());
          separator = " and ";
       }

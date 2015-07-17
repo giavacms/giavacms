@@ -1,21 +1,15 @@
 package org.giavacms.contest.repository;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Named;
-
 import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.model.pojo.Ranking;
 import org.giavacms.contest.model.pojo.User;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import java.util.*;
 
 @Named
 @Stateless
@@ -48,6 +42,22 @@ public class VoteRepository extends BaseRepository<Vote>
       if (search.getNot() != null && search.getNot().getConfirmed() != null)
       {
          sb.append(separator).append(alias).append(".confirmed IS NOT NULL ");
+         separator = " and ";
+      }
+
+      //CREATED IN DATE
+      if (search.getObj() != null && search.getObj().getCreated() != null)
+      {
+         sb.append(separator).append(alias).append(".created = :CREATED ");
+         params.put("CREATED", search.getObj().getCreated());
+         separator = " and ";
+      }
+
+      //CONFIRMED IN DATE
+      if (search.getObj() != null && search.getObj().getConfirmed() != null)
+      {
+         sb.append(separator).append(alias).append(".confirmed = :CONFIRMED ");
+         params.put("CONFIRMED", search.getObj().getConfirmed());
          separator = " and ";
       }
 
@@ -147,7 +157,7 @@ public class VoteRepository extends BaseRepository<Vote>
       @SuppressWarnings("unchecked")
       List<Object[]> results = getEm().createNativeQuery(
                " SELECT count(*) as num, " + preference + " FROM " + Vote.TABLE_NAME
-                        + " where confirmed != '' "
+                        + " where confirmed IS NOT NULL "
                         + " and active = 1 "
                         + "and confirmed <= :dateTime"
                         + "  group by " + preference + " order by num desc")

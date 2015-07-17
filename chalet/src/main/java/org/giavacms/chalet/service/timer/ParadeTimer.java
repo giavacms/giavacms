@@ -1,16 +1,15 @@
 package org.giavacms.chalet.service.timer;
 
-import java.io.Serializable;
-import java.util.Date;
+import org.giavacms.chalet.service.ParadeService;
+import org.jboss.logging.Logger;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
-
-import org.giavacms.chalet.service.ParadeService;
-import org.jboss.logging.Logger;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by fiorenzo on 03/07/15.
@@ -27,7 +26,7 @@ public class ParadeTimer
    ParadeService paradeService;
 
    @Lock(LockType.READ)
-   @Schedule(second = "0", minute = "0", hour = "*", persistent = false)
+   @Schedule(second = "0", minute = "0", hour = "*/2", persistent = false)
    public void timeout()
    {
       logger.info("TIMEOUT TO UPDATE THE CHALET PARADE");
