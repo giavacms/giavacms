@@ -77,8 +77,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       search.getNot().setActive(false);
       search.getObj().setCreated(new Date());
       search.getObj().setConfirmed(new Date());
-      List<Vote> list = null;
-      // getRepository().getList(search, 0, 0);
+      List<Vote> list = getRepository().getList(search, 0, 0);
       if (list != null && list.size() > 2)
       {
          throw new Exception(" - ER4 - puoi votare al massimo 3 volte al giorno.");
@@ -86,22 +85,50 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
    }
 
-   //   @GET
-   //   @Path("/{phone}/confirmed")
-   //   public Response confirmed(@PathParam("phone") String phone)
-   //   {
-   //      logger.info("@GET /" + phone + "/confirmed");
-   //      try
-   //      {
-   //         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
-   //         return jsonResponse(Status.OK, "msg", isConfirmed);
-   //      }
-   //      catch (Exception e)
-   //      {
-   //         logger.error(e.getMessage(), e);
-   //         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + phone);
-   //      }
-   //   }
+   @POST
+   @Path("/withToken")
+   @AccountTokenVerification
+   public Response createWithToken(Vote vote)
+   {
+      logger.info("@POST / withToken ");
+      StringBuffer exceptionBuffr = new StringBuffer();
+      try
+      {
+         if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
+         {
+            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                     "ER3 - il numero di telefono non puo' essere vuoto.");
+         }
+         String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
+                  .replace("\\", "");
+         vote.setPhone(phone);
+         Search<Vote> search = new Search<Vote>(Vote.class);
+         search.getObj().setPhone(vote.getPhone());
+         search.getNot().setActive(false);
+         search.getObj().setCreated(new Date());
+         search.getObj().setConfirmed(new Date());
+         List<Vote> list = getRepository().getList(search, 0, 0);
+         if (list != null && list.size() > 2)
+         {
+            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "ER4 - puoi votare al massimo 3 volte al giorno.");
+
+         }
+         else
+         {
+            vote.setConfirmed(new Date());
+            vote.setActive(true);
+            vote = ((VoteRepository) getRepository()).persist(vote);
+            return Response.status(Status.OK).entity(vote)
+                     .build();
+         }
+
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error CREATING VOTE FOR " + vote.getPhone());
+      }
+   }
 
    @GET
    @Path("/{uuid}/confirmed")
