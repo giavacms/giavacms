@@ -84,7 +84,7 @@ public class AccountRepository extends BaseRepository<Account>
    {
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.MINUTE, -5);
-      int result = getEm().createNativeQuery("DELETE  FROM" + Account.TABLE_NAME
+      int result = getEm().createNativeQuery("DELETE FROM " + Account.TABLE_NAME
                + " WHERE confirmed IS NULL "
                + " AND created < :CREATED ")
                .setParameter("CREATED", calendar.getTime()).executeUpdate();
