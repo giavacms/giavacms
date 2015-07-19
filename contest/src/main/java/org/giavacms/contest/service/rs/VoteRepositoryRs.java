@@ -1,11 +1,13 @@
 package org.giavacms.contest.service.rs;
 
-import org.giavacms.api.annotation.AccountTokenVerification;
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.commons.jwt.annotation.AccountTokenVerification;
 import org.giavacms.contest.management.AppConstants;
+import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.model.pojo.Ranking;
+import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.VoteRepository;
 import org.giavacms.contest.util.ServletContextUtils;
 
@@ -32,6 +34,9 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
 {
 
    private static final long serialVersionUID = 1L;
+
+   @Inject
+   AccountRepository accountRepository;
 
    @Context
    HttpServletRequest httpServletRequest;
@@ -74,7 +79,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       vote.setPhone(phone);
       Search<Vote> search = new Search<Vote>(Vote.class);
       search.getObj().setPhone(vote.getPhone());
-      search.getNot().setActive(false);
+      search.getNot().setActive(true);
       search.getObj().setCreated(new Date());
       search.getObj().setConfirmed(new Date());
       List<Vote> list = getRepository().getList(search, 0, 0);
@@ -84,6 +89,57 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       }
       vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
       vote.setActive(true);
+   }
+
+   @POST
+   @Path("/reVote")
+   public Response reVote(Vote vote)
+   {
+      logger.info("@POST / reVote ");
+      StringBuffer exceptionBuffr = new StringBuffer();
+      try
+      {
+         if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
+         {
+            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                     "ER3 - il numero di telefono non puo' essere vuoto.");
+         }
+         Account account = accountRepository.exist(vote.getPhone());
+         if (account == null)
+         {
+            return RsRepositoryService
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Account not existent ");
+         }
+         String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
+                  .replace("\\", "");
+         vote.setPhone(phone);
+         Search<Vote> search = new Search<Vote>(Vote.class);
+         search.getObj().setPhone(vote.getPhone());
+         search.getNot().setActive(false);
+         search.getObj().setCreated(new Date());
+         search.getObj().setConfirmed(new Date());
+         List<Vote> list = getRepository().getList(search, 0, 0);
+         if (list != null && list.size() > 2)
+         {
+            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "ER4 - puoi votare al massimo 3 volte al giorno.");
+
+         }
+         else
+         {
+            vote.setName(account.getName());
+            vote.setSurname(account.getSurname());
+            vote.setConfirmed(new Date());
+            vote.setActive(true);
+            vote = ((VoteRepository) getRepository()).persist(vote);
+            return Response.status(Status.OK).entity(vote)
+                     .build();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error CREATING VOTE FOR " + vote.getPhone());
+      }
    }
 
    @POST

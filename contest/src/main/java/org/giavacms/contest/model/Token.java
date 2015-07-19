@@ -11,7 +11,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = Vote.TABLE_NAME)
+@Table(name = Token.TABLE_NAME)
 public class Token implements Serializable
 {
    private static final long serialVersionUID = -4581521841453347801L;
@@ -20,7 +20,7 @@ public class Token implements Serializable
    private String uuid;
    private String name;
    private String phone;
-   private int duration;
+   private int duration = 0;
    private String token;
    private Date created;
    private Date confirmed;
@@ -48,7 +48,7 @@ public class Token implements Serializable
       return uuid;
    }
 
-   public void setUuid(String uid)
+   public void setUuid(String uuid)
    {
       this.uuid = uuid;
    }
@@ -73,6 +73,7 @@ public class Token implements Serializable
       this.duration = duration;
    }
 
+   @Column(length = 1024)
    public String getToken()
    {
       return token;
@@ -93,7 +94,6 @@ public class Token implements Serializable
       this.phone = phone;
    }
 
-   @Temporal(TemporalType.DATE)
    public Date getDestroyed()
    {
       return destroyed;
@@ -104,7 +104,6 @@ public class Token implements Serializable
       this.destroyed = destroyed;
    }
 
-   @Temporal(TemporalType.DATE)
    public Date getCreated()
    {
       return created;
@@ -115,7 +114,6 @@ public class Token implements Serializable
       this.created = created;
    }
 
-   @Temporal(TemporalType.DATE)
    public Date getConfirmed()
    {
       return confirmed;
@@ -134,5 +132,20 @@ public class Token implements Serializable
    public void setUserRoles(String userRoles)
    {
       this.userRoles = userRoles;
+   }
+
+   @Override public String toString()
+   {
+      return "Token{" +
+               "confirmed=" + confirmed +
+               ", uuid='" + uuid + '\'' +
+               ", name='" + name + '\'' +
+               ", phone='" + phone + '\'' +
+               ", duration=" + duration +
+               ", token='" + token + '\'' +
+               ", created=" + created +
+               ", destroyed=" + destroyed +
+               ", userRoles='" + userRoles + '\'' +
+               '}';
    }
 }

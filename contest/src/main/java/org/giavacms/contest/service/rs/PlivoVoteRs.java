@@ -56,13 +56,14 @@ public class PlivoVoteRs implements Serializable
          {
             Account account = new Account();
             account.setCreated(new Date());
+            account.setConfirmed(new Date());
             account.setPhone(from);
             account.setUserRoles("USER");
             User user;
             switch (result)
             {
             case 0:
-
+               logger.info("no vote to confirm");
                break;
             case 1:
                user = voteRepository.getUserByPhone(from.substring(2));

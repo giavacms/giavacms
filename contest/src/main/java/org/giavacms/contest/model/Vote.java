@@ -16,7 +16,7 @@ public class Vote implements Serializable
    private static final long serialVersionUID = -4581521841453347801L;
    public static final String TABLE_NAME = "Vote";
 
-   private String uid;
+   private String uuid;
    private String tocall;
    private Date created;
    private Date confirmed;
@@ -54,14 +54,14 @@ public class Vote implements Serializable
    @GeneratedValue(generator = "uuid")
    @GenericGenerator(name = "uuid", strategy = "uuid2")
    @Column(name = "uuid", unique = true)
-   public String getUid()
+   public String getUuid()
    {
-      return uid;
+      return uuid;
    }
 
-   public void setUid(String uid)
+   public void setUuid(String uuid)
    {
-      this.uid = uid;
+      this.uuid = uuid;
    }
 
    @Temporal(TemporalType.DATE)
@@ -190,7 +190,7 @@ public class Vote implements Serializable
    {
       return "Vote{" +
                "active=" + active +
-               ", uid='" + uid + '\'' +
+               ", uuid='" + uuid + '\'' +
                ", tocall='" + tocall + '\'' +
                ", created=" + created +
                ", confirmed=" + confirmed +

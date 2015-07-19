@@ -71,8 +71,11 @@ public class AccountRepository extends BaseRepository<Account>
       try
       {
          acount = (Account) getEm()
-                  .createQuery("select a from " + Account.class.getName() + " a WHERE a.phone = :PHONE ")
-                  .setParameter("PHONE", phone).getSingleResult();
+                  .createQuery("select a from " + Account.class.getName()
+                           + " a WHERE a.phone = :PHONE1 or a.phone = :PHONE2")
+                  .setParameter("PHONE1", phone)
+                  .setParameter("PHONE2", "39" + phone)
+                  .getSingleResult();
       }
       catch (Exception e)
       {
@@ -93,9 +96,10 @@ public class AccountRepository extends BaseRepository<Account>
 
    public int confirmAccount(String phone)
    {
+      int result = 0;
       if (phone.startsWith("39"))
       {
-         int result = getEm().createNativeQuery("UPDATE " + Account.TABLE_NAME
+         result = getEm().createNativeQuery("UPDATE " + Account.TABLE_NAME
                   + " SET confirmed=:CONFIRMED "
                   + " WHERE phone = :PHONE "
                   + " AND created IS NOT NULL ")
@@ -103,9 +107,12 @@ public class AccountRepository extends BaseRepository<Account>
                   .setParameter("CONFIRMED", new Date())
                   .executeUpdate();
          logger.info("CONFIRM ACCOUNT FOR PHONE - " + phone + ": num. " + result);
-         return result > 0 ? 1 : 0;
+         if (result > 0)
+         {
+            return 1;
+         }
       }
-      int result = getEm().createNativeQuery("UPDATE " + Account.TABLE_NAME
+      result = getEm().createNativeQuery("UPDATE " + Account.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
                + " WHERE phone = :PHONE "
                + " AND created IS NOT NULL ")

@@ -43,6 +43,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
 
    public List<Chalet> getAllWithImages()
    {
+      logger.info("getAllWithImages");
       Map<String, Chalet> mappaChalet = new HashMap<>();
       @SuppressWarnings("unchecked")
       List<Object[]> list = getEm()
@@ -84,48 +85,59 @@ public class ChaletRepository extends BaseRepository<Chalet>
 
    private Chalet chaletFromRow(Object[] row)
    {
-      //C.id, C.name, C.licenseNumber, C.preview, C.description, C.tags, C.active, C.owner, C.address, C.postalNumber,
-      // C.city, C.province, C.telephone, C.email, C.website, C.facebook, C.twitter, C.instagram, "
       int i = 0;
       Chalet c = new Chalet();
+      // //C.id,
       c.setId(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      //  C.name,
       c.setName(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      //    C.licenseNumber,
       c.setLicenseNumber(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      // C.preview,
       c.setPreview(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      // C.description,
       c.setDescription(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      //C.tags,
       c.setTags(row[i] == null ? "" : row[i].toString().trim());
       i++;
-      c.setDescription(row[i] == null ? "" : row[i].toString().trim());
-      i++;
+      //C.active,
       c.setActive(true);
       i++;
+      // C.owner
       c.setOwner(row[i] == null ? "" : row[i].toString().trim());
       i++;
-      c.setDescription(row[i] == null ? "" : row[i].toString().trim());
-      i++;
+      // C.address,
       c.setAddress(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      // C.postalNumber, "
       c.setPostalNumber(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      // C.city,
       c.setCity(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      // C.province,
       c.setProvince(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      //  C.telephone,
       c.setTelephone(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      //  C.email,
       c.setEmail(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      // C.website,
       c.setWebsite(row[i] == null ? "" : row[i].toString().trim());
       i++;
+      //    C.facebook,
       c.setFacebook(row[i] == null ? "" : row[i].toString().trim());
       i++;
-      c.setTwitter(row[i] == null ? "" : row[i].toString().trim());
+      // C.twitter
       i++;
+      // C.instagram, "
       c.setInstagram(row[i] == null ? "" : row[i].toString().trim());
       return c;
    }

@@ -22,7 +22,7 @@ public class VoteRepository extends BaseRepository<Vote>
    @Override
    protected String getDefaultOrderBy()
    {
-      return "uid desc";
+      return "uuid desc";
    }
 
    @Override
@@ -90,9 +90,10 @@ public class VoteRepository extends BaseRepository<Vote>
 
    public int confirmVote(String phone)
    {
+      int result = 0;
       if (phone.startsWith("39"))
       {
-         int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+         result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                   + " SET confirmed=:CONFIRMED "
                   + " WHERE phone = :PHONE "
                   + " AND active = :ACTIVE_W ")
@@ -101,9 +102,12 @@ public class VoteRepository extends BaseRepository<Vote>
                   .setParameter("CONFIRMED", new Date())
                   .executeUpdate();
          logger.info("CONFIRM VOTE FOR PHONE - " + phone + ": num. " + result);
-         return result > 0 ? 1 : 0;
+         if (result > 0)
+         {
+            return 1;
+         }
       }
-      int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
+      result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
                + " WHERE phone = :PHONE "
                + " AND active = :ACTIVE_W ")
@@ -188,7 +192,7 @@ public class VoteRepository extends BaseRepository<Vote>
       List<Vote> votes = getList(search, 0, 0);
       for (Vote vote : votes)
       {
-         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUid());
+         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUuid());
          List<User> users;
          if (mapPref.containsKey(vote.getPreference1()))
          {
@@ -210,10 +214,10 @@ public class VoteRepository extends BaseRepository<Vote>
                .createQuery(" select v from " + Vote.class.getName()
                         + " v where v.confirmed IS NOT NULL "
                         + " AND v.active = :ACTIVE_W "
-                        + " AND v.phonenumber = :PHONE "
+                        + " AND v.phone = :PHONE "
                         + " AND v.name IS NOT NULL "
                         + " AND v.surname IS NOT NULL "
-                        + " ORDER BY v.ID ASC")
+                        + " ORDER BY v.confirmed ASC")
                .setParameter("ACTIVE_W", true)
                .setParameter("PHONE", phone)
                .setMaxResults(1)
@@ -235,7 +239,7 @@ public class VoteRepository extends BaseRepository<Vote>
                         + " where preference1 != :LICENSE_NUMBER "
                         + " AND confirmed IS NOT NULL "
                         + " AND active = :ACTIVE_W "
-                        + " AND phonenumber NOT IN (:ALREADY_WINNERS)"
+                        + " AND phone NOT IN (:ALREADY_WINNERS)"
                         + " ORDER BY RANDOM()")
                .setParameter("LICENSE_NUMBER", licenseNumber)
                .setParameter("ACTIVE_W", true)
@@ -244,7 +248,7 @@ public class VoteRepository extends BaseRepository<Vote>
                .getResultList();
       for (Vote vote : votes)
       {
-         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUid());
+         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUuid());
          winners.add(user);
       }
       return winners;

@@ -106,4 +106,17 @@ public class Account implements Serializable
    {
       this.tocall = tocall;
    }
+
+   @Override public String toString()
+   {
+      return "Account{" +
+               "confirmed=" + confirmed +
+               ", phone='" + phone + '\'' +
+               ", name='" + name + '\'' +
+               ", surname='" + surname + '\'' +
+               ", tocall='" + tocall + '\'' +
+               ", created=" + created +
+               ", userRoles='" + userRoles + '\'' +
+               '}';
+   }
 }

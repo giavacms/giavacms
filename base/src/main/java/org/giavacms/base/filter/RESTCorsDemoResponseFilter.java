@@ -23,8 +23,10 @@ public class RESTCorsDemoResponseFilter implements ContainerResponseFilter
                .getPath());
       responseCtx.getHeaders().add("Access-Control-Allow-Origin", "*");
       responseCtx.getHeaders().add("Access-Control-Allow-Credentials", "true");
-      responseCtx.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-      responseCtx.getHeaders().add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      responseCtx.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+      responseCtx.getHeaders()
+               .add("Access-Control-Allow-Headers",
+                        "Origin, X-Requested-With, Content-Type, Accept, Authorization, accept, authorization");
       // When HttpMethod comes as OPTIONS, just acknowledge that it accepts...
       //      if (requestCtx.getRequest().getMethod().equals("OPTIONS"))
       //      {

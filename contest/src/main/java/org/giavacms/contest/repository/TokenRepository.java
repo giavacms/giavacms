@@ -7,6 +7,7 @@ import org.giavacms.contest.model.Token;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class TokenRepository extends BaseRepository<Token>
    @Override
    protected String getDefaultOrderBy()
    {
-      return "uid desc";
+      return "uuid desc";
    }
 
    @Override
@@ -67,9 +68,10 @@ public class TokenRepository extends BaseRepository<Token>
 
    public int confirmToken(String phone)
    {
+      int result = 0;
       if (phone.startsWith("39"))
       {
-         int result = getEm().createNativeQuery("UPDATE " + Token.TABLE_NAME
+         result = getEm().createNativeQuery("UPDATE " + Token.TABLE_NAME
                   + " SET confirmed=:CONFIRMED "
                   + " WHERE phone = :PHONE "
                   + " AND created IS NOT NULL ")
@@ -77,9 +79,12 @@ public class TokenRepository extends BaseRepository<Token>
                   .setParameter("CONFIRMED", new Date())
                   .executeUpdate();
          logger.info("CONFIRM TOKEN FOR PHONE - " + phone + ": num. " + result);
-         return result > 0 ? 1 : 0;
+         if (result > 0)
+         {
+            return 1;
+         }
       }
-      int result = getEm().createNativeQuery("UPDATE " + Token.TABLE_NAME
+      result = getEm().createNativeQuery("UPDATE " + Token.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
                + " WHERE phone = :PHONE "
                + " AND created IS NOT NULL ")
@@ -88,6 +93,16 @@ public class TokenRepository extends BaseRepository<Token>
                .executeUpdate();
       logger.info("CONFIRM TOKEN FOR PHONE - " + phone + ": num. " + result);
       return result > 0 ? 2 : 0;
+   }
 
+   public void deleteNotConfirmed()
+   {
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.MINUTE, -5);
+      int result = getEm().createNativeQuery("DELETE FROM " + Token.TABLE_NAME
+               + " WHERE confirmed IS NULL "
+               + " AND created < :CREATED ")
+               .setParameter("CREATED", calendar.getTime()).executeUpdate();
+      logger.info("DELETED NOT CONFIRMED TOKEN - " + " num. " + result);
    }
 }

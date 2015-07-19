@@ -2,6 +2,7 @@ package org.giavacms.contest.service.rs;
 
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.commons.jwt.util.JWTUtils;
+import org.giavacms.contest.management.AppConstants;
 import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Token;
 import org.giavacms.contest.model.pojo.Login;
@@ -10,6 +11,7 @@ import org.giavacms.contest.repository.TokenRepository;
 import org.giavacms.contest.util.ServletContextUtils;
 import org.jboss.logging.Logger;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -27,9 +29,10 @@ import java.util.Date;
 /**
  * Created by fiorenzo on 17/07/15.
  */
-@Path("/accounts")
+@Path(AppConstants.BASE_PATH + AppConstants.ACCOUNTS_PATH)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Stateless
 public class AccountRs implements Serializable
 {
    private static final long serialVersionUID = 6387740854416008191L;
@@ -45,22 +48,41 @@ public class AccountRs implements Serializable
 
    protected final Logger logger = Logger.getLogger(getClass());
 
+   public AccountRs()
+   {
+   }
+
    @POST
    public Response create(Account account)
    {
       ServletContext servletContext = httpServletRequest.getServletContext();
-      logger.info("@POST /login: " + account.getPhone());
-      if (account == null
-               || account.getSurname() == null || account.getSurname().trim().isEmpty()
-               || account.getName() == null || account.getName().trim().isEmpty()
-               || account.getPhone() == null || account.getPhone().trim().isEmpty())
+      logger.info("@POST /creatAccounte: " + account);
+      StringBuffer exceptionBuffr = new StringBuffer();
+      if (account == null)
       {
+         exceptionBuffr.append(" - ER6 - account nullo.");
+      }
+      if (account.getName() == null || account.getName().trim().isEmpty())
+      {
+         exceptionBuffr.append(" - ER7 - il nome non puo' essere vuoto.");
+      }
+      if (account.getSurname() == null || account.getSurname().trim().isEmpty())
+      {
+         exceptionBuffr.append(" - ER7 - il cognome non puo' essere vuoto.");
+      }
+      if (account.getPhone() == null || account.getPhone().trim().isEmpty())
+      {
+         exceptionBuffr.append(" - ER8 - il telefono non puo' essere vuoto.");
+      }
+      if (exceptionBuffr.length() > 0)
+      {
+         logger.info(exceptionBuffr.toString());
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid account ");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", exceptionBuffr.toString());
       }
       //verificare che esiste
-      account = accountRepository.exist(account.getPhone());
-      if (account != null)
+      Account verify = accountRepository.exist(account.getPhone());
+      if (verify != null)
       {
          return RsRepositoryService
                   .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Account already exist ");
@@ -69,6 +91,7 @@ public class AccountRs implements Serializable
       {
          try
          {
+            logger.info("generateToken - TokenNumber: " + ServletContextUtils.getTokenNumber(servletContext));
             account.setTocall(ServletContextUtils.getTokenNumber(servletContext));
             account.setCreated(new Date());
             account.setConfirmed(null);
@@ -78,6 +101,7 @@ public class AccountRs implements Serializable
          }
          catch (Exception e)
          {
+            e.printStackTrace();
             return RsRepositoryService
                      .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "generic error");
          }
@@ -86,13 +110,17 @@ public class AccountRs implements Serializable
 
    private Response generateToken(Account account, ServletContext servletContext)
    {
+      logger.info("generateToken - account: " + account);
       if (account != null)
       {
-         Token token = new Token(new Date(), account.getPhone(), account.getName() + " " + account.getSurname(),
-                  account.getUserRoles());
+
          try
          {
-            token = tokenRepository.persist(token);
+            logger.info("generateToken - TokenNumber: " + ServletContextUtils.getTokenNumber(servletContext));
+            Token token = tokenRepository
+                     .persist(new Token(new Date(), account.getPhone(), account.getName() + " " + account.getSurname(),
+                              account.getUserRoles()));
+            logger.info(token);
             //se esiste ti torno un numero di telefono da chiamare
             JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
             jsonObjBuilder.add("tocall", ServletContextUtils.getTokenNumber(servletContext));
@@ -102,7 +130,7 @@ public class AccountRs implements Serializable
                      .entity(jsonObj.toString())
                      .build();
          }
-         catch (Exception e)
+         catch (Throwable e)
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Error in create token ");
@@ -112,7 +140,7 @@ public class AccountRs implements Serializable
       else
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid account");
       }
    }
 
@@ -125,7 +153,7 @@ public class AccountRs implements Serializable
       if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number");
       }
       //verificare che esiste
       Account account = accountRepository.exist(login.getPhone());
