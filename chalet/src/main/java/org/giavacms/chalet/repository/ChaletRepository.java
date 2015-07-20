@@ -55,7 +55,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
                                  + " LEFT JOIN " + Chalet.IMAGES_JOINTABLE_NAME + " CI on (C.id=CI." + Chalet.TABLE_FK
                                  + ") "
                                  + " LEFT JOIN " + Image.TABLE_NAME + " I on (I.id = CI." + Chalet.IMAGE_FK + ") "
-                                 + " where C.active = :ACTIVE1 order by C.licenseNumber asc")
+                                 + " where C.active = :ACTIVE1 order by C.name asc")
                .setParameter("ACTIVE1", 1)
                .getResultList();
       for (Object[] row : list)
