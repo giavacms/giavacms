@@ -9,10 +9,7 @@ import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.ChaletTag;
 
 import javax.ejb.Stateless;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Stateless
 public class ChaletRepository extends BaseRepository<Chalet>
@@ -44,7 +41,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
    public List<Chalet> getAllWithImages()
    {
       logger.info("getAllWithImages");
-      Map<String, Chalet> mappaChalet = new HashMap<>();
+      Map<String, Chalet> mappaChalet = new LinkedHashMap<>();
       @SuppressWarnings("unchecked")
       List<Object[]> list = getEm()
                .createNativeQuery(
