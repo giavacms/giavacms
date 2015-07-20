@@ -2,14 +2,15 @@ package org.giavacms.contest.service.rs;
 
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.api.util.RepositoryUtils;
 import org.giavacms.commons.jwt.annotation.AccountTokenVerification;
 import org.giavacms.contest.management.AppConstants;
 import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Vote;
-import org.giavacms.contest.model.pojo.Ranking;
 import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.VoteRepository;
 import org.giavacms.contest.util.ServletContextUtils;
+import org.jboss.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,9 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -30,13 +29,18 @@ import java.util.List;
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class VoteRepositoryRs extends RsRepositoryService<Vote>
+public class VoteRepositoryRs implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
+   Logger logger = Logger.getLogger(getClass());
+
    @Inject
    AccountRepository accountRepository;
+
+   @Inject
+   VoteRepository repository;
 
    @Context
    HttpServletRequest httpServletRequest;
@@ -45,13 +49,43 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
    {
    }
 
-   @Inject
-   public VoteRepositoryRs(VoteRepository repository)
+   @POST
+   public Response persist(Vote object) throws Exception
    {
-      super(repository);
+      logger.info("@POST / persist ");
+      try
+      {
+         prePersist(object);
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage());
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                  "Error before creating resource: " + e.getMessage());
+      }
+      try
+      {
+         Vote persisted = repository.persist(object);
+         if (persisted == null || RepositoryUtils.getId(persisted) == null)
+         {
+            logger.error("Failed to create resource: " + object);
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR,
+                     "msg", "Failed to create resource: " + object.toString());
+         }
+         else
+         {
+            return Response.status(Status.OK).entity(persisted)
+                     .build();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                  "ER6 - Error creating resource: " + object.toString());
+      }
    }
 
-   @Override
    protected void prePersist(Vote vote) throws Exception
    {
       ServletContext servletContext = httpServletRequest.getServletContext();
@@ -82,7 +116,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       search.getNot().setActive(true);
       search.getObj().setCreated(new Date());
       search.getObj().setConfirmed(new Date());
-      List<Vote> list = getRepository().getList(search, 0, 0);
+      List<Vote> list = repository.getList(search, 0, 0);
       if (list != null && list.size() > 2)
       {
          throw new Exception(" - ER4 - puoi votare al massimo 3 volte al giorno.");
@@ -96,19 +130,22 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
    public Response reVote(Vote vote)
    {
       logger.info("@POST / reVote ");
+      ServletContext servletContext = httpServletRequest.getServletContext();
       StringBuffer exceptionBuffr = new StringBuffer();
       try
       {
          if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
          {
-            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+            logger.error("@POST / reVote - il numero di telefono non puo' essere vuoto.");
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
                      "ER3 - il numero di telefono non puo' essere vuoto.");
          }
          Account account = accountRepository.exist(vote.getPhone());
          if (account == null)
          {
+            logger.error("@POST / reVote - Account not existent: " + vote.getPhone());
             return RsRepositoryService
-                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Account not existent ");
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "ER5 - Account not existent ");
          }
          String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
                   .replace("\\", "");
@@ -118,19 +155,21 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
          search.getNot().setActive(false);
          search.getObj().setCreated(new Date());
          search.getObj().setConfirmed(new Date());
-         List<Vote> list = getRepository().getList(search, 0, 0);
+         List<Vote> list = repository.getList(search, 0, 0);
          if (list != null && list.size() > 2)
          {
-            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "ER4 - puoi votare al massimo 3 volte al giorno.");
+            logger.error("@POST / reVote - puoi votare al massimo 3 volte al giorno.: " + vote.getPhone());
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                     "ER4 - puoi votare al massimo 3 volte al giorno.");
 
          }
          else
          {
             vote.setName(account.getName());
             vote.setSurname(account.getSurname());
-            vote.setConfirmed(new Date());
             vote.setActive(true);
-            vote = ((VoteRepository) getRepository()).persist(vote);
+            vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
+            vote = repository.persist(vote);
             return Response.status(Status.OK).entity(vote)
                      .build();
          }
@@ -138,7 +177,8 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error CREATING VOTE FOR " + vote.getPhone());
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                  "ER6 - Error CREATING VOTE FOR " + vote.getPhone());
       }
    }
 
@@ -153,7 +193,7 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       {
          if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
          {
-            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
                      "ER3 - il numero di telefono non puo' essere vuoto.");
          }
          String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
@@ -164,17 +204,18 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
          search.getNot().setActive(false);
          search.getObj().setCreated(new Date());
          search.getObj().setConfirmed(new Date());
-         List<Vote> list = getRepository().getList(search, 0, 0);
+         List<Vote> list = repository.getList(search, 0, 0);
          if (list != null && list.size() > 2)
          {
-            return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "ER4 - puoi votare al massimo 3 volte al giorno.");
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                     "ER4 - puoi votare al massimo 3 volte al giorno.");
 
          }
          else
          {
             vote.setConfirmed(new Date());
             vote.setActive(true);
-            vote = ((VoteRepository) getRepository()).persist(vote);
+            vote = repository.persist(vote);
             return Response.status(Status.OK).entity(vote)
                      .build();
          }
@@ -183,7 +224,8 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error CREATING VOTE FOR " + vote.getPhone());
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                  "ER6 - Error CREATING VOTE FOR " + vote.getPhone());
       }
    }
 
@@ -195,64 +237,31 @@ public class VoteRepositoryRs extends RsRepositoryService<Vote>
       try
       {
          //         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
-         Vote vote = ((VoteRepository) getRepository()).find(uuid);
+         Vote vote = repository.find(uuid);
          boolean isConfirmed = vote.getConfirmed() != null && vote.isActive();
-         return jsonResponse(Status.OK, "msg", isConfirmed);
+         return RsRepositoryService.jsonResponse(Status.OK, "msg", isConfirmed);
       }
       catch (Exception e)
       {
          logger.error(e.getMessage());
-         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading confirmed for " + uuid);
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+                  "ER6 - Error reading confirmed for " + uuid);
       }
    }
 
-   @GET
-   @Path("/{preference}/rankings")
-   @AccountTokenVerification
-   public Response rankings(@PathParam("preference") String preference, @QueryParam("when") String when)
+   @OPTIONS
+   public Response options()
    {
-      logger.info("@GET /" + preference + "/rankings");
-      try
-      {
-         DateFormat df = new SimpleDateFormat("YYYYMMDDThhmmssZ");
-         Date dateWhen = df.parse(when);
-         List<Ranking> rankings = ((VoteRepository) getRepository()).getRanking(preference, dateWhen);
-         // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
-         // wrapper.setList(list);
-         // wrapper.setListSize(listSize);
-         // wrapper.setStartRow(startRow);
-         return Response.status(Status.OK).entity(rankings)
-                  .build();
-      }
-      catch (Exception e)
-      {
-         logger.error(e.getMessage());
-         return Response.status(Status.INTERNAL_SERVER_ERROR)
-                  .entity("{'msg' : 'Error reading ranking list for " + preference + "'}")
-                  .type(MediaType.APPLICATION_JSON_TYPE).build();
-      }
+      logger.info("@OPTIONS");
+      return Response.ok().build();
    }
 
-   @GET
-   @AccountTokenVerification
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response getList(
-            @DefaultValue("0") @QueryParam("startRow") Integer startRow,
-            @DefaultValue("10") @QueryParam("pageSize") Integer pageSize,
-            @QueryParam("orderBy") String orderBy, @Context UriInfo ui)
+   @OPTIONS
+   @Path("{path:.*}")
+   public Response allOptions()
    {
-      return super.getList(startRow, pageSize, orderBy, ui);
-   }
-
-   @AccountTokenVerification
-   @PUT
-   @Path("/{id}")
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response update(@PathParam("id") String id, Vote object) throws Exception
-   {
-      return super.update(id, object);
+      logger.info("@OPTIONS ALL");
+      return Response.ok().build();
    }
 
 }
