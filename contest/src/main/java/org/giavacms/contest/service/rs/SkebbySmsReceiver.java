@@ -2,7 +2,9 @@ package org.giavacms.contest.service.rs;
 
 import org.giavacms.api.model.Search;
 import org.giavacms.contest.management.AppConstants;
+import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Vote;
+import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.VoteRepository;
 import org.giavacms.contest.util.LoggerCallUtils;
 import org.jboss.logging.Logger;
@@ -33,6 +35,9 @@ public class SkebbySmsReceiver implements Serializable
    @Inject
    VoteRepository voteRepository;
 
+   @Inject
+   AccountRepository accountRepository;
+
    /*
  * sender   SMS Sender's Numnber in international format without "+" or "00", Example: 393334455666
  * receiver The number where the SMS has arrived in international format without "+" or "00", Example: 393334455666
@@ -51,26 +56,60 @@ public class SkebbySmsReceiver implements Serializable
    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
    public Response url(@Context HttpServletRequest httpServletRequest) throws Exception
    {
-      logger.info("plivo sms url executing");
+      logger.info("skebby sms url executing");
       Map<String, String> params = LoggerCallUtils.log(httpServletRequest);
-      Search<Vote> search = new Search<Vote>(Vote.class);
-      search.getNot().setActive(false);
-      search.getObj().setPhone(params.get("sender"));
-      List<Vote> list = voteRepository.getList(search, 0, 0);
-      if (list != null && list.size() > 0)
+      String phone = params.get("sender").trim();
+      String preference1 = params.get("text").trim();
+      if (preference1 == null || preference1.trim().isEmpty())
       {
-         logger.info("ER5 - esiste gia' un voto con stesso numero di telefono.");
+         logger.error("@POST / skebby - preferenza nulla");
+         return Response
+                  .ok()
+                  .entity("ok").build();
       }
-      else
+      try
       {
-         Vote vote = new Vote(params.get("sender"));
-         vote.setPreference1(params.get("text"));
-         vote.setActive(true);
-         vote.setName("Anonymous");
-         vote.setSurname("Anonymous");
-         vote.setCreated(new Date());
-         vote.setConfirmed(new Date());
-         voteRepository.persist(vote);
+         Search<Vote> search = new Search<Vote>(Vote.class);
+         search.getObj().setPhone(phone);
+         search.getNot().setActive(false);
+         search.getObj().setCreated(new Date());
+         search.getObj().setConfirmed(new Date());
+         List<Vote> list = voteRepository.getList(search, 0, 0);
+         if (list != null && list.size() > 2)
+         {
+            logger.error("@POST / skebby - puoi votare al massimo 3 volte al giorno.: " + phone);
+         }
+         else
+         {
+            Vote vote = new Vote(phone);
+            vote.setPreference1(preference1);
+            vote.setActive(true);
+            vote.setCreated(new Date());
+            vote.setConfirmed(new Date());
+            vote.setTocall(params.get("receiver"));
+
+            Account account = accountRepository.exist(phone);
+            if (account != null)
+            {
+               vote.setName(account.getName());
+               vote.setSurname(account.getSurname());
+               logger.error("@POST / skebby - with account - " + account);
+            }
+            else
+            {
+               logger.error("@POST / skebby - without account");
+            }
+            vote = voteRepository.persist(vote);
+            return Response.status(Response.Status.OK).entity(vote)
+                     .build();
+         }
+      }
+      catch (Exception e)
+      {
+         logger.error("@POST / skebby - errore in fase di persistenza " + e.getMessage());
+         return Response
+                  .ok()
+                  .entity("ok").build();
       }
       return Response
                .ok()
