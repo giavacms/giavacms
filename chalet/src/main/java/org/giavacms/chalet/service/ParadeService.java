@@ -1,24 +1,23 @@
 package org.giavacms.chalet.service;
 
+import org.giavacms.chalet.model.Chalet;
+import org.giavacms.chalet.model.ChaletParade;
+import org.giavacms.chalet.model.ChaletRanking;
+import org.giavacms.chalet.repository.ChaletParadeRepository;
+import org.giavacms.chalet.repository.ChaletRepository;
+import org.giavacms.contest.model.pojo.Ranking;
+import org.giavacms.contest.repository.VoteRepository;
+import org.jboss.logging.Logger;
+
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
-import org.giavacms.chalet.model.Chalet;
-import org.giavacms.chalet.model.ChaletRanking;
-import org.giavacms.chalet.model.ChaletParade;
-import org.giavacms.chalet.repository.ChaletRepository;
-import org.giavacms.chalet.repository.ChaletParadeRepository;
-import org.giavacms.contest.model.pojo.Ranking;
-import org.giavacms.contest.repository.VoteRepository;
-import org.jboss.logging.Logger;
 
 /**
  * Created by fiorenzo on 03/07/15.
@@ -49,7 +48,8 @@ public class ParadeService implements Serializable
          // preferences = SELECT DISTINCT PREFERENCES FROM VOTE....
          for (String preference : preferences)
          {
-            create(preference, atTime);
+            ChaletParade last = paradeRepository.getLast(preference);
+            create(preference, atTime, last);
          }
       }
       catch (Throwable t)
@@ -58,7 +58,7 @@ public class ParadeService implements Serializable
       }
    }
 
-   public void create(String preference, Date atTime)
+   public void create(String preference, Date atTime, ChaletParade last)
    {
       try
       {

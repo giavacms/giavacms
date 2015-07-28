@@ -96,7 +96,8 @@ public class VoteRepository extends BaseRepository<Vote>
          result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                   + " SET confirmed=:CONFIRMED "
                   + " WHERE phone = :PHONE "
-                  + " AND active = :ACTIVE_W ")
+                  + " AND active = :ACTIVE_W "
+                  + " LIMIT 1 ")
                   .setParameter("PHONE", phone.substring(2))
                   .setParameter("ACTIVE_W", true)
                   .setParameter("CONFIRMED", new Date())
@@ -110,7 +111,8 @@ public class VoteRepository extends BaseRepository<Vote>
       result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET confirmed=:CONFIRMED "
                + " WHERE phone = :PHONE "
-               + " AND active = :ACTIVE_W ")
+               + " AND active = :ACTIVE_W "
+               + " LIMIT 1 ")
                .setParameter("PHONE", phone)
                .setParameter("ACTIVE_W", true)
                .setParameter("CONFIRMED", new Date())
@@ -192,7 +194,8 @@ public class VoteRepository extends BaseRepository<Vote>
       List<Vote> votes = getList(search, 0, 0);
       for (Vote vote : votes)
       {
-         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUuid());
+         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(),
+                  vote.getUuid());
          List<User> users;
          if (mapPref.containsKey(vote.getPreference1()))
          {
@@ -248,7 +251,8 @@ public class VoteRepository extends BaseRepository<Vote>
                .getResultList();
       for (Vote vote : votes)
       {
-         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(), vote.getUuid());
+         User user = new User(vote.getName(), vote.getPhone(), vote.getPreference1(), vote.getSurname(),
+                  vote.getUuid());
          winners.add(user);
       }
       return winners;

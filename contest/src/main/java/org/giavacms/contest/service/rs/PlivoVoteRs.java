@@ -7,6 +7,8 @@ import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.VoteRepository;
 import org.giavacms.contest.util.LoggerCallUtils;
 import org.jboss.logging.Logger;
+import org.plivo.ee.helper.xml.HangUp;
+import org.plivo.ee.helper.xml.type.Reason;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -89,7 +91,9 @@ public class PlivoVoteRs implements Serializable
          e.printStackTrace();
       }
       org.plivo.ee.helper.xml.Response responseXml = new org.plivo.ee.helper.xml.Response();
-      responseXml.hangUp();
+      HangUp hangUp = new HangUp();
+      hangUp.reason = Reason.busy;
+      responseXml.hangUp = hangUp;
       return Response
                .ok()
                .entity(responseXml).build();
@@ -112,6 +116,9 @@ public class PlivoVoteRs implements Serializable
          e.printStackTrace();
       }
       org.plivo.ee.helper.xml.Response responseXml = new org.plivo.ee.helper.xml.Response();
+      HangUp hangUp = new HangUp();
+      hangUp.reason = Reason.busy;
+      responseXml.hangUp = hangUp;
       return Response
                .ok()
                .entity(responseXml).build();
@@ -134,6 +141,9 @@ public class PlivoVoteRs implements Serializable
          e.printStackTrace();
       }
       org.plivo.ee.helper.xml.Response responseXml = new org.plivo.ee.helper.xml.Response();
+      HangUp hangUp = new HangUp();
+      hangUp.reason = Reason.busy;
+      responseXml.hangUp = hangUp;
       return Response
                .ok()
                .entity(responseXml).build();
