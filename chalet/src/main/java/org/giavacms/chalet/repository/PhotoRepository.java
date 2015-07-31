@@ -16,7 +16,7 @@ public class PhotoRepository extends BaseRepository<Photo>
    @Override
    protected String getDefaultOrderBy()
    {
-      return "created desc";
+      return " created desc";
    }
 
    @Override

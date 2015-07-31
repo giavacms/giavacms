@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -175,6 +176,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       Photo photo = new Photo();
       photo.setChaletId(chaletId);
       photo.setAccountId(accountId);
+      photo.setCreated(new Date());
+      photo.setActive(true);
       String uuid = UUID.randomUUID().toString();
       photo.setUuid(uuid);
 
@@ -192,5 +195,30 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       logger.info("img create: " + absoluteFilename);
       photo = getRepository().persist(photo);
       return photo;
+   }
+
+   @PUT
+   @Path("/{uuid}/approved")
+   @AccountTokenVerification
+   public Response approve(@PathParam("uuid") String id) throws Exception
+   {
+      try
+      {
+         //DEVE ESISTERE LA FOTO
+         Photo photo = getRepository().find(id);
+         if (photo == null)
+         {
+            throw new Exception(AppConstants.ER9);
+         }
+         photo.setApproved(true);
+         getRepository().update(photo);
+         return Response.status(Response.Status.OK).entity(photo).build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                  "Error deleting resource for ID: " + id);
+      }
    }
 }
