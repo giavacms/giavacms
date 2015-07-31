@@ -8,6 +8,7 @@ import org.giavacms.contest.model.Token;
 import org.giavacms.contest.model.pojo.Login;
 import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.TokenRepository;
+import org.giavacms.contest.util.RandomUtils;
 import org.giavacms.contest.util.ServletContextUtils;
 import org.jboss.logging.Logger;
 
@@ -60,39 +61,41 @@ public class AccountRs implements Serializable
       StringBuffer exceptionBuffr = new StringBuffer();
       if (account == null)
       {
-         exceptionBuffr.append(" - ER6 - account nullo.");
+         exceptionBuffr.append(AppConstants.ER7);
       }
       if (account.getName() == null || account.getName().trim().isEmpty())
       {
-         exceptionBuffr.append(" - ER7 - il nome non puo' essere vuoto.");
+         exceptionBuffr.append(AppConstants.ER8);
       }
       if (account.getSurname() == null || account.getSurname().trim().isEmpty())
       {
-         exceptionBuffr.append(" - ER7 - il cognome non puo' essere vuoto.");
+         exceptionBuffr.append(AppConstants.ER9);
       }
       if (account.getPhone() == null || account.getPhone().trim().isEmpty())
       {
-         exceptionBuffr.append(" - ER8 - il telefono non puo' essere vuoto.");
+         exceptionBuffr.append(AppConstants.ER10);
       }
       if (exceptionBuffr.length() > 0)
       {
          logger.info(exceptionBuffr.toString());
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", exceptionBuffr.toString());
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, exceptionBuffr.toString());
       }
       //verificare che esiste
       Account verify = accountRepository.exist(account.getPhone());
       if (verify != null)
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Account already exist ");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, "Account already exist ");
       }
       else
       {
          try
          {
-            logger.info("generateToken - TokenNumber: " + ServletContextUtils.getTokenNumber(servletContext));
-            account.setTocall(ServletContextUtils.getTokenNumber(servletContext));
+            String randomNumber = RandomUtils.getRandomNumber(
+                     ServletContextUtils.getTokenNumber(servletContext));
+            logger.info("generateToken - TokenNumber: " + randomNumber);
+            account.setTocall(randomNumber);
             account.setCreated(new Date());
             account.setConfirmed(null);
             account.setUserRoles("USER");
@@ -103,7 +106,7 @@ public class AccountRs implements Serializable
          {
             e.printStackTrace();
             return RsRepositoryService
-                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "generic error");
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, "generic error");
          }
       }
    }
@@ -116,14 +119,16 @@ public class AccountRs implements Serializable
 
          try
          {
-            logger.info("generateToken - TokenNumber: " + ServletContextUtils.getTokenNumber(servletContext));
+            String randomNumber = RandomUtils.getRandomNumber(
+                     ServletContextUtils.getTokenNumber(servletContext));
+            logger.info("generateToken - TokenNumber: " + randomNumber);
             Token token = tokenRepository
                      .persist(new Token(new Date(), account.getPhone(), account.getName() + " " + account.getSurname(),
                               account.getUserRoles()));
             logger.info(token);
             //se esiste ti torno un numero di telefono da chiamare
             JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-            jsonObjBuilder.add("tocall", ServletContextUtils.getTokenNumber(servletContext));
+            jsonObjBuilder.add("tocall", randomNumber);
             jsonObjBuilder.add("uuid", token.getUuid());
             JsonObject jsonObj = jsonObjBuilder.build();
             return Response.status(Response.Status.OK)
@@ -133,14 +138,15 @@ public class AccountRs implements Serializable
          catch (Throwable e)
          {
             return RsRepositoryService
-                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Error in create token ");
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                              "Error in create token ");
          }
 
       }
       else
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid account");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, "No valid account");
       }
    }
 
@@ -153,7 +159,7 @@ public class AccountRs implements Serializable
       if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, "No valid number");
       }
       //verificare che esiste
       Account account = accountRepository.exist(login.getPhone());
@@ -168,7 +174,7 @@ public class AccountRs implements Serializable
       if (login == null || login.getPhone() == null || login.getPhone().trim().isEmpty())
       {
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "No valid number ");
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, "No valid number ");
       }
       //verificare che esiste
       Account account = accountRepository.exist(login.getPhone());
@@ -180,16 +186,17 @@ public class AccountRs implements Serializable
             token.setDestroyed(new Date());
             token = tokenRepository.update(token);
             return RsRepositoryService
-                     .jsonResponse(Response.Status.NO_CONTENT, "msg", "logout for: " + login.getPhone());
+                     .jsonResponse(Response.Status.NO_CONTENT, AppConstants.RS_MSG, "logout for: " + login.getPhone());
          }
          catch (Exception e)
          {
             return RsRepositoryService
-                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "Error in create token ");
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                              "Error in create token ");
          }
 
       }
-      return RsRepositoryService.jsonResponse(Response.Status.BAD_REQUEST, "msg",
+      return RsRepositoryService.jsonResponse(Response.Status.BAD_REQUEST, AppConstants.RS_MSG,
                "No valid number: " + login.getPhone());
    }
 
@@ -219,7 +226,8 @@ public class AccountRs implements Serializable
          else
          {
             return RsRepositoryService
-                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "no token valid for " + uuid);
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                              "no token valid for " + uuid);
          }
 
       }
@@ -227,7 +235,8 @@ public class AccountRs implements Serializable
       {
          logger.error(e.getMessage(), e);
          return RsRepositoryService
-                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", " error in confirm " + uuid);
+                  .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                           " error in confirm " + uuid);
       }
    }
 

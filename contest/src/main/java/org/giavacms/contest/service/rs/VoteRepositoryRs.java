@@ -9,6 +9,7 @@ import org.giavacms.contest.model.Account;
 import org.giavacms.contest.model.Vote;
 import org.giavacms.contest.repository.AccountRepository;
 import org.giavacms.contest.repository.VoteRepository;
+import org.giavacms.contest.util.RandomUtils;
 import org.giavacms.contest.util.ServletContextUtils;
 import org.jboss.logging.Logger;
 
@@ -60,7 +61,7 @@ public class VoteRepositoryRs implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage());
-         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
                   "Error before creating resource: " + e.getMessage());
       }
       try
@@ -70,7 +71,7 @@ public class VoteRepositoryRs implements Serializable
          {
             logger.error("Failed to create resource: " + object);
             return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR,
-                     "msg", "Failed to create resource: " + object.toString());
+                     AppConstants.RS_MSG, "Failed to create resource: " + object.toString());
          }
          else
          {
@@ -81,8 +82,8 @@ public class VoteRepositoryRs implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                  "ER6 - Error creating resource: " + object.toString());
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                  AppConstants.ER6 + object.toString());
       }
    }
 
@@ -94,15 +95,15 @@ public class VoteRepositoryRs implements Serializable
       StringBuffer exceptionBuffr = new StringBuffer();
       if (vote.getName() == null || vote.getName().trim().isEmpty())
       {
-         exceptionBuffr.append(" - ER1 - il nome non puo' essere vuoto.");
+         exceptionBuffr.append(AppConstants.ER1);
       }
       if (vote.getSurname() == null || vote.getSurname().trim().isEmpty())
       {
-         exceptionBuffr.append(" - ER2 - il cognome non puo' essere vuoto.");
+         exceptionBuffr.append(AppConstants.ER2);
       }
       if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
       {
-         exceptionBuffr.append(" - ER3 - il numero di telefono non puo' essere vuoto.");
+         exceptionBuffr.append(AppConstants.ER3);
       }
       if (exceptionBuffr.length() > 0)
       {
@@ -119,9 +120,9 @@ public class VoteRepositoryRs implements Serializable
       List<Vote> list = repository.getList(search, 0, 0);
       if (list != null && list.size() > 2)
       {
-         throw new Exception(" - ER4 - puoi votare al massimo 3 volte al giorno.");
+         throw new Exception(AppConstants.ER4);
       }
-      vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
+      vote.setTocall(RandomUtils.getRandomNumber(ServletContextUtils.getVoteNumber(servletContext)));
       vote.setActive(true);
    }
 
@@ -137,15 +138,16 @@ public class VoteRepositoryRs implements Serializable
          if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
          {
             logger.error("@POST / reVote - il numero di telefono non puo' essere vuoto.");
-            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                     "ER3 - il numero di telefono non puo' essere vuoto.");
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                     AppConstants.ER3);
          }
          Account account = accountRepository.exist(vote.getPhone());
          if (account == null)
          {
             logger.error("@POST / reVote - Account not existent: " + vote.getPhone());
             return RsRepositoryService
-                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, "msg", "ER5 - Account not existent ");
+                     .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                              AppConstants.ER5);
          }
          String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
                   .replace("\\", "");
@@ -159,8 +161,8 @@ public class VoteRepositoryRs implements Serializable
          if (list != null && list.size() > 2)
          {
             logger.error("@POST / reVote - puoi votare al massimo 3 volte al giorno.: " + vote.getPhone());
-            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                     "ER4 - puoi votare al massimo 3 volte al giorno.");
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                     AppConstants.ER4);
 
          }
          else
@@ -168,7 +170,7 @@ public class VoteRepositoryRs implements Serializable
             vote.setName(account.getName());
             vote.setSurname(account.getSurname());
             vote.setActive(true);
-            vote.setTocall(ServletContextUtils.getVoteNumber(servletContext));
+            vote.setTocall(RandomUtils.getRandomNumber(ServletContextUtils.getVoteNumber(servletContext)));
             vote = repository.persist(vote);
             return Response.status(Status.OK).entity(vote)
                      .build();
@@ -177,8 +179,8 @@ public class VoteRepositoryRs implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                  "ER6 - Error CREATING VOTE FOR " + vote.getPhone());
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                  AppConstants.ER6 + vote.getPhone());
       }
    }
 
@@ -193,8 +195,8 @@ public class VoteRepositoryRs implements Serializable
       {
          if (vote.getPhone() == null || vote.getPhone().trim().isEmpty())
          {
-            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                     "ER3 - il numero di telefono non puo' essere vuoto.");
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                     AppConstants.ER3);
          }
          String phone = vote.getPhone().replace(" ", "").replace(".", "").replace("+", "").replace("/", "")
                   .replace("\\", "");
@@ -207,8 +209,8 @@ public class VoteRepositoryRs implements Serializable
          List<Vote> list = repository.getList(search, 0, 0);
          if (list != null && list.size() > 2)
          {
-            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                     "ER4 - puoi votare al massimo 3 volte al giorno.");
+            return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                     AppConstants.ER4);
 
          }
          else
@@ -224,8 +226,8 @@ public class VoteRepositoryRs implements Serializable
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
-         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                  "ER6 - Error CREATING VOTE FOR " + vote.getPhone());
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                  AppConstants.ER6 + vote.getPhone());
       }
    }
 
@@ -239,13 +241,13 @@ public class VoteRepositoryRs implements Serializable
          //         boolean isConfirmed = ((VoteRepository) getRepository()).isConfirmed(phone);
          Vote vote = repository.find(uuid);
          boolean isConfirmed = vote.getConfirmed() != null && vote.isActive();
-         return RsRepositoryService.jsonResponse(Status.OK, "msg", isConfirmed);
+         return RsRepositoryService.jsonResponse(Status.OK, AppConstants.RS_MSG, isConfirmed);
       }
       catch (Exception e)
       {
          logger.error(e.getMessage());
-         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg",
-                  "ER6 - Error reading confirmed for " + uuid);
+         return RsRepositoryService.jsonResponse(Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                  AppConstants.ER6 + uuid);
       }
    }
 
