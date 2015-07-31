@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +76,9 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          return RsRepositoryService
                   .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, AppConstants.ER7);
       }
-
-      String phone = (String) sessionContext.getContextData().get("username");
+      Principal callerPrincipal = sessionContext.getCallerPrincipal();
+      String phone = (String) callerPrincipal.getName();
+      logger.info("chaletId:" + chaletId + " - phone: " + phone);
       Account account = accountRepository.exist(phone);
       if (account == null)
       {
