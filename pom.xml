@@ -65,6 +65,7 @@
 		<module>contest</module>
 		<module>expo</module>
 		<module>chalet</module>
+		<module>seo</module>
 	</modules>
 
 
@@ -143,6 +144,12 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>chalet</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>seo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

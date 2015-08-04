@@ -9,6 +9,7 @@ public class AppConstants extends org.giavacms.base.management.AppConstants
    public static final String CONTEST_TOKEN_PATH = "/call_token";
 
    public static final String ACCOUNTS_PATH = "/accounts";
+   public static final String VOTES_PATH = "/votes";
 
    public static final String CONTEST_SMS_PATH = "/sms";
 
