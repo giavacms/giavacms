@@ -97,6 +97,7 @@ public class VoteRepository extends BaseRepository<Vote>
                   + " SET confirmed=:CONFIRMED "
                   + " WHERE phone = :PHONE "
                   + " AND active = :ACTIVE_W "
+                  + " ORDER BY dateTime desc "
                   + " LIMIT 1 ")
                   .setParameter("PHONE", phone.substring(2))
                   .setParameter("ACTIVE_W", true)
@@ -112,6 +113,7 @@ public class VoteRepository extends BaseRepository<Vote>
                + " SET confirmed=:CONFIRMED "
                + " WHERE phone = :PHONE "
                + " AND active = :ACTIVE_W "
+               + " ORDER BY dateTime desc "
                + " LIMIT 1 ")
                .setParameter("PHONE", phone)
                .setParameter("ACTIVE_W", true)
