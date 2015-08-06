@@ -2,9 +2,13 @@ package org.giavacms.chalet.repository;
 
 import org.giavacms.api.model.Search;
 import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.Photo;
 
 import javax.ejb.Stateless;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Stateless
@@ -24,8 +28,41 @@ public class PhotoRepository extends BaseRepository<Photo>
             Map<String, Object> params) throws Exception
    {
 
-      
-      
+      // le approvate
+      if (search.getObj().isApproved())
+      {
+         sb.append(separator).append(alias).append(".approved = :approvedTrue ");
+         params.put("approvedTrue", true);
+         separator = " and ";
+         // inutile.. sarà sempre valorizzata se approved true
+         // sb.append(separator).append(alias).append(".approvedDate is not null ");
+         // separator = " and ";
+      }
+
+      // le non approvate
+      if (search.getNot().isApproved())
+      {
+         sb.append(separator).append(alias).append(".approved = :approvedFalse ");
+         params.put("approvedFalse", true);
+         separator = " and ";
+         sb.append(separator).append(alias).append(".approvedDate is not null ");
+         separator = " and ";
+      }
+
+      // le valutate in genere
+      if (search.getObj().getApprovedDate() != null)
+      {
+         sb.append(separator).append(alias).append(".approvedDate is not null ");
+         separator = " and ";
+      }
+
+      // le sospese
+      if (search.getNot().getApprovedDate() != null)
+      {
+         sb.append(separator).append(alias).append(".approvedDate is null ");
+         separator = " and ";
+      }
+
       // NAME
       if (search.getLike().getName() != null
                && !search.getLike().getName().trim().isEmpty())
@@ -62,6 +99,12 @@ public class PhotoRepository extends BaseRepository<Photo>
    {
       getEm().createNativeQuery("update " + Photo.TABLE_NAME + " set active = :active where uuid = :uuid")
                .setParameter("active", false).setParameter("uuid", key).executeUpdate();
+   }
+
+   public List<Chalet> withPhoto(String chaletId, String accountId, Boolean approved, Boolean evaluated)
+   {
+      List<Object[]> results = getEm().createNativeQuery("select distinct ...").getResultList();
+      return new ArrayList<Chalet>();
    }
 
 }

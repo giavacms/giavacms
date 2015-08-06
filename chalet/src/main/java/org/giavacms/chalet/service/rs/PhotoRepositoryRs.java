@@ -267,26 +267,40 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       }
    }
 
-   private Search<Photo> approvatePerChalet(String chaletId)
-   {
-      // approved = true
-      // approved data != null
-      return null;
-   }
-
-   private Search<Chalet> postatePerChaletEtAccount(String chaletId, String accountId)
-   {
-      return null;
-   }
-
    /**
-    * per gli admin
+    * @param chaletId
+    * @param accountId male non farà, al limite è nullo
+    * @param approved nullo (tutte), vero (solo ok) o falso (solo ko)
+    * @param evaluated nullo (tutte), vero (solo già valutate) o falso (solo in sospeso)
+    * @return
     */
-   private Search<Photo> sospesePerChalet(String chaletId, String accountId)
+   private Search<Photo> postatePerChaletEtAccount(String chaletId, String accountId, Boolean approved,
+            Boolean evaluated)
    {
-      // approved = false
-      // approved data = null
-      return null;
+      Search<Photo> sp = new Search<Photo>(Photo.class);
+      sp.getObj().setChaletId(chaletId);
+      sp.getObj().setAccountId(accountId);
+      if (approved != null)
+      {
+         if (approved)
+         {
+            sp.getObj().setApproved(true);
+         }
+         else
+         {
+            sp.getNot().setApproved(true);
+         }
+      }
+      if (evaluated != null)
+      {
+         if (evaluated) {
+            sp.getObj().setApprovedDate(new Date());
+         }
+         else {
+            sp.getNot().setApprovedDate(new Date());
+         }
+      }
+      return sp;
    }
 
 }
