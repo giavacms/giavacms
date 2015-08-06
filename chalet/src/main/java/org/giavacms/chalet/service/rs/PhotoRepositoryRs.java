@@ -274,9 +274,15 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       logger.info("@GET list");
       try
       {
-         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN)
-                  || !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
+         if (sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN)
+                  || sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
          {
+            // gli admin non filtrano i propri
+            accountId = null;
+         }
+         else
+         {
+            // gli altri vedono solo i propri
             Principal callerPrincipal = sessionContext.getCallerPrincipal();
             String phone = (String) callerPrincipal.getName();
             if (accountId == null || accountId.trim().isEmpty() || !phone.equals(accountId.trim()))
