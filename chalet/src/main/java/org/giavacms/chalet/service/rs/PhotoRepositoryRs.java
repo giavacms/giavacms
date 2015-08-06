@@ -267,7 +267,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    }
 
    @GET
-   @Path("/chalets")
+   @Path("/chalets/all")
    @AccountTokenVerification
    public Response getChaletWithPhotos(@QueryParam("accountId") String accountId)
    {
@@ -286,8 +286,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
             }
          }
          String chaletId = null;
-         Boolean approved = true;
-         Boolean evaluated = true;
+         Boolean approved = null;
+         Boolean evaluated = null;
          Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, approved, evaluated);
          List<Chalet> list = ((PhotoRepository) getRepository()).withPhoto(search);
          // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
