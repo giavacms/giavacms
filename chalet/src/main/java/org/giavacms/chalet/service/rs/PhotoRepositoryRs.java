@@ -1,34 +1,5 @@
 package org.giavacms.chalet.service.rs;
 
-import java.io.InputStream;
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
 import org.apache.commons.io.IOUtils;
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
@@ -46,6 +17,21 @@ import org.giavacms.contest.model.Account;
 import org.giavacms.contest.repository.AccountRepository;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
+import java.io.InputStream;
+import java.security.Principal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Path(AppConstants.BASE_PATH + AppConstants.PHOTO_PATH)
 @Stateless
@@ -291,7 +277,9 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN)
                   || !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
          {
-            if (accountId == null || accountId.trim().isEmpty())
+            Principal callerPrincipal = sessionContext.getCallerPrincipal();
+            String phone = (String) callerPrincipal.getName();
+            if (accountId == null || accountId.trim().isEmpty() || !phone.equals(accountId.trim()))
             {
                return RsRepositoryService
                         .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
