@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html ng-app="jsApp" class="ng-scope">
+  <head>
+    <style type="text/css">
+      @charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}
+    </style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="fragment" content="!"/>
+    <meta name="author" content=""/>
+    <title ng-bind="($state.current.title) + ' | Vota la tua estate'" class="ng-binding">
+      Regolamento | Vota la tua estate
+    </title>
+    <!-- open graph metadata. This won't work either! -->    <meta property="og:title" content="Regolamento"/>
+    <meta property="og:site_name" content="Vota la tua Estate"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <link href="/styles/themify-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/animate.css" rel="stylesheet"/>
+    <link href="/styles/owl.carousel.css" rel="stylesheet"/>
+    <link href="/styles/style.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->  </head>
+  <body style="zoom: 1;">
+    <a id="top">
+    </a>
+    <div>
+      <div class="loader" style="opacity: 0; display: none;">
+        <div class="animated rubberBand spinner">
+        </div>
+      </div>
+      <div class="layout-wrapper page" id="page">
+        <header id="header" class=" header white-header active-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="logo">
+                  <a ui-sref="home" title="" href="#!/">
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo retina-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo retina-logo middle-content" alt=""/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-9 menu-col text-right">
+                <div class="menu">
+                  <ul class="list-inline">
+                    <li class="dropdown menu-item">
+                      <a ui-sref="home" href="#!/">
+                        Home
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="chalet" href="#!/chalet">
+                        Chalet
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="classifica" href="#!/classifica">
+                        Classifica
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="vota" href="#!/vota">
+                        Vota
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                        Come si fa
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                        Cosa si vince
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="regolamento" href="#!/regolamento">
+                        Regolamento
+                      </a>
+                    </li>
+                    <li ng-show="logged" class="dropdown menu-item ng-hide" profile-tag="" ng-hide="true">
+                      <a ui-sref="profilo" href="#!/profilo">
+                        Profilo
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item ng-hide" login-tag="" ng-hide="true">
+                      <!-- ngIf: !logged -->                      <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                        Login
+                      </a>
+                      <!-- end ngIf: !logged -->                      <!-- ngIf: logged -->                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="menu-toggle ">
+                <i class="ti-menu"/>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+    <!-- uiView:  -->    <div ui-view="" class="ng-scope">
+      <div class="section page-title small-padding background-wrapper with-overlay black-overlay active-section ng-scope">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="backgroundpositionx: 0%; backgroundPositionY: 45px;">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12" style="">
+              <div class="resizeMe bigFonts">
+                Vota la tua estate
+              </div>
+              <p class="">
+                
+                    Vota la tua estate
+                
+              </p>
+              <ol class="breadcrumb">
+                <li>
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="active">
+                  Regolamento
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section blog-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="content">
+                <h2 class="lighter resizeMe bigFonts">
+                  Regolamento del concorso a premi "Vota la tua estate 2015"
+                </h2>
+                <div style="font-size: medium;">
+                  <b>
+                    Societa' promotrice
+                  </b>
+                  <br/>
+                  
+                        Il Soggetto Promotore dell’iniziativa è Alicestudio di Belinda Menzietti con sede legale in San
+                        Benedetto del Tronto, via Bianchi 46 63074, Partita IVA IT 01826800441 .
+                        
+                  <br/>
+                  <br/>
+                  <b>
+                    Destinatari
+                  </b>
+                  <br/>
+                  
+                        Il concorso sarà rivolto a tutti gli utenti che intenderanno partecipare alla votazione dello
+                        chalet preferito  sul sito web http://votalatua.estate .
+                        
+                  <br/>
+                  <br/>
+                  <b>
+                     Durata della manifestazione
+                  </b>
+                  <br/>
+                  
+                        Il concorso avrà svolgimento dal 1 agosto 2015 al 7 settembre 2015.
+                        
+                  <br/>
+                  <br/>
+                  <b>
+                    Obiettivo della manifestazione
+                  </b>
+                  <br/>
+                  
+                        La presente manifestazione ha finalità strettamente promozionali con
+                        l’unico scopo di promuovere gli esercizi commerciali che gestiscono gli stabilimenti balneari
+                        che insistono sulle concessioni balneari del Comune di San Benedetto del Tronto.
+                  <br/>
+                  <br/>
+                  <b>
+                    Ambito territoriale
+                  </b>
+                  <br/>
+                  
+                        Territorio nazionale italiano e Repubblica di San Marino.
+                  <br/>
+                  <br/>
+                  <b>
+                    Modalita' di partecipazione
+                  </b>
+                  <br/>
+                  
+                        Parteciperanno al concorso tutti i "Destinatari" che avranno effettuato l’iscrizione al sito
+                        http://votalatua.estate , avranno dato il consenso al trattamento dei propri dati personali e
+                        avranno espresso almeno un "voto" valido attraverso il meccanismo di telefonata gratuita al
+                        numero
+                        indicato nel sito http://votalatua.estate.
+                  <br/>
+                  
+                        Tutti i Destinatari (come indicato al paragrafo "Destinatari") potranno esprimere fino a tre
+                        preferenze al giorno durante la durata del concorso.
+                  <br/>
+                  <br/>
+                  <b>
+                    Individuazione dei vincitori
+                  </b>
+                  <br/>
+                  
+                        Tutti coloro che avranno adempiuto i comportamenti richiesti e descritti nel paragrafo "Modalità
+                        di Partecipazione", parteciperanno automaticamente alle estrazioni previste con cadenza
+                        settimanale.
+                  <br/>
+                  
+                        La partecipazione alle estrazioni è automatica attraverso meccanismo informatizzato.
+                  <br/>
+                  
+                        Tutti i nominativi dei Destinatari che avranno validamente soddisfatto le condizioni (come
+                        indicato al paragrafo "Modalità di Partecipazione") confluiranno in un database e parteciperanno
+                        alle estrazioni dei premi (come specificato nel paragrafo "Premi") sulla base del calendario di
+                        seguito riportato:
+                  <br/>
+                  
+                        Le estrazioni saranno effettuate utilizzando un software di estrazione casuale per il quale è
+                        stata predisposta la dichiarazione sostitutiva di atto notorio rilasciata dal responsabile
+                        tecnico incaricato della realizzazione del software di estrazione relativa a:
+                  <br/>
+                  
+                        a) le specifiche del software di estrazione casuale;
+                  <br/>
+                  
+                        b) l'adozione di opportuni accorgimenti per impedire interventi esterni per determinare le
+                        vincite;
+                  <br/>
+                  
+                        c) la sicurezza complessiva del sistema utilizzato.
+                  <br/>
+                  
+                        Le date di effettuazione delle estrazioni potranno essere anticipate e/o posticipate di max 10
+                        giorni in base alle esigenze tecnico organizzative del promotore.
+                  <br/>
+                  
+                        I vincitori verranno estratti dal database, formatosi nel periodo del concorso a premi,
+                        contenente i dati di tutti gli aventi diritto.
+                  <br/>
+                  
+                        Il vincitore non può contestare il premio assegnato, né richiedere il valore corrispondente in
+                        denaro o il cambio/sostituzione, per nessun motivo.
+                  <br/>
+                  
+                        Per tutte le informazioni relative alla vincita del premio e alle modalità di ricezione dello
+                        stesso i vincitori potranno scrivere una email all’indirizzo info@votalatua.estate.
+                  <br/>
+                  <br/>
+                  <b>
+                    Dichiarazioni
+                  </b>
+                  <br/>
+                  
+                        Il promotore dichiara:
+                  <br/>
+                  
+                        Che il software di estrazione random dei premi non è manomettibile né modificabile, giusta
+                        perizia rilasciata da tecnico abilitato;
+                  <br/>
+                  
+                        Che ai partecipanti al concorso è stata comunicata la normativa sul trattamento dei dati
+                        personali;
+                  <br/>
+                  
+                        Che i dati personali dei consumatori verranno trattati nel rispetto di quanto previsto dal Dlgs
+                        196/2003;
+                  <br/>
+                  
+                        che i partecipanti aderendo alla presente iniziativa, acconsentono a che i dati personali
+                        forniti alla promotrice in relazione alla partecipazione alla presente promozione a premi siano
+                        trattati ai sensi del D.Lgs. 196/2003, ferma restando in ogni caso per i partecipanti la facoltà
+                        di poter esercitare i diritti di cui all’art. 7 del predetto decreto;
+                        Per assicurare il corretto svolgimento di tutte le attività necessarie o strumentali alla
+                        manifestazione a premio, i dati personali potranno essere eventualmente comunicati da
+                        Alicestudio a soggetti terzi che svolgono alcune attività strumentali per conto dei Titolari e
+                        che li tratteranno per il tempo strettamente necessario alla gestione della manifestazione a
+                        premio;
+                  <br/>
+                  
+                        La partecipazione alle estrazioni è automatica.
+                  <br/>
+                  <br/>
+                  <b>
+                    Premi
+                  </b>
+                  
+                        I premi consistono in consumazioni o gadget del valore pari o inferiore a euro 1,00 (un euro)
+                        
+                  <br/>
+                  <b>
+                    Comunicazioni di vincita e consegna die premi
+                  </b>
+                  <br/>
+                  
+                        I vincitori, individuati secondo le modalità di cui al paragrafo "Individuazione dei vincitori",
+                        saranno avvisati automaticamente attraverso messaggio SMS inviato al numero telefonico fornito
+                        durante la registrazione al sito http://votalatua.estate.
+                  <br/>
+                  
+                        Il Soggetto Promotore non si assume alcuna responsabilità per eventuali errori nella
+                        comunicazione dell'indirizzo o di altri dati da parte del vincitore.
+                  <br/>
+                  
+                        In caso di rinuncia da parte del vincitore o mancato ritiro del premio entro 7 giorni
+                        dall’estrazione il Premio si intenderà non assegnato.
+                  <br/>
+                  <br/>
+                  <b>
+                    Gratuita' della partecipazione
+                  </b>
+                  <br/>
+                  
+                        La partecipazione al concorso a premi comporta per il partecipante, l’accettazione
+                        incondizionata e totale delle regole e delle clausole contenute nel presente regolamento senza
+                        limitazione alcuna.
+                  <br/>
+                  
+                        La partecipazione al concorso è gratuita salvo le ordinarie spese di collegamento internet o
+                        spedizione o telefoniche necessarie ai fini della partecipazione stessa.
+                        
+                  <br/>
+                  <b>
+                    Pubblicita' della manifestazione e del regolamento
+                  </b>
+                  <br/>
+                  
+                        Il Soggetto Promotore comunicherà il concorso sul sito internet http://votalatua.estate
+                        Il messaggio pubblicitario sarà conforme a quanto dichiarato nel presente regolamento. Il
+                        presente Regolamento sarà consultabile sul sito http://votalatua.estate
+                  <br/>
+                  <br/>
+                  <b>
+                    Trattamento dati personali
+                  </b>
+                  <br/>
+                  
+                        Il Soggetto Promotore dichiara che la partecipazione al presente Concorso presuppone il
+                        trattamento dei dati personali dei partecipanti nel rispetto del Decreto Legislativo del
+                        30/06/2003 n° 196 "Codice in materia di protezione dei dati personali" e successive modifiche
+                        (di seguito "Codice Privacy").
+                  <br/>
+                  
+                        Tutti i tentativi di uso fraudolento del materiale della Manifestazione rappresentano reati
+                        (furti e frodi) perseguibili penalmente e riconducibili pertanto a procedimenti giudiziari.
+                  <br/>
+                  
+                        Il Soggetto Promotore non si assume alcuna responsabilità per qualsiasi problema di accesso,
+                        impedimento disfunzione o difficoltà riguardante gli strumenti tecnici, il computer, la linea
+                        telefonica, la trasmissione e la connessione, il collegamento Internet che possa impedire ad un
+                        concorrente di partecipare al Concorso e per ogni altra causa allo stesso non direttamente
+                        imputabile.
+                  <br/>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <div class="sidebar">
+                <div class="widget">
+                  <h3 class="widget-title">
+                    Classifica
+                  </h3>
+                  <ul class="list-group">
+                    <!-- ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        1
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/99" class="ng-binding">
+                        CHALET STELLA
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        2
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/97" class="ng-binding">
+                        CHALET IL PINGUINO
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/10" class="ng-binding">
+                        BAGNI 007
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/2" class="ng-binding">
+                        DA LUIGI
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/6" class="ng-binding">
+                        LA MEDUSA
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  </ul>
+                </div>
+                <div class="widget">
+                  <h3 class="widget-title">
+                    Voti
+                  </h3>
+                  <!-- ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/99">
+                      <span class="progress-text pull-left ng-binding">
+                        CHALET STELLA
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      8
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        8
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/97">
+                      <span class="progress-text pull-left ng-binding">
+                        CHALET IL PINGUINO
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      6
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        6
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/10">
+                      <span class="progress-text pull-left ng-binding">
+                        BAGNI 007
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/2">
+                      <span class="progress-text pull-left ng-binding">
+                        DA LUIGI
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/6">
+                      <span class="progress-text pull-left ng-binding">
+                        LA MEDUSA
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="section divider-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="divider">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section with-overlay black-overlay background-wrapper  active-section" tabfooter="">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="backgroundpositionx: 0%; backgroundPositionY: 621px;">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="small-text uppercase-text strong-text">
+                Vota la tua estate.
+              </h3>
+              <p>
+                Vota la tua estate, tanto è gratis. 
+              </p>
+              <p>
+                 Anzi, rischi di vincere un premio.
+              </p>
+              <ul class="list-inline social-links">
+                <li>
+                  <a href="http://facebook.com/votalatuaestate" title="facebook.com/votalatuaestate">
+                    <i class="icon ti-facebook"/>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Sei uno chalet?
+              </h3>
+              <p>
+                Contattaci 
+                <a href="/cdn-cgi/l/email-protection#2841464e47685e475c4944495c5d49064d5b5c495c4d">
+                  info@votalatua.estate
+                </a>
+                .
+              </p>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Cosa si vince
+              </h3>
+              <p>
+                Ti avviseremo attraverso un SMS al numero da te indicato.
+              </p>
+            </div>
+            <div class="col-md-12 text-center">
+              <div class="space">
+              </div>
+              <div class="space">
+              </div>
+              <ul class="list-inline">
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="chalet" href="#!/chalet">
+                    Chalet
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="classifica" href="#!/classifica">
+                    Classifica
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="vota" href="#!/vota">
+                    Vota
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                    Come si fa
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                    Cosa si vince
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="privacy" href="#!/privacy">
+                    Privacy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cookie-policy" href="#!/cookie-policy">
+                    Cookie Policy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="regolamento" href="#!/regolamento">
+                    Regolamento
+                  </a>
+                </li>
+                <li ng-show="logged" class="uppercase-text strong-text ng-hide" profile-tag="" ng-hide="true">
+                  <a ui-sref="profilo" href="#!/profilo">
+                    Profilo
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text ng-hide" login-tag="" ng-hide="true">
+                  <!-- ngIf: !logged -->                  <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                    Login
+                  </a>
+                  <!-- end ngIf: !logged -->                  <!-- ngIf: logged -->                </li>
+              </ul>
+              <p>
+                © 2015 - Vota la tua estate - Partita Iva 01826800441
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="//www.google-analytics.com/analytics.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.2/angular-local-storage.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js">
+    </script>
+    <script src="//code.angularjs.org/1.4.3/i18n/angular-locale_it-it.js">
+    </script>
+    <script src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js">
+    </script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="scripts/constants/global.js">
+    </script>
+    <script src="scripts/services/baseservice.js">
+    </script>
+    <script src="scripts/services/chaletservice.js">
+    </script>
+    <script src="scripts/services/classificaservice.js">
+    </script>
+    <script src="scripts/services/blogservice.js">
+    </script>
+    <script src="scripts/services/storageservice.js">
+    </script>
+    <script src="scripts/services/authenticationservice.js">
+    </script>
+    <script src="scripts/services/singlefileupload.js">
+    </script>
+    <script src="scripts/services/photoservice.js">
+    </script>
+    <script src="scripts/services/votazioniservice.js">
+    </script>
+    <script src="scripts/functions/pager.js">
+    </script>
+    <script src="scripts/controllers/chalet.js">
+    </script>
+    <script src="scripts/controllers/chalet_single.js">
+    </script>
+    <script src="scripts/controllers/classifica.js">
+    </script>
+    <script src="scripts/controllers/home.js">
+    </script>
+    <script src="scripts/controllers/vota.js">
+    </script>
+    <script src="scripts/controllers/informazioni.js">
+    </script>
+    <script src="scripts/controllers/contatti.js">
+    </script>
+    <script src="scripts/controllers/login.js">
+    </script>
+    <script src="scripts/controllers/registrati.js">
+    </script>
+    <script src="scripts/controllers/profilo.js">
+    </script>
+    <script src="scripts/controllers/upload.js">
+    </script>
+    <script src="scripts/controllers/foto.js">
+    </script>
+    <script src="scripts/controllers/votazioni.js">
+    </script>
+    <script src="scripts/directives/tab-footer.js">
+    </script>
+    <script src="scripts/directives/login-tag.js">
+    </script>
+    <script src="scripts/directives/profile-tag.js">
+    </script>
+    <script src="scripts/directives/privacy.js">
+    </script>
+    <script src="scripts/directives/fileModel.js">
+    </script>
+    <script src="js/jquery-1.10.2.min.js">
+    </script>
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script src="js/ie8-responsive-file-warning.js">
+    </script>
+    <script src="js/isotope.pkgd.min.js">
+    </script>
+    <script src="js/jquery.flexslider-min.js">
+    </script>
+    <script src="js/jquery.form.min.js">
+    </script>
+    <script src="js/jquery.localscroll.min.js">
+    </script>
+    <script src="js/jquery.scrollto.min.js">
+    </script>
+    <script src="js/owl.carousel.min.js">
+    </script>
+    <script src="scripts/scripts.js">
+    </script>
+    <script src="js/stellar.js">
+    </script>
+    <script src="js/validator.min.js">
+    </script>
+    <script src="js/waypoints.min.js">
+    </script>
+    <script type="text/javascript" src="js/cookie.js">
+    </script>
+    <script>
+//<![CDATA[
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-30883525-4', 'auto');
+
+//]]>
+    </script>
+  </body>
+</html>

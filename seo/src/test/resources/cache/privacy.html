@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html ng-app="jsApp" class="ng-scope">
+  <head>
+    <style type="text/css">
+      @charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}
+    </style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="fragment" content="!"/>
+    <meta name="author" content=""/>
+    <title ng-bind="($state.current.title) + ' | Vota la tua estate'" class="ng-binding">
+      Privacy | Vota la tua estate
+    </title>
+    <!-- open graph metadata. This won't work either! -->    <meta property="og:title" content="Privacy"/>
+    <meta property="og:site_name" content="Vota la tua Estate"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <link href="/styles/themify-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/animate.css" rel="stylesheet"/>
+    <link href="/styles/owl.carousel.css" rel="stylesheet"/>
+    <link href="/styles/style.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->  </head>
+  <body style="zoom: 1;">
+    <a id="top">
+    </a>
+    <div>
+      <div class="loader" style="opacity: 0; display: none;">
+        <div class="animated rubberBand spinner">
+        </div>
+      </div>
+      <div class="layout-wrapper page" id="page">
+        <header id="header" class=" header white-header active-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="logo">
+                  <a ui-sref="home" title="" href="#!/">
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo retina-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo retina-logo middle-content" alt=""/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-9 menu-col text-right">
+                <div class="menu">
+                  <ul class="list-inline">
+                    <li class="dropdown menu-item">
+                      <a ui-sref="home" href="#!/">
+                        Home
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="chalet" href="#!/chalet">
+                        Chalet
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="classifica" href="#!/classifica">
+                        Classifica
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="vota" href="#!/vota">
+                        Vota
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                        Come si fa
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                        Cosa si vince
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="regolamento" href="#!/regolamento">
+                        Regolamento
+                      </a>
+                    </li>
+                    <li ng-show="logged" class="dropdown menu-item ng-hide" profile-tag="" ng-hide="true">
+                      <a ui-sref="profilo" href="#!/profilo">
+                        Profilo
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item ng-hide" login-tag="" ng-hide="true">
+                      <!-- ngIf: !logged -->                      <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                        Login
+                      </a>
+                      <!-- end ngIf: !logged -->                      <!-- ngIf: logged -->                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="menu-toggle ">
+                <i class="ti-menu"/>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+    <!-- uiView:  -->    <div ui-view="" class="ng-scope">
+      <div class="section page-title small-padding background-wrapper with-overlay black-overlay active-section ng-scope">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="backgroundpositionx: 0%; backgroundPositionY: 45px;">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12" style="">
+              <div class="resizeMe bigFonts">
+                Vota la tua estate
+              </div>
+              <p class="">
+                
+                    Vota la tua estate
+                
+              </p>
+              <ol class="breadcrumb">
+                <li>
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="active">
+                  Privacy
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section blog-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="content">
+                <h2 class="lighter resizeMe bigFonts">
+                  Privacy
+                </h2>
+                <div style="font-size: medium;">
+                  Ti informiamo che il D.lgs. n. 196 del 30 giugno 2003 ("Codice in
+                        materia di protezione dei dati personali") prevede la tutela delle persone e di altri soggetti
+                        rispetto al trattamento dei dati personali.
+                        Secondo la normativa indicata, tale trattamento sarà improntato ai principi di correttezza,
+                        liceità e trasparenza e di tutela della tua riservatezza e dei tuoi diritti.
+                  <br/>
+                  
+                        Ai sensi dell'articolo 13 del D.lgs. n.196/2003, pertanto, ti forniamo le seguenti informazioni:
+                  <br/>
+                  <br/>
+                  
+                        1. I dati da te forniti verranno trattati per le seguenti finalità: ricezione della preferenza e
+                        comunicazioni;
+                  <br/>
+                  
+                        2. Il trattamento sarà effettuato con le seguenti modalità: in modo informatizzato;
+                  <br/>
+                  
+                        3. Il conferimento dei dati è obbligatorio per l'espressione della preferenza via telefono e
+                        l'eventuale rifiuto di fornire tali dati comporta l'impossibilità di esprimere il voto;
+                  <br/>
+                  
+                        4. I dati non saranno comunicati ad altri soggetti, né saranno oggetto di diffusione 
+                  <br/>
+                  <br/>
+                  
+                        5. Il titolare del trattamento è: Alicestudio di Menzietti Belinda (info@alicestudio.it)
+                  <br/>
+                  
+                        6. Il responsabile del trattamento è Belinda Menzietti;
+                  <br/>
+                  
+                        7. Il rappresentante del titolare nel territorio dello Stato è Belinda Menzietti;
+                  <br/>
+                  
+                        8. In ogni momento potrai esercitare i tuoi diritti nei confronti del titolare del trattamento,
+                        ai sensi dell'art.7 del D.lgs.196/2003, che per tua comodità riproduciamo integralmente:
+                  <br/>
+                  <br/>
+                </div>
+                <div style="font-style: italic;">
+                  
+                        Decreto Legislativo n.196/2003, Art. 7 - Diritto di accesso ai dati personali ed altri
+                        diritti
+                  <br/>
+                  <br/>
+                  
+                        1. L'interessato ha diritto di ottenere la conferma dell'esistenza o meno di dati personali che
+                        lo
+                        riguardano, anche se non ancora registrati, e la loro comunicazione in forma intelligibile.
+                  <br/>
+                  
+                        2. L'interessato ha diritto di ottenere l'indicazione:
+                  <br/>
+                  
+                        a) dell'origine dei dati personali;
+                  <br/>
+                  
+                        b) delle finalità e modalità del trattamento;
+                  <br/>
+                  
+                        c) della logica applicata in caso di trattamento effettuato con l'ausilio di strumenti
+                        elettronici;
+                  <br/>
+                  
+                        d) degli estremi identificativi del titolare, dei responsabili e del rappresentante designato ai
+                        sensi dell'articolo 5, comma 2;
+                  <br/>
+                  
+                        e) dei soggetti o delle categorie di soggetti ai quali i dati personali possono essere
+                        comunicati o
+                        che possono venirne a conoscenza in qualità di rappresentante designato nel territorio dello
+                        Stato,
+                        di responsabili o incaricati.
+                        3. L'interessato ha diritto di ottenere:
+                  <br/>
+                  
+                        a) l'aggiornamento, la rettificazione ovvero, quando vi ha interesse, l'integrazione dei
+                        dati;
+                  <br/>
+                  
+                        b) la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in
+                        violazione
+                        di legge, compresi quelli di cui non è necessaria la conservazione in relazione agli scopi per i
+                        quali i dati sono stati raccolti o successivamente trattati;
+                        c) l'attestazione che le operazioni di cui alle lettere a) e b) sono state portate a conoscenza,
+                        anche per quanto riguarda il loro contenuto, di coloro ai quali i dati sono stati comunicati o
+                        diffusi, eccettuato il caso in cui tale adempimento si rivela impossibile o comporta un impiego
+                        di
+                        mezzi manifestamente sproporzionato rispetto al diritto tutelato.
+                        4. L'interessato ha diritto di opporsi, in tutto o in parte:
+                  <br/>
+                  
+                        a) per motivi legittimi al trattamento dei dati personali che lo riguardano, ancorché pertinenti
+                        allo scopo della raccolta;
+                  <br/>
+                  
+                        b) al trattamento di dati personali che lo riguardano a fini di invio di materiale pubblicitario
+                        o
+                        di vendita diretta o per il compimento di ricerche di mercato o di comunicazione
+                        commerciale.
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <div class="sidebar">
+                <div class="widget">
+                  <h3 class="widget-title">
+                    Classifica
+                  </h3>
+                  <ul class="list-group">
+                    <!-- ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        1
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/99" class="ng-binding">
+                        CHALET STELLA
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        2
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/97" class="ng-binding">
+                        CHALET IL PINGUINO
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/10" class="ng-binding">
+                        BAGNI 007
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/2" class="ng-binding">
+                        DA LUIGI
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/6" class="ng-binding">
+                        LA MEDUSA
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  </ul>
+                </div>
+                <div class="widget">
+                  <h3 class="widget-title">
+                    Voti
+                  </h3>
+                  <!-- ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/99">
+                      <span class="progress-text pull-left ng-binding">
+                        CHALET STELLA
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      8
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        8
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/97">
+                      <span class="progress-text pull-left ng-binding">
+                        CHALET IL PINGUINO
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      6
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        6
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/10">
+                      <span class="progress-text pull-left ng-binding">
+                        BAGNI 007
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/2">
+                      <span class="progress-text pull-left ng-binding">
+                        DA LUIGI
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/6">
+                      <span class="progress-text pull-left ng-binding">
+                        LA MEDUSA
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="section divider-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="divider">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section with-overlay black-overlay background-wrapper  active-section" tabfooter="">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="backgroundpositionx: 0%; backgroundPositionY: 522px;">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="small-text uppercase-text strong-text">
+                Vota la tua estate.
+              </h3>
+              <p>
+                Vota la tua estate, tanto è gratis. 
+              </p>
+              <p>
+                 Anzi, rischi di vincere un premio.
+              </p>
+              <ul class="list-inline social-links">
+                <li>
+                  <a href="http://facebook.com/votalatuaestate" title="facebook.com/votalatuaestate">
+                    <i class="icon ti-facebook"/>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Sei uno chalet?
+              </h3>
+              <p>
+                Contattaci 
+                <a href="/cdn-cgi/l/email-protection#20494e464f60564f54414c415455410e455354415445">
+                  info@votalatua.estate
+                </a>
+                .
+              </p>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Cosa si vince
+              </h3>
+              <p>
+                Ti avviseremo attraverso un SMS al numero da te indicato.
+              </p>
+            </div>
+            <div class="col-md-12 text-center">
+              <div class="space">
+              </div>
+              <div class="space">
+              </div>
+              <ul class="list-inline">
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="chalet" href="#!/chalet">
+                    Chalet
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="classifica" href="#!/classifica">
+                    Classifica
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="vota" href="#!/vota">
+                    Vota
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                    Come si fa
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                    Cosa si vince
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="privacy" href="#!/privacy">
+                    Privacy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cookie-policy" href="#!/cookie-policy">
+                    Cookie Policy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="regolamento" href="#!/regolamento">
+                    Regolamento
+                  </a>
+                </li>
+                <li ng-show="logged" class="uppercase-text strong-text ng-hide" profile-tag="" ng-hide="true">
+                  <a ui-sref="profilo" href="#!/profilo">
+                    Profilo
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text ng-hide" login-tag="" ng-hide="true">
+                  <!-- ngIf: !logged -->                  <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                    Login
+                  </a>
+                  <!-- end ngIf: !logged -->                  <!-- ngIf: logged -->                </li>
+              </ul>
+              <p>
+                © 2015 - Vota la tua estate - Partita Iva 01826800441
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="//www.google-analytics.com/analytics.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.2/angular-local-storage.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js">
+    </script>
+    <script src="//code.angularjs.org/1.4.3/i18n/angular-locale_it-it.js">
+    </script>
+    <script src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js">
+    </script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="scripts/constants/global.js">
+    </script>
+    <script src="scripts/services/baseservice.js">
+    </script>
+    <script src="scripts/services/chaletservice.js">
+    </script>
+    <script src="scripts/services/classificaservice.js">
+    </script>
+    <script src="scripts/services/blogservice.js">
+    </script>
+    <script src="scripts/services/storageservice.js">
+    </script>
+    <script src="scripts/services/authenticationservice.js">
+    </script>
+    <script src="scripts/services/singlefileupload.js">
+    </script>
+    <script src="scripts/services/photoservice.js">
+    </script>
+    <script src="scripts/services/votazioniservice.js">
+    </script>
+    <script src="scripts/functions/pager.js">
+    </script>
+    <script src="scripts/controllers/chalet.js">
+    </script>
+    <script src="scripts/controllers/chalet_single.js">
+    </script>
+    <script src="scripts/controllers/classifica.js">
+    </script>
+    <script src="scripts/controllers/home.js">
+    </script>
+    <script src="scripts/controllers/vota.js">
+    </script>
+    <script src="scripts/controllers/informazioni.js">
+    </script>
+    <script src="scripts/controllers/contatti.js">
+    </script>
+    <script src="scripts/controllers/login.js">
+    </script>
+    <script src="scripts/controllers/registrati.js">
+    </script>
+    <script src="scripts/controllers/profilo.js">
+    </script>
+    <script src="scripts/controllers/upload.js">
+    </script>
+    <script src="scripts/controllers/foto.js">
+    </script>
+    <script src="scripts/controllers/votazioni.js">
+    </script>
+    <script src="scripts/directives/tab-footer.js">
+    </script>
+    <script src="scripts/directives/login-tag.js">
+    </script>
+    <script src="scripts/directives/profile-tag.js">
+    </script>
+    <script src="scripts/directives/privacy.js">
+    </script>
+    <script src="scripts/directives/fileModel.js">
+    </script>
+    <script src="js/jquery-1.10.2.min.js">
+    </script>
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script src="js/ie8-responsive-file-warning.js">
+    </script>
+    <script src="js/isotope.pkgd.min.js">
+    </script>
+    <script src="js/jquery.flexslider-min.js">
+    </script>
+    <script src="js/jquery.form.min.js">
+    </script>
+    <script src="js/jquery.localscroll.min.js">
+    </script>
+    <script src="js/jquery.scrollto.min.js">
+    </script>
+    <script src="js/owl.carousel.min.js">
+    </script>
+    <script src="scripts/scripts.js">
+    </script>
+    <script src="js/stellar.js">
+    </script>
+    <script src="js/validator.min.js">
+    </script>
+    <script src="js/waypoints.min.js">
+    </script>
+    <script type="text/javascript" src="js/cookie.js">
+    </script>
+    <script>
+//<![CDATA[
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-30883525-4', 'auto');
+
+//]]>
+    </script>
+  </body>
+</html>

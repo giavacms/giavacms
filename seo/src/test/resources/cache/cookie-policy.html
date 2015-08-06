@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html ng-app="jsApp" class="ng-scope">
+  <head>
+    <style type="text/css">
+      @charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}
+    </style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="fragment" content="!"/>
+    <meta name="author" content=""/>
+    <title ng-bind="($state.current.title) + ' | Vota la tua estate'" class="ng-binding">
+      Cookie Policy | Vota la tua estate
+    </title>
+    <!-- open graph metadata. This won't work either! -->    <meta property="og:title" content="Cookie Policy"/>
+    <meta property="og:site_name" content="Vota la tua Estate"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <link href="/styles/themify-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/animate.css" rel="stylesheet"/>
+    <link href="/styles/owl.carousel.css" rel="stylesheet"/>
+    <link href="/styles/style.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->  </head>
+  <body style="zoom: 1;">
+    <a id="top">
+    </a>
+    <div>
+      <div class="loader" style="opacity: 0; display: none;">
+        <div class="animated rubberBand spinner">
+        </div>
+      </div>
+      <div class="layout-wrapper page" id="page">
+        <header id="header" class=" header white-header active-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="logo">
+                  <a ui-sref="home" title="" href="#!/">
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo retina-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo retina-logo middle-content" alt=""/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-9 menu-col text-right">
+                <div class="menu">
+                  <ul class="list-inline">
+                    <li class="dropdown menu-item">
+                      <a ui-sref="home" href="#!/">
+                        Home
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="chalet" href="#!/chalet">
+                        Chalet
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="classifica" href="#!/classifica">
+                        Classifica
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="vota" href="#!/vota">
+                        Vota
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                        Come si fa
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                        Cosa si vince
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="regolamento" href="#!/regolamento">
+                        Regolamento
+                      </a>
+                    </li>
+                    <li ng-show="logged" class="dropdown menu-item ng-hide" profile-tag="" ng-hide="true">
+                      <a ui-sref="profilo" href="#!/profilo">
+                        Profilo
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item ng-hide" login-tag="" ng-hide="true">
+                      <!-- ngIf: !logged -->                      <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                        Login
+                      </a>
+                      <!-- end ngIf: !logged -->                      <!-- ngIf: logged -->                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="menu-toggle ">
+                <i class="ti-menu"/>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+    <!-- uiView:  -->    <div ui-view="" class="ng-scope">
+      <div class="section page-title small-padding background-wrapper with-overlay black-overlay active-section ng-scope">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="backgroundpositionx: 0%; backgroundPositionY: 45px;">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12" style="">
+              <div class="resizeMe bigFonts">
+                Vota la tua estate
+              </div>
+              <p class="">
+                
+                    Vota la tua estate
+                
+              </p>
+              <ol class="breadcrumb">
+                <li>
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="active">
+                  Informativa estesa sui Cookie
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section blog-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="content">
+                <h2 class="lighter resizeMe bigFonts">
+                  Informativa estesa sui Cookie
+                </h2>
+                
+
+                    I Cookie sono costituiti da porzioni di codice installate all'interno del browser che assistono il
+                    Titolare nell’erogazione del servizio in base alle finalità descritte. Alcune delle finalità di
+                    installazione dei Cookie potrebbero, inoltre, necessitare del consenso dell'Utente.
+                    
+                <br/>
+                <h4>
+                  Cookie tecnici e di statistica aggregata
+                </h4>
+                <ul>
+                  <li>
+                    <h5>
+                      Attività strettamente necessarie al funzionamento
+                    </h5>
+                  </li>
+                  
+                        Questa Applicazione utilizza Cookie per salvare la sessione dell'Utente e per svolgere altre
+                        attività strettamente necessarie al funzionamento dello stesso, ad esempio in relazione alla
+                        distribuzione del traffico.
+                        
+                  <br/>
+                  <li>
+                    <h5>
+                      Attività di salvataggio delle preferenze, ottimizzazione e statistica
+                    </h5>
+                  </li>
+                  
+                        Questa Applicazione utilizza Cookie per salvare le preferenze di navigazione ed ottimizzare
+                        l'esperienza di navigazione dell'Utente. Fra questi Cookie rientrano, ad esempio, quelli per
+                        impostare la lingua e la valuta o per la gestione di statistiche da parte del Titolare del sito.
+                        
+                  <br/>
+                  <li>
+                    <h5>
+                      Altre tipologie di Cookie o strumenti terzi che potrebbero farne utilizzo
+                    </h5>
+                  </li>
+                  
+                        Alcuni dei servizi elencati di seguito potrebbero non richiedere il consenso dell'Utente o
+                        potrebbero essere gestiti direttamente dal Titolare – a seconda di quanto descritto – senza
+                        l'ausilio di terzi.
+                        
+                  <br/>
+                  
+                        Qualora fra gli strumenti indicati in seguito fossero presenti servizi gestiti da terzi, questi
+                        potrebbero – in aggiunta a quanto specificato ed anche all’insaputa del Titolare – compiere
+                        attività di tracciamento dell’Utente. 
+                  <br/>
+                  
+                        Per informazioni dettagliate in merito, si consiglia di consultare le privacy policy dei servizi
+                        elencati.
+                        
+                  <br/>
+                  <li>
+                    <h5>
+                      Interazione con social network e piattaforme esterne
+                    </h5>
+                  </li>
+                  
+                        Questi servizi permettono di effettuare interazioni con i social network, o con altre
+                        piattaforme esterne, direttamente dalle pagine di questa Applicazione.
+                        Le interazioni e le informazioni acquisite da questa Applicazione sono in ogni caso soggette
+                        alle impostazioni privacy dell’Utente relative ad ogni social network.
+                        Nel caso in cui sia installato un servizio di interazione con i social network, è possibile che,
+                        anche nel caso gli Utenti non utilizzino il servizio, lo stesso raccolga dati di traffico
+                        relativi alle pagine in cui è installato.
+                        
+                  <br/>
+                  <ul>
+                    <li>
+                      <h5>
+                        Pulsante +1 e widget sociali di Google+ (Google Inc.)
+                      </h5>
+                    </li>
+                    
+                            Il pulsante +1 e i widget sociali di Google+ sono servizi di interazione con il social
+                            network Google+, forniti da Google Inc.
+                    <br/>
+                    
+                            Dati personali raccolti: Cookie e Dati di utilizzo. - Luogo del trattamento : USA – Privacy
+                            Policy
+                            
+                    <li>
+                      <h5>
+                        Pulsante e widget sociali di Linkedin (LinkedIn Corporation)
+                      </h5>
+                    </li>
+                    
+                            Il pulsante e i widget sociali di Linkedin sono servizi di interazione con il social network
+                            Linkedin, forniti da LinkedIn Corporation.
+                    <br/>
+                    
+                            Dati personali raccolti: Cookie e Dati di utilizzo. - Luogo del trattamento : USA – Privacy
+                            Policy
+                            
+                    <li>
+                      Pulsante Mi Piace e widget sociali di Facebook (Facebook, Inc.)
+                    </li>
+                    
+                            Il pulsante “Mi Piace” e i widget sociali di Facebook sono servizi di interazione con il
+                            social network Facebook, forniti da Facebook, Inc.
+                            
+                    <br/>
+                    
+                            Dati personali raccolti: Cookie e Dati di utilizzo. - Luogo del trattamento : USA – Privacy
+                            Policy
+                            
+                    <br/>
+                    <li>
+                      Pulsante Tweet e widget sociali di Twitter (Twitter, Inc.)
+                    </li>
+                    
+                            Il pulsante Tweet e i widget sociali di Twitter sono servizi di interazione con il social
+                            network Twitter, forniti da Twitter, Inc.
+                            
+                    <br/>
+                    
+                            Dati personali raccolti: Cookie e Dati di utilizzo. - Luogo del trattamento : USA – Privacy
+                            Policy
+                            
+                    <br/>
+                    <li>
+                      Remarketing e Behavioral Targeting
+                    </li>
+                    
+                            Questi servizi consentono a questa Applicazione ed ai suoi partner di comunicare,
+                            ottimizzare e servire annunci pubblicitari basati sull'utilizzo passato di questa
+                            Applicazione da parte dell'Utente.
+                            Questa attività viene effettuata tramite il tracciamento dei Dati di Utilizzo e l'uso di
+                            Cookie, informazioni che vengono trasferite ai partner a cui l'attività di remarketing e
+                            behavioral
+                            targeting è collegata.
+                            
+                    <li>
+                      Facebook Remarketing (Facebook, Inc.)
+                    </li>
+                    
+                            Facebook Remarketing è un servizio di Remarketing e Behavioral Targeting fornito da
+                            Facebook, Inc. che collega l'attività di questa Applicazione con il network di advertising
+                            Facebook.
+                            
+                    <br/>
+                    
+                            Dati personali raccolti: Cookie e Dati di utilizzo. - Luogo del trattamento : USA – Privacy
+                            Policy – Opt Out
+                            
+                    <br/>
+                    
+                            Statistica
+                    <br/>
+                    
+                            I servizi contenuti nella presente sezione permettono al Titolare del Trattamento di
+                            monitorare e analizzare i dati di traffico e servono a tener traccia del comportamento
+                            dell’Utente.
+                            
+                    <li>
+                      Google Analytics (Google Inc.)
+                    </li>
+                    
+                            Google Analytics è un servizio di analisi web fornito da Google Inc. (“Google”). Google
+                            utilizza i Dati Personali raccolti allo scopo di tracciare ed esaminare l’utilizzo di questa
+                            Applicazione,
+                            compilare report e condividerli con gli altri servizi sviluppati da Google.
+                            Google potrebbe utilizzare i Dati Personali per contestualizzare e personalizzare gli
+                            annunci
+                            del
+                            proprio network pubblicitario.
+                            
+                    <br/>
+                    
+                            Dati personali raccolti: Cookie e Dati di utilizzo. - Luogo del trattamento : USA – Privacy
+                            Policy – Opt Out
+                            
+                    <br/>
+                    
+                            Visualizzazione di contenuti da piattaforme esterne
+                            Questi servizi permettono di visualizzare contenuti ospitati su piattaforme esterne
+                            direttamente dalle pagine di questa Applicazione e di interagire con essi.
+                            Nel caso in cui sia installato un servizio di questo tipo, è possibile che, anche nel caso
+                            gli Utenti non utilizzino il servizio, lo stesso raccolga dati di traffico relativi alle
+                            pagine in cui è installato.
+                            
+                    <li>
+                      Widget Video Youtube (Google Inc.)
+                    </li>
+                    
+                            Youtube è un servizio di visualizzazione di contenuti video gestito da Google Inc. che
+                            permette a questa Applicazione di integrare tali contenuti all’interno delle proprie pagine.
+
+                        
+                  </ul>
+                  <h4>
+                    Dati personali raccolti: Cookie e Dati di utilizzo.
+                  </h4>
+                  <ul>
+                    <li>
+                      <h5>
+                        Come posso controllare l'installazione di Cookie?
+                      </h5>
+                    </li>
+                    
+                            In aggiunta a quanto indicato in questo documento, l'Utente può gestire le preferenze
+                            relative ai Cookie direttamente all'interno del proprio browser ed impedire – ad esempio –
+                            che terze parti possano installarne. Tramite le preferenze del browser è inoltre possibile
+                            eliminare i Cookie installati in passato, incluso il Cookie in cui venga eventualmente
+                            salvato il consenso all'installazione di Cookie da parte di questo sito.
+                            È importante notare che disabilitando tutti i Cookie, il funzionamento di questo sito
+                            potrebbe essere compromesso. L'Utente può trovare
+                            informazioni su come gestire i Cookie nel suo browser ai seguenti indirizzi: Google Chrome,
+                            Mozilla Firefox, Apple Safari and Microsoft Windows Explorer.
+                            
+                    <br/>
+                    
+                            In caso di servizi erogati da terze parti, l'Utente può inoltre esercitare il proprio
+                            diritto ad
+                            opporsi al tracciamento informandosi tramite la privacy policy della terza parte, tramite il
+                            link di
+                            opt out se esplicitamente fornito o contattando direttamente la stessa.
+                            
+                    <br/>
+                    
+                            Fermo restando quanto precede, il Titolare informa che l’Utente può avvalersi di Your Online
+                            Choices. Attraverso tale servizio è possibile gestire le preferenze di tracciamento della
+                            maggior
+                            parte degli strumenti pubblicitari. Il Titolare, pertanto, consiglia agli Utenti di
+                            utilizzare
+                            tale
+                            risorsa in aggiunta alle informazioni fornite dal presente documento.
+                            
+                    <li>
+                      <h5>
+                        Titolare del Trattamento dei Dati - (
+                        <a ui-sref="privacy" href="#!/privacy">
+                          consulta apposita sezione del sito
+                        </a>
+                        )
+                      </h5>
+                    </li>
+                    
+                            Dal momento che l'installazione di Cookie e di altri sistemi di tracciamento operata da
+                            terze parti tramite i servizi utilizzati all'interno di questa Applicazione non può essere
+                            tecnicamente controllata dal Titolare, ogni riferimento specifico a Cookie e sistemi di
+                            tracciamento installati da terze parti è da considerarsi indicativo.
+                            Per ottenere informazioni complete, consulta la privacy policy degli eventuali servizi terzi
+                            elencati in questo documento.
+                            
+                    <br/>
+                    
+                            Vista l'oggettiva complessità legata all'identificazione delle tecnologie basate sui Cookie
+                            ed alla loro integrazione molto stretta con il funzionamento del web, l'Utente è invitato a
+                            contattare il Titolare qualora volesse ricevere qualunque approfondimento relativo
+                            all'utilizzo dei Cookie
+                            stessi e ad eventuali utilizzi degli stessi – ad esempio ad opera di terzi – effettuati
+                            tramite
+                            questo sito.
+                        
+                  </ul>
+                  <h4>
+                     Definizioni e riferimenti legali
+                  </h4>
+                  <ul>
+                    <li>
+                      <h5>
+                        Dati Personali (o Dati)
+                      </h5>
+                    </li>
+                    
+                            Costituisce dato personale qualunque informazione relativa a persona fisica, identificata o
+                            identificabile, anche indirettamente, mediante riferimento a qualsiasi altra informazione,
+                            ivi
+                            compreso un numero di identificazione personale.
+                            
+                    <br/>
+                    <li>
+                      <h5>
+                        Dati di Utilizzo
+                      </h5>
+                    </li>
+                    
+                            Sono i dati personali raccolti in maniera automatica dall’Applicazione (o dalle applicazioni
+                            di parti terze che la stessa utilizza), tra i quali: gli indirizzi IP o i nomi a dominio dei
+                            computerutilizzati dall’Utente che si connette all’Applicazione, gli indirizzi in notazione
+                            URI
+                            (Uniform Resource Identifier), l’orario della richiesta, il metodo utilizzato nel sottoporre
+                            la
+                            richiesta al server, la dimensione del file ottenuto in risposta, il codice numerico
+                            indicante lo stato della risposta dal server (buon fine, errore, ecc.) il Paese di
+                            provenienza, le caratteristiche del browser e del sistema operativo utilizzati dal
+                            visitatore, le varie connotazioni temporali della visita (ad esempio il tempo di permanenza
+                            su ciascuna pagina) e i dettagli relativi
+                            all’itinerario seguito all’interno dell’Applicazione, con particolare riferimento alla
+                            sequenza delle pagine consultate, ai parametri relativi al sistema operativo e all’ambiente
+                            informatico
+                            dell’Utente.
+                            
+                    <li>
+                      <h5>
+                        Utente
+                      </h5>
+                    </li>
+                    
+                            L'individuo che utilizza questa Applicazione, che deve coincidere con l'Interessato o essere
+                            da questo autorizzato ed i cui Dati Personali sono oggetto del trattamento.
+                            
+                    <li>
+                      <h5>
+                        Interessato
+                      </h5>
+                    </li>
+                    
+                            La persona fisica o giuridica cui si riferiscono i Dati Personali.
+                    <br/>
+                    <li>
+                      <h5>
+                        Responsabile del Trattamento (o Responsabile)
+                      </h5>
+                    </li>
+                    
+                            La persona fisica, giuridica, la pubblica amministrazione e qualsiasi altro ente,
+                            associazione
+                            od organismo preposti dal Titolare al trattamento dei Dati Personali, secondo quanto
+                            predisposto dalla presente privacy policy.
+                            
+                    <li>
+                      <h5>
+                        Titolare del Trattamento (o Titolare)
+                      </h5>
+                    </li>
+                    
+                            La persona fisica, giuridica, la pubblica amministrazione e qualsiasi altro ente,
+                            associazione od organismo cui competono, anche unitamente ad altro titolare, le decisioni in
+                            ordine alle
+                            finalità, alle modalità del trattamento di dati personali ed agli strumenti utilizzati, ivi
+                            compreso
+                            il profilo della sicurezza, in relazione al funzionamento e alla fruizione di questa
+                            Applicazione.
+                            Il Titolare del Trattamento, salvo quanto diversamente specificato, è il proprietario di
+                            questa
+                            Applicazione.
+                            
+                    <li>
+                      <h5>
+                        Questa Applicazione
+                      </h5>
+                    </li>
+                    
+                            Lo strumento hardware o software mediante il quale sono raccolti i Dati Personali degli
+                            Utenti.
+                    <br/>
+                    <li>
+                      <h5>
+                        Cookie
+                      </h5>
+                    </li>
+                    
+                            Piccola porzione di dati conservata all'interno del dispositivo dell'Utente.
+                    <br/>
+                    <li>
+                      <h5>
+                        Riferimenti legali
+                      </h5>
+                    </li>
+                    
+                            Avviso agli Utenti europei: la presente informativa privacy è redatta in adempimento degli
+                            obblighi
+                            previsti dall’Art. 10 della Direttiva n. 95/46/CE, nonché a quanto previsto dalla Direttiva
+                            2002/58/CE, come aggiornata dalla Direttiva 2009/136/CE, in materia di Cookie.
+                            
+                    <br/>
+                    
+                            Questa informativa privacy riguarda esclusivamente questa Applicazione.
+                    <br/>
+                  </ul>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <div class="sidebar">
+                <div class="widget">
+                  <h3 class="widget-title">
+                    Classifica
+                  </h3>
+                  <ul class="list-group">
+                    <!-- ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        1
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/99" class="ng-binding">
+                        CHALET STELLA
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        2
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/97" class="ng-binding">
+                        CHALET IL PINGUINO
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/10" class="ng-binding">
+                        BAGNI 007
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/2" class="ng-binding">
+                        DA LUIGI
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <li class="list-group-item ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                      <span class="label label-info ng-binding">
+                        3
+                      </span>
+                      <a href="/#!/chalet_licenseNumber/6" class="ng-binding">
+                        LA MEDUSA
+                      </a>
+                    </li>
+                    <!-- end ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                    <!-- ngIf: $index <5 -->                    <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  </ul>
+                </div>
+                <div class="widget">
+                  <h3 class="widget-title">
+                    Voti
+                  </h3>
+                  <!-- ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/99">
+                      <span class="progress-text pull-left ng-binding">
+                        CHALET STELLA
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      8
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        8
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/97">
+                      <span class="progress-text pull-left ng-binding">
+                        CHALET IL PINGUINO
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      6
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        6
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/10">
+                      <span class="progress-text pull-left ng-binding">
+                        BAGNI 007
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/2">
+                      <span class="progress-text pull-left ng-binding">
+                        DA LUIGI
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <div class="progress-container clearfix ng-scope" ng-repeat="item in element.chaletRankings | orderBy:'position'" ng-if="$index &lt;5">
+                    <a href="/#!/chalet_licenseNumber/6">
+                      <span class="progress-text pull-left ng-binding">
+                        LA MEDUSA
+                      </span>
+                    </a>
+                    <span class="prgress-value pull-right ng-binding">
+                      1
+                    </span>
+                    <div class="clearfix">
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      </div>
+                      <span class="sr-only ng-binding">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                  <!-- ngIf: $index <5 -->                  <!-- end ngRepeat: item in element.chaletRankings | orderBy:'position' -->                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="section divider-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="divider">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section with-overlay black-overlay background-wrapper  active-section" tabfooter="">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="backgroundpositionx: 0%; backgroundPositionY: 792px;">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="small-text uppercase-text strong-text">
+                Vota la tua estate.
+              </h3>
+              <p>
+                Vota la tua estate, tanto è gratis. 
+              </p>
+              <p>
+                 Anzi, rischi di vincere un premio.
+              </p>
+              <ul class="list-inline social-links">
+                <li>
+                  <a href="http://facebook.com/votalatuaestate" title="facebook.com/votalatuaestate">
+                    <i class="icon ti-facebook"/>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Sei uno chalet?
+              </h3>
+              <p>
+                Contattaci 
+                <a href="/cdn-cgi/l/email-protection#2940474f46695f465d4845485d5c48074c5a5d485d4c">
+                  info@votalatua.estate
+                </a>
+                .
+              </p>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Cosa si vince
+              </h3>
+              <p>
+                Ti avviseremo attraverso un SMS al numero da te indicato.
+              </p>
+            </div>
+            <div class="col-md-12 text-center">
+              <div class="space">
+              </div>
+              <div class="space">
+              </div>
+              <ul class="list-inline">
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="chalet" href="#!/chalet">
+                    Chalet
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="classifica" href="#!/classifica">
+                    Classifica
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="vota" href="#!/vota">
+                    Vota
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                    Come si fa
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                    Cosa si vince
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="privacy" href="#!/privacy">
+                    Privacy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cookie-policy" href="#!/cookie-policy">
+                    Cookie Policy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="regolamento" href="#!/regolamento">
+                    Regolamento
+                  </a>
+                </li>
+                <li ng-show="logged" class="uppercase-text strong-text ng-hide" profile-tag="" ng-hide="true">
+                  <a ui-sref="profilo" href="#!/profilo">
+                    Profilo
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text ng-hide" login-tag="" ng-hide="true">
+                  <!-- ngIf: !logged -->                  <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                    Login
+                  </a>
+                  <!-- end ngIf: !logged -->                  <!-- ngIf: logged -->                </li>
+              </ul>
+              <p>
+                © 2015 - Vota la tua estate - Partita Iva 01826800441
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="//www.google-analytics.com/analytics.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.2/angular-local-storage.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js">
+    </script>
+    <script src="//code.angularjs.org/1.4.3/i18n/angular-locale_it-it.js">
+    </script>
+    <script src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js">
+    </script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="scripts/constants/global.js">
+    </script>
+    <script src="scripts/services/baseservice.js">
+    </script>
+    <script src="scripts/services/chaletservice.js">
+    </script>
+    <script src="scripts/services/classificaservice.js">
+    </script>
+    <script src="scripts/services/blogservice.js">
+    </script>
+    <script src="scripts/services/storageservice.js">
+    </script>
+    <script src="scripts/services/authenticationservice.js">
+    </script>
+    <script src="scripts/services/singlefileupload.js">
+    </script>
+    <script src="scripts/services/photoservice.js">
+    </script>
+    <script src="scripts/services/votazioniservice.js">
+    </script>
+    <script src="scripts/functions/pager.js">
+    </script>
+    <script src="scripts/controllers/chalet.js">
+    </script>
+    <script src="scripts/controllers/chalet_single.js">
+    </script>
+    <script src="scripts/controllers/classifica.js">
+    </script>
+    <script src="scripts/controllers/home.js">
+    </script>
+    <script src="scripts/controllers/vota.js">
+    </script>
+    <script src="scripts/controllers/informazioni.js">
+    </script>
+    <script src="scripts/controllers/contatti.js">
+    </script>
+    <script src="scripts/controllers/login.js">
+    </script>
+    <script src="scripts/controllers/registrati.js">
+    </script>
+    <script src="scripts/controllers/profilo.js">
+    </script>
+    <script src="scripts/controllers/upload.js">
+    </script>
+    <script src="scripts/controllers/foto.js">
+    </script>
+    <script src="scripts/controllers/votazioni.js">
+    </script>
+    <script src="scripts/directives/tab-footer.js">
+    </script>
+    <script src="scripts/directives/login-tag.js">
+    </script>
+    <script src="scripts/directives/profile-tag.js">
+    </script>
+    <script src="scripts/directives/privacy.js">
+    </script>
+    <script src="scripts/directives/fileModel.js">
+    </script>
+    <script src="js/jquery-1.10.2.min.js">
+    </script>
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script src="js/ie8-responsive-file-warning.js">
+    </script>
+    <script src="js/isotope.pkgd.min.js">
+    </script>
+    <script src="js/jquery.flexslider-min.js">
+    </script>
+    <script src="js/jquery.form.min.js">
+    </script>
+    <script src="js/jquery.localscroll.min.js">
+    </script>
+    <script src="js/jquery.scrollto.min.js">
+    </script>
+    <script src="js/owl.carousel.min.js">
+    </script>
+    <script src="scripts/scripts.js">
+    </script>
+    <script src="js/stellar.js">
+    </script>
+    <script src="js/validator.min.js">
+    </script>
+    <script src="js/waypoints.min.js">
+    </script>
+    <script type="text/javascript" src="js/cookie.js">
+    </script>
+    <script>
+//<![CDATA[
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-30883525-4', 'auto');
+
+//]]>
+    </script>
+  </body>
+</html>
