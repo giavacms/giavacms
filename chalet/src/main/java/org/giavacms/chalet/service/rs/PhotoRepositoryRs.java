@@ -237,7 +237,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    {
       try
       {
-         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) || !sessionContext.isCallerInRole("SUPERVISOR"))
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
@@ -269,7 +269,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    {
       try
       {
-         if (!sessionContext.isCallerInRole("ADMIN") || !sessionContext.isCallerInRole("SUPERVISOR"))
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
