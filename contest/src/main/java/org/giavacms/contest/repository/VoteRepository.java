@@ -144,7 +144,7 @@ public class VoteRepository extends BaseRepository<Vote>
       int result = getEm().createNativeQuery("UPDATE " + Vote.TABLE_NAME
                + " SET active = :ACTIVE "
                + " WHERE confirmed IS NULL "
-               + " AND created < :CREATED "
+               + " AND dateTime < :CREATED "
                + " AND active = :ACTIVE_W ")
                .setParameter("ACTIVE", false)
                .setParameter("CREATED", calendar.getTime())

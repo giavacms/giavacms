@@ -1,4 +1,4 @@
-package org.giavacms.contest.service;
+package org.giavacms.contest.service.timer;
 
 import org.giavacms.contest.repository.TokenRepository;
 import org.jboss.logging.Logger;

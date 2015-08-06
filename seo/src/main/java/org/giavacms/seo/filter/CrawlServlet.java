@@ -85,7 +85,8 @@ public final class CrawlServlet implements Filter
       StringBuilder pageNameSb = new StringBuilder("http://");
       if ((queryString != null) && (queryString.contains("_escaped_fragment_")))
       {
-
+         String userAgent = req.getHeader("User-Agent");
+         System.out.println("userAgent: " + userAgent);
          pageNameSb.append(req.getServerName());
          if (req.getServerPort() != 0)
          {

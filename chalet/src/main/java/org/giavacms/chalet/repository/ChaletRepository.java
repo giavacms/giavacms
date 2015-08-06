@@ -46,7 +46,7 @@ public class ChaletRepository extends BaseRepository<Chalet>
       List<Object[]> list = getEm()
                .createNativeQuery(
                         "select C.id, C.name, C.licenseNumber, C.preview, C.description, C.tags, C.active, C.owner, C.address, C.postalNumber, "
-                                 + " C.city, C.province, C.telephone, C.email, C.website, C.facebook, C.twitter, C.instagram, "
+                                 + " C.city, C.province, C.telephone, C.email, C.website, C.facebook, C.twitter, C.instagram, C.tripadvisor,"
                                  + " I.id as ImageId, I.active as ImageActive, I.description  as ImageDescription, I.filename, I.name  as ImageName, I.type from "
                                  + Chalet.TABLE_NAME + " AS C "
                                  + " LEFT JOIN " + Chalet.IMAGES_JOINTABLE_NAME + " CI on (C.id=CI." + Chalet.TABLE_FK
@@ -136,12 +136,15 @@ public class ChaletRepository extends BaseRepository<Chalet>
       i++;
       // C.instagram, "
       c.setInstagram(row[i] == null ? "" : row[i].toString().trim());
+      i++;
+      // C.tripadvisor, "
+      c.setTripadvisor(row[i] == null ? "" : row[i].toString().trim());
       return c;
    }
 
    private Image imageFromRow(Object[] row)
    {
-      int i = 18;
+      int i = 19;
       Image c = new Image();
       //      I.id, I.active, I.description, I.filename, I.name, I.type
 

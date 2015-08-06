@@ -25,6 +25,7 @@ public class Photo implements Serializable
    private String chaletName;
    private Date created;
    private boolean approved = false;
+   private Date approvedDate;
    private boolean active = false;
    private int ranking;
 
@@ -111,5 +112,35 @@ public class Photo implements Serializable
    public void setRanking(int ranking)
    {
       this.ranking = ranking;
+   }
+
+   public String getChaletName()
+   {
+      return chaletName;
+   }
+
+   public void setChaletName(String chaletName)
+   {
+      this.chaletName = chaletName;
+   }
+
+   public String getAccountNameSurname()
+   {
+      return accountNameSurname;
+   }
+
+   public void setAccountNameSurname(String accountNameSurname)
+   {
+      this.accountNameSurname = accountNameSurname;
+   }
+
+   public Date getApprovedDate()
+   {
+      return approvedDate;
+   }
+
+   public void setApprovedDate(Date approvedDate)
+   {
+      this.approvedDate = approvedDate;
    }
 }

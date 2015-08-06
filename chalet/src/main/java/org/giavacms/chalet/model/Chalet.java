@@ -46,6 +46,7 @@ public class Chalet implements Serializable
    private String facebook;
    private String twitter;
    private String instagram;
+   private String tripadvisor;
 
    public Chalet()
    {
@@ -308,6 +309,16 @@ public class Chalet implements Serializable
       this.website = website;
    }
 
+   public String getTripadvisor()
+   {
+      return tripadvisor;
+   }
+
+   public void setTripadvisor(String tripadvisor)
+   {
+      this.tripadvisor = tripadvisor;
+   }
+
    @Override
    public String toString()
    {
@@ -331,6 +342,7 @@ public class Chalet implements Serializable
                ", facebook='" + facebook + '\'' +
                ", twitter='" + twitter + '\'' +
                ", instagram='" + instagram + '\'' +
+               ", tripadvisor='" + tripadvisor + '\'' +
                '}';
    }
 }
