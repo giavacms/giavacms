@@ -9,7 +9,10 @@ public enum AppProperties
 
    number, url,
 
-   skebbyNumber, skebbyUsername, skebbyPassword;
+   skebbyNumber, skebbyUsername, skebbyPassword,
+
+
+   imageResizeCommand;
 
    @SuppressWarnings("unchecked")
    public <T> T cast(Class<T> clazz)

@@ -1,5 +1,6 @@
 package org.giavacms.chalet.service.jms;
 
+import org.giavacms.base.management.AppProperties;
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.management.AppKeys;
 import org.giavacms.chalet.utils.RuntimeUtil;
@@ -39,7 +40,7 @@ public class ResizeImageMDB implements MessageListener
          MapMessage mapMessage = (MapMessage) message;
          fileName = mapMessage.getString(AppKeys.FILE_NAME.name());
          //   /usr/bin/mogrify -resize 800 *.jpg
-
+//         AppProperties.
          String command = "/usr/bin/mogrify -resize 800 " + fileName;
          boolean success = RuntimeUtil.execute(command);
          if (success)

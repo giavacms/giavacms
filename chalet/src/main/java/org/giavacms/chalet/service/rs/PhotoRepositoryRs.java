@@ -211,7 +211,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       photo.setName(photoName);
 
       String absoluteFilename = ResourceUtils
-               .createFile_(AppConstants.PHOTO_FOLDER, photoName, byteArray);
+               .createAbsoluteFile(AppConstants.PHOTO_FOLDER, photoName, byteArray);
       try
       {
          Image image = ImageIO.read(new File(AppConstants.PHOTO_FOLDER, photoName));

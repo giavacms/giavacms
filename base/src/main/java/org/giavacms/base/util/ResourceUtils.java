@@ -134,7 +134,7 @@ public class ResourceUtils
                DirectoryFileFilter.DIRECTORY
       );
 
-//      File dir = new File(getRealPath(folder, false));
+      //      File dir = new File(getRealPath(folder, false));
       //      if (resources == null)
       //      {
       //         resources = new ArrayList<>();
@@ -252,6 +252,19 @@ public class ResourceUtils
       fos.close();
       return actualFileName.substring(actualFileName
                .lastIndexOf(File.separator) + 1);
+
+   }
+
+   public static String createAbsoluteFile(String folder, String fileName, byte[] data) throws Exception
+   {
+
+      String actualFileName = getUniqueName(getRealPath(folder, true),
+               fileName);
+      FileOutputStream fos = new FileOutputStream(
+               new File(actualFileName));
+      fos.write(data);
+      fos.close();
+      return actualFileName;
 
    }
 
