@@ -265,11 +265,11 @@ public class RepositoryUtils
       {
          return null;
       }
-      if (aClass.equals(Integer.class))
+      if (aClass.equals(Integer.class) || aClass.equals(int.class))
       {
          return new Integer(fieldValue);
       }
-      if (aClass.equals(Long.class))
+      if (aClass.equals(Long.class) || aClass.equals(long.class))
       {
          return new Long(fieldValue);
       }
@@ -277,7 +277,7 @@ public class RepositoryUtils
       {
          return new BigDecimal(fieldValue);
       }
-      if (aClass.equals(Boolean.class))
+      if (aClass.equals(Boolean.class) || aClass.equals(boolean.class))
       {
          return new Boolean(fieldValue);
       }
@@ -286,6 +286,13 @@ public class RepositoryUtils
          try
          {
             return new SimpleDateFormat("dd/MM/yyyy").parse(fieldValue);
+         }
+         catch (Exception e)
+         {
+         }
+         try
+         {
+            return new SimpleDateFormat("dd-MM-yyyy").parse(fieldValue);
          }
          catch (Exception e)
          {
@@ -314,6 +321,7 @@ public class RepositoryUtils
                return enumConstant;
             }
          }
+         return null;
       }
       return fieldValue;
    }
