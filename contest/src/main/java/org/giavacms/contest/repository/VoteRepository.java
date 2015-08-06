@@ -61,6 +61,32 @@ public class VoteRepository extends BaseRepository<Vote>
          separator = " and ";
       }
 
+      //LIKE PHONE
+      if (search.getLike() != null && search.getLike().getPhone() != null && !search.getLike().getPhone().trim()
+               .isEmpty())
+      {
+
+         if (search.getLike().getPhone().trim().startsWith("39"))
+         {
+            //LO CERCO CON E SENZA 39 MA IN UGUALE
+            sb.append(separator).append(alias).append(".phone = :PHONE ");
+            sb.append(" OR ").append(alias).append(".phone = :PHONE_39 ");
+            sb.append(" OR ").append(alias).append(".phone = :PHONE_SUB_39 ");
+            params.put("PHONE", search.getLike().getPhone().trim());
+            params.put("PHONE_39", "39" + search.getLike().getPhone().trim());
+            params.put("PHONE_SUB_39", search.getLike().getPhone().trim().substring(2));
+         }
+         else
+         {
+            sb.append(separator).append(alias).append(".phone = :PHONE ");
+            sb.append(" OR ").append(alias).append(".phone = :PHONE_39 ");
+            params.put("PHONE", search.getLike().getPhone().trim());
+            params.put("PHONE_39", "39" + search.getLike().getPhone().trim());
+
+         }
+         separator = " and ";
+      }
+
       // PHONE
       if (search.getObj() != null && search.getObj().getPhone() != null)
       {
