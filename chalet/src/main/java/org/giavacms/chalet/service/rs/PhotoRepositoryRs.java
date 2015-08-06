@@ -274,7 +274,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
     * @param evaluated nullo (tutte), vero (solo già valutate) o falso (solo in sospeso)
     * @return
     */
-   private Search<Photo> postatePerChaletEtAccount(String chaletId, String accountId, Boolean approved,
+   private Search<Photo> makeSearch(String chaletId, String accountId, Boolean approved,
             Boolean evaluated)
    {
       Search<Photo> sp = new Search<Photo>(Photo.class);
@@ -305,15 +305,4 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       return sp;
    }
 
-   @GET
-   @Path("/test")
-   public void test(@QueryParam("accountId") String accountId, @QueryParam("chaletId") String chaletId,
-            @QueryParam("approved") boolean approved, @QueryParam("evaluted") boolean evaluated) throws Exception
-   {
-      for (Chalet c : ((PhotoRepository) getRepository()).withPhoto(postatePerChaletEtAccount(chaletId, accountId,
-               approved, evaluated)))
-      {
-         System.out.println(c.toString());
-      }
-   }
 }
