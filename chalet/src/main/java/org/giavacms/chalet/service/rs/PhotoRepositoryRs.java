@@ -7,6 +7,7 @@ import org.giavacms.base.util.FileUtils;
 import org.giavacms.base.util.HttpUtils;
 import org.giavacms.base.util.ResourceUtils;
 import org.giavacms.chalet.management.AppConstants;
+import org.giavacms.chalet.management.AppKeys;
 import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.Photo;
 import org.giavacms.chalet.repository.ChaletRepository;
@@ -21,11 +22,18 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.MapMessage;
 import javax.persistence.NoResultException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Date;
@@ -50,6 +58,13 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
 
    @Resource
    SessionContext sessionContext;
+
+   @Inject
+   @JMSConnectionFactory("java:/ConnectionFactory")
+   private JMSContext context;
+
+   @Resource(lookup = AppConstants.QUEUE_RESIZE_IMAGE)
+   private javax.jms.Queue resizeImagnQueue;
 
    public PhotoRepositoryRs()
    {
@@ -197,7 +212,20 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
 
       String absoluteFilename = ResourceUtils
                .createFile_(AppConstants.PHOTO_FOLDER, photoName, byteArray);
+      try
+      {
+         Image image = ImageIO.read(new File(AppConstants.PHOTO_FOLDER, photoName));
+         if (image == null)
+         {
+            throw new Exception("The file" + absoluteFilename + "could not be opened , it is not an image");
+         }
+      }
+      catch (IOException ex)
+      {
+         throw new Exception("The file" + absoluteFilename + "could not be opened , it is not an image");
+      }
       logger.info("img create: " + absoluteFilename);
+      sendToResizeImgQueue(absoluteFilename);
       photo = getRepository().persist(photo);
       return photo;
    }
@@ -344,6 +372,23 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       {
          logger.error(e.getMessage(), e);
          return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading resource list");
+      }
+   }
+
+   private void sendToResizeImgQueue(String filename)
+   {
+      try
+      {
+         MapMessage mapMessage = context.createMapMessage();
+         mapMessage.setString(AppKeys.FILE_NAME.name(), filename);
+
+         context.createProducer().send(resizeImagnQueue, mapMessage);
+         logger.info("SENT MSG TO resize filename: " + filename);
+      }
+      catch (Throwable t)
+      {
+         logger.error(t.getMessage(), t);
+         logger.error("NOT SENT MSG TO resize: " + filename);
       }
    }
 }

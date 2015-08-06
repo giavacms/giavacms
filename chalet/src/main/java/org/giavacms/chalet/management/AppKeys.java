@@ -7,6 +7,8 @@ public enum AppKeys
 {
    MESSAGE_number,
    MESSAGE_text,
-   MESSAGE_type;
+   MESSAGE_type,
+
+   FILE_NAME;
 
 }

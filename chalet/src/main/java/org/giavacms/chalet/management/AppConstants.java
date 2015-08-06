@@ -16,6 +16,8 @@ public class AppConstants extends org.giavacms.base.management.AppConstants
    public static final String PHOTO_FOLDER = "photo";
 
    public static final String QUEUE_NOTIFICATION_SENDER = "java:/jms/queue/giavacms.parade";
+   public static final String QUEUE_RESIZE_IMAGE = "java:/jms/queue/giavacms.resizeimage";
+
 
    public static final String RS_MSG = "msg";
 
