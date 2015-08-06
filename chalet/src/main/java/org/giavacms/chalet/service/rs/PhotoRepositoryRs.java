@@ -1,6 +1,7 @@
 package org.giavacms.chalet.service.rs;
 
 import org.apache.commons.io.IOUtils;
+import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.base.util.FileUtils;
 import org.giavacms.base.util.HttpUtils;
@@ -25,6 +26,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Date;
@@ -118,25 +120,27 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    @Override
    protected void preDelete(Object key) throws Exception
    {
-      //DEVE ESISTERE LA FOTO
+      // DEVE ESISTERE LA FOTO
       Photo photo = getRepository().find(key);
       if (photo == null)
       {
          throw new Exception(AppConstants.ER9);
       }
-      //DEVE ESISTERE ACCOUNT
-      String phone = (String) sessionContext.getContextData().get("username");
-      Account account = accountRepository.exist(phone);
-      if (account == null)
+      // DEVE ESISTERE ACCOUNT
+      if (!sessionContext.isCallerInRole("ADMIN") || !sessionContext.isCallerInRole("SUPERVISOR"))
       {
-         throw new Exception(AppConstants.ER8);
+         String phone = (String) sessionContext.getCallerPrincipal().getName();
+         Account account = accountRepository.exist(phone);
+         if (account == null)
+         {
+            throw new Exception(AppConstants.ER8);
+         }
+         // LA FOTO DEVE ESSERE DELL'ACCOUNT
+         if (!photo.getAccountId().equals(phone))
+         {
+            throw new Exception(AppConstants.ER10);
+         }
       }
-      //LA FOTO DEVE ESSERE DELL'ACCOUNT
-      if (!photo.getAccountId().equals(phone))
-      {
-         throw new Exception(AppConstants.ER10);
-      }
-
    }
 
    @DELETE
@@ -206,13 +210,20 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    {
       try
       {
-         //DEVE ESISTERE LA FOTO
+         if (!sessionContext.isCallerInRole("ADMIN") || !sessionContext.isCallerInRole("SUPERVISOR"))
+         {
+            return RsRepositoryService
+                     .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
+         }
+
+         // DEVE ESISTERE LA FOTO
          Photo photo = getRepository().find(id);
          if (photo == null)
          {
             throw new Exception(AppConstants.ER9);
          }
          photo.setApproved(true);
+         photo.setApprovedDate(new Date());
          getRepository().update(photo);
          return Response.status(Response.Status.OK).entity(photo).build();
       }
@@ -223,4 +234,73 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
                   "Error deleting resource for ID: " + id);
       }
    }
+
+   @PUT
+   @Path("/{uuid}/unapproved")
+   @AccountTokenVerification
+   public Response unapprove(@PathParam("uuid") String id) throws Exception
+   {
+      try
+      {
+         if (!sessionContext.isCallerInRole("ADMIN") || !sessionContext.isCallerInRole("SUPERVISOR"))
+         {
+            return RsRepositoryService
+                     .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
+         }
+
+         // DEVE ESISTERE LA FOTO
+         Photo photo = getRepository().find(id);
+         if (photo == null)
+         {
+            throw new Exception(AppConstants.ER9);
+         }
+         photo.setApproved(false);
+         photo.setApprovedDate(new Date());
+         getRepository().update(photo);
+         return Response.status(Response.Status.OK).entity(photo).build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                  "Error deleting resource for ID: " + id);
+      }
+   }
+
+   /**
+    * @param chaletId
+    * @param accountId male non farà, al limite è nullo
+    * @param approved nullo (tutte), vero (solo ok) o falso (solo ko)
+    * @param evaluated nullo (tutte), vero (solo già valutate) o falso (solo in sospeso)
+    * @return
+    */
+   private Search<Photo> postatePerChaletEtAccount(String chaletId, String accountId, Boolean approved,
+            Boolean evaluated)
+   {
+      Search<Photo> sp = new Search<Photo>(Photo.class);
+      sp.getObj().setChaletId(chaletId);
+      sp.getObj().setAccountId(accountId);
+      if (approved != null)
+      {
+         if (approved)
+         {
+            sp.getObj().setApproved(true);
+         }
+         else
+         {
+            sp.getNot().setApproved(true);
+         }
+      }
+      if (evaluated != null)
+      {
+         if (evaluated) {
+            sp.getObj().setApprovedDate(new Date());
+         }
+         else {
+            sp.getNot().setApprovedDate(new Date());
+         }
+      }
+      return sp;
+   }
+
 }
