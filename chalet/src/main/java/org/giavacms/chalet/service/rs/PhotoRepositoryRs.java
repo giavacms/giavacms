@@ -363,7 +363,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN)
                   && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
          {
-            search.getObj().setApproved(true);
+            //search.getObj().setApproved(true);
             search.getObj().setAccountId(sessionContext.getCallerPrincipal().getName());
          }
          int listSize = getRepository().getListSize(search);
