@@ -40,8 +40,8 @@ public class ResizeImageMDB implements MessageListener
          MapMessage mapMessage = (MapMessage) message;
          fileName = mapMessage.getString(AppKeys.FILE_NAME.name());
          //   /usr/bin/mogrify -resize 800 *.jpg
-//         AppProperties.
-         String command = "/usr/bin/mogrify -resize 800 " + fileName;
+         //         String command = "/usr/bin/mogrify -resize 800 "
+         String command = AppProperties.imageResizeCommand.value() + fileName;
          boolean success = RuntimeUtil.execute(command);
          if (success)
          {
