@@ -109,7 +109,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          {
             try
             {
-               Photo photo = saveImage(chaletId, phone, input, filePart);
+               Photo photo = saveImage(chaletId, phone, input, filePart, chalet.getName(),
+                        account.getName() + " " + account.getSurname());
                String output = "File saved to server location : " + photo.getName();
                logger.debug(output);
                return Response.status(Response.Status.OK).entity(photo).build();
@@ -190,10 +191,13 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       }
    }
 
-   private Photo saveImage(String chaletId, String accountId, MultipartFormDataInput input, InputPart filePart)
+   private Photo saveImage(String chaletId, String accountId, MultipartFormDataInput input, InputPart filePart,
+            String chaletName, String accountName)
             throws Exception
    {
       Photo photo = new Photo();
+      photo.setChaletName(chaletName);
+      photo.setAccountNameSurname(accountName);
       photo.setChaletId(chaletId);
       photo.setAccountId(accountId);
       photo.setCreated(new Date());
@@ -237,7 +241,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    {
       try
       {
-         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(
+                  AppConstants.ROLE_SUPERVISOR))
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
@@ -269,7 +274,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    {
       try
       {
-         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(
+                  AppConstants.ROLE_SUPERVISOR))
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
