@@ -24,6 +24,8 @@ public class PhotoRepository extends BaseRepository<Photo>
             Map<String, Object> params) throws Exception
    {
 
+      
+      
       // NAME
       if (search.getLike().getName() != null
                && !search.getLike().getName().trim().isEmpty())
