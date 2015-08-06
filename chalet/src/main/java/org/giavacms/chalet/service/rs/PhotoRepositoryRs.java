@@ -293,14 +293,27 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       }
       if (evaluated != null)
       {
-         if (evaluated) {
+         if (evaluated)
+         {
             sp.getObj().setApprovedDate(new Date());
          }
-         else {
+         else
+         {
             sp.getNot().setApprovedDate(new Date());
          }
       }
       return sp;
    }
 
+   @GET
+   @Path("/test")
+   public void test(@QueryParam("accountId") String accountId, @QueryParam("chaletId") String chaletId,
+            @QueryParam("approved") boolean approved, @QueryParam("evaluted") boolean evaluated) throws Exception
+   {
+      for (Chalet c : ((PhotoRepository) getRepository()).withPhoto(postatePerChaletEtAccount(chaletId, accountId,
+               approved, evaluated)))
+      {
+         System.out.println(c.toString());
+      }
+   }
 }
