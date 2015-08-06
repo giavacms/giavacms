@@ -1,5 +1,7 @@
 package org.giavacms.chalet.management;
 
+import java.security.Identity;
+
 public class AppConstants extends org.giavacms.base.management.AppConstants
 {
 
@@ -22,5 +24,8 @@ public class AppConstants extends org.giavacms.base.management.AppConstants
    public static final String ER9 = "ER9 - Photo not exist ";
    public static final String ER10 = "ER10 - The account isn't the owner of photo  ";
    public static final String ER11 = "ER11 - You are not authorized to do this";
+   
+   public static final String ROLE_ADMIN = "ADMIN";
+   public static final String ROLE_SUPERVISOR = "SUPERVISOR";
 
 }

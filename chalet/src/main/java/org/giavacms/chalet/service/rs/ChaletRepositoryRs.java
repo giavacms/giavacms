@@ -1,6 +1,7 @@
 package org.giavacms.chalet.service.rs;
 
 import org.apache.commons.io.IOUtils;
+import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.ImageRepository;
@@ -10,8 +11,12 @@ import org.giavacms.base.util.MimeUtils;
 import org.giavacms.base.util.ResourceUtils;
 import org.giavacms.chalet.management.AppConstants;
 import org.giavacms.chalet.model.Chalet;
+import org.giavacms.chalet.model.Photo;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.ChaletTagRepository;
+import org.giavacms.chalet.repository.PhotoRepository;
+import org.giavacms.chalet.utils.PhotoUtils;
+import org.giavacms.commons.jwt.annotation.AccountTokenVerification;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -22,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +53,8 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
       super(repository);
    }
 
+   @Inject
+   PhotoRepository photoRepository;
    @Inject
    ChaletTagRepository tagRepository;
    @Inject
@@ -218,6 +226,36 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
                   .header("startRow", 0)
                   .header("pageSize", list.size())
                   .header("listSize", list.size())
+                  .build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
+   @GET
+   @Path("/{chaletId}/photos")
+   @AccountTokenVerification
+   public Response getPhotos(
+            @DefaultValue("0") @QueryParam("startRow") Integer startRow,
+            @DefaultValue("10") @QueryParam("pageSize") Integer pageSize,
+            @PathParam("chaletId") String chaletId)
+   {
+      try
+      {
+         Boolean approved = true;
+         Boolean evaluated = true;
+         String accountId = null;
+         Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, approved, evaluated);
+         int listSize = photoRepository.getListSize(search);
+         List<Photo> list = photoRepository.getList(search, startRow, pageSize);
+         return Response.status(Status.OK).entity(list)
+                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize")
+                  .header("startRow", startRow)
+                  .header("pageSize", pageSize)
+                  .header("listSize", listSize)
                   .build();
       }
       catch (Exception e)

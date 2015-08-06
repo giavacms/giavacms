@@ -1,5 +1,34 @@
 package org.giavacms.chalet.service.rs;
 
+import java.io.InputStream;
+import java.security.Principal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 import org.apache.commons.io.IOUtils;
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
@@ -11,28 +40,12 @@ import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.Photo;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.PhotoRepository;
+import org.giavacms.chalet.utils.PhotoUtils;
 import org.giavacms.commons.jwt.annotation.AccountTokenVerification;
 import org.giavacms.contest.model.Account;
 import org.giavacms.contest.repository.AccountRepository;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-
-import java.io.InputStream;
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Path(AppConstants.BASE_PATH + AppConstants.PHOTO_PATH)
 @Stateless
@@ -210,7 +223,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    {
       try
       {
-         if (!sessionContext.isCallerInRole("ADMIN") || !sessionContext.isCallerInRole("SUPERVISOR"))
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) || !sessionContext.isCallerInRole("SUPERVISOR"))
          {
             return RsRepositoryService
                      .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
@@ -267,42 +280,76 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       }
    }
 
-   /**
-    * @param chaletId
-    * @param accountId male non farà, al limite è nullo
-    * @param approved nullo (tutte), vero (solo ok) o falso (solo ko)
-    * @param evaluated nullo (tutte), vero (solo già valutate) o falso (solo in sospeso)
-    * @return
-    */
-   private Search<Photo> makeSearch(String chaletId, String accountId, Boolean approved,
-            Boolean evaluated)
+   @GET
+   @Path("/chalets")
+   @AccountTokenVerification
+   public Response getChaletWithPhotos(@QueryParam("accountId") String accountId)
    {
-      Search<Photo> sp = new Search<Photo>(Photo.class);
-      sp.getObj().setChaletId(chaletId);
-      sp.getObj().setAccountId(accountId);
-      if (approved != null)
+      logger.info("@GET list");
+      try
       {
-         if (approved)
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN)
+                  || !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
          {
-            sp.getObj().setApproved(true);
+            if (accountId == null || accountId.trim().isEmpty())
+            {
+               return RsRepositoryService
+                        .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG, AppConstants.ER11);
+            }
          }
-         else
-         {
-            sp.getNot().setApproved(true);
-         }
+         String chaletId = null;
+         Boolean approved = true;
+         Boolean evaluated = true;
+         Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, approved, evaluated);
+         List<Chalet> list = ((PhotoRepository) getRepository()).withPhoto(search);
+         // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
+         // wrapper.setList(list);
+         // wrapper.setListSize(listSize);
+         // wrapper.setStartRow(startRow);
+         return Response.status(Response.Status.OK).entity(list)
+                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize")
+                  .header("startRow", 0)
+                  .header("pageSize", list.size())
+                  .header("listSize", list.size())
+                  .build();
       }
-      if (evaluated != null)
+      catch (Exception e)
       {
-         if (evaluated)
-         {
-            sp.getObj().setApprovedDate(new Date());
-         }
-         else
-         {
-            sp.getNot().setApprovedDate(new Date());
-         }
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG, "Error reading chalet list");
       }
-      return sp;
    }
 
+   @Override
+   @GET
+   @AccountTokenVerification
+   public Response getList(
+            @DefaultValue("0") @QueryParam("startRow") Integer startRow,
+            @DefaultValue("10") @QueryParam("pageSize") Integer pageSize,
+            @QueryParam("orderBy") String orderBy, @Context UriInfo ui)
+   {
+      logger.info("@GET list");
+      try
+      {
+         Search<Photo> search = getSearch(ui, orderBy);
+         if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN)
+                  && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
+         {
+            search.getObj().setApproved(true);
+         }
+         int listSize = getRepository().getListSize(search);
+         List<Photo> list = getRepository().getList(search, startRow, pageSize);
+         return Response.status(Status.OK).entity(list)
+                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize")
+                  .header("startRow", startRow)
+                  .header("pageSize", pageSize)
+                  .header("listSize", listSize)
+                  .build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading resource list");
+      }
+   }
 }
