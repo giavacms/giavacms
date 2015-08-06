@@ -113,7 +113,7 @@ public class ContestRs implements Serializable
                .replace("\\", "");
       vote.setPhone(phone);
       Search<Vote> search = new Search<Vote>(Vote.class);
-      search.getObj().setPhone(vote.getPhone());
+      search.getLike().setPhone(vote.getPhone());
       search.getNot().setActive(true);
       search.getObj().setCreated(new Date());
       search.getObj().setConfirmed(new Date());
