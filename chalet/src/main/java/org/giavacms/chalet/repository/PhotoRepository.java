@@ -6,8 +6,10 @@ import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.Photo;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +30,13 @@ public class PhotoRepository extends BaseRepository<Photo>
             Map<String, Object> params) throws Exception
    {
 
+      if (true)
+      {
+         sb.append(separator).append(alias).append(".active = :attivoTrue ");
+         params.put("attivoTrue", true);
+         separator = " and ";
+      }
+      
       // le approvate
       if (search.getObj().isApproved())
       {
@@ -43,7 +52,7 @@ public class PhotoRepository extends BaseRepository<Photo>
       if (search.getNot().isApproved())
       {
          sb.append(separator).append(alias).append(".approved = :approvedFalse ");
-         params.put("approvedFalse", true);
+         params.put("approvedFalse", false);
          separator = " and ";
          sb.append(separator).append(alias).append(".approvedDate is not null ");
          separator = " and ";
@@ -101,10 +110,33 @@ public class PhotoRepository extends BaseRepository<Photo>
                .setParameter("active", false).setParameter("uuid", key).executeUpdate();
    }
 
-   public List<Chalet> withPhoto(String chaletId, String accountId, Boolean approved, Boolean evaluated)
+   public List<Chalet> withPhoto(Search<Photo> search) throws Exception
    {
-      List<Object[]> results = getEm().createNativeQuery("select distinct ...").getResultList();
-      return new ArrayList<Chalet>();
-   }
+      Map<String, Object> params = new HashMap<String, Object>();
+      String alias = " p ";
+      StringBuffer sb = new StringBuffer("select ").append(alias).append(".chaletId, ").append(alias)
+               .append(".chaletName from ").append(Photo.class.getSimpleName()).append(
+                        alias);
+      String separator = " where ";
+      applyRestrictions(search, alias, separator, sb, params);
+      sb.append(" group by ").append(alias).append(".chaletId, ").append(alias).append(".chaletName");
+      Query q = getEm().createQuery(sb.toString());
+      for (String param : params.keySet())
+      {
+         q.setParameter(param, params.get(param));
+      }
+      @SuppressWarnings("unchecked")
+      List<Object[]> results = (List<Object[]>) q.getResultList();
 
+      List<Chalet> chalets = new ArrayList<Chalet>();
+      for (Object[] result : results)
+      {
+         Chalet chalet = new Chalet();
+         chalet.setActive(true);
+         chalet.setId((String) result[0]);
+         chalet.setName((String) result[1]);
+         chalets.add(chalet);
+      }
+      return chalets;
+   }
 }

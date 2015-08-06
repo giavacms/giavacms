@@ -20,6 +20,7 @@ public class Vote implements Serializable
    private String tocall;
    private Date created;
    private Date confirmed;
+   private Date dateTime;
 
    private String name;
    private String surname;
@@ -192,6 +193,7 @@ public class Vote implements Serializable
                "active=" + active +
                ", uuid='" + uuid + '\'' +
                ", tocall='" + tocall + '\'' +
+               ", dateTime=" + dateTime +
                ", created=" + created +
                ", confirmed=" + confirmed +
                ", name='" + name + '\'' +
@@ -204,4 +206,17 @@ public class Vote implements Serializable
                ", sendMeFreeTickets=" + sendMeFreeTickets +
                '}';
    }
+
+   @Temporal(TemporalType.TIMESTAMP)
+   public Date getDateTime()
+   {
+      return dateTime;
+   }
+
+   public void setDateTime(Date dateTime)
+   {
+      this.dateTime = dateTime;
+   }
+   
+   
 }
