@@ -214,7 +214,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
                .createAbsoluteFile(AppConstants.PHOTO_FOLDER, photoName, byteArray);
       try
       {
-         Image image = ImageIO.read(new File(AppConstants.PHOTO_FOLDER, photoName));
+         Image image = ImageIO.read(new File(absoluteFilename));
          if (image == null)
          {
             throw new Exception("The file" + absoluteFilename + "could not be opened , it is not an image");
