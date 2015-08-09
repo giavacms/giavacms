@@ -186,6 +186,7 @@ public class VoteRepository extends BaseRepository<Vote>
 
       vote.setActive(true);
       vote.setCreated(new Date());
+      vote.setDateTime(new Date());
 
       return vote;
    }

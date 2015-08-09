@@ -356,7 +356,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
             @DefaultValue("10") @QueryParam("pageSize") Integer pageSize,
             @QueryParam("orderBy") String orderBy, @Context UriInfo ui)
    {
-      logger.info("@GET list ooooo");
+      logger.info("@GET list LAST");
       try
       {
          Search<Photo> search = getSearch(ui, orderBy);
