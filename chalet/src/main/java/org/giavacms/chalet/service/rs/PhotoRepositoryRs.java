@@ -142,7 +142,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          throw new Exception(AppConstants.ER9);
       }
       // DEVE ESISTERE ACCOUNT
-      if (!sessionContext.isCallerInRole("ADMIN") || !sessionContext.isCallerInRole("SUPERVISOR"))
+      if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
       {
          String phone = (String) sessionContext.getCallerPrincipal().getName();
          Account account = accountRepository.exist(phone);
@@ -163,7 +163,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    @AccountTokenVerification
    public Response delete(@PathParam("id") String id) throws Exception
    {
-      logger.info("@DELETE:" + id);
+      logger.info("@DELETE:" + id); 
       try
       {
          preDelete(id);
