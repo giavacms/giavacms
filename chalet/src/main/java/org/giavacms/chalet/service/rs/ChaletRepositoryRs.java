@@ -16,7 +16,6 @@ import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.ChaletTagRepository;
 import org.giavacms.chalet.repository.PhotoRepository;
 import org.giavacms.chalet.utils.PhotoUtils;
-import org.giavacms.commons.jwt.annotation.AccountTokenVerification;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -27,7 +26,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -237,7 +235,6 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
 
    @GET
    @Path("/{chaletId}/photos")
-   @AccountTokenVerification
    public Response getPhotos(
             @DefaultValue("0") @QueryParam("startRow") Integer startRow,
             @DefaultValue("10") @QueryParam("pageSize") Integer pageSize,
