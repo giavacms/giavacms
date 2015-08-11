@@ -171,7 +171,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       catch (Exception e)
       {
          return jsonResponse(Response.Status.BAD_REQUEST, AppConstants.RS_MSG,
-                  "Errore before deleting resource: " + id);
+                  "Errore before deleting resource: " + id + " - " + e.getMessage());
       }
       try
       {
