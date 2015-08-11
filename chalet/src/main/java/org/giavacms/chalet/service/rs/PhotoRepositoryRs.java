@@ -110,7 +110,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
             try
             {
                Photo photo = saveImage(chaletId, phone, input, filePart, chalet.getName(),
-                        account.getName() + " " + account.getSurname());
+                        account.getName() + " " + account.getSurname(),
+                        account.getName() + " " + account.getSurname().substring(0, 1).toUpperCase() + ".");
                String output = "File saved to server location : " + photo.getName();
                logger.debug(output);
                return Response.status(Response.Status.OK).entity(photo).build();
@@ -142,7 +143,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          throw new Exception(AppConstants.ER9);
       }
       // DEVE ESISTERE ACCOUNT
-      if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext.isCallerInRole(AppConstants.ROLE_SUPERVISOR))
+      if (!sessionContext.isCallerInRole(AppConstants.ROLE_ADMIN) && !sessionContext
+               .isCallerInRole(AppConstants.ROLE_SUPERVISOR))
       {
          String phone = (String) sessionContext.getCallerPrincipal().getName();
          Account account = accountRepository.exist(phone);
@@ -163,7 +165,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    @AccountTokenVerification
    public Response delete(@PathParam("id") String id) throws Exception
    {
-      logger.info("@DELETE:" + id); 
+      logger.info("@DELETE:" + id);
       try
       {
          preDelete(id);
@@ -192,12 +194,13 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    }
 
    private Photo saveImage(String chaletId, String accountId, MultipartFormDataInput input, InputPart filePart,
-            String chaletName, String accountName)
+            String chaletName, String accountName, String accountNameSurnameShort)
             throws Exception
    {
       Photo photo = new Photo();
       photo.setChaletName(chaletName);
       photo.setAccountNameSurname(accountName);
+      photo.setAccountNameSurnameShort(accountNameSurnameShort);
       photo.setChaletId(chaletId);
       photo.setAccountId(accountId);
       photo.setCreated(new Date());

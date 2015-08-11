@@ -27,7 +27,7 @@ public abstract class AbstractRepository<T> implements Serializable,
    /**
     * @return
     */
-   protected abstract EntityManager getEm();
+   public abstract EntityManager getEm();
 
    public abstract void setEm(EntityManager em);
 

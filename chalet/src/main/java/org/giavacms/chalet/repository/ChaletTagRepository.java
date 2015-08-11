@@ -26,7 +26,7 @@ public class ChaletTagRepository extends AbstractRepository<ChaletTag>
    EntityManager em;
 
    @Override
-   protected EntityManager getEm()
+   public EntityManager getEm()
    {
       return em;
    }

@@ -22,6 +22,7 @@ public class Photo implements Serializable
    private String chaletId;
    private String accountId;
    private String accountNameSurname;
+   private String accountNameSurnameShort;
    private String chaletName;
    private Date created;
    private boolean approved = false;
@@ -142,5 +143,15 @@ public class Photo implements Serializable
    public void setApprovedDate(Date approvedDate)
    {
       this.approvedDate = approvedDate;
+   }
+
+   public String getAccountNameSurnameShort()
+   {
+      return accountNameSurnameShort;
+   }
+
+   public void setAccountNameSurnameShort(String accountNameSurnameShort)
+   {
+      this.accountNameSurnameShort = accountNameSurnameShort;
    }
 }

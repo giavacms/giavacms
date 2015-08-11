@@ -248,6 +248,14 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
          Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, approved, evaluated);
          int listSize = photoRepository.getListSize(search);
          List<Photo> list = photoRepository.getList(search, startRow, pageSize);
+         // rimuovo numero di telefono
+         for (Photo photo : list)
+         {
+            photoRepository.getEm().detach(photo);
+            //ELIMINO INFORMAZIONI SENSIBILI
+            photo.setAccountId("");
+            photo.setAccountNameSurname("");
+         }
          return Response.status(Status.OK).entity(list)
                   .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize")
                   .header("startRow", startRow)
