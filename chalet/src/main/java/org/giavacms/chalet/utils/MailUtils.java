@@ -67,14 +67,4 @@ public class MailUtils
       }
    }
 
-   public static void main(String[] args)
-   {
-      sendMail("AKIAIZZAJGUINPIK7BKA", "AiL+9/HnRgFXHPqkFm60LMGUqtioWtpjNC9EkgRWD5YN",
-               "votalatuaestate@mch01-germany.alicestudio.it",
-               new String[] { "fiorenzino@gmail.com" },
-               "ciao", "ciao",
-               "email-smtp.eu-west-1.amazonaws.com",
-               "465");
-   }
-
 }
