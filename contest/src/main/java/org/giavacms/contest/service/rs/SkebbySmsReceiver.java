@@ -99,6 +99,10 @@ public class SkebbySmsReceiver implements Serializable
             {
                logger.error("@POST / skebby - without account");
             }
+            if (preference1.trim().length() > 5)
+            {
+               vote.setActive(false);
+            }
             vote = voteRepository.persist(vote);
             return Response.status(Response.Status.OK).entity(vote)
                      .build();

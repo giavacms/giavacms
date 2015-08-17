@@ -21,6 +21,7 @@ public class Photo implements Serializable
    private String name;
    private String chaletId;
    private String accountId;
+   private String accountUuid;
    private String accountNameSurname;
    private String accountNameSurnameShort;
    private String chaletName;
@@ -153,5 +154,15 @@ public class Photo implements Serializable
    public void setAccountNameSurnameShort(String accountNameSurnameShort)
    {
       this.accountNameSurnameShort = accountNameSurnameShort;
+   }
+
+   public String getAccountUuid()
+   {
+      return accountUuid;
+   }
+
+   public void setAccountUuid(String accountUuid)
+   {
+      this.accountUuid = accountUuid;
    }
 }

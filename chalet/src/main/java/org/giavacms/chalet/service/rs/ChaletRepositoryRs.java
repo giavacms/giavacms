@@ -245,7 +245,8 @@ public class ChaletRepositoryRs extends RsRepositoryService<Chalet>
          Boolean approved = true;
          Boolean evaluated = true;
          String accountId = null;
-         Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, approved, evaluated);
+         String accountUuid = null;
+         Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, accountUuid, approved, evaluated);
          int listSize = photoRepository.getListSize(search);
          List<Photo> list = photoRepository.getList(search, startRow, pageSize);
          // rimuovo numero di telefono

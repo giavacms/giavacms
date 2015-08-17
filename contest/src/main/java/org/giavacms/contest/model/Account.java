@@ -24,6 +24,7 @@ public class Account implements Serializable
    private Date created;
    private Date confirmed;
    private String userRoles;
+   private String uuid;
 
    public Account()
    {
@@ -105,6 +106,16 @@ public class Account implements Serializable
    public void setTocall(String tocall)
    {
       this.tocall = tocall;
+   }
+
+   public String getUuid()
+   {
+      return uuid;
+   }
+
+   public void setUuid(String uuid)
+   {
+      this.uuid = uuid;
    }
 
    @Override public String toString()

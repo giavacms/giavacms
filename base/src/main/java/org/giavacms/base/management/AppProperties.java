@@ -11,8 +11,9 @@ public enum AppProperties
 
    skebbyNumber, skebbyUsername, skebbyPassword,
 
+   imageResizeCommand,
 
-   imageResizeCommand;
+   accountEmailUser, accountEmailPassword, photoAlertEmailFrom, photoAlertEmailTo, mailHost, mailPort, AppProperties;
 
    @SuppressWarnings("unchecked")
    public <T> T cast(Class<T> clazz)

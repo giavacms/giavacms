@@ -10,6 +10,7 @@ import javax.inject.Named;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Named
 @Stateless
@@ -122,5 +123,12 @@ public class AccountRepository extends BaseRepository<Account>
       logger.info("CONFIRM ACCOUNT FOR PHONE - " + phone + ": num. " + result);
       return result > 0 ? 2 : 0;
 
+   }
+
+   @Override protected Account prePersist(Account account) throws Exception
+   {
+      String uuid = UUID.randomUUID().toString();
+      account.setUuid(uuid);
+      return super.prePersist(account);
    }
 }

@@ -3,6 +3,7 @@ package org.giavacms.chalet.service.rs;
 import org.apache.commons.io.IOUtils;
 import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
+import org.giavacms.base.management.AppProperties;
 import org.giavacms.base.util.FileUtils;
 import org.giavacms.base.util.HttpUtils;
 import org.giavacms.base.util.ResourceUtils;
@@ -12,6 +13,7 @@ import org.giavacms.chalet.model.Chalet;
 import org.giavacms.chalet.model.Photo;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.PhotoRepository;
+import org.giavacms.chalet.service.NotificationService;
 import org.giavacms.chalet.utils.PhotoUtils;
 import org.giavacms.commons.jwt.annotation.AccountTokenVerification;
 import org.giavacms.contest.model.Account;
@@ -58,6 +60,9 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
 
    @Resource
    SessionContext sessionContext;
+
+   @Inject
+   NotificationService notificationService;
 
    @Inject
    @JMSConnectionFactory("java:/ConnectionFactory")
@@ -111,7 +116,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
             {
                Photo photo = saveImage(chaletId, phone, input, filePart, chalet.getName(),
                         account.getName() + " " + account.getSurname(),
-                        account.getName() + " " + account.getSurname().substring(0, 1).toUpperCase() + ".");
+                        account.getName() + " " + account.getSurname().substring(0, 1).toUpperCase() + ".",
+                        account.getUuid());
                String output = "File saved to server location : " + photo.getName();
                logger.debug(output);
                return Response.status(Response.Status.OK).entity(photo).build();
@@ -194,13 +200,14 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
    }
 
    private Photo saveImage(String chaletId, String accountId, MultipartFormDataInput input, InputPart filePart,
-            String chaletName, String accountName, String accountNameSurnameShort)
+            String chaletName, String accountName, String accountNameSurnameShort, String accountUuid)
             throws Exception
    {
       Photo photo = new Photo();
       photo.setChaletName(chaletName);
       photo.setAccountNameSurname(accountName);
       photo.setAccountNameSurnameShort(accountNameSurnameShort);
+      photo.setAccountUuid(accountUuid);
       photo.setChaletId(chaletId);
       photo.setAccountId(accountId);
       photo.setCreated(new Date());
@@ -232,6 +239,10 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          throw new Exception("The file" + absoluteFilename + "could not be opened , it is not an image");
       }
       logger.info("img create: " + absoluteFilename);
+      notificationService.sendMail(AppProperties.accountEmailUser.value(), AppProperties.accountEmailPassword.value(),
+               AppProperties.photoAlertEmailFrom.value(), AppProperties.photoAlertEmailTo.split(";|,"),
+               "votalatuaestate: nuova foto da autorizzare", "collegarsi!", AppProperties.mailHost.value(),
+               AppProperties.mailPort.value());
       sendToResizeImgQueue(absoluteFilename);
       photo = getRepository().persist(photo);
       return photo;
@@ -331,7 +342,8 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
          String chaletId = null;
          Boolean approved = null;
          Boolean evaluated = null;
-         Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, approved, evaluated);
+         String accountUuid = null;
+         Search<Photo> search = PhotoUtils.makeSearch(chaletId, accountId, accountUuid, approved, evaluated);
          List<Chalet> list = ((PhotoRepository) getRepository()).withPhoto(search);
          // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
          // wrapper.setList(list);

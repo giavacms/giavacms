@@ -11,12 +11,14 @@ import org.giavacms.chalet.repository.ChaletParadeRepository;
 import org.giavacms.chalet.repository.ChaletRepository;
 import org.giavacms.chalet.repository.FreeTicketRepository;
 import org.giavacms.chalet.repository.FreeTicketWinnerRepository;
+import org.giavacms.chalet.utils.MailUtils;
 import org.giavacms.chalet.utils.MsgUtils;
 import org.giavacms.contest.model.pojo.User;
 import org.giavacms.contest.repository.VoteRepository;
 import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.JMSConnectionFactory;
@@ -164,5 +166,15 @@ public class NotificationService
          logger.error(t.getMessage(), t);
          logger.error("NOT SENT - uid:");
       }
+   }
+
+   @Asynchronous
+   public void sendMail(String username, String password, String from, String[] tos, String subject, String text,
+            String host, String port)
+   {
+      logger.info(username + " " + password + " " + from + " " + tos + " " + subject + " " + text + " " +
+               host + " " + port);
+      MailUtils.sendMail(username, password, from, tos, subject, text,
+               host, port);
    }
 }

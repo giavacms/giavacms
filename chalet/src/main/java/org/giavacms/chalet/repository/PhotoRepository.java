@@ -7,7 +7,6 @@ import org.giavacms.chalet.model.Photo;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,7 @@ public class PhotoRepository extends BaseRepository<Photo>
          params.put("attivoTrue", true);
          separator = " and ";
       }
-      
+
       // le approvate
       if (search.getObj().isApproved())
       {
@@ -96,6 +95,15 @@ public class PhotoRepository extends BaseRepository<Photo>
       {
          sb.append(separator).append(alias).append(".accountId = :accountId ");
          params.put("accountId", search.getObj().getAccountId());
+         separator = " and ";
+      }
+
+      // ACCOUNT UUID
+      if (search.getObj().getAccountUuid() != null
+               && !search.getObj().getAccountUuid().trim().isEmpty())
+      {
+         sb.append(separator).append(alias).append(".accountUuid = :accountUuid ");
+         params.put("accountUuid", search.getObj().getAccountUuid());
          separator = " and ";
       }
 
