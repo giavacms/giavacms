@@ -13,6 +13,8 @@ public enum AppProperties
 
    imageResizeCommand,
 
+   imagethumbCommand,
+
    accountEmailUser, accountEmailPassword, photoAlertEmailFrom, photoAlertEmailTo, mailHost, mailPort, AppProperties;
 
    @SuppressWarnings("unchecked")

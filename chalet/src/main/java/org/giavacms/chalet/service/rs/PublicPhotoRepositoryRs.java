@@ -107,4 +107,19 @@ public class PublicPhotoRepositoryRs
          return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       }
    }
+
+   @OPTIONS
+   public Response options()
+   {
+      logger.info("@OPTIONS");
+      return Response.ok().build();
+   }
+
+   @OPTIONS
+   @Path("{path:.*}")
+   public Response allOptions()
+   {
+      logger.info("@OPTIONS ALL");
+      return Response.ok().build();
+   }
 }

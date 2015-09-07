@@ -217,7 +217,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
 
       // Retrieve headers, read the Content-Disposition header to obtain the original name of the file
       MultivaluedMap<String, String> headers = filePart.getHeaders();
-      String fileName = FileUtils.getLastPartOf(HttpUtils.parseFileName(headers));
+      String fileName = FileUtils.getLastPartOf(HttpUtils.parseFileName(headers)).toLowerCase();
       // Handle the body of that part with an InputStream
       InputStream istream = filePart.getBody(InputStream.class, null);
       byte[] byteArray = IOUtils.toByteArray(istream);
@@ -226,6 +226,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
 
       String absoluteFilename = ResourceUtils
                .createAbsoluteFile(AppConstants.PHOTO_FOLDER, photoName, byteArray);
+      String absolutethumbFileName = absoluteFilename.replace(photoName, "p_" + photoName);
       try
       {
          Image image = ImageIO.read(new File(absoluteFilename));
@@ -243,7 +244,7 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
                AppProperties.photoAlertEmailFrom.value(), AppProperties.photoAlertEmailTo.split(";|,"),
                "votalatuaestate: nuova foto da autorizzare", "collegarsi!", AppProperties.mailHost.value(),
                AppProperties.mailPort.value());
-      sendToResizeImgQueue(absoluteFilename);
+      sendToResizeImgQueue(absoluteFilename, absolutethumbFileName);
       photo = getRepository().persist(photo);
       return photo;
    }
@@ -397,15 +398,16 @@ public class PhotoRepositoryRs extends RsRepositoryService<Photo>
       }
    }
 
-   private void sendToResizeImgQueue(String filename)
+   private void sendToResizeImgQueue(String filename, String thumbFileName)
    {
       try
       {
          MapMessage mapMessage = context.createMapMessage();
          mapMessage.setString(AppKeys.FILE_NAME.name(), filename);
-
+         mapMessage.setString(AppKeys.THUMB_FILE_NAME.name(), thumbFileName);
          context.createProducer().send(resizeImagnQueue, mapMessage);
-         logger.info("SENT MSG TO resize filename: " + filename);
+         logger.info("SENT MSG TO resize filename: " + filename + " and thumb: " + thumbFileName);
+
       }
       catch (Throwable t)
       {

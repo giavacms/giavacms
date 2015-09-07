@@ -20,7 +20,7 @@ public class RuntimeUtil
       // + "  /Users/fiorenzo/Desktop/BACK_PIETRAIA/cataloghi/Arte-Insieme-2008.pdf";
       // {pdf2htmlEXCommand} --split-pages 1 --page-filename {page-filename} --zoom 1.3 --embed cfijo --dest-dir
       // {dest-dir} --css-filename {css-filename} {pdfFileName}
-      logger.info("start of" + command);
+      logger.info("start of " + command);
       Process proc;
       try
       {
@@ -51,7 +51,7 @@ public class RuntimeUtil
       finally
       {
 
-         logger.info("end of" + command);
+         logger.info("end of " + command);
       }
    }
 }

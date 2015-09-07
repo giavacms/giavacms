@@ -70,7 +70,7 @@ public class SkebbySmsReceiver implements Serializable
       try
       {
          Search<Vote> search = new Search<Vote>(Vote.class);
-         search.getObj().setPhone(phone);
+         search.getLike().setPhone(phone);
          search.getNot().setActive(false);
          search.getObj().setCreated(new Date());
          search.getObj().setConfirmed(new Date());

@@ -9,6 +9,7 @@ public enum AppKeys
    MESSAGE_text,
    MESSAGE_type,
 
-   FILE_NAME;
+   FILE_NAME,
+   THUMB_FILE_NAME;
 
 }

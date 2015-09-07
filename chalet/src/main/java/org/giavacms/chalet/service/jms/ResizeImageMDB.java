@@ -34,11 +34,13 @@ public class ResizeImageMDB implements MessageListener
    public void onMessage(Message message)
    {
       String fileName = null;
+      String thumbFileName = null;
       try
       {
          logger.info("*** " + this.getClass().getSimpleName() + " *******************************");
          MapMessage mapMessage = (MapMessage) message;
          fileName = mapMessage.getString(AppKeys.FILE_NAME.name());
+         thumbFileName = mapMessage.getString(AppKeys.THUMB_FILE_NAME.name());
          //   /usr/bin/mogrify -resize 800 *.jpg
          //         String command = "/usr/bin/mogrify -resize 800 "
          String command = AppProperties.imageResizeCommand.value() + fileName;
@@ -47,6 +49,13 @@ public class ResizeImageMDB implements MessageListener
          {
             logger.info("IMAGE RESIZED " + fileName);
          }
+         String commandThumb = AppProperties.imagethumbCommand.value() + fileName + " " + thumbFileName;
+         success = RuntimeUtil.execute(commandThumb);
+         if (success)
+         {
+            logger.info("IMAGE THUMB CREATED " + fileName);
+         }
+
       }
       catch (Throwable e)
       {
