@@ -26,7 +26,7 @@ public class TagRepository extends AbstractRepository<Tag>
    EntityManager em;
 
    @Override
-   protected EntityManager getEm()
+   public EntityManager getEm()
    {
       return em;
    }

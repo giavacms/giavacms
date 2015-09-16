@@ -1,11 +1,7 @@
 package org.giavacms.seo.filter;
 
-import org.apache.commons.io.IOUtils;
-
 import javax.script.*;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Created by fiorenzo on 19/08/15.
@@ -45,17 +41,18 @@ public class Nashorm
          throw new RuntimeException("Resource '" + path + "' cannot be found.");
       }
 
-      try
-      {
-         return IOUtils.toString(in, String.valueOf(StandardCharsets.UTF_8));
-      }
-      catch (IOException e)
-      {
-         throw new RuntimeException(e);
-      }
-      finally
-      {
-         IOUtils.closeQuietly(in);
-      }
+      //      try
+      //      {
+      //         return IOUtils.toString(in, String.valueOf(StandardCharsets.UTF_8));
+      //      }
+      //      catch (IOException e)
+      //      {
+      //         throw new RuntimeException(e);
+      //      }
+      //      finally
+      //      {
+      //         IOUtils.closeQuietly(in);
+      //      }
+      return null;
    }
 }
