@@ -52,6 +52,8 @@ public class TestCrawler
    @Test
    public void test() throws IOException
    {
+      if (true)
+         return;
       //         webClient.setJavaScriptEnabled(true);
       //      for (String key : chiavi)
       //      {
