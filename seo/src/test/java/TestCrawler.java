@@ -82,6 +82,7 @@ public class TestCrawler
    @AfterClass
    public static void after()
    {
-      webClient.close();
+      if (webClient != null)
+         webClient.close();
    }
 }
