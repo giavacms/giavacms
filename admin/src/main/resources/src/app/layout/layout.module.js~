@@ -1,0 +1,80 @@
+'use strict';
+
+angular.module('giavacms-layout', [
+'ui.router'
+])
+
+/**
+* LAYOUT
+*/
+    .config(function ($stateProvider, $urlRouterProvider) {
+
+        $stateProvider
+
+            .state('admin', {
+                abstract: true,
+                templateUrl: 'app/layout/template.html',
+                controller: function ($scope, AuthenticationService) {
+                    $scope.permit = AuthenticationService.permit;
+                },
+                data: {
+                    toolbar: {
+                        extraClass: '',
+                        background: false,
+                        shrink: true
+                    }
+                }
+            })
+
+            .state('admin.default', {
+                abstract: true,
+                views: {
+                    sidebarLeft: {
+                        templateUrl: 'app/layout/sidebar-left.html',
+                        controller: 'SidebarLeftController'
+                    },
+                    toolbar: {
+                        templateUrl: 'app/layout/toolbar.html',
+                        controller: 'DefaultToolbarController'
+                    },
+                    content: {
+                        template: '<div id="admin-panel-content-view" flex ui-view></div>'
+                    }
+                }
+            })
+
+.state('admin.default.root', {
+                url: '/',
+});
+
+	 $stateProvider
+           .state('404', {
+                url: '/404',
+                templateUrl: '404.html',
+                controller: function ($scope, $state, APP) {
+                    $scope.app = APP;
+
+                    $scope.goHome = function () {
+                        $state.go('admin.default.home');
+                    };
+                }
+            })
+
+            .state('500', {
+                url: '/500',
+                templateUrl: '500.html',
+                controller: function ($scope, $state, APP) {
+                    $scope.app = APP;
+
+                    $scope.goHome = function () {
+                        $state.go('panel.default.dashboard-analytics');
+                    };
+                }
+            })
+
+        // always goto 404 if route not found
+        $urlRouterProvider.otherwise('/404');
+
+   })
+
+;

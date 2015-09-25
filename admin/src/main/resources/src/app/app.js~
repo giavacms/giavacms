@@ -1,0 +1,152 @@
+'use strict';
+
+angular.module('giavacms-admin', [
+    // inject angular modules
+    'ngSanitize', 'ngCookies', 'ngMessages',
+
+    // inject extra 3rd party angular modules
+//?    'ui.calendar', 
+//?    'textAngular', 
+
+'giavacms-misc',
+
+'giavacms-date',
+// -->
+// 'ngMaterial',
+// 'angularMoment'
+
+'giavacms-auth',
+// -->
+// 'ui.router', 
+// 'LocalStorageModule',
+
+'giavacms-localstorage'
+// -->
+// 'LocalStorageModule',
+
+'giavacms-rs',
+// -->
+// 'ngResource',
+
+'giavacms-login',
+
+//    'home',
+
+//     'login',
+
+])
+    .constant('APP', {
+        name: 'GiavaCms Administration Panel',
+        logo: 'assets/images/logo.png',
+        version: '1.0.0'
+    })
+    .constant('APP_CONST', {
+        'HOST': 'localhost:8080',
+        'CONTEXT': ''
+    })
+    .constant('ACL', {
+        ANY: ['Any'],
+        DEVELOPER: ['Developer'],
+        ADMIN: ['Admin']
+    })
+
+/**
+ *  SETUP TRANSLATIONS
+ */
+    .run(function () {
+        moment.locale('it');
+    })
+
+    .config(function ($stateProvider, $urlRouterProvider, localStorageServiceProvider, APP) {
+
+        // setup public states & routes
+        $stateProvider
+            .state('admin', {
+                abstract: true,
+                templateUrl: 'app/layout/template.html',
+                controller: function ($scope, AuthenticationService) {
+                    $scope.permit = AuthenticationService.permit;
+                },
+                data: {
+                    toolbar: {
+                        extraClass: '',
+                        background: false,
+                        shrink: true
+                    }
+                }
+            })
+
+            .state('admin.default', {
+                abstract: true,
+                views: {
+                    sidebarLeft: {
+                        templateUrl: 'app/layout/sidebar-left.html',
+                        controller: 'SidebarLeftController'
+                    },
+                    toolbar: {
+                        templateUrl: 'app/layout/default.html',
+                        controller: 'DefaultToolbarController'
+                    },
+                    content: {
+                        template: '<div id="admin-panel-content-view" flex ui-view></div>'
+                    }
+                }
+            })
+
+            .state('404', {
+                url: '/404',
+                templateUrl: '404.html',
+                controller: function ($scope, $state, APP) {
+                    $scope.app = APP;
+
+                    $scope.goHome = function () {
+                        $state.go('admin.default.home');
+                    };
+                }
+            })
+
+            .state('500', {
+                url: '/500',
+                templateUrl: '500.html',
+                controller: function ($scope, $state, APP) {
+                    $scope.app = APP;
+
+                    $scope.goHome = function () {
+                        $state.go('panel.default.dashboard-analytics');
+                    };
+                }
+            });
+
+        // always goto 404 if route not found
+        $urlRouterProvider.otherwise('/404');
+
+        // set prefix for local storage
+        localStorageServiceProvider
+            .setPrefix('gestioneformazione')
+            .setStorageType('sessionStorage');
+    })
+
+    .run(function ($rootScope, $window) {
+        // add a class to the body if we are on windows
+        if ($window.navigator.platform.indexOf('Win') !== -1) {
+            $rootScope.bodyClasses = ['os-windows'];
+        }
+    })
+
+    .config(['$compileProvider', function ($compileProvider) {
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|content|file|data):/);
+    }])
+
+    .config(['$logProvider', function ($logProvider) {
+        $logProvider.debugEnabled(false);
+    }])
+
+
+    .run(function ($rootScope, $window) {
+        // add a class to the body if we are on windows
+        if ($window.navigator.platform.indexOf('Win') !== -1) {
+            $rootScope.bodyClasses = ['os-windows'];
+        }
+    })
+
+;

@@ -1,0 +1,18 @@
+    <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')">
+
+    <md-toolbar class="md-whiteframe-z1">
+      <h1>Users</h1>
+    </md-toolbar>
+
+    <md-list>
+      <md-list-item ng-repeat="it in ul.users">
+          <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
+            <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
+            {{it.name}}
+          </md-button>
+      </md-list-item>
+    </md-list>
+
+  </md-sidenav>

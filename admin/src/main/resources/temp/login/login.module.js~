@@ -1,0 +1,45 @@
+'use strict';
+
+/**
+ * @ngdoc module
+ * @name triangular.authentication
+ * @description
+ *
+ * The `triangular.authentication` module handles all the login and signup pages
+ */
+angular.module('giavacms-login', ['giavacms-auth','ui.router'])
+
+    .constant('LOGIN', 'authentication.login')
+
+    .config(function ($stateProvider, LOGIN) {
+
+        $stateProvider
+            .state('authentication', {
+                abstract: true,
+                templateUrl: 'app/login/authentication.html'
+            })
+            .state(LOGIN, {
+                url: '/login',
+                templateUrl: 'app/login/login.html',
+                controller: 'LoginController'
+            })
+        ;
+    })
+
+/*
+ .run(function(SideMenu) {
+ SideMenu.addMenu({
+ name: 'MENU.AUTH.AUTH',
+ icon: 'icon-person',
+ type: 'dropdown',
+ priority: 4.1,
+ children: [{
+ name: 'MENU.AUTH.LOGIN',
+ state: 'authentication.login',
+ type: 'link',
+ }
+ ]
+ });
+ });
+ */
+

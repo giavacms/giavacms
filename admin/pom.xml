@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>giavacms</artifactId>
+        <groupId>org.giavacms</groupId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>admin</artifactId>
+    <name>Administrative Backend Module</name>
+    <description>GiavaCMS Content Management System: Administrative Backend Module</description>
+    <url>http://giavacms.org</url>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License version 1.0</name>
+            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>fiorenzino</id>
+            <name>Fiorenzo Pizza</name>
+            <email>fiorenzino@gmail.com</email>
+        </developer>
+        <developer>
+            <id>pisi79</id>
+            <name>Samuele Pasini</name>
+            <email>samuele.pasini@gmail.com</email>
+        </developer>
+    </developers>
+
+</project>
