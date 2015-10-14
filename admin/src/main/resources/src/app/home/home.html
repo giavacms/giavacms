@@ -1,0 +1,55 @@
+<div class="padded-content-page">
+
+    <div layout="row" layout-sm="column" layout-align="space-around top center" layout-margin
+         layout-wrap>
+
+        <div flex ng-repeat="section in menu.sections" ng-if="section.type != 'heading'"
+             ng-init="sectionIndex = $index" class="md-whiteframe-z1">
+
+            <md-toolbar layout-align="center center" flex class="md-primary">
+                {{section.name}}
+            </md-toolbar>
+
+            <div flex layout="column" layout-align="center center" >
+                <div style="font-size: 4em;">
+                    <md-icon md-font-icon="{{section.icon}}"
+                             class="md-primary">&nbsp;</md-icon>
+                </div>
+                <div>&nbsp;</div>
+            </div>
+
+
+            <md-content>
+                <div layout="row">
+
+                    <div flex ng-if="!section.children"
+                         style="text-align: left;">
+
+                        <md-button ui-sref="{{section.toState}}" class="md-primary">
+                            <md-icon md-font-icon="{{section.icon}}">
+                            </md-icon>
+                        </md-button>
+
+                    </div>
+
+                    <div flex ng-repeat="child in section.children" ng-if="section.children"
+                         ng-init="childIndex = $index"
+                         style="text-align: {{ (childIndex % 2 == 0) ? 'left' : 'right'}};">
+
+                        <md-button ui-sref="{{child.toState}}" class="md-primary">
+                            <md-icon md-font-icon="{{child.icon}}" ng-if="childIndex % 2 == 0">
+                            </md-icon>
+
+                            {{child.name}}
+
+                            <md-icon md-font-icon="{{child.icon}}"
+                                     ng-if="childIndex % 2 == 1"></md-icon>
+                        </md-button>
+
+                    </div>
+                </div>
+            </md-content>
+
+        </div>
+    </div>
+    </md-content>

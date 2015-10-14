@@ -1,18 +1,53 @@
-    <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')">
+<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+            md-component-id="left"
+            md-is-locked-open="$mdMedia('gt-sm')">
 
     <md-toolbar class="md-whiteframe-z1">
-      <h1>Users</h1>
+        <div layout="row">
+            <div>
+                <img src="/assets/images/logo.png" alt="giavaboy logo" width="96" height="96"
+                     style="float: left;"/>
+            </div>
+            <div flex layout="column" layout-align="center center">
+                <div>
+                    GiavaCMS
+                </div>
+                <div>
+                    Administration
+                </div>
+                <div>
+                    Panel
+                </div>
+            </div>
+        </div>
     </md-toolbar>
 
-    <md-list>
-      <md-list-item ng-repeat="it in ul.users">
-          <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-            <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
-            {{it.name}}
-          </md-button>
-      </md-list-item>
-    </md-list>
+    <md-toolbar class="md-whiteframe-z1"
+                role="navigation" >
 
-  </md-sidenav>
+        <ul class="docs-menu">
+            <li ng-repeat="section in menu.sections"
+                class="parent-list-item {{section.className || ''}}"
+                ng-class="{'parentActive' : isSectionSelected(section)}">
+
+                <cms-menu-heading section="section"
+                                  ng-if="section.type === 'heading'"></cms-menu-heading>
+
+                <cms-menu-link section="section"
+                               ng-if="section.type === 'link'"></cms-menu-link>
+
+                <cms-menu-toggle section="section"
+                                 ng-if="section.type === 'toggle'"></cms-menu-toggle>
+
+            </li>
+        </ul>
+
+
+    </md-toolbar>
+
+    <md-toolbasrclass="md-whiteframe-z1"
+                class="flex">
+        &nbsp;
+    </md-content>
+
+</md-sidenav>

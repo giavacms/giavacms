@@ -1,23 +1,29 @@
 'use strict';
 
-angular.module('giavacms-layout', [
-'ui.router'
-])
+angular.module(
+        'giavacms-layout', [
+        'ui.router',
+        'giavacms-menu'
+    ])
 
-/**
-* LAYOUT
-*/
+    .constant('BASE', 'default.layout.')
+
+    /**
+    * LAYOUT
+    */
     .config(function ($stateProvider, $urlRouterProvider) {
 
         $stateProvider
 
             .state('default', {
+                cache: false,
                 abstract: true,
-                templateUrl: 'app/layout/default.html',
+                templateUrl: 'app/layout/layout.html',
                 controller: 'LayoutController'
             })
 
             .state('default.layout', {
+                cache: false,
                 abstract: true,
                 views: {
                     sidebarLeft: {
@@ -36,15 +42,9 @@ angular.module('giavacms-layout', [
                 }
             })
 
-.state('root', {
-                url: '/',
-                templateUrl: 'itworks.html',
-});
-
-	 $stateProvider
-           .state('404', {
+            .state('404', {
                 url: '/404',
-                templateUrl: '404.html',
+                templateUrl: 'app/layout/404.html',
                 controller: function ($scope, $state, APP) {
                     $scope.app = APP;
 
@@ -56,7 +56,7 @@ angular.module('giavacms-layout', [
 
             .state('500', {
                 url: '/500',
-                templateUrl: '500.html',
+                templateUrl: 'app/layout/500.html',
                 controller: function ($scope, $state, APP) {
                     $scope.app = APP;
 
@@ -66,8 +66,12 @@ angular.module('giavacms-layout', [
                 }
             })
 
+        ;
+
         // always goto 404 if route not found
         $urlRouterProvider.otherwise('/404');
+        // till we are not ready for login and the whole thing
+        //$urlRouterProvider.otherwise('/layout-test');
 
    })
 

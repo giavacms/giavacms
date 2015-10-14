@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html >
-  <head ng-app="giavacms-admin">
+<html ng-app="giavacms-admin">
+  <head >
     <title>GiavaCms Administration Panel</title>
 
     <meta charset="utf-8">
@@ -8,8 +8,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
+    <!--
     <link rel="stylesheet"
           href="//fonts.googleapis.com/css?family=RobotoDraft:100,100italic,300,300italic,400,500,700,900,400italic">
+          -->
+    <link rel="stylesheet"
+          href="assets/styles/fonts.gooleapis.com.css"/>
+
     <!-- Place favicon.png in the root directory -->
 
     <link rel="stylesheet" href="./bower_components/angular-material/angular-material.css"/>
@@ -31,13 +36,15 @@
     <!-- endinject -->
     <!-- endbuild -->
 </head>
-<body ng-class="bodyClasses" layout="row" >
+<body ng-class="bodyClasses" >
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div class="full-height" ui-view></div>
+<div class="full-height" ui-view>
+
+</div>
 
 <!-- build:js(src) scripts/vendor.js -->
 <!-- bower:js -->

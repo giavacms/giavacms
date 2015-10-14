@@ -4,7 +4,7 @@
 angular.module('giavacms-auth')
 
     .factory('AuthenticationService',
-    function ($http, $log, $q, $rootScope, $timeout, ACL, APP_CONST, jwtHelper, StorageService, HOME) {
+    function ($http, $log, $q, $rootScope, $timeout, ACL, APP_CONST, jwtHelper, StorageService) {
 
         var host = APP_CONST.HOST;
         var context = APP_CONST.CONTEXT;

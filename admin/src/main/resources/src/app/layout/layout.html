@@ -1,11 +1,13 @@
-<div layout="row" ng-controller="AdminController" class="full-height" >
-    
-<div ui-view="sidebarLeft"></div>
+<div layout="row" class="full-height">
 
-  <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+    <div ui-view="sidebarLeft"></div>
 
-      <div ui-view="toolbar"></div>
+    <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
 
-    <md-content flex ui-view="content"></md-content>
+        <div ui-view="toolbar"></div>
 
-  </div>
+        <md-content flex ui-view="content"></md-content>
+
+    </div>
+
+</div>

@@ -1,7 +1,14 @@
-    <md-toolbar layout="row" class="md-whiteframe-z1">
-      <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
-        <md-icon md-svg-icon="menu" ></md-icon>
-      </md-button>
-      <h1>Angular Material - Starter App</h1>
-    </md-toolbar>
+<md-toolbar layout="row" class="md-whiteframe-z1" layout-align="begin center">
+    <md-button class="menu" hide-gt-sm ng-click="toggleSidebarLeft()"
+               aria-label="Show Sidebar Left">
+        <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+    <h2 layout-padding>
+
+        {{menu.current.name}}
+
+    </h2>
+    <div flex></div>
+    <div layout-padding layout="row" layout-align="center center">Profile info here</div>
+</md-toolbar>
 
