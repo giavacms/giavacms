@@ -16,7 +16,7 @@ angular.module('giavacms-config', [
 
     .constant('APP_CONST', {
         'HOST': 'localhost:8080',
-        'CONTEXT': ''
+        'CONTEXT': 'yourctxhere'
     })
 
     .constant('ACL', {

@@ -10,7 +10,7 @@
                 {{section.name}}
             </md-toolbar>
 
-            <div flex layout="column" layout-align="center center" >
+            <div flex layout="column" layout-align="center center">
                 <div style="font-size: 4em;">
                     <md-icon md-font-icon="{{section.icon}}"
                              class="md-primary">&nbsp;</md-icon>
@@ -27,25 +27,29 @@
 
                         <md-button ui-sref="{{section.toState}}" class="md-primary">
                             <md-icon md-font-icon="{{section.icon}}">
+                                {{section.name}}
                             </md-icon>
                         </md-button>
 
                     </div>
 
-                    <div flex ng-repeat="child in section.children" ng-if="section.children"
-                         ng-init="childIndex = $index"
-                         style="text-align: {{ (childIndex % 2 == 0) ? 'left' : 'right'}};">
+                    <div layout="row" layout-wrap>
+                        <div flex="50" ng-repeat="child in section.children" ng-if="section.children"
+                             ng-init="childIndex = $index"
+                             style="text-align: {{ (childIndex % 2 == 0) ? 'left' : 'right'}};">
 
-                        <md-button ui-sref="{{child.toState}}" class="md-primary">
-                            <md-icon md-font-icon="{{child.icon}}" ng-if="childIndex % 2 == 0">
-                            </md-icon>
+                            <md-button ui-sref="{{child.toState}}" class="md-primary">
+                                <md-icon md-font-icon="{{child.icon}}" ng-if="childIndex % 2 == 0">
+                                    {{child.name}}
+                                </md-icon>
 
-                            {{child.name}}
+                                <md-icon md-font-icon="{{child.icon}} pull-right"
+                                         ng-if="childIndex % 2 == 1">
+                                    {{child.name}}
+                                </md-icon>
+                            </md-button>
 
-                            <md-icon md-font-icon="{{child.icon}}"
-                                     ng-if="childIndex % 2 == 1"></md-icon>
-                        </md-button>
-
+                        </div>
                     </div>
                 </div>
             </md-content>

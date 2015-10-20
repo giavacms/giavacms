@@ -31,11 +31,12 @@ angular.module('giavacms-layout')
             var toggle = MenuService.addToggle('test toggle',2,'fa fa-book');
             MenuService.addLink(BASE + "test1", 'test one', 1, 'fa fa-bookmark',toggle);
             MenuService.addLink(BASE + "test2", 'test two', 2, 'fa fa-bookmark-o',toggle);
+            MenuService.addLink(BASE + "test3", 'test three', 1, 'fa fa-user',toggle);
             MenuService.addHeading('test header2',3,'fa fa-file');
         }
     })
 
-    .controller('LayoutController', function($mdBottomSheet, $mdSidenav, $q, $scope, AuthenticationService, MenuService) {
+    .controller('LayoutController', function($mdBottomSheet, $mdSidenav, $q, $scope, $timeout, AuthenticationService, MenuService) {
 
         /**
         * This may turn useful for inner views
@@ -67,6 +68,17 @@ angular.module('giavacms-layout')
         $scope.toggleOpen = function(section) {
             return section.state = $scope.page.state;
         }
+
+		$scope.clock = Date.now(); //"loading clock..."; // initialise the time variable
+		$scope.tickInterval = 1000 // ms
+
+		var tick = function() {
+			$scope.clock = Date.now() // get the current time
+			$timeout(tick, $scope.tickInterval); // reset the timer
+		}
+
+		// Start the timer
+		$timeout(tick, $scope.tickInterval);
 
     })
 
