@@ -3,7 +3,7 @@
         <md-card>
             <md-toolbar>
                 <div class="text-center" layout-padding layout="row">
-                    <div><img src="assets/images/logo.png" alt="{{appName}}"></div>
+                    <div><img src="{{appLogo}}" alt="{{appName}}"></div>
                     <div flex layout-padding>
                         <h1 class="md-headline">
                             {{appName}}
@@ -44,7 +44,7 @@
                     <md-progress-linear ng-if="loginInProgress" class="margin-bottom-20"
                                         md-mode="indeterminate"></md-progress-linear>
 
-                    <span ng-if="loginFailed">Login non riuscito</span>
+                    <span ng-if="loginFailed && !loginInProgress">Login non riuscito</span>
 
                     <md-button
                             class="md-raised md-primary full-width margin-left-0 margin-right-0 margin-top-10 margin-bottom-10"

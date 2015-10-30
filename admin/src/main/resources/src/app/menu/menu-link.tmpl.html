@@ -1,4 +1,4 @@
-<md-button ui-sref-active="active"
+<md-button ui-sref-active="active" ng-if="!section.hidden"
            ui-sref="{{section.toState}}" ng-click="focusSection()">
 
     <md-icon md-font-icon="{{section.icon}}" alt="{{section.name}}"></md-icon>

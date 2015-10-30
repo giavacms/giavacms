@@ -1,4 +1,4 @@
-<md-button
+<md-button ng-if="!section.hidden"
         class="md-button-toggle md-button md-default-theme"
         ng-click="toggle()"
         aria-controls="side-menu-{{section.itemNo}}" flex layout="row"
@@ -16,7 +16,7 @@
     </span>
 </md-button>
 
-<ul ng-show="isOpen()" id="side-menu-{{section.itemNo}}" class="menu-toggle-list">
+<ul ng-show="isOpen()" id="side-menu-{{section.itemNo}}" class="menu-toggle-list" ng-if="!section.hidden">
     <li ng-repeat="child in section.children">
         <cms-menu-link section="child"></cms-menu-link>
     </li>

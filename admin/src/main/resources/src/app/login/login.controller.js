@@ -2,9 +2,10 @@
 
 angular.module('giavacms-login')
 
-    .controller('LoginController', function ($location, $log, $mdDialog, $scope, $state, APP, AuthenticationService, LOGIN) {
+    .controller('LoginController', function ($location, $log, $mdDialog, $scope, $state, APP, AuthenticationService, MenuService, LOGIN) {
 
-        $scope.appName = APP.name;
+        $scope.appName = APP.NAME;
+        $scope.appLogo = APP.LOGO;
 
         // create blank user variable for login form
         $scope.user = {
@@ -47,16 +48,23 @@ angular.module('giavacms-login')
             $log.debug('login-confirmed');
             $location.path('/');
             // $state.go(HOME, {}, {reload: true, inherit: false});
+            MenuService.recheck();
         });
 
         $scope.$on('login-failed', function (e, status) {
             $scope.loginInProgress = false;
             $scope.loginFailed = true;
+            delete $scope.fullname;
+            delete $scope.username;
+            delete $scope.roles;
         });
 
         $scope.$on('logout-complete', function () {
             $log.debug('logout-complete');
             $state.go(LOGIN);
+            delete $scope.fullname;
+            delete $scope.username;
+            delete $scope.roles;
         });
 
         $scope.fullname = AuthenticationService.getFullname();

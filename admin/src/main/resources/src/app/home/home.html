@@ -3,7 +3,7 @@
     <div layout="row" layout-sm="column" layout-align="space-around top center" layout-margin
          layout-wrap>
 
-        <div flex ng-repeat="section in menu.sections" ng-if="section.type != 'heading'"
+        <div flex ng-repeat="section in menu.sections" ng-if="section.type != 'heading' && !section.hidden"
              ng-init="sectionIndex = $index" class="md-whiteframe-z1">
 
             <md-toolbar layout-align="center center" flex class="md-primary">
@@ -22,7 +22,7 @@
             <md-content>
                 <div layout="row">
 
-                    <div flex ng-if="!section.children"
+                    <div flex ng-if="!section.children && !section.hidden"
                          style="text-align: left;">
 
                         <md-button ui-sref="{{section.toState}}" class="md-primary">
@@ -34,11 +34,11 @@
                     </div>
 
                     <div layout="row" layout-wrap>
-                        <div flex="50" ng-repeat="child in section.children" ng-if="section.children"
+                        <div flex="50" ng-repeat="child in section.children" ng-if="section.children && !section.hidden"
                              ng-init="childIndex = $index"
                              style="text-align: {{ (childIndex % 2 == 0) ? 'left' : 'right'}};">
 
-                            <md-button ui-sref="{{child.toState}}" class="md-primary">
+                            <md-button ui-sref="{{child.toState}}" class="md-primary" ng-if="!child.hidden">
                                 <md-icon md-font-icon="{{child.icon}}" ng-if="childIndex % 2 == 0">
                                     {{child.name}}
                                 </md-icon>

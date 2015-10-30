@@ -20,8 +20,7 @@
         <h6> {{ clock | date:'dd/MM/yyyy HH:mm:ss'}} </h6>
     </div>
 
-
-    <md-menu ng-controller="LoginController">
+    <md-menu ng-controller="LoginController" ng-if="logged">
 
         <md-button aria-label="Open user menu" ng-click="$mdOpenMenu()">
             <i class="fa fa-user"></i>

@@ -4,7 +4,7 @@ angular.module('giavacms-rs')
 
     .factory('RsResource', function ($resource) {
 
-        return $resource('//:host/:context/api/v1/:entityType/:id/:entityType2/:id2', {
+        return $resource('//:host:context/api/v1/:entityType/:id/:entityType2/:id2', {
             host: '@host',
             context: '@context',
             entityType: '@entityType',

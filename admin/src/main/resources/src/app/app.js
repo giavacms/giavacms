@@ -21,7 +21,15 @@ angular.module('giavacms-admin', [
     ,'giavacms-home'
 
     // comment this if you don't need ACLs
-    ,'giavacms-login'
+//    ,'giavacms-login'
+
+    // comment this once you have tested the layout mechianisms
+    ,'giavacms-test'
+
+    ,'giavacms-resources'
+    ,'giavacms-richcontent'
+   ,'giavacms-banner'
+   ,'giavacms-catalogue'
 
 
 ]);

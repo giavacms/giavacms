@@ -47,7 +47,10 @@ angular.module('giavacms-menu')
 					return AuthenticationService.isLogged().then(
 						function(loggedIn) {
 							if ( !loggedIn ) {
-			            		return $q.when(false);
+								// unauthorized access prevention comes with the login module.
+								// otherwise no check is necessary
+			            		// return $q.when(false);
+			            		return $q.when(true);
 							}
 							else if ( ! AuthenticationService.permit(acl) ) {
 			            		return $q.when(false);
@@ -64,7 +67,8 @@ angular.module('giavacms-menu')
 				checkACL(menuItem.acl).then(
 					function(aclOk) {
 						if ( !aclOk ) {
-							return;
+							menuItem.hidden = true
+							// return;
 						}
 						if ( ! menuItem['position'] ) {
 							menuItem['position'] = 1;
@@ -93,7 +97,8 @@ angular.module('giavacms-menu')
 				checkACL(menuItem.acl).then(
 					function(aclOk) {
 						if ( !aclOk ) {
-							return;
+							menuItem.hidden = true
+							// return;
 						}
 						if ( ! menuItem['position'] ) {
 							menuItem['position'] = 1;
@@ -184,6 +189,36 @@ angular.module('giavacms-menu')
 				}
 			}
 
+			var recheck = function() {
+				menu.sections.forEach(
+					function(item) {
+						recheckSection(item);
+						if ( item.children ) {
+							item.children.forEach(
+								function(child) {
+									recheckSection(child);
+								}
+							);
+						}
+					}
+				);
+			}
+
+			var recheckSection = function(section) {
+				if ( section.acl ) {
+					checkACL(section.acl).then(
+						function(aclOk) {
+							if ( !aclOk ) {
+								section.hidden = true
+							}
+							else {
+								delete section.hidden;
+							}
+						}
+					);
+				}
+			}
+
 			var service = {
 				addHeadingWithACL: addHeadingWithACL,
 				addToggleWithACL: addToggleWithACL,
@@ -191,7 +226,8 @@ angular.module('giavacms-menu')
 				addHeading: addHeading,
 				addToggle: addToggle,
 				addLink: addLink,
-				getMenu: getMenu
+				getMenu: getMenu,
+				recheck: recheck
 			}
 
 			return service;

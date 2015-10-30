@@ -6,12 +6,10 @@ angular.module(
         'giavacms-menu'
     ])
 
-    .constant('BASE', 'default.layout.')
-
     /**
     * LAYOUT
     */
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         $stateProvider
 
@@ -74,5 +72,10 @@ angular.module(
         //$urlRouterProvider.otherwise('/layout-test');
 
    })
+
+    .config(function(APP) {
+        APP.BASE = 'default.layout.';
+    })
+
 
 ;

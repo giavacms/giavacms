@@ -1,9 +1,9 @@
 'use strict';
 
-function RsService(APP_CONST, RsResource, entityType) {
+function RsService(APP, RsResource, entityType) {
 
-    var host = APP_CONST.HOST;
-    var context = APP_CONST.CONTEXT;
+    var host = APP.HOST;
+    var context = APP.CONTEXT;
 
     var list = [];
     var size = 0;

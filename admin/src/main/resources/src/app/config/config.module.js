@@ -9,20 +9,18 @@ angular.module('giavacms-config', [
     * CONSTANTS
     */
     .constant('APP', {
-        name: 'GiavaCms Administration Panel',
-        logo: 'assets/images/logo.png',
-        version: '1.0.0'
-    })
-
-    .constant('APP_CONST', {
-        'HOST': 'localhost:8080',
-        'CONTEXT': 'yourctxhere'
-    })
-
-    .constant('ACL', {
-        ANY: ['Any'],
-        DEVELOPER: ['Developer'],
-        ADMIN: ['Admin']
+        NAME: 'GiavaCms',
+        LOGO: 'assets/images/logo.png',
+        VERSION: '1.0.0',
+        HOST: 'localhost:8080',
+//      CONTEXT: '/yourctxhere'
+        CONTEXT: '/gestioneformazione',
+        TEST: true,
+        ACL: {
+            ANY: ['Any'],
+            DEVELOPER: ['Developer'],
+            ADMIN: ['Admin']
+        }
     })
 
     /**
@@ -97,6 +95,14 @@ angular.module('giavacms-config', [
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             $log.error("$stateChangeError: ", toState, error);
         });
+    })
+
+
+    // Provides an empty layout base if no layout module will be loaded
+    .config(function(APP) {
+        if ( ! APP.BASE ) {
+            APP.BASE = '';
+        }
     })
 
 ;

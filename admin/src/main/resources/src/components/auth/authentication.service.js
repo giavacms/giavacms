@@ -4,10 +4,11 @@
 angular.module('giavacms-auth')
 
     .factory('AuthenticationService',
-    function ($http, $log, $q, $rootScope, $timeout, ACL, APP_CONST, jwtHelper, StorageService) {
+    function ($http, $log, $q, $rootScope, $timeout, APP, jwtHelper, StorageService) {
 
-        var host = APP_CONST.HOST;
-        var context = APP_CONST.CONTEXT;
+        var host = APP.HOST;
+        var context = APP.CONTEXT;
+        var acl = APP.ACL;
 
         StorageService.get('info').then(
             function (info) {
@@ -46,12 +47,12 @@ angular.module('giavacms-auth')
                 else {
                     logged = false;
                 }
-                return logged;
+                return $q.when(logged);
             });
         };
 
         var login = function (user) {
-            var url = '//' + host + '/' + context + '/api/login';
+            var url = '//' + host + context + '/api/login';
             $http.post(url, {
                 username: user.username,
                 password: user.password
@@ -90,7 +91,7 @@ angular.module('giavacms-auth')
         };
 
         var identify = function (username) {
-            var url = '//' + host + '/' + context + '/api/v1/identita/' + username;
+            var url = '//' + host + context + '/api/v1/identita/' + username;
             return $http.get(url).then(
                 function success(data, status, headers, config) {
                     // this callback will be called asynchronously
@@ -139,12 +140,12 @@ angular.module('giavacms-auth')
             var toAuthorizeArray = toAuthorizes.split(',');
             for (var a = 0; a < toAuthorizeArray.length; a++) {
                 var toAuthorize = toAuthorizeArray[a].trim();
-                if (!ACL[toAuthorize]) {
+                if (!acl[toAuthorize]) {
                     $log.warn('unknown ACL entry: ' + toAuthorize);
                 }
                 else {
                     for (var r = 0; r < roles.length; r++) {
-                        if (ACL[toAuthorize].indexOf(roles[r]) > -1) {
+                        if (acl[toAuthorize].indexOf(roles[r]) > -1) {
                             $log.debug('user ' + tokenPayload.username + ' authorized to ' + toAuthorize + ' as ' + roles[r]);
                             return true;
                         }
