@@ -70,7 +70,7 @@ angular.module('giavacms-menu')
 							menuItem.hidden = true
 							// return;
 						}
-						if ( ! menuItem['position'] ) {
+						if ( angular.isUndefined( menuItem['position'] ) ) {
 							menuItem['position'] = 1;
 						}
 						if ( menu.sections.length == 0 ) {

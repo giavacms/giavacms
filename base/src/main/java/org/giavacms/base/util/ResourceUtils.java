@@ -132,18 +132,18 @@ public class ResourceUtils
                new File(getRealPath(folder, false)),
                new RegexFileFilter("^(.*?)"),
                DirectoryFileFilter.DIRECTORY
-      );
+               );
 
-      //      File dir = new File(getRealPath(folder, false));
-      //      if (resources == null)
-      //      {
-      //         resources = new ArrayList<>();
-      //      }
-      //      if (!dir.exists())
-      //         return resources;
-      //      //      File[] files = dir.listFiles();
-      //      //      if (files == null || files.length == 0)
-      //      //         return resources;
+      // File dir = new File(getRealPath(folder, false));
+      // if (resources == null)
+      // {
+      // resources = new ArrayList<>();
+      // }
+      // if (!dir.exists())
+      // return resources;
+      // // File[] files = dir.listFiles();
+      // // if (files == null || files.length == 0)
+      // // return resources;
       if (files == null || files.isEmpty())
          return resources;
       for (File file : files)
@@ -352,7 +352,16 @@ public class ResourceUtils
       {
          throw new Exception("file exists");
       }
-      Files.write(path, fileContent.getBytes());
+
+      int base64headerIndex = fileContent.indexOf("base64,");
+      if (base64headerIndex > -1)
+      {
+         Files.write(path, Base64.decode(fileContent.substring(base64headerIndex + "base64,".length())));
+      }
+      else
+      {
+         Files.write(path, fileContent.getBytes());
+      }
 
       Resource resource = new Resource(new File(pathName), root, fileContent);
       return resource;

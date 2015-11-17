@@ -1,0 +1,15 @@
+<tr class="my-table-headers-row" >
+    <th class="my-table-header">&nbsp;</th>
+    <th ng-repeat="h in headers" class="my-table-header">
+
+        <a href="#" ng-if="h.sortable" ng-click="sort((h.column ? h.column : h.field),reverse)">{{h.label}}
+            <md-icon ng-show="h.field != predicate" md-font-icon="icon-swap-vert"></md-icon>
+            <md-icon ng-show="reverse && h.field == predicate"
+                     md-font-icon="icon-arrow-drop-up"></md-icon>
+            <md-icon ng-show="!reverse && h.field == predicate"
+                     md-font-icon="icon-arrow-drop-down"></md-icon>
+        </a>
+        <span ng-if="!h.sortable">{{h.label}}</span>
+    </th>
+    <th class="my-table-header">operazioni</th>
+</tr>

@@ -1,0 +1,29 @@
+<md-dialog aria-label="New folder dialog">
+    <form name="dialogForm">
+        <md-dialog-content>
+            <md-content>
+                <b>Allowed file types:</b>
+                <br/>
+                <i>{{accepts}}</i>
+                <br/>
+                <br/>
+                <b ng-show="vm.uploadme.length > 0">Chosen file(s):</b>
+                <i data-ng-repeat="u in vm.uploadme"><br/>{{u.name}} </i>
+                <br/>
+                <md-input-container ng-hide="vm.uploadme.length > 0">
+                    <input type="file" accept="{{accepts}}" multifileread="vm.uploadme"
+                           multiple="true"/>
+                </md-input-container>
+                <br/>
+            </md-content>
+            <md-dialog-actions>
+                <md-button ng-click="closeDialog()" class="md-primary">
+                    Cancel
+                </md-button>
+                <md-button ng-click="upload()" class="md-primary" ng-disabled="vm.uploadme.length == 0">
+                    Ok
+                </md-button>
+            </md-dialog-actions>
+        </md-dialog-content>
+    </form>
+</md-dialog>

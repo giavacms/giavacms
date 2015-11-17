@@ -12,9 +12,11 @@ angular.module('giavacms-config', [
         NAME: 'GiavaCms',
         LOGO: 'assets/images/logo.png',
         VERSION: '1.0.0',
+        PROTOCOL: 'http',
         HOST: 'localhost:8080',
 //      CONTEXT: '/yourctxhere'
-        CONTEXT: '/gestioneformazione',
+//        CONTEXT: '/gestioneformazione',
+        CONTEXT: '',
         TEST: true,
         ACL: {
             ANY: ['Any'],

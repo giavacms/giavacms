@@ -2,3 +2,156 @@
     height: 100%;
 }
 
+.my-a {
+    text-decoration: none;
+}
+
+.my-i {
+    vertical-align: middle;
+    font-size: 24px;
+}
+
+.my-breadcrumb {
+    padding-left: 88px;
+}
+
+.my-JCLRgrip:first-child {
+    left: 105px!important;
+    display: none!important;
+}
+
+.my-JColResizer th:first-child {
+    width: 105px!important;
+}
+
+.my-table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+
+.my-table tbody tr:hover,
+.my-table tbody tr:focus {
+    cursor: pointer;
+    background-color: rgba(63, 81, 181, 0.2);
+}
+
+.my-table-header {
+    border-bottom: 1px solid rgb(230, 230, 230);
+    color: rgb(130, 130, 130);
+    text-align: left;
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 16px 16px 16px 0;
+}
+
+.my-table-header a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.my-table-content {
+    white-space: nowrap;
+    font-size: 0.8em;
+    padding: 16px 16px 16px 0;
+}
+
+.my-table-td-more {
+    max-width: 72px;
+    width: 72px;
+    padding: 16px;
+}
+
+.my-table-thumbs {
+    max-width: 104px;
+    width: 104px;
+    padding: 16px 32px;
+}
+
+.my-table-thumbs div {
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: 0 8px 10px rgba(0, 0, 0, .1);
+}
+
+.my-table-footer {
+    height: 40px;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.my-table-count-info {
+    line-height: 40px;
+    font-size: .75em;
+}
+
+.my-table-footer-item {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+}
+
+.my-table-active-page {
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.grey {
+    color: grey;
+}
+
+.my-input-container.my-default-theme .my-input {
+    color: white;
+    border-color: white;
+    margin-top: 24px;
+}
+
+.my-table-pager {
+    color: rgb(130, 130, 130);
+    text-align: left;
+    font-size: 0.75em;
+    font-weight: 700;
+}
+
+.force-align-left * {
+    text-align: left !important;
+}
+
+.circled {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    margin-right: 8px;
+    border: 2px solid rgba(255,255,255,.4);
+}
+
+.zoomable {
+    position: absolute;
+    -moz-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+.my-fab * {
+    padding-top: 0.5em;
+    font-size: 2em !important;
+}
+.my-fab-mini * {
+    padding-top: 0.4em;
+    font-size: 1.4em !important;
+}
+
+
+
+
+

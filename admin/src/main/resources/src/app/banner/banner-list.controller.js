@@ -17,11 +17,21 @@ angular.module('giavacms-banner')
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "banner", 'Banner list', 1, 'fa fa-list', APP.BANNER.toggle);
+        MenuService.addLink(APP.BASE + "banner", 'Banner list', 20, 'fa fa-list', APP.BANNER.toggle);
     })
 
-    .controller('BannerListController', function ($scope) {
+    .controller('BannerListController', function ($filter, $log, $mdDialog, $q, $scope, $state, BannerService) {
 
-    })
+        var headers = [
+        //            {field: 'id', label: 'identificativo', sortable: true},
+                    {field: 'name', label: 'name', sortable: true},
+                    {field: 'description', label: 'description', sortable: false},
+                ];
+        var overrides = {
+            pageSize: 5
+        };
 
+        RsListController($filter, $log, $mdDialog, $q, $scope, $state, BannerService, headers, overrides);
+
+    });
 ;

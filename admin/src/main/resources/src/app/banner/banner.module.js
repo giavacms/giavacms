@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('giavacms-banner', ['ui.router'])
+angular.module('giavacms-banner', ['ui.router', 'giavacms-table'])
 
     .config(function(APP) {
         APP.BANNER = {};
@@ -12,7 +12,7 @@ angular.module('giavacms-banner', ['ui.router'])
         var aclRoles = 'Admin, Developer, Banner';
         APP.ACL[aclName] = aclRoles;
 
-        APP.BANNER.toggle = MenuService.addToggleWithACL(aclName, 'banner',2200,'fa fa-book');
+        APP.BANNER.toggle = MenuService.addToggleWithACL(aclName, 'banner',2200,'fa fa-film');
     })
 
 ;

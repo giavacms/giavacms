@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('giavacms-banner')
+angular.module('giavacms-catalogue')
 
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
@@ -17,10 +17,10 @@ angular.module('giavacms-banner')
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "banner", 'Banner list', 1, 'fa fa-list', APP.BANNER.toggle);
+        MenuService.addLink(APP.BASE + "catalogue", 'Product list', 1, 'fa fa-list', APP.CATALOGUE.toggle);
     })
 
-    .controller('BannerListController', function ($scope) {
+    .controller('CatalogueListController', function ($scope) {
 
     })
 

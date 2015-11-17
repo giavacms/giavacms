@@ -1,0 +1,46 @@
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="my-table-pager">
+
+        <span ng-if="full" >{{message}}</span>
+
+        <span ng-if="full" flex></span>
+
+        <md-button ng-disabled="currentPage < 3" ng-click="firstPage()" aria-label="First Page"
+                   class="md-primary md-hue-2">
+            <md-icon md-font-icon="fa fa-fast-backward"></md-icon>
+        </md-button>
+
+        <md-button ng-disabled="currentPage < 2" ng-click="goToPage(currentPage-1)" aria-label="Previous Page"
+                   class="md-primary md-hue-2">
+            <md-icon md-font-icon="fa fa-backward"></md-icon>
+        </md-button>
+
+
+        <md-button ng-repeat="p in subpages track by $index" class="md-primary" ng-click="goToPage(p)"
+                   ng-disabled="currentPage==p">{{p}}
+        </md-button>
+
+
+        <md-button ng-disabled="!(currentPage < pages.length && pages.length > 0)" ng-click="goToPage(currentPage+1)"
+                   aria-label="Next Page"
+                   class="md-primary md-hue-2">
+            <md-icon md-font-icon="fa fa-forward"></md-icon>
+        </md-button>
+
+        <md-button ng-disabled="!(currentPage < pages.length -1 && pages.length > 0)" ng-click="lastPage()"
+                   aria-label="Last Page"
+                   class="md-primary md-hue-2">
+            <md-icon md-font-icon="fa fa-fast-forward"></md-icon>
+        </md-button>
+
+        <span ng-if="full" flex></span>
+        <span ng-if="full">Mostra:</span>
+        <md-select ng-if="full" ng-model="pageSize" ng-change="rowsPerPage(pageSize)">
+            <md-option value="1">1</md-option>
+            <md-option value="5">5</md-option>
+            <md-option value="10">10</md-option>
+            <md-option value="25">25</md-option>
+            <md-option value="50">50</md-option>
+            <md-option value="100">100</md-option>
+        </md-select>
+
+</section>

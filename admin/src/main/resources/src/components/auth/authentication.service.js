@@ -133,6 +133,10 @@ angular.module('giavacms-auth')
             if (toAuthorizes === undefined) {
                 return true;
             }
+            // login module will force login when present. otherwise everything is permitted
+            if ( !logged ) {
+                return true;
+            }
             if (!tokenPayload || !tokenPayload.username) {
                 return false;
             }
