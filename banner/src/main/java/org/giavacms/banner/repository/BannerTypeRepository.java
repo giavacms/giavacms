@@ -46,14 +46,24 @@ public class BannerTypeRepository extends
       sb.append(separator).append(alias).append(".active = :active");
       params.put("active", true);
       separator = " and ";
-      if (search.getObj().getName() != null
-               && !search.getObj().getName().isEmpty())
+      
+      if (search.getLike().getName() != null
+               && !search.getLike().getName().trim().isEmpty())
       {
          sb.append(separator).append(" upper(").append(alias)
                   .append(".name ) like :NAME ");
-         params.put("NAME", likeParam(search.getObj().getName()
+         params.put("NAME", likeParam(search.getLike().getName().trim()
                   .toUpperCase()));
       }
+      if (search.getLike().getDescription() != null
+               && !search.getLike().getDescription().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper(").append(alias)
+                  .append(".description ) like :DESC ");
+         params.put("DESC", likeParam(search.getLike().getDescription().trim()
+                  .toUpperCase()));
+      }
+
    }
 
 }
