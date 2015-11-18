@@ -15,10 +15,12 @@
                         <input ng-model="search['like.description']">
                     </md-input-container>
                 </md-content>
-                <md-button class="md-raised" ng-class="[buttonClass, buttonHue]" aria-label="raised button"
+                <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                           aria-label="raised button"
                            ng-submit="refresh()">search
                 </md-button>
-                <md-button class="md-raised" ng-class="[buttonClass, buttonHue]" aria-label="raised button"
+                <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                           aria-label="raised button"
                            ng-click="clear()">clear
                 </md-button>
             </form>
@@ -42,15 +44,48 @@
                 <thead theader/>
 
                 <tbody>
-                <tr data-ng-repeat="i in model" class="my-table-content-row" ng-init="rowNumber = $index"
+                <tr data-ng-repeat="i in model" class="my-table-content-row"
+                    ng-init="rowNumber = $index"
                         >
-                    <td ng-click="view(i.id)" class="my-table-content">&nbsp;{{rowNumber+1}}</td>
-                    <td ng-click="view(i.id)" class="my-table-content">{{i.name}}</td>
-                    <td ng-click="view(i.id)" class="my-table-content">{{i.description}}</td>
-                    <td class="my-table-td-more">
-                        <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
-                                   ng-click="edit(i.id)">
+                    <td class="my-table-content">&nbsp;{{rowNumber+1}}</td>
+                    <td class="my-table-content" ng-if="!editable(rowNumber)">{{i.name}}</td>
+                    <td class="my-table-content" ng-if="editable(rowNumber)">
+                        <md-input-container>
+                            <input data-ng-model="i.name"/>
+                        </md-input-container>
+                    </td>
+                    <td class="my-table-content" ng-if="!editable(rowNumber)">{{i.description}}</td>
+                    <td class="my-table-content" ng-if="editable(rowNumber)">
+                        <md-input-container>
+                            <input data-ng-model="i.description"/>
+                        </md-input-container>
+                    </td>
+                    <td class="my-table-td-inline">
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-hide="editable(rowNumber)"
+
+                                   aria-label="fab button"
+                                   ng-click="toggle(rowNumber)">
                             <md-icon md-font-icon="fa fa-pencil"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-hide="editable(rowNumber)"
+
+                                   aria-label="fab button"
+                                   ng-click="deleteInLine(i)">
+                            <md-icon md-font-icon="fa fa-trash"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-show="editable(rowNumber)"
+                                   aria-label="fab button"
+                                   ng-click="updateInLine(i)">
+                            <md-icon md-font-icon="fa fa-save"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-show="editable(rowNumber)"
+                                   aria-label="fab button"
+                                   ng-click="toggle(rowNumber)">
+                            <md-icon md-font-icon="fa fa-remove"></md-icon>
                         </md-button>
                     </td>
                 </tr>

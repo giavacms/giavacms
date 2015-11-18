@@ -1,6 +1,6 @@
 'use strict';
 
-function RsListController($filter, $log, $mdDialog, $q, $scope, $state, RsService, headers, overrides) {
+function RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, RsService, headers, overrides) {
 
     $scope.element = {};
 
@@ -12,13 +12,13 @@ function RsListController($filter, $log, $mdDialog, $q, $scope, $state, RsServic
         id: 'id',
         shownPages: 5,
         add: function () {
-            $state.go('admin.default.' + RsService.entityType + '_new');
+            $state.go(APP.BASE + RsService.entityType + '_new');
         },
         view: function (id) {
-            $state.go('admin.default.' + RsService.entityType + '_view', {'id': id});
+            $state.go(APP.BASE + RsService.entityType + '_view', {'id': id});
         },
         edit: function (id) {
-            $state.go('admin.default.' + RsService.entityType + '_edit', {'id': id});
+            $state.go(APP.BASE + RsService.entityType + '_edit', {'id': id});
         },
         preSave: function () {
             return $q.when(true);
@@ -46,7 +46,7 @@ function RsListController($filter, $log, $mdDialog, $q, $scope, $state, RsServic
             }
         },
         postBack: function () {
-            $state.go('admin.default.' + RsService.entityType + '_list');
+            $state.go(APP.BASE + RsService.entityType + '_list');
         },
         postList: function (data) {
         }
@@ -62,26 +62,20 @@ function RsListController($filter, $log, $mdDialog, $q, $scope, $state, RsServic
         $scope.headers = headers;
     }
 
-    var editables = [];
+    var editables = {};
 
     $scope.toggle = function (index) {
-        var num = editables.indexOf(index);
-        if (num > -1) {
-            editables.splice(num, 1);
+        if ( angular.isDefined(editables[index]) ) {
+            $scope.model.splice(index, 1, editables[index]);
+            delete editables[index];
         }
         else {
-            editables.push(index);
+            editables[index] = angular.copy($scope.model[index]);
         }
     }
 
     $scope.editable = function (index) {
-        var num = editables.indexOf(index);
-        if (num > -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return angular.isDefined(editables[index]);
     }
 
     $scope.resetToggle = function () {

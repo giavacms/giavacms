@@ -5,7 +5,7 @@ angular.module('giavacms-banner')
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'bannertype', {
+        $stateProvider.state( APP.BASE + 'bannertypes_list', {
             // set the url of this page
             url: '/bannertype',
             // set the html template to show on this page
@@ -17,10 +17,10 @@ angular.module('giavacms-banner')
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "bannertype", 'Bannertype list', 10, 'fa fa-list', APP.BANNER.toggle);
+        MenuService.addLink(APP.BASE + "bannertypes_list", 'BannerType list', 10, 'fa fa-list', APP.BANNER.toggle);
     })
 
-    .controller('BannertypeListController', function ($filter, $log, $mdDialog, $q, $scope, $state, BannertypeService) {
+    .controller('BannertypeListController', function ($filter, $log, $mdDialog, $q, $scope, $state, APP, BannertypeService) {
 
         var headers = [
 //            {field: 'id', label: 'identificativo', sortable: true},
@@ -31,7 +31,7 @@ angular.module('giavacms-banner')
             pageSize: 5
         };
 
-        RsListController($filter, $log, $mdDialog, $q, $scope, $state, BannertypeService, headers, overrides);
+        RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, BannertypeService, headers, overrides);
 
     });
 ;

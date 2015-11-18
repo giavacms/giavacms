@@ -1,6 +1,6 @@
 'use strict';
 
-function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, RsService, overrides) {
+function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, RsService, overrides) {
 
     // overrides
     var defaults = {
@@ -10,7 +10,7 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, RsS
         },
         postSave: function (ok) {
             if (ok) {
-                $state.go('admin.default.' + RsService.entityType + '_list');
+                $state.go(APP.BASE + RsService.entityType + '_list');
             }
             else {
                 $mdDialog.show(
@@ -22,7 +22,7 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, RsS
         },
         postUpdate: function (ok) {
             if (ok) {
-                $state.go('admin.default.' + RsService.entityType + '_view', {id: $scope.element.id});
+                $state.go(APP.BASE + RsService.entityType + '_view', {id: $scope.element.id});
             }
             else {
                 $mdDialog.show(
@@ -32,7 +32,7 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, RsS
         postFetch: function() {
         },
         postBack: function () {
-            $state.go('admin.default.' + RsService.entityType + '_list');
+            $state.go(APP.BASE + RsService.entityType + '_list');
         }
     };
     if (overrides) {
