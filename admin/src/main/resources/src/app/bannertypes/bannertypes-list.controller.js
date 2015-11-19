@@ -1,26 +1,26 @@
 'use strict';
 
-angular.module('giavacms-banner')
+angular.module('giavacms-banners')
 
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
         $stateProvider.state( APP.BASE + 'bannertypes_list', {
             // set the url of this page
-            url: '/bannertype',
+            url: '/bannertypes',
             // set the html template to show on this page
-            templateUrl: 'app/bannertype/bannertype-list.html',
+            templateUrl: 'app/bannertypes/bannertypes-list.html',
             // set the controller to load for this page
-            controller: 'BannertypeListController'
+            controller: 'BannertypesListController'
         });
 
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "bannertypes_list", 'BannerType list', 10, 'fa fa-list', APP.BANNER.toggle);
+        MenuService.addLink(APP.BASE + "bannertypes_list", 'BannerType list', 10, 'fa fa-list', APP.BANNERS.toggle);
     })
 
-    .controller('BannertypeListController', function ($filter, $log, $mdDialog, $q, $scope, $state, APP, BannertypeService) {
+    .controller('BannertypesListController', function ($filter, $log, $mdDialog, $q, $scope, $state, APP, BannertypesService) {
 
         var headers = [
 //            {field: 'id', label: 'identificativo', sortable: true},
@@ -31,7 +31,7 @@ angular.module('giavacms-banner')
             pageSize: 5
         };
 
-        RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, BannertypeService, headers, overrides);
+        RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, BannertypesService, headers, overrides);
 
     });
 ;

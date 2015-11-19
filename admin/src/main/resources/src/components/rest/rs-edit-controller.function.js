@@ -39,22 +39,6 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
         defaults = angular.extend(defaults, overrides);
     }
 
-    $scope.loaded = false;
-
-    // caricamento
-    if ($stateParams.id && !isNaN($stateParams.id)) {
-        $scope.element = {id: $stateParams.id};
-        RsService.getElement($stateParams.id).then(function (element) {
-            $scope.element = element;
-            defaults.postFetch();
-            $scope.loaded = true;
-        }, function () {
-            $mdDialog.show(
-                $mdDialog.alert().title('Errore').content('Dati non disponibili').ok('Ok')
-            );
-        });
-    }
-
     // salvataggio
     $scope.save = function (skipConfirm) {
         var confirm =
@@ -189,6 +173,37 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
                 return false;
             }
         );
+    }
+
+    // caricamento
+    $scope.loaded = false;
+
+    var init = function() {
+        if ($stateParams.id && !isNaN($stateParams.id)) {
+            $scope.element = {id: $stateParams.id};
+            return RsService.getElement($stateParams.id).then(function (element) {
+                $scope.element = element;
+                defaults.postFetch();
+                $scope.loaded = true;
+                return $q.when(true);
+            }, function () {
+                return $mdDialog.show(
+                    $mdDialog.alert().title('Errore').content('Dati non disponibili').ok('Ok')
+                )
+                .then(
+                    function() {
+                        return $q.when(false);
+                    }
+                );
+            });
+        }
+        else {
+            return $q.when(true);
+        }
+    }
+
+    return {
+        init: init
     }
 
 }

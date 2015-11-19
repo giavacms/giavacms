@@ -38,8 +38,8 @@ angular.module('giavacms-admin', [
     ,'giavacms-style'
 */
 
+    ,'giavacms-banners'
     ,'giavacms-richcontent'
-    ,'giavacms-banner'
     ,'giavacms-catalogue'
 
 

@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('giavacms-banner')
+angular.module('giavacms-banners')
 
-    .service('BannerService', function (APP, RsResource) {
+    .service('BannersService', function (APP, RsResource) {
 
         angular.extend(this, new RsService(APP, RsResource, 'banners'))
 
