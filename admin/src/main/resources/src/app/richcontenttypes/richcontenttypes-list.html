@@ -1,0 +1,91 @@
+<md-content class="padded-content-page" ng-if="permit('RICHCONTENTS')">
+
+    <div flex layout="column" layout-margin>
+
+        <div layout="row">
+
+            <form ng-submit="refresh()" flex>
+                <md-content layout="row" layout-sm="column">
+                    <md-input-container>
+                        <label>Name</label>
+                        <input ng-model="search['like.name']">
+                    </md-input-container>
+                </md-content>
+                <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                           aria-label="raised button"
+                           ng-submit="refresh()">search
+                </md-button>
+                <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                           aria-label="raised button"
+                           ng-click="clear()">clear
+                </md-button>
+            </form>
+
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="add()">
+                <md-icon md-font-icon="fa fa-plus"></md-icon>
+            </md-button>
+        </div>
+
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div ng-if="!model">{{message}}</div>
+
+        <div ng-if="model">
+
+            <md-divider></md-divider>
+
+            <table class="my-table" ng-if="model.length > 0">
+
+                <thead theader/>
+
+                <tbody>
+                <tr data-ng-repeat="i in model" class="my-table-content-row"
+                    ng-init="rowNumber = $index"
+                        >
+                    <td class="my-table-content">&nbsp;{{rowNumber+1}}</td>
+                    <td class="my-table-content" ng-if="!editable(rowNumber)">{{i.name}}</td>
+                    <td class="my-table-content" ng-if="editable(rowNumber)">
+                        <md-input-container>
+                            <input data-ng-model="i.name"/>
+                        </md-input-container>
+                    </td>
+                    <td class="my-table-td-inline">
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-hide="editable(rowNumber)"
+
+                                   aria-label="fab button"
+                                   ng-click="toggle(rowNumber)">
+                            <md-icon md-font-icon="fa fa-pencil"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-hide="editable(rowNumber)"
+
+                                   aria-label="fab button"
+                                   ng-click="deleteInLine(i)">
+                            <md-icon md-font-icon="fa fa-trash"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-show="editable(rowNumber)"
+                                   aria-label="fab button"
+                                   ng-click="updateInLine(i)">
+                            <md-icon md-font-icon="fa fa-save"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   ng-show="editable(rowNumber)"
+                                   aria-label="fab button"
+                                   ng-click="toggle(rowNumber)">
+                            <md-icon md-font-icon="fa fa-remove"></md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+                </tbody>
+
+                <tfoot tfooter/>
+            </table>
+
+            <section tpager/>
+        </div>
+    </div>
+
+</md-content>

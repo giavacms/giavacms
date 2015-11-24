@@ -1,0 +1,51 @@
+<md-content class="padded-content-page" ng-if="permit('RICHCONTENTS')">
+
+    <div flex layout="column" layout-margin>
+
+        <div layout="column">
+            <form name="newForm">
+
+                <md-input-container>
+                    <label>title</label>
+                    <input ng-model="element.title" ng-required="true">
+                </md-input-container>
+                <md-input-container>
+                    <label>Preview</label>
+                    <input ng-model="element.preview">
+                </md-input-container>
+                <md-content>
+                    <md-select placeholder="RichContent type ..." ng-model="element.richContentType"
+                               ng-required="true" ng-selected="element.richContentType">
+                        <md-option ng-value="rt" ng-repeat="rt in richContentTypes">{{rt.name}}
+                        </md-option>
+                    </md-select>
+                </md-content>
+
+            </form>
+
+        </div>
+
+        <div layout="row" layout-align="end end">
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                       aria-label="raised button" ng-disabled="newForm.$invalid"
+                       ng-click="save()" ng-submit="save()" ng-if="!element.id">SAVE
+            </md-button>
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                       aria-label="raised button" ng-disabled="newForm.$invalid"
+                       ng-click="update()" ng-submit="update()" ng-if="element.id">UPDATE
+            </md-button>
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                       aria-label="raised button"
+                       ng-click="back()">CANCEL
+            </md-button>
+            <div flex="5"/>
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                       aria-label="raised button" ng-disabled="newForm.$invalid"
+                       ng-click="delete()" ng-if="element.id">DELETE
+            </md-button>
+        </div>
+
+    </div>
+
+
+</md-content>

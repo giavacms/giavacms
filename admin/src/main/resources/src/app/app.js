@@ -39,7 +39,7 @@ angular.module('giavacms-admin', [
 */
 
     ,'giavacms-banners'
-    ,'giavacms-richcontent'
+    ,'giavacms-richcontents'
     ,'giavacms-catalogue'
 
 

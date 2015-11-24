@@ -34,10 +34,23 @@
                     </md-input-container>
                     <input type="checkbox" ng-model="element.internal"/>
                 </md-content>
-                <md-content ng-click="openGraphics()">
+                <md-content>
                     <md-input-container>
                         <label>Image</label>
                     </md-input-container>
+                    <div layout="row">
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   aria-label="fab button"
+                                   ng-click="addFile($event)">
+                            <md-icon md-font-icon="fa fa-upload"></md-icon>
+                        </md-button>
+                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                   aria-label="fab button"
+                                   ng-click="chooseFile($event)">
+                            <md-icon md-font-icon="fa fa-folder-open-o"></md-icon>
+                        </md-button>
+                        <div flex></div>
+                    </div>
                     <img ng-src="{{element.url}}" width="300"/>
                 </md-content>
                 <md-content>

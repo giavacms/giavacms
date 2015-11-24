@@ -51,14 +51,25 @@ public class RichContentTypeRepository extends AbstractRepository<RichContentTyp
       if (search.getObj().getName() != null
                && !search.getObj().getName().isEmpty())
       {
+         sb.append(separator).append(alias)
+                  .append(".name = :NAME ");
+         params.put("NAME", search.getObj().getName()
+                  .trim());
+      }
+
+      if (search.getLike().getName() != null
+               && !search.getLike().getName().isEmpty())
+      {
          sb.append(separator).append(" upper(").append(alias)
-                  .append(".name ) like :NAME ");
-         params.put("NAME", likeParam(search.getObj().getName()
+                  .append(".name ) like :NAMELIKE ");
+         params.put("NAMELIKE", likeParam(search.getLike().getName().trim()
                   .toUpperCase()));
       }
+
    }
 
-   @Override public void delete(Object key) throws Exception
+   @Override
+   public void delete(Object key) throws Exception
    {
       RichContentType richContentType = getEm().find(getEntityType(), key);
       if (richContentType != null)
@@ -67,6 +78,5 @@ public class RichContentTypeRepository extends AbstractRepository<RichContentTyp
          getEm().merge(richContentType);
       }
    }
-
 
 }

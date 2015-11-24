@@ -30,7 +30,7 @@ angular.module('giavacms-banners')
         MenuService.addLink(APP.BASE + "banners_new", 'Add Banner', 40, 'fa fa-plus', APP.BANNERS.toggle);
     })
 
-    .controller('BannersEditController', function ($filter, $log, $mdDialog, $q, $scope, $state, $stateParams, APP, BannersService, BannertypesService) {
+    .controller('BannersEditController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, BannersService, BannertypesService, RsResource) {
 
         var overrides = {
         };
@@ -71,12 +71,21 @@ angular.module('giavacms-banners')
             }
         );
 
+        var embed = function(resource) {
+            // make the image by the resource parts
+            // TODO
+            $scope.element.internal = false;
+            $scope.element.url = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + resource.path;
+;
+        }
+
+        var rootPath = 'static/graphics';
+
         //lista dei materiali
-        $scope.openGraphics = function ($event) {
+        $scope.chooseFile = function ($event) {
             $log.debug('looking for graphics');
             $mdDialog.show({
                 controller: function($log, $mdDialog, $q, $sce, $scope, APP, RsResource) {
-                    var rootPath = '/static/graphics';
                     var previewType = 'IMAGE';
                     $scope.accepts = "image/*";
                     ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath, previewType);
@@ -91,15 +100,14 @@ angular.module('giavacms-banners')
                 targetEvent: $event
             }).then(function (resource) {
                 if (resource) {
-                    // make the image by the resource parts
-                    // TODO
-                    $scope.element.internal = false;
-                    $scope.element.url = resource.preview;
+                    embed(resource);
                 }
             }, function () {
                 $log.debug('no selection');
             })
-        }
+        };
+
+        angular.extend(this, new AddFilesController($mdDialog, $sce, $scope, APP, RsResource, rootPath, embed));
 
     });
 ;
