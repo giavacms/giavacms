@@ -5,6 +5,16 @@ angular.module('giavacms-richcontents')
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
+        $stateProvider.state( APP.BASE + 'richcontents_new', {
+            // set the url of this page
+            url: '/richcontents-new',
+            // set the html template to show on this page
+            templateUrl: 'app/richcontents/richcontents-edit.html',
+            // set the controller to load for this page
+            controller: 'RichcontentsEditController'
+        });
+
+        // Create a state for our seed test page
         $stateProvider.state( APP.BASE + 'richcontents_edit', {
             // set the url of this page
             url: '/richcontents-edit/:id',
@@ -15,11 +25,21 @@ angular.module('giavacms-richcontents')
         });
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_new', {
+        $stateProvider.state( APP.BASE + 'richcontents_edit_documents', {
             // set the url of this page
-            url: '/richcontents-new',
+            url: '/richcontents-edit/:id/documents',
             // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit.html',
+            templateUrl: 'app/richcontents/richcontents-edit-documents.html',
+            // set the controller to load for this page
+            controller: 'RichcontentsEditController'
+        });
+
+        // Create a state for our seed test page
+        $stateProvider.state( APP.BASE + 'richcontents_edit_graphics', {
+            // set the url of this page
+            url: '/richcontents-edit/:id/graphics',
+            // set the html template to show on this page
+            templateUrl: 'app/richcontents/richcontents-edit-graphics.html',
             // set the controller to load for this page
             controller: 'RichcontentsEditController'
         });
@@ -41,7 +61,26 @@ angular.module('giavacms-richcontents')
         }
         var overrides = {
             preSave : function() { return setDates(); },
-            preUpdate : function() { return setDates(); }
+            preUpdate : function() { return setDates(); },
+            postSave: function (ok) {
+                if (ok) {
+                    $state.go(APP.BASE + 'richcontents_edit_documents', {id: $scope.element.id});
+                }
+                else {
+                    $mdDialog.show(
+                        $mdDialog.alert().title('Errore').content('Salvataggio non riuscito').ok('Ok'));
+                }
+            },
+            postUpdate: function (ok) {
+                if (ok) {
+                    $state.go(APP.BASE + 'richcontents_edit_documents', {id: $scope.element.id});
+                }
+                else {
+                    $mdDialog.show(
+                        $mdDialog.alert().title('Errore').content('Salvataggio delle modifiche non riuscito').ok('Ok'));
+                }
+            }
+
         };
 
         var editFunction = RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, RichcontentsService, overrides)
