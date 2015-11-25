@@ -21,18 +21,37 @@ angular.module('giavacms-menu')
 	        }
 
 			$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-				menu.sections.forEach(function(section) {
+
+				var found = false;
+
+				for ( var s = 0 ; s < menu.sections.length ; s++ ) {
+					var section = menu.sections[s];
 					if ( section.toState && section.toState == toState.name ) {
 						menu.current = section;
+						break;
 					}
 					else if ( section.children ) {
-						section.children.forEach(function(child) {
+						for ( var c = 0 ; c < section.children.length ; c++ ) {
+							var child = section.children[c];
 							if ( child.toState && child.toState == toState.name ) {
 								menu.current = child;
+								found = true;
+								break;
 							}
-						});
+						}
+						if ( found ) {
+							break;
+						}
 					}
-				});
+				}
+
+				if ( toParams.id ) {
+					menu.id = toParams.id;
+				}
+				else {
+					delete menu.id;
+				}
+
 			});
 
 			var getMenu = function() {

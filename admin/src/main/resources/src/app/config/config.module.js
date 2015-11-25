@@ -22,7 +22,8 @@ angular.module('giavacms-config', [
             ANY: ['Any'],
             DEVELOPER: ['Developer'],
             ADMIN: ['Admin']
-        }
+        },
+        LANGUAGES: ['ENG','ITA']
     })
 
     /**
@@ -52,6 +53,14 @@ angular.module('giavacms-config', [
             $rootScope.bodyClasses = ['os-windows'];
         }
     })
+
+    /**
+    * SUPPORTED LANGUAGES AVAILABLE IN ALL PAGES
+    */
+    .run(function ($rootScope, APP) {
+        $rootScope.languages = APP.LANGUAGES;
+    })
+
 
     /**
     * SANITIZATION

@@ -30,6 +30,7 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
             }
         },
         postFetch: function() {
+            return $q.when(true);
         },
         postBack: function () {
             $state.go(APP.BASE + RsService.entityType + '_list');
@@ -179,7 +180,10 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
     $scope.loaded = false;
 
     var init = function() {
-        if ($stateParams.id && !isNaN($stateParams.id)) {
+        if ($stateParams.id
+            // why was this here?
+            //&& !isNaN($stateParams.id)
+        ) {
             $scope.element = {id: $stateParams.id};
             return RsService.getElement($stateParams.id).then(function (element) {
                 $scope.element = element;

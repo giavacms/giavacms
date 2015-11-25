@@ -17,19 +17,9 @@
                 </md-content>
 
                 <md-content layout="row" layout-sm="column" layout-wrap>
-                    <div ng-if="false">
-                        <md-input-container>
-                            <label>Banner type {{bannerTypes}}</label>
-                        </md-input-container>
-                        <md-select ng-model="search['obj.bannerType']">
-                            <md-option ng-value="bt" ng-repeat="bt in bannerTypes">{{bt.name}}
-                            </md-option>
-                        </md-select>
-                    </div>
-
                     <md-content>
-                        <md-select placeholder="Banner type ..." ng-model="search['obj.bannerType']">
-                            <md-option ng-value="bt" ng-repeat="bt in bannerTypes">{{bt.name}}
+                        <md-select placeholder="Banner type ..." ng-model="search['obj.bannerType.id']">
+                            <md-option ng-value="bt.id" ng-repeat="bt in bannerTypes">{{bt.name}}
                             </md-option>
                         </md-select>
                     </md-content>

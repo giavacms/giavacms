@@ -6,12 +6,8 @@
             <form name="newForm">
 
                 <md-input-container>
-                    <label>title</label>
+                    <label>Title</label>
                     <input ng-model="element.title" ng-required="true">
-                </md-input-container>
-                <md-input-container>
-                    <label>Preview</label>
-                    <input ng-model="element.preview">
                 </md-input-container>
                 <md-content>
                     <md-select placeholder="RichContent type ..." ng-model="element.richContentType"
@@ -20,7 +16,42 @@
                         </md-option>
                     </md-select>
                 </md-content>
-
+                <md-content>
+                    <md-select placeholder="Language ..." ng-model="element.language"
+                               ng-required="true" ng-selected="element.language">
+                        <md-option ng-value="l" ng-repeat="l in languages">{{l}}
+                        </md-option>
+                    </md-select>
+                </md-content>
+                <md-input-container>
+                    <label>Preview</label>
+                    <textarea ng-model="element.preview" class="my-textarea"/>
+                </md-input-container>
+                <md-input-container>
+                    <label>Content</label>
+                    <textarea ng-model="element.content" class="my-textarea"/>
+                </md-input-container>
+                <md-input-container>
+                    <label>Author</label>
+                    <input ng-model="element.author" ng-required="false">
+                </md-input-container>
+                <md-input-container>
+                    <label>Date</label>
+                    <input ng-model="element.dateFmt" ng-required="true" type="datetime-local" ng-change="setDates()">
+                </md-input-container>
+                <md-content>
+                    <md-input-container>
+                        <label>Highlight</label>
+                    </md-input-container>
+                    <input type="checkbox" ng-model="element.highlight"/>
+                </md-content>
+                <md-content>
+                    <br/>
+                </md-content>
+                <md-input-container>
+                    <label>Tags (comma separated)</label>
+                    <input ng-model="element.tags" ng-required="false">
+                </md-input-container>
             </form>
 
         </div>

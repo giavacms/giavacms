@@ -264,6 +264,15 @@ public class RichContentRepository extends BaseRepository<RichContent>
          separator = " and ";
       }
 
+      // LANGUAGE 
+      if (search.getObj().getLanguage() != null
+               && !search.getObj().getLanguage().isEmpty() )
+      {
+         sb.append(separator).append(alias).append(".language = :language ");
+         params.put("language", search.getObj().getLanguage().trim());
+         separator = " and ";
+      }
+
       // TAG
       if (search.getObj().getTag() != null
                && search.getObj().getTag().trim().length() > 0)

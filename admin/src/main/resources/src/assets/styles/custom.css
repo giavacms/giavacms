@@ -157,7 +157,10 @@
     font-size: 1.4em !important;
 }
 
-
+.my-textarea {
+    height: 3em !important;
+    background-color: #FBFBFB !important;
+}
 
 
 

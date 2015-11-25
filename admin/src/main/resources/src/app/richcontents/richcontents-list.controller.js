@@ -14,6 +14,16 @@ angular.module('giavacms-richcontents')
             controller: 'RichcontentsListController'
         });
 
+        // Create a state for our seed test page
+        $stateProvider.state( APP.BASE + 'richcontents_view', {
+            // set the url of this page
+            url: '/richcontents',
+            // set the html template to show on this page
+            templateUrl: 'app/richcontents/richcontents-list.html',
+            // set the controller to load for this page
+            controller: 'RichcontentsListController'
+        });
+
     })
 
     .run(function(MenuService, APP) {
@@ -24,8 +34,10 @@ angular.module('giavacms-richcontents')
 
         var headers = [
         //            {field: 'id', label: 'identificativo', sortable: true},
+            {field: 'highlight', label: '', sortable: false},
             {field: 'title', label: 'title', sortable: true},
             {field: 'richContentType', label: 'richcontent type', sortable: false},
+            {field: 'date', label: 'date', sortable: true},
         ];
 
         var overrides = {

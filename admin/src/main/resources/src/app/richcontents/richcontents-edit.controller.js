@@ -32,7 +32,16 @@ angular.module('giavacms-richcontents')
 
     .controller('RichcontentsEditController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RichcontentsService, RichcontenttypesService, RsResource) {
 
+        var setDates = function() {
+            if ( $scope.element && $scope.element.dateFmt ) {
+                $scope.element.date = $scope.element.dateFmt.getTime();
+                delete $scope.element.dateFmt;
+            }
+            return $q.when(true);
+        }
         var overrides = {
+            preSave : function() { return setDates(); },
+            preUpdate : function() { return setDates(); }
         };
 
         var editFunction = RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, RichcontentsService, overrides)
@@ -63,10 +72,17 @@ angular.module('giavacms-richcontents')
             );
         }
 
+        var initDates = function() {
+            if ( $scope.element && $scope.element.date ) {
+                $scope.element.dateFmt = new Date($scope.element.date);
+            }
+        }
+
         editFunction.init().then(
             function(result) {
                 if ( result ) {
                     initRichContentTypes();
+                    initDates();
                  }
             }
         );

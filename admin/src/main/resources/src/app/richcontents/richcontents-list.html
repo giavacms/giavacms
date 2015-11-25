@@ -5,24 +5,35 @@
         <div layout="row">
 
             <form ng-submit="refresh()" flex>
+
                 <md-content layout="row" layout-sm="column" layout-wrap>
+
                     <md-input-container>
                         <label>Title</label>
                         <input ng-model="search['like.title']">
                     </md-input-container>
+
                     <md-input-container>
                         <label>Preview</label>
                         <input ng-model="search['like.preview']">
                     </md-input-container>
-                </md-content>
 
-                <md-content layout="row" layout-sm="column" layout-wrap>
                     <md-content>
-                        <md-select placeholder="RichContent Type..." ng-model="search['obj.richContentType']">
-                            <md-option ng-value="rt" ng-repeat="rt in richContentTypes">{{rt.name}}
+                        <md-select placeholder="RichContent Type ..." ng-model="search['obj.richContentType.id']">
+                            <md-option ng-value="" >All types</md-option>
+                            <md-option ng-value="rt.id" ng-repeat="rt in richContentTypes">{{rt.name}}
                             </md-option>
                         </md-select>
                     </md-content>
+
+                    <md-content>
+                        <md-select placeholder="Language ..." ng-model="search['obj.language']">
+                            <md-option ng-value="" >All languages</md-option>
+                            <md-option ng-value="l" ng-repeat="l in languages">{{l}}
+                            </md-option>
+                        </md-select>
+                    </md-content>
+
                 </md-content>
 
                 <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
@@ -57,8 +68,13 @@
                 <tr data-ng-repeat="i in model" class="my-table-content-row"
                     ng-init="rowNumber = $index">
                     <td ng-click="edit(i.id)" class="my-table-content">{{rowNumber+1}}</td>
+                    <td ng-click="edit(i.id)" class="my-table-content">
+                        <md-icon ng-show="i.highlight" md-font-icon="fa fa-star"></md-icon>
+                    </td>
                     <td ng-click="edit(i.id)" class="my-table-content">{{i.title}}</td>
                     <td ng-click="edit(i.id)" class="my-table-content">{{i.richContentType.name}}</td>
+                    <td ng-click="edit(i.id)" class="my-table-content">{{i.date | date : 'MMM dd, yyyy'}}</td>
+                    </td>
                     <td class="my-table-td-more">
                         <md-button class="my-fab-mini md-fab md-mini md-primary"
                                    aria-label="fab button"
