@@ -3,7 +3,9 @@
 angular.module('giavacms-scripts', ['ui.router'])
 
     .config(function(APP) {
-        APP.SCRIPTS = {};
+        APP.SCRIPTS = {
+            PATH: APP.RESOURCES + 'scripts'
+        };
     })
 
     .run(function(MenuService, APP) {

@@ -23,7 +23,10 @@ angular.module('giavacms-config', [
             DEVELOPER: ['Developer'],
             ADMIN: ['Admin']
         },
-        LANGUAGES: ['ENG','ITA']
+        LANGUAGES: ['ENG','ITA'],
+        //RESOURCE: 'static/';
+        //RESOURCES: '/'
+        RESOURCES: 'static/'
     })
 
     /**

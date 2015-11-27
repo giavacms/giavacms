@@ -3,7 +3,9 @@
 angular.module('giavacms-styles', ['ui.router'])
 
     .config(function(APP) {
-        APP.STYLES = {};
+        APP.STYLES = {
+            PATH: APP.RESOURCES + 'scripts'
+        };
     })
 
     .run(function(MenuService, APP) {

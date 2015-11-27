@@ -24,26 +24,6 @@ angular.module('giavacms-richcontents')
             controller: 'RichcontentsEditController'
         });
 
-        // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_edit_documents', {
-            // set the url of this page
-            url: '/richcontents-edit/:id/documents',
-            // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit-documents.html',
-            // set the controller to load for this page
-            controller: 'RichcontentsEditController'
-        });
-
-        // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_edit_graphics', {
-            // set the url of this page
-            url: '/richcontents-edit/:id/graphics',
-            // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit-graphics.html',
-            // set the controller to load for this page
-            controller: 'RichcontentsEditController'
-        });
-
     })
 
     .run(function(MenuService, APP) {
@@ -59,12 +39,44 @@ angular.module('giavacms-richcontents')
             }
             return $q.when(true);
         }
+
+        var confirmAndGoTo = function(toState, skipConfirm) {
+            var confirm =
+                $mdDialog.show(
+                    $mdDialog.confirm()
+                        .title('Attenzione')
+                        .content('Eventuali modifiche non saranno salvate?')
+                        .ok('Ok')
+                        .cancel('Annulla')
+                );
+            if (skipConfirm) {
+                confirm = $q.when(true);
+            }
+            confirm.then(
+                function ok() {
+                    $log.debug('You are sure');
+                    $state.go(toState, {id: $scope.element.id});
+                },
+                function cancel() {
+                    $log.debug('You are not sure');
+                }
+            );
+        }
+
+        $scope.editDocuments = function(skipConfirm) {
+            confirmAndGoTo(APP.BASE + 'richcontents_edit_documents', skipConfirm);
+        }
+
+        $scope.editImages = function(skipConfirm) {
+            confirmAndGoTo(APP.BASE + 'richcontents_edit_images', skipConfirm);
+        }
+
         var overrides = {
             preSave : function() { return setDates(); },
             preUpdate : function() { return setDates(); },
             postSave: function (ok) {
                 if (ok) {
-                    $state.go(APP.BASE + 'richcontents_edit_documents', {id: $scope.element.id});
+                    $scope.editDocuments(true);
                 }
                 else {
                     $mdDialog.show(
@@ -73,7 +85,7 @@ angular.module('giavacms-richcontents')
             },
             postUpdate: function (ok) {
                 if (ok) {
-                    $state.go(APP.BASE + 'richcontents_edit_documents', {id: $scope.element.id});
+                    $scope.editDocuments(true);
                 }
                 else {
                     $mdDialog.show(

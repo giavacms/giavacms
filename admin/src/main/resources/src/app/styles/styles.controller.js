@@ -22,7 +22,7 @@ angular.module('giavacms-styles')
 
     .controller('StylesController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {
 
-        var rootPath = '/static/styles';
+        var rootPath = APP.STYLES.PATH;
 
         var previewType = 'STYLESHEET';
 

@@ -3,7 +3,9 @@
 angular.module('giavacms-pages', ['ui.router'])
 
     .config(function(APP) {
-        APP.PAGES = {};
+        APP.PAGES = {
+            PATH: '/'
+        };
     })
 
     .run(function(MenuService, APP) {
@@ -12,7 +14,7 @@ angular.module('giavacms-pages', ['ui.router'])
         var aclRoles = 'Admin, Developer, Resources';
         APP.ACL[aclName] = aclRoles;
 
-        //APP.PAGES.toggle = MenuService.addToggleWithACL(aclName, 'pages',1400,'fa fa-html5');
+        //APP.PAGES.toggle = MenuService.addToggleWithACL(aclName, 'pages',1500,'fa fa-html5');
     })
 
 

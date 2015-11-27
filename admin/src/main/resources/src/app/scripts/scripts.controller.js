@@ -22,7 +22,7 @@ angular.module('giavacms-scripts')
 
     .controller('ScriptsController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {
 
-        var rootPath = '/static/scripts';
+        var rootPath = APP.SCRIPTS.PATH;
 
         var previewType = 'JAVASCRIPT';
 

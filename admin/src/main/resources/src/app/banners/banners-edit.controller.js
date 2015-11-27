@@ -33,6 +33,8 @@ angular.module('giavacms-banners')
     .controller('BannersEditController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, BannersService, BannertypesService, RsResource) {
 
         var overrides = {
+            postSave: function() { $state.go(APP.BASE + 'banners_list'); },
+            postUpdate: function() { $state.go(APP.BASE + 'banners_list'); }
         };
 
         var editFunction = RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, BannersService, overrides)
@@ -79,9 +81,8 @@ angular.module('giavacms-banners')
 ;
         }
 
-        var rootPath = 'static/graphics';
+        var rootPath = APP.BANNERS.IMAGESPATH;
 
-        //lista dei materiali
         $scope.chooseFile = function ($event) {
             $log.debug('looking for graphics');
             $mdDialog.show({
@@ -96,7 +97,7 @@ angular.module('giavacms-banners')
                         $mdDialog.hide();
                     }
                 },
-                templateUrl: 'app/banners/dialogs/graphics-list-dialog.html',
+                templateUrl: 'app/banners/dialogs/images-list-dialog.html',
                 targetEvent: $event
             }).then(function (resource) {
                 if (resource) {

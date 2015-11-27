@@ -3,7 +3,10 @@
 angular.module('giavacms-richcontents', ['ui.router'])
 
     .config(function(APP) {
-        APP.RICHCONTENTS = {};
+        APP.RICHCONTENTS = {
+            IMAGESPATH: APP.RESOURCES + 'images',
+            DOCUMENTSPATH: APP.RESOURCES + 'documents'
+        };
     })
 
     .run(function(MenuService, APP) {

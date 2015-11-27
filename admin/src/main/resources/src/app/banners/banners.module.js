@@ -3,7 +3,9 @@
 angular.module('giavacms-banners', ['ui.router', 'giavacms-table'])
 
     .config(function(APP) {
-        APP.BANNERS = {};
+        APP.BANNERS = {
+            IMAGESPATH: APP.RESOURCES + 'images'
+        };
     })
 
     .run(function(MenuService, APP) {
@@ -13,6 +15,7 @@ angular.module('giavacms-banners', ['ui.router', 'giavacms-table'])
         APP.ACL[aclName] = aclRoles;
 
         APP.BANNERS.toggle = MenuService.addToggleWithACL(aclName, 'banners', 2200,'fa fa-film');
+
     })
 
 ;
