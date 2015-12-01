@@ -40,7 +40,10 @@ angular.module('giavacms-banners')
         var editFunction = RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, BannersService, overrides)
 
         if ( !$scope.element ) {
-            $scope.element = {};
+            $scope.element = {
+                online: false,
+                internal: true
+            };
         }
 
         if ( !$scope.element.bannerType ) {
@@ -73,12 +76,18 @@ angular.module('giavacms-banners')
             }
         );
 
+        $scope.baseUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT;
+
         var embed = function(resource) {
             // make the image by the resource parts
             // TODO
             $scope.element.internal = false;
-            $scope.element.url = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + resource.path;
-;
+            //$scope.element.url = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + resource.path;
+            $scope.element.url = resource.path;
+                if ( ! $scope.element.image ) {
+                $scope.element.image = {};
+            }
+            $scope.element.image.filename = $scope.element.url;
         }
 
         var rootPath = APP.BANNERS.IMAGESPATH;

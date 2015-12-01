@@ -16,7 +16,7 @@ angular.module('giavacms-richcontents')
 
     })
 
-    .controller('RichcontentsEditDocumentsController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RichcontentsService, RsResource) {
+    .controller('RichcontentsEditDocumentsController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RichcontentsService, RsResource) {
 
         var preview = function (document) {
             document.preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + document.filename;
@@ -94,10 +94,10 @@ angular.module('giavacms-richcontents')
                     reqParams['id2'] = resource.id;
                     return RsResource.delete(reqParams,
                         function () {
-                            return init();
+                            return initResources();
                         },
                         function () {
-                            return init();
+                            return initResources();
                         }
                     );
                 },
@@ -123,8 +123,15 @@ angular.module('giavacms-richcontents')
         var rootPath = APP.RICHCONTENTS.DOCUMENTSPATH;
 
         var embed = function(resource) {
-            // TODO
-            $log.error('NOT YET IMPLEMENTED');
+            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/richcontents/' + $stateParams.id + '/documents/' + resource.path;
+            $http.post(uploadUrl)
+                .success(function(){
+                    initResources();
+                })
+                .error(function(){
+                    $mdDialog.show(
+                        $mdDialog.alert().title('Errore').content('Salvataggio non riuscito').ok('Ok'));
+                });
         }
 
         new AddFilesController($mdDialog, $sce, $scope, APP, RsResource, rootPath, embed);

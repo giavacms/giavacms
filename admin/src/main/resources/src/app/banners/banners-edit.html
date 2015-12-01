@@ -24,7 +24,13 @@
                     <label>Language</label>
                     <input ng-model="element.language"/>
                 </md-input-container>
-                <md-input-container ng-hide="element.internal" ng-if="false">
+                <md-content>
+                    <md-input-container>
+                        <label>Online</label>
+                    </md-input-container>
+                    <input type="checkbox" ng-model="element.online" ng-change="element.internal = !element.online"/>
+                </md-content>
+                <md-input-container ng-hide="element.internal" ng-if="element.online">
                     <label>URL</label>
                     <input ng-model="element.url"/>
                 </md-input-container>
@@ -34,7 +40,7 @@
                     </md-input-container>
                     <input type="checkbox" ng-model="element.internal"/>
                 </md-content>
-                <md-content>
+                <md-content ng-if="! element.online">
                     <md-input-container>
                         <label>Image</label>
                     </md-input-container>
@@ -51,13 +57,10 @@
                         </md-button>
                         <div flex></div>
                     </div>
-                    <img ng-src="{{element.url}}" width="300"/>
                 </md-content>
                 <md-content>
-                    <md-input-container>
-                        <label>Online</label>
-                    </md-input-container>
-                    <input type="checkbox" ng-model="element.online"/>
+                    <img ng-src="{{element.url}}" ng-show="element.online" width="300"/>
+                    <img ng-src="{{baseUrl}}{{element.url}}" ng-show="!element.online" width="300"/>
                 </md-content>
             </form>
 

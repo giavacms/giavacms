@@ -26,12 +26,24 @@ angular.module('giavacms-banners')
         //            {field: 'id', label: 'identificativo', sortable: true},
             {field: 'name', label: 'name', sortable: true},
             {field: 'bannerType', label: 'banner type', sortable: false},
-            //{field: 'description', label: 'description', sortable: false},
+            {field: 'online', label: 'position', sortable: false},
             {field: 'description', label: 'preview', sortable: false},
         ];
 
         var overrides = {
-            pageSize: 5
+            pageSize: 5,
+            postList: function(data) {
+                if ( data ) {
+                    for ( var d = 0 ; d < data.length ; d++ ) {
+                        if ( data[d].internal ) {
+                            data[d].preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + data[d].url;
+                        }
+                        else {
+                            data[d].preview = data[d].url;
+                        }
+                    }
+                }
+            }
         };
 
         RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, BannersService, headers, overrides);

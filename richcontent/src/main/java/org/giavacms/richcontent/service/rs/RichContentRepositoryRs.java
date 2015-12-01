@@ -117,7 +117,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    @POST
    @Path("/{richContentId}/images")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-   //TODO _ RESIZE
+   // TODO _ RESIZE
    public Response addImage(@PathParam("richContentId") String richContentId, MultipartFormDataInput input)
             throws Exception
    {
@@ -151,10 +151,57 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
       }
    }
 
+   @POST
+   @Path("/{richContentId}/images/{path:.*}")
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+   // TODO _ RESIZE
+   public Response addImage(@PathParam("richContentId") String richContentId, @PathParam("path") String path)
+            throws Exception
+   {
+      try
+      {
+         Image img = new Image();
+         img.setName(FileUtils.getLastPartOf(path));
+         img.setFilename(path);
+         img.setType(MimeUtils.getContentType(img.getName()));
+         img = imageRepository.persist(img);
+         ((RichContentRepository) getRepository()).addImage(richContentId, img.getId());
+         return Response.status(Status.OK).entity(img).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error adding image: " + path).build();
+      }
+   }
+
+   @POST
+   @Path("/{richContentId}/documents/{path:.*}")
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+   public Response addDocument(@PathParam("richContentId") String richContentId, @PathParam("path") String path)
+            throws Exception
+   {
+      try
+      {
+         Document doc = new Document();
+         doc.setFilename(path);
+         doc.setName(FileUtils.getLastPartOf(path));
+         doc.setType(MimeUtils.getContentType(doc.getName()));
+         doc = documentRepository.persist(doc);
+         ((RichContentRepository) getRepository()).addDocument(richContentId, doc.getId());
+         return Response.status(Status.OK).entity(doc).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error adding image: " + path).build();
+      }
+   }
+
    @PUT
    @Path("/{richContentId}/images/{imageId}")
    @Consumes(MediaType.MULTIPART_FORM_DATA)
-   //TODO _ RESIZE
+   // TODO _ RESIZE
    public Response updateImage(@PathParam("richContentId") String richContentId,
             @PathParam("imageId") Long imageId,
             MultipartFormDataInput input)
