@@ -22,7 +22,7 @@ angular.module('giavacms-admin', [
     ,'giavacms-home'
 
     // comment this if you don't need ACLs and want everything to be permitted
-    //,'giavacms-login'
+    ,'giavacms-login'
 
     // comment this once you have tested the layout mechianisms
     //,'giavacms-test'

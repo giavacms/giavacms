@@ -1,9 +1,11 @@
 'use strict';
 
-angular.module('giavacms-catalogue', ['ui.router'])
+angular.module('giavacms-catalogue', ['ui.router', 'giavacms-table'])
 
     .config(function(APP) {
-        APP.CATALOGUE = {};
+        APP.CATALOGUE = {
+            IMAGESPATH: APP.RESOURCES + 'images'
+        };
     })
 
     .run(function(MenuService, APP) {
@@ -13,6 +15,7 @@ angular.module('giavacms-catalogue', ['ui.router'])
         APP.ACL[aclName] = aclRoles;
 
         APP.CATALOGUE.toggle = MenuService.addToggleWithACL(aclName, 'catalogue',2300,'fa fa-book');
+
     })
 
 ;
