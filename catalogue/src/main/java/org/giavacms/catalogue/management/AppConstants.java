@@ -3,6 +3,8 @@ package org.giavacms.catalogue.management;
 public class AppConstants extends org.giavacms.base.management.AppConstants
 {
 
+   public static final String CATALOGUECONFIGURATION_PATH = "/catalogueconfiguration";
+   
    public static final String CATEGORIES_PATH = "/categories";
 
    public static final String PRODUCTS_PATH = "/products";
