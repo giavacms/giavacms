@@ -11,7 +11,7 @@ angular.module('giavacms-styles', ['ui.router'])
     .run(function(MenuService, APP) {
 
         var aclName = 'STYLES';
-        var aclRoles = 'Admin, Developer, Resources';
+        var aclRoles = 'Admin, admin, Developer, Resources';
         APP.ACL[aclName] = aclRoles;
 
         //APP.STYLES.toggle = MenuService.addToggleWithACL(aclName, 'styles',1300,'fa fa-css3');

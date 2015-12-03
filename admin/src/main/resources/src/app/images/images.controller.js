@@ -17,7 +17,7 @@ angular.module('giavacms-images')
 
     .run(function(MenuService, APP) {
         // MenuService.addLink(APP.BASE + "images", 'List', 1, 'fa fa-list', APP.IMAGES.toggle);
-        MenuService.addLink(APP.BASE + "images", 'IMAGES', 1100, 'fa fa-picture-o');
+        MenuService.addLinkWithACL('IMAGES', APP.BASE + "images", 'IMAGES', 1100, 'fa fa-picture-o');
     })
 
     .controller('ImagesController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {

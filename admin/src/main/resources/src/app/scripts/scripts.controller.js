@@ -17,7 +17,7 @@ angular.module('giavacms-scripts')
 
     .run(function(MenuService, APP) {
         //MenuService.addLink(APP.BASE + "scripts", 'List', 1, 'fa fa-list', APP.SCRIPTS.toggle);
-        MenuService.addLink(APP.BASE + "scripts", 'SCRIPTS', 1200, 'fa fa-cogs');
+        MenuService.addLinkWithACL('SCRIPTS', APP.BASE + "scripts", 'SCRIPTS', 1200, 'fa fa-cogs');
     })
 
     .controller('ScriptsController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {

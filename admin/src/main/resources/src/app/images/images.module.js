@@ -11,7 +11,7 @@ angular.module('giavacms-images', ['ui.router'])
     .run(function(MenuService, APP) {
 
         var aclName = 'IMAGES';
-        var aclRoles = 'Admin, Developer, Resources';
+        var aclRoles = 'Admin, admin, Developer, Resources';
         APP.ACL[aclName] = aclRoles;
 
         //APP.IMAGES.toggle = MenuService.addToggleWithACL(aclName, 'images',1100,'fa fa-picture-o');

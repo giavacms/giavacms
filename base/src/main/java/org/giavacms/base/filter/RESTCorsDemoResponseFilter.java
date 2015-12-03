@@ -21,7 +21,9 @@ public class RESTCorsDemoResponseFilter implements ContainerResponseFilter
    {
       log.info("Executing REST response filter getMethod: " + requestCtx.getMethod() + " - " + requestCtx.getUriInfo()
                .getPath());
-      responseCtx.getHeaders().add("Access-Control-Allow-Origin", "*");
+      //responseCtx.getHeaders().add("Access-Control-Allow-Origin", "*");
+      responseCtx.getHeaders().add("Access-Control-Allow-Origin", requestCtx.getHeaderString("Origin"));
+
       responseCtx.getHeaders().add("Access-Control-Allow-Credentials", "true");
       responseCtx.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
       responseCtx.getHeaders()

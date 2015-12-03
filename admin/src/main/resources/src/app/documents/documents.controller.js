@@ -17,7 +17,7 @@ angular.module('giavacms-documents')
 
     .run(function(MenuService, APP) {
         // MenuService.addLink(APP.BASE + "documents", 'List', 1, 'fa fa-file', APP.DOCUMENTS.toggle);
-        MenuService.addLink(APP.BASE + "documents", 'DOCUMENTS', 1400, 'fa fa-file');
+        MenuService.addLinkWithACL('DOCUMENTS', APP.BASE + "documents", 'DOCUMENTS', 1400, 'fa fa-file');
     })
 
     .controller('DocumentsController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {

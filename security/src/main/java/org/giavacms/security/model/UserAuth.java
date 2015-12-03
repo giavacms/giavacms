@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class UserAuth implements Serializable
 {
@@ -85,6 +87,7 @@ public class UserAuth implements Serializable
       getRoles().add(role);
    }
 
+   @JsonIgnore
    public String getPassword()
    {
       return password;
@@ -106,6 +109,7 @@ public class UserAuth implements Serializable
       return roles.length() > 0 ? roles.toString().substring(1) : "";
    }
 
+   @JsonIgnore
    @Transient
    public boolean isNewElement()
    {
@@ -117,6 +121,7 @@ public class UserAuth implements Serializable
       this.newElement = newElement;
    }
 
+   @JsonIgnore
    @Transient
    public String getOldPassword()
    {
@@ -128,6 +133,7 @@ public class UserAuth implements Serializable
       this.oldPassword = oldPassword;
    }
 
+   @JsonIgnore
    @Transient
    public String getNewPassword()
    {
@@ -139,6 +145,7 @@ public class UserAuth implements Serializable
       this.newPassword = newPassword;
    }
 
+   @JsonIgnore
    @Transient
    public String getConfirmPassword()
    {
@@ -150,6 +157,7 @@ public class UserAuth implements Serializable
       this.confirmPassword = confirmPassword;
    }
 
+   @JsonIgnore
    @Transient
    public boolean isAdmin()
    {
@@ -161,6 +169,7 @@ public class UserAuth implements Serializable
       this.admin = admin;
    }
 
+   @JsonIgnore
    @Transient
    public void verifyIfAdmin()
    {
@@ -175,6 +184,7 @@ public class UserAuth implements Serializable
       }
    }
 
+   @JsonIgnore
    @Transient
    public boolean isRandom()
    {
@@ -186,6 +196,7 @@ public class UserAuth implements Serializable
       this.random = random;
    }
 
+   @JsonIgnore
    @OneToMany(mappedBy = "userAuth", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
    public List<UserRole> getUserRoles()
    {

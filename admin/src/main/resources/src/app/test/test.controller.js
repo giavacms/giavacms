@@ -38,7 +38,7 @@ angular.module('giavacms-test')
             MenuService.addHeading('test header2',9994,'fa fa-file');
 
             var aclName = 'LAYOUT_TEST';
-            var aclRoles = 'Admin, Developer, LayoutTest';
+            var aclRoles = 'Admin, admin, Developer, LayoutTest';
             APP.ACL[aclName] = aclRoles;
 
             MenuService.addHeadingWithACL(aclName,'test ACL header',9995,'fa fa-file-text');

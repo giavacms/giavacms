@@ -11,7 +11,7 @@ angular.module('giavacms-pages', ['ui.router'])
     .run(function(MenuService, APP) {
 
         var aclName = 'PAGES';
-        var aclRoles = 'Admin, Developer, Resources';
+        var aclRoles = 'Admin, admin, Developer, Resources';
         APP.ACL[aclName] = aclRoles;
 
         //APP.PAGES.toggle = MenuService.addToggleWithACL(aclName, 'pages',1500,'fa fa-html5');

@@ -91,13 +91,13 @@ angular.module('giavacms-auth')
         };
 
         var identify = function (username) {
-            var url = '//' + host + context + '/api/v1/identita/' + username;
+            var url = '//' + host + context + '/api/v1/users/byUsername/' + username;
             return $http.get(url).then(
                 function success(data, status, headers, config) {
                     // this callback will be called asynchronously
                     // when the response is available
                     $log.debug(data);
-                    tokenPayload.name = data.data.cognome + ' ' + data.data.nome;
+                    tokenPayload.name = data.data.name;
                     return $q.when(true);
                 },
                 function error(data, status, headers, config) {

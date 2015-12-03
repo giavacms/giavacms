@@ -11,7 +11,7 @@ angular.module('giavacms-documents', ['ui.router'])
     .run(function(MenuService, APP) {
 
         var aclName = 'DOCUMENTS';
-        var aclRoles = 'Admin, Developer, Resources';
+        var aclRoles = 'Admin, admin, Developer, Resources';
         APP.ACL[aclName] = aclRoles;
 
         //APP.DOCUMENTS.toggle = MenuService.addToggleWithACL(aclName, 'documents',1400,'fa fa-file');

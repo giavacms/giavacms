@@ -17,7 +17,7 @@ angular.module('giavacms-pages')
 
     .run(function(MenuService, APP) {
         //MenuService.addLink(APP.BASE + "pages", 'List', 2, 'fa fa-list', APP.PAGES.toggle);
-        MenuService.addLink(APP.BASE + "pages", 'PAGES', 1500, 'fa fa-html5');
+        MenuService.addLinkWithACL('PAGES', APP.BASE + "pages", 'PAGES', 1500, 'fa fa-html5');
     })
 
     .controller('PagesController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {

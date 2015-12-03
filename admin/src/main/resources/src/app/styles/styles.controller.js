@@ -17,7 +17,7 @@ angular.module('giavacms-styles')
 
     .run(function(MenuService, APP) {
         //MenuService.addLink(APP.BASE + "styles", 'List', 2, 'fa fa-list', APP.STYLES.toggle);
-        MenuService.addLink(APP.BASE + "styles", 'STYLES', 1300, 'fa fa-css3');
+        MenuService.addLinkWithACL('STYLES', APP.BASE + "styles", 'STYLES', 1300, 'fa fa-css3');
     })
 
     .controller('StylesController', function($log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource) {

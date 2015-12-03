@@ -11,7 +11,7 @@ angular.module('giavacms-scripts', ['ui.router'])
     .run(function(MenuService, APP) {
 
         var aclName = 'SCRIPTS';
-        var aclRoles = 'Admin, Developer, Resources';
+        var aclRoles = 'Admin, admin, Developer, Resources';
         APP.ACL[aclName] = aclRoles;
 
         //APP.SCRIPTS.toggle = MenuService.addToggleWithACL(aclName, 'scripts',1200,'fa fa-cogs');
