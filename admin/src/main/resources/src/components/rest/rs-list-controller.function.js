@@ -229,16 +229,18 @@ function RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, RsS
 
     // salvataggio
     $scope.updateInLine = function (element, skipConfirm) {
-        var confirm =
-            $mdDialog.show(
+        var confirm = null;
+        if (skipConfirm) {
+            confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
                 $mdDialog.confirm()
                     .title('Conferma')
                     .content('Confermi le modifiche?')
                     .ok('Ok')
                     .cancel('Annulla')
             );
-        if (skipConfirm) {
-            confirm = $q.when(true);
         }
         confirm.then(
             function ok() {
@@ -269,16 +271,18 @@ function RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, RsS
 
     // eliminazione
     $scope.deleteInLine = function (element, skipConfirm) {
-        var confirm =
-            $mdDialog.show(
+        var confirm = null;
+        if (skipConfirm) {
+            confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
                 $mdDialog.confirm()
                     .title('Conferma')
                     .content('Confermi l\'eliminazione ?')
                     .ok('Ok')
                     .cancel('Annulla')
             );
-        if (skipConfirm) {
-            confirm = $q.when(true);
         }
         confirm.then(
             function ok() {
@@ -297,16 +301,18 @@ function RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, RsS
 
     // salvataggio
     $scope.save = function (skipConfirm) {
-        var confirm =
-            $mdDialog.show(
+        var confirm = null;
+        if (skipConfirm) {
+            confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
                 $mdDialog.confirm()
                     .title('Conferma')
                     .content('Confermi i dati inseriti?')
                     .ok('Ok')
                     .cancel('Annulla')
             );
-        if (skipConfirm) {
-            confirm = $q.when(true);
         }
         confirm.then(
             function ok() {

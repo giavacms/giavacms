@@ -28,6 +28,9 @@ angular.module('giavacms-images')
 
         $scope.accepts = "image/*";
 
+        $scope.from = 0;
+        $scope.to = 10;
+
         ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath, previewType);
 
     });

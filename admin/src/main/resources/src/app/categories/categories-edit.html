@@ -1,0 +1,78 @@
+<md-content class="padded-content-page" ng-if="permit('CATALOGUE')">
+
+    <div flex layout="column" layout-margin>
+
+        <div layout="column">
+            <form name="newForm">
+
+                <md-input-container>
+                    <label>Name</label>
+                    <input ng-model="element.name" ng-required="true">
+                </md-input-container>
+                <md-input-container>
+                    <label>Description</label>
+                    <input ng-model="element.description">
+                </md-input-container>
+                <md-input-container>
+                    <label>Language</label>
+                    <input ng-model="element.language">
+                </md-input-container>
+                <md-input-container>
+                    <label>Priority</label>
+                    <input ng-model="element.orderNum" type="number">
+                </md-input-container>
+
+                <div ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]"
+                     ng-show="true || i == 1 || element['prop'+(i-1)]">
+                    <label>Feature {{i}}
+                    </label>
+                    <md-input-container>
+                        <i>
+                            {{ element['ref'+i] }}
+                        </i>
+                        <div>
+                            <input ng-model="element['prop'+i]" ng-change="cleanRef(i)">
+                            <flex></flex>
+                            <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                       aria-label="fab button"
+                                       ng-click="choose(i)">
+                                <md-icon md-font-icon="fa fa-edit"></md-icon>
+                            </md-button>
+                            <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                       aria-label="fab button"
+                                       ng-click="clean(i)">
+                                <md-icon md-font-icon="fa fa-remove"></md-icon>
+                            </md-button>
+                        </div>
+                    </md-input-container>
+                </div>
+
+
+            </form>
+
+        </div>
+
+        <div layout="row" layout-align="end end">
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]" ng-hide="element.id"
+                       aria-label="raised button" ng-disabled="newForm.$invalid"
+                       ng-click="save()" ng-submit="save()">SAVE
+            </md-button>
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]" ng-show="element.id"
+                       aria-label="raised button" ng-disabled="newForm.$invalid"
+                       ng-click="update()" ng-submit="save()">UPDATE
+            </md-button>
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                       aria-label="raised button"
+                       ng-click="back()">CANCEL
+            </md-button>
+            <div flex="5"/>
+            <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                       aria-label="raised button" ng-disabled="newForm.$invalid"
+                       ng-click="delete()" ng-if="element.id">DELETE
+            </md-button>
+        </div>
+
+    </div>
+
+
+</md-content>

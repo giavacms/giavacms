@@ -1,22 +1,22 @@
 'use strict';
 
-angular.module('giavacms-richcontents')
+angular.module('giavacms-catalogue')
 
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_edit_documents', {
+        $stateProvider.state( APP.BASE + 'products_edit_documents', {
             // set the url of this page
-            url: '/richcontents-edit/:id/documents',
+            url: '/products-edit/:id/documents',
             // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit-documents.html',
+            templateUrl: 'app/products/products-edit-documents.html',
             // set the controller to load for this page
-            controller: 'RichcontentsEditDocumentsController'
+            controller: 'ProductsEditDocumentsController'
         });
 
     })
 
-    .controller('RichcontentsEditDocumentsController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RichcontentsService, RsResource) {
+    .controller('ProductsEditDocumentsController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, ProductsService, RsResource) {
 
         var preview = function (document) {
             document.preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + document.filename;
@@ -24,7 +24,7 @@ angular.module('giavacms-richcontents')
         }
 
         var initElement = function () {
-            return RichcontentsService.getElement($stateParams.id).then(
+            return ProductsService.getElement($stateParams.id).then(
                 function (element) {
                     if ( element && element.id && element.id == $stateParams.id ) {
                         $scope.element = element;
@@ -41,7 +41,7 @@ angular.module('giavacms-richcontents')
             var reqParams = {};
             reqParams['host'] = APP.HOST;
             reqParams['context'] = APP.CONTEXT;
-            reqParams['entityType'] = 'richcontents';
+            reqParams['entityType'] = 'products';
             reqParams['id'] = $stateParams.id;
             reqParams['entityType2'] = 'documents';
             RsResource.query(reqParams,
@@ -91,7 +91,7 @@ angular.module('giavacms-richcontents')
                     var reqParams = {};
                     reqParams['host'] = APP.HOST;
                     reqParams['context'] = APP.CONTEXT;
-                    reqParams['entityType'] = 'richcontents';
+                    reqParams['entityType'] = 'products';
                     reqParams['id'] = $stateParams.id;
                     reqParams['entityType2'] = 'documents';
                     reqParams['id2'] = resource.id;
@@ -112,21 +112,21 @@ angular.module('giavacms-richcontents')
         }
 
         $scope.editDocuments = function() {
-            $state.go(APP.BASE + 'richcontents_edit_documents', {id: $stateParams.id});
+            $state.go(APP.BASE + 'products_edit_documents', {id: $stateParams.id});
         }
 
         $scope.editImages = function() {
-            $state.go(APP.BASE + 'richcontents_edit_images', {id: $stateParams.id});
+            $state.go(APP.BASE + 'products_edit_images', {id: $stateParams.id});
         }
 
         $scope.back = function() {
-            $state.go(APP.BASE + 'richcontents_edit', {id: $stateParams.id});
+            $state.go(APP.BASE + 'products_edit', {id: $stateParams.id});
         }
 
         var rootPath = APP.RICHCONTENTS.DOCUMENTSPATH;
 
         var embed = function(resource) {
-            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/richcontents/' + $stateParams.id + '/documents/' + resource.path;
+            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/products/' + $stateParams.id + '/documents/' + resource.path;
             $http.post(uploadUrl)
                 .success(function(){
                     initResources();
@@ -153,7 +153,7 @@ angular.module('giavacms-richcontents')
                         $mdDialog.hide();
                     }
                 },
-                templateUrl: 'app/richcontents/dialogs/documents-list-dialog.html',
+                templateUrl: 'app/products/dialogs/documents-list-dialog.html',
                 targetEvent: $event
             }).then(function (resource) {
                 if (resource) {

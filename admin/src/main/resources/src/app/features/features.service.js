@@ -4,7 +4,7 @@ angular.module('giavacms-catalogue')
 
     .service('FeaturesService', function (APP, RsResource) {
 
-        angular.extend(this, new RsService(APP, RsResource, 'feature'))
+        angular.extend(this, new RsService(APP, RsResource, 'features'))
 
     })
 ;

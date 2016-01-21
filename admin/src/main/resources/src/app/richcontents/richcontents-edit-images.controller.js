@@ -72,15 +72,18 @@ angular.module('giavacms-richcontents')
         );
 
         $scope.delete = function (resource, skipConfirm) {
-            var confirm = $mdDialog.show(
-                $mdDialog.confirm()
-                    .title('Conferma')
-                    .content('Confermi l\'eliminazione di ' + resource.name + ' ?')
-                    .ok('Ok')
-                    .cancel('Annulla')
-            );
+            var confirm = null;
             if (skipConfirm) {
                 confirm = $q.when(true);
+            }
+            else {
+                confirm = $mdDialog.show(
+                    $mdDialog.confirm()
+                        .title('Conferma')
+                        .content('Confermi l\'eliminazione di ' + resource.name + ' ?')
+                        .ok('Ok')
+                        .cancel('Annulla')
+                );
             }
             return confirm.then(
                 function ok() {

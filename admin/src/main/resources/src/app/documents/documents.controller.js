@@ -26,6 +26,9 @@ angular.module('giavacms-documents')
 
         $scope.accepts = "*";
 
+        $scope.from = 0;
+        $scope.to = 10;
+
         ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath);
 
     });

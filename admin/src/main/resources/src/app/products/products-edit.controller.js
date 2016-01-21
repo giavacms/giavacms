@@ -1,44 +1,36 @@
 'use strict';
 
-angular.module('giavacms-richcontents')
+angular.module('giavacms-catalogue')
 
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_new', {
+        $stateProvider.state( APP.BASE + 'products_new', {
             // set the url of this page
-            url: '/richcontents-new',
+            url: '/products-new',
             // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit.html',
+            templateUrl: 'app/products/products-edit.html',
             // set the controller to load for this page
-            controller: 'RichcontentsEditController'
+            controller: 'ProductsEditController'
         });
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_edit', {
+        $stateProvider.state( APP.BASE + 'products_edit', {
             // set the url of this page
-            url: '/richcontents-edit/:id',
+            url: '/products-edit/:id',
             // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit.html',
+            templateUrl: 'app/products/products-edit.html',
             // set the controller to load for this page
-            controller: 'RichcontentsEditController'
+            controller: 'ProductsEditController'
         });
 
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "richcontents_new", 'Add RichContent', 40, 'fa fa-plus', APP.RICHCONTENTS.toggle);
+        MenuService.addLink(APP.BASE + "products_new", 'Add Product', 60, 'fa fa-plus', APP.CATALOGUE.toggle);
     })
 
-    .controller('RichcontentsEditController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RichcontentsService, RichcontenttypesService, RsResource) {
-
-        var setDates = function() {
-            if ( $scope.element && $scope.element.dateFmt ) {
-                $scope.element.date = $scope.element.dateFmt.getTime();
-                delete $scope.element.dateFmt;
-            }
-            return $q.when(true);
-        }
+    .controller('ProductsEditController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, ProductsService, CategoriesService, RsResource) {
 
         var confirmAndGoTo = function(toState, skipConfirm) {
             var confirm = null;
@@ -66,16 +58,14 @@ angular.module('giavacms-richcontents')
         }
 
         $scope.editDocuments = function(skipConfirm) {
-            confirmAndGoTo(APP.BASE + 'richcontents_edit_documents', skipConfirm);
+            confirmAndGoTo(APP.BASE + 'products_edit_documents', skipConfirm);
         }
 
         $scope.editImages = function(skipConfirm) {
-            confirmAndGoTo(APP.BASE + 'richcontents_edit_images', skipConfirm);
+            confirmAndGoTo(APP.BASE + 'products_edit_images', skipConfirm);
         }
 
         var overrides = {
-            preSave : function() { return setDates(); },
-            preUpdate : function() { return setDates(); },
             postSave: function (ok,element) {
                 if (ok) {
                     $scope.element = element;
@@ -98,26 +88,26 @@ angular.module('giavacms-richcontents')
 
         };
 
-        var editFunction = RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, RichcontentsService, overrides)
+        var editFunction = RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP, ProductsService, overrides)
 
         if ( !$scope.element ) {
             $scope.element = {};
         }
 
-        if ( !$scope.element.richContentType ) {
+        if ( !$scope.element.category ) {
             // ng-select riempie tutto l'oggetto. se lo inizializzo non funziona il controllo required
             //$scope.element.bannerType = {};
         }
 
-        $scope.richContentTypes = [];
+        $scope.categories = [];
 
-        var initRichContentTypes = function () {
-            return RichcontenttypesService.getList({}, 0, 0).then(
-                function (richContentTypes) {
-                    $scope.richContentTypes = richContentTypes;
-                    richContentTypes.forEach(function (richContentType) {
-                            if ($scope.element.richContentType && $scope.element.richContentType.id == richContentType.id) {
-                                $scope.element.richContentType = richContentType;
+        var initCategories = function () {
+            return CategoriesService.getList({}, 0, 0).then(
+                function (categories) {
+                    $scope.categories = categories;
+                    categories.forEach(function (category) {
+                            if ($scope.element.category && $scope.element.category.id == category.id) {
+                                $scope.element.category = category;
                             }
                         }
                     );
@@ -126,17 +116,10 @@ angular.module('giavacms-richcontents')
             );
         }
 
-        var initDates = function() {
-            if ( $scope.element && $scope.element.date ) {
-                $scope.element.dateFmt = new Date($scope.element.date);
-            }
-        }
-
         editFunction.init().then(
             function(result) {
                 if ( result ) {
-                    initRichContentTypes();
-                    initDates();
+                    initCategories();
                  }
             }
         );

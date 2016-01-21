@@ -30,16 +30,33 @@
         </div>
         <br/>
 
+        <div layout="row">
+            <span><br/>Showing results {{from}} to {{(filtered.length > to) ? to : filtered.length}} of {{filtered.length}}</span>
+            <div flex></div>
+            <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                       ng-click="from = from-10; to = to-10" ng-disabled="from <= 0">
+                <md-icon md-font-icon="fa fa-backward"></md-icon>
+            </md-button>
+            <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                       ng-click="from = from+10; to = to+10"
+                       ng-disabled="to >= (filtered.length - filtered.length%10 + 10)">
+                <md-icon md-font-icon="fa fa-forward"></md-icon>
+            </md-button>
+        </div>
+        <br/>
+        <br/>
+
         <md-divider></md-divider>
 
-        <table class="my-table" ng-if="resources.length > 0">
+        <table class="my-table" ng-hide="filtered.length == 0">
 
             <thead theader/>
 
             <tbody>
-            <tr data-ng-repeat="r in resources | filter: search | orderBy: ['type','name'] " class="my-table-content-row" ng-init="rowNumber = $index"
-                    >
-                <td ng-click="open(r)" class="my-table-content">&nbsp;{{rowNumber+1}}</td>
+            <tr data-ng-repeat="r in ( filtered = ( resources | filter: search | orderBy: ['type','name'] ) | limitTo: (to+from)  | limitTo: (from-to) )"
+                class="my-table-content-row" ng-init="rowNumber = $index">
+                <td ng-click="open(r)" class="my-table-content">&nbsp;{{rowNumber+1+from}}</td>
+
                 <td ng-click="open(r)" class="my-table-content">{{r.name}}
                     <span ng-if="r.empty" style="font-style: italic;"> (empty folder)</span>
                 </td>

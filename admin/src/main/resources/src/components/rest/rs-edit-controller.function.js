@@ -42,16 +42,18 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
 
     // salvataggio
     $scope.save = function (skipConfirm) {
-        var confirm =
-            $mdDialog.show(
+        var confirm = null;
+        if (skipConfirm) {
+            confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
                 $mdDialog.confirm()
                     .title('Conferma')
                     .content('Confermi i dati inseriti?')
                     .ok('Ok')
                     .cancel('Annulla')
             );
-        if (skipConfirm) {
-            confirm = $q.when(true);
         }
         confirm.then(
             function ok() {
@@ -60,8 +62,8 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
                     function canSave(ok) {
                         if (ok) {
                             return RsService.save($scope.element).then(
-                                function () {
-                                    return defaults.postSave(true);
+                                function (element) {
+                                    return defaults.postSave(true,element);
                                 },
                                 function () {
                                     return defaults.postSave(false);
@@ -82,15 +84,18 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
 
     // salvataggio
     $scope.update = function (skipConfirm) {
-        var confirm = $mdDialog.show(
-            $mdDialog.confirm()
-                .title('Conferma')
-                .content('Confermi le modifiche?')
-                .ok('Ok')
-                .cancel('Annulla')
-        );
+        var confirm = null;
         if (skipConfirm) {
             confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
+                $mdDialog.confirm()
+                    .title('Conferma')
+                    .content('Confermi le modifiche?')
+                    .ok('Ok')
+                    .cancel('Annulla')
+            );
         }
         confirm.then(
             function ok() {
@@ -121,15 +126,18 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
 
     // eliminazione
     $scope.delete = function (skipConfirm) {
-        var confirm = $mdDialog.show(
-            $mdDialog.confirm()
-                .title('Conferma')
-                .content('Confermi l\'eliminazione ?')
-                .ok('Ok')
-                .cancel('Annulla')
-        );
+        var confirm = null;
         if (skipConfirm) {
             confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
+                $mdDialog.confirm()
+                    .title('Conferma')
+                    .content('Confermi l\'eliminazione ?')
+                    .ok('Ok')
+                    .cancel('Annulla')
+            );
         }
         confirm.then(
             function ok() {
@@ -153,16 +161,18 @@ function RsEditController($log, $mdDialog, $q, $scope, $state, $stateParams, APP
 
     // annullamento
     $scope.back = function (skipConfirm) {
-        var confirm =
-            $mdDialog.show(
+        var confirm = null;
+        if (skipConfirm) {
+            confirm = $q.when(true);
+        }
+        else {
+            confirm = $mdDialog.show(
                 $mdDialog.confirm()
                     .title('Conferma')
                     .content('Esci senza salvare?')
                     .ok('Ok')
                     .cancel('Annulla')
             );
-        if (skipConfirm) {
-            confirm = $q.when(true);
         }
         confirm.then(
             function ok() {

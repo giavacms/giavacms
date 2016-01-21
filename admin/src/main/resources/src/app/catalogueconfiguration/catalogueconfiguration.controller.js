@@ -17,7 +17,7 @@ angular.module('giavacms-catalogue')
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "catalogueconfiguration", 'Manage Configuration', 40, 'fa fa-cog', APP.CATALOGUE.toggle);
+        MenuService.addLink(APP.BASE + "catalogueconfiguration", 'Manage Configuration', 70, 'fa fa-cog', APP.CATALOGUE.toggle);
     })
 
     .controller('CatalogueconfigurationController', function ($filter, $log, $mdDialog, $q, $scope, $state, APP, CatalogueconfigurationService) {
