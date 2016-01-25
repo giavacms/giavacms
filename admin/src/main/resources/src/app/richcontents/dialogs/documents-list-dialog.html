@@ -1,4 +1,4 @@
-<md-dialog aria-label="Graphics dialog">
+<md-dialog aria-label="Documents dialog" flex="66">
     <form name="dialogForm">
 
         <md-dialog-content>
@@ -24,14 +24,32 @@
                 </div>
                 <br/>
 
+                <div layout="row">
+                    <span><br/>Showing results {{from}} to {{(filtered.length > to) ? to : filtered.length}} of {{filtered.length}}</span>
+
+                    <div flex></div>
+                    <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                               ng-click="from = from-pageSize; to = to-pageSize"
+                               ng-disabled="from <= 0">
+                        <md-icon md-font-icon="fa fa-backward"></md-icon>
+                    </md-button>
+                    <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                               ng-click="from = from+pageSize; to = to+pageSize"
+                               ng-disabled="to >= (filtered.length - filtered.length%pageSize + pageSize)">
+                        <md-icon md-font-icon="fa fa-forward"></md-icon>
+                    </md-button>
+                </div>
+                <br/>
+                <br/>
+
                 <md-divider></md-divider>
 
-                <table class="my-table" ng-if="resources.length > 0">
+                <table class="my-table" ng-hide="filtered.length == 0">
 
                     <thead theader/>
 
                     <tbody>
-                    <tr data-ng-repeat="r in resources | filter: search | orderBy: ['type','name'] "
+                    <tr data-ng-repeat="r in ( filtered = ( resources | filter: search | orderBy: ['type','name'] ) | limitTo: (to+from)  | limitTo: (from-to) )"
                         class="my-table-content-row" ng-init="rowNumber = $index"
                             >
                         <td ng-click="pick(r)" class="my-table-content">&nbsp;{{rowNumber+1}}</td>
@@ -45,8 +63,13 @@
                         <td class="my-table-td-more">
                             <md-button class="my-fab-mini md-fab md-mini md-primary"
                                        aria-label="fab button"
-                                       ng-click="pick(r)" ng-show="r.type == 'folder'">
+                                       ng-click="open(r)" ng-show="r.type == 'folder'">
                                 <md-icon md-font-icon="fa fa-folder-open-o"></md-icon>
+                            </md-button>
+                            <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                       aria-label="fab button"
+                                       ng-click="pick(r)" ng-show="r.type != 'folder'">
+                                <md-icon md-font-icon="fa fa-hand-o-right"></md-icon>
                             </md-button>
                         </td>
                     </tr>

@@ -1,4 +1,4 @@
-<md-content class="padded-content-page" ng-if="permit('CATALOGUE')">
+<md-content class="padded-content-page" ng-if="permit('SCENARIO')">
 
     <div flex layout="column" layout-margin>
 
@@ -18,6 +18,10 @@
             </md-button>
             <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editDocuments()" ng-if="element.id">
                 <md-icon md-font-icon="fa fa-file"></md-icon>
+            </md-button>
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button"
+                       ng-click="editProducts()" ng-if="element.id">
+                <md-icon md-font-icon="fa fa-book"></md-icon>
             </md-button>
         </div>
 

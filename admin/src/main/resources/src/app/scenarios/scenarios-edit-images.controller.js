@@ -1,22 +1,22 @@
 'use strict';
 
-angular.module('giavacms-richcontents')
+angular.module('giavacms-scenario')
 
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'richcontents_edit_images', {
+        $stateProvider.state( APP.BASE + 'scenarios_edit_images', {
             // set the url of this page
-            url: '/richcontents-edit/:id/images',
+            url: '/scenarios-edit/:id/images',
             // set the html template to show on this page
-            templateUrl: 'app/richcontents/richcontents-edit-images.html',
+            templateUrl: 'app/scenarios/scenarios-edit-images.html',
             // set the controller to load for this page
-            controller: 'RichcontentsEditImagesController'
+            controller: 'ScenariosEditImagesController'
         });
 
     })
 
-    .controller('RichcontentsEditImagesController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RichcontentsService, RsResource) {
+    .controller('ScenariosEditImagesController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, ScenariosService, RsResource) {
 
         var preview = function (document) {
             document.preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + document.filename;
@@ -24,7 +24,7 @@ angular.module('giavacms-richcontents')
         }
 
         var initElement = function () {
-            return RichcontentsService.getElement($stateParams.id).then(
+            return ScenariosService.getElement($stateParams.id).then(
                 function (element) {
                     if ( element && element.id && element.id == $stateParams.id ) {
                         $scope.element = element;
@@ -41,7 +41,7 @@ angular.module('giavacms-richcontents')
             var reqParams = {};
             reqParams['host'] = APP.HOST;
             reqParams['context'] = APP.CONTEXT;
-            reqParams['entityType'] = 'richcontents';
+            reqParams['entityType'] = 'scenarios';
             reqParams['id'] = $stateParams.id;
             reqParams['entityType2'] = 'images';
             RsResource.query(reqParams,
@@ -91,7 +91,7 @@ angular.module('giavacms-richcontents')
                     var reqParams = {};
                     reqParams['host'] = APP.HOST;
                     reqParams['context'] = APP.CONTEXT;
-                    reqParams['entityType'] = 'richcontents';
+                    reqParams['entityType'] = 'scenarios';
                     reqParams['id'] = $stateParams.id;
                     reqParams['entityType2'] = 'images';
                     reqParams['id2'] = resource.id;
@@ -112,21 +112,25 @@ angular.module('giavacms-richcontents')
         }
 
         $scope.editDocuments = function() {
-            $state.go(APP.BASE + 'richcontents_edit_documents', {id: $stateParams.id});
+            $state.go(APP.BASE + 'scenarios_edit_documents', {id: $stateParams.id});
         }
 
         $scope.editImages = function() {
-            $state.go(APP.BASE + 'richcontents_edit_images', {id: $stateParams.id});
+            $state.go(APP.BASE + 'scenarios_edit_images', {id: $stateParams.id});
+        }
+
+        $scope.editProducts = function(skipConfirm) {
+            confirmAndGoTo(APP.BASE + 'scenarios_edit_products', skipConfirm);
         }
 
         $scope.back = function() {
-            $state.go(APP.BASE + 'richcontents_edit', {id: $stateParams.id});
+            $state.go(APP.BASE + 'scenarios_edit', {id: $stateParams.id});
         }
 
         var rootPath = APP.RICHCONTENTS.IMAGESPATH;
 
         var embed = function(resource) {
-            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/richcontents/' + $stateParams.id + '/images/' + resource.path;
+            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/scenarios/' + $stateParams.id + '/images/' + resource.path;
             $http.post(uploadUrl)
                 .success(function(){
                     initResources();
@@ -156,7 +160,7 @@ angular.module('giavacms-richcontents')
                         $mdDialog.hide();
                     }
                 },
-                templateUrl: 'app/richcontents/dialogs/images-list-dialog.html',
+                templateUrl: 'app/scenarios/dialogs/images-list-dialog.html',
                 targetEvent: $event
             }).then(function (resource) {
                 if (resource) {

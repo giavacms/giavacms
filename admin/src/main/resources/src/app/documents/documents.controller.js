@@ -26,8 +26,9 @@ angular.module('giavacms-documents')
 
         $scope.accepts = "*";
 
+        $scope.pageSize= 10;
         $scope.from = 0;
-        $scope.to = 10;
+        $scope.to = $scope.pageSize;
 
         ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath);
 

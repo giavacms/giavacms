@@ -28,8 +28,9 @@ angular.module('giavacms-images')
 
         $scope.accepts = "image/*";
 
+        $scope.pageSize = 10;
         $scope.from = 0;
-        $scope.to = 10;
+        $scope.to = $scope.pageSize;
 
         ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath, previewType);
 

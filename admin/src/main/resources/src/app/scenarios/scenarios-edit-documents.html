@@ -1,9 +1,9 @@
-<md-content class="padded-content-page" ng-if="permit('CATALOGUE')">
+<md-content class="padded-content-page" ng-if="permit('SCENARIO')">
 
     <div flex layout="column" layout-margin>
 
         <div layout="row">
-            <h2>Images</h2>
+            <h2>Documents</h2>
             <div flex></div>
             <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="addFile($event)">
                 <md-icon md-font-icon="fa fa-angle-up"></md-icon>
@@ -16,15 +16,19 @@
                        ng-click="chooseFile($event)">
                 <md-icon md-font-icon="fa fa-folder-open-o"></md-icon>
             </md-button>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editDocuments()" ng-if="element.id">
-                <md-icon md-font-icon="fa fa-file"></md-icon>
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editImages()" ng-if="element.id">
+                <md-icon md-font-icon="fa fa-picture-o"></md-icon>
+            </md-button>
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button"
+                       ng-click="editProducts()" ng-if="element.id">
+                <md-icon md-font-icon="fa fa-book"></md-icon>
             </md-button>
         </div>
 
         <div flex></div>
 
         <div ng-if="!resources || resources.length == 0">
-            No images.
+            No documents.
         </div>
 
         <div>
@@ -40,8 +44,8 @@
                     <td class="my-table-content">{{r.name}}</td>
                     <td class="my-table-content">{{r.type}}</td>
                     <td class="my-table-content">
-                        <img ng-src="{{r.preview}}" width="200px" />
-                        <a href="{{r.preview}}" target="_blank" ng-if="false">
+                        <img ng-src="{{r.preview}}" width="200px" ng-if="false"/>
+                        <a href="{{r.preview}}" target="_blank" >
                             <md-icon md-font-icon="fa fa-download"></md-icon>
                         </a>
                     </td>

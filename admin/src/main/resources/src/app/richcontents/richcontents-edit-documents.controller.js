@@ -145,6 +145,9 @@ angular.module('giavacms-richcontents')
                 controller: function($log, $mdDialog, $q, $sce, $scope, APP, RsResource) {
                     //var previewType = 'IMAGE';
                     $scope.accepts = "*"; //image/*";
+                    $scope.pageSize = 5;
+                    $scope.from = 0;
+                    $scope.to = $scope.pageSize;
                     ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath); //, previewType);
                     $scope.pick = function(resource) {
                         $mdDialog.hide(resource);

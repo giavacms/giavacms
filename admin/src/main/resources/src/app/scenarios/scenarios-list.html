@@ -1,4 +1,4 @@
-<md-content class="padded-content-page" ng-if="permit('CATALOGUE')">
+<md-content class="padded-content-page" ng-if="permit('SCENARIO')">
 
     <div flex layout="column" layout-margin>
 
@@ -14,17 +14,10 @@
                     </md-input-container>
 
                     <md-input-container>
-                        <label>Code</label>
-                        <input ng-model="search['obj.code']">
+                        <label>Description</label>
+                        <input ng-model="search['like.description']">
                     </md-input-container>
 
-                    <md-content>
-                        <md-select placeholder="Category ..." ng-model="search['obj.category.id']">
-                            <md-option ng-value="" >All types</md-option>
-                            <md-option ng-value="c.id" ng-repeat="c in categories">{{c.name}}
-                            </md-option>
-                        </md-select>
-                    </md-content>
 
                     <md-content>
                         <md-select placeholder="Language ..." ng-model="search['obj.language']">
@@ -69,8 +62,6 @@
                     ng-init="rowNumber = $index">
                     <td ng-click="edit(i.id)" class="my-table-content">{{rowNumber+1}}</td>
                     <td ng-click="edit(i.id)" class="my-table-content">{{i.name}}</td>
-                    <td ng-click="edit(i.id)" class="my-table-content">{{i.code}}</td>
-                    <td ng-click="edit(i.id)" class="my-table-content">{{i.category.name}}</td>
                     </td>
                     <td class="my-table-td-more">
                         <md-button class="my-fab-mini md-fab md-mini md-primary"

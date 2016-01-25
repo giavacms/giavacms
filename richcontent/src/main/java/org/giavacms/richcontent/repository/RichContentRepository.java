@@ -1,7 +1,19 @@
 package org.giavacms.richcontent.repository;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import javax.persistence.NoResultException;
+
 import org.giavacms.api.model.Search;
 import org.giavacms.api.util.IdUtils;
+import org.giavacms.base.model.Tag;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.BaseRepository;
@@ -10,13 +22,6 @@ import org.giavacms.base.util.StringUtils;
 import org.giavacms.base.util.TimeUtils;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.model.RichContentType;
-import org.giavacms.richcontent.model.Tag;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Named;
-import javax.persistence.NoResultException;
-import java.util.*;
 
 @Named
 @Stateless
@@ -32,13 +37,14 @@ public class RichContentRepository extends BaseRepository<RichContent>
       return "date desc";
    }
 
+   @SuppressWarnings({ "unchecked" })
    public List<Image> getImages(String id)
    {
       // SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM Image I left join RichContent_Image RI on
       // (I.id = RI.images_id) left join RichContent RC on (RC.id=RI.RichContent_id)
       // where RC.id='1-agosto-ore-2130--le-marche-i-manicomi-i-matti-gli-amori' and I.active=true
 
-      return getEm()
+      return (List<Image>) getEm()
                .createNativeQuery(
                         "SELECT I.id, I.active, I.description, I.filename, I.name, I.type FROM " + Image.TABLE_NAME
                                  + " I left join " + RichContent.IMAGES_JOINTABLE_NAME
@@ -60,6 +66,7 @@ public class RichContentRepository extends BaseRepository<RichContent>
       // .getResultList();
    }
 
+   @SuppressWarnings("unchecked")
    public List<Document> getDocuments(String id)
    {
 
@@ -264,9 +271,9 @@ public class RichContentRepository extends BaseRepository<RichContent>
          separator = " and ";
       }
 
-      // LANGUAGE 
+      // LANGUAGE
       if (search.getObj().getLanguage() != null
-               && !search.getObj().getLanguage().isEmpty() )
+               && !search.getObj().getLanguage().isEmpty())
       {
          sb.append(separator).append(alias).append(".language = :language ");
          params.put("language", search.getObj().getLanguage().trim());

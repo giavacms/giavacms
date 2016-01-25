@@ -2,6 +2,7 @@ package org.giavacms.richcontent.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serializable;
 
 @Entity
@@ -13,7 +14,7 @@ public class RichContentType implements Serializable
    private static final long serialVersionUID = 1L;
    public static final String TABLE_NAME = "RichContentType";
 
-   private Long id;
+   private String id;
    private boolean active = true;
    private String name;
    private boolean resize;
@@ -23,24 +24,18 @@ public class RichContentType implements Serializable
    {
    }
 
-   public RichContentType(Long id)
-   {
-      this.id = id;
-   }
-
    public RichContentType(String name)
    {
       this.name = name;
    }
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   public Long getId()
+   public String getId()
    {
       return id;
    }
 
-   public void setId(Long id)
+   public void setId(String id)
    {
       this.id = id;
    }
@@ -85,7 +80,8 @@ public class RichContentType implements Serializable
       this.resize = resize;
    }
 
-   @Override public String toString()
+   @Override
+   public String toString()
    {
       return "RichContentType{" +
                "active=" + active +

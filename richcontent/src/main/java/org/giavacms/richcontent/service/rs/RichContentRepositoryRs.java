@@ -1,11 +1,35 @@
 package org.giavacms.richcontent.service.rs;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.commons.io.IOUtils;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.DocumentRepository;
 import org.giavacms.base.repository.ImageRepository;
+import org.giavacms.base.repository.TagRepository;
 import org.giavacms.base.util.FileUtils;
 import org.giavacms.base.util.HttpUtils;
 import org.giavacms.base.util.MimeUtils;
@@ -13,23 +37,8 @@ import org.giavacms.base.util.ResourceUtils;
 import org.giavacms.richcontent.management.AppConstants;
 import org.giavacms.richcontent.model.RichContent;
 import org.giavacms.richcontent.repository.RichContentRepository;
-import org.giavacms.richcontent.repository.TagRepository;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Path(AppConstants.BASE_PATH + AppConstants.RICHCONTENT_PATH)
 @Stateless
@@ -132,6 +141,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
             {
                saveImage(richContentId, input, filePart, img);
                String output = "File saved to server location : " + img.getFilename();
+               logger.info(output);
                return Response.status(Status.OK).entity(img).build();
             }
             catch (Exception e)
@@ -219,6 +229,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
                img.setId(imageId);
                saveImage(richContentId, input, filePart, img);
                String output = "File saved to server location : " + img.getFilename();
+               logger.info(output);
                return Response.status(Status.OK).entity(img).build();
             }
             catch (Exception e)
@@ -275,6 +286,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
             {
                saveDocument(richContentId, input, filePart, doc);
                String output = "File saved to server location : " + doc.getFilename();
+               logger.info(output);
                return Response.status(200).entity(doc).build();
             }
             catch (Exception e)
@@ -313,6 +325,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
                doc.setId(documentId);
                saveDocument(richContentId, input, filePart, doc);
                String output = "File saved to server location : " + doc.getFilename();
+               logger.info(output);
                return Response.status(200).entity(doc).build();
             }
             catch (Exception e)
@@ -484,7 +497,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
 
    private void postPersistOrUpdate(RichContent object)
    {
-      tagRepository.set(object.getId(), object.getTagList(),
+      tagRepository.set(RichContent.class.getName(), object.getId(), object.getTagList(),
                object.getDate());
       if (object.isHighlight())
       {
@@ -495,7 +508,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
    @Override
    protected void postDelete(Object key) throws Exception
    {
-      tagRepository.set(key.toString(), new ArrayList<String>(),
+      tagRepository.set(RichContent.class.getName(), key.toString(), new ArrayList<String>(),
                new Date());
    }
 

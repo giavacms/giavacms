@@ -41,6 +41,7 @@ angular.module('giavacms-admin', [
     ,'giavacms-banners'
     ,'giavacms-richcontents'
     ,'giavacms-catalogue'
+    ,'giavacms-scenario'
 
 
 ]);

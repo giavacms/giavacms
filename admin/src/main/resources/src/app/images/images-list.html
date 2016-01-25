@@ -22,7 +22,7 @@
 
         <md-input-container>
             <label>Filter by name</label>
-            <input ng-model="search.name" ng-change="from = 0; to = 10;">
+            <input ng-model="search.name" ng-change="from = 0; to = pageSize;">
         </md-input-container>
         <div ng-show="previous" ng-hide="previous.folder == root || folder.path == root">
             up
@@ -38,12 +38,12 @@
             <span><br/>Showing results {{from}} to {{(filtered.length > to) ? to : filtered.length}} of {{filtered.length}}</span>
             <div flex></div>
             <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
-                       ng-click="from = from-10; to = to-10" ng-disabled="from <= 0">
+                       ng-click="from = from-pageSize; to = to-pageSize" ng-disabled="from <= 0">
                 <md-icon md-font-icon="fa fa-backward"></md-icon>
             </md-button>
             <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
-                       ng-click="from = from+10; to = to+10"
-                       ng-disabled="to >= (filtered.length - filtered.length%10 + 10)">
+                       ng-click="from = from+pageSize; to = to+pageSize"
+                       ng-disabled="to >= (filtered.length - filtered.length%pageSize + pageSize)">
                 <md-icon md-font-icon="fa fa-forward"></md-icon>
             </md-button>
         </div>

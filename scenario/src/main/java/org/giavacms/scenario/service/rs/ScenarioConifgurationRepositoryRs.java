@@ -16,18 +16,18 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class BannerTypeRepositoryRs extends RsRepositoryService<ScenarioConfiguration>
+public class ScenarioConifgurationRepositoryRs extends RsRepositoryService<ScenarioConfiguration>
 {
 
    private static final long serialVersionUID = 1L;
 
    @Inject
-   public BannerTypeRepositoryRs(ScenarioConfigurationRepository scenarioConfigurationRepository)
+   public ScenarioConifgurationRepositoryRs(ScenarioConfigurationRepository scenarioConfigurationRepository)
    {
       super(scenarioConfigurationRepository);
    }
 
-   public BannerTypeRepositoryRs()
+   public ScenarioConifgurationRepositoryRs()
    {
    }
 

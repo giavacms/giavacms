@@ -1,8 +1,6 @@
 package org.giavacms.richcontent.repository;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.api.repository.AbstractRepository;
-import org.giavacms.richcontent.model.RichContentType;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -10,12 +8,15 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.Map;
+import org.giavacms.api.model.Search;
+import org.giavacms.api.util.IdUtils;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.richcontent.model.RichContentType;
 
 @Named
 @Stateless
 @LocalBean
-public class RichContentTypeRepository extends AbstractRepository<RichContentType>
+public class RichContentTypeRepository extends BaseRepository<RichContentType>
 {
 
    private static final long serialVersionUID = 1L;
@@ -79,4 +80,12 @@ public class RichContentTypeRepository extends AbstractRepository<RichContentTyp
       }
    }
 
+   @Override
+   protected RichContentType prePersist(RichContentType n) throws Exception
+   {
+      String idTitle = IdUtils.createPageId(n.getName());
+      String idFinal = makeUniqueKey(idTitle, RichContentType.TABLE_NAME);
+      n.setId(idFinal);
+      return super.prePersist(n);
+   }
 }
