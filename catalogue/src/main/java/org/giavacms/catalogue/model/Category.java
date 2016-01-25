@@ -1,12 +1,21 @@
 package org.giavacms.catalogue.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.giavacms.api.util.IdUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = Category.TABLE_NAME)
@@ -542,4 +551,20 @@ public class Category implements Serializable
                + ", description=" + getDescription() + ", active="
                + isActive() + "]";
    }
+
+   // private String tmpId;
+   // public String getTmpId()
+   // {
+   // if (tmpId == null)
+   // {
+   // tmpId = IdUtils.createPageId(name);
+   // }
+   // return tmpId;
+   // }
+   //
+   // public void setTmpId(String tmpId)
+   // {
+   // this.tmpId = tmpId;
+   // }
+
 }

@@ -1,15 +1,29 @@
 package org.giavacms.catalogue.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.giavacms.base.model.attachment.Document;
-import org.giavacms.base.model.attachment.Image;
-
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.giavacms.api.util.IdUtils;
+import org.giavacms.base.model.attachment.Document;
+import org.giavacms.base.model.attachment.Image;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = Product.TABLE_NAME)
@@ -25,6 +39,7 @@ public class Product implements Serializable
    public static final String IMAGES_JOINTABLE_NAME = "Product_Image";
    public static final String IMAGE_FK = "images_id";
    public static final boolean HAS_DETAILS = true;
+   public static final String TAG_SEPARATOR = ",";
 
    public Product()
    {
@@ -58,6 +73,10 @@ public class Product implements Serializable
    private String language;
 
    private Map<String, String[]> vals = null;
+
+   private String tag;
+   private String tags;
+   private List<String> tagList;
 
    // private boolean active = true; --> super.active
 
@@ -471,4 +490,68 @@ public class Product implements Serializable
    {
       this.description = description;
    }
+
+   @Transient
+   @JsonIgnore
+   public String getTag()
+   {
+      return tag;
+   }
+
+   public void setTag(String tag)
+   {
+      this.tag = tag;
+   }
+
+   @Transient
+   @JsonIgnore
+   public List<String> getTagList()
+   {
+      if (tagList != null)
+      {
+         return tagList;
+      }
+      tagList = new ArrayList<String>();
+      if (tags == null)
+      {
+         return tagList;
+      }
+      String[] tagArray = tags.split(TAG_SEPARATOR);
+      for (String tag : tagArray)
+      {
+         if (tag != null && tag.trim().length() > 0)
+         {
+            tagList.add(tag.trim());
+         }
+      }
+      return tagList;
+   }
+
+   public String getTags()
+   {
+      return tags;
+   }
+
+   public void setTags(String tags)
+   {
+      this.tags = tags;
+      this.tagList = null;
+   }
+
+   private String tmpId;
+
+   public String getTmpId()
+   {
+      if (tmpId == null)
+      {
+         tmpId = IdUtils.createPageId(name);
+      }
+      return tmpId;
+   }
+
+   public void setTmpId(String tmpId)
+   {
+      this.tmpId = tmpId;
+   }
+
 }

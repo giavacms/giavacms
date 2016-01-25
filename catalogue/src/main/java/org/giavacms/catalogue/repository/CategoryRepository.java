@@ -6,16 +6,18 @@
  */
 package org.giavacms.catalogue.repository;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.catalogue.model.Category;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Map;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.api.util.IdUtils;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.catalogue.model.Category;
 
 @Named
 @Stateless
@@ -49,16 +51,9 @@ public class CategoryRepository extends BaseRepository<Category>
    @Override
    protected Category prePersist(Category n) throws Exception
    {
-      n.setDescription(n.getDescription());
-      n = super.prePersist(n);
-      return n;
-   }
-
-   @Override
-   protected Category preUpdate(Category n) throws Exception
-   {
-      n.setDescription(n.getDescription());
-      n = super.preUpdate(n);
+      String idTitle = IdUtils.createPageId(n.getName());
+      String idFinal = makeUniqueKey(idTitle, Category.TABLE_NAME);
+      n.setId(idFinal);
       return n;
    }
 

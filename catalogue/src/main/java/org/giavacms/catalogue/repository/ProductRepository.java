@@ -6,20 +6,22 @@
  */
 package org.giavacms.catalogue.repository;
 
-import org.giavacms.api.model.Search;
-import org.giavacms.base.model.attachment.Document;
-import org.giavacms.base.model.attachment.Image;
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.catalogue.model.Product;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+
+import org.giavacms.api.model.Search;
+import org.giavacms.api.util.IdUtils;
+import org.giavacms.base.model.attachment.Document;
+import org.giavacms.base.model.attachment.Image;
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.catalogue.model.Product;
 
 @Named
 @Stateless
@@ -64,8 +66,8 @@ public class ProductRepository extends BaseRepository<Product>
       if (true)
       {
          sb.append(separator).append(alias)
-                  .append(".category.active = :categoryActive ");
-         params.put("categoryActive", true);
+                  .append(".active = :active ");
+         params.put("active", true);
          separator = " and ";
       }
 
@@ -164,18 +166,19 @@ public class ProductRepository extends BaseRepository<Product>
 
    }
 
+   @SuppressWarnings("unchecked")
    public List<Image> getImages(String id)
    {
-      //      return getEm()
-      //               .createNativeQuery(
-      //                        "select * from " + Image.TABLE_NAME + " where id in ( "
-      //                                 + "    select " + Product.IMAGE_FK + " from "
-      //                                 + Product.IMAGES_JOINTABLE_NAME
-      //                                 + " where " + Product.TABLE_FK + " = ( "
-      //                                 + "       select id from " + Product.TABLE_NAME
-      //                                 + "    ) "
-      //                                 + " ) ", Image.class)
-      //               .getResultList();
+      // return getEm()
+      // .createNativeQuery(
+      // "select * from " + Image.TABLE_NAME + " where id in ( "
+      // + "    select " + Product.IMAGE_FK + " from "
+      // + Product.IMAGES_JOINTABLE_NAME
+      // + " where " + Product.TABLE_FK + " = ( "
+      // + "       select id from " + Product.TABLE_NAME
+      // + "    ) "
+      // + " ) ", Image.class)
+      // .getResultList();
 
       return getEm()
                .createNativeQuery(
@@ -189,18 +192,19 @@ public class ProductRepository extends BaseRepository<Product>
                .getResultList();
    }
 
+   @SuppressWarnings("unchecked")
    public List<Document> getDocuments(String id)
    {
-      //      return getEm()
-      //               .createNativeQuery(
-      //                        "select * from " + Document.TABLE_NAME + " where id in ( "
-      //                                 + "    select " + Product.DOCUMENT_FK + " from "
-      //                                 + Product.DOCUMENTS_JOINTABLE_NAME
-      //                                 + " where " + Product.TABLE_FK + " = ( "
-      //                                 + "       select id from " + Product.TABLE_NAME
-      //                                 + "    ) "
-      //                                 + " ) ", Document.class)
-      //               .getResultList();
+      // return getEm()
+      // .createNativeQuery(
+      // "select * from " + Document.TABLE_NAME + " where id in ( "
+      // + "    select " + Product.DOCUMENT_FK + " from "
+      // + Product.DOCUMENTS_JOINTABLE_NAME
+      // + " where " + Product.TABLE_FK + " = ( "
+      // + "       select id from " + Product.TABLE_NAME
+      // + "    ) "
+      // + " ) ", Document.class)
+      // .getResultList();
       return getEm()
                .createNativeQuery(
                         "SELECT D.id, D.active, D.description, D.filename, D.name, D.type  FROM " + Document.TABLE_NAME
@@ -211,6 +215,61 @@ public class ProductRepository extends BaseRepository<Product>
                         Document.class).setParameter("ID", id).setParameter("ACTIVE", true)
                .getResultList();
       // return getEm()
+   }
+
+   public void addImage(String productId, Long imageId)
+   {
+      getEm().createNativeQuery(
+               "INSERT INTO " + Product.IMAGES_JOINTABLE_NAME + "(" + Product.TABLE_FK + ", "
+                        + Product.IMAGE_FK + ") VALUES (:productId,:imageId) ")
+               .setParameter("productId", productId).setParameter("imageId", imageId).executeUpdate();
+   }
+
+   public void addDocument(String productId, Long documentId)
+   {
+      getEm().createNativeQuery(
+               "INSERT INTO " + Product.DOCUMENTS_JOINTABLE_NAME + "(" + Product.TABLE_FK + ", "
+                        + Product.DOCUMENT_FK + ") VALUES (:productId,:documentId) ")
+               .setParameter("productId", productId).setParameter("documentId", documentId).executeUpdate();
+   }
+
+   public void removeDocument(String productId, Long documentId)
+   {
+      getEm().createNativeQuery(
+               "DELETE FROM " + Product.DOCUMENTS_JOINTABLE_NAME + " where " + Product.TABLE_FK
+                        + " = :productId and "
+                        + Product.DOCUMENT_FK + " = :documentId ")
+               .setParameter("productId", productId).setParameter("documentId", documentId).executeUpdate();
+   }
+
+   public void removeImage(String productId, Long imageId)
+   {
+      getEm().createNativeQuery(
+               "DELETE FROM " + Product.IMAGES_JOINTABLE_NAME + " where " + Product.TABLE_FK
+                        + " = :productId and "
+                        + Product.IMAGE_FK + " = :imageId ")
+               .setParameter("productId", productId).setParameter("imageId", imageId).executeUpdate();
+   }
+
+   @Override
+   protected Product prePersist(Product n) throws Exception
+   {
+      String idTitle = IdUtils.createPageId(n.getName());
+      String idFinal = makeUniqueKey(idTitle, Product.TABLE_NAME);
+      n.setId(idFinal);
+      return n;
+   }
+
+   @Override
+   public void delete(Object key) throws Exception
+   {
+
+      Product product = getEm().find(getEntityType(), key);
+      if (product != null)
+      {
+         product.setActive(false);
+         getEm().merge(product);
+      }
    }
 
 }
