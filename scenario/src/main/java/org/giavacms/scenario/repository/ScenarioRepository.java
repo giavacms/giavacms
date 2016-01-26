@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.giavacms.api.model.Search;
+import org.giavacms.api.util.IdUtils;
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
 import org.giavacms.base.repository.BaseRepository;
@@ -59,6 +60,9 @@ public class ScenarioRepository extends BaseRepository<Scenario>
    @Override
    protected Scenario prePersist(Scenario n) throws Exception
    {
+      String idTitle = IdUtils.createPageId(n.getName());
+      String idFinal = makeUniqueKey(idTitle, Scenario.TABLE_NAME);
+      n.setId(idFinal);
       if (n.getDocuments() != null && n.getDocuments().size() == 0)
       {
          n.setDocuments(null);
@@ -94,8 +98,8 @@ public class ScenarioRepository extends BaseRepository<Scenario>
       if (true)
       {
          sb.append(separator).append(alias)
-                  .append(".category.active = :categoryActive ");
-         params.put("categoryActive", true);
+                  .append(".active = :active ");
+         params.put("active", true);
          separator = " and ";
       }
 

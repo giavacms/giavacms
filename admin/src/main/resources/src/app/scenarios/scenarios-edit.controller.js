@@ -27,7 +27,7 @@ angular.module('giavacms-scenario')
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "scenarios_new", 'Add Scenario', 60, 'fa fa-plus', APP.CATALOGUE.toggle);
+        MenuService.addLink(APP.BASE + "scenarios_new", 'Add Scenario', 60, 'fa fa-plus', APP.SCENARIO.toggle);
     })
 
     .controller('ScenariosEditController', function ($filter, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, ScenariosService, RsResource) {

@@ -39,7 +39,8 @@ angular.module('giavacms-banners')
                             data[d].preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + data[d].url;
                         }
                         else {
-                            data[d].preview = data[d].url;
+                            // data[d].preview = data[d].url;
+                            data[d].preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + data[d].url;
                         }
                     }
                 }

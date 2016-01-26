@@ -20,7 +20,7 @@
 
                     <md-content>
                         <md-select placeholder="Category ..." ng-model="search['obj.category.id']">
-                            <md-option ng-value="" >All types</md-option>
+                            <md-option ng-value="" >Category ...</md-option>
                             <md-option ng-value="c.id" ng-repeat="c in categories">{{c.name}}
                             </md-option>
                         </md-select>
@@ -28,7 +28,7 @@
 
                     <md-content>
                         <md-select placeholder="Language ..." ng-model="search['obj.language']">
-                            <md-option ng-value="" >All languages</md-option>
+                            <md-option ng-value="" >Language ...</md-option>
                             <md-option ng-value="l" ng-repeat="l in languages">{{l}}
                             </md-option>
                         </md-select>

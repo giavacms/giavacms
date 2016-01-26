@@ -78,6 +78,14 @@ public class CategoryRepository extends BaseRepository<Category>
          params.put("likeName", likeParam(search.getLike().getName().trim().toUpperCase()));
          separator = " and ";
       }
+      // DESCRIPTION
+      if (search.getLike().getDescription() != null
+               && !search.getLike().getDescription().trim().isEmpty())
+      {
+         sb.append(separator).append(" upper ( ").append(alias).append(".description ) like :likeDescription ");
+         params.put("likeDescription", likeParam(search.getLike().getDescription().trim().toUpperCase()));
+         separator = " and ";
+      }
    }
 
 }

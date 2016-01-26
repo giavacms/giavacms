@@ -4,7 +4,7 @@ angular.module('giavacms-styles', ['ui.router'])
 
     .config(function(APP) {
         APP.STYLES = {
-            PATH: APP.RESOURCES + 'scripts'
+            PATH: APP.RESOURCES + 'styles'
         };
     })
 

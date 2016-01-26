@@ -13,10 +13,13 @@
                     <label>Description</label>
                     <input ng-model="element.description">
                 </md-input-container>
-                <md-input-container>
-                    <label>Language</label>
-                    <input ng-model="element.language">
-                </md-input-container>
+                <md-content>
+                    <md-select placeholder="Language ..." ng-model="element.language"
+                               ng-required="true" ng-selected="element.language">
+                        <md-option ng-value="l" ng-repeat="l in languages">{{l}}
+                        </md-option>
+                    </md-select>
+                </md-content>
                 <md-input-container>
                     <label>Priority</label>
                     <input ng-model="element.orderNum" type="number">

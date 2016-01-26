@@ -20,10 +20,13 @@
                         </md-option>
                     </md-select>
                 </md-content>
-                <md-input-container>
-                    <label>Language</label>
-                    <input ng-model="element.language"/>
-                </md-input-container>
+                <md-content>
+                    <md-select placeholder="Language ..." ng-model="element.language"
+                               ng-required="true" ng-selected="element.language">
+                        <md-option ng-value="l" ng-repeat="l in languages">{{l}}
+                        </md-option>
+                    </md-select>
+                </md-content>
                 <md-content>
                     <md-input-container>
                         <label>Online</label>

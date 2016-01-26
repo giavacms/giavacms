@@ -11,8 +11,8 @@
                         <input ng-model="search['like.name']">
                     </md-input-container>
                     <md-input-container>
-                        <label>Option</label>
-                        <input ng-model="search['like.option']">
+                        <label>Description</label>
+                        <input ng-model="search['like.description']">
                     </md-input-container>
                 </md-content>
                 <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
@@ -54,7 +54,7 @@
                             <input data-ng-model="i.name"/>
                         </md-input-container>
                     </td>
-                    <td class="my-table-content" ng-if="!editable(rowNumber)">{{i.option}}</td>
+                    <td class="my-table-content" ng-if="!editable(rowNumber)">{{i.description}}</td>
                     <td class="my-table-content" ng-if="editable(rowNumber)">
                         <md-input-container>
                             <input data-ng-model="i.option"/>

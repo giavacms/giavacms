@@ -56,7 +56,9 @@ function ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, 
     };
 
     $scope.loadResources = function (folder) {
-        $scope.previous = $scope.folder;
+        if ( folder.path != $scope.folder.path ) {
+            $scope.previous = $scope.folder;
+        }
         $scope.folder = folder;
         $scope.ok = false;
         var reqParams = {};
@@ -76,6 +78,7 @@ function ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, 
                 );
             }
         );
+        new AddFilesController($mdDialog, $sce, $scope, APP, RsResource, $scope.folder.path, afterAdd);
         return $q.when(true);
     };
 

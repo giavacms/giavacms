@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.giavacms.base.model.attachment.Document;
 import org.giavacms.base.model.attachment.Image;
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = Scenario.TABLE_NAME)
+@XmlRootElement
 public class Scenario implements Serializable
 {
 
@@ -40,7 +42,7 @@ public class Scenario implements Serializable
    public static final String PRODUCT_FK = "products_id";
 
    private String id;
-   private boolean active;
+   private boolean active = true;
    private String tag;
    private List<String> tagList;
    private String tags;
@@ -85,7 +87,7 @@ public class Scenario implements Serializable
 
    public void setName(String name)
    {
-      setName(name);
+      this.name = name;
    }
 
    @Lob
@@ -99,6 +101,7 @@ public class Scenario implements Serializable
       this.preview = preview;
    }
 
+   @JsonIgnore
    @ManyToMany(fetch = FetchType.EAGER)
    @JoinTable(name = PRODUCTS_JOINTABLE_NAME, joinColumns = @JoinColumn(name = TABLE_FK), inverseJoinColumns = @JoinColumn(name = PRODUCT_FK))
    public List<Product> getProducts()
@@ -118,6 +121,7 @@ public class Scenario implements Serializable
       getProducts().add(product);
    }
 
+   @JsonIgnore
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(name = DOCUMENTS_JOINTABLE_NAME, joinColumns = @JoinColumn(name = TABLE_FK), inverseJoinColumns = @JoinColumn(name = DOCUMENT_FK))
    public List<Document> getDocuments()
@@ -138,12 +142,14 @@ public class Scenario implements Serializable
    }
 
    @Transient
+   @JsonIgnore
    public int getDocSize()
    {
       return getDocuments().size();
    }
 
    @Transient
+   @JsonIgnore
    public Image getImage()
    {
       if (getImages() != null && getImages().size() > 0)
@@ -151,6 +157,7 @@ public class Scenario implements Serializable
       return null;
    }
 
+   @JsonIgnore
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(name = IMAGES_JOINTABLE_NAME, joinColumns = @JoinColumn(name = TABLE_FK), inverseJoinColumns = @JoinColumn(name = IMAGE_FK))
    public List<Image> getImages()
@@ -171,6 +178,7 @@ public class Scenario implements Serializable
    }
 
    @Transient
+   @JsonIgnore
    public int getImgSize()
    {
       return getImages().size();

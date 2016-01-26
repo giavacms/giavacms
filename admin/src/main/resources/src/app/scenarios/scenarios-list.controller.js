@@ -35,6 +35,7 @@ angular.module('giavacms-scenario')
         var headers = [
         //            {field: 'id', label: 'identificativo', sortable: true},
             {field: 'name', label: 'name', sortable: true},
+            {field: 'description', label: 'desription', sortable: true},
         ];
 
         var overrides = {

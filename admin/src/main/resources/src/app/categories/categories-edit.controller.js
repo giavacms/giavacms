@@ -32,7 +32,7 @@ angular.module('giavacms-catalogue')
 
     .controller('CategoriesEditController', function ($filter, $log, $mdDialog, $q, $scope, $state, $stateParams, APP, CategoriesService, FeaturesService) {
 
-        $scope.element = { name: 'test' };
+        $scope.element = { };
 
         var overrides = {
         };

@@ -461,7 +461,7 @@ public class ProductRepositoryRs extends RsRepositoryService<Product>
 
    private void postPersistOrUpdate(Product object)
    {
-      tagRepository.set(Product.class.getName(), object.getId(), object.getTagList(),
+      tagRepository.set(Product.class.getSimpleName(), object.getId(), object.getTagList(),
                new Date());
    }
 

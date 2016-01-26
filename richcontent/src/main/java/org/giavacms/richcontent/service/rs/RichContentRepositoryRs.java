@@ -497,7 +497,7 @@ public class RichContentRepositoryRs extends RsRepositoryService<RichContent>
 
    private void postPersistOrUpdate(RichContent object)
    {
-      tagRepository.set(RichContent.class.getName(), object.getId(), object.getTagList(),
+      tagRepository.set(RichContent.class.getSimpleName(), object.getId(), object.getTagList(),
                object.getDate());
       if (object.isHighlight())
       {
