@@ -119,7 +119,7 @@ angular.module('giavacms-richcontents')
             $state.go(APP.BASE + 'richcontents_edit_images', {id: $stateParams.id});
         }
 
-        $scope.back = function() {
+        $scope.editElement = function() {
             $state.go(APP.BASE + 'richcontents_edit', {id: $stateParams.id});
         }
 

@@ -8,6 +8,7 @@ angular.module('giavacms-admin', [
     ,'ui.router'
     ,'ngResource'
     ,'angular-jwt'
+    ,'ui.ace'
 
     ,'giavacms-misc'
     ,'giavacms-date'

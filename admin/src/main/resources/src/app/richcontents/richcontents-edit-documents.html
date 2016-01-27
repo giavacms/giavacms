@@ -5,18 +5,22 @@
         <div layout="row">
             <h2>Documents</h2>
             <div flex></div>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="addFile($event)">
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="addFile($event)" title="upload file">
                 <md-icon md-font-icon="fa fa-angle-up"></md-icon>
             </md-button>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="addFiles($event)">
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="addFiles($event)" title="upload files">
                 <md-icon md-font-icon="fa fa-angle-double-up"></md-icon>
             </md-button>
             <md-button class="my-fab md-fab md-primary"
                        aria-label="fab button"
-                       ng-click="chooseFile($event)">
+                       ng-click="chooseFile($event)" title="choose file">
                 <md-icon md-font-icon="fa fa-folder-open-o"></md-icon>
             </md-button>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editImages()" ng-if="element.id">
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button"
+                       ng-click="editElement()" ng-if="element.id" title="edit content">
+                <md-icon md-font-icon="fa fa-align-left"></md-icon>
+            </md-button>
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editImages()" ng-if="element.id" title="edit images">
                 <md-icon md-font-icon="fa fa-picture-o"></md-icon>
             </md-button>
         </div>
@@ -47,7 +51,7 @@
                     </td>
                     <td class="my-table-td-more">
                         <md-button class="my-fab-mini md-fab md-mini md-primary"
-                                   aria-label="fab button"
+                                   aria-label="fab button" title="delete"
                                    ng-click="delete(r)">
                             <md-icon md-font-icon="fa fa-remove"></md-icon>
                         </md-button>

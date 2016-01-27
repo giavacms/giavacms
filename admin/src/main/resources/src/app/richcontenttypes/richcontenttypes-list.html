@@ -21,7 +21,7 @@
                 </md-button>
             </form>
 
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="add()">
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="add()" title="add">
                 <md-icon md-font-icon="fa fa-plus"></md-icon>
             </md-button>
         </div>
@@ -51,7 +51,7 @@
                         </md-input-container>
                     </td>
                     <td class="my-table-td-inline">
-                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                        <md-button class="my-fab-mini md-fab md-mini md-primary" title="edit"
                                    ng-hide="editable(rowNumber)"
 
                                    aria-label="fab button"
@@ -59,19 +59,19 @@
                             <md-icon md-font-icon="fa fa-pencil"></md-icon>
                         </md-button>
                         <md-button class="my-fab-mini md-fab md-mini md-primary"
-                                   ng-hide="editable(rowNumber)"
+                                   ng-hide="editable(rowNumber)" title="delete"
 
                                    aria-label="fab button"
                                    ng-click="deleteInLine(i)">
                             <md-icon md-font-icon="fa fa-trash"></md-icon>
                         </md-button>
-                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                        <md-button class="my-fab-mini md-fab md-mini md-primary" title="update"
                                    ng-show="editable(rowNumber)"
                                    aria-label="fab button"
                                    ng-click="updateInLine(i)">
                             <md-icon md-font-icon="fa fa-save"></md-icon>
                         </md-button>
-                        <md-button class="my-fab-mini md-fab md-mini md-primary"
+                        <md-button class="my-fab-mini md-fab md-mini md-primary" title="cancel"
                                    ng-show="editable(rowNumber)"
                                    aria-label="fab button"
                                    ng-click="toggle(rowNumber)">

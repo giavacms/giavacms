@@ -25,6 +25,14 @@ public class ScenarioConifgurationRepositoryRs extends RsRepositoryService<Scena
    public ScenarioConifgurationRepositoryRs(ScenarioConfigurationRepository scenarioConfigurationRepository)
    {
       super(scenarioConfigurationRepository);
+      try
+      {
+         scenarioConfigurationRepository.load();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+      }
    }
 
    public ScenarioConifgurationRepositoryRs()

@@ -12,10 +12,10 @@
                         <input ng-model="element.title" ng-required="true">
                     </md-input-container>
                     <div flex></div>
-                    <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editImages()" ng-if="element.id">
+                    <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editImages()" ng-if="element.id" title="edit images">
                         <md-icon md-font-icon="fa fa-picture-o"></md-icon>
                     </md-button>
-                    <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editDocuments()" ng-if="element.id">
+                    <md-button class="my-fab md-fab md-primary" aria-label="fab button" ng-click="editDocuments()" ng-if="element.id" title="edit documents">
                         <md-icon md-font-icon="fa fa-file"></md-icon>
                     </md-button>
                 </div>

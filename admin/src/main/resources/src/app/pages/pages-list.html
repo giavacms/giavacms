@@ -10,9 +10,10 @@
 
         <md-divider></md-divider>
 
-        <md-input-container>
-            <textarea ng-model="resource.fileContent"/>
-        </md-input-container>
+        <div ui-ace="aceOptions" style="border: 1px solid black; height: 200px;"></div>
+        <textarea id="ace_document" ng-if="false">
+            {{resource.fileContent}}
+        </textarea>
 
         <div layout="row">
             <div flex></div>
@@ -39,15 +40,15 @@
             <h3>{{folder.path}}</h3>
 
             <div flex></div>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button"
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" title="upload file"
                        ng-click="addFile($event)">
                 <md-icon md-font-icon="fa fa-angle-up"></md-icon>
             </md-button>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button"
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" title="upload files"
                        ng-click="addFiles($event)">
                 <md-icon md-font-icon="fa fa-angle-double-up"></md-icon>
             </md-button>
-            <md-button class="my-fab md-fab md-primary" aria-label="fab button"
+            <md-button class="my-fab md-fab md-primary" aria-label="fab button" title="add folder"
                        ng-click="addFolder($event)">
                 <md-icon md-font-icon="fa fa-plus"></md-icon>
             </md-button>
@@ -61,20 +62,40 @@
         <div ng-show="previous" ng-hide="previous.folder == root || folder.path == root">
             up
             <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                       title="up"
                        ng-click="loadResources(previous)">
                 <md-icon md-font-icon="fa fa-reply"></md-icon>
             </md-button>
         </div>
         <br/>
 
+        <div layout="row">
+            <span><br/>Showing results {{from}} to {{(filtered.length > to) ? to : filtered.length}} of {{filtered.length}}</span>
+
+            <div flex></div>
+            <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                       title="previous page"
+                       ng-click="from = from-pageSize; to = to-pageSize" ng-disabled="from <= 0">
+                <md-icon md-font-icon="fa fa-backward"></md-icon>
+            </md-button>
+            <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                       title="next page"
+                       ng-click="from = from+pageSize; to = to+pageSize"
+                       ng-disabled="to >= (filtered.length - filtered.length%pageSize + pageSize)">
+                <md-icon md-font-icon="fa fa-forward"></md-icon>
+            </md-button>
+        </div>
+        <br/>
+        <br/>
+
         <md-divider></md-divider>
 
-        <table class="my-table" ng-if="resources.length > 0">
+        <table class="my-table" ng-hide="filtered.length == 0">
 
             <thead theader/>
 
             <tbody>
-            <tr data-ng-repeat="r in resources | filter: search | orderBy: ['type','name'] "
+            <tr data-ng-repeat="r in ( filtered = ( resources | filter: search | orderBy: ['type','name'] ) | limitTo: (to+from)  | limitTo: (from-to) )"
                 class="my-table-content-row" ng-init="rowNumber = $index"
                     >
                 <td ng-click="open(r)" class="my-table-content">&nbsp;{{rowNumber+1}}</td>
@@ -83,18 +104,22 @@
                 </td>
                 <td ng-click="open(r)" class="my-table-content">{{r.type}}</td>
                 <td ng-click="open(r)" class="my-table-content">
-                    <iframe style="width: 100%; height: 100px;" ng-src="{{trustSrc(r.preview)}}" ng-show="r.type == 'STATIC'"/>
+                    <iframe style="width: 100%; height: 100px;" ng-src="{{trustSrc(r.preview)}}"
+                            ng-show="r.type == 'STATIC'"/>
                 </td>
                 <td class="my-table-td-more">
                     <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                               title="edit"
                                ng-click="open(r)" ng-show="r.type == 'STATIC'">
                         <md-icon md-font-icon="fa fa-pencil"></md-icon>
                     </md-button>
                     <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                               title="open"
                                ng-click="open(r)" ng-show="r.type == 'folder'">
                         <md-icon md-font-icon="fa fa-folder-open-o"></md-icon>
                     </md-button>
                     <md-button class="my-fab-mini md-fab md-mini md-primary" aria-label="fab button"
+                               title="delete"
                                ng-click="delete(r)" ng-show="r.type != 'folder' || r.empty ">
                         <md-icon md-font-icon="fa fa-remove"></md-icon>
                     </md-button>

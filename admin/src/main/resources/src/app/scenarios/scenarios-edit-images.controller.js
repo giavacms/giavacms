@@ -123,8 +123,8 @@ angular.module('giavacms-scenario')
             confirmAndGoTo(APP.BASE + 'scenarios_edit_products', skipConfirm);
         }
 
-        $scope.back = function() {
-            $state.go(APP.BASE + 'scenarios_edit', {id: $stateParams.id});
+        $scope.editElement = function(skipConfirm) {
+            confirmAndGoTo(APP.BASE + 'scenarios_edit', skipConfirm);
         }
 
         var rootPath = APP.RICHCONTENTS.IMAGESPATH;

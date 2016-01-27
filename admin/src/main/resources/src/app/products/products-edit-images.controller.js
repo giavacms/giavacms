@@ -119,7 +119,7 @@ angular.module('giavacms-catalogue')
             $state.go(APP.BASE + 'products_edit_images', {id: $stateParams.id});
         }
 
-        $scope.back = function() {
+        $scope.editElement = function() {
             $state.go(APP.BASE + 'products_edit', {id: $stateParams.id});
         }
 

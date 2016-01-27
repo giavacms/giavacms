@@ -17,7 +17,7 @@ angular.module('giavacms-scenario')
     })
 
     .run(function(MenuService, APP) {
-        MenuService.addLink(APP.BASE + "scenarioconfiguration", 'Manage Configuration', 70, 'fa fa-cog', APP.SCENARIO.toggle);
+        MenuService.addLink(APP.BASE + "scenarioconfiguration", 'Manage Scenario Configuration', 70, 'fa fa-cog', APP.SCENARIO.toggle);
     })
 
     .controller('ScenarioconfigurationController', function ($filter, $log, $mdDialog, $q, $scope, $state, APP, ScenarioconfigurationService) {
@@ -25,9 +25,7 @@ angular.module('giavacms-scenario')
         var headers = [
 //            {field: 'id', label: 'identificativo', sortable: true},
             {field: 'resize', label: 'resize', sortable: false},
-            {field: 'maxWidthOrHeight', label: 'max w/h', sortable: false},
-            {field: 'withPrices', label: 'prices', sortable: false},
-            {field: 'withDimensions', label: 'dimensions', sortable: false},
+            {field: 'maxWidthOrHeight', label: 'max w/h', sortable: false}
          ];
         var overrides = {
             pageSize: 1
