@@ -120,14 +120,14 @@ angular.module('giavacms-scenario')
         }
 
         $scope.editProducts = function(skipConfirm) {
-            confirmAndGoTo(APP.BASE + 'scenarios_edit_products', skipConfirm);
+            $state.go(APP.BASE + 'scenarios_edit_products', {id: $stateParams.id});
         }
 
         $scope.editElement = function(skipConfirm) {
-            confirmAndGoTo(APP.BASE + 'scenarios_edit', skipConfirm);
+            $state.go(APP.BASE + 'scenarios_edit', {id: $stateParams.id});
         }
 
-        var rootPath = APP.RICHCONTENTS.IMAGESPATH;
+        var rootPath = APP.SCENARIO.IMAGESPATH;
 
         var embed = function(resource) {
             var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/scenarios/' + $stateParams.id + '/images/' + resource.path;

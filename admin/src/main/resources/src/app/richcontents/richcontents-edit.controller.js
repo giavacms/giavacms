@@ -141,5 +141,13 @@ angular.module('giavacms-richcontents')
             }
         );
 
+        $scope.tinymceOptions = {
+            resize: true,
+            //width: 400,  // I *think* its a number and not '400' string
+            height: 500,
+            plugins: 'print textcolor table',
+            toolbar: "undo redo | fontselect fontsizeselect | bold italic underline | bullist numlist outdent indent | forecolor backcolor | table"
+    };
+
     });
 ;

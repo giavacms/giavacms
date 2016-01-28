@@ -9,6 +9,7 @@ angular.module('giavacms-admin', [
     ,'ngResource'
     ,'angular-jwt'
     ,'ui.ace'
+    ,'ui.tinymce'
 
     ,'giavacms-misc'
     ,'giavacms-date'

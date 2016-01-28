@@ -1,5 +1,6 @@
 package org.giavacms.scenario.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +158,30 @@ public class ScenarioRepository extends BaseRepository<Scenario>
       // return getEm()
    }
 
+   @SuppressWarnings("unchecked")
+   public List<Product> getProducts(String id)
+   {
+      List<String> productIds = (List<String>) getEm()
+               .createNativeQuery(
+                        "SELECT P.id FROM " + Product.TABLE_NAME
+                                 + " P left join " + Scenario.PRODUCTS_JOINTABLE_NAME + " PD on (P.id=PD."
+                                 + Scenario.PRODUCT_FK
+                                 + ") left join " + Scenario.TABLE_NAME + " S on (S.id=PD." + Scenario.TABLE_FK + ")"
+                                 + " where S.id = :ID and P.active = :ACTIVE").setParameter("ID", id)
+               .setParameter("ACTIVE", true)
+               .getResultList();
+      if (productIds.isEmpty())
+      {
+         return new ArrayList<Product>();
+      }
+      else
+      {
+         return (List<Product>) getEm()
+                  .createQuery("select P from " + Product.class.getSimpleName() + " P where P.id in ( :productIds ) ")
+                  .setParameter("productIds", productIds).getResultList();
+      }
+   }
+
    public void addImage(String scenarioId, Long imageId)
    {
       getEm().createNativeQuery(
@@ -187,7 +212,25 @@ public class ScenarioRepository extends BaseRepository<Scenario>
       getEm().createNativeQuery(
                "DELETE FROM " + Scenario.IMAGES_JOINTABLE_NAME + " where " + Scenario.TABLE_FK
                         + " = :scenarioId and "
-                        + Product.IMAGE_FK + " = :imageId ")
+                        + Scenario.IMAGE_FK + " = :imageId ")
                .setParameter("scenarioId", scenarioId).setParameter("imageId", imageId).executeUpdate();
    }
+
+   public void removeProduct(String scenarioId, String productId)
+   {
+      getEm().createNativeQuery(
+               "DELETE FROM " + Scenario.PRODUCTS_JOINTABLE_NAME + " where " + Scenario.TABLE_FK
+                        + " = :scenarioId and "
+                        + Scenario.PRODUCT_FK + " = :productId ")
+               .setParameter("scenarioId", scenarioId).setParameter("productId", productId).executeUpdate();
+   }
+
+   public void addProduct(String scenarioId, String productId)
+   {
+      getEm().createNativeQuery(
+               "INSERT INTO " + Scenario.PRODUCTS_JOINTABLE_NAME + "(" + Scenario.TABLE_FK + ", "
+                        + Scenario.PRODUCT_FK + ") VALUES (:scenarioId,:productId) ")
+               .setParameter("scenarioId", scenarioId).setParameter("productId", productId).executeUpdate();
+   }
+
 }

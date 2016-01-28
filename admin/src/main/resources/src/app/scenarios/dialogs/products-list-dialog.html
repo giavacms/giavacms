@@ -1,0 +1,104 @@
+<md-dialog aria-label="Documents dialog" flex="66">
+    <form name="dialogForm">
+
+        <md-dialog-content>
+
+            <div flex layout="column" layout-margin>
+
+                <form ng-submit="refresh()" flex>
+
+                    <md-content layout="row" layout-sm="column" layout-wrap>
+
+                        <md-input-container>
+                            <label>Name</label>
+                            <input ng-model="search['like.name']">
+                        </md-input-container>
+
+                        <md-input-container>
+                            <label>Code</label>
+                            <input ng-model="search['obj.code']">
+                        </md-input-container>
+                    </md-content>
+                    <md-content layout="row" layout-sm="column" layout-wrap>
+                        <md-content>
+                            <md-select placeholder="Category ..."
+                                       ng-model="search['obj.category.id']">
+                                <md-option ng-value="">Category ...</md-option>
+                                <md-option ng-value="c.id" ng-repeat="c in categories">{{c.name}}
+                                </md-option>
+                            </md-select>
+                        </md-content>
+
+                        <md-content>
+                            <md-select placeholder="Language ..." ng-model="search['obj.language']">
+                                <md-option ng-value="">Language ...</md-option>
+                                <md-option ng-value="l" ng-repeat="l in languages">{{l}}
+                                </md-option>
+                            </md-select>
+                        </md-content>
+
+                    </md-content>
+
+                    <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                               aria-label="raised button"
+                               ng-click="refresh()" ng-submit="refresh()">search
+                    </md-button>
+                    <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                               aria-label="raised button"
+                               ng-click="clear()">clear
+                    </md-button>
+                </form>
+
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div ng-if="!model">{{message}}</div>
+
+                <div ng-if="model">
+
+                    <md-divider></md-divider>
+
+                    <table class="my-table" ng-if="model.length > 0">
+
+                        <thead theader/>
+
+                        <tbody>
+                        <tr data-ng-repeat="i in model" class="my-table-content-row"
+                            ng-init="rowNumber = $index">
+                            <td ng-click="pick(i.id)" class="my-table-content">{{rowNumber+1}}</td>
+                            <td ng-click="pick(i.id)" class="my-table-content">{{i.category.name}}
+                            </td>
+                            <td ng-click="pick(i.id)" class="my-table-content">{{i.name}}</td>
+                            <td ng-click="pick(i.id)" class="my-table-content">
+                                <img ng-src="{{i.preview}}" width="200px" ng-if="r.preview"/>
+                            </td>
+                            <td class="my-table-td-more">
+                                <md-button class="my-fab-mini md-fab md-mini md-primary"
+                                           aria-label="fab button" title="pick"
+                                           ng-click="pick(i)">
+                                    <md-icon md-font-icon="fa fa-hand-o-right"></md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        <tfoot tfooter/>
+                    </table>
+
+                    <section tsmallpager/>
+                </div>
+
+                <md-divider></md-divider>
+
+                <div layout="row" layout-align="end end">
+                    <md-button class="md-raised" ng-class="[buttonClass, buttonHue]"
+                               aria-label="raised button"
+                               ng-click="cancel()">CANCEL
+                    </md-button>
+                </div>
+
+            </div>
+
+        </md-dialog-content>
+    </form>
+</md-dialog>

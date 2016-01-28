@@ -5,21 +5,41 @@ angular.module('giavacms-scenario')
     .config(function ($stateProvider, $urlRouterProvider, APP) {
 
         // Create a state for our seed test page
-        $stateProvider.state( APP.BASE + 'scenarios_edit_documents', {
+        $stateProvider.state( APP.BASE + 'scenarios_edit_products', {
             // set the url of this page
-            url: '/scenarios-edit/:id/documents',
+            url: '/scenarios-edit/:id/products',
             // set the html template to show on this page
-            templateUrl: 'app/scenarios/scenarios-edit-documents.html',
+            templateUrl: 'app/scenarios/scenarios-edit-products.html',
             // set the controller to load for this page
-            controller: 'ScenariosEditDocumentsController'
+            controller: 'ScenariosEditProductsController'
         });
 
     })
 
-    .controller('ScenariosEditDocumentsController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, ScenariosService, RsResource) {
+    .controller('ScenariosEditProductsController', function ($filter, $http, $log, $mdDialog, $q, $sce, $scope, $state, $stateParams, APP, RsResource, ScenariosService, ScenariosCategoriesService, ScenariosProductsService) {
 
-        var preview = function (document) {
-            document.preview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + document.filename;
+        var imgPreview = function (product, image) {
+            product.imgPreview = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + image.filename;
+            return $q.when(true);
+        }
+
+        var preview = function (product) {
+            var reqParams = {};
+            reqParams['host'] = APP.HOST;
+            reqParams['context'] = APP.CONTEXT;
+            reqParams['entityType'] = 'products';
+            reqParams['id'] = product.id;
+            reqParams['entityType2'] = 'images';
+            RsResource.query(reqParams,
+                function (data) {
+                    if ( data && data.length > 0 ) {
+                        imgPreview(product, data[0]);
+                    }
+                },
+                function(error) {
+                    $log.error(error);
+                }
+            );
             return $q.when(true);
         }
 
@@ -37,13 +57,13 @@ angular.module('giavacms-scenario')
             );
         }
 
-        var initResources = function() {
+        var initProducts = function() {
             var reqParams = {};
             reqParams['host'] = APP.HOST;
             reqParams['context'] = APP.CONTEXT;
             reqParams['entityType'] = 'scenarios';
             reqParams['id'] = $stateParams.id;
-            reqParams['entityType2'] = 'documents';
+            reqParams['entityType2'] = 'products';
             RsResource.query(reqParams,
                 function (data) {
                     $scope.resources = data;
@@ -60,18 +80,18 @@ angular.module('giavacms-scenario')
         };
 
         $scope.headers = [
+            {field: 'category.name', label: 'category', sortable: false},
             {field: 'name', label: 'name', sortable: false},
-            {field: 'type', label: 'type', sortable: false},
             {field: 'preview', label: 'preview', sortable: false},
         ];
 
         initElement().then(
             function() {
-                initResources();
+                initProducts();
             }
         );
 
-        $scope.delete = function (resource, skipConfirm) {
+        $scope.delete = function (product, skipConfirm) {
             var confirm = null;
             if (skipConfirm) {
                 confirm = $q.when(true);
@@ -80,7 +100,7 @@ angular.module('giavacms-scenario')
                 confirm = $mdDialog.show(
                     $mdDialog.confirm()
                         .title('Conferma')
-                        .content('Confermi l\'eliminazione di ' + resource.name + ' ?')
+                        .content('Confermi l\'eliminazione di ' + product.name + ' ?')
                         .ok('Ok')
                         .cancel('Annulla')
                 );
@@ -93,14 +113,14 @@ angular.module('giavacms-scenario')
                     reqParams['context'] = APP.CONTEXT;
                     reqParams['entityType'] = 'scenarios';
                     reqParams['id'] = $stateParams.id;
-                    reqParams['entityType2'] = 'documents';
-                    reqParams['id2'] = resource.id;
+                    reqParams['entityType2'] = 'products';
+                    reqParams['id2'] = product.id;
                     return RsResource.delete(reqParams,
                         function () {
-                            return initResources();
+                            return initProducts();
                         },
                         function () {
-                            return initResources();
+                            return initProducts();
                         }
                     );
                 },
@@ -127,13 +147,11 @@ angular.module('giavacms-scenario')
             $state.go(APP.BASE + 'scenarios_edit', {id: $stateParams.id});
         }
 
-        var rootPath = APP.SCENARIO.DOCUMENTSPATH;
-
-        var embed = function(resource) {
-            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/scenarios/' + $stateParams.id + '/documents/' + resource.path;
+        var embed = function(product) {
+            var uploadUrl = APP.PROTOCOL + "://" + APP.HOST + APP.CONTEXT + '/api/v1/scenarios/' + $stateParams.id + '/products/' + product.id;
             $http.post(uploadUrl)
                 .success(function(){
-                    initResources();
+                    initProducts();
                 })
                 .error(function(){
                     $mdDialog.show(
@@ -141,30 +159,45 @@ angular.module('giavacms-scenario')
                 });
         }
 
-        new AddFilesController($mdDialog, $sce, $scope, APP, RsResource, rootPath, embed);
-
-        $scope.chooseFile = function ($event) {
-            $log.debug('looking for documents');
+        $scope.choose = function ($event) {
+            $log.debug('looking for products');
             $mdDialog.show({
-                controller: function($log, $mdDialog, $q, $sce, $scope, APP, RsResource) {
-                    //var previewType = 'IMAGE';
-                    $scope.accepts = "*"; //image/*";
-                    $scope.pageSize = 5;
-                    $scope.from = 0;
-                    $scope.to = $scope.pageSize;
-                    ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, rootPath); //, previewType);
-                    $scope.pick = function(resource) {
-                        $mdDialog.hide(resource);
+                controller: function($log, $mdDialog, $q, $rootScope, $sce, $scope, $state, APP, ScenariosProductsService) {
+
+                    $scope.languages = $rootScope.languages;
+
+                    var initCategories = function () {
+                        return ScenariosCategoriesService.getList({}, 0, 0).then(
+                            function (categories) {
+                                $scope.categories = categories;
+                                return $q.when(true);
+                            }
+                        );
+                    }
+
+                    initCategories();
+
+                    var headers = [
+                        {field: 'category.name', label: 'category', sortable: false},
+                        {field: 'name', label: 'name', sortable: false},
+                        {field: 'preview', label: 'preview', sortable: false},
+                    ];
+                    var overrides = {
+                        pageSize: 5
+                    };
+                    RsListController($filter, $log, $mdDialog, $q, $scope, $state, APP, ScenariosProductsService, headers, overrides);
+                    $scope.pick = function(product) {
+                        $mdDialog.hide(product);
                     }
                     $scope.cancel = function () {
                         $mdDialog.hide();
                     }
                 },
-                templateUrl: 'app/scenarios/dialogs/documents-list-dialog.html',
+                templateUrl: 'app/scenarios/dialogs/products-list-dialog.html',
                 targetEvent: $event
-            }).then(function (resource) {
-                if (resource) {
-                    embed(resource);
+            }).then(function (product) {
+                if (product) {
+                    embed(product);
                 }
             }, function () {
                 $log.debug('no selection');

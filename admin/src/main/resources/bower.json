@@ -17,6 +17,7 @@
     "angular-ui-ace": "bower",
     "angular-ui-calendar": "~1.0.0",
     "angular-ui-router": "~0.2.13",
+    "angular-ui-tinymce": "~0.0.12",
     "animate.css-scss": "https://github.com/geoffgraham/animate.scss.git#master",
     "font-awesome": "~4.3.0",
     "jquery": "~2.1.3",

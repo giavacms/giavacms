@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -28,6 +29,7 @@ import org.giavacms.base.util.FileUtils;
 import org.giavacms.base.util.HttpUtils;
 import org.giavacms.base.util.MimeUtils;
 import org.giavacms.base.util.ResourceUtils;
+import org.giavacms.catalogue.model.Product;
 import org.giavacms.catalogue.repository.ProductRepository;
 import org.giavacms.scenario.management.AppConstants;
 import org.giavacms.scenario.model.Scenario;
@@ -49,6 +51,8 @@ public class ScenarioRepositoryRs extends RsRepositoryService<Scenario>
    DocumentRepository documentRepository;
    @Inject
    ImageRepository imageRepository;
+   @Inject
+   ProductRepository productRepository;
 
    @Inject
    public ScenarioRepositoryRs(ScenarioRepository scenarioRepository)
@@ -156,7 +160,7 @@ public class ScenarioRepositoryRs extends RsRepositoryService<Scenario>
       try
       {
          ((ScenarioRepository) getRepository()).removeImage(scenarioId, imageId);
-         return Response.status(200).entity("ok").build();
+         return Response.status(200).build();
       }
       catch (Exception e)
       {
@@ -176,13 +180,33 @@ public class ScenarioRepositoryRs extends RsRepositoryService<Scenario>
       try
       {
          ((ScenarioRepository) getRepository()).removeDocument(scenarioId, documentId);
-         return Response.status(200).entity("ok").build();
+         return Response.status(200).build();
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR)
                   .entity("Error updating doc").build();
+      }
+   }
+
+   @DELETE
+   @Path("/{scenarioId}/products/{productId}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   public Response deleteProduct(@PathParam("scenarioId") String scenarioId,
+            @PathParam("productId") String productId)
+            throws Exception
+   {
+      try
+      {
+         ((ScenarioRepository) getRepository()).removeProduct(scenarioId, productId);
+         return Response.status(200).build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error updating product").build();
       }
    }
 
@@ -233,6 +257,95 @@ public class ScenarioRepositoryRs extends RsRepositoryService<Scenario>
       {
          logger.error(e.getMessage(), e);
          return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
+   @GET
+   @Path("/{scenarioId}/products")
+   public Response getProducts(@PathParam("scenarioId") String scenarioId)
+   {
+      try
+      {
+         List<Product> list = ((ScenarioRepository) getRepository()).getProducts(scenarioId);
+         if (list == null || list.size() == 0)
+         {
+            return Response.status(Status.NO_CONTENT).build();
+         }
+         return Response.status(Status.OK).entity(list)
+                  .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
+                  .header("startRow", 0)
+                  .header("pageSize", list.size())
+                  .header("listSize", list.size())
+                  .build();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
+   }
+
+   @POST
+   @Path("/{scenarioId}/images/{path:.*}")
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+   // TODO _ RESIZE
+   public Response addImage(@PathParam("scenarioId") String scenarioId, @PathParam("path") String path)
+            throws Exception
+   {
+      try
+      {
+         Image img = new Image();
+         img.setName(FileUtils.getLastPartOf(path));
+         img.setFilename(path);
+         img.setType(MimeUtils.getContentType(img.getName()));
+         img = imageRepository.persist(img);
+         ((ScenarioRepository) getRepository()).addImage(scenarioId, img.getId());
+         return Response.status(Status.OK).entity(img).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error adding image: " + path).build();
+      }
+   }
+
+   @POST
+   @Path("/{scenarioId}/documents/{path:.*}")
+   @Consumes(MediaType.MULTIPART_FORM_DATA)
+   public Response addDocument(@PathParam("scenarioId") String scenarioId, @PathParam("path") String path)
+            throws Exception
+   {
+      try
+      {
+         Document doc = new Document();
+         doc.setFilename(path);
+         doc.setName(FileUtils.getLastPartOf(path));
+         doc.setType(MimeUtils.getContentType(doc.getName()));
+         doc = documentRepository.persist(doc);
+         ((ScenarioRepository) getRepository()).addDocument(scenarioId, doc.getId());
+         return Response.status(Status.OK).entity(doc).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error adding image: " + path).build();
+      }
+   }
+
+   @POST
+   @Path("/{scenarioId}/products/{productId}")
+   public Response addProduct(@PathParam("scenarioId") String scenarioId, @PathParam("productId") String productId)
+            throws Exception
+   {
+      try
+      {
+         ((ScenarioRepository) getRepository()).addProduct(scenarioId, productId);
+         return Response.status(Status.OK).entity(productRepository.find(productId)).build();
+      }
+      catch (Exception e)
+      {
+         return Response.status(Status.INTERNAL_SERVER_ERROR)
+                  .entity("Error adding product: " + productId).build();
       }
    }
 
