@@ -6,12 +6,13 @@
  */
 package org.giavacms.security.repository;
 
-import org.giavacms.base.repository.BaseRepository;
-import org.giavacms.security.model.EmailConfiguration;
+import java.io.Serializable;
 
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import java.io.Serializable;
+
+import org.giavacms.base.repository.BaseRepository;
+import org.giavacms.security.model.EmailConfiguration;
 
 @Named
 @Stateless
@@ -32,5 +33,24 @@ public class EmailConfigurationRepository extends BaseRepository<EmailConfigurat
          logger.error(e.getMessage(), e);
          return null;
       }
+   }
+
+
+   public EmailConfiguration load() throws Exception
+   {
+      EmailConfiguration c = null;
+      try
+      {
+         c = find(1L);
+      }
+      catch (Exception e)
+      {
+      }
+      if (c == null)
+      {
+         c = new EmailConfiguration();
+         persist(c);
+      }
+      return c;
    }
 }

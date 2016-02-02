@@ -29,6 +29,14 @@ public class EmailConfigurationRepositoryRs extends RsRepositoryService<EmailCon
    public EmailConfigurationRepositoryRs(EmailConfigurationRepository emailConfigurationRepository)
    {
       super(emailConfigurationRepository);
+      try
+      {
+         emailConfigurationRepository.load();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+      }
    }
 
 }

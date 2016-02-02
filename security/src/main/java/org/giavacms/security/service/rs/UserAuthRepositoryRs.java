@@ -1,9 +1,15 @@
 package org.giavacms.security.service.rs;
 
+import java.util.List;
+
+import org.giavacms.api.model.Search;
 import org.giavacms.api.service.RsRepositoryService;
 import org.giavacms.security.management.AppConstants;
 import org.giavacms.security.model.UserAuth;
+import org.giavacms.security.model.UserRole;
 import org.giavacms.security.repository.UserAuthRepository;
+import org.giavacms.security.repository.UserRoleRepository;
+import org.giavacms.security.util.PasswordUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,6 +31,9 @@ public class UserAuthRepositoryRs extends RsRepositoryService<UserAuth>
 {
 
    private static final long serialVersionUID = 1L;
+
+   @Inject
+   UserRoleRepository userRoleRepository;
 
    public UserAuthRepositoryRs()
    {
@@ -63,5 +72,66 @@ public class UserAuthRepositoryRs extends RsRepositoryService<UserAuth>
          logger.error(e.getMessage(), e);
          return jsonResponse(Status.INTERNAL_SERVER_ERROR, "msg", "Error reading user with username: " + username);
       }
+   }
+
+   // @Override
+   protected void _postPersist(UserAuth object) throws Exception
+   {
+      for (String roleName : object.getRoles())
+      {
+         UserRole userRole = new UserRole();
+         userRole.setRoleName(roleName);
+         userRole.setUserAuth(object);
+         userRoleRepository.persist(userRole);
+      }
+      super.postPersist(object);
+   }
+
+   // @Override
+   protected void _postUpdate(UserAuth object) throws Exception
+   {
+      Search<UserRole> sr = new Search<UserRole>(UserRole.class);
+      sr.getObj().setUserAuth(object);
+      List<UserRole> formerRoles = userRoleRepository.getList(sr, 0, 0);
+      for (UserRole formerRole : formerRoles)
+      {
+         if (!object.getRoles().contains(formerRole.getRoleName()))
+         {
+            userRoleRepository.delete(formerRole.getId());
+         }
+         else
+         {
+            object.getRoles().remove(formerRole.getRoleName());
+         }
+      }
+      for (String roleName : object.getRoles())
+      {
+         UserRole userRole = new UserRole();
+         userRole.setRoleName(roleName);
+         userRole.setUserAuth(object);
+         userRoleRepository.persist(userRole);
+      }
+      super.postUpdate(object);
+   }
+
+   @Override
+   protected void prePersist(UserAuth object) throws Exception
+   {
+      object.setPassword(PasswordUtils.createPassword(object.getNewPassword()));
+      super.prePersist(object);
+   }
+
+   @Override
+   protected void preUpdate(UserAuth object) throws Exception
+   {
+      if (object.getNewPassword() == null || object.getNewPassword().trim().isEmpty())
+      {
+         object.setPassword(getRepository().find(object.getId()).getPassword());
+      }
+      else
+      {
+         object.setPassword(PasswordUtils.createPassword(object.getNewPassword()));
+      }
+      super.preUpdate(object);
    }
 }

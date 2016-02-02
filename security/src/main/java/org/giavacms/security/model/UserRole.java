@@ -13,12 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = UserRole.TABLE_NAME)
 public class UserRole implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   public static final String TABLE_NAME = "UserRole";
 
    private Long id;
    private String roleName;

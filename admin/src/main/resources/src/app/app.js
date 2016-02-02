@@ -29,6 +29,8 @@ angular.module('giavacms-admin', [
     // comment this once you have tested the layout mechianisms
     //,'giavacms-test'
 
+    ,'giavacms-security'
+
     ,'giavacms-images'
     ,'giavacms-scripts'
     ,'giavacms-styles'

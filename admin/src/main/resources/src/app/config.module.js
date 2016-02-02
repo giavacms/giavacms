@@ -19,9 +19,9 @@ angular.module('giavacms-config', [
         CONTEXT: '',
         TEST: true,
         ACL: {
-            ANY: ['Any'],
-            DEVELOPER: ['Developer'],
-            ADMIN: ['Admin']
+            ANY: 'Any',
+            DEVELOPER: 'Developer',
+            ADMIN: 'Admin,admin'
         },
         LANGUAGES: ['ENG','ITA'],
         //RESOURCE: 'static/';

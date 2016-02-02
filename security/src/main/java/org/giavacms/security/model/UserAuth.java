@@ -133,7 +133,7 @@ public class UserAuth implements Serializable
       this.oldPassword = oldPassword;
    }
 
-   @JsonIgnore
+   //@JsonIgnore
    @Transient
    public String getNewPassword()
    {

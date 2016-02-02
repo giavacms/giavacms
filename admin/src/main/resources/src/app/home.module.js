@@ -22,6 +22,7 @@ angular.module('giavacms-home', ['ui.router', 'giavacms-menu'])
 
     .run(function(MenuService, APP) {
         MenuService.addLink(APP.BASE + "home", 'Home', 0, 'fa fa-home');
+        MenuService.addHeadingWithACL('ADMIN','Settings',0);
         MenuService.addHeading('Commodities',1000);
         MenuService.addHeading('Installed modules',2000);
     })
