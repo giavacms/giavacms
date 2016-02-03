@@ -1,0 +1,64 @@
+<md-toolbar layout="row" class="md-whiteframe-z1" layout-align="begin center">
+    <md-button class="menu" hide-gt-sm ng-click="toggleSidebarLeft()"
+               aria-label="Show Sidebar Left">
+        <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+    <h2 layout-padding>
+
+        {{ menu.id || menu.current.name}}
+
+    </h2>
+
+    <div flex></div>
+    <div ng-if="false" layout-padding layout="row" layout-align="center center">Profile info here
+    </div>
+
+    <!-- ticking clock -->
+    <div layout-padding layout="row" layout-align="center center">
+        <i class="fa fa-clock-o"></i>
+        &nbsp;
+        <h6> {{ clock | date:'dd/MM/yyyy HH:mm:ss'}} </h6>
+    </div>
+
+    <md-menu ng-controller="LoginController" ng-if="logged">
+
+        <md-button aria-label="Open user menu" ng-click="$mdOpenMenu()">
+            <i class="fa fa-user"></i>
+            {{fullname}}
+        </md-button>
+
+        <md-menu-content width="4">
+            <md-menu-item>
+                <md-button ng-click="$mdCloseMenu()">
+                    <i class="fa fa-tag"> Login
+                    </i>
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="$mdCloseMenu()">
+                    {{username}}
+                </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+                <md-button ng-click="$mdCloseMenu()">
+                    <i class="fa fa-tags"> Ruoli</i>
+                </md-button>
+            </md-menu-item>
+            <md-menu-item ng-repeat="role in roles | distinct" ng-if="$index < 10"
+                          ng-hide="role == 'Any'">
+                <md-button ng-click="$mdCloseMenu()">
+                    {{role}}
+                </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+                <md-button ng-click="logout()">
+                    <i class="fa fa-sign-out"> Logout
+                    </i></md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+
+</md-toolbar>
+

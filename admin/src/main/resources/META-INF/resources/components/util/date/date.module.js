@@ -1,0 +1,5 @@
+'use strict';
+
+angular.module('giavacms-date', ['ngMaterial','angularMoment'])
+
+

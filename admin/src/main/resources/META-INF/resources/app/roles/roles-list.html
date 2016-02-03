@@ -1,0 +1,33 @@
+<md-content class="padded-content-page" ng-if="permit('ACCOUNTS')">
+
+    <div flex layout="column" layout-margin>
+
+        <div layout="row">
+
+            <table class="my-table" >
+
+                <thead theader/>
+
+                <tbody>
+                <tr data-ng-repeat="(key,value) in acls" class="my-table-content-row"
+                    ng-init="rowNumber = $index"
+                        >
+                    <td class="my-table-content">&nbsp;{{rowNumber+1}}</td>
+
+                    <td class="my-table-content" >{{key}}</td>
+
+                    <td class="my-table-content" >
+                        <span data-ng-repeat="v in value.split(',')">
+                        {{v}}&nbsp;
+                        </span>
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</md-content>

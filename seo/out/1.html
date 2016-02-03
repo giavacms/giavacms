@@ -1,0 +1,1475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html ng-app="jsApp" class="ng-scope">
+  <head>
+    <style type="text/css">
+      @charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}
+    </style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="fragment" content="!"/>
+    <meta name="author" content=""/>
+    <title ng-bind="($state.current.title) + ' | Vota la tua estate'" class="ng-binding">
+      Vota il tuo Chalet di San Benedetto del Tronto | Vota la tua estate
+    </title>
+    <!-- open graph metadata. This won't work either! -->    <meta property="og:title" content="Vota il tuo Chalet di San Benedetto del Tronto"/>
+    <meta property="og:site_name" content="Vota la tua Estate"/>
+    <meta property="og:url" content="//votalatua.estate/#!/chalet"/>
+    <meta property="og:description" content="Scegli il tuo chalet preferito per servizi, cortesia, prezzi o semplicemente per simpatia. Inserisci i tuoi dati e il tuo numero di telefono, poi fai uno squillo al numero indicato."/>
+    <meta property="og:image" content="//votalatua.estate/img/logo-no-chalet.jpg"/>
+    <script src="https://pagead2.googlesyndication.com/pub-config/ca-pub-7151115820706006.js">
+    </script>
+    <script async="1" src="//www.google-analytics.com/analytics.js">
+    </script>
+    <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+    </script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <link href="/styles/themify-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/animate.css" rel="stylesheet"/>
+    <link href="/styles/owl.carousel.css" rel="stylesheet"/>
+    <link href="/styles/style.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->  </head>
+  <body style="zoom: 1;">
+    <a id="top">
+    </a>
+    <div>
+      <div class="loader" style="opacity: 0; display: none;">
+        <div class="animated rubberBand spinner">
+        </div>
+      </div>
+      <div class="layout-wrapper page" id="page">
+        <header id="header" class=" header white-header active-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="logo">
+                  <a ui-sref="home" title="" href="#!/">
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo retina-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo retina-logo middle-content" alt=""/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-9 menu-col text-right">
+                <div class="menu">
+                  <ul class="list-inline">
+                    <li class="dropdown menu-item">
+                      <a ui-sref="home" href="#!/">
+                        Home
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="chalet" href="#!/chalet">
+                        Chalet
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="foto" href="#!/foto">
+                        Foto
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="classifica" href="#!/classifica">
+                        Classifica
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="vota" href="#!/vota">
+                        Vota
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                        Come si fa
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                        Cosa si vince
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="regolamento" href="#!/regolamento">
+                        Regolamento
+                      </a>
+                    </li>
+                    <li ng-show="logged" class="dropdown menu-item" profile-tag="" ng-hide="false">
+                      <a ui-sref="profilo" href="#!/profilo">
+                        Profilo
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item" login-tag="" ng-hide="false">
+                      <!-- ngIf: !logged -->                      <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                        Login
+                      </a>
+                      <!-- end ngIf: !logged -->                      <!-- ngIf: logged -->                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="menu-toggle ">
+                
+                        MENU 
+                <i class="ti-menu"/>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+    <!-- uiView:  -->    <div ui-view="" class="ng-scope">
+      <div class="section page-title small-padding background-wrapper with-overlay black-overlay active-section ng-scope">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12" style="">
+              <div class="resizeMeUp bigFontsUpperCase">
+                Vota la tua estate
+              </div>
+              <p class="">
+                
+                    Vota la tua estate
+                
+              </p>
+              <ol class="breadcrumb">
+                <li>
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="active">
+                  Chalet
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="section active-section grey-background ng-scope">
+        <div class="container">
+          <div class="row">
+            <div google-adsense="">
+              <!-- Votalatuaestate_TOP -->              <ins class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-7151115820706006" data-ad-slot="3652299289" data-ad-format="auto" data-adsbygoogle-status="done">
+                <ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent">
+                  <ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent">
+                    <iframe width="1200" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;">
+                    </iframe>
+                  </ins>
+                </ins>
+              </ins>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="service-block">
+              <i class="icon large ti-home"/>
+              <h2 class="lighter resizeMe bigFonts">
+                Chalet
+              </h2>
+              <div class="space hidden-sm hidden-xs">
+              </div>
+            </div>
+          </div>
+          <form class="ng-pristine ng-valid">
+            <div class="form-group">
+              <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="nome" ng-model="search.name" placeholder="   cerca per nome" ng-change="filtra()" value=""/>
+            </div>
+          </form>
+          <div class="col-md-3">
+            <div class="widget">
+              <ul class="recent-posts">
+                <!-- ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_45.jpg" style="width: 80px; height: 80px;" alt="45 COM" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_45.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/45-com" title="" class="ng-binding">
+                    45 COM
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 45
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-007.jpg" style="width: 80px; height: 80px;" alt="BAGNI 007" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-007.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-007" title="" class="ng-binding">
+                    BAGNI 007
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 10
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_fortuna.jpg" style="width: 80px; height: 80px;" alt="BAGNI FORTUNA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_fortuna.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-fortuna" title="" class="ng-binding">
+                    BAGNI FORTUNA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 37
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-excelsior.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL EXCELSIOR" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-excelsior.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-excelsior" title="" class="ng-binding">
+                    BAGNI HOTEL EXCELSIOR
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 73
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_solarium.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL SOLARIUM" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_solarium.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-solarium" title="" class="ng-binding">
+                    BAGNI HOTEL SOLARIUM
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 67
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-nedio.jpg" style="width: 80px; height: 80px;" alt="BAGNI NEDIO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-nedio.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-nedio" title="" class="ng-binding">
+                    BAGNI NEDIO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 112
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-zappa.jpg" style="width: 80px; height: 80px;" alt="BAGNI ZAPPA'" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-zappa.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-zappa" title="" class="ng-binding">
+                    BAGNI ZAPPA'
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 62
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bobbies.jpg" style="width: 80px; height: 80px;" alt="BOOBIE'S BAR" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bobbies.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/boobies-bar" title="" class="ng-binding">
+                    BOOBIE'S BAR
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 82
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_capitan-mario.jpg" style="width: 80px; height: 80px;" alt="CAPITAN MARIO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_capitan-mario.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/capitan-mario" title="" class="ng-binding">
+                    CAPITAN MARIO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 78
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_americo.jpg" style="width: 80px; height: 80px;" alt="CHALET AMERICO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_americo.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-americo" title="" class="ng-binding">
+                    CHALET AMERICO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 88
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_da-jose.jpg" style="width: 80px; height: 80px;" alt="CHALET JOSE'" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_da-jose.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-jose" title="" class="ng-binding">
+                    CHALET JOSE'
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 74
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-stella.jpg" style="width: 80px; height: 80px;" alt="CHALET STELLA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-stella.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-stella" title="" class="ng-binding">
+                    CHALET STELLA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 99
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_da-andrea.jpg" style="width: 80px; height: 80px;" alt="DA ANDREA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_da-andrea.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/da-andrea" title="" class="ng-binding">
+                    DA ANDREA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 8
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-diamante.jpg" style="width: 80px; height: 80px;" alt="DIAMANTE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-diamante.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/diamante" title="" class="ng-binding">
+                    DIAMANTE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 105
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-farfallone.jpg" style="width: 80px; height: 80px;" alt="IL FARFALLONE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-farfallone.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-farfallone" title="" class="ng-binding">
+                    IL FARFALLONE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 90
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-pirata.jpg" style="width: 80px; height: 80px;" alt="IL PIRATA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-pirata.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-pirata" title="" class="ng-binding">
+                    IL PIRATA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 71
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_kontiki.jpg" style="width: 80px; height: 80px;" alt="KONTIKI" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_kontiki.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/kontiky" title="" class="ng-binding">
+                    KONTIKI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 4
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-croisette.jpg" style="width: 80px; height: 80px;" alt="LA CROISETTE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-croisette.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-croisette" title="" class="ng-binding">
+                    LA CROISETTE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 18
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-scogliera.jpg" style="width: 80px; height: 80px;" alt="LA SCOGLIERA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-scogliera.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-scogliera" title="" class="ng-binding">
+                    LA SCOGLIERA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 38b
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-tellina.jpg" style="width: 80px; height: 80px;" alt="LA TELLINA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-tellina.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-tellina" title="" class="ng-binding">
+                    LA TELLINA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 24-25
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_lido-del-carabiniere.jpg" style="width: 80px; height: 80px;" alt="LIDO DEI CARABINIERI" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_lido-del-carabiniere.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lido-dei-carabinieri" title="" class="ng-binding">
+                    LIDO DEI CARABINIERI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 58
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_lo-zodiaco.jpg" style="width: 80px; height: 80px;" alt="LO ZODIACO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_lo-zodiaco.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lo-zodiaco" title="" class="ng-binding">
+                    LO ZODIACO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 19
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_pagoda-beach.jpg" style="width: 80px; height: 80px;" alt="PAGODA BEACH" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_pagoda-beach.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/pagoda-beach" title="" class="ng-binding">
+                    PAGODA BEACH
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 81
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_polizia-di-stato.jpg" style="width: 80px; height: 80px;" alt="POLIZIA DI STATO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_polizia-di-stato.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/polizia-di-stato" title="" class="ng-binding">
+                    POLIZIA DI STATO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 49
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_sabbia.jpg" style="width: 80px; height: 80px;" alt="SABBIA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_sabbia.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/sabbia" title="" class="ng-binding">
+                    SABBIA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 15
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_spiaggia-d-oro.jpg" style="width: 80px; height: 80px;" alt="SPIAGGIA D'ORO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_spiaggia-d-oro.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/spiaggia-doro" title="" class="ng-binding">
+                    SPIAGGIA D'ORO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 28
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 0">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_le-tre-caravelle.jpg" style="width: 80px; height: 80px;" alt="TRE CARAVELLE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_le-tre-caravelle.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/tre-caravelle" title="" class="ng-binding">
+                    TRE CARAVELLE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 16
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 0 -->                <!-- end ngRepeat: item in filteredModel -->              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="widget">
+              <ul class="recent-posts">
+                <!-- ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_albachiara.jpg" style="width: 80px; height: 80px;" alt="ALBACHIARA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_albachiara.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/albachiara" title="" class="ng-binding">
+                    ALBACHIARA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 71b
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_camiscioni.jpg" style="width: 80px; height: 80px;" alt="BAGNI CAMISCIONI" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_camiscioni.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-camiscioni" title="" class="ng-binding">
+                    BAGNI CAMISCIONI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 9
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="BAGNI GIACOMINO" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-giacomino" title="" class="ng-binding">
+                    BAGNI GIACOMINO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 107
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL HAITI" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-haiti" title="" class="ng-binding">
+                    BAGNI HOTEL HAITI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 60
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL SORAYA" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-soraya" title="" class="ng-binding">
+                    BAGNI HOTEL SORAYA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 95
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-nik.jpg" style="width: 80px; height: 80px;" alt="BAGNI NIK" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-nik.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-nik" title="" class="ng-binding">
+                    BAGNI NIK
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 40
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_basciu.jpg" style="width: 80px; height: 80px;" alt="BASCIU'" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_basciu.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/basciu" title="" class="ng-binding">
+                    BASCIU'
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 55-56
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bossa-nova.jpg" style="width: 80px; height: 80px;" alt="BOSSANOVA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bossa-nova.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bossanova" title="" class="ng-binding">
+                    BOSSANOVA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 77
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_casablanca.jpg" style="width: 80px; height: 80px;" alt="CASABLANCA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_casablanca.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/casablanca" title="" class="ng-binding">
+                    CASABLANCA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 96
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-claudia.jpg" style="width: 80px; height: 80px;" alt="CHALET CLAUDIA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-claudia.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-claudia" title="" class="ng-binding">
+                    CHALET CLAUDIA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 36
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_l-etoile.jpg" style="width: 80px; height: 80px;" alt="CHALET L'ETOILE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_l-etoile.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-letoile" title="" class="ng-binding">
+                    CHALET L'ETOILE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 65
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_vita-da-mare.jpg" style="width: 80px; height: 80px;" alt="CHALET VITADAMARE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_vita-da-mare.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-vitadamare" title="" class="ng-binding">
+                    CHALET VITADAMARE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 89
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_da-luigi.jpg" style="width: 80px; height: 80px;" alt="DA LUIGI" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_da-luigi.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                    DA LUIGI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 2
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_golden-beach.jpg" style="width: 80px; height: 80px;" alt="GOLDEN BEACH" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_golden-beach.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/golden-beach" title="" class="ng-binding">
+                    GOLDEN BEACH
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 27
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-gambero.jpg" style="width: 80px; height: 80px;" alt="IL GAMBERO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-gambero.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-gambero" title="" class="ng-binding">
+                    IL GAMBERO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 72
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-timone.jpg" style="width: 80px; height: 80px;" alt="IL TIMONE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-timone.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-timone" title="" class="ng-binding">
+                    IL TIMONE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 57
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_l_orca.jpg" style="width: 80px; height: 80px;" alt="L'ORCA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_l_orca.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lorca" title="" class="ng-binding">
+                    L'ORCA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 46
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-lancette.jpg" style="width: 80px; height: 80px;" alt="LA LANCETTE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-lancette.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-lancette" title="" class="ng-binding">
+                    LA LANCETTE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 70
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-serenella.jpg" style="width: 80px; height: 80px;" alt="LA SERENELLA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-serenella.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-serenella" title="" class="ng-binding">
+                    LA SERENELLA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 17
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_le-anfore.jpg" style="width: 80px; height: 80px;" alt="LE ANFORE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_le-anfore.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/le-anfore" title="" class="ng-binding">
+                    LE ANFORE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 33
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_lido-dell-esercito.jpg" style="width: 80px; height: 80px;" alt="LIDO DELL'ESERCITO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_lido-dell-esercito.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lido-dellesercito" title="" class="ng-binding">
+                    LIDO DELL'ESERCITO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 20
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_marina-di-nico.jpg" style="width: 80px; height: 80px;" alt="MARINA DI NICO'" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_marina-di-nico.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/marina-di-nico" title="" class="ng-binding">
+                    MARINA DI NICO'
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 114
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_paradise-beach.jpg" style="width: 80px; height: 80px;" alt="PARADISE BEACH" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_paradise-beach.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/paradise-beach" title="" class="ng-binding">
+                    PARADISE BEACH
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 61
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="RENO'S" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/renos" title="" class="ng-binding">
+                    RENO'S
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 54
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_sapore-di-mare.jpg" style="width: 80px; height: 80px;" alt="SAPORE DI MARE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_sapore-di-mare.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/sapore-di-mare" title="" class="ng-binding">
+                    SAPORE DI MARE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 14
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_stella-marina.jpg" style="width: 80px; height: 80px;" alt="STELLA MARINA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_stella-marina.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/stella-marina" title="" class="ng-binding">
+                    STELLA MARINA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 11
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 1">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_vela-club.jpg" style="width: 80px; height: 80px;" alt="VELA CLUB" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_vela-club.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/vela-club" title="" class="ng-binding">
+                    VELA CLUB
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 83
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 1 -->                <!-- end ngRepeat: item in filteredModel -->              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="widget">
+              <ul class="recent-posts">
+                <!-- ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_antares.jpg" style="width: 80px; height: 80px;" alt="ANTARES" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_antares.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/antares" title="" class="ng-binding">
+                    ANTARES
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 3
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_da-federico.jpg" style="width: 80px; height: 80px;" alt="BAGNI DA FEDERICO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_da-federico.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-da-federico" title="" class="ng-binding">
+                    BAGNI DA FEDERICO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 5
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-hotel-holiday.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOLIDAY" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-hotel-holiday.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-holiday" title="" class="ng-binding">
+                    BAGNI HOLIDAY
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 41
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_playa-marconi.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL MARCONI" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_playa-marconi.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-marconi" title="" class="ng-binding">
+                    BAGNI HOTEL MARCONI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 68-69
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-hotel-sunrise.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL SUNRISE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-hotel-sunrise.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-sunrise" title="" class="ng-binding">
+                    BAGNI HOTEL SUNRISE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 108
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_doria.jpg" style="width: 80px; height: 80px;" alt="BAGNI PENSIONE DORIA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_doria.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-pensione-doria" title="" class="ng-binding">
+                    BAGNI PENSIONE DORIA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 64
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bijou.jpg" style="width: 80px; height: 80px;" alt="BIJOU" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bijou.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bijou" title="" class="ng-binding">
+                    BIJOU
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 35b
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_brasil.jpg" style="width: 80px; height: 80px;" alt="BRASIL" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_brasil.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/brasil" title="" class="ng-binding">
+                    BRASIL
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 39
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_cavalluccio-marino.jpg" style="width: 80px; height: 80px;" alt="CAVALLUCCIO MARINO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_cavalluccio-marino.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/cavalluccio-marino" title="" class="ng-binding">
+                    CAVALLUCCIO MARINO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 50
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-degli-angeli.jpg" style="width: 80px; height: 80px;" alt="CHALET DEGLI ANGELI" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-degli-angeli.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-degli-angeli" title="" class="ng-binding">
+                    CHALET DEGLI ANGELI
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 111
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-gioconda.jpg" style="width: 80px; height: 80px;" alt="CHALET LA GIOCONDA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-gioconda.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-la-gioconda" title="" class="ng-binding">
+                    CHALET LA GIOCONDA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 98
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_ciao.jpg" style="width: 80px; height: 80px;" alt="CIAO¦" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_ciao.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/ciao" title="" class="ng-binding">
+                    CIAO¦
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 76
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_da-pietro.jpg" style="width: 80px; height: 80px;" alt="DA PIETRO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_da-pietro.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/da-pietro" title="" class="ng-binding">
+                    DA PIETRO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 31
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_happy-sun-beach.jpg" style="width: 80px; height: 80px;" alt="HAPPY SUN BEACH" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_happy-sun-beach.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/happy-sun-beach" title="" class="ng-binding">
+                    HAPPY SUN BEACH
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 79
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-monello.jpg" style="width: 80px; height: 80px;" alt="IL MONELLO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-monello.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-monello" title="" class="ng-binding">
+                    IL MONELLO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 85
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-tritone.jpg" style="width: 80px; height: 80px;" alt="IL TRITONE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-tritone.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-tritone" title="" class="ng-binding">
+                    IL TRITONE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 92
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-bussola.jpg" style="width: 80px; height: 80px;" alt="LA BUSSOLA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-bussola.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-bussola" title="" class="ng-binding">
+                    LA BUSSOLA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 32
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-medusa.jpg" style="width: 80px; height: 80px;" alt="LA MEDUSA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-medusa.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-medusa" title="" class="ng-binding">
+                    LA MEDUSA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 6
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-la-siesta.jpg" style="width: 80px; height: 80px;" alt="LA SIESTA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-la-siesta.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-siesta" title="" class="ng-binding">
+                    LA SIESTA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 42
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="LEGA NAVALE ITALIANA" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lega-navale-italiana" title="" class="ng-binding">
+                    LEGA NAVALE ITALIANA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 43
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_lido-del-pescatore.jpg" style="width: 80px; height: 80px;" alt="LIDO IL PESCATORE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_lido-del-pescatore.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lido-il-pescatore" title="" class="ng-binding">
+                    LIDO IL PESCATORE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 13b
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_miramare.jpg" style="width: 80px; height: 80px;" alt="MIRAMARE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_miramare.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/miramare" title="" class="ng-binding">
+                    MIRAMARE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 12
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_piccolo-lido.jpg" style="width: 80px; height: 80px;" alt="PICCOLO LIDO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_piccolo-lido.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/piccolo-lido" title="" class="ng-binding">
+                    PICCOLO LIDO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 47
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_rivabella.jpg" style="width: 80px; height: 80px;" alt="RIVABELLA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_rivabella.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/rivabella" title="" class="ng-binding">
+                    RIVABELLA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 51-52
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_sea-club.jpg" style="width: 80px; height: 80px;" alt="SEA CLUB" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_sea-club.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/sea-club" title="" class="ng-binding">
+                    SEA CLUB
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 94
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_sud-est.jpg" style="width: 80px; height: 80px;" alt="SUD EST" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_sud-est.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/sud-est" title="" class="ng-binding">
+                    SUD EST
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 29
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 2 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 2">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_voglia-di-mare.jpg" style="width: 80px; height: 80px;" alt="VOGLIA DI MARE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_voglia-di-mare.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/voglia-di-mare" title="" class="ng-binding">
+                    VOGLIA DI MARE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 21
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 2 -->                <!-- end ngRepeat: item in filteredModel -->              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="widget">
+              <ul class="recent-posts">
+                <!-- ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bacio-dell-onda.jpg" style="width: 80px; height: 80px;" alt="BACIO DELL'ONDA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bacio-dell-onda.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bacio-dellonda" title="" class="ng-binding">
+                    BACIO DELL'ONDA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 1
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="BAGNI FAUSTO" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-fausto" title="" class="ng-binding">
+                    BAGNI FAUSTO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 110
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-beaurivage.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL BEAURIVAGE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-beaurivage.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-beaurivage" title="" class="ng-binding">
+                    BAGNI HOTEL BEAURIVAGE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 66
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_bagni-hotel-nettuno.jpg" style="width: 80px; height: 80px;" alt="BAGNI HOTEL NETTUNO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_bagni-hotel-nettuno.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-hotel-nettuno" title="" class="ng-binding">
+                    BAGNI HOTEL NETTUNO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 109
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="BAGNI MICHELANGELO E PERSICO" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-michelangelo-e-persico" title="" class="ng-binding">
+                    BAGNI MICHELANGELO E PERSICO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 98a
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <img ng-src="https://votalatua.estate/img/p_logo-no-chalet.jpg" style="width: 80px; height: 80px;" alt="BAGNI PENSIONE OLIMPO" ng-if="item.images.length==0" class="ng-scope" src="https://votalatua.estate/img/p_logo-no-chalet.jpg"/>
+                  <!-- end ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/bagni-pensione-olimpo" title="" class="ng-binding">
+                    BAGNI PENSIONE OLIMPO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 63
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_blu-marine.jpg" style="width: 80px; height: 80px;" alt="BLUMARINE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_blu-marine.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/blumarine" title="" class="ng-binding">
+                    BLUMARINE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 34-35a
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_calypso.jpg" style="width: 80px; height: 80px;" alt="CALYPSO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_calypso.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/calypso" title="" class="ng-binding">
+                    CALYPSO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 84
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-alex.jpg" style="width: 80px; height: 80px;" alt="CHALET ALEX" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-alex.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-alex" title="" class="ng-binding">
+                    CHALET ALEX
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 87
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-pinguino.jpg" style="width: 80px; height: 80px;" alt="CHALET IL PINGUINO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-pinguino.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-il-pinguino" title="" class="ng-binding">
+                    CHALET IL PINGUINO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 97
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_malibu.jpg" style="width: 80px; height: 80px;" alt="CHALET MALIBU'" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_malibu.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/chalet-malibu" title="" class="ng-binding">
+                    CHALET MALIBU'
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 100
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_club-23.jpg" style="width: 80px; height: 80px;" alt="CLUB 23" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_club-23.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/club-23" title="" class="ng-binding">
+                    CLUB 23
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 22-23
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_da-vincenzo.jpg" style="width: 80px; height: 80px;" alt="DA VINCENZO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_da-vincenzo.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/da-vincenzo" title="" class="ng-binding">
+                    DA VINCENZO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 30
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_iguana.jpg" style="width: 80px; height: 80px;" alt="IGUANA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_iguana.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/iguana" title="" class="ng-binding">
+                    IGUANA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 93
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_il-pescatore.jpg" style="width: 80px; height: 80px;" alt="IL PESCATORE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_il-pescatore.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/il-pescatore" title="" class="ng-binding">
+                    IL PESCATORE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 13
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_imperial-beach.jpg" style="width: 80px; height: 80px;" alt="IMPERIAL BEACH" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_imperial-beach.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/imperial-beach" title="" class="ng-binding">
+                    IMPERIAL BEACH
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 91
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-conchiglia.jpg" style="width: 80px; height: 80px;" alt="LA CONCHIGLIA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-conchiglia.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-conchiglia" title="" class="ng-binding">
+                    LA CONCHIGLIA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 7
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-promenade.jpg" style="width: 80px; height: 80px;" alt="LA PROMENADE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-promenade.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-promenade" title="" class="ng-binding">
+                    LA PROMENADE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 44
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_la-tartana.jpg" style="width: 80px; height: 80px;" alt="LA TARTANA" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_la-tartana.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/la-tartana" title="" class="ng-binding">
+                    LA TARTANA
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 48
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_lido-azzurro.jpg" style="width: 80px; height: 80px;" alt="LIDO AZZURRO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_lido-azzurro.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lido-azzurro" title="" class="ng-binding">
+                    LIDO AZZURRO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 38a
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_lido-sabbiadoro.jpg" style="width: 80px; height: 80px;" alt="LIDO SABBIADORO" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_lido-sabbiadoro.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/lido-sabbiadoro" title="" class="ng-binding">
+                    LIDO SABBIADORO
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 59
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_oltremare.jpg" style="width: 80px; height: 80px;" alt="OLTREMARE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_oltremare.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/oltremare" title="" class="ng-binding">
+                    OLTREMARE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 86
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_poker.jpg" style="width: 80px; height: 80px;" alt="POKER" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_poker.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/poker" title="" class="ng-binding">
+                    POKER
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 53
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_chalet-rivamare.jpg" style="width: 80px; height: 80px;" alt="RIVAMARE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_chalet-rivamare.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/rivamare" title="" class="ng-binding">
+                    RIVAMARE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 106
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_spiaggia75.jpg" style="width: 80px; height: 80px;" alt="SPIAGGIA 75" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_spiaggia75.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/spiaggia-75" title="" class="ng-binding">
+                    SPIAGGIA 75
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 75
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <li class="clearfix ng-scope" ng-repeat="item in filteredModel" ng-if="$index % 4 == 3">
+                  <!-- ngIf: item.images.length==0 -->                  <!-- ngIf: item.images.length>0 -->                  <img ng-src="https://votalatua.estate/img/p_tourist-residence.jpg" style="width: 80px; height: 80px;" alt="TOURIST RESIDENCE" ng-if="item.images.length>0" class="ng-scope" src="https://votalatua.estate/img/p_tourist-residence.jpg"/>
+                  <!-- end ngIf: item.images.length>0 -->                  <a href="/#!/chalet_id/tourist-residence" title="" class="ng-binding">
+                    TOURIST RESIDENCE
+                  </a>
+                  <span class="ng-binding">
+                    concessione n. 113
+                  </span>
+                </li>
+                <!-- end ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->                <!-- ngIf: $index % 4 == 3 -->                <!-- end ngRepeat: item in filteredModel -->              </ul>
+            </div>
+          </div>
+          <div class="row" banner-bottom="">
+            <div class="text-center">
+              <!-- ngRepeat: banner in banners -->              <a ng-repeat="banner in banners" href="http://www.italiaconibimbi.com" target="_blank" class="ng-scope">
+                
+               
+                <img ng-src="/img/italiaconibimbi_votalatuaestate.png" alt="italiaconibimbi" src="/img/italiaconibimbi_votalatuaestate.png"/>
+              </a>
+              <!-- end ngRepeat: banner in banners -->              <a ng-repeat="banner in banners" href="http://www.lanuovariviera.it" target="_blank" class="ng-scope">
+                
+               
+                <img ng-src="/img/lanuovariviera.jpg" alt="lanuovariviera" src="/img/lanuovariviera.jpg"/>
+              </a>
+              <!-- end ngRepeat: banner in banners -->              <a ng-repeat="banner in banners" href="http://www.radiodomani.com" target="_blank" class="ng-scope">
+                
+               
+                <img ng-src="/img/radiodomani.jpg" alt="radiodomani" src="/img/radiodomani.jpg"/>
+              </a>
+              <!-- end ngRepeat: banner in banners -->            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section divider-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="divider">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section with-overlay black-overlay background-wrapper  active-section" tabfooter="">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="small-text uppercase-text strong-text">
+                Vota la tua estate.
+              </h3>
+              <p>
+                Vota la tua estate, tanto è gratis. 
+              </p>
+              <p>
+                 Anzi, rischi di vincere un premio.
+              </p>
+              <ul class="list-inline social-links">
+                <li>
+                  <a href="http://facebook.com/votalatuaestate" title="facebook.com/votalatuaestate">
+                    <i class="icon ti-facebook"/>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Sei uno chalet?
+              </h3>
+              <p>
+                Contattaci 
+                <a href="mailto:info@votalatua.estate">
+                  info@votalatua.estate
+                </a>
+                .
+              </p>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Cosa si vince
+              </h3>
+              <p>
+                Ti avviseremo attraverso un SMS al numero da te indicato.
+              </p>
+            </div>
+            <div class="col-md-12 text-center">
+              <div class="space">
+              </div>
+              <div class="space">
+              </div>
+              <ul class="list-inline">
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="chalet" href="#!/chalet">
+                    Chalet
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="foto" href="#!/foto">
+                    Foto
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="classifica" href="#!/classifica">
+                    Classifica
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="vota" href="#!/vota">
+                    Vota
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                    Come si fa
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                    Cosa si vince
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="privacy" href="#!/privacy">
+                    Privacy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cookie-policy" href="#!/cookie-policy">
+                    Cookie Policy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="regolamento" href="#!/regolamento">
+                    Regolamento
+                  </a>
+                </li>
+                <li ng-show="logged" class="uppercase-text strong-text ng-hide" profile-tag="" ng-hide="true">
+                  <a ui-sref="profilo" href="#!/profilo">
+                    Profilo
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text ng-hide" login-tag="" ng-hide="true">
+                  <!-- ngIf: !logged -->                  <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                    Login
+                  </a>
+                  <!-- end ngIf: !logged -->                  <!-- ngIf: logged -->                </li>
+              </ul>
+              <p>
+                © 2015 - Vota la tua estate - Partita Iva 01826800441
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.2/angular-local-storage.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js">
+    </script>
+    <script src="//code.angularjs.org/1.4.3/i18n/angular-locale_it-it.js">
+    </script>
+    <script src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js">
+    </script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="scripts/constants/global.js">
+    </script>
+    <script src="scripts/services/accountservice.js">
+    </script>
+    <script src="scripts/services/baseservice.js">
+    </script>
+    <script src="scripts/services/chaletservice.js">
+    </script>
+    <script src="scripts/services/classificaservice.js">
+    </script>
+    <script src="scripts/services/blogservice.js">
+    </script>
+    <script src="scripts/services/storageservice.js">
+    </script>
+    <script src="scripts/services/authenticationservice.js">
+    </script>
+    <script src="scripts/services/singlefileupload.js">
+    </script>
+    <script src="scripts/services/photoservice.js">
+    </script>
+    <script src="scripts/services/publicphotoservice.js">
+    </script>
+    <script src="scripts/services/chaletphotoservice.js">
+    </script>
+    <script src="scripts/services/votazioniservice.js">
+    </script>
+    <script src="scripts/functions/pager.js">
+    </script>
+    <script src="scripts/controllers/account.js">
+    </script>
+    <script src="scripts/controllers/chalet.js">
+    </script>
+    <script src="scripts/controllers/chalet_single.js">
+    </script>
+    <script src="scripts/controllers/classifica.js">
+    </script>
+    <script src="scripts/controllers/home.js">
+    </script>
+    <script src="scripts/controllers/vota.js">
+    </script>
+    <script src="scripts/controllers/informazioni.js">
+    </script>
+    <script src="scripts/controllers/contatti.js">
+    </script>
+    <script src="scripts/controllers/login.js">
+    </script>
+    <script src="scripts/controllers/registrati.js">
+    </script>
+    <script src="scripts/controllers/profilo.js">
+    </script>
+    <script src="scripts/controllers/upload.js">
+    </script>
+    <script src="scripts/controllers/foto.js">
+    </script>
+    <script src="scripts/controllers/le-tue-foto.js">
+    </script>
+    <script src="scripts/controllers/votazioni.js">
+    </script>
+    <script src="scripts/directives/tab-footer.js">
+    </script>
+    <script src="scripts/directives/login-tag.js">
+    </script>
+    <script src="scripts/directives/profile-tag.js">
+    </script>
+    <script src="scripts/directives/privacy.js">
+    </script>
+    <script src="scripts/directives/fileModel.js">
+    </script>
+    <script src="scripts/directives/adsense.js">
+    </script>
+    <script src="scripts/directives/banner-bottom.js">
+    </script>
+    <script src="js/jquery-1.10.2.min.js">
+    </script>
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script src="js/ie8-responsive-file-warning.js">
+    </script>
+    <script src="js/isotope.pkgd.min.js">
+    </script>
+    <script src="js/jquery.flexslider-min.js">
+    </script>
+    <script src="js/jquery.form.min.js">
+    </script>
+    <script src="js/jquery.localscroll.min.js">
+    </script>
+    <script src="js/jquery.scrollto.min.js">
+    </script>
+    <script src="js/owl.carousel.min.js">
+    </script>
+    <script src="scripts/scripts.js">
+    </script>
+    <script src="js/stellar.js">
+    </script>
+    <script src="js/validator.min.js">
+    </script>
+    <script src="js/waypoints.min.js">
+    </script>
+    <script type="text/javascript" src="js/cookie.js">
+    </script>
+    <script>
+//<![CDATA[
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-30883525-4', 'auto');
+
+//]]>
+    </script>
+    <div id="cookiescript_injected" style="background-color: #FFFFFF; z-index: 999999; opacity: 0; position: fixed; padding: 3px 0; width: 100%; left: 0px; font-size: 10px; font-weight: normal; text-align: left; color: #000000; font-family: Arial, sans-serif; boxshadow: 0px 0px 8px #000000; bottom: 0px;">
+      <div id="cookiescript_wrapper" style="margin: 0 10px; font-size: 13px; font-weight: normal; text-align: center; color: #000000; font-family: Arial, sans-serif; lineHeight: 23px;">
+        I cookie aiutano votalatua.estate a fornire i propri servizi. Navigando sul sito accetti il loro utilizzo.   
+        <a id="cookiescript_readmore" style="text-decoration: underline; color: #000000; cursor: pointer; padding: 0px; margin: 0px; white-space: nowrap;">
+          Informazioni
+        </a>
+        <div id="cookiescript_accept" style="borderradius: 5px; background-color: #F59432; border: 0px; padding: 3px 7px; font-weight: bold; cursor: pointer; margin: 0 10px 0 10px; color: #FFFFFF; transition: 0.25s; display: inline; textshadow: rgb(0, 0, 0) 0px 0px 2px; white-space: nowrap;">
+          OK
+        </div>
+        <a href="//votalatua.estate" target="_self" id="cookiescript_link" style="display: block !important; text-decoration: none; color: #000000; font-size: 85%; float: right; padding: 0px 20px 0 0; letter-spacing: normal; font-weight: normal;">
+        </a>
+        <div id="cookiescript_pixel" style="width: 1px; height: 1px; float: left; background-image: url(//votalatua.estate/pixel.gif?p=cookie&amp;a=s);">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

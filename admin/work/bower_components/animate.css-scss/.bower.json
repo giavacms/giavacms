@@ -1,0 +1,32 @@
+{
+  "name": "animatewithsass",
+  "homepage": "https://github.com/geoffgraham/animate.scss",
+  "authors": [
+    "geoffgraham <@geoffreygraham>"
+  ],
+  "description": "A SASS port of Dan Eden's Animate.css",
+  "main": [
+    "animate.scss"
+  ],
+  "keywords": [
+    "animate.scss",
+    "animate.css",
+    "animate"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "4e59b638a7",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "4e59b638a75cb06e2a4c73526b9f0436595aca3b"
+  },
+  "_source": "https://github.com/geoffgraham/animate.scss.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/geoffgraham/animate.scss.git"
+}

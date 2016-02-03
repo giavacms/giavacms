@@ -1,0 +1,55 @@
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap class="my-table-pager">
+
+    <div flex ng-if="full">{{message}}</div>
+    <div flex ng-if="full"></div>
+
+    <div flex aria-label="First Page">
+        <md-icon md-font-icon="icon-skip-previous" ng-if="currentPage >= 3" class="md-primary md-hue-2" ng-click="firstPage()" ></md-icon>
+        <md-icon md-font-icon="icon-skip-previous" ng-if="currentPage < 3"
+                 style="color: #ddd;" ></md-icon>
+    </div>
+
+    <div flex aria-label="Previous Page"
+        >
+        <md-icon md-font-icon="icon-fast-rewind" ng-if="currentPage >= 2" class="md-primary md-hue-2" ng-click="goToPage(currentPage-1)" ></md-icon>
+        <md-icon md-font-icon="icon-fast-rewind" ng-if="currentPage < 2"
+                 style="color: #ddd;" ></md-icon>
+    </div>
+
+    <div flex ng-repeat="p in subpages track by $index" class="md-primary" ng-click="goToPage(p)"
+         style="{{currentPage==p ? 'font-style: italic;' : ''}}">
+        <span>{{p}}</span>
+    </div>
+
+    <div flex
+         aria-label="Next Page"
+        >
+        <md-icon md-font-icon="icon-fast-forward" ng-if="(currentPage < pages.length && pages.length > 0)"          ng-click="goToPage(currentPage+1)"         class="md-primary md-hue-2"></md-icon>
+        <md-icon md-font-icon="icon-fast-forward" ng-if="!(currentPage < pages.length && pages.length > 0)"
+                 style="color: #ddd;" ></md-icon>
+    </div>
+
+    <div flex
+         aria-label="Last Page"
+        >
+        <md-icon md-font-icon="icon-skip-next" ng-if="(currentPage < pages.length -1 && pages.length > 0)"  ng-click="lastPage()"          class="md-primary md-hue-2"></md-icon>
+        <md-icon md-font-icon="icon-skip-next"  ng-if="!(currentPage < pages.length -1 && pages.length > 0)"
+                 style="color: #ddd;" ></md-icon>
+
+    </div>
+
+    <div flex ng-if="full" flex></div>
+    <div flex ng-if="full">Mostra:</div>
+
+    <div flex>
+        <md-select ng-if="full" ng-model="pageSize" ng-change="rowsPerPage(pageSize)">
+            <md-option value="1">1</md-option>
+            <md-option value="5">5</md-option>
+            <md-option value="10">10</md-option>
+            <md-option value="25">25</md-option>
+            <md-option value="50">50</md-option>
+            <md-option value="100">100</md-option>
+        </md-select>
+    </div>
+
+</section>

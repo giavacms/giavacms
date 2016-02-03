@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html ng-app="jsApp" class="ng-scope">
+  <head>
+    <style type="text/css">
+      @charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}
+    </style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="fragment" content="!"/>
+    <meta name="author" content=""/>
+    <title ng-bind="($state.current.title) + ' | Vota la tua estate'" class="ng-binding">
+      Foto | Vota la tua estate
+    </title>
+    <!-- open graph metadata. This won't work either! -->    <meta property="og:title" content="Foto"/>
+    <meta property="og:site_name" content="Vota la tua Estate"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <script src="https://pagead2.googlesyndication.com/pub-config/ca-pub-7151115820706006.js">
+    </script>
+    <script async="1" src="//www.google-analytics.com/analytics.js">
+    </script>
+    <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+    </script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <link href="/styles/themify-icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/animate.css" rel="stylesheet"/>
+    <link href="/styles/owl.carousel.css" rel="stylesheet"/>
+    <link href="/styles/style.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->  </head>
+  <body style="zoom: 1;">
+    <a id="top">
+    </a>
+    <div>
+      <div class="loader" style="opacity: 0; display: none;">
+        <div class="animated rubberBand spinner">
+        </div>
+      </div>
+      <div class="layout-wrapper page" id="page">
+        <header id="header" class=" header white-header active-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="logo">
+                  <a ui-sref="home" title="" href="#!/">
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo standard-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="black-logo retina-logo middle-content" alt=""/>
+                    <img src="/img/votalatuaestate_logo_black.png" class="white-logo retina-logo middle-content" alt=""/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-9 menu-col text-right">
+                <div class="menu">
+                  <ul class="list-inline">
+                    <li class="dropdown menu-item">
+                      <a ui-sref="home" href="#!/">
+                        Home
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="chalet" href="#!/chalet">
+                        Chalet
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="foto" href="#!/foto">
+                        Foto
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="classifica" href="#!/classifica">
+                        Classifica
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="vota" href="#!/vota">
+                        Vota
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                        Come si fa
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                        Cosa si vince
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item">
+                      <a ui-sref="regolamento" href="#!/regolamento">
+                        Regolamento
+                      </a>
+                    </li>
+                    <li ng-show="logged" class="dropdown menu-item" profile-tag="" ng-hide="false">
+                      <a ui-sref="profilo" href="#!/profilo">
+                        Profilo
+                      </a>
+                    </li>
+                    <li class="dropdown menu-item" login-tag="" ng-hide="false">
+                      <!-- ngIf: !logged -->                      <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                        Login
+                      </a>
+                      <!-- end ngIf: !logged -->                      <!-- ngIf: logged -->                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="menu-toggle ">
+                
+                        MENU 
+                <i class="ti-menu"/>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+    <!-- uiView:  -->    <div ui-view="" class="ng-scope">
+      <div class="section page-title small-padding background-wrapper with-overlay black-overlay active-section ng-scope">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12" style="">
+              <div class="resizeMe bigFonts">
+                Vota la tua estate
+              </div>
+              <p class="">
+                
+                    Vota la tua estate
+                
+              </p>
+              <ol class="breadcrumb">
+                <li>
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="active">
+                  Foto
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="section active-section grey-background ng-scope">
+        <div class="container">
+          <div class="row">
+            <div google-adsense="">
+              <!-- Votalatuaestate_TOP -->              <ins class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-7151115820706006" data-ad-slot="3652299289" data-ad-format="auto" data-adsbygoogle-status="done">
+                <ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent">
+                  <ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent">
+                    <iframe width="1200" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;">
+                    </iframe>
+                  </ins>
+                </ins>
+              </ins>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="service-block">
+                <i class="icon large ti-image"/>
+                <h2 class="lighter resizeMe bigFonts">
+                  Foto
+                </h2>
+                <div class="space hidden-sm hidden-xs">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="gallery">
+            <!-- ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_4720f6a1-fed1-480c-b82b-c3f424f24f50.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_4720f6a1-fed1-480c-b82b-c3f424f24f50.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                22 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_35412ac8-9e35-47f5-94d7-4939c1fa8058.jpg" alt="Paola B.  BACIO DELL'ONDA" src="https://votalatua.estate/photo/p_35412ac8-9e35-47f5-94d7-4939c1fa8058.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                22 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/bacio-dellonda" title="" class="ng-binding">
+                         BACIO DELL'ONDA 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_e445c4fe-23dc-49d6-9ec8-f852d86deba6.jpg" alt="Paola B.  BACIO DELL'ONDA" src="https://votalatua.estate/photo/p_e445c4fe-23dc-49d6-9ec8-f852d86deba6.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                22 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/bacio-dellonda" title="" class="ng-binding">
+                         BACIO DELL'ONDA 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_cc5bd574-150d-46a8-a128-f20596de13c0.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_cc5bd574-150d-46a8-a128-f20596de13c0.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                11 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_7e2f78cb-01b9-4386-974e-a5d90001728e.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_7e2f78cb-01b9-4386-974e-a5d90001728e.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                11 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_7b852ff9-fd04-4049-9478-46183e1fe0d2.jpg" alt="Paola B.  BACIO DELL'ONDA" src="https://votalatua.estate/photo/p_7b852ff9-fd04-4049-9478-46183e1fe0d2.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                11 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/bacio-dellonda" title="" class="ng-binding">
+                         BACIO DELL'ONDA 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_5d49936e-ae17-40f5-b64e-53fb80186f99.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_5d49936e-ae17-40f5-b64e-53fb80186f99.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                10 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_aa3ef6b3-5141-49cb-853a-1c8d1c371f59.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_aa3ef6b3-5141-49cb-853a-1c8d1c371f59.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                09 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_03af75c3-2181-41b8-bb54-423ded8c08d2.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_03af75c3-2181-41b8-bb54-423ded8c08d2.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                08 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_2a4234aa-3d14-4918-93db-3f7d2ad75522.jpg" alt="Fiorenzo P.  LA CROISETTE" src="https://votalatua.estate/photo/p_2a4234aa-3d14-4918-93db-3f7d2ad75522.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/ead52b18-436b-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Fiorenzo P.
+                      </a>
+                      <br/>
+                      
+                                07 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/la-croisette" title="" class="ng-binding">
+                         LA CROISETTE 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_2ab01bd2-9bcc-4720-9b26-cf705b4ebcdc.jpg" alt="Fiorenzo P.  LO ZODIACO" src="https://votalatua.estate/photo/p_2ab01bd2-9bcc-4720-9b26-cf705b4ebcdc.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/ead52b18-436b-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Fiorenzo P.
+                      </a>
+                      <br/>
+                      
+                                07 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/lo-zodiaco" title="" class="ng-binding">
+                         LO ZODIACO 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_9cab606e-cc7e-4b9f-86e8-90606b3acdf8.jpg" alt="Paola B.  BACIO DELL'ONDA" src="https://votalatua.estate/photo/p_9cab606e-cc7e-4b9f-86e8-90606b3acdf8.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                07 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/bacio-dellonda" title="" class="ng-binding">
+                         BACIO DELL'ONDA 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_83badb90-ca38-4619-ab63-b4c7e1d338ab.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_83badb90-ca38-4619-ab63-b4c7e1d338ab.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                07 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_4d4ddc3f-ea64-4df2-a0b6-034cb6335e6a.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_4d4ddc3f-ea64-4df2-a0b6-034cb6335e6a.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                06 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_04340332-1cc3-4789-bde9-c7947caad127.jpg" alt="Paola B.  DA LUIGI" src="https://votalatua.estate/photo/p_04340332-1cc3-4789-bde9-c7947caad127.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1dc25-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Paola B.
+                      </a>
+                      <br/>
+                      
+                                04 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/da-luigi" title="" class="ng-binding">
+                         DA LUIGI 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope ng-hide" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <div class="col-md-3 ng-scope" ng-repeat-start="item in model">
+              <div class="team-block">
+                <div class="paper white-background">
+                  <div class="team-image text-center">
+                    <img ng-src="https://votalatua.estate/photo/p_8ff946f2-fa7f-43c7-be23-80ea3af8469b.jpg" alt="Diana M.  LA CROISETTE" src="https://votalatua.estate/photo/p_8ff946f2-fa7f-43c7-be23-80ea3af8469b.jpg"/>
+                  </div>
+                  <div class="text-center">
+                    <p class="position ng-binding">
+                      <a href="/#!/account/15b1b3c9-436c-11e5-9009-02a822339713" title="" class="ng-binding">
+                        Diana M.
+                      </a>
+                      <br/>
+                      
+                                03 set 2015 
+                      <br/>
+                      <a href="/#!/chalet_id/la-croisette" title="" class="ng-binding">
+                         LA CROISETTE 
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 ng-scope" ng-repeat-end="" ng-show="$index % 4 == 3">
+              <div class="space">
+              </div>
+            </div>
+            <!-- end ngRepeat: item in model -->            <!-- ngIf: false -->          </div>
+        </div>
+      </section>
+      <section class="section active-section grey-background ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <div class="col-md-1 ng-hide" ng-hide="currentPage &lt; 3">
+                <a ng-click="firstPage()" alt="vai all'inizio" title="vai all'inizio">
+                  <i class="icon ti-angle-double-left"/>
+                </a>
+              </div>
+              <div class="col-md-1 ng-hide" ng-hide="currentPage &lt; 2">
+                <a ng-click="goToPage(currentPage-1)" alt="precedente" title="precedente">
+                  <i class="icon ti-angle-left"/>
+                </a>
+              </div>
+              <!-- ngRepeat: p in subpages track by $index -->              <div class="col-md-1 ng-scope" ng-repeat="p in subpages track by $index">
+                <a ng-click="goToPage(p)" alt="1" title="1" ng-disabled="currentPage==p" disabled="disabled">
+                  <i class="icon text-black">
+                    
+                            1
+                  </i>
+                </a>
+              </div>
+              <!-- end ngRepeat: p in subpages track by $index -->              <div class="col-md-1 ng-scope" ng-repeat="p in subpages track by $index">
+                <a ng-click="goToPage(p)" alt="2" title="2" ng-disabled="currentPage==p">
+                  <i class="icon ">
+                    
+                            2
+                  </i>
+                </a>
+              </div>
+              <!-- end ngRepeat: p in subpages track by $index -->              <div class="col-md-1 ng-scope" ng-repeat="p in subpages track by $index">
+                <a ng-click="goToPage(p)" alt="3" title="3" ng-disabled="currentPage==p">
+                  <i class="icon ">
+                    
+                            3
+                  </i>
+                </a>
+              </div>
+              <!-- end ngRepeat: p in subpages track by $index -->              <div class="col-md-1" ng-show="currentPage &lt; pages.length &amp;&amp; pages.length > 0">
+                <a ng-click="goToPage(currentPage+1)" alt="successiva" title="successiva">
+                  <i class="icon  ti-angle-right"/>
+                </a>
+              </div>
+              <div class="col-md-1" ng-show="currentPage &lt; pages.length -1 &amp;&amp; pages.length > 0">
+                <a ng-disabled="currentPage == pages.length  || pages.length == 0" ng-click="lastPage()" alt="vai alla fine" title="vai alla fine">
+                  <i class="icon  ti-angle-double-right"/>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="row" banner-bottom="">
+            <div class="text-center">
+              <!-- ngRepeat: banner in banners -->              <a ng-repeat="banner in banners" href="http://www.radiodomani.com" target="_blank" class="ng-scope">
+                
+               
+                <img ng-src="/img/radiodomani.jpg" alt="radiodomani" src="/img/radiodomani.jpg"/>
+              </a>
+              <!-- end ngRepeat: banner in banners -->              <a ng-repeat="banner in banners" href="http://www.7rooms.it" target="_blank" class="ng-scope">
+                
+               
+                <img ng-src="/img/7rooms_votalatuaestate.png" alt="7rooms" src="/img/7rooms_votalatuaestate.png"/>
+              </a>
+              <!-- end ngRepeat: banner in banners -->              <a ng-repeat="banner in banners" href="http://www.lanuovariviera.it" target="_blank" class="ng-scope">
+                
+               
+                <img ng-src="/img/lanuovariviera.jpg" alt="lanuovariviera" src="/img/lanuovariviera.jpg"/>
+              </a>
+              <!-- end ngRepeat: banner in banners -->            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section divider-section active-section ng-scope">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="divider">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section with-overlay black-overlay background-wrapper  active-section" tabfooter="">
+        <div class="background-image parallax-background" data-stellar-background-ratio="0.5">
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="small-text uppercase-text strong-text">
+                Vota la tua estate.
+              </h3>
+              <p>
+                Vota la tua estate, tanto è gratis. 
+              </p>
+              <p>
+                 Anzi, rischi di vincere un premio.
+              </p>
+              <ul class="list-inline social-links">
+                <li>
+                  <a href="http://facebook.com/votalatuaestate" title="facebook.com/votalatuaestate">
+                    <i class="icon ti-facebook"/>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Sei uno chalet?
+              </h3>
+              <p>
+                Contattaci 
+                <a href="mailto:info@votalatua.estate">
+                  info@votalatua.estate
+                </a>
+                .
+              </p>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+              <h3 class="small-text uppercase-text strong-text">
+                Cosa si vince
+              </h3>
+              <p>
+                Ti avviseremo attraverso un SMS al numero da te indicato.
+              </p>
+            </div>
+            <div class="col-md-12 text-center">
+              <div class="space">
+              </div>
+              <div class="space">
+              </div>
+              <ul class="list-inline">
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="home" href="#!/">
+                    Home
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="chalet" href="#!/chalet">
+                    Chalet
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="foto" href="#!/foto">
+                    Foto
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="classifica" href="#!/classifica">
+                    Classifica
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="vota" href="#!/vota">
+                    Vota
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="come-si-fa" href="#!/come-si-fa">
+                    Come si fa
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cosa-si-vince" href="#!/cosa-si-vince">
+                    Cosa si vince
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="privacy" href="#!/privacy">
+                    Privacy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="cookie-policy" href="#!/cookie-policy">
+                    Cookie Policy
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text">
+                  <a ui-sref="regolamento" href="#!/regolamento">
+                    Regolamento
+                  </a>
+                </li>
+                <li ng-show="logged" class="uppercase-text strong-text ng-hide" profile-tag="" ng-hide="true">
+                  <a ui-sref="profilo" href="#!/profilo">
+                    Profilo
+                  </a>
+                </li>
+                <li class="uppercase-text strong-text ng-hide" login-tag="" ng-hide="true">
+                  <!-- ngIf: !logged -->                  <a ui-sref="login" ng-if="!logged" class="ng-scope" href="#!/login">
+                    Login
+                  </a>
+                  <!-- end ngIf: !logged -->                  <!-- ngIf: logged -->                </li>
+              </ul>
+              <p>
+                © 2015 - Vota la tua estate - Partita Iva 01826800441
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.js">
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.2/angular-local-storage.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js">
+    </script>
+    <script src="//code.angularjs.org/1.4.3/i18n/angular-locale_it-it.js">
+    </script>
+    <script src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js">
+    </script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="scripts/constants/global.js">
+    </script>
+    <script src="scripts/services/accountservice.js">
+    </script>
+    <script src="scripts/services/baseservice.js">
+    </script>
+    <script src="scripts/services/chaletservice.js">
+    </script>
+    <script src="scripts/services/classificaservice.js">
+    </script>
+    <script src="scripts/services/blogservice.js">
+    </script>
+    <script src="scripts/services/storageservice.js">
+    </script>
+    <script src="scripts/services/authenticationservice.js">
+    </script>
+    <script src="scripts/services/singlefileupload.js">
+    </script>
+    <script src="scripts/services/photoservice.js">
+    </script>
+    <script src="scripts/services/publicphotoservice.js">
+    </script>
+    <script src="scripts/services/chaletphotoservice.js">
+    </script>
+    <script src="scripts/services/votazioniservice.js">
+    </script>
+    <script src="scripts/functions/pager.js">
+    </script>
+    <script src="scripts/controllers/account.js">
+    </script>
+    <script src="scripts/controllers/chalet.js">
+    </script>
+    <script src="scripts/controllers/chalet_single.js">
+    </script>
+    <script src="scripts/controllers/classifica.js">
+    </script>
+    <script src="scripts/controllers/home.js">
+    </script>
+    <script src="scripts/controllers/vota.js">
+    </script>
+    <script src="scripts/controllers/informazioni.js">
+    </script>
+    <script src="scripts/controllers/contatti.js">
+    </script>
+    <script src="scripts/controllers/login.js">
+    </script>
+    <script src="scripts/controllers/registrati.js">
+    </script>
+    <script src="scripts/controllers/profilo.js">
+    </script>
+    <script src="scripts/controllers/upload.js">
+    </script>
+    <script src="scripts/controllers/foto.js">
+    </script>
+    <script src="scripts/controllers/le-tue-foto.js">
+    </script>
+    <script src="scripts/controllers/votazioni.js">
+    </script>
+    <script src="scripts/directives/tab-footer.js">
+    </script>
+    <script src="scripts/directives/login-tag.js">
+    </script>
+    <script src="scripts/directives/profile-tag.js">
+    </script>
+    <script src="scripts/directives/privacy.js">
+    </script>
+    <script src="scripts/directives/fileModel.js">
+    </script>
+    <script src="scripts/directives/adsense.js">
+    </script>
+    <script src="scripts/directives/banner-bottom.js">
+    </script>
+    <script src="js/jquery-1.10.2.min.js">
+    </script>
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script src="js/ie8-responsive-file-warning.js">
+    </script>
+    <script src="js/isotope.pkgd.min.js">
+    </script>
+    <script src="js/jquery.flexslider-min.js">
+    </script>
+    <script src="js/jquery.form.min.js">
+    </script>
+    <script src="js/jquery.localscroll.min.js">
+    </script>
+    <script src="js/jquery.scrollto.min.js">
+    </script>
+    <script src="js/owl.carousel.min.js">
+    </script>
+    <script src="scripts/scripts.js">
+    </script>
+    <script src="js/stellar.js">
+    </script>
+    <script src="js/validator.min.js">
+    </script>
+    <script src="js/waypoints.min.js">
+    </script>
+    <script type="text/javascript" src="js/cookie.js">
+    </script>
+    <script>
+//<![CDATA[
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-30883525-4', 'auto');
+
+//]]>
+    </script>
+    <div id="cookiescript_injected" style="background-color: #FFFFFF; z-index: 999999; opacity: 1; position: fixed; padding: 3px 0; width: 100%; left: 0px; font-size: 10px; font-weight: normal; text-align: left; color: #000000; font-family: Arial, sans-serif; boxshadow: 0px 0px 8px #000000; bottom: 0px;">
+      <div id="cookiescript_wrapper" style="margin: 0 10px; font-size: 13px; font-weight: normal; text-align: center; color: #000000; font-family: Arial, sans-serif; lineHeight: 23px;">
+        I cookie aiutano votalatua.estate a fornire i propri servizi. Navigando sul sito accetti il loro utilizzo.   
+        <a id="cookiescript_readmore" style="text-decoration: underline; color: #000000; cursor: pointer; padding: 0px; margin: 0px; white-space: nowrap;">
+          Informazioni
+        </a>
+        <div id="cookiescript_accept" style="borderradius: 5px; background-color: #F59432; border: 0px; padding: 3px 7px; font-weight: bold; cursor: pointer; margin: 0 10px 0 10px; color: #FFFFFF; transition: 0.25s; display: inline; textshadow: rgb(0, 0, 0) 0px 0px 2px; white-space: nowrap;">
+          OK
+        </div>
+        <a href="//votalatua.estate" target="_self" id="cookiescript_link" style="display: block !important; text-decoration: none; color: #000000; font-size: 85%; float: right; padding: 0px 20px 0 0; letter-spacing: normal; font-weight: normal;">
+        </a>
+        <div id="cookiescript_pixel" style="width: 1px; height: 1px; float: left; background-image: url(//votalatua.estate/pixel.gif?p=cookie&amp;a=s);">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

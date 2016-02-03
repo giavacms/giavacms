@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>giavacms</artifactId>
+        <groupId>org.giavacms</groupId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>test</artifactId>
+    <name>Test Module</name>
+    <description>GiavaCMS Content Management System: Test Module</description>
+    <url>http://giavacms.org</url>
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.jdk>1.8</version.jdk>
+    </properties>
+    <profiles>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jta-data-source>MysqlDS</jta-data-source>
+                <hbm2ddl.auto>update</hbm2ddl.auto>
+                <show_sql>false</show_sql>
+                <format_sql>false</format_sql>
+            </properties>
+        </profile>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <properties>
+                <jta-data-source>MysqlDS</jta-data-source>
+                <hbm2ddl.auto>validate</hbm2ddl.auto>
+                <show_sql>false</show_sql>
+                <format_sql>false</format_sql>
+            </properties>
+        </profile>
+    </profiles>
+    <build>
+        <finalName>ROOT</finalName>
+        <resources>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>META-INF/persistence.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>META-INF/persistence.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <goals>
+                    <goal>exploded</goal>
+                </goals>
+                <configuration>
+                    <!-- deployment descriptor ufficiali -->
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <!-- altri deployment descriptor e risorse -->
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>WEB-INF/web.xml</include>
+                                <include>WEB-INF/jboss-web.xml</include>
+                                <include>**/*.xhtml</include>
+                            </includes>
+                        </resource>
+                        <!-- this doesn't work here: perhaps src/main/resources is not a webapp
+                            path <resource> <directory>src/main/resources</directory> <filtering>true</filtering>
+                            <includes> <include>**/persistence.xml</include> </includes> </resource> -->
+                    </webResources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <fork>false</fork>
+                    <executable>$JAVA_HOME/bin/javac</executable>
+                    <compilerVersion>1.8</compilerVersion>
+                    <source>${version.jdk}</source>
+                    <target>${version.jdk}</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>admin</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>banner</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>base</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>catalogue</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>richcontent</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>resources</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.giavacms</groupId>
+            <artifactId>security</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>2.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+    </dependencies>
+</project>

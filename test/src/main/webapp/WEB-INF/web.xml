@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <description>giavacms</description>
+    <display-name>giavacms</display-name>
+    <session-config>
+        <session-timeout>7200</session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>Basic Authentication Area</realm-name>
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/login-error.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>HtmlAdaptor</web-resource-name>
+            <url-pattern>/private/*</url-pattern>
+            <url-pattern>/rs/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROA</role-name>
+            <role-name>ROV</role-name>
+            <role-name>ROT</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <!-- Security roles referenced by this web application -->
+    <security-role>
+        <role-name>ROA</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROI</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROV</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROM</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROT</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROW</role-name>
+    </security-role>
+
+
+</web-app>
