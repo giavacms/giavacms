@@ -29,30 +29,19 @@
             <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>ROA</role-name>
-            <role-name>ROV</role-name>
-            <role-name>ROT</role-name>
+            <role-name>admin</role-name>
+            <role-name>Developer</role-name>
+            <role-name>Any</role-name>
         </auth-constraint>
     </security-constraint>
     <!-- Security roles referenced by this web application -->
     <security-role>
-        <role-name>ROA</role-name>
+        <role-name>admin</role-name>
     </security-role>
     <security-role>
-        <role-name>ROI</role-name>
+        <role-name>Developer</role-name>
     </security-role>
     <security-role>
-        <role-name>ROV</role-name>
+        <role-name>Any</role-name>
     </security-role>
-    <security-role>
-        <role-name>ROM</role-name>
-    </security-role>
-    <security-role>
-        <role-name>ROT</role-name>
-    </security-role>
-    <security-role>
-        <role-name>ROW</role-name>
-    </security-role>
-
-
 </web-app>
