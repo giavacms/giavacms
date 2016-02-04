@@ -32,7 +32,7 @@ function AddFilesController($mdDialog, $sce, $scope, APP, RsResource, path, call
         $mdDialog.show({
             parent: parentEl,
             targetEvent: $event,
-            templateUrl: '/components/resources/newfile.tmpl.html',
+            templateUrl: 'private/components/resources/newfile.tmpl.html',
             controller: function($scope, $mdDialog) {
                 $scope.vm = this;
                 $scope.vm.uploadme = {};
@@ -56,7 +56,7 @@ function AddFilesController($mdDialog, $sce, $scope, APP, RsResource, path, call
         $mdDialog.show({
             parent: parentEl,
             targetEvent: $event,
-            templateUrl: '/components/resources/newfiles.tmpl.html',
+            templateUrl: 'private/components/resources/newfiles.tmpl.html',
             controller: function($scope, $mdDialog) {
                 $scope.vm = this;
                 $scope.vm.uploadme = [];
