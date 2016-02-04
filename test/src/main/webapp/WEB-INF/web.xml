@@ -24,7 +24,7 @@
         <web-resource-collection>
             <web-resource-name>HtmlAdaptor</web-resource-name>
             <url-pattern>/private/*</url-pattern>
-            <url-pattern>/rs/*</url-pattern>
+            <url-pattern>/api/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>

@@ -71,8 +71,13 @@ public class UserAuthRepositoryRs extends RsRepositoryService<UserAuth> {
     @Path("/aboutMe")
     public Response identity() {
         try {
+            if (httpServletRequest == null) {
+                logger.info("httpServletRequest NULLO");
+            }
+
             // TODO - GESTIONE RUOLI??
             if (httpServletRequest == null || httpServletRequest.getUserPrincipal() == null) {
+                logger.info("principal nullo!");
                 return RsRepositoryService
                         .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG,
                                 "No principal");
