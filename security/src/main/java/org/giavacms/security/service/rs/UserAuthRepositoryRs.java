@@ -72,12 +72,16 @@ public class UserAuthRepositoryRs extends RsRepositoryService<UserAuth> {
     public Response identity() {
         try {
             // TODO - GESTIONE RUOLI??
+            if (httpServletRequest == null || httpServletRequest.getUserPrincipal() == null) {
+                return RsRepositoryService
+                        .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG,
+                                "No principal");
+            }
             String username = httpServletRequest.getUserPrincipal().getName();
             if (username == null) {
-                return Response
-                        .status(Response.Status.FORBIDDEN)
-                        .entity("No account found for alias: " + username
-                        ).build();
+                return RsRepositoryService
+                        .jsonResponse(Response.Status.FORBIDDEN, AppConstants.RS_MSG,
+                                "No account found for alias: " + username);
             }
             UserAuth account = ((UserAuthRepository) getRepository()).findByUsername(username);
             ((UserAuthRepository) getRepository()).getEm().detach(account);
@@ -89,12 +93,11 @@ public class UserAuthRepositoryRs extends RsRepositoryService<UserAuth> {
                     .status(Response.Status.FORBIDDEN)
                     .entity("No user found for alias: " + username
                     ).build();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logger.error(e.getMessage());
-            return Response
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Error attempting login: " + e.getMessage())
-                    .build();
+            return RsRepositoryService
+                    .jsonResponse(Response.Status.INTERNAL_SERVER_ERROR, AppConstants.RS_MSG,
+                            AppConstants.ER1);
         }
     }
 

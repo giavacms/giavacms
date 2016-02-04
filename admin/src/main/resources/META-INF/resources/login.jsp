@@ -12,14 +12,14 @@
 
 <body class="gray-bg">
 
-<div class="middle-box text-center loginscreen animated fadeInDown">
+<div style="text-align: center">
     <div>
         <div>
 
             <h1 class="logo-name">giavaCMS</h1>
 
         </div>
-        <h3>Welcome to JPeppol</h3>
+        <h3>Welcome to GiavaCMS</h3>
         <p>Login in.</p>
         <form class="m-t" role="form" method="post" action="j_security_check">
             <div class="form-group">
@@ -32,8 +32,8 @@
 
         </form>
         <p class="m-t">
-            <small>JPeppol &copy; 2015 - <a href="http://docs.jpeppol.com/" target="_blank" title="documentazione">
-                documentazione</a></small>
+            <small>GiavaCMS &copy; 2011 - <a href="http://giavacms.org/" target="_blank" title="giavacms.org">
+                giavacms.org</a></small>
         </p>
     </div>
 </div>
