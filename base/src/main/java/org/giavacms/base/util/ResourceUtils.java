@@ -352,6 +352,7 @@ public class ResourceUtils
       {
          throw new Exception("file exists");
       }
+      //TODO GESTIRE NOMI DI FILES UGUALI
 
       int base64headerIndex = fileContent.indexOf("base64,");
       if (base64headerIndex > -1)
