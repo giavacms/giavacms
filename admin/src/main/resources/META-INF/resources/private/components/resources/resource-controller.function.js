@@ -137,7 +137,7 @@ function ResourceController($log, $mdDialog, $q, $sce, $scope, APP, RsResource, 
         $mdDialog.show({
             parent: parentEl,
             targetEvent: $event,
-            templateUrl: '/components/resources/newfolder.tmpl.html',
+            templateUrl: 'components/resources/newfolder.tmpl.html',
             locals: {
                 subfolder: {}
             },
