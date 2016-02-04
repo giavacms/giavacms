@@ -20,11 +20,11 @@
         <h6> {{ clock | date:'dd/MM/yyyy HH:mm:ss'}} </h6>
     </div>
 
-    <md-menu ng-controller="LoginController" ng-if="logged">
+    <md-menu ng-if="logged">
 
         <md-button aria-label="Open user menu" ng-click="$mdOpenMenu()">
             <i class="fa fa-user"></i>
-            {{fullname}}
+            {{user.name}}
         </md-button>
 
         <md-menu-content width="4">
@@ -36,7 +36,7 @@
             </md-menu-item>
             <md-menu-item>
                 <md-button ng-click="$mdCloseMenu()">
-                    {{username}}
+                    {{user.name}}
                 </md-button>
             </md-menu-item>
             <md-menu-divider></md-menu-divider>
@@ -45,7 +45,7 @@
                     <i class="fa fa-tags"> Ruoli</i>
                 </md-button>
             </md-menu-item>
-            <md-menu-item ng-repeat="role in roles | distinct" ng-if="$index < 10"
+            <md-menu-item ng-repeat="role in user.roles | distinct" ng-if="$index < 10"
                           ng-hide="role == 'Any'">
                 <md-button ng-click="$mdCloseMenu()">
                     {{role}}

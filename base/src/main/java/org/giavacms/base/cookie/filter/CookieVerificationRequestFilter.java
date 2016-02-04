@@ -11,8 +11,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
-@Provider
-@AccountCookieVerification
+//@Provider
+//@AccountCookieVerification
 public class CookieVerificationRequestFilter implements ContainerRequestFilter
 {
 

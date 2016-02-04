@@ -4,28 +4,15 @@
 angular.module('giavacms-auth')
     .factory('AuthenticationService',
         function ($http, $log, $q, $rootScope, $timeout, APP) {
-
-            var host = APP.HOST;
-            var context = APP.CONTEXT;
             var acl = APP.ACL;
-
             var user = undefined;
-
             var isLogged = function () {
                 console.log('isLogged');
                 if (user) {
                     return $q.when(true);
                 } else {
-                    return login().then(function (data) {
-                        if (data) {
-                            return $q.when(true);
-                        }
-                        else {
-                            return $q.when(false);
-                        }
-                    })
+                    return $q.when(false);
                 }
-                return $q.when(false);
             };
 
             var login = function () {
@@ -51,6 +38,7 @@ angular.module('giavacms-auth')
 
             var permit = function (toAuthorizes) {
                 console.log('permit: ' + toAuthorizes);
+                return true;
                 if (toAuthorizes === undefined) {
                     return true;
                 }
