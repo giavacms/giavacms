@@ -9,6 +9,11 @@ angular.module('giavacms-layout')
         /**
         * This may turn useful for inner views
         */
+        $scope.user = {};
+        AuthenticationService.getUser().then(function (user) {
+            $scope.user = user;
+            $scope.logged = user;
+        });
         $scope.permit = AuthenticationService.permit;
 
         /**
@@ -47,12 +52,6 @@ angular.module('giavacms-layout')
 
 		// Start the timer
 		$timeout(tick, $scope.tickInterval);
-
-		AuthenticationService.isLogged().then(
-		    function(logged) {
-		        $scope.logged = logged;
-            }
-        );
 
     })
 
