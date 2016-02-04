@@ -89,15 +89,18 @@ public class UserAuthRepositoryRs extends RsRepositoryService<UserAuth> {
                                 "No account found for alias: " + username);
             }
             UserAuth account = ((UserAuthRepository) getRepository()).findByUsername(username);
+            if (account == null) {
+                return Response
+                        .status(Response.Status.FORBIDDEN)
+                        .entity("No user found for alias: " + username
+                        ).build();
+            }
             ((UserAuthRepository) getRepository()).getEm().detach(account);
             account.setPassword("");
-            if (account != null) {
-                return Response.status(Response.Status.OK).entity(account).build();
+            for (UserRole userRole : account.getUserRoles()) {
+                account.getRoles().add(userRole.getRoleName());
             }
-            return Response
-                    .status(Response.Status.FORBIDDEN)
-                    .entity("No user found for alias: " + username
-                    ).build();
+            return Response.status(Response.Status.OK).entity(account).build();
         } catch (Throwable e) {
             logger.error(e.getMessage());
             return RsRepositoryService
