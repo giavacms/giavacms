@@ -57,6 +57,7 @@
         <module>base</module>
         <module>catalogue</module>
         <module>lang</module>
+        <module>mvel</module>
         <module>resources</module>
         <module>richcontent</module>
         <module>security</module>
@@ -127,6 +128,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>lang</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>mvel</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
