@@ -1,0 +1,20 @@
+@code{ i = 1 }
+@foreach{ r : list }
+
+@{ i++ } = @{r.id}
+
+@end{}
+
+
+@code{ string = 'java.lang.String' }
+@code{ richcontent = 'org.giavacms.richcontent.model.RichContent' }
+
+
+
+@{ getItem('/richcontents/finalmente-on-line',string) }
+
+
+@{ getItem('/richcontents/finalmente-on-line',richcontent).id }
+
+
+@{ getList('/richcontents',richcontent).get(0) }

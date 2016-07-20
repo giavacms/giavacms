@@ -8,6 +8,7 @@ package org.giavacms.mvel.servlet;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,8 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.giavacms.base.util.FileUtils;
+import org.giavacms.base.util.RichContentUtils;
 import org.giavacms.mvel.model.pojo.MvelPlaceholder;
 import org.giavacms.mvel.util.MvelUtils;
+import org.giavacms.mvel.util.WebTargetClosable;
 import org.jboss.logging.Logger;
 
 /**
@@ -33,7 +36,11 @@ import org.jboss.logging.Logger;
 public final class MvelServlet extends HttpServlet
 {
 
+   private static final String codeDefGetItem = "@code{ def getItem(path,canonicalClassName) { return org.giavacms.mvel.servlet.MvelServlet.getItem(path,canonicalClassName); } }\n\n";
+   private static final String codeDefGetList = "@code{ def getList(path,canonicalClassName) { return org.giavacms.mvel.servlet.MvelServlet.getList(path,canonicalClassName); } }\n\n";
    private static final String mvelPath = "/mvel/";
+   private static String host = "localhost";
+   private static int port = 8080;
 
    private Logger logger = Logger.getLogger(getClass());
 
@@ -41,14 +48,36 @@ public final class MvelServlet extends HttpServlet
 
    private static final String separator = "\n\n-------------------------------------------------------------------------------------------------------\n\n";
 
+   public static Object getItem(String path, String canonicalClassName)
+   {
+      try
+      {
+         return MvelUtils.getItem("http://" + host + ":" + port + "/api/v1" + path, Class.forName(canonicalClassName));
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
+   }
+
+   public static List getList(String path, String canonicalClassName)
+   {
+      try
+      {
+         return MvelUtils.getList("http://" + host + ":" + port + "/api/v1" + path, Class.forName(canonicalClassName));
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
+   }
+
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
       String requestUrl = req.getRequestURL().toString();
       int start = requestUrl.indexOf(mvelPath) + mvelPath.length();
       String[] parts = requestUrl.substring(start).split("/");
-      String host = req.getLocalAddr();
-      int port = req.getLocalPort();
       boolean debugMode = false;
       String debugModeParam = req.getParameter("debugMode");
       if (debugModeParam != null && !debugModeParam.trim().isEmpty())
@@ -56,21 +85,23 @@ public final class MvelServlet extends HttpServlet
          try
          {
             debugMode = Boolean.parseBoolean(debugModeParam);
+            // System.out.println(MvelUtils.getItem("http://localhost:8080/api/v1/richcontents/finalmente-on-line",
+            // Class.forName("org.giavacms.richcontent.model.RichContent")));
          }
          catch (Exception e)
          {
          }
       }
-      if ( debugMode ) {
+      if (debugMode)
+      {
          resp.getWriter().write(separator);
          resp.getWriter().write("   BEGIN OF DEBUG INFORMATION ");
          resp.getWriter().write(separator);
       }
 
+      List<MvelPlaceholder> phvs = new ArrayList<>();
       try
       {
-         List<MvelPlaceholder> phvs = new ArrayList<>();
-
          if (parts.length > 0)
          {
             String jsonList = new String(FileUtils.getBytesFromUrl(new URL("http", host, port, "/api/v1/" + parts[0])));
@@ -84,7 +115,6 @@ public final class MvelServlet extends HttpServlet
                resp.getWriter().write(separator);
             }
          }
-
          if (parts.length > 1)
          {
             String jsonObject = new String(FileUtils.getBytesFromUrl(new URL("http", host, port, "/api/v1/" + parts[0]
@@ -99,7 +129,13 @@ public final class MvelServlet extends HttpServlet
                resp.getWriter().write(separator);
             }
          }
+      }
+      catch (Exception e)
+      {
+      }
 
+      try
+      {
          String templateContent = null;
          if (parts.length == 0)
          {
@@ -121,13 +157,14 @@ public final class MvelServlet extends HttpServlet
             resp.getWriter().write(templateContent);
             resp.getWriter().write(separator);
          }
-         if ( debugMode ) {
+         if (debugMode)
+         {
             resp.getWriter().write(separator);
             resp.getWriter().write("   END OF DEBUG INFORMATION ");
             resp.getWriter().write(separator);
          }
 
-         String htmlContent = MvelUtils.compile(templateContent, phvs);
+         String htmlContent = MvelUtils.compile(codeDefGetItem + codeDefGetList + templateContent, phvs);
          resp.getWriter().write(htmlContent);
       }
       catch (Exception e)

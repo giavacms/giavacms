@@ -1,5 +1,6 @@
 package org.giavacms.mvel.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -219,4 +220,52 @@ public class MvelUtils
       return value;
    }
 
+   public static <T> T getItem(String url, Class<T> classT)
+   {
+      try (WebTargetClosable webTargetClosable = new WebTargetClosable(url))
+      {
+         webTargetClosable.response = webTargetClosable.webTarget.request().buildGet().invoke();
+         T t = webTargetClosable.response.readEntity(classT);
+         return t;
+      }
+      catch (Throwable e)
+      {
+         logger.error(e.getMessage(), e);
+         try
+         {
+            return classT.newInstance();
+         }
+         catch (Throwable e1)
+         {
+            logger.error(e1.getMessage(), e1);
+            return null;
+         }
+      }
+
+   }
+
+   @SuppressWarnings("unchecked")
+   public static <T> List<T> getList(String url, Class<T> classT)
+   {
+      try (WebTargetClosable webTargetClosable = new WebTargetClosable(url))
+      {
+         webTargetClosable.response = webTargetClosable.webTarget.request().buildGet().invoke();
+         List<T> l = webTargetClosable.response.readEntity(new ArrayList<T>().getClass());
+         return l;
+      }
+      catch (Throwable e)
+      {
+         logger.error(e.getMessage(), e);
+         try
+         {
+            return new ArrayList<T>();
+         }
+         catch (Throwable e1)
+         {
+            logger.error(e1.getMessage(), e1);
+            return null;
+         }
+      }
+
+   }
 }

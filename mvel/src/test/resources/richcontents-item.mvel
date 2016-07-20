@@ -1,0 +1,28 @@
+Scheda richcontent:
+@{ item }
+
+================================================================
+
+Altri richcontents:
+
+@code{ i = 1 }
+@foreach{ r : list }
+
+@{ i++ } = @{r.id}
+
+@end{}
+
+================================================================
+
+@code{ string = 'java.lang.String' }
+@code{ richcontent = 'org.giavacms.richcontent.model.RichContent' }
+
+Caricamento singolo da URL:
+
+@{ getItem('/richcontents/finalmente-on-line',richcontent).id }
+
+================================================================
+
+Caricamento elenco da URL:
+
+@{ getList('/richcontents',richcontent).get(0) }
